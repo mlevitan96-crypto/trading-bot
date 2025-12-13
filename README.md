@@ -158,3 +158,4 @@ The bot has transitioned from "Fragile Prototype" to "Hardened Quantitative Syst
 
 ### Notifications
 -   **SMTP Email**: Used for sending daily reports and alerts. Requires `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, and `REPORT_TO_EMAIL`.
+=======

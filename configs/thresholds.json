@@ -1,0 +1,14 @@
+{
+  "Stable": {
+    "roi": 0.003,
+    "ensemble": 0.6
+  },
+  "Volatile": {
+    "roi": 0.004,
+    "ensemble": 0.7
+  },
+  "Choppy": {
+    "roi": 0.002,
+    "ensemble": 0.5
+  }
+}

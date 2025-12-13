@@ -1,0 +1,37 @@
+{
+  "symbol": "SOL",
+  "ts": "2025-12-11T21:20:54.247026Z",
+  "taker": {
+    "buy_vol_usd": 7570518780.475057,
+    "sell_vol_usd": 8031855296.807615,
+    "buy_ratio": 0.4852,
+    "sell_ratio": 0.5147999999999999,
+    "buy_sell_ratio": 0.9425616499196737
+  },
+  "liquidation": {
+    "liq_long_24h": 16964077.47979785,
+    "liq_short_24h": 7955173.98287788,
+    "liq_total_24h": 24919251.46267573,
+    "liq_ratio": 0.6807619203653364,
+    "liq_1h_long": 6224.4022,
+    "liq_1h_short": 3115170.40543188,
+    "liq_4h_long": 269758.5705,
+    "liq_4h_short": 6876067.81353088
+  },
+  "fear_greed": 30,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.4,
+    "composite": -0.4,
+    "components": {
+      "flow": 0,
+      "liquidation": -1,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.943,
+      "liq_ratio": 0.681,
+      "fear_greed": 30
+    }
+  }
+}

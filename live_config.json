@@ -1,0 +1,1772 @@
+{
+  "runtime": {
+    "last_signal_adjustments": [
+      {
+        "ts": 1765486273,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486273,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486273,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486274,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486274,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486274,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486274,
+        "symbol": "LINKUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486274,
+        "symbol": "ARBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486275,
+        "symbol": "OPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486275,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486275,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486417,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765486417,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486418,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486419,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486419,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486420,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486421,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486421,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486422,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486422,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486423,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486423,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486424,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486424,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486424,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486424,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486425,
+        "symbol": "LINKUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486425,
+        "symbol": "ARBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486425,
+        "symbol": "OPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486425,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486425,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486569,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765486569,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486570,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486570,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486571,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486571,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486571,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486572,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486572,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486572,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486573,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486573,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486573,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486573,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486573,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486573,
+        "symbol": "LINKUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486573,
+        "symbol": "ARBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486574,
+        "symbol": "OPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486574,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486574,
+        "symbol": "ETHUSDT",
+        "side": "SHORT",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486574,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486960,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486961,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486961,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765486962,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486962,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486963,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486963,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486963,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486964,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486965,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486966,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765486966,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486966,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765486966,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487170,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487171,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487172,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487172,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487173,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487173,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487173,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487174,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487174,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "AVAXUSDT",
+        "side": "SHORT",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_LONG_to_SHORT"
+        ]
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "DOTUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487175,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487304,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487305,
+        "symbol": "DOTUSDT",
+        "side": "SHORT",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487307,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487307,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487307,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487308,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487308,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487308,
+        "symbol": "BTCUSDT",
+        "side": "SHORT",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487309,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487309,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487310,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487490,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487490,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487491,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487491,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487492,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487493,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487493,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487493,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487494,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487494,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487495,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487495,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487495,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487495,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487495,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487495,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487495,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487496,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487496,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487496,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487496,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487715,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487715,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487715,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487716,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487716,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487717,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487717,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487717,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487718,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487718,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487718,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487719,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487919,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487920,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487920,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487921,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487921,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487922,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487922,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487923,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487923,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487923,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765487924,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488047,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488048,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765488048,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488049,
+        "symbol": "ADAUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488049,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488050,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488050,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488050,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "TRXUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "ETHUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "SOLUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "AVAXUSDT",
+        "side": "LONG",
+        "strength": 0.5,
+        "overlays": [
+          "feedback_loop_inversion_HOLD_to_LONG"
+        ]
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "XRPUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "DOGEUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488051,
+        "symbol": "BNBUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488052,
+        "symbol": "MATICUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488052,
+        "symbol": "BTCUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      },
+      {
+        "ts": 1765488052,
+        "symbol": "DOTUSDT",
+        "side": "HOLD",
+        "strength": 0.5,
+        "overlays": []
+      }
+    ],
+    "grace_map": {
+      "blofin-DOGEUSDT-short-200-1765476559": {
+        "symbol": "DOGEUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "short",
+        "grace_until": 1765476563,
+        "exposure_pct": 0.033914,
+        "cap": 0.6
+      },
+      "blofin-BTCUSDT-long-200-1765476669": {
+        "symbol": "BTCUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "long",
+        "grace_until": 1765476672,
+        "exposure_pct": 0.033936,
+        "cap": 0.6
+      },
+      "blofin-AVAXUSDT-long-200-1765476678": {
+        "symbol": "AVAXUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "long",
+        "grace_until": 1765476682,
+        "exposure_pct": 0.033936,
+        "cap": 0.6
+      },
+      "blofin-BTCUSDT-short-200-1765476812": {
+        "symbol": "BTCUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "short",
+        "grace_until": 1765476816,
+        "exposure_pct": 0.033943,
+        "cap": 0.6
+      },
+      "blofin-AVAXUSDT-short-200-1765476822": {
+        "symbol": "AVAXUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "short",
+        "grace_until": 1765476825,
+        "exposure_pct": 0.033943,
+        "cap": 0.6
+      },
+      "blofin-XRPUSDT-long-200-1765476827": {
+        "symbol": "XRPUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "long",
+        "grace_until": 1765476831,
+        "exposure_pct": 0.033943,
+        "cap": 0.6
+      },
+      "blofin-DOGEUSDT-long-200-1765476836": {
+        "symbol": "DOGEUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "long",
+        "grace_until": 1765476839,
+        "exposure_pct": 0.033943,
+        "cap": 0.6
+      },
+      "blofin-BNBUSDT-short-200-1765476839": {
+        "symbol": "BNBUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "short",
+        "grace_until": 1765476842,
+        "exposure_pct": 0.033943,
+        "cap": 0.6
+      },
+      "blofin-BTCUSDT-short-200-1765476949": {
+        "symbol": "BTCUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "short",
+        "grace_until": 1765476952,
+        "exposure_pct": 0.033951,
+        "cap": 0.6
+      },
+      "blofin-ETHUSDT-long-200-1765476955": {
+        "symbol": "ETHUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "long",
+        "grace_until": 1765476958,
+        "exposure_pct": 0.033951,
+        "cap": 0.6
+      },
+      "blofin-AVAXUSDT-short-200-1765476963": {
+        "symbol": "AVAXUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "short",
+        "grace_until": 1765476967,
+        "exposure_pct": 0.033951,
+        "cap": 0.6
+      },
+      "blofin-XRPUSDT-long-200-1765476971": {
+        "symbol": "XRPUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "long",
+        "grace_until": 1765476974,
+        "exposure_pct": 0.033951,
+        "cap": 0.6
+      },
+      "blofin-DOGEUSDT-short-200-1765476980": {
+        "symbol": "DOGEUSDT",
+        "strategy_id": "Alpha-OFI",
+        "direction": "short",
+        "grace_until": 1765476984,
+        "exposure_pct": 0.033951,
+        "cap": 0.6
+      },
+      "blofin-ETHUSDT-LONG-404-1765477006": {
+        "symbol": "ETHUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765477009,
+        "exposure_pct": 0.06861001492638379,
+        "cap": 0.6
+      },
+      "blofin-DOGEUSDT-LONG-687-1765477007": {
+        "symbol": "DOGEUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765477010,
+        "exposure_pct": 0.11663702537485245,
+        "cap": 0.6
+      },
+      "blofin-BTCUSDT-LONG-525-1765477008": {
+        "symbol": "BTCUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765477011,
+        "exposure_pct": 0.08919301940429893,
+        "cap": 0.6
+      },
+      "blofin-AVAXUSDT-LONG-0-1765477131": {
+        "symbol": "AVAXUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765477134,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-ADAUSDT-LONG-0-1765477844": {
+        "symbol": "ADAUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765477847,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-ETHUSDT-LONG-0-1765477847": {
+        "symbol": "ETHUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765477850,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-AVAXUSDT-LONG-0-1765477980": {
+        "symbol": "AVAXUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765477983,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-XRPUSDT-LONG-0-1765478124": {
+        "symbol": "XRPUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765478127,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-ETHUSDT-LONG-0-1765479716": {
+        "symbol": "ETHUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765479719,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-BTCUSDT-LONG-0-1765479719": {
+        "symbol": "BTCUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765479722,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-AVAXUSDT-LONG-0-1765480624": {
+        "symbol": "AVAXUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765480627,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-BTCUSDT-LONG-0-1765480627": {
+        "symbol": "BTCUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765480630,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-DOTUSDT-LONG-0-1765480852": {
+        "symbol": "DOTUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765480855,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-ADAUSDT-LONG-0-1765481119": {
+        "symbol": "ADAUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765481122,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-SOLUSDT-LONG-0-1765484317": {
+        "symbol": "SOLUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765484320,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-ADAUSDT-LONG-0-1765484789": {
+        "symbol": "ADAUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765484792,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-DOGEUSDT-LONG-0-1765484926": {
+        "symbol": "DOGEUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765484929,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-SOLUSDT-LONG-0-1765485048": {
+        "symbol": "SOLUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765485051,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-ETHUSDT-LONG-0-1765485049": {
+        "symbol": "ETHUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765485052,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-BNBUSDT-LONG-0-1765485051": {
+        "symbol": "BNBUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765485054,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-SOLUSDT-LONG-0-1765485488": {
+        "symbol": "SOLUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765485490,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-ETHUSDT-LONG-0-1765485489": {
+        "symbol": "ETHUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "LONG",
+        "grace_until": 1765485491,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-DOTUSDT-short-0-1765487306": {
+        "symbol": "DOTUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "short",
+        "grace_until": 1765487309,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      },
+      "blofin-BTCUSDT-short-0-1765487309": {
+        "symbol": "BTCUSDT",
+        "strategy_id": "EMA-Futures",
+        "direction": "short",
+        "grace_until": 1765487312,
+        "exposure_pct": 0.0,
+        "cap": 0.6
+      }
+    },
+    "strategy_weights": {},
+    "strategy_status": {},
+    "strategy_cycle_counters": {},
+    "size_scalars": {},
+    "scheduler_heartbeat_ts": 0,
+    "watchdog_last_run_ts": 0,
+    "incident_count": 0,
+    "email_loopback_tokens": [],
+    "dashboard_validator_state": {
+      "retry_counters": {},
+      "last_incidents": {},
+      "quarantine": false
+    },
+    "overlay_state": {
+      "module_health": {},
+      "quarantines": {},
+      "retry_counters": {}
+    },
+    "default_notional_usd": null,
+    "capital_limits": {
+      "max_exposure": 0.6,
+      "max_leverage": 3.0,
+      "max_drawdown_24h": 0.05
+    },
+    "risk_caps": {
+      "exposure_cap_enabled": true,
+      "max_exposure": 0.6
+    },
+    "post_open_grace_secs": 3,
+    "fee_quarantine": {},
+    "restart_stage": "frozen",
+    "size_throttle": 0.0,
+    "allowed_symbols": [],
+    "protective_mode": true,
+    "kill_switch_phase82": true,
+    "paper_mode": true
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "ts": 1763749718,
+  "assets": {
+    "BTCUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.7734755054750121,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "ETHUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.7820206778180794,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "SOLUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.9376559897107132,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "AVAXUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.7208656810267653,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "DOTUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.7042895902395947,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "TRXUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.8030550057057837,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "XRPUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.7356824423633878,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "ADAUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.8117162011373538,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "DOGEUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.9807105464958321,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "BNBUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.7236544998645089,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    },
+    "MATICUSDT": {
+      "bandit_params": {
+        "lookback": 50,
+        "threshold": 0.3,
+        "stop_atr": 3,
+        "take_atr": 4
+      },
+      "position_scale": 0.8983351537405981,
+      "execution_router": {
+        "mode": "maker",
+        "post_only": true,
+        "slice_parts": [
+          3,
+          5
+        ],
+        "delay_ms": [
+          50,
+          80
+        ],
+        "hold_orders": false
+      },
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true
+      }
+    }
+  }
+}

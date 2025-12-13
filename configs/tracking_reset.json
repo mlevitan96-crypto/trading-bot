@@ -1,0 +1,8 @@
+{
+  "tracking_start_ts": 1764547639.9285712,
+  "tracking_start_iso": "2025-12-01T00:07:19.928571+00:00",
+  "starting_capital": 10000.0,
+  "description": "Fresh comparison starting point for Alpha vs Beta strategies",
+  "created_at": "2025-12-01T01:07:19.928592+00:00",
+  "note": "All trades before this timestamp are excluded from the fresh comparison dashboard"
+}

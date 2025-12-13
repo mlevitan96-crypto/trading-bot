@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-12-11T21:06:14.438275",
+  "direction_accuracy": 53.5,
+  "early_exit_rate": 0.0,
+  "timing_patterns_learned": 38,
+  "exit_analysis": {
+    "total_analyzed": 200,
+    "too_early": 0,
+    "too_late": 0,
+    "good": 9
+  },
+  "direction_analysis": {
+    "total_analyzed": 200,
+    "our_better": 107,
+    "opposite_better": 93,
+    "accuracy_pct": 53.5
+  },
+  "timing_rules_learned": 38,
+  "recommendations_count": 0,
+  "recommendations": [],
+  "auto_applied": {}
+}

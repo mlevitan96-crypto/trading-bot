@@ -1,0 +1,14 @@
+{
+  "blocked_count": 1,
+  "allowed_count": 1248,
+  "total_blocked_size_usd": 100.0,
+  "total_allowed_size_usd": 828379.2858039374,
+  "estimated_fee_savings_usd": 0.12,
+  "last_updated": "2025-12-11T21:08:29.335031Z",
+  "config": {
+    "maker_fee_bps": 2,
+    "taker_fee_bps": 5,
+    "slippage_bps": 2,
+    "min_buffer_multiplier": 1.2
+  }
+}

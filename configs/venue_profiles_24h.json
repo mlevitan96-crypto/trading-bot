@@ -1,0 +1,376 @@
+{
+  "BTCUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 171.03333333333333
+      }
+    ],
+    "vol_band": "low",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "ETHUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 170.9
+      }
+    ],
+    "vol_band": "medium",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "SOLUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 171.18333333333334
+      }
+    ],
+    "vol_band": "high",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "AVAXUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 168.24166666666667
+      }
+    ],
+    "vol_band": "medium",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "DOTUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 173.32916666666668
+      }
+    ],
+    "vol_band": "high",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "TRXUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 171.17083333333332
+      }
+    ],
+    "vol_band": "high",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "XRPUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 171.82916666666668
+      }
+    ],
+    "vol_band": "low",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "ADAUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 169.27083333333334
+      }
+    ],
+    "vol_band": "medium",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "DOGEUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 171.17083333333332
+      }
+    ],
+    "vol_band": "low",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "BNBUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 171.9125
+      }
+    ],
+    "vol_band": "high",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  },
+  "MATICUSDT::BINANCE": {
+    "hours": [
+      {
+        "ts": 1763749718,
+        "profile": {
+          "slice_parts": [
+            7,
+            9
+          ],
+          "delay_ms": [
+            120,
+            160
+          ],
+          "mode": "taker",
+          "post_only": false
+        },
+        "avg_latency": 171.00416666666666
+      }
+    ],
+    "vol_band": "high",
+    "last_profile": {
+      "slice_parts": [
+        7,
+        9
+      ],
+      "delay_ms": [
+        120,
+        160
+      ],
+      "mode": "taker",
+      "post_only": false
+    },
+    "updated_ts": 1763749718
+  }
+}

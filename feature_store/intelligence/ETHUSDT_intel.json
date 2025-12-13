@@ -1,0 +1,37 @@
+{
+  "symbol": "ETH",
+  "ts": "2025-12-11T21:20:54.246610Z",
+  "taker": {
+    "buy_vol_usd": 36141575122.65776,
+    "sell_vol_usd": 38233103962.67291,
+    "buy_ratio": 0.48590000000000005,
+    "sell_ratio": 0.5141,
+    "buy_sell_ratio": 0.9452953429557507
+  },
+  "liquidation": {
+    "liq_long_24h": 107456527.7541611,
+    "liq_short_24h": 28363790.47823982,
+    "liq_total_24h": 135820318.23240092,
+    "liq_ratio": 0.791166808859137,
+    "liq_1h_long": 152056.05336,
+    "liq_1h_short": 8234247.04115832,
+    "liq_4h_long": 2945966.58157,
+    "liq_4h_short": 14464184.63872181
+  },
+  "fear_greed": 30,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.4,
+    "composite": -0.4,
+    "components": {
+      "flow": 0,
+      "liquidation": -1,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.945,
+      "liq_ratio": 0.791,
+      "fear_greed": 30
+    }
+  }
+}

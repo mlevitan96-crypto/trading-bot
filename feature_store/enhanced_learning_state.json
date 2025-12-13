@@ -1,0 +1,478 @@
+{
+  "signal_ewma": {
+    "funding": {
+      "ewma_ev_bps": 4.411942582294631,
+      "simple_avg_ev_bps": -2.178546341463413,
+      "hit_rates": {
+        "1m": 39.1219512195122,
+        "5m": 39.85365853658537,
+        "15m": 41.70731707317073,
+        "30m": 44.4390243902439,
+        "1h": 48.536585365853654
+      },
+      "total_signals": 2050,
+      "trend": "improving"
+    },
+    "whale_flow": {
+      "ewma_ev_bps": -5.6889464610680855,
+      "simple_avg_ev_bps": -5.935211970074815,
+      "hit_rates": {
+        "1m": 37.905236907730675,
+        "5m": 35.41147132169576,
+        "15m": 41.64588528678304,
+        "30m": 41.64588528678304,
+        "1h": 40.14962593516209
+      },
+      "total_signals": 401,
+      "trend": "improving"
+    },
+    "oi_velocity": {
+      "ewma_ev_bps": 3.3011731335857255,
+      "simple_avg_ev_bps": -4.283886255924166,
+      "hit_rates": {
+        "1m": 47.74881516587678,
+        "5m": 47.6303317535545,
+        "15m": 46.800947867298575,
+        "30m": 41.350710900473935,
+        "1h": 43.24644549763033
+      },
+      "total_signals": 844,
+      "trend": "improving"
+    },
+    "liquidation": {
+      "ewma_ev_bps": 2.8156212021034146,
+      "simple_avg_ev_bps": -1.4011706349206348,
+      "hit_rates": {
+        "1m": 29.86111111111111,
+        "5m": 35.714285714285715,
+        "15m": 42.06349206349206,
+        "30m": 47.22222222222222,
+        "1h": 52.67857142857143
+      },
+      "total_signals": 1008,
+      "trend": "improving"
+    },
+    "hurst": {
+      "ewma_ev_bps": 3.0471399871750635,
+      "simple_avg_ev_bps": 0.16450123660346275,
+      "hit_rates": {
+        "1m": 52.102225886232475,
+        "5m": 51.27782357790602,
+        "15m": 52.34954657873042,
+        "30m": 50.618301731244856,
+        "1h": 47.56801319043693
+      },
+      "total_signals": 1213,
+      "trend": "improving"
+    },
+    "lead_lag": {
+      "ewma_ev_bps": 3.624180316372101,
+      "simple_avg_ev_bps": 0.3168152866242039,
+      "hit_rates": {
+        "1m": 46.17834394904459,
+        "5m": 46.17834394904459,
+        "15m": 50.0,
+        "30m": 49.36305732484077,
+        "1h": 50.0
+      },
+      "total_signals": 314,
+      "trend": "improving"
+    },
+    "volatility_skew": {
+      "ewma_ev_bps": -17.196477025953403,
+      "simple_avg_ev_bps": -5.035331632653062,
+      "hit_rates": {
+        "1m": 52.806122448979586,
+        "5m": 45.40816326530612,
+        "15m": 44.38775510204081,
+        "30m": 43.87755102040816,
+        "1h": 43.11224489795919
+      },
+      "total_signals": 392,
+      "trend": "declining"
+    },
+    "oi_divergence": {
+      "ewma_ev_bps": -5.235357005337335,
+      "simple_avg_ev_bps": 0.5449333333333322,
+      "hit_rates": {
+        "1m": 72.0,
+        "5m": 74.66666666666667,
+        "15m": 74.66666666666667,
+        "30m": 76.0,
+        "1h": 54.666666666666664
+      },
+      "total_signals": 75,
+      "trend": "declining"
+    }
+  },
+  "signal_by_symbol": {
+    "funding": {
+      "BTCUSDT": {
+        "ewma_ev_bps": 8.475953297814549,
+        "hit_rate": 37.71626297577855,
+        "total": 289
+      },
+      "ETHUSDT": {
+        "ewma_ev_bps": -3.9563355286277853,
+        "hit_rate": 42.38683127572017,
+        "total": 243
+      },
+      "SOLUSDT": {
+        "ewma_ev_bps": 11.33748649049517,
+        "hit_rate": 44.78764478764479,
+        "total": 259
+      },
+      "AVAXUSDT": {
+        "ewma_ev_bps": -38.48175715541323,
+        "hit_rate": 56.86274509803921,
+        "total": 255
+      },
+      "XRPUSDT": {
+        "ewma_ev_bps": -1.3576798558938141,
+        "hit_rate": 43.30708661417323,
+        "total": 254
+      },
+      "ADAUSDT": {
+        "ewma_ev_bps": 5.213171219867604,
+        "hit_rate": 41.66666666666667,
+        "total": 240
+      },
+      "DOGEUSDT": {
+        "ewma_ev_bps": 20.33246727879447,
+        "hit_rate": 52.27272727272727,
+        "total": 264
+      },
+      "BNBUSDT": {
+        "ewma_ev_bps": -6.429968640605581,
+        "hit_rate": 38.99082568807339,
+        "total": 218
+      },
+      "DOTUSDT": {
+        "ewma_ev_bps": -4.308783781724293,
+        "hit_rate": 17.857142857142858,
+        "total": 28
+      }
+    },
+    "whale_flow": {
+      "ETHUSDT": {
+        "ewma_ev_bps": -1.1298776872324081,
+        "hit_rate": 44.329896907216494,
+        "total": 194
+      },
+      "BTCUSDT": {
+        "ewma_ev_bps": -6.826661028973682,
+        "hit_rate": 39.130434782608695,
+        "total": 207
+      }
+    },
+    "oi_velocity": {
+      "SOLUSDT": {
+        "ewma_ev_bps": -11.749687125239898,
+        "hit_rate": 47.05882352941176,
+        "total": 102
+      },
+      "BTCUSDT": {
+        "ewma_ev_bps": -3.0715502811737654,
+        "hit_rate": 28.846153846153843,
+        "total": 52
+      },
+      "ETHUSDT": {
+        "ewma_ev_bps": -0.10868031914144617,
+        "hit_rate": 49.707602339181285,
+        "total": 171
+      },
+      "XRPUSDT": {
+        "ewma_ev_bps": -0.9992460835365395,
+        "hit_rate": 40.0,
+        "total": 90
+      },
+      "ADAUSDT": {
+        "ewma_ev_bps": -4.261153139297997,
+        "hit_rate": 28.735632183908045,
+        "total": 87
+      },
+      "DOGEUSDT": {
+        "ewma_ev_bps": 4.117654221094802,
+        "hit_rate": 47.66355140186916,
+        "total": 107
+      },
+      "BNBUSDT": {
+        "ewma_ev_bps": 3.650979486531824,
+        "hit_rate": 49.532710280373834,
+        "total": 107
+      },
+      "AVAXUSDT": {
+        "ewma_ev_bps": -3.1334813441476834,
+        "hit_rate": 30.526315789473685,
+        "total": 95
+      },
+      "DOTUSDT": {
+        "ewma_ev_bps": -18.05080022881022,
+        "hit_rate": 21.21212121212121,
+        "total": 33
+      }
+    },
+    "liquidation": {
+      "BTCUSDT": {
+        "ewma_ev_bps": 0.9467915632853019,
+        "hit_rate": 37.908496732026144,
+        "total": 153
+      },
+      "ETHUSDT": {
+        "ewma_ev_bps": -0.4584626100770534,
+        "hit_rate": 51.66666666666667,
+        "total": 120
+      },
+      "AVAXUSDT": {
+        "ewma_ev_bps": -0.12187816209244327,
+        "hit_rate": 55.81395348837209,
+        "total": 129
+      },
+      "XRPUSDT": {
+        "ewma_ev_bps": 1.2458461904085851,
+        "hit_rate": 51.40845070422535,
+        "total": 142
+      },
+      "ADAUSDT": {
+        "ewma_ev_bps": -1.730217553367847,
+        "hit_rate": 39.849624060150376,
+        "total": 133
+      },
+      "DOGEUSDT": {
+        "ewma_ev_bps": 1.5655866582136335,
+        "hit_rate": 52.142857142857146,
+        "total": 140
+      },
+      "BNBUSDT": {
+        "ewma_ev_bps": -0.6747680272341462,
+        "hit_rate": 43.01075268817204,
+        "total": 93
+      },
+      "SOLUSDT": {
+        "ewma_ev_bps": 2.0148394167726598,
+        "hit_rate": 45.91836734693878,
+        "total": 98
+      }
+    },
+    "hurst": {
+      "BTCUSDT": {
+        "ewma_ev_bps": -0.8352590765266006,
+        "hit_rate": 68.24324324324324,
+        "total": 148
+      },
+      "ETHUSDT": {
+        "ewma_ev_bps": 0.41927724096807195,
+        "hit_rate": 60.99290780141844,
+        "total": 141
+      },
+      "SOLUSDT": {
+        "ewma_ev_bps": -1.9525702405714247,
+        "hit_rate": 48.201438848920866,
+        "total": 139
+      },
+      "AVAXUSDT": {
+        "ewma_ev_bps": 13.709773450935074,
+        "hit_rate": 39.097744360902254,
+        "total": 133
+      },
+      "DOTUSDT": {
+        "ewma_ev_bps": -1.2692425074940594,
+        "hit_rate": 37.81512605042017,
+        "total": 119
+      },
+      "BNBUSDT": {
+        "ewma_ev_bps": -1.1610066702437012,
+        "hit_rate": 61.48148148148148,
+        "total": 135
+      },
+      "XRPUSDT": {
+        "ewma_ev_bps": -2.825312890723529,
+        "hit_rate": 43.53741496598639,
+        "total": 147
+      },
+      "ADAUSDT": {
+        "ewma_ev_bps": 1.5231110334338251,
+        "hit_rate": 40.17094017094017,
+        "total": 117
+      },
+      "DOGEUSDT": {
+        "ewma_ev_bps": 6.020283517974671,
+        "hit_rate": 51.49253731343284,
+        "total": 134
+      }
+    },
+    "lead_lag": {
+      "ETHUSDT": {
+        "ewma_ev_bps": 1.906135556090058,
+        "hit_rate": 58.82352941176471,
+        "total": 51
+      },
+      "DOTUSDT": {
+        "ewma_ev_bps": 7.472081565277218,
+        "hit_rate": 57.14285714285714,
+        "total": 21
+      },
+      "BNBUSDT": {
+        "ewma_ev_bps": -0.5866774175495518,
+        "hit_rate": 39.53488372093023,
+        "total": 43
+      },
+      "SOLUSDT": {
+        "ewma_ev_bps": -1.8968603353923883,
+        "hit_rate": 41.30434782608695,
+        "total": 46
+      },
+      "DOGEUSDT": {
+        "ewma_ev_bps": 1.648068191035225,
+        "hit_rate": 48.484848484848484,
+        "total": 33
+      },
+      "ADAUSDT": {
+        "ewma_ev_bps": -0.8388396897483382,
+        "hit_rate": 50.0,
+        "total": 42
+      },
+      "XRPUSDT": {
+        "ewma_ev_bps": -0.9328620419567303,
+        "hit_rate": 55.88235294117647,
+        "total": 34
+      },
+      "AVAXUSDT": {
+        "ewma_ev_bps": 8.885449796363483,
+        "hit_rate": 47.72727272727273,
+        "total": 44
+      }
+    },
+    "volatility_skew": {
+      "BNBUSDT": {
+        "ewma_ev_bps": -2.396548838987488,
+        "hit_rate": 29.770992366412212,
+        "total": 131
+      },
+      "AVAXUSDT": {
+        "ewma_ev_bps": -34.603191383507514,
+        "hit_rate": 52.71317829457365,
+        "total": 129
+      },
+      "XRPUSDT": {
+        "ewma_ev_bps": 4.36271313187805,
+        "hit_rate": 48.46153846153846,
+        "total": 130
+      }
+    },
+    "oi_divergence": {
+      "AVAXUSDT": {
+        "ewma_ev_bps": 12.26344935732422,
+        "hit_rate": 62.5,
+        "total": 16
+      },
+      "ADAUSDT": {
+        "ewma_ev_bps": -5.178511523406287,
+        "hit_rate": 81.25,
+        "total": 16
+      },
+      "DOGEUSDT": {
+        "ewma_ev_bps": -6.295023133685315,
+        "hit_rate": 100.0,
+        "total": 12
+      }
+    }
+  },
+  "signal_by_direction": {
+    "funding": {
+      "LONG": {
+        "ewma_ev_bps": -38.54810322998464,
+        "hit_rate": 51.70842824601367,
+        "total": 439
+      },
+      "SHORT": {
+        "ewma_ev_bps": 20.54700805642557,
+        "hit_rate": 42.45810055865922,
+        "total": 1611
+      }
+    },
+    "whale_flow": {
+      "SHORT": {
+        "ewma_ev_bps": -1.238407658357726,
+        "hit_rate": 38.81987577639752,
+        "total": 322
+      },
+      "LONG": {
+        "ewma_ev_bps": -6.1033150837127135,
+        "hit_rate": 53.16455696202531,
+        "total": 79
+      }
+    },
+    "oi_velocity": {
+      "LONG": {
+        "ewma_ev_bps": 0.7791587252291626,
+        "hit_rate": 56.774193548387096,
+        "total": 310
+      },
+      "SHORT": {
+        "ewma_ev_bps": 2.949720393145694,
+        "hit_rate": 32.39700374531835,
+        "total": 534
+      }
+    },
+    "liquidation": {
+      "LONG": {
+        "ewma_ev_bps": -7.150996866210449,
+        "hit_rate": 67.5,
+        "total": 80
+      },
+      "SHORT": {
+        "ewma_ev_bps": 2.8156212021034146,
+        "hit_rate": 45.474137931034484,
+        "total": 928
+      }
+    },
+    "hurst": {
+      "LONG": {
+        "ewma_ev_bps": -1.9903010182250958,
+        "hit_rate": 60.45272969374168,
+        "total": 751
+      },
+      "SHORT": {
+        "ewma_ev_bps": 5.447662665765096,
+        "hit_rate": 34.63203463203463,
+        "total": 462
+      }
+    },
+    "lead_lag": {
+      "LONG": {
+        "ewma_ev_bps": 0.9778361956136995,
+        "hit_rate": 72.6027397260274,
+        "total": 146
+      },
+      "SHORT": {
+        "ewma_ev_bps": 4.1235555085640305,
+        "hit_rate": 29.166666666666668,
+        "total": 168
+      }
+    },
+    "volatility_skew": {
+      "SHORT": {
+        "ewma_ev_bps": -2.396548838987488,
+        "hit_rate": 29.770992366412212,
+        "total": 131
+      },
+      "LONG": {
+        "ewma_ev_bps": -20.007887217322285,
+        "hit_rate": 50.95785440613027,
+        "total": 261
+      }
+    },
+    "oi_divergence": {
+      "LONG": {
+        "ewma_ev_bps": -12.674381790473278,
+        "hit_rate": 82.6086956521739,
+        "total": 69
+      }
+    }
+  },
+  "signal_correlations": {},
+  "blocked_analysis": {},
+  "last_update": "2025-12-05T15:19:00.877124",
+  "total_signals_analyzed": 6297
+}

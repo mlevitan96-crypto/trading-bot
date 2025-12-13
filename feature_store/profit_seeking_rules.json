@@ -1,0 +1,24 @@
+{
+  "seek_patterns": [],
+  "profitable_symbol_sides": [
+    {
+      "symbol": "SOLUSDT",
+      "side": "LONG",
+      "total_pnl": 1.41,
+      "trades": 7,
+      "win_rate": 28.6
+    },
+    {
+      "symbol": "ETHUSDT",
+      "side": "LONG",
+      "total_pnl": 0.07,
+      "trades": 8,
+      "win_rate": 25.0
+    }
+  ],
+  "optimal_conditions": {},
+  "model_metadata": {
+    "generated_at": "2025-11-30T23:44:44.277220",
+    "total_patterns": 4
+  }
+}

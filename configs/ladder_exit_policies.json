@@ -1,0 +1,304 @@
+{
+  "defaults": {
+    "tiers_pct": [
+      0.3,
+      0.3,
+      0.4
+    ],
+    "trail_atr_mult": 1.5,
+    "min_slice": 0.001,
+    "cooldown_s": 180,
+    "min_hold_seconds": 600,
+    "rr_targets": [
+      0.5,
+      1.0
+    ]
+  },
+  "overrides": [
+    {
+      "symbol": "BTCUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        5.0,
+        10.0
+      ],
+      "trail_atr_mult": 4.0,
+      "min_hold_seconds": 900,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 1.0,
+      "ofi_threshold": 0.55,
+      "notes": "Major - lower volatility, needs time to develop moves"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        5.0,
+        10.0
+      ],
+      "trail_atr_mult": 4.0,
+      "min_hold_seconds": 900,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 1.0,
+      "ofi_threshold": 0.5,
+      "notes": "Major - strong directional accuracy (71%), let winners run"
+    },
+    {
+      "symbol": "SOLUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        4.0,
+        8.0
+      ],
+      "trail_atr_mult": 3.0,
+      "min_hold_seconds": 720,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.85,
+      "ofi_threshold": 0.5,
+      "notes": "Alt L1 - volatile, 64% direction accuracy"
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        4.0,
+        8.0
+      ],
+      "trail_atr_mult": 3.0,
+      "min_hold_seconds": 720,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.85,
+      "ofi_threshold": 0.45,
+      "notes": "Alt L1 - excellent direction (86%), higher confidence entries"
+    },
+    {
+      "symbol": "DOTUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        3.5,
+        6.5
+      ],
+      "trail_atr_mult": 3.2,
+      "min_hold_seconds": 660,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.9,
+      "ofi_threshold": 0.45,
+      "notes": "Alt L1 - BEST direction (90%), profitable SHORT patterns"
+    },
+    {
+      "symbol": "MATICUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        3.5,
+        6.5
+      ],
+      "trail_atr_mult": 3.2,
+      "min_hold_seconds": 660,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.8,
+      "ofi_threshold": 0.55,
+      "notes": "Alt L1 - moderate volatility, standard profile"
+    },
+    {
+      "symbol": "TRXUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        2.5,
+        4.5
+      ],
+      "trail_atr_mult": 3.0,
+      "min_hold_seconds": 720,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 1.1,
+      "ofi_threshold": 0.6,
+      "notes": "Payment - low volatility, can size up, needs longer holds"
+    },
+    {
+      "symbol": "XRPUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        3.5,
+        6.5
+      ],
+      "trail_atr_mult": 3.2,
+      "min_hold_seconds": 660,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.9,
+      "ofi_threshold": 0.5,
+      "notes": "Payment - 61% direction accuracy, decent R/R"
+    },
+    {
+      "symbol": "ARBUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        4.5,
+        8.5
+      ],
+      "trail_atr_mult": 3.3,
+      "min_hold_seconds": 540,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.75,
+      "ofi_threshold": 0.5,
+      "notes": "L2 - high volatility, shorter holds, strong order flow edges"
+    },
+    {
+      "symbol": "OPUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        4.5,
+        8.5
+      ],
+      "trail_atr_mult": 3.3,
+      "min_hold_seconds": 540,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.75,
+      "ofi_threshold": 0.5,
+      "notes": "L2 - high volatility, rotation target, order flow edges"
+    },
+    {
+      "symbol": "LINKUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        3.5,
+        6.5
+      ],
+      "trail_atr_mult": 3.2,
+      "min_hold_seconds": 660,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.85,
+      "ofi_threshold": 0.5,
+      "notes": "DeFi/Oracle - moderate volatility, standard profile"
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        6.0,
+        12.0
+      ],
+      "trail_atr_mult": 3.8,
+      "min_hold_seconds": 480,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.65,
+      "ofi_threshold": 0.55,
+      "notes": "Meme - very high volatility, 69% direction, big targets"
+    },
+    {
+      "symbol": "PEPEUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        6.0,
+        12.0
+      ],
+      "trail_atr_mult": 3.8,
+      "min_hold_seconds": 480,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.65,
+      "ofi_threshold": 0.6,
+      "notes": "Meme - extreme volatility, quick moves, need higher OFI gate"
+    },
+    {
+      "symbol": "ADAUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        3.5,
+        6.5
+      ],
+      "trail_atr_mult": 3.2,
+      "min_hold_seconds": 660,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 0.85,
+      "ofi_threshold": 0.5,
+      "notes": "Smart Contract - 65% direction accuracy, reliable"
+    },
+    {
+      "symbol": "BNBUSDT",
+      "strategy": "Alpha-OFI",
+      "regime": "all",
+      "rr_targets": [
+        2.5,
+        4.5
+      ],
+      "trail_atr_mult": 3.0,
+      "min_hold_seconds": 720,
+      "tiers_pct": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "size_multiplier": 1.1,
+      "ofi_threshold": 0.55,
+      "notes": "Exchange - low volatility, profitable patterns, can size up"
+    }
+  ]
+}

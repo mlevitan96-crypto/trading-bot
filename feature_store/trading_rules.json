@@ -1,0 +1,20 @@
+[
+  {
+    "type": "PREFER_TIME",
+    "condition": "Trade during: 08:00",
+    "evidence": "Hours with positive P&L",
+    "priority": "LOW"
+  },
+  {
+    "type": "AVOID_TIME",
+    "condition": "Avoid trading: 00:00, 01:00, 02:00",
+    "evidence": "Hours with significant losses",
+    "priority": "MEDIUM"
+  },
+  {
+    "type": "HOLD_DURATION",
+    "condition": "Target hold time: 30-60min",
+    "evidence": "$4.32 profit in this duration",
+    "priority": "MEDIUM"
+  }
+]

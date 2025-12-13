@@ -1,0 +1,419 @@
+{
+  "ts": "2025-12-11T21:20:54.248296Z",
+  "fear_greed": 30,
+  "signals": {
+    "BTCUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.992,
+        "liq_ratio": 0.59,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.2,
+        "enhanced_composite": -0.2,
+        "base_composite": 0.0,
+        "funding_signal": -1,
+        "oi_signal": 0,
+        "funding_rate": 0.007105,
+        "oi_change_1h": 1.11
+      },
+      "funding": {
+        "funding_rate": 0.007105,
+        "predicted_rate": 0,
+        "funding_signal": -1,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 60093705704.7666,
+        "oi_change_24h": 1.53,
+        "oi_change_1h": 1.11,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    },
+    "ETHUSDT": {
+      "direction": "SHORT",
+      "confidence": 0.4,
+      "composite": -0.4,
+      "components": {
+        "flow": 0,
+        "liquidation": -1,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.945,
+        "liq_ratio": 0.791,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "SHORT",
+        "confidence": 0.44,
+        "enhanced_composite": -0.44,
+        "base_composite": -0.4,
+        "funding_signal": -1,
+        "oi_signal": 0,
+        "funding_rate": 0.001844,
+        "oi_change_1h": 0.66
+      },
+      "funding": {
+        "funding_rate": 0.001844,
+        "predicted_rate": 0,
+        "funding_signal": -1,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 41516188661.3728,
+        "oi_change_24h": -0.63,
+        "oi_change_1h": 0.66,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    },
+    "SOLUSDT": {
+      "direction": "SHORT",
+      "confidence": 0.4,
+      "composite": -0.4,
+      "components": {
+        "flow": 0,
+        "liquidation": -1,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.943,
+        "liq_ratio": 0.681,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.24,
+        "enhanced_composite": -0.24,
+        "base_composite": -0.4,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": -5e-05,
+        "oi_change_1h": 1.36
+      },
+      "funding": {
+        "funding_rate": -5e-05,
+        "predicted_rate": 0,
+        "funding_signal": 0,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 7227978393.6972,
+        "oi_change_24h": -1.22,
+        "oi_change_1h": 1.36,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    },
+    "XRPUSDT": {
+      "direction": "SHORT",
+      "confidence": 0.4,
+      "composite": -0.4,
+      "components": {
+        "flow": 0,
+        "liquidation": -1,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.903,
+        "liq_ratio": 0.868,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.03999999999999998,
+        "enhanced_composite": -0.04,
+        "base_composite": -0.4,
+        "funding_signal": 1,
+        "oi_signal": 0,
+        "funding_rate": -0.013103,
+        "oi_change_1h": 0.34
+      },
+      "funding": {
+        "funding_rate": -0.013103,
+        "predicted_rate": 0,
+        "funding_signal": 1,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 3759799500.0553,
+        "oi_change_24h": 0.05,
+        "oi_change_1h": 0.34,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    },
+    "DOGEUSDT": {
+      "direction": "SHORT",
+      "confidence": 0.4,
+      "composite": -0.4,
+      "components": {
+        "flow": 0,
+        "liquidation": -1,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.908,
+        "liq_ratio": 0.901,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.03999999999999998,
+        "enhanced_composite": -0.04,
+        "base_composite": -0.4,
+        "funding_signal": 1,
+        "oi_signal": 0,
+        "funding_rate": -0.001995,
+        "oi_change_1h": 0.12
+      },
+      "funding": {
+        "funding_rate": -0.001995,
+        "predicted_rate": 0,
+        "funding_signal": 1,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 1500218864.9232,
+        "oi_change_24h": 0.11,
+        "oi_change_1h": 0.12,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    },
+    "BNBUSDT": {
+      "direction": "SHORT",
+      "confidence": 0.8,
+      "composite": -0.8,
+      "components": {
+        "flow": -1,
+        "liquidation": -1,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.865,
+        "liq_ratio": 0.859,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "SHORT",
+        "confidence": 0.48,
+        "enhanced_composite": -0.48,
+        "base_composite": -0.8,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0.0,
+        "oi_change_1h": 0.05
+      },
+      "funding": {
+        "funding_rate": 0.0,
+        "predicted_rate": 0,
+        "funding_signal": 0,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 1380001298.4712,
+        "oi_change_24h": -1.07,
+        "oi_change_1h": 0.05,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    },
+    "AVAXUSDT": {
+      "direction": "SHORT",
+      "confidence": 0.8,
+      "composite": -0.8,
+      "components": {
+        "flow": -1,
+        "liquidation": -1,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.87,
+        "liq_ratio": 0.941,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.27999999999999997,
+        "enhanced_composite": -0.28,
+        "base_composite": -0.8,
+        "funding_signal": 1,
+        "oi_signal": 0,
+        "funding_rate": -0.013057,
+        "oi_change_1h": 0.95
+      },
+      "funding": {
+        "funding_rate": -0.013057,
+        "predicted_rate": 0,
+        "funding_signal": 1,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 519493331.1185,
+        "oi_change_24h": -3.3,
+        "oi_change_1h": 0.95,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    },
+    "ADAUSDT": {
+      "direction": "SHORT",
+      "confidence": 0.4,
+      "composite": -0.4,
+      "components": {
+        "flow": 0,
+        "liquidation": -1,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 0.882,
+        "liq_ratio": 0.927,
+        "fear_greed": 30
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.03999999999999998,
+        "enhanced_composite": -0.04,
+        "base_composite": -0.4,
+        "funding_signal": 1,
+        "oi_signal": 0,
+        "funding_rate": -0.006802,
+        "oi_change_1h": 1.29
+      },
+      "funding": {
+        "funding_rate": -0.006802,
+        "predicted_rate": 0,
+        "funding_signal": 1,
+        "source": "coinglass"
+      },
+      "oi": {
+        "open_interest": 712874977.8863,
+        "oi_change_24h": -8.96,
+        "oi_change_1h": 1.29,
+        "oi_signal": 0,
+        "source": "coinglass"
+      }
+    }
+  },
+  "funding_rates": {
+    "BTC": {
+      "funding_rate": 0.007105,
+      "predicted_rate": 0,
+      "funding_signal": -1,
+      "source": "coinglass"
+    },
+    "ETH": {
+      "funding_rate": 0.001844,
+      "predicted_rate": 0,
+      "funding_signal": -1,
+      "source": "coinglass"
+    },
+    "SOL": {
+      "funding_rate": -5e-05,
+      "predicted_rate": 0,
+      "funding_signal": 0,
+      "source": "coinglass"
+    },
+    "XRP": {
+      "funding_rate": -0.013103,
+      "predicted_rate": 0,
+      "funding_signal": 1,
+      "source": "coinglass"
+    },
+    "DOGE": {
+      "funding_rate": -0.001995,
+      "predicted_rate": 0,
+      "funding_signal": 1,
+      "source": "coinglass"
+    },
+    "BNB": {
+      "funding_rate": 0.0,
+      "predicted_rate": 0,
+      "funding_signal": 0,
+      "source": "coinglass"
+    },
+    "ADA": {
+      "funding_rate": -0.006802,
+      "predicted_rate": 0,
+      "funding_signal": 1,
+      "source": "coinglass"
+    },
+    "AVAX": {
+      "funding_rate": -0.013057,
+      "predicted_rate": 0,
+      "funding_signal": 1,
+      "source": "coinglass"
+    }
+  },
+  "open_interest": {
+    "BTC": {
+      "open_interest": 60093705704.7666,
+      "oi_change_24h": 1.53,
+      "oi_change_1h": 1.11,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "ETH": {
+      "open_interest": 41516188661.3728,
+      "oi_change_24h": -0.63,
+      "oi_change_1h": 0.66,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "SOL": {
+      "open_interest": 7227978393.6972,
+      "oi_change_24h": -1.22,
+      "oi_change_1h": 1.36,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "XRP": {
+      "open_interest": 3759799500.0553,
+      "oi_change_24h": 0.05,
+      "oi_change_1h": 0.34,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "DOGE": {
+      "open_interest": 1500218864.9232,
+      "oi_change_24h": 0.11,
+      "oi_change_1h": 0.12,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "BNB": {
+      "open_interest": 1380001298.4712,
+      "oi_change_24h": -1.07,
+      "oi_change_1h": 0.05,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "AVAX": {
+      "open_interest": 519493331.1185,
+      "oi_change_24h": -3.3,
+      "oi_change_1h": 0.95,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "ADA": {
+      "open_interest": 712874977.8863,
+      "oi_change_24h": -8.96,
+      "oi_change_1h": 1.29,
+      "oi_signal": 0,
+      "source": "coinglass"
+    }
+  },
+  "enhanced_ts": "2025-12-11T21:20:54.253800Z"
+}

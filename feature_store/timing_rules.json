@@ -1,0 +1,630 @@
+{
+  "BTCUSDT|LONG|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.4579,
+    "n": 25,
+    "wr": 24.0,
+    "all_durations": {
+      "medium": {
+        "pnl": -11.45,
+        "n": 25
+      },
+      "short": {
+        "pnl": -1.36,
+        "n": 2
+      }
+    }
+  },
+  "ETHUSDT|LONG|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.4472,
+    "n": 12,
+    "wr": 8.3,
+    "all_durations": {
+      "medium": {
+        "pnl": -3.18,
+        "n": 4
+      },
+      "short": {
+        "pnl": -5.37,
+        "n": 12
+      },
+      "quick": {
+        "pnl": -1.26,
+        "n": 1
+      }
+    }
+  },
+  "SOLUSDT|LONG|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.1734,
+    "n": 6,
+    "wr": 50.0,
+    "all_durations": {
+      "medium": {
+        "pnl": -6.23,
+        "n": 3
+      },
+      "short": {
+        "pnl": -1.04,
+        "n": 6
+      }
+    }
+  },
+  "SOLUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.0155,
+    "n": 57,
+    "wr": 38.6,
+    "all_durations": {
+      "medium": {
+        "pnl": -11.49,
+        "n": 29
+      },
+      "short": {
+        "pnl": -0.88,
+        "n": 57
+      }
+    }
+  },
+  "ADAUSDT|long|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.2116,
+    "n": 11,
+    "wr": 36.4,
+    "all_durations": {
+      "medium": {
+        "pnl": -2.33,
+        "n": 11
+      },
+      "short": {
+        "pnl": -6.85,
+        "n": 27
+      }
+    }
+  },
+  "AVAXUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.0201,
+    "n": 41,
+    "wr": 48.8,
+    "all_durations": {
+      "medium": {
+        "pnl": -4.83,
+        "n": 17
+      },
+      "short": {
+        "pnl": -0.83,
+        "n": 41
+      }
+    }
+  },
+  "DOGEUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.3964,
+    "n": 16,
+    "wr": 31.2,
+    "all_durations": {
+      "medium": {
+        "pnl": -2.1,
+        "n": 5
+      },
+      "short": {
+        "pnl": -6.34,
+        "n": 16
+      },
+      "quick": {
+        "pnl": 0.79,
+        "n": 1
+      }
+    }
+  },
+  "DOTUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": 1.1863,
+    "n": 5,
+    "wr": 100.0,
+    "all_durations": {
+      "medium": {
+        "pnl": 5.69,
+        "n": 42
+      },
+      "quick": {
+        "pnl": 2.24,
+        "n": 2
+      },
+      "short": {
+        "pnl": 5.93,
+        "n": 5
+      }
+    }
+  },
+  "ETHUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.136,
+    "n": 86,
+    "wr": 44.2,
+    "all_durations": {
+      "medium": {
+        "pnl": -8.47,
+        "n": 29
+      },
+      "short": {
+        "pnl": -11.7,
+        "n": 86
+      },
+      "quick": {
+        "pnl": 0.79,
+        "n": 1
+      }
+    }
+  },
+  "BTCUSDT|long|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.1621,
+    "n": 97,
+    "wr": 34.0,
+    "all_durations": {
+      "medium": {
+        "pnl": -15.73,
+        "n": 97
+      },
+      "short": {
+        "pnl": 1.88,
+        "n": 2
+      }
+    }
+  },
+  "BNBUSDT|long|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.4797,
+    "n": 14,
+    "wr": 28.6,
+    "all_durations": {
+      "medium": {
+        "pnl": -6.72,
+        "n": 14
+      }
+    }
+  },
+  "MATICUSDT|long|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.2844,
+    "n": 27,
+    "wr": 0.0,
+    "all_durations": {
+      "medium": {
+        "pnl": -7.68,
+        "n": 27
+      }
+    }
+  },
+  "XRPUSDT|long|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.1381,
+    "n": 8,
+    "wr": 62.5,
+    "all_durations": {
+      "medium": {
+        "pnl": -1.1,
+        "n": 8
+      },
+      "short": {
+        "pnl": -5.52,
+        "n": 36
+      }
+    }
+  },
+  "LINKUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.028,
+    "n": 6,
+    "wr": 50.0,
+    "all_durations": {
+      "medium": {
+        "pnl": 0.45,
+        "n": 1
+      },
+      "short": {
+        "pnl": -0.17,
+        "n": 6
+      }
+    }
+  },
+  "ETHUSDT|SHORT|very_strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.0639,
+    "n": 5,
+    "wr": 60.0,
+    "all_durations": {
+      "medium": {
+        "pnl": -0.32,
+        "n": 5
+      }
+    }
+  },
+  "ETHUSDT|SHORT|extreme": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.2692,
+    "n": 31,
+    "wr": 22.6,
+    "all_durations": {
+      "medium": {
+        "pnl": -8.35,
+        "n": 31
+      }
+    }
+  },
+  "SOLUSDT|SHORT|extreme": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.5406,
+    "n": 10,
+    "wr": 40.0,
+    "all_durations": {
+      "medium": {
+        "pnl": -5.41,
+        "n": 10
+      }
+    }
+  },
+  "BTCUSDT|SHORT|very_strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.0123,
+    "n": 9,
+    "wr": 55.6,
+    "all_durations": {
+      "extended": {
+        "pnl": -2.01,
+        "n": 1
+      },
+      "medium": {
+        "pnl": -0.11,
+        "n": 9
+      }
+    }
+  },
+  "AVAXUSDT|SHORT|very_strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.366,
+    "n": 12,
+    "wr": 25.0,
+    "all_durations": {
+      "extended": {
+        "pnl": -0.27,
+        "n": 2
+      },
+      "medium": {
+        "pnl": -4.39,
+        "n": 12
+      }
+    }
+  },
+  "ADAUSDT|SHORT|extreme": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0.106,
+    "n": 3,
+    "wr": 33.3,
+    "all_durations": {
+      "medium": {
+        "pnl": 0.32,
+        "n": 3
+      }
+    }
+  },
+  "XRPUSDT|SHORT|extreme": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.2436,
+    "n": 6,
+    "wr": 16.7,
+    "all_durations": {
+      "medium": {
+        "pnl": -1.46,
+        "n": 6
+      }
+    }
+  },
+  "SOLUSDT|SHORT|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0.1593,
+    "n": 12,
+    "wr": 41.7,
+    "all_durations": {
+      "medium": {
+        "pnl": 1.91,
+        "n": 12
+      }
+    }
+  },
+  "DOGEUSDT|SHORT|very_strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0.1167,
+    "n": 3,
+    "wr": 66.7,
+    "all_durations": {
+      "medium": {
+        "pnl": 0.35,
+        "n": 3
+      }
+    }
+  },
+  "BTCUSDT|SHORT|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.2236,
+    "n": 11,
+    "wr": 18.2,
+    "all_durations": {
+      "extended": {
+        "pnl": 0.25,
+        "n": 1
+      },
+      "medium": {
+        "pnl": -2.46,
+        "n": 11
+      }
+    }
+  },
+  "AVAXUSDT|SHORT|extreme": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0.2741,
+    "n": 12,
+    "wr": 50.0,
+    "all_durations": {
+      "extended": {
+        "pnl": -5.26,
+        "n": 3
+      },
+      "medium": {
+        "pnl": 3.29,
+        "n": 12
+      }
+    }
+  },
+  "ADAUSDT|SHORT|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0.0819,
+    "n": 9,
+    "wr": 33.3,
+    "all_durations": {
+      "medium": {
+        "pnl": 0.74,
+        "n": 9
+      }
+    }
+  },
+  "BTCUSDT|SHORT|extreme": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0.0269,
+    "n": 12,
+    "wr": 33.3,
+    "all_durations": {
+      "extended": {
+        "pnl": -3.49,
+        "n": 3
+      },
+      "medium": {
+        "pnl": 0.32,
+        "n": 12
+      }
+    }
+  },
+  "DOGEUSDT|SHORT|extreme": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.378,
+    "n": 3,
+    "wr": 66.7,
+    "all_durations": {
+      "medium": {
+        "pnl": -1.13,
+        "n": 3
+      }
+    }
+  },
+  "ETHUSDT|SHORT|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.1573,
+    "n": 11,
+    "wr": 36.4,
+    "all_durations": {
+      "medium": {
+        "pnl": -1.73,
+        "n": 11
+      }
+    }
+  },
+  "XRPUSDT|SHORT|very_strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.3944,
+    "n": 13,
+    "wr": 23.1,
+    "all_durations": {
+      "medium": {
+        "pnl": -5.13,
+        "n": 13
+      }
+    }
+  },
+  "OPUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": 0.2425,
+    "n": 6,
+    "wr": 50.0,
+    "all_durations": {
+      "short": {
+        "pnl": 1.45,
+        "n": 6
+      }
+    }
+  },
+  "ARBUSDT|long|strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.65,
+    "n": 5,
+    "wr": 0.0,
+    "all_durations": {
+      "short": {
+        "pnl": -3.25,
+        "n": 5
+      }
+    }
+  },
+  "XRPUSDT|SHORT|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.6913,
+    "n": 7,
+    "wr": 0.0,
+    "all_durations": {
+      "medium": {
+        "pnl": -4.84,
+        "n": 7
+      }
+    }
+  },
+  "DOGEUSDT|SHORT|strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.0725,
+    "n": 11,
+    "wr": 36.4,
+    "all_durations": {
+      "medium": {
+        "pnl": -0.8,
+        "n": 11
+      }
+    }
+  },
+  "ADAUSDT|SHORT|very_strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0.2758,
+    "n": 3,
+    "wr": 66.7,
+    "all_durations": {
+      "medium": {
+        "pnl": 0.83,
+        "n": 3
+      }
+    }
+  },
+  "SOLUSDT|SHORT|very_strong": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": -0.2137,
+    "n": 11,
+    "wr": 36.4,
+    "all_durations": {
+      "medium": {
+        "pnl": -2.35,
+        "n": 11
+      }
+    }
+  },
+  "BNBUSDT|SHORT|very_strong": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": -0.498,
+    "n": 3,
+    "wr": 33.3,
+    "all_durations": {
+      "short": {
+        "pnl": -1.49,
+        "n": 3
+      }
+    }
+  },
+  "BNBUSDT|SHORT|extreme": {
+    "optimal_duration": "short",
+    "min_hold_sec": 300,
+    "max_hold_sec": 900,
+    "expected_ev": 0.2409,
+    "n": 3,
+    "wr": 66.7,
+    "all_durations": {
+      "short": {
+        "pnl": 0.72,
+        "n": 3
+      }
+    }
+  },
+  "default": {
+    "optimal_duration": "medium",
+    "min_hold_sec": 900,
+    "max_hold_sec": 3600,
+    "expected_ev": 0,
+    "n": 0
+  },
+  "_metadata": {
+    "updated_at": "2025-12-11T21:06:14.318976",
+    "total_trades_analyzed": 838,
+    "patterns_learned": 37
+  }
+}

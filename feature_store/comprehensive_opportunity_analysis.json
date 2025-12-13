@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-11-27T20:25:09.710763",
+  "lookback_hours": 24,
+  "missed_opportunities": {
+    "count": 39,
+    "total_potential": 811.67,
+    "rules_generated": 6
+  },
+  "rotation_opportunities": {
+    "count": 0,
+    "total_opportunity_cost": 0,
+    "rules_generated": 0
+  },
+  "combined_potential_pct": 8.1167
+}

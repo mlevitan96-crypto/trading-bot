@@ -1,0 +1,8 @@
+{
+  "experiments": [
+    { "name": "SOL_baseline",            "ema_short": 8,  "ema_long": 21, "tiers_pct": [0.25,0.25,0.5], "trail_atr_mult": 1.5,  "min_slice_pct": 0.01,  "margin_budget_usdt": 250,  "leverage": 4 },
+    { "name": "SOL_2x_size",             "ema_short": 8,  "ema_long": 21, "tiers_pct": [0.25,0.25,0.5], "trail_atr_mult": 1.5,  "min_slice_pct": 0.01,  "margin_budget_usdt": 500,  "leverage": 4 },
+    { "name": "SOL_4x_size",             "ema_short": 8,  "ema_long": 21, "tiers_pct": [0.25,0.25,0.5], "trail_atr_mult": 1.5,  "min_slice_pct": 0.01,  "margin_budget_usdt": 1000, "leverage": 4 },
+    { "name": "SOL_signal_strict",       "ema_short": 8,  "ema_long": 21, "tiers_pct": [0.25,0.25,0.5], "trail_atr_mult": 1.25, "min_slice_pct": 0.02,  "margin_budget_usdt": 250,  "leverage": 4, "require_adx": 18 }
+  ]
+}

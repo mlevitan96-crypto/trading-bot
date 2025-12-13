@@ -1,0 +1,64 @@
+{
+  "bot_id": "alpha",
+  "strategy": "profit_seeking",
+  "description": "PROFIT-SEEKING STRATEGY based on 3,796 trade analysis",
+  
+  "profit_seeking_rules": {
+    "enabled": true,
+    "philosophy": "SEEK profitable patterns, not avoid losers",
+    
+    "duration_rules": {
+      "enabled": true,
+      "min_hold_minutes": 30,
+      "target_hold_minutes": 45,
+      "sweet_spot_range": [30, 60],
+      "evidence": "30-60min: +$4.32, 56.6% WR vs 0-2min: -$294, 2.3% WR"
+    },
+    
+    "time_of_day": {
+      "enabled": false,
+      "best_hours_utc": [8],
+      "avoid_hours_utc": [],
+      "evidence": "RELAXED 2025-12-05: time_filter_block was causing 100% missed wins. Now tracking to verify.",
+      "_original_avoid_hours": [0, 1, 2],
+      "_relaxed_at": "2025-12-05T05:30:00Z",
+      "_reason": "Enhanced signal learner showed time_filter_block had 100% would-have-won rate"
+    },
+    
+    "winning_patterns": {
+      "top_performers": [
+        {"symbol": "DOTUSDT", "side": "SHORT", "avg_hold_min": 68, "avg_pnl": 7.05},
+        {"symbol": "ADAUSDT", "side": "SHORT", "avg_hold_min": 56, "avg_pnl": 5.45},
+        {"symbol": "BNBUSDT", "side": "SHORT", "avg_hold_min": 56, "avg_pnl": 5.33},
+        {"symbol": "SOLUSDT", "side": "SHORT", "avg_hold_min": 64, "avg_pnl": 4.87},
+        {"symbol": "XRPUSDT", "side": "SHORT", "avg_hold_min": 58, "avg_pnl": 4.78}
+      ]
+    }
+  },
+  
+  "expected_edge_scoring": {
+    "enabled": true,
+    "min_expected_edge": 0.0,
+    "components": {
+      "symbol_direction_weight": 0.4,
+      "duration_potential_weight": 0.3,
+      "time_of_day_weight": 0.2,
+      "pattern_match_weight": 0.1
+    }
+  },
+  
+  "sizing_multipliers": {
+    "A": 1.5,
+    "B": 1.2,
+    "C": 1.0,
+    "D": 0.8,
+    "F": 0.5
+  },
+  
+  "enabled": true,
+  "paper_trading": true,
+  "is_primary": true,
+  "created_at": "2025-11-30T01:10:56.101414Z",
+  "updated_at": "2025-11-30T23:50:00.000000Z",
+  "analysis_note": "Based on momentum_predictor.py analysis of 3,235 Alpha trades"
+}

@@ -1,0 +1,40 @@
+{
+  "mode": "paper",
+  "paper_mode_relaxed_thresholds": true,
+  "description": "Trading mode configuration. Set mode to 'paper' for paper trading (relaxed thresholds) or 'live' for strict thresholds.",
+  "thresholds": {
+    "paper": {
+      "score_thresholds": {
+        "ULTRA": 0.15,
+        "HIGH": 0.05,
+        "MEDIUM": 0.01,
+        "LOW": -0.05
+      },
+      "signal_thresholds": {
+        "funding_min": 0.0001,
+        "oi_velocity_min_pct": 0.5,
+        "whale_flow_min_usd": 250000,
+        "liquidation_min_usd": 50000,
+        "fear_greed_fear_threshold": 15,
+        "fear_greed_greed_threshold": 85
+      }
+    },
+    "live": {
+      "score_thresholds": {
+        "ULTRA": 0.30,
+        "HIGH": 0.15,
+        "MEDIUM": 0.08,
+        "LOW": 0.05
+      },
+      "signal_thresholds": {
+        "funding_min": 0.0002,
+        "oi_velocity_min_pct": 2.0,
+        "whale_flow_min_usd": 1000000,
+        "liquidation_min_usd": 100000,
+        "fear_greed_fear_threshold": 20,
+        "fear_greed_greed_threshold": 80
+      }
+    }
+  },
+  "updated_at": "2025-12-04"
+}

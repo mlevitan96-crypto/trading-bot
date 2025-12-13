@@ -1,0 +1,31 @@
+{
+  "killed": [
+    "BNBUSDT_long",
+    "BNBUSDT_SHORT",
+    "MATICUSDT_long",
+    "ADAUSDT_SHORT",
+    "DOTUSDT_SHORT",
+    "ETHUSDT_long",
+    "BTCUSDT_LONG",
+    "DOGEUSDT_SHORT",
+    "DOGEUSDT_long",
+    "XRPUSDT_long",
+    "ETHUSDT_SHORT",
+    "AVAXUSDT_SHORT",
+    "XRPUSDT_SHORT",
+    "BTCUSDT_SHORT",
+    "ETHUSDT_LONG"
+  ],
+  "updated_at": "2025-12-11T21:04:30.992375",
+  "last_additions": [
+    "BTCUSDT_LONG",
+    "ETHUSDT_LONG",
+    "ETHUSDT_SHORT",
+    "MATICUSDT_long",
+    "BNBUSDT_long",
+    "XRPUSDT_long",
+    "DOGEUSDT_long",
+    "XRPUSDT_SHORT"
+  ],
+  "reason": "Reset by deep analysis - killed combos were over-aggressive, blocking 19 symbol+direction pairs"
+}

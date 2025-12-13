@@ -1,0 +1,31 @@
+{
+  "bot_id": "beta",
+  "strategy": "signal_inversion",
+  "invert_tiers": [],
+  "block_tiers": ["A", "B", "C", "D", "F"],
+  "sizing_multipliers": {
+    "A": 0.0,
+    "B": 0.0,
+    "C": 0.0,
+    "D": 0.0,
+    "F": 0.0
+  },
+  "min_ofi_threshold": 999.0,
+  "prefer_moderate_ofi": false,
+  "ofi_preference_range": [999.0, 999.0],
+  "invert_on_bullish_ensemble": false,
+  "bullish_ensemble_threshold": 999.0,
+  "enabled": false,
+  "paper_trading": true,
+  "created_at": "2025-11-30T01:10:56.103773Z",
+  "updated_at": "2025-11-30T23:30:00.000000Z",
+  "disabled_reason": "DEEP ANALYSIS: 7.7% WR, -$1,936 loss (80% of total). Disabled until Alpha is profitable.",
+  "evidence": {
+    "dataset": "3,791 closed trades analysis",
+    "beta_trades": 559,
+    "beta_wr": 7.7,
+    "beta_pnl": -1936.30,
+    "alpha_pnl": -467.23,
+    "beta_contribution_pct": 80.5
+  }
+}

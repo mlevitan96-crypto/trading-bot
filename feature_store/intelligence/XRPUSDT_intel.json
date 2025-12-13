@@ -1,0 +1,37 @@
+{
+  "symbol": "XRP",
+  "ts": "2025-12-11T21:20:54.247248Z",
+  "taker": {
+    "buy_vol_usd": 2050329583.42539,
+    "sell_vol_usd": 2270371861.900171,
+    "buy_ratio": 0.47450000000000003,
+    "sell_ratio": 0.5255,
+    "buy_sell_ratio": 0.9030809524345417
+  },
+  "liquidation": {
+    "liq_long_24h": 7048902.3991109,
+    "liq_short_24h": 1067848.44425001,
+    "liq_total_24h": 8116750.84336091,
+    "liq_ratio": 0.8684389277362806,
+    "liq_1h_long": 6617.61808,
+    "liq_1h_short": 246025.0097,
+    "liq_4h_long": 90586.64583,
+    "liq_4h_short": 900082.67423
+  },
+  "fear_greed": 30,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.4,
+    "composite": -0.4,
+    "components": {
+      "flow": 0,
+      "liquidation": -1,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.903,
+      "liq_ratio": 0.868,
+      "fear_greed": 30
+    }
+  }
+}

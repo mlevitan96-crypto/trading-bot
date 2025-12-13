@@ -1,0 +1,20 @@
+{
+  "LINKUSDT": {
+    "LONG": {
+      "invert_to": "SHORT",
+      "confidence": 1.0,
+      "expected_ev": 0.8543,
+      "sample_size": 17,
+      "recommendation": "STRONG INVERT"
+    }
+  },
+  "BNBUSDT": {
+    "LONG": {
+      "invert_to": "SHORT",
+      "confidence": 1.0,
+      "expected_ev": 0.0996,
+      "sample_size": 13,
+      "recommendation": "STRONG INVERT"
+    }
+  }
+}

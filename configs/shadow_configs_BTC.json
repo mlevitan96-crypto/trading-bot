@@ -1,0 +1,10 @@
+{
+  "experiments": [
+    { "name": "BTC_baseline",            "ema_short": 12, "ema_long": 26, "tiers_pct": [0.4,0.4,0.2], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 500,  "leverage": 3 },
+    { "name": "BTC_2x_size",             "ema_short": 12, "ema_long": 26, "tiers_pct": [0.4,0.4,0.2], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 1000, "leverage": 3 },
+    { "name": "BTC_4x_size",             "ema_short": 12, "ema_long": 26, "tiers_pct": [0.4,0.4,0.2], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 2000, "leverage": 3 },
+    { "name": "BTC_higher_leverage",     "ema_short": 12, "ema_long": 26, "tiers_pct": [0.4,0.4,0.2], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 500,  "leverage": 5 },
+    { "name": "BTC_signal_strict",       "ema_short": 12, "ema_long": 26, "tiers_pct": [0.4,0.4,0.2], "trail_atr_mult": 1.5, "min_slice_pct": 0.01,  "margin_budget_usdt": 500,  "leverage": 3, "require_adx": 20 },
+    { "name": "BTC_exit_aggressive",     "ema_short": 12, "ema_long": 26, "tiers_pct": [0.5,0.3,0.2], "trail_atr_mult": 1.25,"min_slice_pct":0.005, "margin_budget_usdt":500,  "leverage": 3 }
+  ]
+}

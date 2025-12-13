@@ -1,0 +1,839 @@
+{
+  "timestamp": "2025-11-30T04:28:33.549965",
+  "total_trades_analyzed": 628,
+  "ofi_analysis": {
+    "weak (<0.3)": {
+      "n": 628,
+      "pnl": -4635.71,
+      "win_rate": 47.5,
+      "avg_pnl": -7.38,
+      "wins": 298,
+      "losses": 330,
+      "best_trade": 47.39,
+      "worst_trade": -425.79,
+      "std_dev": 44.27
+    }
+  },
+  "symbol_analysis": {
+    "DOTUSDT": {
+      "n": 50,
+      "pnl": 285.52,
+      "win_rate": 76.0,
+      "avg_pnl": 5.71,
+      "wins": 38,
+      "losses": 12,
+      "best_trade": 47.39,
+      "worst_trade": -3.17,
+      "std_dev": 13.5
+    },
+    "AVAXUSDT": {
+      "n": 72,
+      "pnl": 25.14,
+      "win_rate": 52.8,
+      "avg_pnl": 0.35,
+      "wins": 38,
+      "losses": 34,
+      "best_trade": 7.28,
+      "worst_trade": -2.8,
+      "std_dev": 1.76
+    },
+    "ETHUSDT": {
+      "n": 124,
+      "pnl": 14.5,
+      "win_rate": 56.5,
+      "avg_pnl": 0.12,
+      "wins": 70,
+      "losses": 54,
+      "best_trade": 6.58,
+      "worst_trade": -8.73,
+      "std_dev": 2.26
+    },
+    "ADAUSDT": {
+      "n": 28,
+      "pnl": -4.42,
+      "win_rate": 42.9,
+      "avg_pnl": -0.16,
+      "wins": 12,
+      "losses": 16,
+      "best_trade": 0.56,
+      "worst_trade": -1.06,
+      "std_dev": 0.48
+    },
+    "BNBUSDT": {
+      "n": 12,
+      "pnl": -13.82,
+      "win_rate": 50.0,
+      "avg_pnl": -1.15,
+      "wins": 6,
+      "losses": 6,
+      "best_trade": 1.38,
+      "worst_trade": -4.97,
+      "std_dev": 2.55
+    },
+    "SOLUSDT": {
+      "n": 72,
+      "pnl": -15.99,
+      "win_rate": 58.3,
+      "avg_pnl": -0.22,
+      "wins": 42,
+      "losses": 30,
+      "best_trade": 5.76,
+      "worst_trade": -13.0,
+      "std_dev": 3.39
+    },
+    "XRPUSDT": {
+      "n": 66,
+      "pnl": -27.38,
+      "win_rate": 45.5,
+      "avg_pnl": -0.41,
+      "wins": 30,
+      "losses": 36,
+      "best_trade": 1.1,
+      "worst_trade": -3.49,
+      "std_dev": 0.98
+    },
+    "TRXUSDT": {
+      "n": 72,
+      "pnl": -30.75,
+      "win_rate": 0.0,
+      "avg_pnl": -0.43,
+      "wins": 0,
+      "losses": 72,
+      "best_trade": -0.0,
+      "worst_trade": -1.52,
+      "std_dev": 0.48
+    },
+    "DOGEUSDT": {
+      "n": 64,
+      "pnl": -30.89,
+      "win_rate": 50.0,
+      "avg_pnl": -0.48,
+      "wins": 32,
+      "losses": 32,
+      "best_trade": 1.52,
+      "worst_trade": -4.62,
+      "std_dev": 1.35
+    },
+    "BTCUSDT": {
+      "n": 68,
+      "pnl": -4837.63,
+      "win_rate": 44.1,
+      "avg_pnl": -71.14,
+      "wins": 30,
+      "losses": 38,
+      "best_trade": 2.68,
+      "worst_trade": -425.79,
+      "std_dev": 116.3
+    }
+  },
+  "direction_analysis": {
+    "BUY": {
+      "n": 314,
+      "pnl": 516.99,
+      "win_rate": 80.3,
+      "avg_pnl": 1.65,
+      "wins": 252,
+      "losses": 62,
+      "best_trade": 47.39,
+      "worst_trade": -0.21,
+      "std_dev": 5.66
+    },
+    "SELL": {
+      "n": 314,
+      "pnl": -5152.7,
+      "win_rate": 14.6,
+      "avg_pnl": -16.41,
+      "wins": 46,
+      "losses": 268,
+      "best_trade": 9.01,
+      "worst_trade": -425.79,
+      "std_dev": 61.07
+    }
+  },
+  "session_analysis": {
+    "evening (18-24 UTC)": {
+      "n": 134,
+      "pnl": 373.88,
+      "win_rate": 55.2,
+      "avg_pnl": 2.79,
+      "wins": 74,
+      "losses": 60,
+      "best_trade": 47.39,
+      "worst_trade": -2.98,
+      "std_dev": 8.7
+    },
+    "asia_night (0-6 UTC)": {
+      "n": 12,
+      "pnl": 7.03,
+      "win_rate": 66.7,
+      "avg_pnl": 0.59,
+      "wins": 8,
+      "losses": 4,
+      "best_trade": 1.66,
+      "worst_trade": -0.67,
+      "std_dev": 0.96
+    },
+    "europe_morning (6-12 UTC)": {
+      "n": 170,
+      "pnl": -1589.42,
+      "win_rate": 35.3,
+      "avg_pnl": -9.35,
+      "wins": 60,
+      "losses": 110,
+      "best_trade": 3.72,
+      "worst_trade": -358.39,
+      "std_dev": 49.03
+    },
+    "us_afternoon (12-18 UTC)": {
+      "n": 312,
+      "pnl": -3427.21,
+      "win_rate": 50.0,
+      "avg_pnl": -10.98,
+      "wins": 156,
+      "losses": 156,
+      "best_trade": 2.0,
+      "worst_trade": -425.79,
+      "std_dev": 50.5
+    }
+  },
+  "tier_analysis": {
+    "unknown": {
+      "n": 628,
+      "pnl": -4635.71,
+      "win_rate": 47.5,
+      "avg_pnl": -7.38,
+      "wins": 298,
+      "losses": 330,
+      "best_trade": 47.39,
+      "worst_trade": -425.79,
+      "std_dev": 44.27
+    }
+  },
+  "multi_dimensional": {
+    "profitable": [
+      {
+        "pattern": "DOTUSDT|BUY|weak",
+        "n": 26,
+        "pnl": 265.41,
+        "win_rate": 92.3,
+        "avg_pnl": 10.21,
+        "consistency": 0.92
+      },
+      {
+        "pattern": "ETHUSDT|BUY|weak",
+        "n": 62,
+        "pnl": 95.74,
+        "win_rate": 96.8,
+        "avg_pnl": 1.54,
+        "consistency": 0.97
+      },
+      {
+        "pattern": "SOLUSDT|BUY|weak",
+        "n": 36,
+        "pnl": 61.18,
+        "win_rate": 88.9,
+        "avg_pnl": 1.7,
+        "consistency": 0.89
+      },
+      {
+        "pattern": "AVAXUSDT|BUY|weak",
+        "n": 36,
+        "pnl": 40.09,
+        "win_rate": 94.4,
+        "avg_pnl": 1.11,
+        "consistency": 0.94
+      },
+      {
+        "pattern": "BTCUSDT|BUY|weak",
+        "n": 34,
+        "pnl": 24.75,
+        "win_rate": 88.2,
+        "avg_pnl": 0.73,
+        "consistency": 0.88
+      },
+      {
+        "pattern": "DOTUSDT|SELL|weak",
+        "n": 24,
+        "pnl": 20.11,
+        "win_rate": 58.3,
+        "avg_pnl": 0.84,
+        "consistency": 0.58
+      },
+      {
+        "pattern": "XRPUSDT|BUY|weak",
+        "n": 32,
+        "pnl": 10.92,
+        "win_rate": 93.8,
+        "avg_pnl": 0.34,
+        "consistency": 0.94
+      },
+      {
+        "pattern": "DOGEUSDT|BUY|weak",
+        "n": 32,
+        "pnl": 10.49,
+        "win_rate": 81.2,
+        "avg_pnl": 0.33,
+        "consistency": 0.81
+      },
+      {
+        "pattern": "BNBUSDT|BUY|weak",
+        "n": 6,
+        "pnl": 6.96,
+        "win_rate": 100.0,
+        "avg_pnl": 1.16,
+        "consistency": 1.0
+      },
+      {
+        "pattern": "ADAUSDT|BUY|weak",
+        "n": 14,
+        "pnl": 2.5,
+        "win_rate": 71.4,
+        "avg_pnl": 0.18,
+        "consistency": 0.71
+      }
+    ],
+    "losing": [
+      {
+        "pattern": "BTCUSDT|SELL|weak",
+        "n": 34,
+        "pnl": -4862.38,
+        "win_rate": 0.0,
+        "avg_pnl": -143.01,
+        "consistency": 0.0
+      },
+      {
+        "pattern": "ETHUSDT|SELL|weak",
+        "n": 62,
+        "pnl": -81.24,
+        "win_rate": 16.1,
+        "avg_pnl": -1.31,
+        "consistency": 0.16
+      },
+      {
+        "pattern": "SOLUSDT|SELL|weak",
+        "n": 36,
+        "pnl": -77.17,
+        "win_rate": 27.8,
+        "avg_pnl": -2.14,
+        "consistency": 0.28
+      },
+      {
+        "pattern": "DOGEUSDT|SELL|weak",
+        "n": 32,
+        "pnl": -41.38,
+        "win_rate": 18.8,
+        "avg_pnl": -1.29,
+        "consistency": 0.19
+      },
+      {
+        "pattern": "XRPUSDT|SELL|weak",
+        "n": 34,
+        "pnl": -38.3,
+        "win_rate": 0.0,
+        "avg_pnl": -1.13,
+        "consistency": 0.0
+      },
+      {
+        "pattern": "TRXUSDT|SELL|weak",
+        "n": 36,
+        "pnl": -29.69,
+        "win_rate": 0.0,
+        "avg_pnl": -0.82,
+        "consistency": 0.0
+      },
+      {
+        "pattern": "BNBUSDT|SELL|weak",
+        "n": 6,
+        "pnl": -20.77,
+        "win_rate": 0.0,
+        "avg_pnl": -3.46,
+        "consistency": 0.0
+      },
+      {
+        "pattern": "AVAXUSDT|SELL|weak",
+        "n": 36,
+        "pnl": -14.95,
+        "win_rate": 11.1,
+        "avg_pnl": -0.42,
+        "consistency": 0.11
+      },
+      {
+        "pattern": "ADAUSDT|SELL|weak",
+        "n": 14,
+        "pnl": -6.92,
+        "win_rate": 14.3,
+        "avg_pnl": -0.49,
+        "consistency": 0.14
+      },
+      {
+        "pattern": "TRXUSDT|BUY|weak",
+        "n": 36,
+        "pnl": -1.06,
+        "win_rate": 0.0,
+        "avg_pnl": -0.03,
+        "consistency": 0.0
+      }
+    ]
+  },
+  "outliers": {
+    "big_winners": [],
+    "big_losers": [
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -425.79,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -9.45
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -425.79,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -9.45
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -358.39,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -7.93
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -358.39,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -7.93
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -239.48,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -5.24
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -239.48,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -5.24
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -212.18,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -4.63
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -212.18,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -4.63
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -207.09,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -4.51
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "sell",
+        "pnl": -207.09,
+        "ofi": 0.0,
+        "tier": "UNK",
+        "z_score": -4.51
+      }
+    ],
+    "mean_pnl": -7.38,
+    "std_pnl": 44.27
+  },
+  "inversion_candidates": {
+    "invert_these": [
+      {
+        "pattern": "BTCUSDT|SELL",
+        "n": 34,
+        "win_rate": 0.0,
+        "pnl": -4862.38,
+        "avg_pnl": -143.01,
+        "inverted_wr": 100.0,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "TRXUSDT|BUY",
+        "n": 36,
+        "win_rate": 0.0,
+        "pnl": -1.06,
+        "avg_pnl": -0.03,
+        "inverted_wr": 100.0,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "TRXUSDT|SELL",
+        "n": 36,
+        "win_rate": 0.0,
+        "pnl": -29.69,
+        "avg_pnl": -0.82,
+        "inverted_wr": 100.0,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "XRPUSDT|SELL",
+        "n": 34,
+        "win_rate": 0.0,
+        "pnl": -38.3,
+        "avg_pnl": -1.13,
+        "inverted_wr": 100.0,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "BNBUSDT|SELL",
+        "n": 6,
+        "win_rate": 0.0,
+        "pnl": -20.77,
+        "avg_pnl": -3.46,
+        "inverted_wr": 100.0,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "AVAXUSDT|SELL",
+        "n": 36,
+        "win_rate": 11.1,
+        "pnl": -14.95,
+        "avg_pnl": -0.42,
+        "inverted_wr": 88.9,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "ADAUSDT|SELL",
+        "n": 14,
+        "win_rate": 14.3,
+        "pnl": -6.92,
+        "avg_pnl": -0.49,
+        "inverted_wr": 85.7,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "ETHUSDT|SELL",
+        "n": 62,
+        "win_rate": 16.1,
+        "pnl": -81.24,
+        "avg_pnl": -1.31,
+        "inverted_wr": 83.9,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "DOGEUSDT|SELL",
+        "n": 32,
+        "win_rate": 18.8,
+        "pnl": -41.38,
+        "avg_pnl": -1.29,
+        "inverted_wr": 81.2,
+        "recommendation": "INVERT"
+      },
+      {
+        "pattern": "SOLUSDT|SELL",
+        "n": 36,
+        "win_rate": 27.8,
+        "pnl": -77.17,
+        "avg_pnl": -2.14,
+        "inverted_wr": 72.2,
+        "recommendation": "INVERT"
+      }
+    ],
+    "keep_these": [
+      {
+        "pattern": "DOTUSDT|BUY",
+        "n": 26,
+        "win_rate": 92.3,
+        "pnl": 265.41,
+        "avg_pnl": 10.21,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "ETHUSDT|BUY",
+        "n": 62,
+        "win_rate": 96.8,
+        "pnl": 95.74,
+        "avg_pnl": 1.54,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "SOLUSDT|BUY",
+        "n": 36,
+        "win_rate": 88.9,
+        "pnl": 61.18,
+        "avg_pnl": 1.7,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "AVAXUSDT|BUY",
+        "n": 36,
+        "win_rate": 94.4,
+        "pnl": 40.09,
+        "avg_pnl": 1.11,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "BTCUSDT|BUY",
+        "n": 34,
+        "win_rate": 88.2,
+        "pnl": 24.75,
+        "avg_pnl": 0.73,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "DOTUSDT|SELL",
+        "n": 24,
+        "win_rate": 58.3,
+        "pnl": 20.11,
+        "avg_pnl": 0.84,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "XRPUSDT|BUY",
+        "n": 32,
+        "win_rate": 93.8,
+        "pnl": 10.92,
+        "avg_pnl": 0.34,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "DOGEUSDT|BUY",
+        "n": 32,
+        "win_rate": 81.2,
+        "pnl": 10.49,
+        "avg_pnl": 0.33,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "BNBUSDT|BUY",
+        "n": 6,
+        "win_rate": 100.0,
+        "pnl": 6.96,
+        "avg_pnl": 1.16,
+        "recommendation": "KEEP"
+      },
+      {
+        "pattern": "ADAUSDT|BUY",
+        "n": 14,
+        "win_rate": 71.4,
+        "pnl": 2.5,
+        "avg_pnl": 0.18,
+        "recommendation": "KEEP"
+      }
+    ]
+  },
+  "ofi_optimization": {
+    "threshold_analysis": [
+      {
+        "threshold": 0.2,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      },
+      {
+        "threshold": 0.3,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      },
+      {
+        "threshold": 0.4,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      },
+      {
+        "threshold": 0.5,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      },
+      {
+        "threshold": 0.6,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      },
+      {
+        "threshold": 0.7,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      },
+      {
+        "threshold": 0.8,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      },
+      {
+        "threshold": 0.9,
+        "above_n": 0,
+        "above_pnl": 0,
+        "above_wr": 0,
+        "below_n": 628,
+        "below_pnl": -4635.71,
+        "below_wr": 47.5,
+        "delta_pnl": 4635.71
+      }
+    ],
+    "optimal_threshold": 0.2,
+    "reasoning": "At 0.2, trades above have 0% WR vs 47.5% below"
+  },
+  "actionable_rules": [
+    {
+      "type": "INVERT",
+      "symbol": "BTCUSDT",
+      "direction": "SELL",
+      "reason": "Win rate 0.0% suggests opposite direction would be 100.0%",
+      "expected_improvement": "From -143.01 to ~143.01 per trade",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "INVERT",
+      "symbol": "TRXUSDT",
+      "direction": "BUY",
+      "reason": "Win rate 0.0% suggests opposite direction would be 100.0%",
+      "expected_improvement": "From -0.03 to ~0.03 per trade",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "INVERT",
+      "symbol": "TRXUSDT",
+      "direction": "SELL",
+      "reason": "Win rate 0.0% suggests opposite direction would be 100.0%",
+      "expected_improvement": "From -0.82 to ~0.82 per trade",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "INVERT",
+      "symbol": "XRPUSDT",
+      "direction": "SELL",
+      "reason": "Win rate 0.0% suggests opposite direction would be 100.0%",
+      "expected_improvement": "From -1.13 to ~1.13 per trade",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "INVERT",
+      "symbol": "BNBUSDT",
+      "direction": "SELL",
+      "reason": "Win rate 0.0% suggests opposite direction would be 100.0%",
+      "expected_improvement": "From -3.46 to ~3.46 per trade",
+      "confidence": "MEDIUM"
+    },
+    {
+      "type": "PREFER",
+      "pattern": "DOTUSDT|BUY|weak",
+      "reason": "Consistent profitability: 92.3% WR, $265.41 total",
+      "action": "Increase position size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "PREFER",
+      "pattern": "ETHUSDT|BUY|weak",
+      "reason": "Consistent profitability: 96.8% WR, $95.74 total",
+      "action": "Increase position size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "PREFER",
+      "pattern": "SOLUSDT|BUY|weak",
+      "reason": "Consistent profitability: 88.9% WR, $61.18 total",
+      "action": "Increase position size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "PREFER",
+      "pattern": "AVAXUSDT|BUY|weak",
+      "reason": "Consistent profitability: 94.4% WR, $40.09 total",
+      "action": "Increase position size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "PREFER",
+      "pattern": "BTCUSDT|BUY|weak",
+      "reason": "Consistent profitability: 88.2% WR, $24.75 total",
+      "action": "Increase position size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "AVOID",
+      "pattern": "BTCUSDT|SELL|weak",
+      "reason": "Consistent losses: 0.0% WR, $-4862.38 total",
+      "action": "Skip or reduce size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "AVOID",
+      "pattern": "ETHUSDT|SELL|weak",
+      "reason": "Consistent losses: 16.1% WR, $-81.24 total",
+      "action": "Skip or reduce size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "AVOID",
+      "pattern": "SOLUSDT|SELL|weak",
+      "reason": "Consistent losses: 27.8% WR, $-77.17 total",
+      "action": "Skip or reduce size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "AVOID",
+      "pattern": "DOGEUSDT|SELL|weak",
+      "reason": "Consistent losses: 18.8% WR, $-41.38 total",
+      "action": "Skip or reduce size for this pattern",
+      "confidence": "HIGH"
+    },
+    {
+      "type": "AVOID",
+      "pattern": "XRPUSDT|SELL|weak",
+      "reason": "Consistent losses: 0.0% WR, $-38.3 total",
+      "action": "Skip or reduce size for this pattern",
+      "confidence": "HIGH"
+    }
+  ]
+}

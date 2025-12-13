@@ -1,0 +1,124 @@
+{
+  "timestamp": "2025-12-11T21:06:14.075450",
+  "total_opportunities": 7,
+  "total_opportunity_cost_pct": 5.74,
+  "avg_opportunity_cost_pct": 0.82,
+  "frequently_rotated_from": {
+    "TRXUSDT": {
+      "count": 2,
+      "avg_cost": 0.91,
+      "total_cost": 1.83,
+      "interpretation": "Consider shorter holds or tighter stops"
+    },
+    "ADAUSDT": {
+      "count": 1,
+      "avg_cost": 0.9,
+      "total_cost": 0.9,
+      "interpretation": "Consider shorter holds or tighter stops"
+    },
+    "XRPUSDT": {
+      "count": 1,
+      "avg_cost": 0.69,
+      "total_cost": 0.69,
+      "interpretation": "Consider shorter holds or tighter stops"
+    },
+    "DOTUSDT": {
+      "count": 1,
+      "avg_cost": 0.8,
+      "total_cost": 0.8,
+      "interpretation": "Consider shorter holds or tighter stops"
+    },
+    "BTCUSDT": {
+      "count": 1,
+      "avg_cost": 0.82,
+      "total_cost": 0.82,
+      "interpretation": "Consider shorter holds or tighter stops"
+    },
+    "BNBUSDT": {
+      "count": 1,
+      "avg_cost": 0.7,
+      "total_cost": 0.7,
+      "interpretation": "Consider shorter holds or tighter stops"
+    }
+  },
+  "frequently_rotated_to": {
+    "ADAUSDT": {
+      "count": 2,
+      "avg_move": 0.77,
+      "max_move": 1.03,
+      "interpretation": "Good rotation target - consider priority scanning"
+    },
+    "ARBUSDT": {
+      "count": 2,
+      "avg_move": 0.61,
+      "max_move": 0.71,
+      "interpretation": "Good rotation target - consider priority scanning"
+    },
+    "AVAXUSDT": {
+      "count": 1,
+      "avg_move": 0.52,
+      "max_move": 0.52,
+      "interpretation": "Good rotation target - consider priority scanning"
+    },
+    "SOLUSDT": {
+      "count": 1,
+      "avg_move": 0.66,
+      "max_move": 0.66,
+      "interpretation": "Good rotation target - consider priority scanning"
+    },
+    "PEPEUSDT": {
+      "count": 1,
+      "avg_move": 0.53,
+      "max_move": 0.53,
+      "interpretation": "Good rotation target - consider priority scanning"
+    }
+  },
+  "best_rotation_pairs": {
+    "ADAUSDT \u2192 AVAXUSDT": {
+      "count": 1,
+      "avg_cost": 0.9,
+      "total_cost": 0.9
+    },
+    "TRXUSDT \u2192 ADAUSDT": {
+      "count": 1,
+      "avg_cost": 1.14,
+      "total_cost": 1.14
+    },
+    "XRPUSDT \u2192 ADAUSDT": {
+      "count": 1,
+      "avg_cost": 0.69,
+      "total_cost": 0.69
+    },
+    "DOTUSDT \u2192 SOLUSDT": {
+      "count": 1,
+      "avg_cost": 0.8,
+      "total_cost": 0.8
+    },
+    "BTCUSDT \u2192 ARBUSDT": {
+      "count": 1,
+      "avg_cost": 0.82,
+      "total_cost": 0.82
+    },
+    "TRXUSDT \u2192 ARBUSDT": {
+      "count": 1,
+      "avg_cost": 0.69,
+      "total_cost": 0.69
+    },
+    "BNBUSDT \u2192 PEPEUSDT": {
+      "count": 1,
+      "avg_cost": 0.7,
+      "total_cost": 0.7
+    }
+  },
+  "direction_patterns": {
+    "LONG \u2192 LONG": {
+      "count": 7,
+      "avg_cost": 0.82
+    }
+  },
+  "rotation_rules": [],
+  "trade_integration": {
+    "status": "insufficient_data"
+  },
+  "rules_generated": 0
+}

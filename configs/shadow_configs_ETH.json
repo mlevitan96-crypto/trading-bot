@@ -1,0 +1,9 @@
+{
+  "experiments": [
+    { "name": "ETH_baseline",            "ema_short": 10, "ema_long": 22, "tiers_pct": [0.3,0.3,0.4], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 636,  "leverage": 3 },
+    { "name": "ETH_2x_size",             "ema_short": 10, "ema_long": 22, "tiers_pct": [0.3,0.3,0.4], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 1272, "leverage": 3 },
+    { "name": "ETH_4x_size",             "ema_short": 10, "ema_long": 22, "tiers_pct": [0.3,0.3,0.4], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 2545, "leverage": 3 },
+    { "name": "ETH_higher_leverage",     "ema_short": 10, "ema_long": 22, "tiers_pct": [0.3,0.3,0.4], "trail_atr_mult": 2.0, "min_slice_pct": 0.005, "margin_budget_usdt": 636,  "leverage": 5 },
+    { "name": "ETH_signal_strict",       "ema_short": 10, "ema_long": 22, "tiers_pct": [0.3,0.3,0.4], "trail_atr_mult": 1.5, "min_slice_pct": 0.01,  "margin_budget_usdt": 636,  "leverage": 3, "require_adx": 20 }
+  ]
+}

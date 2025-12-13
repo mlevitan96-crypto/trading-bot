@@ -1,0 +1,16 @@
+{
+  "min_buffer_pct": 10.0,
+  "alert_buffer_pct": 12.0,
+  "max_leverage_global": 10,
+  "base_leverage": 6,
+  "win_rate_leverage_tiers": {
+    "conservative": 5,
+    "standard": 6,
+    "aggressive": 7,
+    "hot_streak": 8
+  },
+  "maintenance_margin_ratio": 0.005,
+  "emergency_delever_buffer": 8.0,
+  "auto_close_buffer": 5.0,
+  "description": "Risk management policies for futures trading with win-rate-based leverage scaling (2025-11-29)"
+}

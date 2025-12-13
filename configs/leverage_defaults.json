@@ -1,0 +1,11 @@
+{
+  "max_leverage": 5,
+  "default_leverage_by_regime": {
+    "Stable": 2,
+    "Volatile": 3,
+    "Trending": 4,
+    "Ranging": 2
+  },
+  "safety_buffer": 0.2,
+  "description": "Default leverage settings for futures trading before strategy-specific budgets are allocated"
+}

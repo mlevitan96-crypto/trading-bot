@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fee Tier Config",
+  "type": "object",
+  "required": [
+    "tiers",
+    "symbols"
+  ],
+  "properties": {
+    "tiers": {
+      "type": "object",
+      "required": [
+        "anchors",
+        "mid",
+        "high"
+      ],
+      "properties": {
+        "anchors": {
+          "type": "object",
+          "required": [
+            "maker_pct",
+            "taker_pct"
+          ],
+          "properties": {
+            "maker_pct": {
+              "type": "number",
+              "minimum": 0.0001,
+              "maximum": 0.01
+            },
+            "taker_pct": {
+              "type": "number",
+              "minimum": 0.0001,
+              "maximum": 0.01
+            }
+          }
+        },
+        "mid": {
+          "type": "object",
+          "required": [
+            "maker_pct",
+            "taker_pct"
+          ],
+          "properties": {
+            "maker_pct": {
+              "type": "number",
+              "minimum": 0.0001,
+              "maximum": 0.01
+            },
+            "taker_pct": {
+              "type": "number",
+              "minimum": 0.0001,
+              "maximum": 0.01
+            }
+          }
+        },
+        "high": {
+          "type": "object",
+          "required": [
+            "maker_pct",
+            "taker_pct"
+          ],
+          "properties": {
+            "maker_pct": {
+              "type": "number",
+              "minimum": 0.0001,
+              "maximum": 0.01
+            },
+            "taker_pct": {
+              "type": "number",
+              "minimum": 0.0001,
+              "maximum": 0.01
+            }
+          }
+        }
+      }
+    },
+    "symbols": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "anchors",
+          "mid",
+          "high"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,697 @@
+{
+  "ts": 1763746614,
+  "source": "intraday_scheduler",
+  "assets": {
+    "BTCUSDT": {
+      "position_scale": 0.9553853371370323,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 0,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "BTCUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "maker",
+        "post_only": true,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "mean_reversion",
+          "enable": true,
+          "params": {
+            "zscore_entry": [
+              1.0,
+              1.5,
+              2.0
+            ]
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 50,
+        "stop_atr": 3,
+        "take_atr": 3,
+        "threshold": 0.3
+      },
+      "bandit_confidence": 0.455,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "ETHUSDT": {
+      "position_scale": 0.9168026585417679,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 0,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "ETHUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "taker",
+        "post_only": false,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "trend_follow",
+          "enable": true,
+          "params": {
+            "momentum_window": [
+              20,
+              50,
+              100
+            ]
+          }
+        },
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.8
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 20,
+        "stop_atr": 2,
+        "take_atr": 4,
+        "threshold": 0.5
+      },
+      "bandit_confidence": 0.545,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "SOLUSDT": {
+      "position_scale": 0.7216849601410347,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 3,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "SOLUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "maker",
+        "post_only": true,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "mean_reversion",
+          "enable": true,
+          "params": {
+            "zscore_entry": [
+              1.0,
+              1.5,
+              2.0
+            ]
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 20,
+        "stop_atr": 2,
+        "take_atr": 3,
+        "threshold": 0.5
+      },
+      "bandit_confidence": 0.438,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "AVAXUSDT": {
+      "position_scale": 0.7991632459858262,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 0,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "AVAXUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "taker",
+        "post_only": false,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.8
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 20,
+        "stop_atr": 3,
+        "take_atr": 4,
+        "threshold": 0.5
+      },
+      "bandit_confidence": 0.682,
+      "mid_session_swap": true,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "DOTUSDT": {
+      "position_scale": 0.9803237897702533,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 3,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "DOTUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "maker",
+        "post_only": true,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "mean_reversion",
+          "enable": true,
+          "params": {
+            "zscore_entry": [
+              1.0,
+              1.5,
+              2.0
+            ]
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 50,
+        "stop_atr": 3,
+        "take_atr": 4,
+        "threshold": 0.3
+      },
+      "bandit_confidence": 0.438,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "TRXUSDT": {
+      "position_scale": 0.828215252430875,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 0,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "TRXUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "taker",
+        "post_only": false,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.8
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 50,
+        "stop_atr": 2,
+        "take_atr": 3,
+        "threshold": 0.5
+      },
+      "bandit_confidence": 0.727,
+      "mid_session_swap": true,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "XRPUSDT": {
+      "position_scale": 0.6543855171802782,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 0,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "XRPUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "taker",
+        "post_only": false,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.8
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 100,
+        "stop_atr": 2,
+        "take_atr": 4,
+        "threshold": 0.3
+      },
+      "bandit_confidence": 0.636,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "ADAUSDT": {
+      "position_scale": 0.9770429600741957,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 0,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "ADAUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "taker",
+        "post_only": false,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.8
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 20,
+        "stop_atr": 2,
+        "take_atr": 4,
+        "threshold": 0.5
+      },
+      "bandit_confidence": 0.591,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "DOGEUSDT": {
+      "position_scale": 0.8432843335293355,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 3,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "DOGEUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "maker",
+        "post_only": true,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "mean_reversion",
+          "enable": true,
+          "params": {
+            "zscore_entry": [
+              1.0,
+              1.5,
+              2.0
+            ]
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 100,
+        "stop_atr": 2,
+        "take_atr": 4,
+        "threshold": 0.3
+      },
+      "bandit_confidence": 0.656,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "BNBUSDT": {
+      "position_scale": 0.7846927153680819,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 3,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "BNBUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "maker",
+        "post_only": true,
+        "hold_orders": false
+      },
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.8
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 50,
+        "stop_atr": 3,
+        "take_atr": 3,
+        "threshold": 0.5
+      },
+      "bandit_confidence": 0.719,
+      "mid_session_swap": true,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "MATICUSDT": {
+      "position_scale": 0.7926197970834578,
+      "apply_rules": {
+        "capacity_checks": true,
+        "intraday_enabled": true,
+        "experiment_slots": 0,
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0
+      },
+      "execution_router": {
+        "asset": "MATICUSDT",
+        "slice_parts": [
+          7,
+          9
+        ],
+        "delay_ms": [
+          120,
+          160
+        ],
+        "mode": "taker",
+        "post_only": false,
+        "hold_orders": true
+      },
+      "overlays": [
+        {
+          "overlay": "mean_reversion",
+          "enable": true,
+          "params": {
+            "zscore_entry": [
+              1.0,
+              1.5,
+              2.0
+            ]
+          }
+        }
+      ],
+      "bandit_params": {
+        "lookback": 100,
+        "stop_atr": 2,
+        "take_atr": 3,
+        "threshold": 0.3
+      },
+      "bandit_confidence": 0.545,
+      "mid_session_swap": false,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "experiments": [
+    { "name": "TRX_baseline_throttled",  "ema_short": 10, "ema_long": 23, "tiers_pct": [0.3,0.3,0.4], "trail_atr_mult": 1.8,  "min_slice_pct": 0.02,  "margin_budget_usdt": 23,   "leverage": 2, "live_allocation_pct": 10 },
+    { "name": "TRX_strict_signal",       "ema_short": 8,  "ema_long": 18, "tiers_pct": [0.3,0.3,0.4], "trail_atr_mult": 1.5,  "min_slice_pct": 0.05,  "margin_budget_usdt": 23,   "leverage": 2, "require_adx": 22 },
+    { "name": "TRX_shadow_only_explore", "ema_short": 8,  "ema_long": 18, "tiers_pct": [0.25,0.25,0.5], "trail_atr_mult": 1.5,  "min_slice_pct": 0.05,  "margin_budget_usdt": 50,   "leverage": 3, "shadow_only": true }
+  ]
+}

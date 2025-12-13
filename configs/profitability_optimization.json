@@ -1,0 +1,61 @@
+{
+  "optimization_version": "v1.0",
+  "last_updated": "2025-11-30",
+  "analysis_source": "3,791 closed trades deep analysis",
+  
+  "summary": {
+    "total_pnl": -2390.28,
+    "alpha_pnl": -467.23,
+    "beta_pnl": -1936.30,
+    "root_cause": "OFI filter inverted + Beta catastrophic losses",
+    "solution": "Disable Beta, invert OFI filter, focus on SHORT weak-OFI patterns"
+  },
+  
+  "beta_config": {
+    "enabled": false,
+    "reason": "7.7% WR, -$1,936 loss (80% of total). DISABLED until Alpha profitable."
+  },
+  
+  "alpha_ofi_filter": {
+    "description": "INVERTED: Only trade with weak OFI, block strong OFI",
+    "min_ofi": 0.0,
+    "max_ofi": 0.3,
+    "original_threshold": 0.5,
+    "new_threshold_logic": "ofi < 0.3 to enter (inverted from original)"
+  },
+  
+  "direction_filter": {
+    "allowed": ["SHORT"],
+    "blocked": ["LONG"],
+    "reason": "LONG: 14% WR, -$37 loss. SHORT with weak OFI is only profitable pattern."
+  },
+  
+  "symbol_priority": {
+    "tier_a_profitable": ["XRPUSDT", "BNBUSDT", "AVAXUSDT", "ETHUSDT", "ADAUSDT", "DOGEUSDT"],
+    "tier_b_marginal": [],
+    "tier_c_blocked": ["BTCUSDT", "TRXUSDT", "DOTUSDT", "SOLUSDT"],
+    "reason": "Based on weak-OFI SHORT performance analysis"
+  },
+  
+  "profitable_patterns": {
+    "XRPUSDT|SHORT|weak": {"pnl": 4.48, "wr": 33, "ev": 0.30, "n": 15},
+    "BNBUSDT|SHORT|weak": {"pnl": 3.63, "wr": 20, "ev": 0.36, "n": 10},
+    "AVAXUSDT|SHORT|weak": {"pnl": 3.37, "wr": 14, "ev": 0.15, "n": 22},
+    "ETHUSDT|SHORT|weak": {"pnl": 1.76, "wr": 20, "ev": 0.09, "n": 20},
+    "ADAUSDT|SHORT|weak": {"pnl": 0.90, "wr": 15, "ev": 0.07, "n": 13},
+    "DOGEUSDT|SHORT|weak": {"pnl": 0.25, "wr": 17, "ev": 0.02, "n": 12}
+  },
+  
+  "losing_patterns_to_block": {
+    "DOTUSDT|SHORT|extreme": {"pnl": -127.00, "wr": 26, "n": 302},
+    "BNBUSDT|SHORT|extreme": {"pnl": -64.89, "wr": 14, "n": 165},
+    "any|LONG|any": {"pnl": -37.13, "wr": 14, "n": 79}
+  },
+  
+  "expected_improvement": {
+    "disable_beta_saves": 1936.30,
+    "block_long_saves": 37.13,
+    "focus_weak_ofi_short_gains": 14.39,
+    "total_expected_improvement": 1987.82
+  }
+}

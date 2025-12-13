@@ -1,0 +1,14 @@
+{
+  "description": "Dates/periods that should be excluded or flagged in analysis",
+  "anomalies": [
+    {
+      "date": "2025-11-30",
+      "reason": "Choppy market anomaly",
+      "details": "462 small trades ($108 avg), both LONG and SHORT directions lost, -$1,315 total",
+      "impact": "73% of total historical losses came from this single day",
+      "action": "exclude_from_analysis",
+      "added": "2025-12-02"
+    }
+  ],
+  "usage": "Analysis scripts should check this file and exclude/flag these dates"
+}

@@ -1,0 +1,617 @@
+{
+  "version": 6,
+  "generated_at": "2025-11-27T17:20:57.458843",
+  "learning_type": "aggressive",
+  "offensive": {
+    "version": 1,
+    "generated_at": "2025-11-27T17:20:57.450236",
+    "type": "offensive",
+    "purpose": "Capture missed profitable opportunities",
+    "by_symbol": {
+      "AVAXUSDT": {
+        "lower_ofi_threshold": -0.05,
+        "lower_ensemble_threshold": 0.0,
+        "boost_sizing": 1.0,
+        "opportunities_missed": 15,
+        "potential_missed": 357.1
+      },
+      "SOLUSDT": {
+        "lower_ofi_threshold": -0.05,
+        "lower_ensemble_threshold": 0.0,
+        "boost_sizing": 1.0,
+        "opportunities_missed": 12,
+        "potential_missed": 349.81
+      },
+      "DOTUSDT": {
+        "lower_ofi_threshold": -0.05,
+        "lower_ensemble_threshold": 0.0,
+        "boost_sizing": 1.0,
+        "opportunities_missed": 12,
+        "potential_missed": 287.15
+      },
+      "ADAUSDT": {
+        "lower_ofi_threshold": -0.05,
+        "lower_ensemble_threshold": 0.0,
+        "boost_sizing": 1.0,
+        "opportunities_missed": 7,
+        "potential_missed": 174.49
+      },
+      "XRPUSDT": {
+        "lower_ofi_threshold": -0.05,
+        "lower_ensemble_threshold": 0.0,
+        "boost_sizing": 1.0,
+        "opportunities_missed": 11,
+        "potential_missed": 239.73
+      },
+      "ETHUSDT": {
+        "lower_ofi_threshold": -0.05,
+        "lower_ensemble_threshold": 0.0,
+        "boost_sizing": 1.0,
+        "opportunities_missed": 10,
+        "potential_missed": 212.78
+      },
+      "DOGEUSDT": {
+        "lower_ofi_threshold": -0.05,
+        "lower_ensemble_threshold": 0.0,
+        "boost_sizing": 1.0,
+        "opportunities_missed": 8,
+        "potential_missed": 154.13
+      }
+    },
+    "by_direction": {
+      "SHORT": {
+        "boost_sensitivity": 1.0,
+        "opportunities_missed": 52
+      },
+      "LONG": {
+        "boost_sensitivity": 1.0,
+        "opportunities_missed": 27
+      }
+    },
+    "global": {
+      "lower_entry_threshold": false,
+      "increase_sensitivity": true,
+      "sensitivity_boost": 0.1
+    },
+    "specific_actions": [
+      {
+        "pattern": "AVAXUSDT_SHORT",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "14 missed opportunities worth $338"
+      },
+      {
+        "pattern": "SOLUSDT_SHORT",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "9 missed opportunities worth $289"
+      },
+      {
+        "pattern": "DOTUSDT_SHORT",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "7 missed opportunities worth $198"
+      },
+      {
+        "pattern": "ADAUSDT_SHORT",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "6 missed opportunities worth $158"
+      },
+      {
+        "pattern": "XRPUSDT_SHORT",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "7 missed opportunities worth $152"
+      },
+      {
+        "pattern": "ETHUSDT_LONG",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "7 missed opportunities worth $131"
+      },
+      {
+        "pattern": "DOTUSDT_LONG",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "5 missed opportunities worth $89"
+      },
+      {
+        "pattern": "XRPUSDT_LONG",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "4 missed opportunities worth $88"
+      },
+      {
+        "pattern": "DOGEUSDT_SHORT",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "4 missed opportunities worth $84"
+      },
+      {
+        "pattern": "ETHUSDT_SHORT",
+        "action": "LOWER_THRESHOLD",
+        "delta": -0.05,
+        "evidence": "3 missed opportunities worth $81"
+      }
+    ]
+  },
+  "gates_to_loosen": [],
+  "defensive": {
+    "version": 5,
+    "generated_at": "2025-11-27T17:05:07.147260",
+    "global": {
+      "min_ofi": 0.3,
+      "min_ensemble": 0.05,
+      "require_ofi_alignment": true,
+      "min_confidence": 0.3
+    },
+    "per_symbol": {
+      "BTCUSDT": {
+        "SHORT": {
+          "min_ofi": 0.51,
+          "expected_wr": 15.6,
+          "require_alignment": true,
+          "sample_size": 32,
+          "total_pnl": -33.35
+        },
+        "LONG": {
+          "min_ofi": 0.49,
+          "expected_wr": 10.0,
+          "require_alignment": true,
+          "sample_size": 40,
+          "total_pnl": -34.76
+        }
+      },
+      "XRPUSDT": {
+        "SHORT": {
+          "min_ofi": 0.52,
+          "expected_wr": 10.5,
+          "require_alignment": true,
+          "sample_size": 38,
+          "total_pnl": -63.6
+        },
+        "LONG": {
+          "min_ofi": 0.61,
+          "expected_wr": 2.9,
+          "require_alignment": true,
+          "sample_size": 34,
+          "total_pnl": -112.95
+        }
+      },
+      "BNBUSDT": {
+        "LONG": {
+          "min_ofi": 0.57,
+          "expected_wr": 17.9,
+          "require_alignment": true,
+          "sample_size": 28,
+          "total_pnl": -29.09
+        },
+        "SHORT": {
+          "min_ofi": 0.59,
+          "expected_wr": 36.8,
+          "require_alignment": true,
+          "sample_size": 38,
+          "total_pnl": -44.03
+        }
+      },
+      "SOLUSDT": {
+        "LONG": {
+          "min_ofi": 0.48,
+          "expected_wr": 37.2,
+          "require_alignment": true,
+          "sample_size": 43,
+          "total_pnl": -40.48
+        },
+        "SHORT": {
+          "min_ofi": 0.56,
+          "expected_wr": 32.0,
+          "require_alignment": true,
+          "sample_size": 50,
+          "total_pnl": -46.67
+        }
+      },
+      "DOTUSDT": {
+        "LONG": {
+          "min_ofi": 0.63,
+          "expected_wr": 14.6,
+          "require_alignment": true,
+          "sample_size": 41,
+          "total_pnl": -44.68
+        },
+        "SHORT": {
+          "min_ofi": 0.57,
+          "expected_wr": 37.5,
+          "require_alignment": true,
+          "sample_size": 32,
+          "total_pnl": -5.21
+        }
+      },
+      "DOGEUSDT": {
+        "SHORT": {
+          "min_ofi": 0.6,
+          "expected_wr": 0.0,
+          "require_alignment": true,
+          "sample_size": 13,
+          "total_pnl": -24.66
+        },
+        "LONG": {
+          "min_ofi": 0.63,
+          "expected_wr": 0.0,
+          "require_alignment": true,
+          "sample_size": 22,
+          "total_pnl": -63.0
+        }
+      },
+      "AVAXUSDT": {
+        "LONG": {
+          "min_ofi": 0.66,
+          "expected_wr": 14.6,
+          "require_alignment": true,
+          "sample_size": 41,
+          "total_pnl": -81.41
+        },
+        "SHORT": {
+          "min_ofi": 0.62,
+          "expected_wr": 11.4,
+          "require_alignment": true,
+          "sample_size": 35,
+          "total_pnl": -39.87
+        }
+      },
+      "ETHUSDT": {
+        "SHORT": {
+          "min_ofi": 0.45,
+          "expected_wr": 23.5,
+          "require_alignment": true,
+          "sample_size": 34,
+          "total_pnl": -13.71
+        },
+        "LONG": {
+          "min_ofi": 0.51,
+          "expected_wr": 26.7,
+          "require_alignment": true,
+          "sample_size": 45,
+          "total_pnl": -67.78
+        }
+      },
+      "ADAUSDT": {
+        "LONG": {
+          "min_ofi": 0.51,
+          "expected_wr": 4.8,
+          "require_alignment": true,
+          "sample_size": 21,
+          "total_pnl": -48.14
+        },
+        "SHORT": {
+          "min_ofi": 0.53,
+          "expected_wr": 13.3,
+          "require_alignment": true,
+          "sample_size": 15,
+          "total_pnl": -35.75
+        }
+      },
+      "TRXUSDT": {
+        "SHORT": {
+          "min_ofi": 0.0,
+          "expected_wr": 0.0,
+          "require_alignment": false,
+          "sample_size": 21,
+          "total_pnl": -55.08
+        },
+        "LONG": {
+          "min_ofi": 0.0,
+          "expected_wr": 0.0,
+          "require_alignment": false,
+          "sample_size": 7,
+          "total_pnl": -22.63
+        }
+      }
+    },
+    "per_direction": {
+      "LONG": {
+        "min_ofi": 0.5
+      },
+      "SHORT": {
+        "min_ofi": 0.5
+      }
+    },
+    "composite_rules": [
+      {
+        "id": "risky_BTCUSDT_SHORT",
+        "conditions": {
+          "symbol": "BTCUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 0.96,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 32,
+          "win_rate": 15.6,
+          "total_pnl": -33.35
+        }
+      },
+      {
+        "id": "risky_XRPUSDT_SHORT",
+        "conditions": {
+          "symbol": "XRPUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 0.98,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 38,
+          "win_rate": 10.5,
+          "total_pnl": -63.6
+        }
+      },
+      {
+        "id": "risky_XRPUSDT_LONG",
+        "conditions": {
+          "symbol": "XRPUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.14,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 34,
+          "win_rate": 2.9,
+          "total_pnl": -112.95
+        }
+      },
+      {
+        "id": "risky_BTCUSDT_LONG",
+        "conditions": {
+          "symbol": "BTCUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 0.93,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 40,
+          "win_rate": 10.0,
+          "total_pnl": -34.76
+        }
+      },
+      {
+        "id": "risky_BNBUSDT_LONG",
+        "conditions": {
+          "symbol": "BNBUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.07,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 28,
+          "win_rate": 17.9,
+          "total_pnl": -29.09
+        }
+      },
+      {
+        "id": "risky_SOLUSDT_LONG",
+        "conditions": {
+          "symbol": "SOLUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.37209302325581395,
+          "min_ofi_override": 0.9,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 43,
+          "win_rate": 37.2,
+          "total_pnl": -40.48
+        }
+      },
+      {
+        "id": "risky_DOTUSDT_LONG",
+        "conditions": {
+          "symbol": "DOTUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.17,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 41,
+          "win_rate": 14.6,
+          "total_pnl": -44.68
+        }
+      },
+      {
+        "id": "risky_DOGEUSDT_SHORT",
+        "conditions": {
+          "symbol": "DOGEUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.13,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 13,
+          "win_rate": 0.0,
+          "total_pnl": -24.66
+        }
+      },
+      {
+        "id": "risky_AVAXUSDT_LONG",
+        "conditions": {
+          "symbol": "AVAXUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.23,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 41,
+          "win_rate": 14.6,
+          "total_pnl": -81.41
+        }
+      },
+      {
+        "id": "risky_AVAXUSDT_SHORT",
+        "conditions": {
+          "symbol": "AVAXUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.17,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 35,
+          "win_rate": 11.4,
+          "total_pnl": -39.87
+        }
+      },
+      {
+        "id": "risky_SOLUSDT_SHORT",
+        "conditions": {
+          "symbol": "SOLUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.32,
+          "min_ofi_override": 1.05,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 50,
+          "win_rate": 32.0,
+          "total_pnl": -46.67
+        }
+      },
+      {
+        "id": "risky_BNBUSDT_SHORT",
+        "conditions": {
+          "symbol": "BNBUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.3684210526315789,
+          "min_ofi_override": 1.1,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 38,
+          "win_rate": 36.8,
+          "total_pnl": -44.03
+        }
+      },
+      {
+        "id": "risky_ETHUSDT_LONG",
+        "conditions": {
+          "symbol": "ETHUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 0.95,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 45,
+          "win_rate": 26.7,
+          "total_pnl": -67.78
+        }
+      },
+      {
+        "id": "risky_ADAUSDT_LONG",
+        "conditions": {
+          "symbol": "ADAUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 0.96,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 21,
+          "win_rate": 4.8,
+          "total_pnl": -48.14
+        }
+      },
+      {
+        "id": "risky_TRXUSDT_SHORT",
+        "conditions": {
+          "symbol": "TRXUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 0.0,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 21,
+          "win_rate": 0.0,
+          "total_pnl": -55.08
+        }
+      },
+      {
+        "id": "risky_DOGEUSDT_LONG",
+        "conditions": {
+          "symbol": "DOGEUSDT",
+          "direction": "LONG"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.18,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 22,
+          "win_rate": 0.0,
+          "total_pnl": -63.0
+        }
+      },
+      {
+        "id": "risky_ADAUSDT_SHORT",
+        "conditions": {
+          "symbol": "ADAUSDT",
+          "direction": "SHORT"
+        },
+        "action": {
+          "sizing_multiplier": 0.3,
+          "min_ofi_override": 1.0,
+          "priority": "caution"
+        },
+        "evidence": {
+          "trades": 15,
+          "win_rate": 13.3,
+          "total_pnl": -35.75
+        }
+      }
+    ],
+    "performance_baseline": {
+      "win_rate": 18.41,
+      "avg_pnl": -1.4395,
+      "trades_analyzed": 630
+    }
+  },
+  "offensive_rules_added": 10
+}

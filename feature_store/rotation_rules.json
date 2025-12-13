@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "generated_at": "2025-12-11T21:06:14.076022",
+  "type": "rotation",
+  "purpose": "Optimize cross-coin capital rotation",
+  "exit_faster": {},
+  "scan_priority": {},
+  "rotation_pairs": {},
+  "global_settings": {
+    "enable_rotation_scanning": true,
+    "min_rotation_opportunity_pct": 0.5,
+    "max_hold_before_rotation_check_min": 15
+  }
+}

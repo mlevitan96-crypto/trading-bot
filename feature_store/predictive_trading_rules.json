@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2025-12-03T01:00:00Z",
+  "analysis_source": "3,942 closed positions comprehensive analysis",
+  
+  "global_settings": {
+    "beta_inversion_enabled": false,
+    "beta_inversion_disabled_reason": "8% WR, -$1,939 P&L - catastrophic performance",
+    "min_position_size_usd": 200,
+    "trailing_stop_enabled": false,
+    "trailing_stop_disabled_reason": "4% WR, -$225 P&L, EV=-$2.89"
+  },
+  
+  "hour_rules": {
+    "golden_hours": [8],
+    "good_hours": [16, 17, 18, 19, 20],
+    "normal_hours": [9, 13, 14, 15, 21],
+    "bad_hours": [0, 1, 2, 11, 12, 22, 23],
+    "skip_hours": [0, 1, 2, 11, 12, 22, 23],
+    "hour_multipliers": {
+      "8": 2.0,
+      "16": 1.0,
+      "17": 1.0,
+      "18": 1.0,
+      "19": 1.0,
+      "20": 1.0
+    },
+    "evidence": {
+      "hour_8": {"win_rate": 55.1, "ev": 0.502, "trades": 49},
+      "hour_11": {"win_rate": 15.0, "ev": -1.672, "trades": 401},
+      "hour_12": {"win_rate": 12.9, "ev": -1.228, "trades": 395}
+    }
+  },
+  
+  "direction_inversion_rules": {
+    "enabled": true,
+    "purpose": "Invert LONG signals to SHORT for coins where LONG historically loses",
+    "coins_to_invert_long": {
+      "DOGEUSDT": {"long_wr": 13.2, "short_wr": 25.4, "action": "invert_long_to_short"},
+      "ETHUSDT": {"long_wr": 6.2, "short_wr": 24.6, "action": "invert_long_to_short"},
+      "SOLUSDT": {"long_wr": 8.5, "short_wr": 23.9, "action": "invert_long_to_short"},
+      "XRPUSDT": {"long_wr": 11.1, "short_wr": 20.0, "action": "invert_long_to_short"}
+    },
+    "coins_short_only": ["ADAUSDT", "DOTUSDT", "BTCUSDT", "BNBUSDT", "AVAXUSDT"]
+  },
+  
+  "aggressive_patterns": {
+    "purpose": "Trade aggressively when these patterns appear",
+    "patterns": [
+      {
+        "id": "eth_short_extreme_good",
+        "conditions": {"symbol": "ETHUSDT", "direction": "SHORT", "ofi_bucket": "extreme", "hour_bucket": "good"},
+        "win_rate": 61,
+        "size_multiplier": 2.0,
+        "action": "max_aggression"
+      },
+      {
+        "id": "ada_short_strong_good", 
+        "conditions": {"symbol": "ADAUSDT", "direction": "SHORT", "ofi_bucket": "strong", "hour_bucket": "good"},
+        "win_rate": 56,
+        "size_multiplier": 1.5,
+        "action": "aggressive"
+      },
+      {
+        "id": "dot_short_extreme_good",
+        "conditions": {"symbol": "DOTUSDT", "direction": "SHORT", "ofi_bucket": "extreme", "hour_bucket": "good"},
+        "win_rate": 40,
+        "size_multiplier": 1.3,
+        "action": "aggressive"
+      },
+      {
+        "id": "any_short_hour8",
+        "conditions": {"direction": "SHORT", "hour": 8},
+        "win_rate": 55,
+        "size_multiplier": 1.5,
+        "action": "aggressive"
+      }
+    ]
+  },
+  
+  "avoid_patterns": {
+    "purpose": "Skip trades when these losing patterns appear",
+    "patterns": [
+      {
+        "id": "xrp_strong_bad_hour",
+        "conditions": {"symbol": "XRPUSDT", "ofi_bucket": "strong", "hour_bucket": "bad"},
+        "win_rate": 0,
+        "action": "skip"
+      },
+      {
+        "id": "avax_moderate_bad_hour",
+        "conditions": {"symbol": "AVAXUSDT", "ofi_bucket": "moderate", "hour_bucket": "bad"},
+        "win_rate": 0,
+        "action": "skip"
+      },
+      {
+        "id": "bnb_extreme_bad_hour",
+        "conditions": {"symbol": "BNBUSDT", "ofi_bucket": "extreme", "hour_bucket": "bad"},
+        "win_rate": 2,
+        "action": "skip"
+      },
+      {
+        "id": "any_bad_hour",
+        "conditions": {"hour_bucket": "bad"},
+        "win_rate": 10,
+        "action": "reduce_or_skip"
+      }
+    ]
+  },
+  
+  "ofi_buckets": {
+    "extreme": {"min": 0.8, "max": 1.0},
+    "strong": {"min": 0.5, "max": 0.8},
+    "moderate": {"min": 0.3, "max": 0.5},
+    "weak": {"min": 0.0, "max": 0.3}
+  }
+}

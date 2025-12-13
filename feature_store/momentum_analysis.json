@@ -1,0 +1,958 @@
+{
+  "total_trades": 3235,
+  "by_strategy": {
+    "EMA-Futures": {
+      "trades": 212,
+      "win_rate": 15.6,
+      "total_pnl": -32.53,
+      "avg_pnl": -0.153,
+      "avg_duration_min": 44.8,
+      "profitable": false
+    },
+    "Alpha-OFI": {
+      "trades": 3023,
+      "win_rate": 22.3,
+      "total_pnl": -434.69,
+      "avg_pnl": -0.144,
+      "avg_duration_min": 16.9,
+      "profitable": false
+    }
+  },
+  "by_close_reason": {
+    "risk_cap_max_positions": {
+      "trades": 364,
+      "win_rate": 50.0,
+      "total_pnl": 134.41,
+      "avg_pnl": 0.369,
+      "profitable": true
+    },
+    "ladder_rr_hit_2.0%": {
+      "trades": 7,
+      "win_rate": 71.4,
+      "total_pnl": 1.22,
+      "avg_pnl": 0.174,
+      "profitable": true
+    },
+    "data_cleanup_invalid_size": {
+      "trades": 8,
+      "win_rate": 0.0,
+      "total_pnl": 0.0,
+      "avg_pnl": 0.0,
+      "profitable": false
+    },
+    "data_cleanup_missing_context": {
+      "trades": 8,
+      "win_rate": 0.0,
+      "total_pnl": 0.0,
+      "avg_pnl": 0.0,
+      "profitable": false
+    },
+    "ladder_timing_take_profit": {
+      "trades": 4,
+      "win_rate": 50.0,
+      "total_pnl": -0.22,
+      "avg_pnl": -0.054,
+      "profitable": false
+    },
+    "ladder_timing_force_exit": {
+      "trades": 117,
+      "win_rate": 21.4,
+      "total_pnl": -9.71,
+      "avg_pnl": -0.083,
+      "profitable": false
+    },
+    "risk_cap_asset_exposure": {
+      "trades": 46,
+      "win_rate": 8.7,
+      "total_pnl": -26.75,
+      "avg_pnl": -0.582,
+      "profitable": false
+    },
+    "ladder_timing_exit_now": {
+      "trades": 242,
+      "win_rate": 16.5,
+      "total_pnl": -32.45,
+      "avg_pnl": -0.134,
+      "profitable": false
+    },
+    "ladder_rr_hit_0.5%": {
+      "trades": 280,
+      "win_rate": 5.0,
+      "total_pnl": -119.58,
+      "avg_pnl": -0.427,
+      "profitable": false
+    },
+    "trailing_stop": {
+      "trades": 47,
+      "win_rate": 4.3,
+      "total_pnl": -141.13,
+      "avg_pnl": -3.003,
+      "profitable": false
+    },
+    "ladder_signal_reverse": {
+      "trades": 2107,
+      "win_rate": 20.6,
+      "total_pnl": -273.02,
+      "avg_pnl": -0.13,
+      "profitable": false
+    }
+  },
+  "by_duration": {
+    "0-2min": {
+      "trades": 896,
+      "win_rate": 2.3,
+      "total_pnl": -294.58,
+      "avg_pnl": -0.329,
+      "profitable": false
+    },
+    "2-5min": {
+      "trades": 664,
+      "win_rate": 18.2,
+      "total_pnl": -58.39,
+      "avg_pnl": -0.088,
+      "profitable": false
+    },
+    "5-15min": {
+      "trades": 917,
+      "win_rate": 29.2,
+      "total_pnl": -38.7,
+      "avg_pnl": -0.042,
+      "profitable": false
+    },
+    "15-30min": {
+      "trades": 349,
+      "win_rate": 31.2,
+      "total_pnl": -10.69,
+      "avg_pnl": -0.031,
+      "profitable": false
+    },
+    "30-60min": {
+      "trades": 249,
+      "win_rate": 56.6,
+      "total_pnl": 4.32,
+      "avg_pnl": 0.017,
+      "profitable": true
+    },
+    "1-4hr": {
+      "trades": 118,
+      "win_rate": 31.4,
+      "total_pnl": -20.64,
+      "avg_pnl": -0.175,
+      "profitable": false
+    },
+    "4hr+": {
+      "trades": 26,
+      "win_rate": 38.5,
+      "total_pnl": -48.54,
+      "avg_pnl": -1.867,
+      "profitable": false
+    }
+  },
+  "by_hour": {
+    "00:00": {
+      "trades": 92,
+      "win_rate": 2.2,
+      "total_pnl": -26.63,
+      "avg_pnl": -0.289,
+      "profitable": false
+    },
+    "01:00": {
+      "trades": 102,
+      "win_rate": 5.9,
+      "total_pnl": -35.99,
+      "avg_pnl": -0.353,
+      "profitable": false
+    },
+    "02:00": {
+      "trades": 124,
+      "win_rate": 1.6,
+      "total_pnl": -50.43,
+      "avg_pnl": -0.407,
+      "profitable": false
+    },
+    "08:00": {
+      "trades": 39,
+      "win_rate": 61.5,
+      "total_pnl": 41.72,
+      "avg_pnl": 1.07,
+      "profitable": true
+    },
+    "09:00": {
+      "trades": 132,
+      "win_rate": 18.9,
+      "total_pnl": -3.14,
+      "avg_pnl": -0.024,
+      "profitable": false
+    },
+    "10:00": {
+      "trades": 314,
+      "win_rate": 20.4,
+      "total_pnl": -61.77,
+      "avg_pnl": -0.197,
+      "profitable": false
+    },
+    "11:00": {
+      "trades": 253,
+      "win_rate": 20.6,
+      "total_pnl": -56.24,
+      "avg_pnl": -0.222,
+      "profitable": false
+    },
+    "12:00": {
+      "trades": 268,
+      "win_rate": 16.0,
+      "total_pnl": -28.27,
+      "avg_pnl": -0.105,
+      "profitable": false
+    },
+    "13:00": {
+      "trades": 214,
+      "win_rate": 24.3,
+      "total_pnl": -14.58,
+      "avg_pnl": -0.068,
+      "profitable": false
+    },
+    "14:00": {
+      "trades": 269,
+      "win_rate": 26.8,
+      "total_pnl": -15.61,
+      "avg_pnl": -0.058,
+      "profitable": false
+    },
+    "15:00": {
+      "trades": 264,
+      "win_rate": 26.1,
+      "total_pnl": -29.11,
+      "avg_pnl": -0.11,
+      "profitable": false
+    },
+    "16:00": {
+      "trades": 259,
+      "win_rate": 35.1,
+      "total_pnl": -5.3,
+      "avg_pnl": -0.02,
+      "profitable": false
+    },
+    "17:00": {
+      "trades": 242,
+      "win_rate": 24.0,
+      "total_pnl": -39.54,
+      "avg_pnl": -0.163,
+      "profitable": false
+    },
+    "18:00": {
+      "trades": 113,
+      "win_rate": 25.7,
+      "total_pnl": -16.68,
+      "avg_pnl": -0.148,
+      "profitable": false
+    },
+    "19:00": {
+      "trades": 80,
+      "win_rate": 32.5,
+      "total_pnl": -29.68,
+      "avg_pnl": -0.371,
+      "profitable": false
+    },
+    "20:00": {
+      "trades": 138,
+      "win_rate": 36.2,
+      "total_pnl": -12.26,
+      "avg_pnl": -0.089,
+      "profitable": false
+    },
+    "21:00": {
+      "trades": 126,
+      "win_rate": 17.5,
+      "total_pnl": -28.1,
+      "avg_pnl": -0.223,
+      "profitable": false
+    },
+    "22:00": {
+      "trades": 113,
+      "win_rate": 12.4,
+      "total_pnl": -34.01,
+      "avg_pnl": -0.301,
+      "profitable": false
+    },
+    "23:00": {
+      "trades": 93,
+      "win_rate": 6.5,
+      "total_pnl": -21.61,
+      "avg_pnl": -0.232,
+      "profitable": false
+    }
+  },
+  "by_day_of_week": {
+    "Tuesday": {
+      "trades": 141,
+      "win_rate": 6.4,
+      "total_pnl": -44.37,
+      "avg_pnl": -0.315,
+      "profitable": false
+    },
+    "Wednesday": {
+      "trades": 1662,
+      "win_rate": 19.7,
+      "total_pnl": -318.58,
+      "avg_pnl": -0.192,
+      "profitable": false
+    },
+    "Thursday": {
+      "trades": 907,
+      "win_rate": 20.9,
+      "total_pnl": -147.78,
+      "avg_pnl": -0.163,
+      "profitable": false
+    },
+    "Friday": {
+      "trades": 236,
+      "win_rate": 50.8,
+      "total_pnl": 84.21,
+      "avg_pnl": 0.357,
+      "profitable": true
+    },
+    "Saturday": {
+      "trades": 206,
+      "win_rate": 21.4,
+      "total_pnl": -27.32,
+      "avg_pnl": -0.133,
+      "profitable": false
+    },
+    "Sunday": {
+      "trades": 83,
+      "win_rate": 19.3,
+      "total_pnl": -13.39,
+      "avg_pnl": -0.161,
+      "profitable": false
+    }
+  },
+  "by_symbol_direction": {
+    "SOLUSDT|LONG": {
+      "trades": 7,
+      "win_rate": 28.6,
+      "total_pnl": 1.41,
+      "avg_pnl": 0.202,
+      "recent_avg_pnl": 0.282,
+      "trend": "improving",
+      "profitable": true
+    },
+    "ETHUSDT|LONG": {
+      "trades": 8,
+      "win_rate": 25.0,
+      "total_pnl": 0.07,
+      "avg_pnl": 0.009,
+      "recent_avg_pnl": 0.029,
+      "trend": "improving",
+      "profitable": true
+    },
+    "ADAUSDT|LONG": {
+      "trades": 5,
+      "win_rate": 0.0,
+      "total_pnl": -0.83,
+      "avg_pnl": -0.166,
+      "recent_avg_pnl": -0.415,
+      "trend": "declining",
+      "profitable": false
+    },
+    "TRXUSDT|LONG": {
+      "trades": 7,
+      "win_rate": 0.0,
+      "total_pnl": -1.27,
+      "avg_pnl": -0.182,
+      "recent_avg_pnl": -0.318,
+      "trend": "declining",
+      "profitable": false
+    },
+    "BTCUSDT|LONG": {
+      "trades": 5,
+      "win_rate": 0.0,
+      "total_pnl": -2.44,
+      "avg_pnl": -0.489,
+      "recent_avg_pnl": -0.763,
+      "trend": "declining",
+      "profitable": false
+    },
+    "TRXUSDT|SHORT": {
+      "trades": 9,
+      "win_rate": 0.0,
+      "total_pnl": -3.51,
+      "avg_pnl": -0.39,
+      "recent_avg_pnl": -0.441,
+      "trend": "declining",
+      "profitable": false
+    },
+    "BNBUSDT|LONG": {
+      "trades": 13,
+      "win_rate": 0.0,
+      "total_pnl": -6.37,
+      "avg_pnl": -0.49,
+      "recent_avg_pnl": -0.922,
+      "trend": "declining",
+      "profitable": false
+    },
+    "DOGEUSDT|LONG": {
+      "trades": 13,
+      "win_rate": 15.4,
+      "total_pnl": -7.41,
+      "avg_pnl": -0.57,
+      "recent_avg_pnl": -0.197,
+      "trend": "improving",
+      "profitable": false
+    },
+    "XRPUSDT|LONG": {
+      "trades": 12,
+      "win_rate": 25.0,
+      "total_pnl": -7.87,
+      "avg_pnl": -0.656,
+      "recent_avg_pnl": -0.128,
+      "trend": "improving",
+      "profitable": false
+    },
+    "DOTUSDT|LONG": {
+      "trades": 5,
+      "win_rate": 20.0,
+      "total_pnl": -11.38,
+      "avg_pnl": -2.276,
+      "recent_avg_pnl": -0.459,
+      "trend": "improving",
+      "profitable": false
+    },
+    "DOGEUSDT|SHORT": {
+      "trades": 368,
+      "win_rate": 25.5,
+      "total_pnl": -28.55,
+      "avg_pnl": -0.078,
+      "recent_avg_pnl": 0.194,
+      "trend": "improving",
+      "profitable": false
+    },
+    "ADAUSDT|SHORT": {
+      "trades": 328,
+      "win_rate": 27.1,
+      "total_pnl": -33.12,
+      "avg_pnl": -0.101,
+      "recent_avg_pnl": 0.102,
+      "trend": "improving",
+      "profitable": false
+    },
+    "ETHUSDT|SHORT": {
+      "trades": 342,
+      "win_rate": 26.0,
+      "total_pnl": -40.19,
+      "avg_pnl": -0.118,
+      "recent_avg_pnl": 0.174,
+      "trend": "improving",
+      "profitable": false
+    },
+    "BNBUSDT|SHORT": {
+      "trades": 331,
+      "win_rate": 16.6,
+      "total_pnl": -46.45,
+      "avg_pnl": -0.14,
+      "recent_avg_pnl": 0.127,
+      "trend": "improving",
+      "profitable": false
+    },
+    "AVAXUSDT|SHORT": {
+      "trades": 318,
+      "win_rate": 13.5,
+      "total_pnl": -51.39,
+      "avg_pnl": -0.162,
+      "recent_avg_pnl": 0.085,
+      "trend": "improving",
+      "profitable": false
+    },
+    "DOTUSDT|SHORT": {
+      "trades": 388,
+      "win_rate": 28.1,
+      "total_pnl": -51.52,
+      "avg_pnl": -0.133,
+      "recent_avg_pnl": 0.031,
+      "trend": "improving",
+      "profitable": false
+    },
+    "BTCUSDT|SHORT": {
+      "trades": 304,
+      "win_rate": 17.1,
+      "total_pnl": -54.66,
+      "avg_pnl": -0.18,
+      "recent_avg_pnl": 0.006,
+      "trend": "improving",
+      "profitable": false
+    },
+    "XRPUSDT|SHORT": {
+      "trades": 386,
+      "win_rate": 19.9,
+      "total_pnl": -58.57,
+      "avg_pnl": -0.152,
+      "recent_avg_pnl": 0.031,
+      "trend": "improving",
+      "profitable": false
+    },
+    "SOLUSDT|SHORT": {
+      "trades": 382,
+      "win_rate": 23.0,
+      "total_pnl": -62.12,
+      "avg_pnl": -0.163,
+      "recent_avg_pnl": 0.079,
+      "trend": "improving",
+      "profitable": false
+    }
+  },
+  "by_leverage": {
+    "1x": {
+      "trades": 142,
+      "win_rate": 14.8,
+      "total_pnl": -27.52,
+      "avg_pnl": -0.194,
+      "profitable": false
+    },
+    "5x": {
+      "trades": 3093,
+      "win_rate": 22.2,
+      "total_pnl": -439.71,
+      "avg_pnl": -0.142,
+      "profitable": false
+    }
+  },
+  "by_size_bucket": {
+    "medium ($300-$500)": {
+      "trades": 25,
+      "win_rate": 12.0,
+      "total_pnl": -24.77,
+      "avg_pnl": -0.991,
+      "profitable": false
+    },
+    "micro (<$100)": {
+      "trades": 3000,
+      "win_rate": 22.4,
+      "total_pnl": -413.15,
+      "avg_pnl": -0.138,
+      "profitable": false
+    },
+    "small ($100-$300)": {
+      "trades": 147,
+      "win_rate": 21.1,
+      "total_pnl": -29.44,
+      "avg_pnl": -0.2,
+      "profitable": false
+    },
+    "large ($500-$1000)": {
+      "trades": 6,
+      "win_rate": 16.7,
+      "total_pnl": 0.14,
+      "avg_pnl": 0.023,
+      "profitable": true
+    }
+  },
+  "by_roi_range": {
+    "winners": {
+      "count": 707,
+      "avg_roi_pct": 0.86,
+      "min_roi_pct": 0.0,
+      "max_roi_pct": 9.72,
+      "median_roi_pct": 0.58
+    },
+    "losers": {
+      "count": 2466,
+      "avg_roi_pct": -0.86,
+      "min_roi_pct": -18.59,
+      "max_roi_pct": -0.0,
+      "median_roi_pct": -0.64
+    },
+    "total_win_rate": 21.9
+  },
+  "winning_streaks": {
+    "max_win_streak": 22,
+    "max_lose_streak": 106,
+    "current_streak": 1,
+    "current_is_winning": true
+  },
+  "top_performers": {
+    "top_winners": [
+      {
+        "symbol": "DOTUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 7.05,
+        "roi_pct": 9.0,
+        "duration_min": 67.5,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "ADAUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 5.45,
+        "roi_pct": 9.25,
+        "duration_min": 55.9,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "BNBUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 5.33,
+        "roi_pct": 6.77,
+        "duration_min": 56.2,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "SOLUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 4.87,
+        "roi_pct": 9.06,
+        "duration_min": 63.8,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 4.78,
+        "roi_pct": 9.72,
+        "duration_min": 57.9,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 4.72,
+        "roi_pct": 7.94,
+        "duration_min": 52.4,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 4.69,
+        "roi_pct": 5.92,
+        "duration_min": 76.2,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 4.55,
+        "roi_pct": 7.24,
+        "duration_min": 64.1,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "BNBUSDT",
+        "direction": "SHORT",
+        "strategy": "EMA-Futures",
+        "pnl": 3.74,
+        "roi_pct": 3.25,
+        "duration_min": 15.0,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 3.28,
+        "roi_pct": 4.71,
+        "duration_min": 1034.6,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "DOTUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 3.26,
+        "roi_pct": 0.59,
+        "duration_min": 16.8,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 3.23,
+        "roi_pct": 6.32,
+        "duration_min": 60.9,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "direction": "SHORT",
+        "strategy": "EMA-Futures",
+        "pnl": 3.14,
+        "roi_pct": 2.02,
+        "duration_min": 9.5,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "SOLUSDT",
+        "direction": "SHORT",
+        "strategy": "EMA-Futures",
+        "pnl": 2.96,
+        "roi_pct": 1.91,
+        "duration_min": 13.5,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "strategy": "EMA-Futures",
+        "pnl": 2.78,
+        "roi_pct": 1.8,
+        "duration_min": 3.7,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "direction": "SHORT",
+        "strategy": "EMA-Futures",
+        "pnl": 2.73,
+        "roi_pct": 1.77,
+        "duration_min": 7.9,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "strategy": "EMA-Futures",
+        "pnl": 2.47,
+        "roi_pct": 2.14,
+        "duration_min": 34.1,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "BNBUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 2.3,
+        "roi_pct": 2.48,
+        "duration_min": 997.8,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 2.13,
+        "roi_pct": 4.66,
+        "duration_min": 984.6,
+        "close_reason": "risk_cap_max_positions"
+      },
+      {
+        "symbol": "BNBUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": 2.1,
+        "roi_pct": 2.84,
+        "duration_min": 11.1,
+        "close_reason": "risk_cap_max_positions"
+      }
+    ],
+    "top_losers": [
+      {
+        "symbol": "DOTUSDT",
+        "direction": "LONG",
+        "strategy": "EMA-Futures",
+        "pnl": -10.01,
+        "roi_pct": -6.5,
+        "duration_min": 42.0,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -8.18,
+        "roi_pct": -12.05,
+        "duration_min": 580.0,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -7.42,
+        "roi_pct": -18.59,
+        "duration_min": 773.5,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -6.38,
+        "roi_pct": -9.15,
+        "duration_min": 993.7,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -6.32,
+        "roi_pct": -13.87,
+        "duration_min": 793.9,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "ADAUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -6.29,
+        "roi_pct": -10.24,
+        "duration_min": 664.9,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "SOLUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -6.24,
+        "roi_pct": -10.13,
+        "duration_min": 670.4,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "LONG",
+        "strategy": "EMA-Futures",
+        "pnl": -5.62,
+        "roi_pct": -4.88,
+        "duration_min": 80.5,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "DOTUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -5.6,
+        "roi_pct": -11.64,
+        "duration_min": 732.7,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "direction": "LONG",
+        "strategy": "EMA-Futures",
+        "pnl": -5.35,
+        "roi_pct": -4.64,
+        "duration_min": 59.5,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "DOTUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -4.8,
+        "roi_pct": -1.23,
+        "duration_min": 38.8,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -4.69,
+        "roi_pct": -6.13,
+        "duration_min": 578.3,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -4.21,
+        "roi_pct": -6.43,
+        "duration_min": 70.6,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -3.9,
+        "roi_pct": -5.66,
+        "duration_min": 46.6,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -3.71,
+        "roi_pct": -7.21,
+        "duration_min": 853.5,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "ADAUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -3.54,
+        "roi_pct": -5.07,
+        "duration_min": 113.7,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -3.45,
+        "roi_pct": -5.6,
+        "duration_min": 126.2,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "ADAUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -3.45,
+        "roi_pct": -4.9,
+        "duration_min": 80.5,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "BNBUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -3.34,
+        "roi_pct": -4.74,
+        "duration_min": 120.4,
+        "close_reason": "trailing_stop"
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "direction": "SHORT",
+        "strategy": "Alpha-OFI",
+        "pnl": -3.23,
+        "roi_pct": -0.94,
+        "duration_min": 144.5,
+        "close_reason": "trailing_stop"
+      }
+    ]
+  },
+  "actionable_rules": [
+    {
+      "type": "PREFER_TIME",
+      "condition": "Trade during: 08:00",
+      "evidence": "Hours with positive P&L",
+      "priority": "LOW"
+    },
+    {
+      "type": "AVOID_TIME",
+      "condition": "Avoid trading: 00:00, 01:00, 02:00",
+      "evidence": "Hours with significant losses",
+      "priority": "MEDIUM"
+    },
+    {
+      "type": "HOLD_DURATION",
+      "condition": "Target hold time: 30-60min",
+      "evidence": "$4.32 profit in this duration",
+      "priority": "MEDIUM"
+    }
+  ]
+}

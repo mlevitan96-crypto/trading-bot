@@ -1,0 +1,82 @@
+{
+  "experiments": [
+    {
+      "name": "BTC Conservative Tiers",
+      "symbol": "BTCUSDT",
+      "ema_short": 12,
+      "ema_long": 26,
+      "tiers_pct": [0.4, 0.4, 0.2],
+      "rr_targets_pct": [1.0, 2.0],
+      "trail_atr_mult": 2.0,
+      "leverage": 3,
+      "margin_budget_usdt": 100.0,
+      "cooldown_s": 60,
+      "min_slice": 0.001
+    },
+    {
+      "name": "ETH Balanced Strategy",
+      "symbol": "ETHUSDT",
+      "ema_short": 10,
+      "ema_long": 22,
+      "tiers_pct": [0.3, 0.3, 0.4],
+      "rr_targets_pct": [1.0, 2.5],
+      "trail_atr_mult": 2.0,
+      "leverage": 3,
+      "margin_budget_usdt": 75.0,
+      "cooldown_s": 60,
+      "min_slice": 0.001
+    },
+    {
+      "name": "SOL Fast EMA",
+      "symbol": "SOLUSDT",
+      "ema_short": 8,
+      "ema_long": 21,
+      "tiers_pct": [0.25, 0.25, 0.5],
+      "rr_targets_pct": [0.8, 1.5],
+      "trail_atr_mult": 1.5,
+      "leverage": 4,
+      "margin_budget_usdt": 50.0,
+      "cooldown_s": 60,
+      "min_slice": 0.001
+    },
+    {
+      "name": "AVAX Breakout Strategy",
+      "symbol": "AVAXUSDT",
+      "ema_short": 9,
+      "ema_long": 20,
+      "tiers_pct": [0.35, 0.35, 0.3],
+      "rr_targets_pct": [1.2, 2.5],
+      "trail_atr_mult": 2.5,
+      "leverage": 4,
+      "margin_budget_usdt": 60.0,
+      "cooldown_s": 60,
+      "min_slice": 0.001
+    },
+    {
+      "name": "DOT Protective Buffers",
+      "symbol": "DOTUSDT",
+      "ema_short": 11,
+      "ema_long": 24,
+      "tiers_pct": [0.5, 0.3, 0.2],
+      "rr_targets_pct": [1.0, 2.0],
+      "trail_atr_mult": 2.0,
+      "leverage": 3,
+      "margin_budget_usdt": 40.0,
+      "cooldown_s": 60,
+      "min_slice": 0.001
+    },
+    {
+      "name": "TRX Light Leverage",
+      "symbol": "TRXUSDT",
+      "ema_short": 10,
+      "ema_long": 23,
+      "tiers_pct": [0.3, 0.3, 0.4],
+      "rr_targets_pct": [0.8, 1.8],
+      "trail_atr_mult": 1.8,
+      "leverage": 2,
+      "margin_budget_usdt": 30.0,
+      "cooldown_s": 60,
+      "min_slice": 0.001
+    }
+  ]
+}

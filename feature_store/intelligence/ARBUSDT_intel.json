@@ -1,0 +1,28 @@
+{
+  "symbol": "ARB",
+  "ts": "2025-12-04T20:02:16.007522Z",
+  "taker": {
+    "buy_vol_usd": 106652549.259128,
+    "sell_vol_usd": 124770214.394886,
+    "buy_ratio": 0.46090000000000003,
+    "sell_ratio": 0.5390999999999999,
+    "buy_sell_ratio": 0.8547917447795891
+  },
+  "liquidation": {},
+  "fear_greed": 50,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.4,
+    "composite": -0.4,
+    "components": {
+      "flow": -1,
+      "liquidation": 0,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.855,
+      "liq_ratio": 0.5,
+      "fear_greed": 50
+    }
+  }
+}

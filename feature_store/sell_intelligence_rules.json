@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "generated": "2025-11-30",
+  "rules": [
+    {
+      "symbol": "DOTUSDT",
+      "sell_action": "ALLOW",
+      "sell_wr": 58,
+      "notes": "Range-bound asset"
+    },
+    {
+      "symbol": "SOLUSDT",
+      "sell_action": "CONDITIONAL",
+      "sell_wr": 28,
+      "condition": "ensemble < -0.2"
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "sell_action": "INVERT",
+      "sell_wr": 19,
+      "invert_to": "BUY"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "sell_action": "INVERT",
+      "sell_wr": 16,
+      "invert_to": "BUY"
+    },
+    {
+      "symbol": "ADAUSDT",
+      "sell_action": "INVERT",
+      "sell_wr": 14,
+      "invert_to": "BUY"
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "sell_action": "INVERT",
+      "sell_wr": 11,
+      "invert_to": "BUY"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "sell_action": "INVERT",
+      "sell_wr": 0,
+      "invert_to": "BUY"
+    },
+    {
+      "symbol": "XRPUSDT",
+      "sell_action": "INVERT",
+      "sell_wr": 0,
+      "invert_to": "BUY"
+    },
+    {
+      "symbol": "BNBUSDT",
+      "sell_action": "INVERT",
+      "sell_wr": 0,
+      "invert_to": "BUY"
+    },
+    {
+      "symbol": "TRXUSDT",
+      "sell_action": "SKIP",
+      "sell_wr": 0,
+      "notes": "0% WR both directions"
+    }
+  ]
+}

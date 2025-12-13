@@ -1,0 +1,27 @@
+{
+  "nightly_tasks": [
+    {
+      "name": "fee_venue_audit",
+      "module": "src.unified_recovery_learning_fix",
+      "function": "run_fee_venue_audit",
+      "schedule": "hourly",
+      "enabled": true
+    },
+    {
+      "name": "learning_digest",
+      "module": "src.unified_recovery_learning_fix",
+      "function": "nightly_learning_digest",
+      "schedule": "07:00 UTC",
+      "enabled": true
+    },
+    {
+      "name": "recovery_cycle",
+      "module": "src.unified_recovery_learning_fix",
+      "function": "run_recovery_cycle",
+      "schedule": "every 30 minutes",
+      "enabled": true
+    }
+  ],
+  "deployed": "2025-11-24",
+  "version": "v6.5"
+}

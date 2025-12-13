@@ -1,0 +1,270 @@
+{
+  "symbol_side": {
+    "TRXUSDT|SHORT": {
+      "avg_pnl": -0.39006914200758686,
+      "win_rate": 0.0,
+      "edge": -0.0,
+      "sample_size": 9
+    },
+    "ETHUSDT|SHORT": {
+      "avg_pnl": -0.11751421621400364,
+      "win_rate": 0.260233918128655,
+      "edge": -0.03058118492118808,
+      "sample_size": 342
+    },
+    "XRPUSDT|SHORT": {
+      "avg_pnl": -0.15174858825646548,
+      "win_rate": 0.19948186528497408,
+      "edge": -0.030271091439761245,
+      "sample_size": 386
+    },
+    "BTCUSDT|SHORT": {
+      "avg_pnl": -0.17981748666128006,
+      "win_rate": 0.17105263157894737,
+      "edge": -0.03075825429732422,
+      "sample_size": 304
+    },
+    "DOTUSDT|SHORT": {
+      "avg_pnl": -0.13279504257111274,
+      "win_rate": 0.2809278350515464,
+      "edge": -0.037305823815080644,
+      "sample_size": 388
+    },
+    "BNBUSDT|LONG": {
+      "avg_pnl": -0.4897833483034202,
+      "win_rate": 0.0,
+      "edge": -0.0,
+      "sample_size": 13
+    },
+    "XRPUSDT|LONG": {
+      "avg_pnl": -0.6559711107440293,
+      "win_rate": 0.25,
+      "edge": -0.1639927776860073,
+      "sample_size": 12
+    },
+    "SOLUSDT|SHORT": {
+      "avg_pnl": -0.16261810209856065,
+      "win_rate": 0.23036649214659685,
+      "edge": -0.03746176173998256,
+      "sample_size": 382
+    },
+    "AVAXUSDT|SHORT": {
+      "avg_pnl": -0.16160637708215767,
+      "win_rate": 0.13522012578616352,
+      "edge": -0.021852434636895533,
+      "sample_size": 318
+    },
+    "DOGEUSDT|SHORT": {
+      "avg_pnl": -0.07757520648428533,
+      "win_rate": 0.2554347826086957,
+      "edge": -0.0198154060041381,
+      "sample_size": 368
+    },
+    "ADAUSDT|SHORT": {
+      "avg_pnl": -0.10097848215771027,
+      "win_rate": 0.27134146341463417,
+      "edge": -0.02739964912206163,
+      "sample_size": 328
+    },
+    "BNBUSDT|SHORT": {
+      "avg_pnl": -0.14034107586505812,
+      "win_rate": 0.1661631419939577,
+      "edge": -0.023319514116550442,
+      "sample_size": 331
+    },
+    "BTCUSDT|LONG": {
+      "avg_pnl": -0.4889958022624077,
+      "win_rate": 0.0,
+      "edge": -0.0,
+      "sample_size": 5
+    },
+    "ADAUSDT|LONG": {
+      "avg_pnl": -0.1659757505262722,
+      "win_rate": 0.0,
+      "edge": -0.0,
+      "sample_size": 5
+    },
+    "TRXUSDT|LONG": {
+      "avg_pnl": -0.18192298055644815,
+      "win_rate": 0.0,
+      "edge": -0.0,
+      "sample_size": 7
+    },
+    "ETHUSDT|LONG": {
+      "avg_pnl": 0.00924872377250056,
+      "win_rate": 0.25,
+      "edge": 0.00231218094312514,
+      "sample_size": 8
+    },
+    "SOLUSDT|LONG": {
+      "avg_pnl": 0.2017605164331207,
+      "win_rate": 0.2857142857142857,
+      "edge": 0.05764586183803448,
+      "sample_size": 7
+    },
+    "DOGEUSDT|LONG": {
+      "avg_pnl": -0.5699569481272042,
+      "win_rate": 0.15384615384615385,
+      "edge": -0.08768568432726219,
+      "sample_size": 13
+    },
+    "DOTUSDT|LONG": {
+      "avg_pnl": -2.2761697245720853,
+      "win_rate": 0.2,
+      "edge": -0.4552339449144171,
+      "sample_size": 5
+    },
+    "AVAXUSDT|LONG": {
+      "avg_pnl": -0.25941396731049354,
+      "win_rate": 0.25,
+      "edge": -0.06485349182762339,
+      "sample_size": 4
+    }
+  },
+  "ofi_side": {
+    "moderate|SHORT": {
+      "avg_pnl": -0.13627911562481954,
+      "win_rate": 0.22053231939163498,
+      "edge": -0.030053949453382255,
+      "sample_size": 3156
+    },
+    "moderate|LONG": {
+      "avg_pnl": -0.46998464426905745,
+      "win_rate": 0.13924050632911392,
+      "edge": -0.06544089983493205,
+      "sample_size": 79
+    }
+  },
+  "winning_patterns": {
+    "ETHUSDT|LONG|moderate|neutral|asia_morning": {
+      "trades": 3,
+      "wins": 1,
+      "win_rate": 33.3,
+      "total_pnl": 0.24,
+      "avg_pnl": 0.08,
+      "avg_win": 0.26,
+      "edge_score": -0.032,
+      "examples": [
+        {
+          "symbol": "ETHUSDT",
+          "side": "LONG",
+          "pnl": 0.0,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "ETHUSDT",
+          "side": "LONG",
+          "pnl": -0.012950246278481426,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "ETHUSDT",
+          "side": "LONG",
+          "pnl": 0.25772108732653065,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        }
+      ]
+    },
+    "XRPUSDT|LONG|moderate|neutral|asia_morning": {
+      "trades": 4,
+      "wins": 1,
+      "win_rate": 25.0,
+      "total_pnl": 0.2,
+      "avg_pnl": 0.05,
+      "avg_win": 0.85,
+      "edge_score": -0.386,
+      "examples": [
+        {
+          "symbol": "XRPUSDT",
+          "side": "LONG",
+          "pnl": -0.06471912088620894,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "XRPUSDT",
+          "side": "LONG",
+          "pnl": -0.14602094020125947,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "XRPUSDT",
+          "side": "LONG",
+          "pnl": 0.8454230727400994,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        }
+      ]
+    },
+    "AVAXUSDT|LONG|moderate|neutral|us_morning": {
+      "trades": 3,
+      "wins": 1,
+      "win_rate": 33.3,
+      "total_pnl": 0.73,
+      "avg_pnl": 0.24,
+      "avg_win": 1.77,
+      "edge_score": -0.427,
+      "examples": [
+        {
+          "symbol": "AVAXUSDT",
+          "side": "LONG",
+          "pnl": -0.21780105523353366,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "AVAXUSDT",
+          "side": "LONG",
+          "pnl": 1.7657973884347908,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "AVAXUSDT",
+          "side": "LONG",
+          "pnl": -0.8194685295473398,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        }
+      ]
+    },
+    "XRPUSDT|LONG|moderate|neutral|us_morning": {
+      "trades": 4,
+      "wins": 2,
+      "win_rate": 50.0,
+      "total_pnl": -5.42,
+      "avg_pnl": -1.35,
+      "avg_win": 0.14,
+      "edge_score": -0.677,
+      "examples": [
+        {
+          "symbol": "XRPUSDT",
+          "side": "LONG",
+          "pnl": -0.06463442053311388,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "XRPUSDT",
+          "side": "LONG",
+          "pnl": -5.624694043121915,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        },
+        {
+          "symbol": "XRPUSDT",
+          "side": "LONG",
+          "pnl": 0.12119569774360413,
+          "ofi": 0.5,
+          "ensemble": 0.0
+        }
+      ]
+    }
+  },
+  "model_version": "2025-11-30T23:44:44.274964",
+  "total_training_samples": 3235
+}

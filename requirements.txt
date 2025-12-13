@@ -1,0 +1,29 @@
+# Core Framework
+flask==3.0.0
+gunicorn==21.2.0
+
+# Dashboard
+dash>=2.14.0
+dash-bootstrap-components>=1.5.0
+plotly>=5.18.0
+
+# Data Processing
+pandas>=2.1.4
+numpy>=1.26.2
+scipy>=1.11.0
+
+# HTTP & API
+requests>=2.31.0
+aiohttp>=3.9.0
+ccxt>=4.0.0
+
+# Database
+aiosqlite>=0.19.0
+
+# Utilities
+python-dotenv>=1.0.0
+pytz>=2024.1
+
+# Visualization (optional - for reports)
+matplotlib>=3.8.0
+seaborn>=0.13.0

@@ -1,0 +1,125 @@
+{
+  "signals": {
+    "BTC": {
+      "net_flow_usd": 170997145.19900003,
+      "inflows_usd": 0,
+      "outflows_usd": 170997145.19900003,
+      "signal": 1,
+      "confidence": 1.0,
+      "interpretation": "bullish_accumulation"
+    },
+    "ETH": {
+      "net_flow_usd": 10607443.9416,
+      "inflows_usd": 0,
+      "outflows_usd": 10607443.9416,
+      "signal": 1,
+      "confidence": 0.21,
+      "interpretation": "bullish_accumulation"
+    },
+    "SOL": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "BNB": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "XRP": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "ADA": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "DOGE": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "DOT": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "AVAX": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "MATIC": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "TRX": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "LINK": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "ARB": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "OP": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    },
+    "PEPE": {
+      "net_flow_usd": 0,
+      "inflows_usd": 0,
+      "outflows_usd": 0,
+      "signal": 0,
+      "confidence": 0,
+      "interpretation": "neutral"
+    }
+  },
+  "timestamp": "2025-12-11T21:20:50.728498Z"
+}

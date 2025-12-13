@@ -1,0 +1,346 @@
+{
+  "ts": 1763746614,
+  "assets": {
+    "BTCUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.9553853371370323,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "ETHUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.9168026585417679,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "SOLUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.7216849601410347,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "AVAXUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.7991632459858262,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "DOTUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.9803237897702533,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "TRXUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.828215252430875,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "XRPUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.6543855171802782,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "ADAUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.9770429600741957,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "DOGEUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.8432843335293355,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "BNBUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.7846927153680819,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    },
+    "MATICUSDT": {
+      "apply_rules": {
+        "halt_entries": false,
+        "kill_params": false,
+        "boost_params": false,
+        "router_harden": false,
+        "sentiment_decay": 0.0,
+        "capacity_checks": true
+      },
+      "position_scale": 0.7926197970834578,
+      "rolling_metrics": {
+        "wr": 0.55,
+        "ev": 0.0002,
+        "pf": 1.35,
+        "n": 40
+      },
+      "pnl_guard": {
+        "halt_entries": false,
+        "rolling_pnl": 0.003
+      },
+      "anomaly_counts": {},
+      "parity_scale_info": {
+        "base": 1.0,
+        "parity": 1.0
+      },
+      "sentiment_health": {
+        "decay": 0.0,
+        "lag_ok": true,
+        "variance_ok": true
+      }
+    }
+  }
+}

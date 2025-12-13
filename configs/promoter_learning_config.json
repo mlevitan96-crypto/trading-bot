@@ -1,0 +1,24 @@
+{
+  "mode": "learning",
+  "dry_run": true,
+  "min_events": 10,
+  "preferred_min_events": 20,
+  "min_avg_net_roi_pct": 0.5,
+  "max_dd_pct": 12.0,
+  "min_risk_adjusted_improvement": 0.0,
+  "out_of_sample_hold_pct": 10,
+  "staged_ramp": [0.10, 0.25, 0.5, 1.0],
+  "ramp_stage_durations_hours": [24, 48, 72, 72],
+  "ramp_monitoring": {
+    "max_realized_drawdown_pct": 1.5,
+    "rollback_trigger_drawdown_pct": 5.0,
+    "funding_overrun_pct": 30.0
+  },
+  "auto_pause_on_rollbacks": { "count": 2, "window_days": 7 },
+  "backup_dir": "configs/backups",
+  "audit_log": "logs/shadow_promotions.json",
+  "notify_hook": { "type": "console" },
+  "promotion_actions": ["update_ladder", "update_signal_policies", "update_leverage_budgets"],
+  "shadow_only_symbols": ["TRXUSDT"],
+  "notes": "Learning mode: dry_run=true prevents live writes; use dry_run=false to apply changes."
+}

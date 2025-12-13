@@ -1,0 +1,1061 @@
+{
+  "run_ts": "2025-11-30T00:57:42.072183Z",
+  "data_summary": {
+    "by_symbol": {
+      "BTC": {
+        "trades": 72,
+        "wr": 12.5,
+        "pnl": -68.11,
+        "avg_pnl": -0.95,
+        "by_direction": {
+          "LONG": {
+            "trades": 40,
+            "wr": 10.0,
+            "pnl": -34.76,
+            "better_than_avg": false
+          },
+          "SHORT": {
+            "trades": 32,
+            "wr": 15.6,
+            "pnl": -33.35,
+            "better_than_avg": true
+          }
+        },
+        "preferred_direction": null
+      },
+      "XRP": {
+        "trades": 72,
+        "wr": 6.9,
+        "pnl": -176.54,
+        "avg_pnl": -2.45,
+        "by_direction": {
+          "LONG": {
+            "trades": 34,
+            "wr": 2.9,
+            "pnl": -112.95,
+            "better_than_avg": false
+          },
+          "SHORT": {
+            "trades": 38,
+            "wr": 10.5,
+            "pnl": -63.6,
+            "better_than_avg": true
+          }
+        },
+        "preferred_direction": null
+      },
+      "BNB": {
+        "trades": 66,
+        "wr": 28.8,
+        "pnl": -73.12,
+        "avg_pnl": -1.11,
+        "by_direction": {
+          "LONG": {
+            "trades": 28,
+            "wr": 17.9,
+            "pnl": -29.09,
+            "better_than_avg": false
+          },
+          "SHORT": {
+            "trades": 38,
+            "wr": 36.8,
+            "pnl": -44.03,
+            "better_than_avg": true
+          }
+        },
+        "preferred_direction": "SHORT"
+      },
+      "SOL": {
+        "trades": 93,
+        "wr": 34.4,
+        "pnl": -87.16,
+        "avg_pnl": -0.94,
+        "by_direction": {
+          "LONG": {
+            "trades": 43,
+            "wr": 37.2,
+            "pnl": -40.48,
+            "better_than_avg": true
+          },
+          "SHORT": {
+            "trades": 50,
+            "wr": 32.0,
+            "pnl": -46.67,
+            "better_than_avg": false
+          }
+        },
+        "preferred_direction": null
+      },
+      "DOT": {
+        "trades": 73,
+        "wr": 24.7,
+        "pnl": -49.89,
+        "avg_pnl": -0.68,
+        "by_direction": {
+          "LONG": {
+            "trades": 41,
+            "wr": 14.6,
+            "pnl": -44.68,
+            "better_than_avg": false
+          },
+          "SHORT": {
+            "trades": 32,
+            "wr": 37.5,
+            "pnl": -5.21,
+            "better_than_avg": true
+          }
+        },
+        "preferred_direction": "SHORT"
+      },
+      "DOGE": {
+        "trades": 35,
+        "wr": 0.0,
+        "pnl": -87.66,
+        "avg_pnl": -2.5,
+        "by_direction": {
+          "LONG": {
+            "trades": 22,
+            "wr": 0.0,
+            "pnl": -63.0,
+            "better_than_avg": false
+          },
+          "SHORT": {
+            "trades": 13,
+            "wr": 0.0,
+            "pnl": -24.66,
+            "better_than_avg": false
+          }
+        },
+        "preferred_direction": null
+      },
+      "AVAX": {
+        "trades": 76,
+        "wr": 13.2,
+        "pnl": -121.28,
+        "avg_pnl": -1.6,
+        "by_direction": {
+          "LONG": {
+            "trades": 41,
+            "wr": 14.6,
+            "pnl": -81.41,
+            "better_than_avg": true
+          },
+          "SHORT": {
+            "trades": 35,
+            "wr": 11.4,
+            "pnl": -39.87,
+            "better_than_avg": false
+          }
+        },
+        "preferred_direction": null
+      },
+      "ETH": {
+        "trades": 79,
+        "wr": 25.3,
+        "pnl": -81.49,
+        "avg_pnl": -1.03,
+        "by_direction": {
+          "LONG": {
+            "trades": 45,
+            "wr": 26.7,
+            "pnl": -67.78,
+            "better_than_avg": true
+          },
+          "SHORT": {
+            "trades": 34,
+            "wr": 23.5,
+            "pnl": -13.71,
+            "better_than_avg": false
+          }
+        },
+        "preferred_direction": null
+      },
+      "ADA": {
+        "trades": 36,
+        "wr": 8.3,
+        "pnl": -83.89,
+        "avg_pnl": -2.33,
+        "by_direction": {
+          "LONG": {
+            "trades": 21,
+            "wr": 4.8,
+            "pnl": -48.14,
+            "better_than_avg": false
+          },
+          "SHORT": {
+            "trades": 15,
+            "wr": 13.3,
+            "pnl": -35.75,
+            "better_than_avg": true
+          }
+        },
+        "preferred_direction": null
+      },
+      "TRX": {
+        "trades": 28,
+        "wr": 0.0,
+        "pnl": -77.71,
+        "avg_pnl": -2.78,
+        "by_direction": {
+          "LONG": {
+            "trades": 7,
+            "wr": 0.0,
+            "pnl": -22.63,
+            "better_than_avg": false
+          },
+          "SHORT": {
+            "trades": 21,
+            "wr": 0.0,
+            "pnl": -55.08,
+            "better_than_avg": false
+          }
+        },
+        "preferred_direction": null
+      }
+    }
+  },
+  "correlations": {
+    "direction_alignment": {
+      "BTC": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.888,
+        "liq_ratio": 0.5,
+        "aligned_trades": 32,
+        "aligned_wr": 15.6,
+        "aligned_pnl": -33.35,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "ETH": {
+        "current_taker_signal": "LONG",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 1.021,
+        "liq_ratio": 0.5,
+        "aligned_trades": 45,
+        "aligned_wr": 26.7,
+        "aligned_pnl": -67.78,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "SOL": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.966,
+        "liq_ratio": 0.5,
+        "aligned_trades": 50,
+        "aligned_wr": 32.0,
+        "aligned_pnl": -46.67,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "BNB": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.875,
+        "liq_ratio": 0.5,
+        "aligned_trades": 38,
+        "aligned_wr": 36.8,
+        "aligned_pnl": -44.03,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "AVAX": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.869,
+        "liq_ratio": 0.5,
+        "aligned_trades": 35,
+        "aligned_wr": 11.4,
+        "aligned_pnl": -39.87,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "DOT": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.951,
+        "liq_ratio": 0.5,
+        "aligned_trades": 32,
+        "aligned_wr": 37.5,
+        "aligned_pnl": -5.21,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "XRP": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.877,
+        "liq_ratio": 0.5,
+        "aligned_trades": 38,
+        "aligned_wr": 10.5,
+        "aligned_pnl": -63.6,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "ADA": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.904,
+        "liq_ratio": 0.5,
+        "aligned_trades": 15,
+        "aligned_wr": 13.3,
+        "aligned_pnl": -35.75,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": true
+      },
+      "DOGE": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.961,
+        "liq_ratio": 0.5,
+        "aligned_trades": 13,
+        "aligned_wr": 0.0,
+        "aligned_pnl": -24.66,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": false
+      },
+      "TRX": {
+        "current_taker_signal": "SHORT",
+        "current_liq_signal": "NEUTRAL",
+        "buy_sell_ratio": 0.973,
+        "liq_ratio": 0.5,
+        "aligned_trades": 21,
+        "aligned_wr": 0.0,
+        "aligned_pnl": -55.08,
+        "misaligned_trades": 0,
+        "misaligned_wr": 0,
+        "misaligned_pnl": 0,
+        "alignment_helps": false
+      }
+    },
+    "fear_greed": {
+      "current": 50,
+      "bucket": "neutral"
+    },
+    "ofi_direction_cross": {
+      "weak_LONG": {
+        "ofi_bucket": "weak",
+        "direction": "LONG",
+        "trades": 75,
+        "wr": 25.3,
+        "pnl": -79.08,
+        "avg_pnl": -1.05,
+        "by_symbol": {
+          "XRP": {
+            "trades": 3,
+            "wr": 0.0,
+            "pnl": -4.01
+          },
+          "SOL": {
+            "trades": 10,
+            "wr": 40.0,
+            "pnl": -8.58
+          },
+          "DOT": {
+            "trades": 6,
+            "wr": 33.3,
+            "pnl": -4.11
+          },
+          "ADA": {
+            "trades": 7,
+            "wr": 14.3,
+            "pnl": -14.26
+          },
+          "AVAX": {
+            "trades": 5,
+            "wr": 40.0,
+            "pnl": -1.16
+          },
+          "TRX": {
+            "trades": 7,
+            "wr": 0.0,
+            "pnl": -22.63
+          },
+          "ETH": {
+            "trades": 15,
+            "wr": 33.3,
+            "pnl": -15.14
+          },
+          "BNB": {
+            "trades": 6,
+            "wr": 50.0,
+            "pnl": 3.39
+          },
+          "BTC": {
+            "trades": 14,
+            "wr": 14.3,
+            "pnl": -5.7
+          }
+        }
+      },
+      "weak_SHORT": {
+        "ofi_bucket": "weak",
+        "direction": "SHORT",
+        "trades": 83,
+        "wr": 21.7,
+        "pnl": -94.56,
+        "avg_pnl": -1.14,
+        "by_symbol": {
+          "BTC": {
+            "trades": 7,
+            "wr": 14.3,
+            "pnl": -0.77
+          },
+          "XRP": {
+            "trades": 13,
+            "wr": 15.4,
+            "pnl": -13.71
+          },
+          "DOT": {
+            "trades": 7,
+            "wr": 28.6,
+            "pnl": -4.38
+          },
+          "TRX": {
+            "trades": 21,
+            "wr": 0.0,
+            "pnl": -55.08
+          },
+          "ETH": {
+            "trades": 9,
+            "wr": 0.0,
+            "pnl": -14.48
+          },
+          "SOL": {
+            "trades": 9,
+            "wr": 55.6,
+            "pnl": 0.75
+          },
+          "BNB": {
+            "trades": 10,
+            "wr": 70.0,
+            "pnl": 5.58
+          },
+          "AVAX": {
+            "trades": 5,
+            "wr": 20.0,
+            "pnl": -3.25
+          }
+        }
+      },
+      "moderate_LONG": {
+        "ofi_bucket": "moderate",
+        "direction": "LONG",
+        "trades": 42,
+        "wr": 14.3,
+        "pnl": -42.19,
+        "avg_pnl": -1.0,
+        "by_symbol": {
+          "SOL": {
+            "trades": 12,
+            "wr": 33.3,
+            "pnl": -0.48
+          },
+          "ETH": {
+            "trades": 4,
+            "wr": 0.0,
+            "pnl": -10.66
+          },
+          "DOT": {
+            "trades": 5,
+            "wr": 0.0,
+            "pnl": -3.4
+          },
+          "BTC": {
+            "trades": 6,
+            "wr": 16.7,
+            "pnl": -4.35
+          },
+          "XRP": {
+            "trades": 6,
+            "wr": 16.7,
+            "pnl": -6.85
+          },
+          "AVAX": {
+            "trades": 3,
+            "wr": 0.0,
+            "pnl": -4.06
+          },
+          "BNB": {
+            "trades": 4,
+            "wr": 0.0,
+            "pnl": -8.25
+          }
+        }
+      },
+      "moderate_SHORT": {
+        "ofi_bucket": "moderate",
+        "direction": "SHORT",
+        "trades": 40,
+        "wr": 22.5,
+        "pnl": -49.51,
+        "avg_pnl": -1.24,
+        "by_symbol": {
+          "BTC": {
+            "trades": 9,
+            "wr": 11.1,
+            "pnl": -15.32
+          },
+          "DOT": {
+            "trades": 5,
+            "wr": 40.0,
+            "pnl": -4.16
+          },
+          "ETH": {
+            "trades": 6,
+            "wr": 33.3,
+            "pnl": 2.5
+          },
+          "AVAX": {
+            "trades": 4,
+            "wr": 0.0,
+            "pnl": -11.06
+          },
+          "SOL": {
+            "trades": 6,
+            "wr": 33.3,
+            "pnl": -8.23
+          },
+          "ADA": {
+            "trades": 5,
+            "wr": 40.0,
+            "pnl": -6.93
+          }
+        }
+      },
+      "strong_LONG": {
+        "ofi_bucket": "strong",
+        "direction": "LONG",
+        "trades": 20,
+        "wr": 5.0,
+        "pnl": -40.05,
+        "avg_pnl": -2.0,
+        "by_symbol": {
+          "DOT": {
+            "trades": 3,
+            "wr": 33.3,
+            "pnl": -0.07
+          },
+          "ETH": {
+            "trades": 5,
+            "wr": 0.0,
+            "pnl": -10.93
+          },
+          "DOGE": {
+            "trades": 3,
+            "wr": 0.0,
+            "pnl": -9.23
+          }
+        }
+      },
+      "strong_SHORT": {
+        "ofi_bucket": "strong",
+        "direction": "SHORT",
+        "trades": 24,
+        "wr": 8.3,
+        "pnl": -25.35,
+        "avg_pnl": -1.06,
+        "by_symbol": {
+          "SOL": {
+            "trades": 8,
+            "wr": 12.5,
+            "pnl": -14.03
+          },
+          "ETH": {
+            "trades": 4,
+            "wr": 25.0,
+            "pnl": 3.47
+          },
+          "BNB": {
+            "trades": 3,
+            "wr": 0.0,
+            "pnl": -3.86
+          },
+          "DOGE": {
+            "trades": 5,
+            "wr": 0.0,
+            "pnl": -6.95
+          }
+        }
+      },
+      "very_strong_LONG": {
+        "ofi_bucket": "very_strong",
+        "direction": "LONG",
+        "trades": 26,
+        "wr": 26.9,
+        "pnl": -22.17,
+        "avg_pnl": -0.85,
+        "by_symbol": {
+          "SOL": {
+            "trades": 7,
+            "wr": 42.9,
+            "pnl": -5.75
+          },
+          "ETH": {
+            "trades": 4,
+            "wr": 75.0,
+            "pnl": 0.07
+          },
+          "XRP": {
+            "trades": 3,
+            "wr": 0.0,
+            "pnl": -5.91
+          },
+          "BTC": {
+            "trades": 3,
+            "wr": 0.0,
+            "pnl": -2.85
+          }
+        }
+      },
+      "very_strong_SHORT": {
+        "ofi_bucket": "very_strong",
+        "direction": "SHORT",
+        "trades": 34,
+        "wr": 26.5,
+        "pnl": -51.14,
+        "avg_pnl": -1.5,
+        "by_symbol": {
+          "SOL": {
+            "trades": 7,
+            "wr": 14.3,
+            "pnl": -9.9
+          },
+          "BNB": {
+            "trades": 3,
+            "wr": 66.7,
+            "pnl": -30.38
+          },
+          "ADA": {
+            "trades": 4,
+            "wr": 0.0,
+            "pnl": -10.62
+          },
+          "AVAX": {
+            "trades": 4,
+            "wr": 0.0,
+            "pnl": -7.8
+          },
+          "DOT": {
+            "trades": 5,
+            "wr": 100.0,
+            "pnl": 20.24
+          },
+          "ETH": {
+            "trades": 6,
+            "wr": 16.7,
+            "pnl": -7.73
+          }
+        }
+      },
+      "extreme_LONG": {
+        "ofi_bucket": "extreme",
+        "direction": "LONG",
+        "trades": 159,
+        "wr": 11.3,
+        "pnl": -361.44,
+        "avg_pnl": -2.27,
+        "by_symbol": {
+          "XRP": {
+            "trades": 20,
+            "wr": 0.0,
+            "pnl": -92.8
+          },
+          "BTC": {
+            "trades": 16,
+            "wr": 6.2,
+            "pnl": -21.19
+          },
+          "BNB": {
+            "trades": 16,
+            "wr": 12.5,
+            "pnl": -22.81
+          },
+          "DOT": {
+            "trades": 25,
+            "wr": 12.0,
+            "pnl": -36.17
+          },
+          "AVAX": {
+            "trades": 29,
+            "wr": 10.3,
+            "pnl": -74.44
+          },
+          "DOGE": {
+            "trades": 15,
+            "wr": 0.0,
+            "pnl": -42.35
+          },
+          "ADA": {
+            "trades": 9,
+            "wr": 0.0,
+            "pnl": -24.87
+          },
+          "SOL": {
+            "trades": 12,
+            "wr": 41.7,
+            "pnl": -15.67
+          },
+          "ETH": {
+            "trades": 17,
+            "wr": 23.5,
+            "pnl": -31.12
+          }
+        }
+      },
+      "extreme_SHORT": {
+        "ofi_bucket": "extreme",
+        "direction": "SHORT",
+        "trades": 127,
+        "wr": 21.3,
+        "pnl": -141.37,
+        "avg_pnl": -1.11,
+        "by_symbol": {
+          "XRP": {
+            "trades": 19,
+            "wr": 10.5,
+            "pnl": -43.12
+          },
+          "BTC": {
+            "trades": 12,
+            "wr": 25.0,
+            "pnl": -14.18
+          },
+          "DOGE": {
+            "trades": 5,
+            "wr": 0.0,
+            "pnl": -12.98
+          },
+          "DOT": {
+            "trades": 15,
+            "wr": 20.0,
+            "pnl": -16.91
+          },
+          "AVAX": {
+            "trades": 22,
+            "wr": 13.6,
+            "pnl": -17.77
+          },
+          "SOL": {
+            "trades": 20,
+            "wr": 35.0,
+            "pnl": -15.26
+          },
+          "BNB": {
+            "trades": 21,
+            "wr": 23.8,
+            "pnl": -14.7
+          },
+          "ETH": {
+            "trades": 9,
+            "wr": 44.4,
+            "pnl": 2.53
+          },
+          "ADA": {
+            "trades": 4,
+            "wr": 0.0,
+            "pnl": -8.98
+          }
+        }
+      }
+    }
+  },
+  "pattern_discoveries": {},
+  "recommendations": [
+    {
+      "type": "avoid_symbol",
+      "symbol": "BTC",
+      "reason": "BTC has consistent losses ($-68.11 over 72 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "XRP",
+      "reason": "XRP has consistent losses ($-176.54 over 72 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "direction_bias",
+      "symbol": "BNB",
+      "recommended_direction": "SHORT",
+      "reason": "BNB performs better on SHORT (36.8% WR)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "BNB",
+      "reason": "BNB has consistent losses ($-73.12 over 66 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "SOL",
+      "reason": "SOL has consistent losses ($-87.16 over 93 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "direction_bias",
+      "symbol": "DOT",
+      "recommended_direction": "SHORT",
+      "reason": "DOT performs better on SHORT (37.5% WR)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "DOT",
+      "reason": "DOT has consistent losses ($-49.89 over 73 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "DOGE",
+      "reason": "DOGE has consistent losses ($-87.66 over 35 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "AVAX",
+      "reason": "AVAX has consistent losses ($-121.28 over 76 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "ETH",
+      "reason": "ETH has consistent losses ($-81.49 over 79 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "ADA",
+      "reason": "ADA has consistent losses ($-83.89 over 36 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "avoid_symbol",
+      "symbol": "TRX",
+      "reason": "TRX has consistent losses ($-77.71 over 28 trades)",
+      "confidence": "high"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "BTC",
+      "reason": "CoinGlass alignment improves WR by 15.6%",
+      "current_signals": {
+        "taker": "SHORT",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "ETH",
+      "reason": "CoinGlass alignment improves WR by 26.7%",
+      "current_signals": {
+        "taker": "LONG",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "SOL",
+      "reason": "CoinGlass alignment improves WR by 32.0%",
+      "current_signals": {
+        "taker": "SHORT",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "BNB",
+      "reason": "CoinGlass alignment improves WR by 36.8%",
+      "current_signals": {
+        "taker": "SHORT",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "AVAX",
+      "reason": "CoinGlass alignment improves WR by 11.4%",
+      "current_signals": {
+        "taker": "SHORT",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "DOT",
+      "reason": "CoinGlass alignment improves WR by 37.5%",
+      "current_signals": {
+        "taker": "SHORT",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "XRP",
+      "reason": "CoinGlass alignment improves WR by 10.5%",
+      "current_signals": {
+        "taker": "SHORT",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "use_coinglass_filter",
+      "symbol": "ADA",
+      "reason": "CoinGlass alignment improves WR by 13.3%",
+      "current_signals": {
+        "taker": "SHORT",
+        "liquidation": "NEUTRAL"
+      },
+      "confidence": "medium"
+    },
+    {
+      "type": "block_pattern",
+      "pattern": "extreme_LONG",
+      "ofi_bucket": "extreme",
+      "direction": "LONG",
+      "reason": "extreme_LONG: Lost $361.44 over 159 trades",
+      "size_mult": 0.0,
+      "confidence": "high"
+    },
+    {
+      "type": "block_pattern",
+      "pattern": "extreme_SHORT",
+      "ofi_bucket": "extreme",
+      "direction": "SHORT",
+      "reason": "extreme_SHORT: Lost $141.37 over 127 trades",
+      "size_mult": 0.0,
+      "confidence": "high"
+    },
+    {
+      "type": "block_pattern",
+      "pattern": "weak_SHORT",
+      "ofi_bucket": "weak",
+      "direction": "SHORT",
+      "reason": "weak_SHORT: Lost $94.56 over 83 trades",
+      "size_mult": 0.0,
+      "confidence": "high"
+    },
+    {
+      "type": "block_pattern",
+      "pattern": "weak_LONG",
+      "ofi_bucket": "weak",
+      "direction": "LONG",
+      "reason": "weak_LONG: Lost $79.08 over 75 trades",
+      "size_mult": 0.0,
+      "confidence": "high"
+    },
+    {
+      "type": "block_pattern",
+      "pattern": "very_strong_SHORT",
+      "ofi_bucket": "very_strong",
+      "direction": "SHORT",
+      "reason": "very_strong_SHORT: Lost $51.14 over 34 trades",
+      "size_mult": 0.0,
+      "confidence": "high"
+    }
+  ],
+  "confidence_adjustments": {
+    "BTC": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "XRP": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "BNB": {
+      "direction_bias": "SHORT",
+      "size_mult": 0.0,
+      "block": true
+    },
+    "SOL": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "DOT": {
+      "direction_bias": "SHORT",
+      "size_mult": 0.0,
+      "block": true
+    },
+    "DOGE": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "AVAX": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "ETH": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "ADA": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "TRX": {
+      "direction_bias": null,
+      "size_mult": 0.0,
+      "block": true
+    },
+    "extreme_LONG": {
+      "type": "pattern",
+      "size_mult": 0.0,
+      "block": true
+    },
+    "extreme_SHORT": {
+      "type": "pattern",
+      "size_mult": 0.0,
+      "block": true
+    },
+    "weak_SHORT": {
+      "type": "pattern",
+      "size_mult": 0.0,
+      "block": true
+    },
+    "weak_LONG": {
+      "type": "pattern",
+      "size_mult": 0.0,
+      "block": true
+    },
+    "very_strong_SHORT": {
+      "type": "pattern",
+      "size_mult": 0.0,
+      "block": true
+    }
+  }
+}

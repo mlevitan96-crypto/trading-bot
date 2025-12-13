@@ -1,0 +1,56 @@
+{
+  "compiled_at": "2025-12-11T10:00:13.411068Z",
+  "period_hours": 24,
+  "total_events": 38,
+  "gate_statistics": {
+    "streak_filter": {
+      "total_decisions": 0,
+      "allowed_count": 0,
+      "blocked_count": 0,
+      "block_rate": 0.0,
+      "allowed_then_profit": 0,
+      "allowed_then_loss": 0,
+      "gate_accuracy": 0.0,
+      "block_reasons": {}
+    },
+    "intelligence_gate": {
+      "total_decisions": 37,
+      "allowed_count": 35,
+      "blocked_count": 2,
+      "block_rate": 0.05405405405405406,
+      "allowed_then_profit": 0,
+      "allowed_then_loss": 0,
+      "gate_accuracy": 0.0,
+      "block_reasons": {
+        "intel_conflict_short_strong": 2
+      }
+    }
+  },
+  "position_statistics": {
+    "total_closes": 0,
+    "profits": 0,
+    "losses": 0,
+    "by_close_reason": {},
+    "by_symbol": {}
+  },
+  "remediation_statistics": {
+    "total_actions": 0,
+    "successes": 0,
+    "failures": 0,
+    "by_action": {}
+  },
+  "recommendations": [
+    {
+      "type": "gate_ineffective",
+      "gate": "streak_filter",
+      "action": "Gate is not improving outcomes - review logic",
+      "evidence": "Only 0.0% of allowed trades profitable"
+    },
+    {
+      "type": "gate_ineffective",
+      "gate": "intelligence_gate",
+      "action": "Gate is not improving outcomes - review logic",
+      "evidence": "Only 0.0% of allowed trades profitable"
+    }
+  ]
+}

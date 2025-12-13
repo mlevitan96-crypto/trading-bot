@@ -1,0 +1,1212 @@
+{
+  "created_at": "2025-12-01T02:01:52.988172Z",
+  "last_run": "2025-12-11T21:00:50.228384Z",
+  "runs_count": 33,
+  "total_recommendations": 131,
+  "metrics_history": [
+    {
+      "timestamp": "2025-12-01T02:01:53.003220Z",
+      "metrics": {
+        "win_rate": 9.46,
+        "total_trades": 645,
+        "winners": 61,
+        "losers": 584,
+        "avg_pnl": -3.0251,
+        "total_pnl": -1951.167,
+        "total_gross_pnl": 300.1286,
+        "total_fees": 2251.2956,
+        "fee_impact_pct": 750.11,
+        "avg_hold_time_seconds": 221.44,
+        "hold_time_distribution": {
+          "quick": 66,
+          "scalp": 475,
+          "flash": 89,
+          "short": 12,
+          "medium": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-01T02:27:26.354806Z",
+      "metrics": {
+        "win_rate": 9.46,
+        "total_trades": 645,
+        "winners": 61,
+        "losers": 584,
+        "avg_pnl": -3.0255,
+        "total_pnl": -1951.446,
+        "total_gross_pnl": 300.3802,
+        "total_fees": 2251.8262,
+        "fee_impact_pct": 749.66,
+        "avg_hold_time_seconds": 220.58,
+        "hold_time_distribution": {
+          "scalp": 476,
+          "quick": 65,
+          "flash": 89,
+          "short": 12,
+          "medium": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-02T04:00:00.210131Z",
+      "metrics": {
+        "win_rate": 26.09,
+        "total_trades": 23,
+        "winners": 6,
+        "losers": 17,
+        "avg_pnl": -0.8944,
+        "total_pnl": -20.5718,
+        "total_gross_pnl": -14.1766,
+        "total_fees": 6.3952,
+        "fee_impact_pct": 45.11,
+        "avg_hold_time_seconds": 1693.79,
+        "hold_time_distribution": {
+          "scalp": 6,
+          "quick": 4,
+          "short": 10,
+          "medium": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-02T05:00:36.491562Z",
+      "metrics": {
+        "win_rate": 26.09,
+        "total_trades": 23,
+        "winners": 6,
+        "losers": 17,
+        "avg_pnl": -0.8944,
+        "total_pnl": -20.5718,
+        "total_gross_pnl": -14.1766,
+        "total_fees": 6.3952,
+        "fee_impact_pct": 45.11,
+        "avg_hold_time_seconds": 1693.79,
+        "hold_time_distribution": {
+          "scalp": 6,
+          "quick": 4,
+          "short": 10,
+          "medium": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-02T06:00:09.923150Z",
+      "metrics": {
+        "win_rate": 21.57,
+        "total_trades": 51,
+        "winners": 11,
+        "losers": 40,
+        "avg_pnl": -0.5746,
+        "total_pnl": -29.3038,
+        "total_gross_pnl": -19.0524,
+        "total_fees": 10.2514,
+        "fee_impact_pct": 53.81,
+        "avg_hold_time_seconds": 1520.76,
+        "hold_time_distribution": {
+          "scalp": 11,
+          "quick": 16,
+          "short": 17,
+          "medium": 7
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-02T18:00:36.233665Z",
+      "metrics": {
+        "win_rate": 20.0,
+        "total_trades": 50,
+        "winners": 10,
+        "losers": 40,
+        "avg_pnl": -0.3663,
+        "total_pnl": -18.3136,
+        "total_gross_pnl": -11.4566,
+        "total_fees": 6.857,
+        "fee_impact_pct": 59.85,
+        "avg_hold_time_seconds": 1571.64,
+        "hold_time_distribution": {
+          "medium": 7,
+          "quick": 22,
+          "scalp": 7,
+          "short": 14
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-02T20:00:58.880224Z",
+      "metrics": {
+        "win_rate": 20.37,
+        "total_trades": 54,
+        "winners": 11,
+        "losers": 43,
+        "avg_pnl": -0.2987,
+        "total_pnl": -16.1284,
+        "total_gross_pnl": -9.0762,
+        "total_fees": 7.0522,
+        "fee_impact_pct": 77.7,
+        "avg_hold_time_seconds": 1140.29,
+        "hold_time_distribution": {
+          "scalp": 7,
+          "quick": 25,
+          "short": 18,
+          "medium": 4
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-03T04:00:16.634282Z",
+      "metrics": {
+        "win_rate": 41.12,
+        "total_trades": 107,
+        "winners": 44,
+        "losers": 63,
+        "avg_pnl": -0.1756,
+        "total_pnl": -18.7893,
+        "total_gross_pnl": -3.1169,
+        "total_fees": 15.6724,
+        "fee_impact_pct": 502.82,
+        "avg_hold_time_seconds": 1058.53,
+        "hold_time_distribution": {
+          "quick": 55,
+          "scalp": 11,
+          "short": 36,
+          "medium": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-03T05:00:48.881863Z",
+      "metrics": {
+        "win_rate": 41.12,
+        "total_trades": 107,
+        "winners": 44,
+        "losers": 63,
+        "avg_pnl": -0.1756,
+        "total_pnl": -18.7893,
+        "total_gross_pnl": -3.1169,
+        "total_fees": 15.6724,
+        "fee_impact_pct": 502.82,
+        "avg_hold_time_seconds": 1058.53,
+        "hold_time_distribution": {
+          "quick": 55,
+          "scalp": 11,
+          "short": 36,
+          "medium": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-04T05:03:02.866562Z",
+      "metrics": {
+        "win_rate": 28.7,
+        "total_trades": 115,
+        "winners": 33,
+        "losers": 82,
+        "avg_pnl": -0.6735,
+        "total_pnl": -77.4489,
+        "total_gross_pnl": -58.1999,
+        "total_fees": 19.249,
+        "fee_impact_pct": 33.07,
+        "avg_hold_time_seconds": 2606.78,
+        "hold_time_distribution": {
+          "quick": 29,
+          "short": 62,
+          "scalp": 2,
+          "medium": 21,
+          "long": 1
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-04T10:00:27.484174Z",
+      "metrics": {
+        "win_rate": 31.18,
+        "total_trades": 93,
+        "winners": 29,
+        "losers": 64,
+        "avg_pnl": -0.6967,
+        "total_pnl": -64.7973,
+        "total_gross_pnl": -49.6249,
+        "total_fees": 15.1724,
+        "fee_impact_pct": 30.57,
+        "avg_hold_time_seconds": 2854.4,
+        "hold_time_distribution": {
+          "short": 47,
+          "scalp": 2,
+          "quick": 22,
+          "medium": 21,
+          "long": 1
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-04T20:00:52.193125Z",
+      "metrics": {
+        "win_rate": 35.0,
+        "total_trades": 20,
+        "winners": 7,
+        "losers": 13,
+        "avg_pnl": -0.0658,
+        "total_pnl": -1.3154,
+        "total_gross_pnl": 1.6634,
+        "total_fees": 2.9788,
+        "fee_impact_pct": 179.08,
+        "avg_hold_time_seconds": 1939.26,
+        "hold_time_distribution": {
+          "short": 17,
+          "medium": 2,
+          "quick": 1
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-05T01:00:55.728325Z",
+      "metrics": {
+        "win_rate": 43.75,
+        "total_trades": 16,
+        "winners": 7,
+        "losers": 9,
+        "avg_pnl": -0.0792,
+        "total_pnl": -1.2667,
+        "total_gross_pnl": 0.5489,
+        "total_fees": 1.8156,
+        "fee_impact_pct": 330.77,
+        "avg_hold_time_seconds": 1671.4,
+        "hold_time_distribution": {
+          "medium": 2,
+          "short": 13,
+          "quick": 1
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-05T19:00:30.604471Z",
+      "metrics": {
+        "win_rate": 19.05,
+        "total_trades": 21,
+        "winners": 4,
+        "losers": 17,
+        "avg_pnl": -0.5918,
+        "total_pnl": -12.4285,
+        "total_gross_pnl": -8.1861,
+        "total_fees": 4.2424,
+        "fee_impact_pct": 51.82,
+        "avg_hold_time_seconds": 2954.59,
+        "hold_time_distribution": {
+          "medium": 6,
+          "short": 15
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-06T19:01:12.693452Z",
+      "metrics": {
+        "win_rate": 45.45,
+        "total_trades": 22,
+        "winners": 10,
+        "losers": 12,
+        "avg_pnl": 0.0507,
+        "total_pnl": 1.1162,
+        "total_gross_pnl": 4.4006,
+        "total_fees": 3.2844,
+        "fee_impact_pct": 74.64,
+        "avg_hold_time_seconds": 5684.41,
+        "hold_time_distribution": {
+          "medium": 7,
+          "short": 13,
+          "long": 2
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-07T02:00:44.676006Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
+    },
+    {
+      "timestamp": "2025-12-07T19:00:09.200129Z",
+      "metrics": {
+        "win_rate": 8.33,
+        "total_trades": 24,
+        "winners": 2,
+        "losers": 22,
+        "avg_pnl": -0.1817,
+        "total_pnl": -4.36,
+        "total_gross_pnl": 1.112,
+        "total_fees": 5.472,
+        "fee_impact_pct": 492.08,
+        "avg_hold_time_seconds": 1210.08,
+        "hold_time_distribution": {
+          "short": 24
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-08T20:00:01.066739Z",
+      "metrics": {
+        "win_rate": 40.66,
+        "total_trades": 91,
+        "winners": 37,
+        "losers": 54,
+        "avg_pnl": -0.1999,
+        "total_pnl": -18.1946,
+        "total_gross_pnl": 9.3998,
+        "total_fees": 27.5944,
+        "fee_impact_pct": 293.57,
+        "avg_hold_time_seconds": 6035.07,
+        "hold_time_distribution": {
+          "short": 75,
+          "medium": 6,
+          "long": 10
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-08T21:00:25.214680Z",
+      "metrics": {
+        "win_rate": 41.73,
+        "total_trades": 127,
+        "winners": 53,
+        "losers": 74,
+        "avg_pnl": NaN,
+        "total_pnl": NaN,
+        "total_gross_pnl": NaN,
+        "total_fees": NaN,
+        "fee_impact_pct": NaN,
+        "avg_hold_time_seconds": 4786.23,
+        "hold_time_distribution": {
+          "short": 110,
+          "medium": 5,
+          "long": 10,
+          "quick": 2
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-08T23:00:55.726161Z",
+      "metrics": {
+        "win_rate": 43.38,
+        "total_trades": 136,
+        "winners": 59,
+        "losers": 77,
+        "avg_pnl": NaN,
+        "total_pnl": NaN,
+        "total_gross_pnl": NaN,
+        "total_fees": NaN,
+        "fee_impact_pct": NaN,
+        "avg_hold_time_seconds": 4565.48,
+        "hold_time_distribution": {
+          "long": 10,
+          "short": 120,
+          "medium": 4,
+          "quick": 2
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-09T04:00:35.431718Z",
+      "metrics": {
+        "win_rate": 42.25,
+        "total_trades": 213,
+        "winners": 90,
+        "losers": 123,
+        "avg_pnl": NaN,
+        "total_pnl": NaN,
+        "total_gross_pnl": NaN,
+        "total_fees": NaN,
+        "fee_impact_pct": NaN,
+        "avg_hold_time_seconds": 3526.58,
+        "hold_time_distribution": {
+          "long": 10,
+          "short": 192,
+          "medium": 8,
+          "quick": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-09T16:00:31.110394Z",
+      "metrics": {
+        "win_rate": 35.8,
+        "total_trades": 257,
+        "winners": 92,
+        "losers": 165,
+        "avg_pnl": NaN,
+        "total_pnl": NaN,
+        "total_gross_pnl": NaN,
+        "total_fees": NaN,
+        "fee_impact_pct": NaN,
+        "avg_hold_time_seconds": 2121.22,
+        "hold_time_distribution": {
+          "short": 237,
+          "medium": 6,
+          "quick": 6,
+          "scalp": 1,
+          "long": 7
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T03:00:53.083474Z",
+      "metrics": {
+        "win_rate": 27.78,
+        "total_trades": 36,
+        "winners": 10,
+        "losers": 26,
+        "avg_pnl": -0.417,
+        "total_pnl": -15.0125,
+        "total_gross_pnl": -6.4043,
+        "total_fees": 8.6082,
+        "fee_impact_pct": 134.41,
+        "avg_hold_time_seconds": 2327.84,
+        "hold_time_distribution": {
+          "short": 31,
+          "medium": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T04:00:54.494238Z",
+      "metrics": {
+        "win_rate": 27.78,
+        "total_trades": 36,
+        "winners": 10,
+        "losers": 26,
+        "avg_pnl": -0.417,
+        "total_pnl": -15.0125,
+        "total_gross_pnl": -6.4043,
+        "total_fees": 8.6082,
+        "fee_impact_pct": 134.41,
+        "avg_hold_time_seconds": 2327.84,
+        "hold_time_distribution": {
+          "short": 31,
+          "medium": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T05:00:56.589752Z",
+      "metrics": {
+        "win_rate": 27.78,
+        "total_trades": 36,
+        "winners": 10,
+        "losers": 26,
+        "avg_pnl": -0.417,
+        "total_pnl": -15.0125,
+        "total_gross_pnl": -6.4043,
+        "total_fees": 8.6082,
+        "fee_impact_pct": 134.41,
+        "avg_hold_time_seconds": 2327.84,
+        "hold_time_distribution": {
+          "short": 31,
+          "medium": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T06:00:59.549608Z",
+      "metrics": {
+        "win_rate": 27.78,
+        "total_trades": 36,
+        "winners": 10,
+        "losers": 26,
+        "avg_pnl": -0.417,
+        "total_pnl": -15.0125,
+        "total_gross_pnl": -6.4043,
+        "total_fees": 8.6082,
+        "fee_impact_pct": 134.41,
+        "avg_hold_time_seconds": 2327.84,
+        "hold_time_distribution": {
+          "short": 31,
+          "medium": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T16:00:00.076786Z",
+      "metrics": {
+        "win_rate": 24.6,
+        "total_trades": 126,
+        "winners": 31,
+        "losers": 95,
+        "avg_pnl": -0.2621,
+        "total_pnl": -33.0206,
+        "total_gross_pnl": -2.6072,
+        "total_fees": 30.4134,
+        "fee_impact_pct": 1166.51,
+        "avg_hold_time_seconds": 1881.62,
+        "hold_time_distribution": {
+          "short": 116,
+          "medium": 6,
+          "scalp": 1,
+          "quick": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T17:00:08.140857Z",
+      "metrics": {
+        "win_rate": 25.2,
+        "total_trades": 123,
+        "winners": 31,
+        "losers": 92,
+        "avg_pnl": -0.2611,
+        "total_pnl": -32.1147,
+        "total_gross_pnl": -2.1813,
+        "total_fees": 29.9334,
+        "fee_impact_pct": 1372.26,
+        "avg_hold_time_seconds": 1882.43,
+        "hold_time_distribution": {
+          "medium": 6,
+          "short": 113,
+          "scalp": 1,
+          "quick": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T18:00:17.069953Z",
+      "metrics": {
+        "win_rate": 25.0,
+        "total_trades": 120,
+        "winners": 30,
+        "losers": 90,
+        "avg_pnl": -0.2584,
+        "total_pnl": -31.0106,
+        "total_gross_pnl": -1.6292,
+        "total_fees": 29.3814,
+        "fee_impact_pct": 1803.48,
+        "avg_hold_time_seconds": 1828.45,
+        "hold_time_distribution": {
+          "short": 111,
+          "medium": 5,
+          "scalp": 1,
+          "quick": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T19:00:20.694285Z",
+      "metrics": {
+        "win_rate": 26.17,
+        "total_trades": 107,
+        "winners": 28,
+        "losers": 79,
+        "avg_pnl": -0.2431,
+        "total_pnl": -26.0084,
+        "total_gross_pnl": 0.325,
+        "total_fees": 26.3334,
+        "fee_impact_pct": 8101.72,
+        "avg_hold_time_seconds": 1731.06,
+        "hold_time_distribution": {
+          "short": 99,
+          "medium": 4,
+          "scalp": 1,
+          "quick": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T20:00:28.081015Z",
+      "metrics": {
+        "win_rate": 22.73,
+        "total_trades": 88,
+        "winners": 20,
+        "losers": 68,
+        "avg_pnl": -0.2298,
+        "total_pnl": -20.2234,
+        "total_gross_pnl": 1.1654,
+        "total_fees": 21.3888,
+        "fee_impact_pct": 1835.34,
+        "avg_hold_time_seconds": 1687.52,
+        "hold_time_distribution": {
+          "short": 82,
+          "scalp": 1,
+          "medium": 2,
+          "quick": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-10T21:00:40.287762Z",
+      "metrics": {
+        "win_rate": 20.31,
+        "total_trades": 64,
+        "winners": 13,
+        "losers": 51,
+        "avg_pnl": -0.2592,
+        "total_pnl": -16.5879,
+        "total_gross_pnl": -0.6551,
+        "total_fees": 15.9328,
+        "fee_impact_pct": 2432.29,
+        "avg_hold_time_seconds": 1642.84,
+        "hold_time_distribution": {
+          "short": 61,
+          "quick": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-11T21:00:50.228418Z",
+      "metrics": {
+        "win_rate": 32.53,
+        "total_trades": 538,
+        "winners": 175,
+        "losers": 363,
+        "avg_pnl": -0.2349,
+        "total_pnl": -126.3746,
+        "total_gross_pnl": 27.8864,
+        "total_fees": 154.261,
+        "fee_impact_pct": 553.18,
+        "avg_hold_time_seconds": 1570.14,
+        "hold_time_distribution": {
+          "short": 273,
+          "quick": 245,
+          "long": 18,
+          "scalp": 2
+        }
+      }
+    }
+  ],
+  "latest_metrics": {
+    "win_rate": 32.53,
+    "total_trades": 538,
+    "winners": 175,
+    "losers": 363,
+    "avg_pnl": -0.2349,
+    "total_pnl": -126.3746,
+    "total_gross_pnl": 27.8864,
+    "total_fees": 154.261,
+    "fee_impact_pct": 553.18,
+    "avg_hold_time_seconds": 1570.14,
+    "hold_time_distribution": {
+      "short": 273,
+      "quick": 245,
+      "long": 18,
+      "scalp": 2
+    }
+  },
+  "latest_recommendations": [
+    {
+      "priority": "high",
+      "category": "hold_time_optimization",
+      "issue": "Hold time policies changed for multiple symbols",
+      "action": "Review hold time settings for: ARBUSDT, BTCUSDT, AVAXUSDT, XRPUSDT, MATICUSDT",
+      "expected_impact": "Affects minimum hold duration before exits",
+      "source": "policy_drift",
+      "generated_at": "2025-12-11T21:00:50.203648Z"
+    },
+    {
+      "id": "fee_erosion_high",
+      "type": "fee_optimization",
+      "priority": "high",
+      "issue": "High fee erosion: 113.4% of gross profit consumed by fees",
+      "action": "Increase minimum expected move threshold before entry",
+      "expected_impact": "Save ~$36.86 in fee leakage",
+      "config_suggestion": {
+        "min_expected_move_vs_fee": 2.5,
+        "fee_gate_enabled": true
+      }
+    },
+    {
+      "id": "correlation_exposure",
+      "type": "portfolio_risk",
+      "priority": "high",
+      "issue": "Correlated losses: 47 events totaling $216.84",
+      "action": "Enable correlation throttling to limit cluster exposure",
+      "expected_impact": "Avoid ~$108.42 in simultaneous losses",
+      "config_suggestion": {
+        "correlation_throttle_enabled": true,
+        "max_cluster_exposure_pct": 30
+      }
+    },
+    {
+      "id": "low_win_rate",
+      "type": "signal_quality",
+      "priority": "high",
+      "issue": "Low win rate: 32.5% (need >50% for profitability)",
+      "action": "Tighten entry criteria and signal confirmation requirements",
+      "expected_impact": "Improve trade selection quality"
+    },
+    {
+      "id": "weak_cluster_BTCUSDT...",
+      "type": "asset_selection",
+      "priority": "medium",
+      "issue": "Cluster underperforming: BTCUSDT... has P&L $-21.05",
+      "action": "Consider reducing exposure to correlated assets in this cluster",
+      "expected_impact": "Avoid further losses in weak cluster"
+    },
+    {
+      "id": "weak_cluster_ETHUSDT,SO",
+      "type": "asset_selection",
+      "priority": "medium",
+      "issue": "Cluster underperforming: ETHUSDT,SOLUSDT... has P&L $-62.00",
+      "action": "Consider reducing exposure to correlated assets in this cluster",
+      "expected_impact": "Avoid further losses in weak cluster"
+    },
+    {
+      "id": "weak_cluster_TRXUSDT,XR",
+      "type": "asset_selection",
+      "priority": "medium",
+      "issue": "Cluster underperforming: TRXUSDT,XRPUSDT... has P&L $-20.23",
+      "action": "Consider reducing exposure to correlated assets in this cluster",
+      "expected_impact": "Avoid further losses in weak cluster"
+    }
+  ],
+  "last_policies": {
+    "fee_gate": {
+      "threshold": 0.22999999999999984,
+      "min_buffer_multiplier": 1.2,
+      "updated_at": "2025-12-11T10:00:31.198298Z",
+      "trades_analyzed": 798,
+      "win_rate": 0.36466165413533835,
+      "avg_winner_pct": 1.2832981342305019,
+      "avg_loser_pct": -1.21904719571456,
+      "reason": "low_win_rate_tighten",
+      "history": [
+        {
+          "ts": "2025-12-01T02:52:43.466550Z",
+          "old": 0.17,
+          "new": 0.176,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-01T07:01:30.850621Z",
+          "old": 0.176,
+          "new": 0.182,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-03T07:00:42.387005Z",
+          "old": 0.182,
+          "new": 0.18799999999999997,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-04T07:01:07.467526Z",
+          "old": 0.18799999999999997,
+          "new": 0.19399999999999995,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-04T07:01:23.808896Z",
+          "old": 0.19399999999999995,
+          "new": 0.19999999999999993,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-04T07:01:34.943174Z",
+          "old": 0.19999999999999993,
+          "new": 0.2059999999999999,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-04T07:01:47.659000Z",
+          "old": 0.2059999999999999,
+          "new": 0.21199999999999988,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-11T10:00:22.179625Z",
+          "old": 0.21199999999999988,
+          "new": 0.21799999999999986,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-11T10:00:23.435634Z",
+          "old": 0.21799999999999986,
+          "new": 0.22399999999999987,
+          "reason": "low_win_rate_tighten"
+        },
+        {
+          "ts": "2025-12-11T10:00:31.198307Z",
+          "old": 0.22399999999999987,
+          "new": 0.22999999999999984,
+          "reason": "low_win_rate_tighten"
+        }
+      ]
+    },
+    "hold_time": {
+      "version": 2,
+      "updated_at": "2025-12-11T15:16:26.918048Z",
+      "symbol_hold_times": {
+        "BTCUSDT": 1368,
+        "ETHUSDT": 900,
+        "BNBUSDT": 1368,
+        "SOLUSDT": 900,
+        "XRPUSDT": 1368,
+        "ADAUSDT": 900,
+        "DOTUSDT": 900,
+        "LINKUSDT": 900,
+        "AVAXUSDT": 1368,
+        "MATICUSDT": 1368,
+        "OPUSDT": 900,
+        "ARBUSDT": 1368,
+        "DOGEUSDT": 1368,
+        "TRXUSDT": 900,
+        "PEPEUSDT": 900
+      },
+      "direction_hold_times": {
+        "XRPUSDT_LONG": 600,
+        "BNBUSDT_SHORT": 600,
+        "BTCUSDT_LONG": 900,
+        "ADAUSDT_LONG": 600,
+        "ETHUSDT_LONG": 600,
+        "SOLUSDT_LONG": 600,
+        "DOGEUSDT_LONG": 450,
+        "AVAXUSDT_LONG": 600,
+        "ARBUSDT_LONG": 600,
+        "OPUSDT_LONG": 600,
+        "PEPEUSDT_LONG": 600,
+        "LINKUSDT_SHORT": 600,
+        "PEPEUSDT_SHORT": 600,
+        "LINKUSDT_LONG": 600,
+        "ARBUSDT_SHORT": 600,
+        "OPUSDT_SHORT": 600
+      },
+      "tier_defaults": {
+        "major": 900,
+        "other_major": 900,
+        "altcoin": 900,
+        "unknown": 900
+      },
+      "trades_analyzed": 798,
+      "symbols_analyzed": 13,
+      "learning_summary": {
+        "adjustments_made": 12,
+        "adjustments": {
+          "ETHUSDT": {
+            "old": 594,
+            "new": 505,
+            "best_bucket": "scalp",
+            "bucket_ev": 0.0345
+          },
+          "BTCUSDT": {
+            "old": 1190,
+            "new": 1368,
+            "best_bucket": "extended_default",
+            "bucket_ev": 0.0
+          },
+          "SOLUSDT": {
+            "old": 594,
+            "new": 505,
+            "best_bucket": "scalp",
+            "bucket_ev": 0.0412
+          },
+          "MATICUSDT": {
+            "old": 1190,
+            "new": 1368,
+            "best_bucket": "extended_default",
+            "bucket_ev": 0.0
+          },
+          "AVAXUSDT": {
+            "old": 1190,
+            "new": 1368,
+            "best_bucket": "extended_default",
+            "bucket_ev": 0.0
+          },
+          "BNBUSDT": {
+            "old": 1190,
+            "new": 1368,
+            "best_bucket": "extended_default",
+            "bucket_ev": 0.0
+          },
+          "ADAUSDT": {
+            "old": 594,
+            "new": 505,
+            "best_bucket": "scalp",
+            "bucket_ev": 0.2169
+          },
+          "XRPUSDT": {
+            "old": 1190,
+            "new": 1368,
+            "best_bucket": "extended_default",
+            "bucket_ev": 0.0
+          },
+          "DOGEUSDT": {
+            "old": 1190,
+            "new": 1368,
+            "best_bucket": "extended_default",
+            "bucket_ev": 0.0
+          },
+          "DOTUSDT": {
+            "old": 594,
+            "new": 505,
+            "best_bucket": "scalp",
+            "bucket_ev": 1.1753
+          },
+          "OPUSDT": {
+            "old": 594,
+            "new": 505,
+            "best_bucket": "scalp",
+            "bucket_ev": 0.7743
+          },
+          "ARBUSDT": {
+            "old": 1190,
+            "new": 1368,
+            "best_bucket": "extended_default",
+            "bucket_ev": 0.0
+          }
+        }
+      }
+    },
+    "edge_sizer": {
+      "version": 2,
+      "updated_at": "2025-12-11T10:00:31.288312Z",
+      "multipliers": {
+        "A": 1.5,
+        "B": 1.2,
+        "C": 1.0,
+        "D": 0.7,
+        "F": 0.5
+      },
+      "min_multiplier": 0.3,
+      "max_multiplier": 2.0,
+      "trades_analyzed": 798,
+      "grade_stats": {
+        "A": {
+          "count": 0,
+          "status": "insufficient_data"
+        },
+        "B": {
+          "count": 0,
+          "status": "insufficient_data"
+        },
+        "C": {
+          "count": 798,
+          "total_pnl": -101.539,
+          "avg_pnl": -0.1272,
+          "avg_roi": -0.3065,
+          "win_rate": 0.3647
+        },
+        "D": {
+          "count": 0,
+          "status": "insufficient_data"
+        },
+        "F": {
+          "count": 0,
+          "status": "insufficient_data"
+        }
+      },
+      "calibrations_made": 0,
+      "history": [
+        {
+          "ts": "2025-12-01T02:52:43.873202Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-01T07:01:31.081774Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-03T07:00:42.519557Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-04T07:01:07.714905Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-04T07:01:23.960115Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-04T07:01:35.101542Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-04T07:01:47.816156Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-11T10:00:22.442948Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-11T10:00:23.581044Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        },
+        {
+          "ts": "2025-12-11T10:00:31.288320Z",
+          "multipliers": {
+            "A": 1.5,
+            "B": 1.2,
+            "C": 1.0,
+            "D": 0.7,
+            "F": 0.5
+          },
+          "calibrations": 0
+        }
+      ]
+    },
+    "correlation": {
+      "version": 2,
+      "updated_at": "2025-12-11T10:00:31.383177Z",
+      "high_corr_threshold": 0.6099999999999995,
+      "extreme_corr_threshold": 0.7599999999999996,
+      "max_cluster_exposure_pct": 0.3,
+      "max_positions_per_cluster": 3,
+      "trades_analyzed": 798,
+      "correlated_loss_pct": 97.63313609467455,
+      "reason": "high_correlated_losses_tighten",
+      "cluster_stats": {
+        "BTC": {
+          "trades": 481,
+          "pnl": -87.60309406275331,
+          "losses": 307
+        },
+        "STABLE": {
+          "trades": 151,
+          "pnl": -27.085671316025138,
+          "losses": 105
+        },
+        "ALT": {
+          "trades": 134,
+          "pnl": 16.284817459072112,
+          "losses": 74
+        },
+        "MEME": {
+          "trades": 32,
+          "pnl": -3.135070062360912,
+          "losses": 21
+        }
+      },
+      "history": [
+        {
+          "ts": "2025-12-01T02:52:43.988723Z",
+          "old": 0.7,
+          "new": 0.691,
+          "corr_loss_pct": 99.1621983914209
+        },
+        {
+          "ts": "2025-12-01T07:01:31.154908Z",
+          "old": 0.691,
+          "new": 0.6819999999999999,
+          "corr_loss_pct": 99.1621983914209
+        },
+        {
+          "ts": "2025-12-03T07:00:42.577530Z",
+          "old": 0.6819999999999999,
+          "new": 0.6729999999999999,
+          "corr_loss_pct": 98.33091436865021
+        },
+        {
+          "ts": "2025-12-04T07:01:07.910113Z",
+          "old": 0.6729999999999999,
+          "new": 0.6639999999999999,
+          "corr_loss_pct": 96.71052631578947
+        },
+        {
+          "ts": "2025-12-04T07:01:24.060172Z",
+          "old": 0.6639999999999999,
+          "new": 0.6549999999999999,
+          "corr_loss_pct": 96.71052631578947
+        },
+        {
+          "ts": "2025-12-04T07:01:35.192992Z",
+          "old": 0.6549999999999999,
+          "new": 0.6459999999999999,
+          "corr_loss_pct": 96.71052631578947
+        },
+        {
+          "ts": "2025-12-04T07:01:47.894213Z",
+          "old": 0.6459999999999999,
+          "new": 0.6369999999999998,
+          "corr_loss_pct": 96.71052631578947
+        },
+        {
+          "ts": "2025-12-11T10:00:22.501481Z",
+          "old": 0.6369999999999998,
+          "new": 0.6279999999999997,
+          "corr_loss_pct": 97.63313609467455
+        },
+        {
+          "ts": "2025-12-11T10:00:23.673196Z",
+          "old": 0.6279999999999997,
+          "new": 0.6189999999999996,
+          "corr_loss_pct": 97.63313609467455
+        },
+        {
+          "ts": "2025-12-11T10:00:31.383195Z",
+          "old": 0.6189999999999996,
+          "new": 0.6099999999999995,
+          "corr_loss_pct": 97.63313609467455
+        }
+      ]
+    },
+    "stored_at": "2025-12-11T21:00:50.203664Z"
+  }
+}

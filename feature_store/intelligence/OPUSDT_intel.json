@@ -1,0 +1,28 @@
+{
+  "symbol": "OP",
+  "ts": "2025-12-04T20:02:16.007697Z",
+  "taker": {
+    "buy_vol_usd": 65442238.256696,
+    "sell_vol_usd": 79729798.593723,
+    "buy_ratio": 0.4508,
+    "sell_ratio": 0.5492,
+    "buy_sell_ratio": 0.8208002454661684
+  },
+  "liquidation": {},
+  "fear_greed": 50,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.4,
+    "composite": -0.4,
+    "components": {
+      "flow": -1,
+      "liquidation": 0,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.821,
+      "liq_ratio": 0.5,
+      "fear_greed": 50
+    }
+  }
+}

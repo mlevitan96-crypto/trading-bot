@@ -1,0 +1,70 @@
+{
+  "global": {
+    "MIN_PROFIT_USD": 10.0,
+    "BASE_COLLATERAL_USD": 500.0,
+    "INTERNAL_MAX_LEVERAGE": 7,
+    "cooldown_sec": 1200
+  },
+  "per_symbol": {
+    "TRXUSDT": {
+      "MIN_PROFIT_USD": 5.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 1,
+      "cooldown_sec": 1200
+    },
+    "BTCUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "ETHUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "SOLUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "AVAXUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "DOTUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "XRPUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "ADAUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "DOGEUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    },
+    "BNBUSDT": {
+      "MIN_PROFIT_USD": 10.0,
+      "BASE_COLLATERAL_USD": 500.0,
+      "INTERNAL_MAX_LEVERAGE": 3,
+      "cooldown_sec": 1200
+    }
+  }
+}

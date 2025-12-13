@@ -1,0 +1,108 @@
+{
+  "BTCUSDT_ETHUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 0,
+    "correlation": 0.45301386945950584,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "lag_0m_below_2"
+    ],
+    "cached": false,
+    "cached_at": 1765487868.3185296
+  },
+  "BTCUSDT_SOLUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 7,
+    "correlation": -0.2731175772844968,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "weak_corr_-0.27"
+    ],
+    "cached": false,
+    "cached_at": 1765487870.6578796
+  },
+  "BTCUSDT_AVAXUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 0,
+    "correlation": 0.3167962636383851,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "lag_0m_below_2"
+    ],
+    "cached": false,
+    "cached_at": 1765487874.1781566
+  },
+  "BTCUSDT_DOTUSDT": {
+    "signal": "LONG",
+    "confidence": 0.5880083346381854,
+    "optimal_lag": 8,
+    "correlation": 0.3920055564254569,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "btc_leads_by_8m",
+      "corr_0.39",
+      "btc_long_1.00"
+    ],
+    "cached": false,
+    "cached_at": 1765487881.447864
+  },
+  "BTCUSDT_XRPUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 0,
+    "correlation": 0.35692203528608585,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "lag_0m_below_2"
+    ],
+    "cached": false,
+    "cached_at": 1765487893.0018435
+  },
+  "BTCUSDT_ADAUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 9,
+    "correlation": 0.2987897175895686,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "weak_corr_0.30"
+    ],
+    "cached": false,
+    "cached_at": 1765487896.2910752
+  },
+  "BTCUSDT_DOGEUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 0,
+    "correlation": 0.38759991784569275,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "lag_0m_below_2"
+    ],
+    "cached": false,
+    "cached_at": 1765487899.0778
+  },
+  "BTCUSDT_BNBUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 8,
+    "correlation": 0.2512297632359525,
+    "leader_direction": "LONG",
+    "leader_strength": 1.0,
+    "reasons": [
+      "weak_corr_0.25"
+    ],
+    "cached": false,
+    "cached_at": 1765487901.7655592
+  }
+}

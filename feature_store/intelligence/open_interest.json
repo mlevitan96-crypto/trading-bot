@@ -1,0 +1,61 @@
+{
+  "ts": "2025-12-11T21:20:29.484683Z",
+  "oi": {
+    "BTC": {
+      "open_interest": 60093705704.7666,
+      "oi_change_24h": 1.53,
+      "oi_change_1h": 1.11,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "ETH": {
+      "open_interest": 41516188661.3728,
+      "oi_change_24h": -0.63,
+      "oi_change_1h": 0.66,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "SOL": {
+      "open_interest": 7227978393.6972,
+      "oi_change_24h": -1.22,
+      "oi_change_1h": 1.36,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "XRP": {
+      "open_interest": 3759799500.0553,
+      "oi_change_24h": 0.05,
+      "oi_change_1h": 0.34,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "DOGE": {
+      "open_interest": 1500218864.9232,
+      "oi_change_24h": 0.11,
+      "oi_change_1h": 0.12,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "BNB": {
+      "open_interest": 1380001298.4712,
+      "oi_change_24h": -1.07,
+      "oi_change_1h": 0.05,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "AVAX": {
+      "open_interest": 519493331.1185,
+      "oi_change_24h": -3.3,
+      "oi_change_1h": 0.95,
+      "oi_signal": 0,
+      "source": "coinglass"
+    },
+    "ADA": {
+      "open_interest": 712874977.8863,
+      "oi_change_24h": -8.96,
+      "oi_change_1h": 1.29,
+      "oi_signal": 0,
+      "source": "coinglass"
+    }
+  }
+}

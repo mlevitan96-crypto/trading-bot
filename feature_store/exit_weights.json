@@ -1,0 +1,21 @@
+{
+  "weights": {
+    "unrealized_pnl": 0.0049586776859506946,
+    "mtf_exit_signal": 0.04793388429752321,
+    "regime_shift": 0.03595041322314255,
+    "hold_duration": 0.09917355371901367,
+    "trailing_stop": 0.3999999999999945,
+    "momentum_reversal": 0.3999999999999945,
+    "volume_decline": 0.011983471074380803
+  },
+  "updated_at": "2025-12-10T22:54:40.050119",
+  "adjustments": [
+    "trailing_stop +20%, momentum_reversal +15% (late exit rate: 31%)"
+  ],
+  "source": "complete_feedback_loop",
+  "analysis": {
+    "too_early_pct": 0.0,
+    "too_late_pct": 0.31,
+    "total_trades": 200
+  }
+}

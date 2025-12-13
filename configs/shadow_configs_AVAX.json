@@ -1,0 +1,7 @@
+{
+  "experiments": [
+    { "name": "AVAX_baseline",           "ema_short": 9,  "ema_long": 20, "tiers_pct": [0.35,0.35,0.3], "trail_atr_mult": 2.5,  "min_slice_pct": 0.01,  "margin_budget_usdt": 150,  "leverage": 4 },
+    { "name": "AVAX_signal_tight",       "ema_short": 9,  "ema_long": 20, "tiers_pct": [0.35,0.35,0.3], "trail_atr_mult": 2.0,  "min_slice_pct": 0.02,  "margin_budget_usdt": 150,  "leverage": 3, "require_adx": 20 },
+    { "name": "AVAX_scale_2x",           "ema_short": 9,  "ema_long": 20, "tiers_pct": [0.35,0.35,0.3], "trail_atr_mult": 2.5,  "min_slice_pct": 0.01,  "margin_budget_usdt": 300,  "leverage": 4 }
+  ]
+}

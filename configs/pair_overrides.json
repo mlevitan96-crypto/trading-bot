@@ -1,0 +1,12 @@
+{
+  "overrides": {
+    "TRXUSDT": {
+      "enabled": false,
+      "min_profit_usd": 5.0,
+      "kelly_cap": 1.0,
+      "trail_pct": 0.02,
+      "preferred_strategies": [],
+      "reason": "0% win rate (0/18 exits), -$36.42 total loss, excessive churn - DISABLED"
+    }
+  }
+}

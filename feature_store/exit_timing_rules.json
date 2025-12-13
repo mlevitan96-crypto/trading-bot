@@ -1,0 +1,788 @@
+{
+  "generated_at": "2025-12-11T10:00:31.088894",
+  "analysis_summary": {
+    "total_trades": 798,
+    "patterns_analyzed": 34,
+    "symbols_analyzed": 12
+  },
+  "timing_quality": {
+    "total_trades": 798,
+    "winners": 291,
+    "losers": 507,
+    "exit_timing": {
+      "early_exits": 0,
+      "optimal_exits": 0,
+      "late_exits": 0,
+      "early_exit_pct": 0.0
+    },
+    "missed_opportunities": {
+      "losers_that_were_winning": 0,
+      "pct_of_losers": 0.0
+    },
+    "avg_winner_capture": 0.0,
+    "recommendations": [
+      "Insufficient data for recommendations"
+    ]
+  },
+  "top_patterns": [
+    {
+      "pattern": "DOTUSDT|LONG|ofi=strong",
+      "pnl": 17.67,
+      "win_rate": 68.6,
+      "optimal_tp1": 0.005,
+      "optimal_tp2": 0.01,
+      "size_boost": 1.19
+    },
+    {
+      "pattern": "OPUSDT|LONG|ofi=strong",
+      "pnl": 3.31,
+      "win_rate": 80.0,
+      "optimal_tp1": 0.005,
+      "optimal_tp2": 0.01,
+      "size_boost": 1.0
+    },
+    {
+      "pattern": "ADAUSDT|SHORT|ofi=very_strong",
+      "pnl": 3.24,
+      "win_rate": 75.0,
+      "optimal_tp1": 0.005,
+      "optimal_tp2": 0.01,
+      "size_boost": 1.0
+    },
+    {
+      "pattern": "DOGEUSDT|SHORT|ofi=extreme",
+      "pnl": 1.56,
+      "win_rate": 75.0,
+      "optimal_tp1": 0.005,
+      "optimal_tp2": 0.01,
+      "size_boost": 1.0
+    },
+    {
+      "pattern": "BNBUSDT|SHORT|ofi=extreme",
+      "pnl": 0.72,
+      "win_rate": 66.7,
+      "optimal_tp1": 0.005,
+      "optimal_tp2": 0.01,
+      "size_boost": 1.0
+    }
+  ],
+  "per_pattern": {
+    "DOTUSDT|LONG|ofi=strong": {
+      "trades": 35,
+      "wins": 24,
+      "win_rate": 68.6,
+      "total_pnl": 17.67,
+      "avg_pnl": 0.505,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_aggressive",
+      "size_boost": 1.19
+    },
+    "OPUSDT|LONG|ofi=strong": {
+      "trades": 5,
+      "wins": 4,
+      "win_rate": 80.0,
+      "total_pnl": 3.31,
+      "avg_pnl": 0.662,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "ADAUSDT|SHORT|ofi=very_strong": {
+      "trades": 4,
+      "wins": 3,
+      "win_rate": 75.0,
+      "total_pnl": 3.24,
+      "avg_pnl": 0.81,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "SOLUSDT|SHORT|ofi=strong": {
+      "trades": 14,
+      "wins": 5,
+      "win_rate": 35.7,
+      "total_pnl": 1.76,
+      "avg_pnl": 0.126,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "DOGEUSDT|SHORT|ofi=extreme": {
+      "trades": 4,
+      "wins": 3,
+      "win_rate": 75.0,
+      "total_pnl": 1.56,
+      "avg_pnl": 0.389,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "ADAUSDT|SHORT|ofi=strong": {
+      "trades": 10,
+      "wins": 4,
+      "win_rate": 40.0,
+      "total_pnl": 0.8,
+      "avg_pnl": 0.08,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "BNBUSDT|SHORT|ofi=extreme": {
+      "trades": 3,
+      "wins": 2,
+      "win_rate": 66.7,
+      "total_pnl": 0.72,
+      "avg_pnl": 0.241,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "BTCUSDT|SHORT|ofi=extreme": {
+      "trades": 21,
+      "wins": 9,
+      "win_rate": 42.9,
+      "total_pnl": 0.52,
+      "avg_pnl": 0.025,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "ADAUSDT|SHORT|ofi=extreme": {
+      "trades": 3,
+      "wins": 1,
+      "win_rate": 33.3,
+      "total_pnl": 0.32,
+      "avg_pnl": 0.106,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "XRPUSDT|SHORT|ofi=extreme": {
+      "trades": 9,
+      "wins": 4,
+      "win_rate": 44.4,
+      "total_pnl": 0.19,
+      "avg_pnl": 0.021,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "trade_normal",
+      "size_boost": 1.0
+    },
+    "ETHUSDT|SHORT|ofi=very_strong": {
+      "trades": 6,
+      "wins": 3,
+      "win_rate": 50.0,
+      "total_pnl": -0.33,
+      "avg_pnl": -0.055,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.99
+    },
+    "AVAXUSDT|LONG|ofi=strong": {
+      "trades": 55,
+      "wins": 17,
+      "win_rate": 30.9,
+      "total_pnl": -0.39,
+      "avg_pnl": -0.007,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.99
+    },
+    "DOGEUSDT|SHORT|ofi=very_strong": {
+      "trades": 4,
+      "wins": 2,
+      "win_rate": 50.0,
+      "total_pnl": -0.6,
+      "avg_pnl": -0.149,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.99
+    },
+    "DOGEUSDT|SHORT|ofi=strong": {
+      "trades": 12,
+      "wins": 4,
+      "win_rate": 33.3,
+      "total_pnl": -0.82,
+      "avg_pnl": -0.069,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.98
+    },
+    "BNBUSDT|SHORT|ofi=very_strong": {
+      "trades": 3,
+      "wins": 1,
+      "win_rate": 33.3,
+      "total_pnl": -1.49,
+      "avg_pnl": -0.498,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.97
+    },
+    "BNBUSDT|LONG|ofi=strong": {
+      "trades": 15,
+      "wins": 6,
+      "win_rate": 40.0,
+      "total_pnl": -1.54,
+      "avg_pnl": -0.103,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.97
+    },
+    "ETHUSDT|SHORT|ofi=strong": {
+      "trades": 15,
+      "wins": 7,
+      "win_rate": 46.7,
+      "total_pnl": -1.8,
+      "avg_pnl": -0.12,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.96
+    },
+    "ADAUSDT|LONG|ofi=strong": {
+      "trades": 21,
+      "wins": 9,
+      "win_rate": 42.9,
+      "total_pnl": -2.12,
+      "avg_pnl": -0.101,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.96
+    },
+    "ARBUSDT|LONG|ofi=strong": {
+      "trades": 4,
+      "wins": 0,
+      "win_rate": 0.0,
+      "total_pnl": -2.26,
+      "avg_pnl": -0.565,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.95
+    },
+    "AVAXUSDT|SHORT|ofi=extreme": {
+      "trades": 15,
+      "wins": 6,
+      "win_rate": 40.0,
+      "total_pnl": -2.42,
+      "avg_pnl": -0.161,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.95
+    },
+    "AVAXUSDT|SHORT|ofi=very_strong": {
+      "trades": 17,
+      "wins": 6,
+      "win_rate": 35.3,
+      "total_pnl": -2.48,
+      "avg_pnl": -0.146,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.95
+    },
+    "BTCUSDT|SHORT|ofi=very_strong": {
+      "trades": 10,
+      "wins": 4,
+      "win_rate": 40.0,
+      "total_pnl": -2.57,
+      "avg_pnl": -0.257,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.95
+    },
+    "BTCUSDT|SHORT|ofi=strong": {
+      "trades": 14,
+      "wins": 3,
+      "win_rate": 21.4,
+      "total_pnl": -2.72,
+      "avg_pnl": -0.195,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.95
+    },
+    "SOLUSDT|SHORT|ofi=very_strong": {
+      "trades": 13,
+      "wins": 5,
+      "win_rate": 38.5,
+      "total_pnl": -2.9,
+      "avg_pnl": -0.223,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.94
+    },
+    "DOGEUSDT|LONG|ofi=strong": {
+      "trades": 12,
+      "wins": 2,
+      "win_rate": 16.7,
+      "total_pnl": -3.27,
+      "avg_pnl": -0.272,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.93
+    },
+    "XRPUSDT|SHORT|ofi=strong": {
+      "trades": 9,
+      "wins": 1,
+      "win_rate": 11.1,
+      "total_pnl": -5.26,
+      "avg_pnl": -0.584,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.89
+    },
+    "SOLUSDT|SHORT|ofi=extreme": {
+      "trades": 9,
+      "wins": 3,
+      "win_rate": 33.3,
+      "total_pnl": -5.89,
+      "avg_pnl": -0.655,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.88
+    },
+    "XRPUSDT|SHORT|ofi=very_strong": {
+      "trades": 13,
+      "wins": 2,
+      "win_rate": 15.4,
+      "total_pnl": -6.1,
+      "avg_pnl": -0.469,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.88
+    },
+    "MATICUSDT|LONG|ofi=strong": {
+      "trades": 24,
+      "wins": 0,
+      "win_rate": 0.0,
+      "total_pnl": -6.6,
+      "avg_pnl": -0.275,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.87
+    },
+    "ETHUSDT|SHORT|ofi=extreme": {
+      "trades": 38,
+      "wins": 9,
+      "win_rate": 23.7,
+      "total_pnl": -9.93,
+      "avg_pnl": -0.261,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.8
+    },
+    "XRPUSDT|LONG|ofi=strong": {
+      "trades": 33,
+      "wins": 10,
+      "win_rate": 30.3,
+      "total_pnl": -10.32,
+      "avg_pnl": -0.313,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.79
+    },
+    "ETHUSDT|LONG|ofi=strong": {
+      "trades": 123,
+      "wins": 48,
+      "win_rate": 39.0,
+      "total_pnl": -18.96,
+      "avg_pnl": -0.154,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.62
+    },
+    "BTCUSDT|LONG|ofi=strong": {
+      "trades": 130,
+      "wins": 45,
+      "win_rate": 34.6,
+      "total_pnl": -19.27,
+      "avg_pnl": -0.148,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.61
+    },
+    "SOLUSDT|LONG|ofi=strong": {
+      "trades": 88,
+      "wins": 33,
+      "win_rate": 37.5,
+      "total_pnl": -25.51,
+      "avg_pnl": -0.29,
+      "avg_mfe_pct": 0.0,
+      "avg_mae_pct": 0.0,
+      "rr_ratio": 0,
+      "avg_capture_ratio": 0.0,
+      "optimal_targets": {
+        "tp1_roi": 0.005,
+        "tp2_roi": 0.01,
+        "stop_loss_roi": -0.005
+      },
+      "recommendation": "reduce_exposure",
+      "size_boost": 0.5
+    }
+  },
+  "per_symbol_targets": {
+    "DOTUSDT": {
+      "total_trades": 35,
+      "total_pnl": 17.67,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 30
+    },
+    "OPUSDT": {
+      "total_trades": 5,
+      "total_pnl": 3.31,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 30
+    },
+    "ADAUSDT": {
+      "total_trades": 38,
+      "total_pnl": 2.24,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 30
+    },
+    "SOLUSDT": {
+      "total_trades": 124,
+      "total_pnl": -32.54,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "DOGEUSDT": {
+      "total_trades": 32,
+      "total_pnl": -3.13,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "BNBUSDT": {
+      "total_trades": 21,
+      "total_pnl": -2.31,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "BTCUSDT": {
+      "total_trades": 175,
+      "total_pnl": -24.04,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "XRPUSDT": {
+      "total_trades": 64,
+      "total_pnl": -21.49,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "ETHUSDT": {
+      "total_trades": 182,
+      "total_pnl": -31.02,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "AVAXUSDT": {
+      "total_trades": 87,
+      "total_pnl": -5.29,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "ARBUSDT": {
+      "total_trades": 4,
+      "total_pnl": -2.26,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    },
+    "MATICUSDT": {
+      "total_trades": 24,
+      "total_pnl": -6.6,
+      "tp1_roi": 0.0,
+      "tp2_roi": 0.0,
+      "stop_loss_roi": -0.0,
+      "min_hold_minutes": 20
+    }
+  },
+  "global_defaults": {
+    "tp1_roi": 0.005,
+    "tp2_roi": 0.01,
+    "stop_loss_roi": -0.005,
+    "min_hold_minutes": 30,
+    "capture_target": 0.6
+  }
+}

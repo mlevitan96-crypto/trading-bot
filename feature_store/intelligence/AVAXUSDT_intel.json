@@ -1,0 +1,37 @@
+{
+  "symbol": "AVAX",
+  "ts": "2025-12-11T21:20:54.247926Z",
+  "taker": {
+    "buy_vol_usd": 389303599.3986621,
+    "sell_vol_usd": 447602035.8993943,
+    "buy_ratio": 0.46520000000000006,
+    "sell_ratio": 0.5347999999999999,
+    "buy_sell_ratio": 0.8697538620806549
+  },
+  "liquidation": {
+    "liq_long_24h": 1210465.48782119,
+    "liq_short_24h": 75229.97322904,
+    "liq_total_24h": 1285695.4610502298,
+    "liq_ratio": 0.9414869418862319,
+    "liq_1h_long": 0.0,
+    "liq_1h_short": 21084.60068904,
+    "liq_4h_long": 1383.796,
+    "liq_4h_short": 63076.92602904
+  },
+  "fear_greed": 30,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.8,
+    "composite": -0.8,
+    "components": {
+      "flow": -1,
+      "liquidation": -1,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.87,
+      "liq_ratio": 0.941,
+      "fear_greed": 30
+    }
+  }
+}

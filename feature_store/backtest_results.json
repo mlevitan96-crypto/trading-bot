@@ -1,0 +1,565 @@
+{
+  "generated_at": "2025-12-11T10:00:31.154615",
+  "total_trades": 798,
+  "total_pnl": -101.54,
+  "sharpe_ratio": -0.138,
+  "by_hold_time": {
+    "0-2min": {
+      "trades": 1,
+      "pnl": 0.79,
+      "win_rate": 100.0,
+      "avg_pnl": 0.794,
+      "recommendation": "hold_until"
+    },
+    "2-5min": {
+      "trades": 2,
+      "pnl": -0.43,
+      "win_rate": 50.0,
+      "avg_pnl": -0.214,
+      "recommendation": "neutral"
+    },
+    "5-10min": {
+      "trades": 20,
+      "pnl": 11.32,
+      "win_rate": 65.0,
+      "avg_pnl": 0.566,
+      "recommendation": "hold_until"
+    },
+    "10-30min": {
+      "trades": 621,
+      "pnl": -83.04,
+      "win_rate": 36.4,
+      "avg_pnl": -0.134,
+      "recommendation": "block_exit_before"
+    },
+    "30-60min": {
+      "trades": 113,
+      "pnl": -33.35,
+      "win_rate": 24.8,
+      "avg_pnl": -0.295,
+      "recommendation": "neutral"
+    },
+    "60-120min": {
+      "trades": 29,
+      "pnl": -10.08,
+      "win_rate": 51.7,
+      "avg_pnl": -0.348,
+      "recommendation": "neutral"
+    },
+    "120min+": {
+      "trades": 12,
+      "pnl": 13.25,
+      "win_rate": 58.3,
+      "avg_pnl": 1.104,
+      "recommendation": "hold_until"
+    }
+  },
+  "by_hour": {
+    "00:00": {
+      "trades": 49,
+      "wins": 17,
+      "pnl": 0.22,
+      "win_rate": 34.7,
+      "avg_pnl": 0.005,
+      "recommendation": "normal"
+    },
+    "01:00": {
+      "trades": 41,
+      "wins": 11,
+      "pnl": -17.9,
+      "win_rate": 26.8,
+      "avg_pnl": -0.437,
+      "recommendation": "normal"
+    },
+    "02:00": {
+      "trades": 36,
+      "wins": 7,
+      "pnl": -11.15,
+      "win_rate": 19.4,
+      "avg_pnl": -0.31,
+      "recommendation": "normal"
+    },
+    "08:00": {
+      "trades": 22,
+      "wins": 4,
+      "pnl": -10.67,
+      "win_rate": 18.2,
+      "avg_pnl": -0.485,
+      "recommendation": "normal"
+    },
+    "09:00": {
+      "trades": 17,
+      "wins": 9,
+      "pnl": -0.83,
+      "win_rate": 52.9,
+      "avg_pnl": -0.049,
+      "recommendation": "normal"
+    },
+    "10:00": {
+      "trades": 25,
+      "wins": 7,
+      "pnl": -9.68,
+      "win_rate": 28.0,
+      "avg_pnl": -0.387,
+      "recommendation": "normal"
+    },
+    "11:00": {
+      "trades": 18,
+      "wins": 1,
+      "pnl": -21.05,
+      "win_rate": 5.6,
+      "avg_pnl": -1.17,
+      "recommendation": "block_trading"
+    },
+    "12:00": {
+      "trades": 22,
+      "wins": 7,
+      "pnl": -12.76,
+      "win_rate": 31.8,
+      "avg_pnl": -0.58,
+      "recommendation": "normal"
+    },
+    "13:00": {
+      "trades": 25,
+      "wins": 15,
+      "pnl": 16.55,
+      "win_rate": 60.0,
+      "avg_pnl": 0.662,
+      "recommendation": "normal"
+    },
+    "14:00": {
+      "trades": 27,
+      "wins": 15,
+      "pnl": 0.45,
+      "win_rate": 55.6,
+      "avg_pnl": 0.017,
+      "recommendation": "normal"
+    },
+    "15:00": {
+      "trades": 31,
+      "wins": 8,
+      "pnl": -14.68,
+      "win_rate": 25.8,
+      "avg_pnl": -0.474,
+      "recommendation": "normal"
+    },
+    "16:00": {
+      "trades": 41,
+      "wins": 21,
+      "pnl": 5.13,
+      "win_rate": 51.2,
+      "avg_pnl": 0.125,
+      "recommendation": "normal"
+    },
+    "17:00": {
+      "trades": 46,
+      "wins": 26,
+      "pnl": 8.46,
+      "win_rate": 56.5,
+      "avg_pnl": 0.184,
+      "recommendation": "normal"
+    },
+    "18:00": {
+      "trades": 63,
+      "wins": 37,
+      "pnl": 8.71,
+      "win_rate": 58.7,
+      "avg_pnl": 0.138,
+      "recommendation": "normal"
+    },
+    "19:00": {
+      "trades": 64,
+      "wins": 36,
+      "pnl": 8.92,
+      "win_rate": 56.2,
+      "avg_pnl": 0.139,
+      "recommendation": "normal"
+    },
+    "20:00": {
+      "trades": 71,
+      "wins": 13,
+      "pnl": -10.8,
+      "win_rate": 18.3,
+      "avg_pnl": -0.152,
+      "recommendation": "normal"
+    },
+    "21:00": {
+      "trades": 71,
+      "wins": 15,
+      "pnl": -31.84,
+      "win_rate": 21.1,
+      "avg_pnl": -0.448,
+      "recommendation": "block_trading"
+    },
+    "22:00": {
+      "trades": 72,
+      "wins": 20,
+      "pnl": -17.2,
+      "win_rate": 27.8,
+      "avg_pnl": -0.239,
+      "recommendation": "normal"
+    },
+    "23:00": {
+      "trades": 57,
+      "wins": 22,
+      "pnl": 8.61,
+      "win_rate": 38.6,
+      "avg_pnl": 0.151,
+      "recommendation": "normal"
+    }
+  },
+  "by_symbol_direction": {
+    "DOTUSDT|LONG": {
+      "trades": 35,
+      "wins": 24,
+      "pnl": 17.67,
+      "win_rate": 68.6,
+      "avg_pnl": 0.505,
+      "ev": 0.505,
+      "avg_duration_min": 35.0,
+      "avg_ofi": 0,
+      "rr_ratio": 1.62,
+      "recommendation": "trade_aggressive",
+      "size_multiplier": 1.19
+    },
+    "ADAUSDT|SHORT": {
+      "trades": 17,
+      "wins": 8,
+      "pnl": 4.36,
+      "win_rate": 47.1,
+      "avg_pnl": 0.256,
+      "ev": 0.256,
+      "avg_duration_min": 21.3,
+      "avg_ofi": 0.758,
+      "rr_ratio": 2.91,
+      "recommendation": "trade_normal",
+      "size_multiplier": 1.0
+    },
+    "OPUSDT|LONG": {
+      "trades": 5,
+      "wins": 4,
+      "pnl": 3.31,
+      "win_rate": 80.0,
+      "avg_pnl": 0.662,
+      "ev": 0.662,
+      "avg_duration_min": 14.6,
+      "avg_ofi": 0,
+      "rr_ratio": 3.52,
+      "recommendation": "trade_normal",
+      "size_multiplier": 1.0
+    },
+    "DOGEUSDT|SHORT": {
+      "trades": 20,
+      "wins": 9,
+      "pnl": 0.13,
+      "win_rate": 45.0,
+      "avg_pnl": 0.007,
+      "ev": 0.007,
+      "avg_duration_min": 16.0,
+      "avg_ofi": 0.745,
+      "rr_ratio": 1.25,
+      "recommendation": "trade_normal",
+      "size_multiplier": 1.0
+    },
+    "AVAXUSDT|LONG": {
+      "trades": 55,
+      "wins": 17,
+      "pnl": -0.39,
+      "win_rate": 30.9,
+      "avg_pnl": -0.007,
+      "ev": -0.007,
+      "avg_duration_min": 39.1,
+      "avg_ofi": 0,
+      "rr_ratio": 2.19,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.99
+    },
+    "BNBUSDT|SHORT": {
+      "trades": 8,
+      "wins": 4,
+      "pnl": -0.7,
+      "win_rate": 50.0,
+      "avg_pnl": -0.087,
+      "ev": -0.087,
+      "avg_duration_min": 11.4,
+      "avg_ofi": 0.85,
+      "rr_ratio": 0.71,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.99
+    },
+    "BNBUSDT|LONG": {
+      "trades": 15,
+      "wins": 6,
+      "pnl": -1.54,
+      "win_rate": 40.0,
+      "avg_pnl": -0.103,
+      "ev": -0.103,
+      "avg_duration_min": 103.6,
+      "avg_ofi": 0,
+      "rr_ratio": 0.9,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.97
+    },
+    "ADAUSDT|LONG": {
+      "trades": 21,
+      "wins": 9,
+      "pnl": -2.12,
+      "win_rate": 42.9,
+      "avg_pnl": -0.101,
+      "ev": -0.101,
+      "avg_duration_min": 16.1,
+      "avg_ofi": 0,
+      "rr_ratio": 0.92,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.96
+    },
+    "ARBUSDT|LONG": {
+      "trades": 4,
+      "wins": 0,
+      "pnl": -2.26,
+      "win_rate": 0.0,
+      "avg_pnl": -0.565,
+      "ev": -0.565,
+      "avg_duration_min": 10.7,
+      "avg_ofi": 0,
+      "rr_ratio": 0.0,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.95
+    },
+    "AVAXUSDT|SHORT": {
+      "trades": 34,
+      "wins": 14,
+      "pnl": -3.26,
+      "win_rate": 41.2,
+      "avg_pnl": -0.096,
+      "ev": -0.096,
+      "avg_duration_min": 24.3,
+      "avg_ofi": 0.889,
+      "rr_ratio": 1.12,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.93
+    },
+    "DOGEUSDT|LONG": {
+      "trades": 12,
+      "wins": 2,
+      "pnl": -3.27,
+      "win_rate": 16.7,
+      "avg_pnl": -0.272,
+      "ev": -0.272,
+      "avg_duration_min": 59.8,
+      "avg_ofi": 0,
+      "rr_ratio": 2.01,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.93
+    },
+    "BTCUSDT|SHORT": {
+      "trades": 45,
+      "wins": 16,
+      "pnl": -4.77,
+      "win_rate": 35.6,
+      "avg_pnl": -0.106,
+      "ev": -0.106,
+      "avg_duration_min": 25.1,
+      "avg_ofi": 0.851,
+      "rr_ratio": 1.15,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.9
+    },
+    "MATICUSDT|LONG": {
+      "trades": 24,
+      "wins": 0,
+      "pnl": -6.6,
+      "win_rate": 0.0,
+      "avg_pnl": -0.275,
+      "ev": -0.275,
+      "avg_duration_min": 17.6,
+      "avg_ofi": 0,
+      "rr_ratio": 0.0,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.87
+    },
+    "SOLUSDT|SHORT": {
+      "trades": 36,
+      "wins": 13,
+      "pnl": -7.04,
+      "win_rate": 36.1,
+      "avg_pnl": -0.195,
+      "ev": -0.195,
+      "avg_duration_min": 23.0,
+      "avg_ofi": 0.796,
+      "rr_ratio": 1.06,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.86
+    },
+    "XRPUSDT|LONG": {
+      "trades": 33,
+      "wins": 10,
+      "pnl": -10.32,
+      "win_rate": 30.3,
+      "avg_pnl": -0.313,
+      "ev": -0.313,
+      "avg_duration_min": 14.6,
+      "avg_ofi": 0,
+      "rr_ratio": 0.73,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.79
+    },
+    "XRPUSDT|SHORT": {
+      "trades": 31,
+      "wins": 7,
+      "pnl": -11.17,
+      "win_rate": 22.6,
+      "avg_pnl": -0.36,
+      "ev": -0.36,
+      "avg_duration_min": 16.7,
+      "avg_ofi": 0.819,
+      "rr_ratio": 0.62,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.78
+    },
+    "ETHUSDT|SHORT": {
+      "trades": 59,
+      "wins": 19,
+      "pnl": -12.06,
+      "win_rate": 32.2,
+      "avg_pnl": -0.204,
+      "ev": -0.204,
+      "avg_duration_min": 18.2,
+      "avg_ofi": 0.883,
+      "rr_ratio": 0.9,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.76
+    },
+    "ETHUSDT|LONG": {
+      "trades": 123,
+      "wins": 48,
+      "pnl": -18.96,
+      "win_rate": 39.0,
+      "avg_pnl": -0.154,
+      "ev": -0.154,
+      "avg_duration_min": 32.6,
+      "avg_ofi": 0,
+      "rr_ratio": 0.94,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.62
+    },
+    "BTCUSDT|LONG": {
+      "trades": 130,
+      "wins": 45,
+      "pnl": -19.27,
+      "win_rate": 34.6,
+      "avg_pnl": -0.148,
+      "ev": -0.148,
+      "avg_duration_min": 29.5,
+      "avg_ofi": 0,
+      "rr_ratio": 1.02,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.61
+    },
+    "SOLUSDT|LONG": {
+      "trades": 88,
+      "wins": 33,
+      "pnl": -25.51,
+      "win_rate": 37.5,
+      "avg_pnl": -0.29,
+      "ev": -0.29,
+      "avg_duration_min": 19.7,
+      "avg_ofi": 0,
+      "rr_ratio": 0.79,
+      "recommendation": "reduce_size",
+      "size_multiplier": 0.5
+    }
+  },
+  "min_hold_simulation": {
+    "15min": {
+      "min_hold_minutes": 15,
+      "early_exits": {
+        "count": 191,
+        "total_pnl": 3.42,
+        "win_rate": 47.1,
+        "avg_pnl": 0.018
+      },
+      "normal_exits": {
+        "count": 607,
+        "total_pnl": -104.96,
+        "win_rate": 33.1,
+        "avg_pnl": -0.173
+      },
+      "potential_improvement": 0,
+      "recommendation": "optional"
+    },
+    "30min": {
+      "min_hold_minutes": 30,
+      "early_exits": {
+        "count": 644,
+        "total_pnl": -71.36,
+        "win_rate": 37.4,
+        "avg_pnl": -0.111
+      },
+      "normal_exits": {
+        "count": 154,
+        "total_pnl": -30.18,
+        "win_rate": 32.5,
+        "avg_pnl": -0.196
+      },
+      "potential_improvement": 71.36,
+      "recommendation": "enforce_min_hold"
+    },
+    "45min": {
+      "min_hold_minutes": 45,
+      "early_exits": {
+        "count": 740,
+        "total_pnl": -101.55,
+        "win_rate": 35.4,
+        "avg_pnl": -0.137
+      },
+      "normal_exits": {
+        "count": 58,
+        "total_pnl": 0.01,
+        "win_rate": 50.0,
+        "avg_pnl": 0.0
+      },
+      "potential_improvement": 101.55,
+      "recommendation": "enforce_min_hold"
+    },
+    "60min": {
+      "min_hold_minutes": 60,
+      "early_exits": {
+        "count": 757,
+        "total_pnl": -104.71,
+        "win_rate": 35.5,
+        "avg_pnl": -0.138
+      },
+      "normal_exits": {
+        "count": 41,
+        "total_pnl": 3.17,
+        "win_rate": 53.7,
+        "avg_pnl": 0.077
+      },
+      "potential_improvement": 104.71,
+      "recommendation": "enforce_min_hold"
+    }
+  },
+  "optimal_settings": {
+    "min_hold_minutes": 30,
+    "best_hours_utc": [
+      13
+    ],
+    "worst_hours_utc": [
+      1,
+      2,
+      8,
+      11,
+      12,
+      15,
+      20,
+      21,
+      22
+    ],
+    "profitable_hold_buckets": [
+      "0-2min",
+      "5-10min",
+      "120min+"
+    ]
+  }
+}

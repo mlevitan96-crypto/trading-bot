@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "relax_pct_stable": {
+    "majors": 0.03,
+    "l1s": 0.05,
+    "experimental": 0.0
+  },
+  "min_ensemble_score_base": 0.55,
+  "min_hold_seconds": 180,
+  "min_hold_allow_protective_exit": true,
+  "suppress_shorts_until_profitable": false,
+  "shorts_min_wr": 0.48,
+  "shorts_min_pnl_usd": 0.0,
+  "shorts_window_trades": 30,
+  "blofin_fee_maker": 0.0002,
+  "blofin_fee_taker": 0.0006,
+  "dashboard_refresh_sec": 60,
+  "futures_margin_pct": 0.20,
+  "futures_margin_ratchet_enabled": true,
+  "futures_margin_max_pct": 0.30
+}

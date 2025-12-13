@@ -1,0 +1,83 @@
+{
+  "created_at": "2025-11-27T20:25:59.936659",
+  "source": "daily_intelligence_learner",
+  "overlays": [
+    {
+      "pattern": "sym=DOTUSDT|dir=SHORT|ofi=strong",
+      "size_multiplier": 1.5,
+      "confidence_boost": 0.1,
+      "evidence": {
+        "trades": 5,
+        "pnl": 17.75,
+        "ev": 3.55
+      },
+      "active": true
+    },
+    {
+      "pattern": "sym=BNBUSDT|ofi=weak|ens=neutral",
+      "size_multiplier": 1.47,
+      "confidence_boost": 0.08,
+      "evidence": {
+        "trades": 5,
+        "pnl": 4.69,
+        "ev": 0.94
+      },
+      "active": true
+    },
+    {
+      "pattern": "sym=BNBUSDT|dir=LONG|ens=neutral",
+      "size_multiplier": 1.28,
+      "confidence_boost": 0.05,
+      "evidence": {
+        "trades": 6,
+        "pnl": 3.39,
+        "ev": 0.57
+      },
+      "active": true
+    },
+    {
+      "pattern": "sym=DOTUSDT|dir=SHORT|ens=strong_bear",
+      "size_multiplier": 1.08,
+      "confidence_boost": 0.03,
+      "evidence": {
+        "trades": 20,
+        "pnl": 3.33,
+        "ev": 0.17
+      },
+      "active": true
+    },
+    {
+      "pattern": "sym=ETHUSDT|dir=SHORT|ens=strong_bear",
+      "size_multiplier": 1.06,
+      "confidence_boost": 0.02,
+      "evidence": {
+        "trades": 16,
+        "pnl": 1.9,
+        "ev": 0.12
+      },
+      "active": true
+    }
+  ],
+  "threshold_adjustments": {
+    "AVAXUSDT_SHORT": {
+      "ofi_threshold": 0.4,
+      "reason": "7 missed opportunities worth $167"
+    },
+    "DOTUSDT_SHORT": {
+      "ofi_threshold": 0.4,
+      "reason": "5 missed opportunities worth $125"
+    },
+    "XRPUSDT_SHORT": {
+      "ofi_threshold": 0.45,
+      "reason": "5 missed opportunities worth $104"
+    },
+    "ADAUSDT_SHORT": {
+      "ofi_threshold": 0.45,
+      "reason": "4 missed opportunities worth $83"
+    },
+    "ETHUSDT_LONG": {
+      "ofi_threshold": 0.45,
+      "reason": "4 missed opportunities worth $77"
+    }
+  }
+}

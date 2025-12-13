@@ -1,0 +1,511 @@
+{
+  "updated_at": "2025-12-11T21:04:25.558557",
+  "weights": {
+    "hurst": 0.1152,
+    "lead_lag": 0.0839,
+    "liquidation": 0.0816,
+    "funding": 0.0966,
+    "whale_flow": 0.1016,
+    "oi_velocity": 0.0798,
+    "ofi_momentum": 0.2141,
+    "fear_greed": 0.0288,
+    "volatility_skew": 0.1211,
+    "oi_divergence": 0.0774
+  },
+  "reasoning": {
+    "liquidation": "EV=0.0001, best_horizon=1h, increased 0.1%",
+    "funding": "EV=0.0012, best_horizon=1h, increased 1.2%",
+    "oi_velocity": "EV=0.0016, best_horizon=1h, increased 1.6%",
+    "whale_flow": "EV=-0.0002, best_horizon=1h, decreased 3.1%",
+    "ofi_momentum": "Insufficient data (0 < 50 samples), keeping current weight",
+    "fear_greed": "Insufficient data (0 < 50 samples), keeping current weight",
+    "hurst": "EV=0.0003, best_horizon=1h, increased 0.3%",
+    "lead_lag": "EV=0.0005, best_horizon=1h, increased 0.5%",
+    "volatility_skew": "EV=0.0005, best_horizon=1h, increased 0.5%",
+    "oi_divergence": "EV=-0.0000, best_horizon=1m, decreased 0.0%"
+  },
+  "data_quality": {
+    "total_outcomes": 27264,
+    "signals_with_data": [
+      "liquidation",
+      "funding",
+      "oi_velocity",
+      "whale_flow",
+      "hurst",
+      "lead_lag",
+      "volatility_skew",
+      "oi_divergence"
+    ],
+    "signals_no_data": [
+      "ofi_momentum",
+      "fear_greed"
+    ],
+    "min_samples_required": 50
+  },
+  "evs_by_horizon": {
+    "liquidation": {
+      "1m": -0.000546,
+      "5m": -0.000448,
+      "15m": -0.000296,
+      "30m": -1.3e-05,
+      "1h": 5.2e-05
+    },
+    "oi_velocity": {
+      "1m": -7.6e-05,
+      "5m": -1.8e-05,
+      "15m": -2e-05,
+      "30m": 0.000533,
+      "1h": 0.00162
+    },
+    "ofi_momentum": {
+      "1m": 0.0,
+      "5m": 0.0,
+      "15m": 0.0,
+      "30m": 0.0,
+      "1h": 0.0
+    },
+    "fear_greed": {
+      "1m": 0.0,
+      "5m": 0.0,
+      "15m": 0.0,
+      "30m": 0.0,
+      "1h": 0.0
+    },
+    "oi_divergence": {
+      "1m": -8e-06,
+      "5m": -1.5e-05,
+      "15m": -0.000343,
+      "30m": -0.001077,
+      "1h": -0.00284
+    },
+    "lead_lag": {
+      "1m": 2.5e-05,
+      "5m": 0.000286,
+      "15m": 0.000269,
+      "30m": 0.000189,
+      "1h": 0.000463
+    },
+    "whale_flow": {
+      "1m": -0.000732,
+      "5m": -0.000749,
+      "15m": -0.00067,
+      "30m": -0.000402,
+      "1h": -0.000193
+    },
+    "funding": {
+      "1m": 1.7e-05,
+      "5m": 7.6e-05,
+      "15m": 0.000253,
+      "30m": 0.00047,
+      "1h": 0.001157
+    },
+    "volatility_skew": {
+      "1m": -7.7e-05,
+      "5m": -5e-05,
+      "15m": 2.5e-05,
+      "30m": 0.000149,
+      "1h": 0.000455
+    },
+    "hurst": {
+      "1m": -0.000216,
+      "5m": -0.000237,
+      "15m": -0.000154,
+      "30m": -3e-05,
+      "1h": 0.000309
+    }
+  },
+  "best_horizons": {
+    "liquidation": {
+      "horizon": "1h",
+      "ev": 5.2e-05
+    },
+    "oi_velocity": {
+      "horizon": "1h",
+      "ev": 0.00162
+    },
+    "ofi_momentum": {
+      "horizon": "1m",
+      "ev": 0.0
+    },
+    "fear_greed": {
+      "horizon": "1m",
+      "ev": 0.0
+    },
+    "oi_divergence": {
+      "horizon": "1m",
+      "ev": -8e-06
+    },
+    "lead_lag": {
+      "horizon": "1h",
+      "ev": 0.000463
+    },
+    "whale_flow": {
+      "horizon": "1h",
+      "ev": -0.000193
+    },
+    "funding": {
+      "horizon": "1h",
+      "ev": 0.001157
+    },
+    "volatility_skew": {
+      "horizon": "1h",
+      "ev": 0.000455
+    },
+    "hurst": {
+      "horizon": "1h",
+      "ev": 0.000309
+    }
+  },
+  "history": [
+    {
+      "ts": "2025-12-09T01:52:03.489083",
+      "weights": {
+        "hurst": 0.1,
+        "lead_lag": 0.08,
+        "liquidation": 0.08,
+        "funding": 0.08,
+        "whale_flow": 0.12,
+        "oi_velocity": 0.08,
+        "ofi_momentum": 0.25,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1,
+        "oi_divergence": 0.08
+      }
+    },
+    {
+      "ts": "2025-12-09T01:58:45.425245",
+      "weights": {
+        "hurst": 0.1002,
+        "lead_lag": 0.0804,
+        "liquidation": 0.0792,
+        "funding": 0.0806,
+        "whale_flow": 0.1224,
+        "oi_velocity": 0.0798,
+        "ofi_momentum": 0.2467,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1021,
+        "oi_divergence": 0.0787
+      }
+    },
+    {
+      "ts": "2025-12-09T15:08:30.142331",
+      "weights": {
+        "hurst": 0.1004,
+        "lead_lag": 0.0808,
+        "liquidation": 0.0782,
+        "funding": 0.081,
+        "whale_flow": 0.1244,
+        "oi_velocity": 0.0795,
+        "ofi_momentum": 0.2435,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1041,
+        "oi_divergence": 0.0781
+      }
+    },
+    {
+      "ts": "2025-12-09T15:21:34.465768",
+      "weights": {
+        "hurst": 0.1006,
+        "lead_lag": 0.0812,
+        "liquidation": 0.0772,
+        "funding": 0.0814,
+        "whale_flow": 0.1265,
+        "oi_velocity": 0.0792,
+        "ofi_momentum": 0.2403,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1061,
+        "oi_divergence": 0.0775
+      }
+    },
+    {
+      "ts": "2025-12-09T16:32:58.840319",
+      "weights": {
+        "hurst": 0.1009,
+        "lead_lag": 0.0817,
+        "liquidation": 0.0762,
+        "funding": 0.0818,
+        "whale_flow": 0.1286,
+        "oi_velocity": 0.079,
+        "ofi_momentum": 0.2373,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.108,
+        "oi_divergence": 0.0766
+      }
+    },
+    {
+      "ts": "2025-12-09T17:17:20.738473",
+      "weights": {
+        "hurst": 0.1015,
+        "lead_lag": 0.0822,
+        "liquidation": 0.0753,
+        "funding": 0.0823,
+        "whale_flow": 0.1307,
+        "oi_velocity": 0.0793,
+        "ofi_momentum": 0.2346,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1085,
+        "oi_divergence": 0.0757
+      }
+    },
+    {
+      "ts": "2025-12-09T18:33:02.841844",
+      "weights": {
+        "hurst": 0.102,
+        "lead_lag": 0.0827,
+        "liquidation": 0.0752,
+        "funding": 0.0827,
+        "whale_flow": 0.1324,
+        "oi_velocity": 0.0796,
+        "ofi_momentum": 0.2318,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1089,
+        "oi_divergence": 0.0747
+      }
+    },
+    {
+      "ts": "2025-12-09T19:47:43.936164",
+      "weights": {
+        "hurst": 0.1025,
+        "lead_lag": 0.0832,
+        "liquidation": 0.0751,
+        "funding": 0.0832,
+        "whale_flow": 0.1341,
+        "oi_velocity": 0.0799,
+        "ofi_momentum": 0.2291,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1092,
+        "oi_divergence": 0.0738
+      }
+    },
+    {
+      "ts": "2025-12-09T20:09:15.675319",
+      "weights": {
+        "hurst": 0.103,
+        "lead_lag": 0.0837,
+        "liquidation": 0.075,
+        "funding": 0.0837,
+        "whale_flow": 0.1357,
+        "oi_velocity": 0.0802,
+        "ofi_momentum": 0.2264,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1095,
+        "oi_divergence": 0.0729
+      }
+    },
+    {
+      "ts": "2025-12-09T21:25:31.891288",
+      "weights": {
+        "hurst": 0.1034,
+        "lead_lag": 0.0842,
+        "liquidation": 0.0749,
+        "funding": 0.0843,
+        "whale_flow": 0.1373,
+        "oi_velocity": 0.0805,
+        "ofi_momentum": 0.2237,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1098,
+        "oi_divergence": 0.0719
+      }
+    },
+    {
+      "ts": "2025-12-09T21:31:23.545749",
+      "weights": {
+        "hurst": 0.1034,
+        "lead_lag": 0.0842,
+        "liquidation": 0.0749,
+        "funding": 0.0843,
+        "whale_flow": 0.1373,
+        "oi_velocity": 0.0805,
+        "ofi_momentum": 0.2237,
+        "fear_greed": 0.03,
+        "volatility_skew": 0.1098,
+        "oi_divergence": 0.0719
+      }
+    },
+    {
+      "ts": "2025-12-09T22:07:13.553450",
+      "weights": {
+        "hurst": 0.1054,
+        "lead_lag": 0.0829,
+        "liquidation": 0.0758,
+        "funding": 0.0855,
+        "whale_flow": 0.1351,
+        "oi_velocity": 0.0815,
+        "ofi_momentum": 0.2202,
+        "fear_greed": 0.0295,
+        "volatility_skew": 0.1111,
+        "oi_divergence": 0.0728
+      }
+    },
+    {
+      "ts": "2025-12-09T22:18:02.326016",
+      "weights": {
+        "hurst": 0.1063,
+        "lead_lag": 0.0817,
+        "liquidation": 0.077,
+        "funding": 0.0868,
+        "whale_flow": 0.1331,
+        "oi_velocity": 0.0822,
+        "ofi_momentum": 0.217,
+        "fear_greed": 0.0291,
+        "volatility_skew": 0.1128,
+        "oi_divergence": 0.074
+      }
+    },
+    {
+      "ts": "2025-12-10T01:13:14.971751",
+      "weights": {
+        "hurst": 0.1068,
+        "lead_lag": 0.0816,
+        "liquidation": 0.0779,
+        "funding": 0.0884,
+        "whale_flow": 0.1303,
+        "oi_velocity": 0.0799,
+        "ofi_momentum": 0.2162,
+        "fear_greed": 0.029,
+        "volatility_skew": 0.1146,
+        "oi_divergence": 0.0753
+      }
+    },
+    {
+      "ts": "2025-12-10T01:39:13.040900",
+      "weights": {
+        "hurst": 0.1086,
+        "lead_lag": 0.0813,
+        "liquidation": 0.0783,
+        "funding": 0.089,
+        "whale_flow": 0.1287,
+        "oi_velocity": 0.0779,
+        "ofi_momentum": 0.2148,
+        "fear_greed": 0.0288,
+        "volatility_skew": 0.1165,
+        "oi_divergence": 0.0762
+      }
+    },
+    {
+      "ts": "2025-12-10T02:19:11.073912",
+      "weights": {
+        "hurst": 0.1104,
+        "lead_lag": 0.0809,
+        "liquidation": 0.0789,
+        "funding": 0.0893,
+        "whale_flow": 0.127,
+        "oi_velocity": 0.0762,
+        "ofi_momentum": 0.2134,
+        "fear_greed": 0.0286,
+        "volatility_skew": 0.1184,
+        "oi_divergence": 0.0769
+      }
+    },
+    {
+      "ts": "2025-12-10T02:33:58.131071",
+      "weights": {
+        "hurst": 0.1123,
+        "lead_lag": 0.0807,
+        "liquidation": 0.0787,
+        "funding": 0.0898,
+        "whale_flow": 0.1256,
+        "oi_velocity": 0.0747,
+        "ofi_momentum": 0.2125,
+        "fear_greed": 0.0285,
+        "volatility_skew": 0.1204,
+        "oi_divergence": 0.0767
+      }
+    },
+    {
+      "ts": "2025-12-10T15:27:20.214172",
+      "weights": {
+        "hurst": 0.1129,
+        "lead_lag": 0.0814,
+        "liquidation": 0.0804,
+        "funding": 0.09,
+        "whale_flow": 0.1224,
+        "oi_velocity": 0.0756,
+        "ofi_momentum": 0.2132,
+        "fear_greed": 0.0286,
+        "volatility_skew": 0.1186,
+        "oi_divergence": 0.077
+      }
+    },
+    {
+      "ts": "2025-12-10T22:24:15.490528",
+      "weights": {
+        "hurst": 0.1134,
+        "lead_lag": 0.082,
+        "liquidation": 0.0806,
+        "funding": 0.0912,
+        "whale_flow": 0.1184,
+        "oi_velocity": 0.0757,
+        "ofi_momentum": 0.2138,
+        "fear_greed": 0.0287,
+        "volatility_skew": 0.1189,
+        "oi_divergence": 0.0773
+      }
+    },
+    {
+      "ts": "2025-12-10T23:28:20.143682",
+      "weights": {
+        "hurst": 0.1139,
+        "lead_lag": 0.0826,
+        "liquidation": 0.0808,
+        "funding": 0.0924,
+        "whale_flow": 0.1146,
+        "oi_velocity": 0.076,
+        "ofi_momentum": 0.2144,
+        "fear_greed": 0.0288,
+        "volatility_skew": 0.1191,
+        "oi_divergence": 0.0774
+      }
+    },
+    {
+      "ts": "2025-12-11T00:47:58.124938",
+      "weights": {
+        "hurst": 0.1141,
+        "lead_lag": 0.0829,
+        "liquidation": 0.0808,
+        "funding": 0.0936,
+        "whale_flow": 0.1112,
+        "oi_velocity": 0.0763,
+        "ofi_momentum": 0.2146,
+        "fear_greed": 0.0288,
+        "volatility_skew": 0.1203,
+        "oi_divergence": 0.0774
+      }
+    },
+    {
+      "ts": "2025-12-11T15:30:10.889449",
+      "weights": {
+        "hurst": 0.1146,
+        "lead_lag": 0.0832,
+        "liquidation": 0.0813,
+        "funding": 0.0945,
+        "whale_flow": 0.1082,
+        "oi_velocity": 0.0774,
+        "ofi_momentum": 0.2143,
+        "fear_greed": 0.0288,
+        "volatility_skew": 0.1203,
+        "oi_divergence": 0.0774
+      }
+    },
+    {
+      "ts": "2025-12-11T19:01:13.132223",
+      "weights": {
+        "hurst": 0.1149,
+        "lead_lag": 0.0836,
+        "liquidation": 0.0816,
+        "funding": 0.0955,
+        "whale_flow": 0.1049,
+        "oi_velocity": 0.0786,
+        "ofi_momentum": 0.2142,
+        "fear_greed": 0.0288,
+        "volatility_skew": 0.1206,
+        "oi_divergence": 0.0774
+      }
+    }
+  ],
+  "config": {
+    "max_weight_change_pct": 0.2,
+    "min_weight_floor": 0.05,
+    "min_samples": 50
+  }
+}

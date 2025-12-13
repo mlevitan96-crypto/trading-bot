@@ -1,0 +1,11 @@
+{
+  "size_throttle": 1.0,
+  "protective_mode": false,
+  "kill_switch_phase82": false,
+  "restart_stage": "full",
+  "allowed_symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT", "DOTUSDT", "TRXUSDT", "XRPUSDT", "ADAUSDT", "DOGEUSDT", "BNBUSDT", "MATICUSDT"],
+  "default_notional_usd": 500,
+  "paper_mode": true,
+  "updated_at": "2025-11-28T00:15:00Z",
+  "notes": "Reset to full trading mode with size_throttle=1.0 for proper position sizing"
+}

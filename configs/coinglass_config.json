@@ -1,0 +1,66 @@
+{
+  "description": "CoinGlass External Intelligence Configuration",
+  "version": "1.0.0",
+  "enabled": true,
+  "api": {
+    "base_url": "https://open-api-v4.coinglass.com/api",
+    "rate_limit_respect": true,
+    "max_retries": 5,
+    "timeout_seconds": 30
+  },
+  "backfill": {
+    "enabled": false,
+    "days": 365,
+    "liquidations_max_days": 90,
+    "rate_limit_sleep_ms": 200
+  },
+  "polling": {
+    "enabled": false,
+    "interval_seconds": 300,
+    "endpoints": [
+      "funding",
+      "open_interest",
+      "long_short",
+      "liquidations"
+    ]
+  },
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT",
+    "AVAXUSDT",
+    "DOTUSDT",
+    "XRPUSDT",
+    "ADAUSDT",
+    "DOGEUSDT",
+    "TRXUSDT",
+    "MATICUSDT"
+  ],
+  "features": {
+    "oi_delta_pct": {
+      "enabled": true,
+      "description": "Open Interest change percentage (capital flow indicator)"
+    },
+    "funding_zscore": {
+      "enabled": true,
+      "description": "Funding rate z-score (sentiment deviation)"
+    },
+    "liq_recent_sum": {
+      "enabled": true,
+      "description": "Recent liquidation volume (forced exits indicator)"
+    }
+  },
+  "integration": {
+    "feature_store_path": "feature_store/coinglass",
+    "cache_path": "feature_store/coinglass/cache",
+    "log_path": "logs/coinglass_intelligence.log",
+    "auto_update_registry": true
+  },
+  "notes": [
+    "This integration is PAPER-ONLY for feature enrichment",
+    "Does not modify trading configs or promote patterns automatically",
+    "Requires COINGLASS_API_KEY in Replit Secrets",
+    "Professional or Enterprise plan recommended for production use"
+  ]
+}

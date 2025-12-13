@@ -1,0 +1,156 @@
+{
+  "BTCUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "low",
+    "updated_ts": 1763748787
+  },
+  "ETHUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "medium",
+    "updated_ts": 1763748787
+  },
+  "SOLUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "high",
+    "updated_ts": 1763748787
+  },
+  "AVAXUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "medium",
+    "updated_ts": 1763748787
+  },
+  "DOTUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "low",
+    "updated_ts": 1763748787
+  },
+  "TRXUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "low",
+    "updated_ts": 1763748787
+  },
+  "XRPUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "high",
+    "updated_ts": 1763748787
+  },
+  "ADAUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "low",
+    "updated_ts": 1763748787
+  },
+  "DOGEUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "medium",
+    "updated_ts": 1763748787
+  },
+  "BNBUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "high",
+    "updated_ts": 1763748787
+  },
+  "MATICUSDT::BINANCE": {
+    "slice_parts": [
+      7,
+      9
+    ],
+    "delay_ms": [
+      120,
+      160
+    ],
+    "mode": "taker",
+    "post_only": false,
+    "vol_band": "high",
+    "updated_ts": 1763748787
+  }
+}

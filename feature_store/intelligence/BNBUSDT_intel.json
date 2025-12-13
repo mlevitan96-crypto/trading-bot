@@ -1,0 +1,37 @@
+{
+  "symbol": "BNB",
+  "ts": "2025-12-11T21:20:54.247744Z",
+  "taker": {
+    "buy_vol_usd": 626932018.16032,
+    "sell_vol_usd": 725141707.79255,
+    "buy_ratio": 0.4637,
+    "sell_ratio": 0.5363,
+    "buy_sell_ratio": 0.8645648311539047
+  },
+  "liquidation": {
+    "liq_long_24h": 2936826.83113999,
+    "liq_short_24h": 480318.92985,
+    "liq_total_24h": 3417145.76098999,
+    "liq_ratio": 0.8594385597087185,
+    "liq_1h_long": 854.4991,
+    "liq_1h_short": 174633.9377,
+    "liq_4h_long": 4681.0567,
+    "liq_4h_short": 416754.12387
+  },
+  "fear_greed": 30,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.8,
+    "composite": -0.8,
+    "components": {
+      "flow": -1,
+      "liquidation": -1,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.865,
+      "liq_ratio": 0.859,
+      "fear_greed": 30
+    }
+  }
+}

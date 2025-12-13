@@ -1,0 +1,502 @@
+{
+  "analysis_timestamp": "2025-12-02T05:38:27.132388Z",
+  "dataset": {
+    "source": "logs/positions_futures.json",
+    "total_positions": 3144,
+    "filter": "size < $1000, fees < $10, anomaly dates excluded"
+  },
+  "overall": {
+    "total_trades": 3144,
+    "wins": 1627,
+    "losses": 1517,
+    "win_rate": 51.75,
+    "total_net_pnl": -474.19,
+    "total_gross_pnl": 139.85,
+    "total_fees": 614.04,
+    "net_ev_per_trade": -0.1508
+  },
+  "by_direction": {
+    "SHORT": {
+      "trades": 3086,
+      "wins": 1604,
+      "win_rate": 51.98,
+      "net_pnl": -435.66,
+      "net_ev": -0.1412
+    },
+    "LONG": {
+      "trades": 58,
+      "wins": 23,
+      "win_rate": 39.66,
+      "net_pnl": -38.53,
+      "net_ev": -0.6643
+    }
+  },
+  "coin_strategies": {
+    "ETHUSDT_SHORT": {
+      "trades": 333,
+      "wins": 184,
+      "win_rate": 55.26,
+      "net_pnl": -38.02,
+      "net_ev": -0.1142,
+      "avg_fee": 0.2095,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    },
+    "XRPUSDT_SHORT": {
+      "trades": 381,
+      "wins": 186,
+      "win_rate": 48.82,
+      "net_pnl": -57.62,
+      "net_ev": -0.1512,
+      "avg_fee": 0.1861,
+      "signal_meaning": "Neutral - near coin flip"
+    },
+    "BTCUSDT_SHORT": {
+      "trades": 291,
+      "wins": 162,
+      "win_rate": 55.67,
+      "net_pnl": -54.21,
+      "net_ev": -0.1863,
+      "avg_fee": 0.2059,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    },
+    "DOTUSDT_SHORT": {
+      "trades": 386,
+      "wins": 191,
+      "win_rate": 49.48,
+      "net_pnl": -56.01,
+      "net_ev": -0.1451,
+      "avg_fee": 0.1946,
+      "signal_meaning": "Neutral - near coin flip"
+    },
+    "BNBUSDT_LONG": {
+      "trades": 10,
+      "wins": 2,
+      "win_rate": 20.0,
+      "net_pnl": -6.37,
+      "net_ev": -0.6367,
+      "avg_fee": 0.5072,
+      "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+    },
+    "XRPUSDT_LONG": {
+      "trades": 11,
+      "wins": 7,
+      "win_rate": 63.64,
+      "net_pnl": -9.15,
+      "net_ev": -0.8317,
+      "avg_fee": 0.6628,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    },
+    "SOLUSDT_SHORT": {
+      "trades": 379,
+      "wins": 177,
+      "win_rate": 46.7,
+      "net_pnl": -64.11,
+      "net_ev": -0.1692,
+      "avg_fee": 0.1955,
+      "signal_meaning": "Neutral - near coin flip"
+    },
+    "AVAXUSDT_SHORT": {
+      "trades": 305,
+      "wins": 161,
+      "win_rate": 52.79,
+      "net_pnl": -51.11,
+      "net_ev": -0.1676,
+      "avg_fee": 0.2085,
+      "signal_meaning": "Neutral - near coin flip"
+    },
+    "DOGEUSDT_SHORT": {
+      "trades": 355,
+      "wins": 205,
+      "win_rate": 57.75,
+      "net_pnl": -27.96,
+      "net_ev": -0.0788,
+      "avg_fee": 0.1545,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    },
+    "ADAUSDT_SHORT": {
+      "trades": 324,
+      "wins": 157,
+      "win_rate": 48.46,
+      "net_pnl": -34.06,
+      "net_ev": -0.1051,
+      "avg_fee": 0.154,
+      "signal_meaning": "Neutral - near coin flip"
+    },
+    "BNBUSDT_SHORT": {
+      "trades": 329,
+      "wins": 178,
+      "win_rate": 54.1,
+      "net_pnl": -51.72,
+      "net_ev": -0.1572,
+      "avg_fee": 0.2088,
+      "signal_meaning": "Neutral - near coin flip"
+    },
+    "ETHUSDT_LONG": {
+      "trades": 3,
+      "wins": 2,
+      "win_rate": 66.67,
+      "net_pnl": -0.18,
+      "net_ev": -0.0612,
+      "avg_fee": 0.2612,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    },
+    "DOGEUSDT_LONG": {
+      "trades": 11,
+      "wins": 2,
+      "win_rate": 18.18,
+      "net_pnl": -7.41,
+      "net_ev": -0.6736,
+      "avg_fee": 0.2393,
+      "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+    },
+    "BTCUSDT_LONG": {
+      "trades": 4,
+      "wins": 1,
+      "win_rate": 25.0,
+      "net_pnl": -2.44,
+      "net_ev": -0.6112,
+      "avg_fee": 0.4621,
+      "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+    },
+    "DOTUSDT_LONG": {
+      "trades": 4,
+      "wins": 1,
+      "win_rate": 25.0,
+      "net_pnl": -11.38,
+      "net_ev": -2.8452,
+      "avg_fee": 0.6003,
+      "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+    },
+    "AVAXUSDT_LONG": {
+      "trades": 4,
+      "wins": 3,
+      "win_rate": 75.0,
+      "net_pnl": -1.04,
+      "net_ev": -0.2594,
+      "avg_fee": 0.5305,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    },
+    "SOLUSDT_LONG": {
+      "trades": 4,
+      "wins": 2,
+      "win_rate": 50.0,
+      "net_pnl": 1.41,
+      "net_ev": 0.3531,
+      "avg_fee": 0.369,
+      "signal_meaning": "Neutral - near coin flip"
+    },
+    "TRXUSDT_LONG": {
+      "trades": 4,
+      "wins": 1,
+      "win_rate": 25.0,
+      "net_pnl": -1.27,
+      "net_ev": -0.3184,
+      "avg_fee": 0.2984,
+      "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+    },
+    "TRXUSDT_SHORT": {
+      "trades": 3,
+      "wins": 3,
+      "win_rate": 100.0,
+      "net_pnl": -0.84,
+      "net_ev": -0.2796,
+      "avg_fee": 0.4964,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    },
+    "ADAUSDT_LONG": {
+      "trades": 3,
+      "wins": 2,
+      "win_rate": 66.67,
+      "net_pnl": -0.7,
+      "net_ev": -0.2323,
+      "avg_fee": 0.3166,
+      "signal_meaning": "Reliable signal - trade as indicated"
+    }
+  },
+  "by_hour": {
+    "17": {
+      "trades": 241,
+      "wins": 120,
+      "win_rate": 49.79,
+      "net_pnl": -37.8,
+      "net_ev": -0.1568
+    },
+    "18": {
+      "trades": 113,
+      "wins": 62,
+      "win_rate": 54.87,
+      "net_pnl": -16.68,
+      "net_ev": -0.1476
+    },
+    "22": {
+      "trades": 109,
+      "wins": 37,
+      "win_rate": 33.94,
+      "net_pnl": -34.17,
+      "net_ev": -0.3135
+    },
+    "23": {
+      "trades": 81,
+      "wins": 36,
+      "win_rate": 44.44,
+      "net_pnl": -21.61,
+      "net_ev": -0.2668
+    },
+    "0": {
+      "trades": 83,
+      "wins": 39,
+      "win_rate": 46.99,
+      "net_pnl": -26.63,
+      "net_ev": -0.3208
+    },
+    "1": {
+      "trades": 93,
+      "wins": 50,
+      "win_rate": 53.76,
+      "net_pnl": -35.59,
+      "net_ev": -0.3827
+    },
+    "2": {
+      "trades": 118,
+      "wins": 51,
+      "win_rate": 43.22,
+      "net_pnl": -50.43,
+      "net_ev": -0.4274
+    },
+    "9": {
+      "trades": 128,
+      "wins": 67,
+      "win_rate": 52.34,
+      "net_pnl": -3.14,
+      "net_ev": -0.0245
+    },
+    "10": {
+      "trades": 271,
+      "wins": 130,
+      "win_rate": 47.97,
+      "net_pnl": -49.66,
+      "net_ev": -0.1832
+    },
+    "11": {
+      "trades": 240,
+      "wins": 107,
+      "win_rate": 44.58,
+      "net_pnl": -56.93,
+      "net_ev": -0.2372
+    },
+    "12": {
+      "trades": 251,
+      "wins": 119,
+      "win_rate": 47.41,
+      "net_pnl": -25.78,
+      "net_ev": -0.1027
+    },
+    "13": {
+      "trades": 208,
+      "wins": 114,
+      "win_rate": 54.81,
+      "net_pnl": -15.63,
+      "net_ev": -0.0752
+    },
+    "14": {
+      "trades": 265,
+      "wins": 140,
+      "win_rate": 52.83,
+      "net_pnl": -15.49,
+      "net_ev": -0.0585
+    },
+    "15": {
+      "trades": 271,
+      "wins": 140,
+      "win_rate": 51.66,
+      "net_pnl": -32.13,
+      "net_ev": -0.1186
+    },
+    "16": {
+      "trades": 259,
+      "wins": 181,
+      "win_rate": 69.88,
+      "net_pnl": -5.74,
+      "net_ev": -0.0221
+    },
+    "19": {
+      "trades": 86,
+      "wins": 45,
+      "win_rate": 52.33,
+      "net_pnl": -33.76,
+      "net_ev": -0.3925
+    },
+    "20": {
+      "trades": 153,
+      "wins": 94,
+      "win_rate": 61.44,
+      "net_pnl": -16.8,
+      "net_ev": -0.1098
+    },
+    "21": {
+      "trades": 126,
+      "wins": 62,
+      "win_rate": 49.21,
+      "net_pnl": -28.04,
+      "net_ev": -0.2226
+    },
+    "8": {
+      "trades": 48,
+      "wins": 33,
+      "win_rate": 68.75,
+      "net_pnl": 31.82,
+      "net_ev": 0.663
+    }
+  },
+  "profitable_hours": {
+    "8": {
+      "trades": 48,
+      "wins": 33,
+      "win_rate": 68.75,
+      "net_pnl": 31.82,
+      "net_ev": 0.663
+    }
+  },
+  "coin_profiles": {
+    "ETHUSDT": {
+      "short": {
+        "trades": 333,
+        "win_rate": 55.26,
+        "net_ev": -0.1142,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      },
+      "long": {
+        "trades": 3,
+        "win_rate": 66.67,
+        "net_ev": -0.0612,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      }
+    },
+    "XRPUSDT": {
+      "short": {
+        "trades": 381,
+        "win_rate": 48.82,
+        "net_ev": -0.1512,
+        "signal_meaning": "Neutral - near coin flip"
+      },
+      "long": {
+        "trades": 11,
+        "win_rate": 63.64,
+        "net_ev": -0.8317,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      }
+    },
+    "BTCUSDT": {
+      "short": {
+        "trades": 291,
+        "win_rate": 55.67,
+        "net_ev": -0.1863,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      },
+      "long": {
+        "trades": 4,
+        "win_rate": 25.0,
+        "net_ev": -0.6112,
+        "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+      }
+    },
+    "DOTUSDT": {
+      "short": {
+        "trades": 386,
+        "win_rate": 49.48,
+        "net_ev": -0.1451,
+        "signal_meaning": "Neutral - near coin flip"
+      },
+      "long": {
+        "trades": 4,
+        "win_rate": 25.0,
+        "net_ev": -2.8452,
+        "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+      }
+    },
+    "BNBUSDT": {
+      "short": {
+        "trades": 329,
+        "win_rate": 54.1,
+        "net_ev": -0.1572,
+        "signal_meaning": "Neutral - near coin flip"
+      },
+      "long": {
+        "trades": 10,
+        "win_rate": 20.0,
+        "net_ev": -0.6367,
+        "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+      }
+    },
+    "SOLUSDT": {
+      "short": {
+        "trades": 379,
+        "win_rate": 46.7,
+        "net_ev": -0.1692,
+        "signal_meaning": "Neutral - near coin flip"
+      },
+      "long": {
+        "trades": 4,
+        "win_rate": 50.0,
+        "net_ev": 0.3531,
+        "signal_meaning": "Neutral - near coin flip"
+      }
+    },
+    "AVAXUSDT": {
+      "short": {
+        "trades": 305,
+        "win_rate": 52.79,
+        "net_ev": -0.1676,
+        "signal_meaning": "Neutral - near coin flip"
+      },
+      "long": {
+        "trades": 4,
+        "win_rate": 75.0,
+        "net_ev": -0.2594,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      }
+    },
+    "DOGEUSDT": {
+      "short": {
+        "trades": 355,
+        "win_rate": 57.75,
+        "net_ev": -0.0788,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      },
+      "long": {
+        "trades": 11,
+        "win_rate": 18.18,
+        "net_ev": -0.6736,
+        "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+      }
+    },
+    "ADAUSDT": {
+      "short": {
+        "trades": 324,
+        "win_rate": 48.46,
+        "net_ev": -0.1051,
+        "signal_meaning": "Neutral - near coin flip"
+      },
+      "long": {
+        "trades": 3,
+        "win_rate": 66.67,
+        "net_ev": -0.2323,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      }
+    },
+    "TRXUSDT": {
+      "short": {
+        "trades": 3,
+        "win_rate": 100.0,
+        "net_ev": -0.2796,
+        "signal_meaning": "Reliable signal - trade as indicated"
+      },
+      "long": {
+        "trades": 4,
+        "win_rate": 25.0,
+        "net_ev": -0.3184,
+        "signal_meaning": "Signals predict OPPOSITE - trade SHORT"
+      }
+    }
+  }
+}

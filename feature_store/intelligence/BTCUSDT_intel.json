@@ -1,0 +1,37 @@
+{
+  "symbol": "BTC",
+  "ts": "2025-12-11T21:20:54.245966Z",
+  "taker": {
+    "buy_vol_usd": 44076691129.682976,
+    "sell_vol_usd": 44412191403.91271,
+    "buy_ratio": 0.49810000000000004,
+    "sell_ratio": 0.5019,
+    "buy_sell_ratio": 0.9924457617689142
+  },
+  "liquidation": {
+    "liq_long_24h": 91005773.10643725,
+    "liq_short_24h": 63173480.099735,
+    "liq_total_24h": 154179253.20617226,
+    "liq_ratio": 0.590259527231865,
+    "liq_1h_long": 76159.9949,
+    "liq_1h_short": 35028910.97261,
+    "liq_4h_long": 1033285.00293,
+    "liq_4h_short": 56060698.08487
+  },
+  "fear_greed": 30,
+  "signal": {
+    "direction": "NEUTRAL",
+    "confidence": 0.0,
+    "composite": 0.0,
+    "components": {
+      "flow": 0,
+      "liquidation": 0,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.992,
+      "liq_ratio": 0.59,
+      "fear_greed": 30
+    }
+  }
+}

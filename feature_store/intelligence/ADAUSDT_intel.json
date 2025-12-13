@@ -1,0 +1,37 @@
+{
+  "symbol": "ADA",
+  "ts": "2025-12-11T21:20:54.248120Z",
+  "taker": {
+    "buy_vol_usd": 774743612.05948,
+    "sell_vol_usd": 878314453.334626,
+    "buy_ratio": 0.46869999999999995,
+    "sell_ratio": 0.5313,
+    "buy_sell_ratio": 0.8820799989321285
+  },
+  "liquidation": {
+    "liq_long_24h": 2322941.0927816,
+    "liq_short_24h": 183930.34090559,
+    "liq_total_24h": 2506871.43368719,
+    "liq_ratio": 0.9266295277715701,
+    "liq_1h_long": 2278.2003,
+    "liq_1h_short": 74215.15435009,
+    "liq_4h_long": 104184.87789001,
+    "liq_4h_short": 138609.86725009
+  },
+  "fear_greed": 30,
+  "signal": {
+    "direction": "SHORT",
+    "confidence": 0.4,
+    "composite": -0.4,
+    "components": {
+      "flow": 0,
+      "liquidation": -1,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 0.882,
+      "liq_ratio": 0.927,
+      "fear_greed": 30
+    }
+  }
+}

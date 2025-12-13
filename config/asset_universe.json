@@ -1,0 +1,106 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-11-20",
+  "description": "Canonical source of truth for trading symbols - DO NOT duplicate this list elsewhere",
+  "asset_universe": [
+    {
+      "symbol": "BTCUSDT",
+      "venue": "futures",
+      "tier": "major",
+      "enabled": true
+    },
+    {
+      "symbol": "ETHUSDT",
+      "venue": "futures",
+      "tier": "major",
+      "enabled": true
+    },
+    {
+      "symbol": "SOLUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "DOTUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "TRXUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "XRPUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "ADAUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "BNBUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "MATICUSDT",
+      "venue": "futures",
+      "tier": "l1",
+      "enabled": true
+    },
+    {
+      "symbol": "LINKUSDT",
+      "venue": "futures",
+      "tier": "defi",
+      "enabled": true,
+      "notes": "DeFi/Oracle - lower correlation to L1 cluster"
+    },
+    {
+      "symbol": "ARBUSDT",
+      "venue": "futures",
+      "tier": "l2",
+      "enabled": true,
+      "notes": "Ethereum L2 - different dynamics from L1s"
+    },
+    {
+      "symbol": "OPUSDT",
+      "venue": "futures",
+      "tier": "l2",
+      "enabled": true,
+      "notes": "Ethereum L2 - different dynamics from L1s"
+    },
+    {
+      "symbol": "PEPEUSDT",
+      "venue": "futures",
+      "tier": "meme",
+      "enabled": true,
+      "notes": "Meme coin - sentiment-driven, high volatility"
+    }
+  ],
+  "validation_rules": {
+    "min_symbols": 10,
+    "required_venues": ["futures"],
+    "enforce_doc_consistency": true
+  }
+}

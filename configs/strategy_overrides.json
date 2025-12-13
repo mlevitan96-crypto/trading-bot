@@ -1,0 +1,676 @@
+{
+  "ts": 1765447215,
+  "assets": {
+    "BTCUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 175,
+        "capacity_checks": true
+      }
+    },
+    "ETHUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 182,
+        "capacity_checks": true
+      }
+    },
+    "SOLUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 125,
+        "capacity_checks": true
+      }
+    },
+    "AVAXUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 89,
+        "capacity_checks": true
+      }
+    },
+    "DOTUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 50,
+        "capacity_checks": true
+      }
+    },
+    "TRXUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 50,
+        "capacity_checks": true
+      }
+    },
+    "XRPUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 64,
+        "capacity_checks": true
+      }
+    },
+    "ADAUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 50,
+        "capacity_checks": true
+      }
+    },
+    "DOGEUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 50,
+        "capacity_checks": true
+      }
+    },
+    "BNBUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 50,
+        "capacity_checks": true
+      }
+    },
+    "MATICUSDT": {
+      "signal_reweights": [],
+      "overlays": [
+        {
+          "overlay": "risk_reducer",
+          "enable": true,
+          "params": {
+            "position_scale": 0.95
+          }
+        }
+      ],
+      "execution_router": [
+        {
+          "router": "adaptive",
+          "params": {
+            "slice_parts": [
+              3,
+              5,
+              7
+            ],
+            "delay_ms": [
+              50,
+              100,
+              150
+            ],
+            "post_only": [
+              false,
+              true
+            ]
+          }
+        }
+      ],
+      "parameter_sweep_grid": {
+        "lookback": [
+          10,
+          20,
+          40,
+          80
+        ],
+        "threshold": [
+          0.2,
+          0.35,
+          0.5
+        ],
+        "stop_atr": [
+          2,
+          3,
+          4
+        ],
+        "take_atr": [
+          3,
+          4,
+          5
+        ]
+      },
+      "apply_rules": {
+        "shadow_only_until": 1765620015,
+        "canary_min_trades": 50,
+        "capacity_checks": true
+      }
+    }
+  }
+}

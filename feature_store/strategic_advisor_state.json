@@ -1,8 +1,8 @@
 {
   "created_at": "2025-12-01T02:01:52.988172Z",
-  "last_run": "2025-12-14T17:00:45.416946Z",
-  "runs_count": 42,
-  "total_recommendations": 137,
+  "last_run": "2025-12-15T18:00:38.329334Z",
+  "runs_count": 44,
+  "total_recommendations": 139,
   "metrics_history": [
     {
       "timestamp": "2025-12-01T02:01:53.003220Z",
@@ -826,21 +826,78 @@
         "avg_hold_time_seconds": 0.0,
         "hold_time_distribution": {}
       }
+    },
+    {
+      "timestamp": "2025-12-15T17:18:14.549865Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
+    },
+    {
+      "timestamp": "2025-12-15T18:00:38.329354Z",
+      "metrics": {
+        "win_rate": 36.36,
+        "total_trades": 11,
+        "winners": 4,
+        "losers": 7,
+        "avg_pnl": -0.0322,
+        "total_pnl": -0.3537,
+        "total_gross_pnl": 2.7929,
+        "total_fees": 3.1466,
+        "fee_impact_pct": 112.66,
+        "avg_hold_time_seconds": 1679.75,
+        "hold_time_distribution": {
+          "short": 11
+        }
+      }
     }
   ],
   "latest_metrics": {
-    "win_rate": 0.0,
-    "total_trades": 0,
-    "winners": 0,
-    "losers": 0,
-    "avg_pnl": 0.0,
-    "total_pnl": 0.0,
-    "total_fees": 0.0,
-    "fee_impact_pct": 0.0,
-    "avg_hold_time_seconds": 0.0,
-    "hold_time_distribution": {}
+    "win_rate": 36.36,
+    "total_trades": 11,
+    "winners": 4,
+    "losers": 7,
+    "avg_pnl": -0.0322,
+    "total_pnl": -0.3537,
+    "total_gross_pnl": 2.7929,
+    "total_fees": 3.1466,
+    "fee_impact_pct": 112.66,
+    "avg_hold_time_seconds": 1679.75,
+    "hold_time_distribution": {
+      "short": 11
+    }
   },
-  "latest_recommendations": [],
+  "latest_recommendations": [
+    {
+      "id": "fee_erosion_high",
+      "type": "fee_optimization",
+      "priority": "high",
+      "issue": "High fee erosion: 122.2% of gross profit consumed by fees",
+      "action": "Increase minimum expected move threshold before entry",
+      "expected_impact": "Save ~$0.77 in fee leakage",
+      "config_suggestion": {
+        "min_expected_move_vs_fee": 2.5,
+        "fee_gate_enabled": true
+      }
+    },
+    {
+      "id": "low_win_rate",
+      "type": "signal_quality",
+      "priority": "high",
+      "issue": "Low win rate: 36.4% (need >50% for profitability)",
+      "action": "Tighten entry criteria and signal confirmation requirements",
+      "expected_impact": "Improve trade selection quality"
+    }
+  ],
   "last_policies": {
     "fee_gate": {
       "threshold": 0.22999999999999984,
@@ -1285,6 +1342,6 @@
         }
       ]
     },
-    "stored_at": "2025-12-14T17:00:45.416566Z"
+    "stored_at": "2025-12-15T18:00:38.328859Z"
   }
 }

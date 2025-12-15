@@ -3605,3 +3605,91 @@
 {"ts": 1765735723, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
 {"ts": 1765735723, "event": "phase109_mitigation", "payload": {"symbol": "BTCUSDT", "reason": "sharpe_collapse"}}
 {"ts": 1765735723, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765819088, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765819350, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765819603, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765820526, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765821308, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765821494, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765821632, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765821933, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765822233, "event": "phase108_retreat", "payload": {"venue": "futures", "cap_pct": 0.0}}
+{"ts": 1765822233, "event": "phase108_retreat", "payload": {"venue": "spot", "cap_pct": 0.0}}
+{"ts": 1765822233, "event": "phase109_mitigation", "payload": {"symbol": "ETHUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_mitigation", "payload": {"symbol": "SOLUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_mitigation", "payload": {"symbol": "AVAXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_mitigation", "payload": {"symbol": "DOTUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_mitigation", "payload": {"symbol": "TRXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_mitigation", "payload": {"symbol": "BTCUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822233, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822533, "event": "phase108_retreat", "payload": {"venue": "futures", "cap_pct": 0.0}}
+{"ts": 1765822533, "event": "phase108_retreat", "payload": {"venue": "spot", "cap_pct": 0.0}}
+{"ts": 1765822533, "event": "phase109_mitigation", "payload": {"symbol": "ETHUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_mitigation", "payload": {"symbol": "SOLUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_mitigation", "payload": {"symbol": "AVAXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_mitigation", "payload": {"symbol": "DOTUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_mitigation", "payload": {"symbol": "TRXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_mitigation", "payload": {"symbol": "BTCUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765822534, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765822728, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765822756, "event": "phase107_109_started", "payload": {"predictive_weights": {"trend": 0.4, "vol": 0.3, "liquidity": 0.2, "flow": 0.1}, "capital_ramps": [0.05, 0.1, 0.15, 0.2], "recovery_freeze_min": 30}}
+{"ts": 1765823056, "event": "phase108_retreat", "payload": {"venue": "futures", "cap_pct": 0.0}}
+{"ts": 1765823056, "event": "phase109_mitigation", "payload": {"symbol": "ETHUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase108_retreat", "payload": {"venue": "spot", "cap_pct": 0.0}}
+{"ts": 1765823056, "event": "phase109_mitigation", "payload": {"symbol": "SOLUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_mitigation", "payload": {"symbol": "AVAXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_mitigation", "payload": {"symbol": "DOTUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_mitigation", "payload": {"symbol": "TRXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_mitigation", "payload": {"symbol": "BTCUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823056, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase108_retreat", "payload": {"venue": "futures", "cap_pct": 0.0}}
+{"ts": 1765823356, "event": "phase108_retreat", "payload": {"venue": "spot", "cap_pct": 0.0}}
+{"ts": 1765823356, "event": "phase109_mitigation", "payload": {"symbol": "ETHUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_mitigation", "payload": {"symbol": "SOLUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_mitigation", "payload": {"symbol": "AVAXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_mitigation", "payload": {"symbol": "DOTUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_mitigation", "payload": {"symbol": "TRXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_mitigation", "payload": {"symbol": "BTCUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823356, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase108_retreat", "payload": {"venue": "futures", "cap_pct": 0.0}}
+{"ts": 1765823656, "event": "phase108_retreat", "payload": {"venue": "spot", "cap_pct": 0.0}}
+{"ts": 1765823656, "event": "phase109_mitigation", "payload": {"symbol": "ETHUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_mitigation", "payload": {"symbol": "SOLUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_mitigation", "payload": {"symbol": "AVAXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_mitigation", "payload": {"symbol": "DOTUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_mitigation", "payload": {"symbol": "TRXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_mitigation", "payload": {"symbol": "BTCUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823656, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase108_retreat", "payload": {"venue": "futures", "cap_pct": 0.0}}
+{"ts": 1765823956, "event": "phase108_retreat", "payload": {"venue": "spot", "cap_pct": 0.0}}
+{"ts": 1765823956, "event": "phase109_mitigation", "payload": {"symbol": "ETHUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_mitigation", "payload": {"symbol": "SOLUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_mitigation", "payload": {"symbol": "AVAXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_mitigation", "payload": {"symbol": "DOTUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_mitigation", "payload": {"symbol": "TRXUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_mitigation", "payload": {"symbol": "BTCUSDT", "reason": "sharpe_collapse"}}
+{"ts": 1765823956, "event": "phase109_freeze", "payload": {"minutes": 30, "reason": "multi_anomaly:sharpe_collapse"}}

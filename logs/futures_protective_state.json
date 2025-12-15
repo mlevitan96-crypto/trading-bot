@@ -1,15 +1,15 @@
 {
-  "timestamp": "2025-12-14T18:08:32.154658",
+  "timestamp": "2025-12-15T18:38:44.864226",
   "mode": "OFF",
   "report": {
-    "assessed_at": "2025-12-14T18:08:32.153749",
+    "assessed_at": "2025-12-15T18:38:44.863316",
     "positions": [
       {
-        "symbol": "BNBUSDT",
-        "side": "long",
-        "leverage": 6,
-        "entry_price": 883.5,
-        "mark_price": 882.86,
+        "symbol": "AVAXUSDT",
+        "side": "SHORT",
+        "leverage": 1,
+        "entry_price": 12.343,
+        "mark_price": 12.252,
         "liquidation_price": null,
         "buffer_pct": 100.0,
         "status": "OK"
@@ -18,58 +18,38 @@
         "symbol": "BNBUSDT",
         "side": "long",
         "leverage": 6,
-        "entry_price": 883.5,
-        "mark_price": 882.86,
+        "entry_price": 845.4,
+        "mark_price": 843.21,
+        "liquidation_price": null,
+        "buffer_pct": 100.0,
+        "status": "OK"
+      },
+      {
+        "symbol": "AVAXUSDT",
+        "side": "long",
+        "leverage": 6,
+        "entry_price": 12.29,
+        "mark_price": 12.252,
         "liquidation_price": null,
         "buffer_pct": 100.0,
         "status": "OK"
       },
       {
         "symbol": "BTCUSDT",
-        "side": "long",
-        "leverage": 6,
-        "entry_price": 88815.2,
-        "mark_price": 88821.0,
+        "side": "LONG",
+        "leverage": 5,
+        "entry_price": 85753.6,
+        "mark_price": 85463.7,
         "liquidation_price": null,
         "buffer_pct": 100.0,
         "status": "OK"
       },
       {
-        "symbol": "ETHUSDT",
+        "symbol": "ADAUSDT",
         "side": "long",
         "leverage": 6,
-        "entry_price": 3083.4,
-        "mark_price": 3086.25,
-        "liquidation_price": null,
-        "buffer_pct": 100.0,
-        "status": "OK"
-      },
-      {
-        "symbol": "SOLUSDT",
-        "side": "long",
-        "leverage": 6,
-        "entry_price": 130.0,
-        "mark_price": 130.15,
-        "liquidation_price": null,
-        "buffer_pct": 100.0,
-        "status": "OK"
-      },
-      {
-        "symbol": "ETHUSDT",
-        "side": "long",
-        "leverage": 6,
-        "entry_price": 3093.3,
-        "mark_price": 3086.25,
-        "liquidation_price": null,
-        "buffer_pct": 100.0,
-        "status": "OK"
-      },
-      {
-        "symbol": "SOLUSDT",
-        "side": "long",
-        "leverage": 6,
-        "entry_price": 130.1,
-        "mark_price": 130.15,
+        "entry_price": 0.3797,
+        "mark_price": 0.3793,
         "liquidation_price": null,
         "buffer_pct": 100.0,
         "status": "OK"
@@ -80,6 +60,46 @@
         "leverage": 6,
         "entry_price": 0.4492,
         "mark_price": 0.4492,
+        "liquidation_price": null,
+        "buffer_pct": 100.0,
+        "status": "OK"
+      },
+      {
+        "symbol": "DOTUSDT",
+        "side": "long",
+        "leverage": 6,
+        "entry_price": 1.84,
+        "mark_price": 1.838,
+        "liquidation_price": null,
+        "buffer_pct": 100.0,
+        "status": "OK"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "side": "long",
+        "leverage": 6,
+        "entry_price": 1.88,
+        "mark_price": 1.8775,
+        "liquidation_price": null,
+        "buffer_pct": 100.0,
+        "status": "OK"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "side": "long",
+        "leverage": 6,
+        "entry_price": 85407.6,
+        "mark_price": 85463.7,
+        "liquidation_price": null,
+        "buffer_pct": 100.0,
+        "status": "OK"
+      },
+      {
+        "symbol": "XRPUSDT",
+        "side": "long",
+        "leverage": 6,
+        "entry_price": 1.88,
+        "mark_price": 1.8775,
         "liquidation_price": null,
         "buffer_pct": 100.0,
         "status": "OK"

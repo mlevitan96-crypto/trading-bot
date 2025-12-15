@@ -214,22 +214,22 @@
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2197.053475816499,
-        "samples": 122
+        "pnl": -2240.096811506751,
+        "samples": 124
       },
       "ETHUSDT:EMA-Futures:cfg1": {
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2258.0195820872696,
-        "samples": 124
+        "pnl": -2309.7710688707693,
+        "samples": 127
       },
       "SOLUSDT:EMA-Futures:cfg1": {
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2321.5534955769494,
-        "samples": 123
+        "pnl": -2403.83799129063,
+        "samples": 126
       },
       "BTCUSDT:Trend-Conservative:cfg2": {
         "wins": 0,
@@ -242,43 +242,43 @@
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2210.199892006699,
-        "samples": 119
+        "pnl": -2264.968441985708,
+        "samples": 122
       },
       "SOLUSDT:Trend-Conservative:cfg1": {
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2257.0913876863337,
-        "samples": 122
+        "pnl": -2314.5553104100286,
+        "samples": 125
       },
       "BTCUSDT:Breakout-Aggressive:cfg1": {
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2095.5488582383127,
-        "samples": 121
+        "pnl": -2149.3583568809413,
+        "samples": 124
       },
       "ETHUSDT:Breakout-Aggressive:cfg1": {
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2100.674190724901,
-        "samples": 127
+        "pnl": -2136.6193727472732,
+        "samples": 130
       },
       "SOLUSDT:Breakout-Aggressive:cfg1": {
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2169.5365953076125,
-        "samples": 118
+        "pnl": -2232.27748549269,
+        "samples": 121
       },
       "BTCUSDT:Trend-Conservative:cfg1": {
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -2017.2030498108466,
-        "samples": 114
+        "pnl": -2073.747958548914,
+        "samples": 117
       },
       "ETHUSDT:Trend-Conservative:cfg2": {
         "wins": 0,
@@ -347,8 +347,8 @@
         "wins": 0,
         "wr": 0.0,
         "sharpe": 0.0,
-        "pnl": -197.20298181947413,
-        "samples": 11
+        "pnl": -223.02002104556175,
+        "samples": 12
       },
       "ETHUSDT:Breakout-Aggressive:cfg2": {
         "wins": 0,
@@ -402,5 +402,5 @@
     },
     "live": {}
   },
-  "ts": 1765735723
+  "ts": 1765823957
 }

@@ -1,106 +1,7 @@
 {
   "evaluations": [
     {
-      "timestamp": "2025-12-14T18:00:01.951292",
-      "symbol": "ETHUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:00:02.207699",
-      "symbol": "XRPUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:00:02.453016",
-      "symbol": "BNBUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:00:03.016560",
-      "symbol": "BTCUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:00:03.650268",
-      "symbol": "TRXUSDT",
-      "action": "HOLD",
-      "state": "SHORT",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:00:04.060329",
-      "symbol": "MATICUSDT",
-      "action": "HOLD",
-      "state": "SHORT",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:02:01.801127",
-      "symbol": "DOGEUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:02:02.296146",
-      "symbol": "DOTUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:02:02.530608",
-      "symbol": "ADAUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:02:03.039199",
+      "timestamp": "2025-12-15T18:31:21.510425",
       "symbol": "AVAXUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -111,29 +12,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:02:03.529568",
-      "symbol": "SOLUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:02:04.037052",
-      "symbol": "ETHUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:02:04.273834",
+      "timestamp": "2025-12-15T18:31:21.709757",
       "symbol": "XRPUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -144,7 +23,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:02:04.497948",
+      "timestamp": "2025-12-15T18:31:21.934520",
       "symbol": "BNBUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -155,7 +34,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:02:04.976659",
+      "timestamp": "2025-12-15T18:31:22.404230",
       "symbol": "BTCUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -166,10 +45,10 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:02:05.484772",
+      "timestamp": "2025-12-15T18:31:22.904831",
       "symbol": "TRXUSDT",
       "action": "HOLD",
-      "state": "SHORT",
+      "state": "LONG",
       "crossover": null,
       "allowed": false,
       "reason": "no_signal",
@@ -177,7 +56,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:02:05.721137",
+      "timestamp": "2025-12-15T18:31:23.118298",
       "symbol": "MATICUSDT",
       "action": "HOLD",
       "state": "SHORT",
@@ -188,40 +67,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:04.008613",
-      "symbol": "DOTUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:04:04.249184",
-      "symbol": "DOGEUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:04:05.164308",
-      "symbol": "AVAXUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:04:05.567796",
+      "timestamp": "2025-12-15T18:33:10.091743",
       "symbol": "ADAUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -232,8 +78,8 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:06.507682",
-      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-15T18:33:10.540209",
+      "symbol": "DOTUSDT",
       "action": "HOLD",
       "state": "LONG",
       "crossover": null,
@@ -243,7 +89,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:07.262233",
+      "timestamp": "2025-12-15T18:33:11.023715",
       "symbol": "ETHUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -254,7 +100,40 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:07.481730",
+      "timestamp": "2025-12-15T18:33:11.263567",
+      "symbol": "DOGEUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:33:11.742374",
+      "symbol": "SOLUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:33:12.220157",
+      "symbol": "AVAXUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:33:12.431121",
       "symbol": "XRPUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -265,7 +144,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:07.721598",
+      "timestamp": "2025-12-15T18:33:12.650357",
       "symbol": "BNBUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -276,7 +155,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:08.265422",
+      "timestamp": "2025-12-15T18:33:13.148023",
       "symbol": "BTCUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -287,10 +166,10 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:08.903560",
+      "timestamp": "2025-12-15T18:33:13.646056",
       "symbol": "TRXUSDT",
       "action": "HOLD",
-      "state": "SHORT",
+      "state": "LONG",
       "crossover": null,
       "allowed": false,
       "reason": "no_signal",
@@ -298,7 +177,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:04:09.123532",
+      "timestamp": "2025-12-15T18:33:13.852094",
       "symbol": "MATICUSDT",
       "action": "HOLD",
       "state": "SHORT",
@@ -309,29 +188,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:13.894178",
-      "symbol": "DOTUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:06:14.394594",
-      "symbol": "AVAXUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:06:14.626009",
+      "timestamp": "2025-12-15T18:35:04.771539",
       "symbol": "ADAUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -342,8 +199,8 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:15.135102",
-      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-15T18:35:05.289948",
+      "symbol": "DOTUSDT",
       "action": "HOLD",
       "state": "LONG",
       "crossover": null,
@@ -353,18 +210,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:15.350730",
-      "symbol": "DOGEUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:06:15.877240",
+      "timestamp": "2025-12-15T18:35:05.802527",
       "symbol": "ETHUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -375,7 +221,40 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:16.095386",
+      "timestamp": "2025-12-15T18:35:06.014282",
+      "symbol": "DOGEUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:35:06.580326",
+      "symbol": "SOLUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:35:07.071275",
+      "symbol": "AVAXUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:35:07.294334",
       "symbol": "XRPUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -386,7 +265,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:16.603406",
+      "timestamp": "2025-12-15T18:35:07.793003",
       "symbol": "BTCUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -397,7 +276,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:16.854247",
+      "timestamp": "2025-12-15T18:35:07.998476",
       "symbol": "BNBUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -408,7 +287,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:17.368493",
+      "timestamp": "2025-12-15T18:35:08.477015",
       "symbol": "TRXUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -419,7 +298,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:06:17.586502",
+      "timestamp": "2025-12-15T18:35:08.975047",
       "symbol": "MATICUSDT",
       "action": "HOLD",
       "state": "SHORT",
@@ -430,29 +309,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:35.042710",
-      "symbol": "DOTUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:08:35.557951",
-      "symbol": "AVAXUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:08:35.783133",
+      "timestamp": "2025-12-15T18:36:56.871670",
       "symbol": "ADAUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -463,8 +320,8 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:36.309503",
-      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-15T18:36:57.380741",
+      "symbol": "DOTUSDT",
       "action": "HOLD",
       "state": "LONG",
       "crossover": null,
@@ -474,18 +331,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:36.534291",
-      "symbol": "DOGEUSDT",
-      "action": "HOLD",
-      "state": "LONG",
-      "crossover": null,
-      "allowed": false,
-      "reason": "no_signal",
-      "leverage": null,
-      "qty": null
-    },
-    {
-      "timestamp": "2025-12-14T18:08:37.012230",
+      "timestamp": "2025-12-15T18:36:57.900767",
       "symbol": "ETHUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -496,7 +342,40 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:37.256288",
+      "timestamp": "2025-12-15T18:36:58.121825",
+      "symbol": "DOGEUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:36:58.594555",
+      "symbol": "SOLUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:36:59.064818",
+      "symbol": "AVAXUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:36:59.301695",
       "symbol": "XRPUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -507,7 +386,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:37.723609",
+      "timestamp": "2025-12-15T18:36:59.760938",
       "symbol": "BTCUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -518,7 +397,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:37.959805",
+      "timestamp": "2025-12-15T18:36:59.964885",
       "symbol": "BNBUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -529,7 +408,7 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:38.468151",
+      "timestamp": "2025-12-15T18:37:00.505450",
       "symbol": "TRXUSDT",
       "action": "HOLD",
       "state": "LONG",
@@ -540,7 +419,128 @@
       "qty": null
     },
     {
-      "timestamp": "2025-12-14T18:08:38.711794",
+      "timestamp": "2025-12-15T18:37:00.725911",
+      "symbol": "MATICUSDT",
+      "action": "HOLD",
+      "state": "SHORT",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:47.555877",
+      "symbol": "ADAUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:48.030876",
+      "symbol": "DOTUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:48.549501",
+      "symbol": "ETHUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:48.756160",
+      "symbol": "DOGEUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:49.291405",
+      "symbol": "SOLUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:49.496203",
+      "symbol": "XRPUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:50.006114",
+      "symbol": "AVAXUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:50.533585",
+      "symbol": "BTCUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:50.750541",
+      "symbol": "BNBUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:51.259090",
+      "symbol": "TRXUSDT",
+      "action": "HOLD",
+      "state": "LONG",
+      "crossover": null,
+      "allowed": false,
+      "reason": "no_signal",
+      "leverage": null,
+      "qty": null
+    },
+    {
+      "timestamp": "2025-12-15T18:38:51.464249",
       "symbol": "MATICUSDT",
       "action": "HOLD",
       "state": "SHORT",
@@ -551,5 +551,5 @@
       "qty": null
     }
   ],
-  "last_updated": "2025-12-14T18:08:38.711794"
+  "last_updated": "2025-12-15T18:38:51.464249"
 }

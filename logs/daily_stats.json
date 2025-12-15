@@ -1,25 +1,25 @@
 {
-  "date": "2025-12-14",
-  "created_at": "2025-12-14T00:01:25.915084-07:00",
+  "date": "2025-12-15",
+  "created_at": "2025-12-15T08:55:49.545191-07:00",
   "spot": {
     "trades": 0,
     "wins": 0,
     "losses": 0,
     "total_pnl": 0.0,
-    "starting_value": 9988.069600000015
+    "starting_value": 10041.33720000001
   },
   "futures": {
-    "trades": 491,
-    "wins": 155,
-    "losses": 336,
-    "total_pnl": -83.18643124785676,
+    "trades": 34,
+    "wins": 22,
+    "losses": 12,
+    "total_pnl": 16.708414793139877,
     "starting_margin": 6000.0
   },
   "combined": {
-    "trades": 491,
-    "wins": 155,
-    "losses": 336,
-    "total_pnl": -83.18643124785676,
-    "percent_pnl": -0.5203031593498735
+    "trades": 34,
+    "wins": 22,
+    "losses": 12,
+    "total_pnl": 16.708414793139877,
+    "percent_pnl": 0.10415849118326535
   }
 }

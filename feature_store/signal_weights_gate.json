@@ -1,31 +1,31 @@
 {
-  "updated_at": "2025-12-14T17:56:31.448184",
+  "updated_at": "2025-12-15T18:22:54.049566",
   "weights": {
-    "hurst": 0.1323,
-    "lead_lag": 0.0794,
-    "liquidation": 0.0964,
-    "funding": 0.0863,
-    "whale_flow": 0.0994,
-    "oi_velocity": 0.0686,
-    "ofi_momentum": 0.2011,
-    "fear_greed": 0.027,
-    "volatility_skew": 0.1236,
-    "oi_divergence": 0.0858
+    "hurst": 0.1327,
+    "lead_lag": 0.0815,
+    "liquidation": 0.0996,
+    "funding": 0.0802,
+    "whale_flow": 0.1021,
+    "oi_velocity": 0.067,
+    "ofi_momentum": 0.1965,
+    "fear_greed": 0.0264,
+    "volatility_skew": 0.1277,
+    "oi_divergence": 0.0864
   },
   "reasoning": {
-    "liquidation": "EV=0.0009, best_horizon=1h, decreased 0.8%",
-    "funding": "EV=-0.0000, best_horizon=30m, decreased 1.5%",
+    "liquidation": "EV=0.0040, best_horizon=1h, increased 2.9%",
+    "funding": "EV=-0.0002, best_horizon=1m, decreased 2.4%",
     "oi_velocity": "EV=-0.0001, best_horizon=1m, decreased 0.1%",
-    "whale_flow": "EV=0.0008, best_horizon=1h, increased 0.8%",
+    "whale_flow": "EV=0.0014, best_horizon=1h, increased 2.6%",
     "ofi_momentum": "Insufficient data (0 < 50 samples), keeping current weight",
     "fear_greed": "Insufficient data (0 < 50 samples), keeping current weight",
-    "hurst": "EV=0.0001, best_horizon=30m, increased 0.1%",
-    "lead_lag": "EV=0.0003, best_horizon=15m, increased 0.3%",
-    "volatility_skew": "EV=0.0015, best_horizon=1m, increased 4.3%",
-    "oi_divergence": "EV=0.0009, best_horizon=1h, increased 2.4%"
+    "hurst": "EV=0.0013, best_horizon=1h, increased 1.3%",
+    "lead_lag": "EV=0.0012, best_horizon=15m, increased 2.5%",
+    "volatility_skew": "EV=0.0012, best_horizon=1m, increased 2.7%",
+    "oi_divergence": "EV=-0.0003, best_horizon=1m, increased 1.4%"
   },
   "data_quality": {
-    "total_outcomes": 20156,
+    "total_outcomes": 22149,
     "signals_with_data": [
       "liquidation",
       "funding",
@@ -43,19 +43,54 @@
     "min_samples_required": 50
   },
   "evs_by_horizon": {
-    "oi_divergence": {
-      "1m": -5.1e-05,
+    "volatility_skew": {
+      "1m": 0.001203,
+      "5m": 0.000818,
+      "15m": -0.00019,
+      "30m": -0.001142,
+      "1h": -0.004266
+    },
+    "hurst": {
+      "1m": 6.1e-05,
       "5m": 0.000104,
-      "15m": 0.000379,
-      "30m": 0.000806,
-      "1h": 0.000941
+      "15m": 0.000143,
+      "30m": 0.000282,
+      "1h": 0.001322
+    },
+    "whale_flow": {
+      "1m": 0.00015,
+      "5m": 0.000271,
+      "15m": 0.000416,
+      "30m": 0.000586,
+      "1h": 0.001414
+    },
+    "fear_greed": {
+      "1m": 0.0,
+      "5m": 0.0,
+      "15m": 0.0,
+      "30m": 0.0,
+      "1h": 0.0
+    },
+    "oi_divergence": {
+      "1m": -0.00033,
+      "5m": -0.000568,
+      "15m": -0.001804,
+      "30m": -0.003017,
+      "1h": -0.004386
+    },
+    "lead_lag": {
+      "1m": 7.8e-05,
+      "5m": 0.000137,
+      "15m": 0.001206,
+      "30m": 0.000342,
+      "1h": 0.000438
     },
     "oi_velocity": {
-      "1m": -9.6e-05,
-      "5m": -0.000345,
-      "15m": -0.000616,
-      "30m": -0.001224,
-      "1h": -0.001662
+      "1m": -6e-05,
+      "5m": -0.000254,
+      "15m": -0.000149,
+      "30m": -0.000389,
+      "1h": -0.000516
     },
     "ofi_momentum": {
       "1m": 0.0,
@@ -65,63 +100,48 @@
       "1h": 0.0
     },
     "liquidation": {
-      "1m": -0.000389,
-      "5m": -0.000316,
-      "15m": -0.000164,
-      "30m": 5.7e-05,
-      "1h": 0.000945
-    },
-    "volatility_skew": {
-      "1m": 0.001528,
-      "5m": 0.001458,
-      "15m": 0.001326,
-      "30m": 0.001107,
-      "1h": 0.000212
-    },
-    "fear_greed": {
-      "1m": 0.0,
-      "5m": 0.0,
-      "15m": 0.0,
-      "30m": 0.0,
-      "1h": 0.0
-    },
-    "lead_lag": {
-      "1m": 5.9e-05,
-      "5m": 0.000159,
-      "15m": 0.000275,
-      "30m": 0.000256,
-      "1h": 0.000197
-    },
-    "whale_flow": {
-      "1m": 8.7e-05,
-      "5m": 0.00018,
-      "15m": 0.000223,
-      "30m": 0.000313,
-      "1h": 0.000834
+      "1m": -0.000272,
+      "5m": 3e-05,
+      "15m": 0.000772,
+      "30m": 0.001551,
+      "1h": 0.003992
     },
     "funding": {
-      "1m": -0.000138,
-      "5m": -0.000119,
-      "15m": -8.7e-05,
-      "30m": -2.5e-05,
-      "1h": -6e-05
-    },
-    "hurst": {
-      "1m": 2.3e-05,
-      "5m": -1.1e-05,
-      "15m": 3e-06,
-      "30m": 0.000112,
-      "1h": 1.1e-05
+      "1m": -0.000199,
+      "5m": -0.000273,
+      "15m": -0.000355,
+      "30m": -0.000386,
+      "1h": -0.000903
     }
   },
   "best_horizons": {
-    "oi_divergence": {
+    "volatility_skew": {
+      "horizon": "1m",
+      "ev": 0.001203
+    },
+    "hurst": {
       "horizon": "1h",
-      "ev": 0.000941
+      "ev": 0.001322
+    },
+    "whale_flow": {
+      "horizon": "1h",
+      "ev": 0.001414
+    },
+    "fear_greed": {
+      "horizon": "1m",
+      "ev": 0.0
+    },
+    "oi_divergence": {
+      "horizon": "1m",
+      "ev": -0.00033
+    },
+    "lead_lag": {
+      "horizon": "15m",
+      "ev": 0.001206
     },
     "oi_velocity": {
       "horizon": "1m",
-      "ev": -9.6e-05
+      "ev": -6e-05
     },
     "ofi_momentum": {
       "horizon": "1m",
@@ -129,31 +149,11 @@
     },
     "liquidation": {
       "horizon": "1h",
-      "ev": 0.000945
-    },
-    "volatility_skew": {
-      "horizon": "1m",
-      "ev": 0.001528
-    },
-    "fear_greed": {
-      "horizon": "1m",
-      "ev": 0.0
-    },
-    "lead_lag": {
-      "horizon": "15m",
-      "ev": 0.000275
-    },
-    "whale_flow": {
-      "horizon": "1h",
-      "ev": 0.000834
+      "ev": 0.003992
     },
     "funding": {
-      "horizon": "30m",
-      "ev": -2.5e-05
-    },
-    "hurst": {
-      "horizon": "30m",
-      "ev": 0.000112
+      "horizon": "1m",
+      "ev": -0.000199
     }
   },
   "history": [
@@ -590,6 +590,36 @@
         "fear_greed": 0.0272,
         "volatility_skew": 0.1192,
         "oi_divergence": 0.0843
+      }
+    },
+    {
+      "ts": "2025-12-14T17:56:31.448184",
+      "weights": {
+        "hurst": 0.1323,
+        "lead_lag": 0.0794,
+        "liquidation": 0.0964,
+        "funding": 0.0863,
+        "whale_flow": 0.0994,
+        "oi_velocity": 0.0686,
+        "ofi_momentum": 0.2011,
+        "fear_greed": 0.027,
+        "volatility_skew": 0.1236,
+        "oi_divergence": 0.0858
+      }
+    },
+    {
+      "ts": "2025-12-15T18:15:01.558020",
+      "weights": {
+        "hurst": 0.1325,
+        "lead_lag": 0.0805,
+        "liquidation": 0.098,
+        "funding": 0.0832,
+        "whale_flow": 0.1007,
+        "oi_velocity": 0.0678,
+        "ofi_momentum": 0.1988,
+        "fear_greed": 0.0267,
+        "volatility_skew": 0.1258,
+        "oi_divergence": 0.0862
       }
     }
   ],

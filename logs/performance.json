@@ -1,173 +1,5 @@
 [
   {
-    "timestamp": "2025-12-14T03:14:36.019161",
-    "portfolio_value": 9988.87,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:16:28.320379",
-    "portfolio_value": 9988.73,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:16:44.818057",
-    "portfolio_value": 9988.59,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:18:50.031280",
-    "portfolio_value": 9988.0,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:18:55.560462",
-    "portfolio_value": 9987.87,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:20:58.693650",
-    "portfolio_value": 9992.54,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:22:54.670597",
-    "portfolio_value": 9992.43,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:24:39.882722",
-    "portfolio_value": 9992.33,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:26:23.654061",
-    "portfolio_value": 9992.24,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:26:46.768459",
-    "portfolio_value": 9992.04,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:26:56.786008",
-    "portfolio_value": 9993.07,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:30:27.729328",
-    "portfolio_value": 9993.0,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:32:42.437831",
-    "portfolio_value": 9992.93,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:32:45.863044",
-    "portfolio_value": 9992.87,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:34:48.603603",
-    "portfolio_value": 9992.8,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:38:33.367404",
-    "portfolio_value": 9992.58,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:40:41.920481",
-    "portfolio_value": 9992.52,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:42:59.103525",
-    "portfolio_value": 9992.45,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:43:02.756725",
-    "portfolio_value": 9992.38,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:43:11.863867",
-    "portfolio_value": 9992.31,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:45:45.717862",
-    "portfolio_value": 9992.25,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:45:51.452637",
-    "portfolio_value": 9992.08,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:45:54.578661",
-    "portfolio_value": 9992.02,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:49:48.883095",
-    "portfolio_value": 9991.85,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:50:15.392344",
-    "portfolio_value": 9991.78,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:52:11.960571",
-    "portfolio_value": 9991.71,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:52:22.061141",
-    "portfolio_value": 9991.65,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
-    "timestamp": "2025-12-14T03:54:32.516320",
-    "portfolio_value": 9991.58,
-    "peak_value": 10000.0,
-    "max_drawdown": 0.0013
-  },
-  {
     "timestamp": "2025-12-14T03:57:59.425848",
     "portfolio_value": 9991.51,
     "peak_value": 10000.0,
@@ -2998,5 +2830,173 @@
     "portfolio_value": 10041.34,
     "peak_value": 10041.72,
     "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:18:31.064145",
+    "portfolio_value": 10041.23,
+    "peak_value": 10041.23,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:18:44.059518",
+    "portfolio_value": 10041.13,
+    "peak_value": 10041.23,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:18:51.186068",
+    "portfolio_value": 10041.49,
+    "peak_value": 10041.49,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:18:51.462030",
+    "portfolio_value": 10041.77,
+    "peak_value": 10041.77,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:42:42.842299",
+    "portfolio_value": 10041.65,
+    "peak_value": 10041.65,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:55:42.794613",
+    "portfolio_value": 10041.8,
+    "peak_value": 10041.8,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:55:49.428803",
+    "portfolio_value": 10041.53,
+    "peak_value": 10041.8,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T17:55:49.809584",
+    "portfolio_value": 10041.01,
+    "peak_value": 10041.8,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T17:57:43.069319",
+    "portfolio_value": 10042.12,
+    "peak_value": 10042.12,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T17:59:06.803761",
+    "portfolio_value": 10042.05,
+    "peak_value": 10042.05,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:06:08.188158",
+    "portfolio_value": 10042.31,
+    "peak_value": 10042.31,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:06:08.476984",
+    "portfolio_value": 10042.45,
+    "peak_value": 10042.45,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:06:08.837366",
+    "portfolio_value": 10043.4,
+    "peak_value": 10043.4,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:06:25.851653",
+    "portfolio_value": 10043.29,
+    "peak_value": 10043.4,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:08:05.070379",
+    "portfolio_value": 10043.02,
+    "peak_value": 10043.4,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:08:05.358601",
+    "portfolio_value": 10042.69,
+    "peak_value": 10043.4,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:15:04.881354",
+    "portfolio_value": 10042.55,
+    "peak_value": 10043.4,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:16:58.342124",
+    "portfolio_value": 10042.55,
+    "peak_value": 10043.4,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:19:57.108859",
+    "portfolio_value": 10042.41,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:20:02.971164",
+    "portfolio_value": 10042.28,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:21:42.922618",
+    "portfolio_value": 10042.1,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:23:36.754613",
+    "portfolio_value": 10041.93,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0
+  },
+  {
+    "timestamp": "2025-12-15T18:31:01.462741",
+    "portfolio_value": 10041.76,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:31:10.335305",
+    "portfolio_value": 10041.59,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:32:43.837914",
+    "portfolio_value": 10041.41,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:32:47.343304",
+    "portfolio_value": 10041.14,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:34:25.467899",
+    "portfolio_value": 10040.97,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0001
+  },
+  {
+    "timestamp": "2025-12-15T18:34:40.548589",
+    "portfolio_value": 10040.29,
+    "peak_value": 10042.41,
+    "max_drawdown": 0.0002
   }
 ]

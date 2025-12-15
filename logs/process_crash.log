@@ -5140,3 +5140,817 @@ Traceback (most recent call last):
 NameError: name 'start_pnl_dashboard' is not defined
 
 ============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:17:32.671059
+CONTEXT: main_crash_restart_37
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:22:32.688834
+CONTEXT: main_crash_restart_38
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:27:32.705981
+CONTEXT: main_crash_restart_39
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:32:32.728442
+CONTEXT: main_crash_restart_40
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:37:32.748065
+CONTEXT: main_crash_restart_41
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:42:32.767590
+CONTEXT: main_crash_restart_42
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:47:32.786347
+CONTEXT: main_crash_restart_43
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:52:32.807732
+CONTEXT: main_crash_restart_44
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T15:57:32.825568
+CONTEXT: main_crash_restart_45
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:02:32.842279
+CONTEXT: main_crash_restart_46
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:07:32.856519
+CONTEXT: main_crash_restart_47
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:12:32.871531
+CONTEXT: main_crash_restart_48
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:17:32.882140
+CONTEXT: main_crash_restart_49
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:22:32.895374
+CONTEXT: main_crash_restart_50
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:27:32.912737
+CONTEXT: main_crash_restart_51
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:32:32.931065
+CONTEXT: main_crash_restart_52
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:37:32.947235
+CONTEXT: main_crash_restart_53
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:42:32.961122
+CONTEXT: main_crash_restart_54
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:47:32.978429
+CONTEXT: main_crash_restart_55
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:52:32.994712
+CONTEXT: main_crash_restart_56
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T16:57:33.010041
+CONTEXT: main_crash_restart_57
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:02:13.909472
+CONTEXT: main_crash_restart_1
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:02:23.928519
+CONTEXT: main_crash_restart_2
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:02:33.029993
+CONTEXT: main_crash_restart_58
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:02:38.943489
+CONTEXT: main_crash_restart_3
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:03:01.458392
+CONTEXT: main_crash_restart_4
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:03:35.221589
+CONTEXT: main_crash_restart_5
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:04:25.858676
+CONTEXT: main_crash_restart_6
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:05:41.809599
+CONTEXT: main_crash_restart_7
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:07:33.046385
+CONTEXT: main_crash_restart_59
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:07:35.733687
+CONTEXT: main_crash_restart_8
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:10:26.611449
+CONTEXT: main_crash_restart_9
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:12:33.064742
+CONTEXT: main_crash_restart_60
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:14:42.916871
+CONTEXT: main_crash_restart_10
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:17:33.079505
+CONTEXT: main_crash_restart_61
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    main()
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    dash_app = start_pnl_dashboard(flask_app)
+               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:19:49.969270
+CONTEXT: main_crash_restart_11
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:22:40.144539
+CONTEXT: main_crash_restart_62
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:24:49.985006
+CONTEXT: main_crash_restart_12
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:27:47.197415
+CONTEXT: main_crash_restart_63
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:29:49.999314
+CONTEXT: main_crash_restart_13
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:32:47.221497
+CONTEXT: main_crash_restart_64
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:34:50.015853
+CONTEXT: main_crash_restart_14
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:37:47.238638
+CONTEXT: main_crash_restart_65
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:39:50.034098
+CONTEXT: main_crash_restart_15
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:42:54.281892
+CONTEXT: main_crash_restart_66
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:44:50.049766
+CONTEXT: main_crash_restart_16
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:47:54.297669
+CONTEXT: main_crash_restart_67
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:49:50.066310
+CONTEXT: main_crash_restart_17
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:52:54.311301
+CONTEXT: main_crash_restart_68
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+    except Exception as e:
+            ^^^^^^
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:54:50.083163
+CONTEXT: main_crash_restart_18
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    continue
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:58:00.379158
+CONTEXT: main_crash_restart_69
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    continue
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T17:59:58.158618
+CONTEXT: main_crash_restart_19
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    continue
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T18:03:07.473194
+CONTEXT: main_crash_restart_70
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    continue
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================
+
+============================================================
+CRASH AT: 2025-12-15T18:04:58.173430
+CONTEXT: main_crash_restart_20
+ERROR: NameError: name 'start_pnl_dashboard' is not defined
+TRACEBACK:
+Traceback (most recent call last):
+  File "/root/trading-bot/src/run.py", line 1700, in main_with_crash_protection
+  File "/root/trading-bot/src/run.py", line 1001, in main
+    continue
+NameError: name 'start_pnl_dashboard' is not defined
+
+============================================================

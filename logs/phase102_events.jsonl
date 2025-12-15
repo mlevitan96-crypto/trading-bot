@@ -6574,3 +6574,168 @@
 {"ts": 1765735727, "event": "phase102_shadow_tick_complete", "payload": {"count": 45}}
 {"ts": 1765735727, "event": "phase102_shadow_tick", "payload": {"results_count": 45}}
 {"ts": 1765735793, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765819087, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765819110, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819123, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819131, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819131, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 322.14167685712187, "multiplier": 1.0, "size_capped": 322.14167685712187}}
+{"ts": 1765819131, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765819139, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819142, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819148, "event": "phase102_alloc_decision", "payload": {"symbol": "PEPEUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819154, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 1167.5306209333155, "multiplier": 1.0, "size_capped": 1004.1767300000013}}
+{"ts": 1765819350, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765819602, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765819628, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819628, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 303.26114006549045, "multiplier": 1.0, "size_capped": 303.26114006549045}}
+{"ts": 1765819629, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765819638, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819642, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819646, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819646, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 304.39483657640955, "multiplier": 1.0, "size_capped": 304.39483657640955}}
+{"ts": 1765819646, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765819656, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765819658, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765820526, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765820562, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821307, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821342, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821349, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821349, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 191.09639809102234, "multiplier": 1.0, "size_capped": 191.09639809102234}}
+{"ts": 1765821349, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821360, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821363, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821363, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 190.96156084647808, "multiplier": 1.0, "size_capped": 190.96156084647808}}
+{"ts": 1765821363, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821462, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821462, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 189.6433602188149, "multiplier": 1.0, "size_capped": 189.6433602188149}}
+{"ts": 1765821463, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821471, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821474, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821474, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 186.1316242799731, "multiplier": 1.0, "size_capped": 186.1316242799731}}
+{"ts": 1765821474, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821493, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821546, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821549, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821549, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 185.90751043840922, "multiplier": 1.0, "size_capped": 185.90751043840922}}
+{"ts": 1765821549, "event": "phase102_alloc_decision", "payload": {"symbol": "ARBUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821631, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821661, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821661, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 185.2526071940432, "multiplier": 1.0, "size_capped": 185.2526071940432}}
+{"ts": 1765821661, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821669, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821676, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821682, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821773, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 200, "multiplier": 1.0, "size_capped": 200.0}}
+{"ts": 1765821773, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 190.79167110457598, "multiplier": 1.0, "size_capped": 190.79167110457598}}
+{"ts": 1765821773, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821933, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821967, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765821968, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 285.8286515272908, "multiplier": 1.0, "size_capped": 285.8286515272908}}
+{"ts": 1765821968, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821975, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765821985, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765821989, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765821989, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 286.9946357417338, "multiplier": 1.0, "size_capped": 286.9946357417338}}
+{"ts": 1765821989, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765821994, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 300, "multiplier": 1.0, "size_capped": 300.0}}
+{"ts": 1765822084, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822085, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 381.88999033704096, "multiplier": 1.0, "size_capped": 381.88999033704096}}
+{"ts": 1765822085, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822089, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822089, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 381.68637397155317, "multiplier": 1.0, "size_capped": 381.68637397155317}}
+{"ts": 1765822089, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822094, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822099, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822101, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822101, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 381.68637397155317, "multiplier": 1.0, "size_capped": 381.68637397155317}}
+{"ts": 1765822101, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822109, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822234, "event": "phase102_rank_complete", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 38.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 26.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]]}}
+{"ts": 1765822234, "event": "phase102_allocator_tick", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 38.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 26.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]], "multipliers": {"SOLUSDT": 1.0, "DOTUSDT": 1.0, "ADAUSDT": 1.0, "DOGEUSDT": 1.0, "MATICUSDT": 1.0, "ETHUSDT": 1.0, "BTCUSDT": 1.0, "AVAXUSDT": 1.0, "TRXUSDT": 1.0}}}
+{"ts": 1765822504, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822520, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822526, "event": "phase102_alloc_decision", "payload": {"symbol": "BNBUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822529, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822534, "event": "phase102_rank_complete", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 38.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 26.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]]}}
+{"ts": 1765822534, "event": "phase102_allocator_tick", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 38.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 26.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]], "multipliers": {"SOLUSDT": 1.0, "DOTUSDT": 1.0, "ADAUSDT": 1.0, "DOGEUSDT": 1.0, "MATICUSDT": 1.0, "ETHUSDT": 1.0, "BTCUSDT": 1.0, "AVAXUSDT": 1.0, "TRXUSDT": 1.0, "BNBUSDT": 1.0}}}
+{"ts": 1765822537, "event": "phase102_shadow_tick_complete", "payload": {"count": 45}}
+{"ts": 1765822537, "event": "phase102_shadow_tick", "payload": {"results_count": 45}}
+{"ts": 1765822539, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 1752.1676556623663, "multiplier": 1.0, "size_capped": 1004.255260000001}}
+{"ts": 1765822618, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822618, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 384.06152210447846, "multiplier": 1.0, "size_capped": 384.06152210447846}}
+{"ts": 1765822618, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822631, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822637, "event": "phase102_alloc_decision", "payload": {"symbol": "BNBUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822640, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822728, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765822755, "event": "phase102_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765822796, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822802, "event": "phase102_alloc_decision", "payload": {"symbol": "BNBUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822806, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 400, "multiplier": 1.0, "size_capped": 400.0}}
+{"ts": 1765822819, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 1751.8051399406281, "multiplier": 1.0, "size_capped": 1004.2275800000009}}
+{"ts": 1765822894, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822902, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822909, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822918, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765822928, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 1752.6260194697584, "multiplier": 1.0, "size_capped": 1004.210340000001}}
+{"ts": 1765823010, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823016, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823018, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823025, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823056, "event": "phase102_rank_complete", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]]}}
+{"ts": 1765823056, "event": "phase102_allocator_tick", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]], "multipliers": {"ADAUSDT": 1.0, "BNBUSDT": 1.0, "MATICUSDT": 1.0, "BTCUSDT": 1.0, "AVAXUSDT": 1.0, "DOGEUSDT": 1.0, "XRPUSDT": 1.0, "ETHUSDT": 1.0, "SOLUSDT": 1.0, "DOTUSDT": 1.0, "TRXUSDT": 1.0}}}
+{"ts": 1765823126, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823131, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823139, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823151, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 1752.5540194697585, "multiplier": 1.0, "size_capped": 1004.193100000001}}
+{"ts": 1765823233, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823240, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823246, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823256, "event": "phase102_alloc_decision", "payload": {"symbol": "ETHUSDT", "base": 1752.5540194697585, "multiplier": 1.0, "size_capped": 1004.193100000001}}
+{"ts": 1765823331, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823332, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 498.13122250555233, "multiplier": 1.0, "size_capped": 498.13122250555233}}
+{"ts": 1765823332, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823339, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823345, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823355, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823357, "event": "phase102_rank_complete", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]]}}
+{"ts": 1765823357, "event": "phase102_allocator_tick", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]], "multipliers": {"ADAUSDT": 1.0, "BNBUSDT": 1.0, "MATICUSDT": 1.0, "BTCUSDT": 1.0, "AVAXUSDT": 1.0, "DOGEUSDT": 1.0, "XRPUSDT": 1.0, "ETHUSDT": 1.0, "SOLUSDT": 1.0, "DOTUSDT": 1.0, "TRXUSDT": 1.0}}}
+{"ts": 1765823358, "event": "phase102_shadow_tick_complete", "payload": {"count": 45}}
+{"ts": 1765823358, "event": "phase102_shadow_tick", "payload": {"results_count": 45}}
+{"ts": 1765823451, "event": "phase102_alloc_decision", "payload": {"symbol": "AVAXUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823461, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823470, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823563, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823566, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823567, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 523.5813665895638, "multiplier": 1.0, "size_capped": 523.5813665895638}}
+{"ts": 1765823567, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823569, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823572, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823579, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823657, "event": "phase102_rank_complete", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]]}}
+{"ts": 1765823657, "event": "phase102_allocator_tick", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 34.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]], "multipliers": {"ADAUSDT": 1.0, "BNBUSDT": 1.0, "MATICUSDT": 1.0, "BTCUSDT": 1.0, "AVAXUSDT": 1.0, "DOGEUSDT": 1.0, "XRPUSDT": 1.0, "ETHUSDT": 1.0, "SOLUSDT": 1.0, "DOTUSDT": 1.0, "TRXUSDT": 1.0}}}
+{"ts": 1765823665, "event": "phase102_alloc_decision", "payload": {"symbol": "BTCUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823676, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823680, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823680, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 521.2096150004533, "multiplier": 1.0, "size_capped": 521.2096150004533}}
+{"ts": 1765823680, "event": "phase102_alloc_decision", "payload": {"symbol": "XRPUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823682, "event": "phase102_alloc_decision", "payload": {"symbol": "ADAUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823695, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823788, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823788, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 566.9091909167144, "multiplier": 1.0, "size_capped": 566.9091909167144}}
+{"ts": 1765823788, "event": "phase102_alloc_decision", "payload": {"symbol": "SOLUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823793, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823804, "event": "phase102_alloc_decision", "payload": {"symbol": "BNBUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823804, "event": "phase102_alloc_decision", "payload": {"symbol": "BNBUSDT", "base": 540.8707277215375, "multiplier": 1.0, "size_capped": 540.8707277215375}}
+{"ts": 1765823804, "event": "phase102_alloc_decision", "payload": {"symbol": "BNBUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823807, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823903, "event": "phase102_alloc_decision", "payload": {"symbol": "DOTUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823910, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823911, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 527.5275171432332, "multiplier": 1.0, "size_capped": 527.5275171432332}}
+{"ts": 1765823911, "event": "phase102_alloc_decision", "payload": {"symbol": "DOGEUSDT", "base": 500.0, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823917, "event": "phase102_alloc_decision", "payload": {"symbol": "MATICUSDT", "base": 500, "multiplier": 1.0, "size_capped": 500.0}}
+{"ts": 1765823958, "event": "phase102_rank_complete", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 36.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]]}}
+{"ts": 1765823958, "event": "phase102_allocator_tick", "payload": {"ranked": [["ETHUSDT", 0.0, {"wr": 42.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["SOLUSDT", 0.0, {"wr": 40.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["BTCUSDT", 0.0, {"wr": 28.000000000000004, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["AVAXUSDT", 0.0, {"wr": 36.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["DOTUSDT", 0.0, {"wr": 48.0, "sh": 0.0, "pnl": 0.0, "eligible": false}], ["TRXUSDT", 0.0, {"wr": 0.0, "sh": 0.0, "pnl": 0.0, "eligible": false}]], "multipliers": {"ADAUSDT": 1.0, "BNBUSDT": 1.0, "MATICUSDT": 1.0, "BTCUSDT": 1.0, "AVAXUSDT": 1.0, "DOGEUSDT": 1.0, "XRPUSDT": 1.0, "ETHUSDT": 1.0, "SOLUSDT": 1.0, "DOTUSDT": 1.0, "TRXUSDT": 1.0}}}
+{"ts": 1765823959, "event": "phase102_shadow_tick_complete", "payload": {"count": 45}}
+{"ts": 1765823959, "event": "phase102_shadow_tick", "payload": {"results_count": 45}}

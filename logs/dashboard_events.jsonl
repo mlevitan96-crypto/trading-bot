@@ -6304,3 +6304,314 @@
 {"ts": 1765735794.2230308, "event": "phase9_watchdog_ok", "payload": {}}
 {"ts": 1765735794.223204, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
 {"ts": 1765735794.2232761, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765819086.3737235, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765819086.4287286, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765819086.4411588, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765819087.8626428, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "3b299c30feb8d859fe3257471f2f7971a752149272c7b3c783243c379166b3f9"}}
+{"ts": 1765819087.8628185, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765819088.0868711, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765819088.120433, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765819088.120778, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765819088.12157, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765819088.1302848, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765819088.130678, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765819088.130855, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765819088.1310143, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765819088.1313906, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765819088.1329372, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765819148.321161, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "2f7f49a4878d74ff327592a77cb9caf30887acedc2d92b140ef3936f287a9001"}}
+{"ts": 1765819148.3213758, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765819148.3216155, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765819148.321721, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765819349.1605604, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765819349.204409, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765819349.2260888, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765819350.9805996, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "abbef9d3cbcf8b3ce83fabd563add0f446fab4a9c262a355b472ea0e30d09c61"}}
+{"ts": 1765819351.0017078, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765819351.1941297, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765819351.2437222, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765819351.244132, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765819351.2444215, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765819351.2446864, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765819351.244873, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765819351.253965, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765819351.254246, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765819351.2572644, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765819351.2695174, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765819601.1654468, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765819601.1771562, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765819601.3057404, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765819602.868014, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "00cc6fa67225e4693b18119a1ef9c9d8d9d04300c6173ebec7d20f2bf0d60160"}}
+{"ts": 1765819602.8686385, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765819603.1301432, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765819603.2000747, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765819603.20029, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765819603.2005684, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765819603.2009032, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765819603.201222, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765819603.2013388, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765819603.2014482, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765819603.2017791, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765819603.2147663, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765820524.528131, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765820524.6429856, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765820524.760739, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765820526.2393987, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "132076f89a9230f8eeeff0196e4ee808661be2cb69f35f16b64196c36e6be6c9"}}
+{"ts": 1765820526.239573, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765820526.4352574, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765820526.5157402, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765820526.5160723, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765820526.5163085, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765820526.516568, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765820526.516763, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765820526.516864, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765820526.5169911, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765820526.5172825, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765820526.5608852, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765821305.347649, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765821305.4203353, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765821305.4472015, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765821307.8096926, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "6fdb12f3b653cb970a0d6900d245696a9a6e43d11f9b59b6eeffefb76d3db2aa"}}
+{"ts": 1765821307.8098285, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765821308.0926414, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821308.1982107, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765821308.198861, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765821308.1992297, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765821308.1995323, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765821308.1997395, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821308.2203882, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821308.2228158, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765821308.2383301, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765821308.2524083, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765821368.366504, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "803e4b93540ef96a135d991b45402d773d398688f9bf452d28e025593df69d39"}}
+{"ts": 1765821368.366689, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821368.3669498, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821368.3670807, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821428.4863305, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "803e4b93540ef96a135d991b45402d773d398688f9bf452d28e025593df69d39"}}
+{"ts": 1765821428.4865642, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821428.4867628, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821428.4868665, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821492.2076578, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765821492.2753105, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765821492.3435166, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765821494.5312512, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "49064e62e921a9079023b46e452944157ab89762515758d78f7a257c24220692"}}
+{"ts": 1765821494.5314033, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765821494.7952604, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821494.8730369, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765821494.8731763, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765821494.873398, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765821494.8736238, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765821494.8738365, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821494.8739867, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821494.8741229, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765821494.8744879, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765821494.8821423, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765821554.9392807, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "e42b18872bd3c52746a9add8b04aa1f060bd2171152ce1d42899b4b2754dc43e"}}
+{"ts": 1765821554.939432, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821554.9396214, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821554.9397137, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821630.0119896, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765821630.0596123, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765821630.1234407, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765821632.4036818, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "fbb28ef5aee8a8d903a8e2be9a9ef408a5b62e4a143490557cdd13b7434704e8"}}
+{"ts": 1765821632.4081535, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765821632.6774192, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821632.8633804, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765821632.863683, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765821632.8715866, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765821632.8813102, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765821632.8815694, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821632.8816772, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821632.8817954, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765821632.8821282, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765821632.8952668, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765821693.0090723, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "dda0f2b594db8a674b32d25d5dbb7289e7ea69ce33f0242b5f957726d0f16887"}}
+{"ts": 1765821693.009248, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821693.0094774, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821693.0095963, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821753.0627403, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "dda0f2b594db8a674b32d25d5dbb7289e7ea69ce33f0242b5f957726d0f16887"}}
+{"ts": 1765821753.0628812, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821753.063071, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821753.0631661, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821931.9544966, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765821931.9998884, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765821932.0243676, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765821934.17236, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "df99b656c9d1eaf2d2e34c63ac4371c46be89687361cbf5405d320c823c3b5d9"}}
+{"ts": 1765821934.1725283, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765821934.4630756, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821934.539524, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765821934.554412, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765821934.5570858, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765821934.562561, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765821934.562879, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821934.5659597, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765821934.5676312, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765821934.5681524, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765821934.5713992, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765821994.6908405, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765821994.6911044, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765821994.691662, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765821994.6918635, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822054.7502663, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822054.7504067, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822054.7505612, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822054.7506416, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822114.811291, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822114.8114812, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822114.8116972, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822114.8117878, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822174.9501793, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822174.9504325, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822174.9506614, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822174.9507525, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822235.4545162, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822235.454686, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765822235.6877766, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822235.6897047, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822235.6898427, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822297.6030862, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822297.6147065, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822297.6199043, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822297.6281607, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822357.892187, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822357.9184394, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822357.9396703, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822357.97526, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822418.912235, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822418.9129648, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822418.9132318, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822418.9133255, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822479.5130332, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822479.5380087, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822479.5383089, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822479.5396688, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822540.39368, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822540.3938847, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765822540.495333, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822540.4955726, "event": "phase9_health", "payload": {"score": 0.83}}
+{"ts": 1765822540.495744, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822540.495836, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822600.622467, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822600.6226583, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822600.6228724, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822600.622983, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822660.6747615, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "37e95144989d68ed1e257bbbd860807dda5e5a33db86db5dc947a836daf84905"}}
+{"ts": 1765822660.6750257, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822660.6752558, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822660.6753561, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822727.1700678, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765822727.2150404, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765822727.2658143, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765822728.9777603, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "c3ae65d4de77a96b729a11bace8ce17399e0fa59e0a839e67e3b0bb2eb306340"}}
+{"ts": 1765822729.0001955, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765822729.3136451, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822729.4321141, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765822729.432267, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765822729.4325438, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765822729.4327793, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765822729.4330394, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822729.433146, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822729.4332745, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765822729.4335804, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765822729.4493506, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765822754.731833, "event": "phase87_89_started", "payload": {"phase87": "Transparency & Audit", "phase88": "Collaborative Intelligence", "phase89": "External Signal Integration", "audit_restored": true}}
+{"ts": 1765822754.7905214, "event": "phase9_started", "payload": {"cfg": {"ramp_step_pct_tier": {"majors": 0.12, "l1s": 0.1, "experimental": 0.08}, "ramp_max_daily_pct": 0.25, "ramp_cooldown_min": 180, "health_thresholds": {"ramp_min": 0.75, "hold_min": 0.55, "shrink_below": 0.4}}}}
+{"ts": 1765822754.822259, "event": "phase91_started", "payload": {"tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}, "health_history_max_len": 1440}}
+{"ts": 1765822756.5904229, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "befff5bf147708d50bf210e0a3d3cb96f820b2f004d6ffea591eb3997b890d16"}}
+{"ts": 1765822756.5905805, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765822757.1832712, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822757.2479572, "event": "phase9_health", "payload": {"score": 0.63}}
+{"ts": 1765822757.248128, "event": "phase9_hold", "payload": {"score": 0.63}}
+{"ts": 1765822757.2483423, "event": "phase9_calibration_skipped", "payload": {"confidence": 0.3}}
+{"ts": 1765822757.2485816, "event": "phase9_baselines_refreshed", "payload": {}}
+{"ts": 1765822757.248798, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822757.2488978, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822757.249032, "event": "phase91_tolerances_updated", "payload": {"vol_index": 0.5, "tolerances": {"ev_usd": 0.02, "trailing_r": 0.05, "add_r": 0.1}}}
+{"ts": 1765822757.2493353, "event": "phase91_cooldown_adjusted", "payload": {"health": 0.83, "baseline_cooldown_min": 180, "adjusted_cooldown_min": 180, "multiplier": 1.0}}
+{"ts": 1765822757.258265, "event": "phase91_calibration_skipped_no_data", "payload": {"confidence": 0.7}}
+{"ts": 1765822817.349848, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765822817.3500624, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822817.3502915, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822817.350394, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822877.4044714, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765822877.4047139, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822877.4049928, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822877.4050832, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822937.472008, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765822937.4722035, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822937.4724014, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822937.4724872, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765822997.5884614, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765822997.5886598, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765822997.58887, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765822997.5889766, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823057.7768397, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823057.777074, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765823057.87245, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823057.8727117, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823057.8727798, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823118.7325385, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823118.732823, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823118.7331107, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823118.7332206, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823178.784451, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823178.7846556, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823178.7848866, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823178.7850158, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823238.9287639, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823238.9289117, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823238.9291246, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823238.9292035, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823298.9879122, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823298.9881847, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823298.9883797, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823298.988514, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823359.2895849, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823359.2899408, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765823359.414467, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823359.4159477, "event": "phase9_health", "payload": {"score": 0.83}}
+{"ts": 1765823359.416165, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823359.4162686, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823419.46895, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823419.4690988, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823419.4692476, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823419.4693058, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823479.539126, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823479.5393097, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823479.539526, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823479.5396214, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823539.5945275, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823539.594693, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823539.5948863, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823539.594987, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823599.671605, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823599.671739, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823599.6718876, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823599.6719646, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823660.025348, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823660.0255313, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765823660.1201234, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823660.1204424, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823660.1205788, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823720.2742288, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823720.2743864, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823720.2745745, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823720.2746623, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823780.3341753, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823780.3343282, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823780.3345141, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823780.3346028, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823840.3912866, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823840.391444, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823840.3915935, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823840.3916502, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823900.4397104, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823900.4398944, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823900.4401238, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823900.44023, "event": "phase91_watchdog_ok", "payload": {}}
+{"ts": 1765823960.7336276, "event": "phase87_cockpit_refresh", "payload": {"validation_history_n": null, "last_regime_change_ts": null, "drift_last_restore_ts": null, "baselines": null, "preserve_until_ts": null, "last_early_warning_ts": null, "audit_last_digest": "ec9fe026cdd7575ae45295a20cf10fa979b303e9c66d4c84a059bdbca8553d59"}}
+{"ts": 1765823960.7337778, "event": "phase88_peer_snapshot", "payload": {"peers_n": 0}}
+{"ts": 1765823960.8568072, "event": "phase9_watchdog_ok", "payload": {}}
+{"ts": 1765823960.8594635, "event": "phase9_health", "payload": {"score": 0.83}}
+{"ts": 1765823960.8609817, "event": "phase91_health_trend", "payload": {"current": 0.83, "avg_1h": 0.83, "avg_6h": 0.83, "avg_24h": 0.83}}
+{"ts": 1765823960.8611176, "event": "phase91_watchdog_ok", "payload": {}}

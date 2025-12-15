@@ -376,3 +376,19 @@
 [2025-12-14T17:48:47.562226Z] Intelligence poller started (interval=60s)
 [2025-12-14T17:57:53.554415Z] 📊 Enhanced intel ETHUSDT: dir=SHORT conf=0.44 funding=0.00916 oi_delta=0.0%
 [2025-12-14T17:57:53.554513Z] ⚠️ INTEL-REDUCE ETHUSDT: Signal=LONG conflicts with weak Intel=SHORT (conf=0.44, mult=0.5)
+[2025-12-15T17:18:12.044155Z] Intelligence poller started (interval=60s)
+[2025-12-15T17:19:15.015764Z] 📊 Enhanced intel AVAXUSDT: dir=NEUTRAL conf=0.04 funding=-0.03559 oi_delta=-0.4%
+[2025-12-15T17:26:47.634420Z] Intelligence poller started (interval=60s)
+[2025-12-15T17:42:10.910377Z] Intelligence poller started (interval=60s)
+[2025-12-15T17:55:09.798298Z] Intelligence poller started (interval=60s)
+[2025-12-15T17:58:17.103947Z] Intelligence poller started (interval=60s)
+[2025-12-15T18:00:34.802794Z] Intelligence poller started (interval=60s)
+[2025-12-15T18:05:36.462641Z] Intelligence poller started (interval=60s)
+[2025-12-15T18:18:51.139124Z] Intelligence poller started (interval=60s)
+[2025-12-15T18:19:18.678109Z] Intelligence poller started (interval=60s)
+[2025-12-15T18:20:19.614658Z] 📊 Enhanced intel BTCUSDT: dir=SHORT conf=0.44 funding=0.00704 oi_delta=-0.1%
+[2025-12-15T18:20:19.614767Z] ⚠️ INTEL-REDUCE BTCUSDT: Signal=LONG conflicts with weak Intel=SHORT (conf=0.44, mult=0.5)
+[2025-12-15T18:22:08.778336Z] 📊 Enhanced intel DOGEUSDT: dir=NEUTRAL conf=0.04 funding=-0.01009 oi_delta=-1.4%
+[2025-12-15T18:25:51.755983Z] 📊 Enhanced intel DOGEUSDT: dir=NEUTRAL conf=0.04 funding=-0.01035 oi_delta=-1.6%
+[2025-12-15T18:27:36.453524Z] 📊 Enhanced intel ETHUSDT: dir=SHORT conf=0.44 funding=0.00072 oi_delta=-1.7%
+[2025-12-15T18:27:36.453644Z] ✅ INTEL-CONFIRM ETHUSDT: Signal=SHORT aligns with Intel=SHORT (conf=0.44, mult=1.13)

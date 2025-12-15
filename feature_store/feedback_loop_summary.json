@@ -1,30 +1,23 @@
 {
-  "timestamp": "2025-12-14T17:54:29.648077",
-  "direction_accuracy": 41.5,
+  "timestamp": "2025-12-15T18:25:15.460510",
+  "direction_accuracy": 43.5,
   "early_exit_rate": 0.0,
   "timing_patterns_learned": 16,
   "exit_analysis": {
     "total_analyzed": 200,
     "too_early": 0,
     "too_late": 0,
-    "good": 6
+    "good": 5
   },
   "direction_analysis": {
     "total_analyzed": 200,
-    "our_better": 83,
-    "opposite_better": 117,
-    "accuracy_pct": 41.5
+    "our_better": 87,
+    "opposite_better": 113,
+    "accuracy_pct": 43.5
   },
   "timing_rules_learned": 16,
-  "recommendations_count": 5,
+  "recommendations_count": 4,
   "recommendations": [
-    {
-      "type": "symbol_direction_bias",
-      "priority": "high",
-      "symbol": "ADAUSDT",
-      "issue": "ADAUSDT: Opposite direction better 77% of time",
-      "action": "Consider signal inversion for ADAUSDT"
-    },
     {
       "type": "symbol_direction_bias",
       "priority": "high",

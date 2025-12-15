@@ -2,24 +2,24 @@
   "transactions": [
     {
       "symbol": "BTC",
-      "amount_usd": 169651235.76400003,
-      "flow_type": "exchange_inflow",
-      "from_type": "unknown",
-      "to_type": "exchange",
-      "timestamp": 1765735741,
-      "balance_change": 1748.9818120000002,
+      "amount_usd": 76958106.574,
+      "flow_type": "exchange_outflow",
+      "from_type": "exchange",
+      "to_type": "unknown",
+      "timestamp": 1765823969,
+      "balance_change": -793.3825420000001,
       "source": "coinglass"
     },
     {
       "symbol": "ETH",
-      "amount_usd": 666320937.0192,
+      "amount_usd": 268594887.9672,
       "flow_type": "exchange_outflow",
       "from_type": "exchange",
       "to_type": "unknown",
-      "timestamp": 1765735741,
-      "balance_change": -185089.14917199998,
+      "timestamp": 1765823969,
+      "balance_change": -74609.691102,
       "source": "coinglass"
     }
   ],
-  "timestamp": "2025-12-14T18:09:06.384055Z"
+  "timestamp": "2025-12-15T18:39:35.099403Z"
 }

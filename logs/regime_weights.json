@@ -1,222 +1,6 @@
 {
   "regime_log": [
     {
-      "timestamp": "2025-12-14T03:25:59.633452-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:28:07.966079-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:30:09.081575-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:32:02.905464-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:34:03.993734-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:36:13.015298-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:38:19.946824-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:40:32.778743-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:42:38.292765-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:44:48.072692-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:46:47.811011-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:48:45.433782-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:50:57.336247-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:52:58.023224-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:55:09.665153-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:57:20.979676-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T03:59:22.755085-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T04:01:36.363038-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T04:03:34.006357-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T04:05:34.953056-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T04:07:37.645536-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T04:09:36.204417-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T04:11:48.626268-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
-      "timestamp": "2025-12-14T04:14:01.694876-07:00",
-      "regime": "Stable",
-      "weights": {
-        "Sentiment-Fusion": 0.3333,
-        "Trend-Conservative": 0.3333,
-        "Breakout-Aggressive": 0.3335
-      }
-    },
-    {
       "timestamp": "2025-12-14T04:16:07.194820-07:00",
       "regime": "Stable",
       "weights": {
@@ -1793,6 +1577,222 @@
     },
     {
       "timestamp": "2025-12-14T11:09:41.593328-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:18:19.330673-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:26:53.729852-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:42:17.374103-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:55:19.272071-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:57:19.215162-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3333,
+        "Trend-Conservative": 0.3333,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:58:25.931092-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3333,
+        "Trend-Conservative": 0.3333,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:00:47.089424-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3333,
+        "Trend-Conservative": 0.3333,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:02:42.831027-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3333,
+        "Trend-Conservative": 0.3333,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:05:46.053347-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3333,
+        "Trend-Conservative": 0.3333,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:07:52.804191-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:09:51.654749-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:16:46.199824-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:19:28.149564-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:21:25.584641-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:23:13.732231-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:25:02.062368-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:26:56.751997-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:28:42.030400-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:30:33.297959-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:32:25.786173-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:34:16.097554-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:14.852529-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:38:05.378487-07:00",
+      "regime": "Stable",
+      "weights": {
+        "Sentiment-Fusion": 0.3332,
+        "Trend-Conservative": 0.3332,
+        "Breakout-Aggressive": 0.3335
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:39:56.183935-07:00",
       "regime": "Stable",
       "weights": {
         "Sentiment-Fusion": 0.3332,

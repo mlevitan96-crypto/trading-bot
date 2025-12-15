@@ -1352,3 +1352,49 @@
 {"timestamp": "2025-12-14T11:07:30.168955-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
 {"timestamp": "2025-12-14T11:09:46.953779-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
 {"timestamp": "2025-12-14T11:09:46.954003-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T10:18:23.968535-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T10:18:23.968817-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T10:26:57.785402-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T10:26:57.785700-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T10:42:21.702789-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T10:42:21.703101-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T10:55:26.126328-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T10:55:26.126669-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T10:57:23.259448-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T10:57:23.259626-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T10:58:31.708626-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T10:58:31.709023-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:00:52.807319-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:00:52.807535-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:02:47.129762-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:02:47.130097-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:05:53.714158-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:05:53.714376-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:07:56.700978-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:07:56.701271-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:09:57.219641-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:09:57.235199-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:16:50.163799-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:16:50.164037-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:19:33.554262-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:19:33.554453-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:21:30.145965-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:21:30.146250-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:23:17.840271-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:23:17.840534-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:25:09.670563-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:25:10.232328-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:27:00.876372-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:27:00.876753-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:28:46.079632-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:28:46.079817-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:30:37.329508-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:30:37.329723-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:32:29.765110-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:32:29.765328-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:34:20.191560-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:34:20.191732-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:36:19.040155-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:36:19.040332-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}
+{"timestamp": "2025-12-15T11:38:09.572912-07:00", "event": "position_prices_updated", "updated_count": 0, "total_positions": 0}
+{"timestamp": "2025-12-15T11:38:09.573152-07:00", "event": "exit_health_audit", "healthy": true, "issues": [], "stale_positions": 0, "total_positions": 0, "last_exit_minutes_ago": null, "action": "pass"}

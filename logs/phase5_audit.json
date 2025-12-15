@@ -28,5 +28,45 @@
     "level": "alert",
     "message": "Rollback triggered: SLO breach",
     "ts": 1765734197.3126848
+  },
+  {
+    "level": "alert",
+    "message": "SLO breach: p95_latency=525ms > 500ms",
+    "ts": 1765819146.2142484
+  },
+  {
+    "level": "alert",
+    "message": "Rollback triggered: SLO breach",
+    "ts": 1765819146.2156017
+  },
+  {
+    "level": "alert",
+    "message": "SLO breach: p95_latency=624ms > 500ms",
+    "ts": 1765821365.2255502
+  },
+  {
+    "level": "alert",
+    "message": "Rollback triggered: SLO breach",
+    "ts": 1765821365.226881
+  },
+  {
+    "level": "alert",
+    "message": "SLO breach: p95_latency=672ms > 500ms",
+    "ts": 1765821552.3394349
+  },
+  {
+    "level": "alert",
+    "message": "Rollback triggered: SLO breach",
+    "ts": 1765821552.3423817
+  },
+  {
+    "level": "alert",
+    "message": "SLO breach: p95_latency=632ms > 500ms",
+    "ts": 1765822814.5689676
+  },
+  {
+    "level": "alert",
+    "message": "Rollback triggered: SLO breach",
+    "ts": 1765822814.5699685
   }
 ]

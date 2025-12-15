@@ -875,3 +875,41 @@
 {"ts": 1765735534, "event": "phase101_attribution_update", "payload": {"symbol": "ETHUSDT", "sscore": 0.0, "strategy": "Trend-Conservative", "tscore": 0.0, "net_pnl": 0.0}}
 {"ts": 1765735685, "event": "phase101_attribution_update", "payload": {"symbol": "SOLUSDT", "sscore": 0.0, "strategy": "Trend-Conservative", "tscore": 0.0, "net_pnl": 0.0}}
 {"ts": 1765735704, "event": "phase101_attribution_update", "payload": {"symbol": "MATICUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765819087, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765819111, "event": "phase101_attribution_update", "payload": {"symbol": "BTCUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765819124, "event": "phase101_attribution_update", "payload": {"symbol": "DOTUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765819131, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765819131, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Trend-Conservative", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765819350, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765819602, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765820526, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765820562, "event": "phase101_attribution_update", "payload": {"symbol": "AVAXUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821307, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821342, "event": "phase101_attribution_update", "payload": {"symbol": "DOTUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821349, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821349, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Breakout-Aggressive", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821463, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Trend-Conservative", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821493, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821546, "event": "phase101_attribution_update", "payload": {"symbol": "MATICUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821631, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821933, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765821968, "event": "phase101_attribution_update", "payload": {"symbol": "SOLUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821968, "event": "phase101_attribution_update", "payload": {"symbol": "SOLUSDT", "sscore": 0.0, "strategy": "Trend-Conservative", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821968, "event": "phase101_attribution_update", "payload": {"symbol": "SOLUSDT", "sscore": 0.0, "strategy": "Breakout-Aggressive", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765821985, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765822085, "event": "phase101_attribution_update", "payload": {"symbol": "ETHUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765822085, "event": "phase101_attribution_update", "payload": {"symbol": "ETHUSDT", "sscore": 0.0, "strategy": "Trend-Conservative", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765822504, "event": "phase101_attribution_update", "payload": {"symbol": "BTCUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765822618, "event": "phase101_attribution_update", "payload": {"symbol": "ETHUSDT", "sscore": 0.0, "strategy": "Breakout-Aggressive", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765822728, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765822755, "event": "phase101_started", "payload": {"cfg": "loaded"}}
+{"ts": 1765822797, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765822803, "event": "phase101_attribution_update", "payload": {"symbol": "BNBUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765822902, "event": "phase101_attribution_update", "payload": {"symbol": "AVAXUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765823016, "event": "phase101_attribution_update", "payload": {"symbol": "XRPUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765823461, "event": "phase101_attribution_update", "payload": {"symbol": "ADAUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765823470, "event": "phase101_attribution_update", "payload": {"symbol": "MATICUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765823563, "event": "phase101_attribution_update", "payload": {"symbol": "DOTUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765823567, "event": "phase101_attribution_update", "payload": {"symbol": "XRPUSDT", "sscore": 0.0, "strategy": "Trend-Conservative", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765823665, "event": "phase101_attribution_update", "payload": {"symbol": "BTCUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}
+{"ts": 1765823680, "event": "phase101_attribution_update", "payload": {"symbol": "XRPUSDT", "sscore": 0.0, "strategy": "Sentiment-Fusion", "tscore": 0.0, "net_pnl": 0.0}}

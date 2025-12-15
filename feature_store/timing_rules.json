@@ -3,13 +3,13 @@
     "optimal_duration": "short",
     "min_hold_sec": 300,
     "max_hold_sec": 900,
-    "expected_ev": -0.1618,
-    "n": 113,
-    "wr": 23.0,
+    "expected_ev": -0.1655,
+    "n": 114,
+    "wr": 22.8,
     "all_durations": {
       "short": {
-        "pnl": -18.28,
-        "n": 113
+        "pnl": -18.87,
+        "n": 114
       },
       "medium": {
         "pnl": -0.55,
@@ -21,13 +21,13 @@
     "optimal_duration": "short",
     "min_hold_sec": 300,
     "max_hold_sec": 900,
-    "expected_ev": -0.163,
-    "n": 110,
-    "wr": 28.2,
+    "expected_ev": -0.1703,
+    "n": 112,
+    "wr": 27.7,
     "all_durations": {
       "short": {
-        "pnl": -17.93,
-        "n": 110
+        "pnl": -19.07,
+        "n": 112
       }
     }
   },
@@ -119,13 +119,13 @@
     "optimal_duration": "short",
     "min_hold_sec": 300,
     "max_hold_sec": 900,
-    "expected_ev": -0.0894,
-    "n": 56,
-    "wr": 39.3,
+    "expected_ev": -0.1079,
+    "n": 57,
+    "wr": 38.6,
     "all_durations": {
       "short": {
-        "pnl": -5.01,
-        "n": 56
+        "pnl": -6.15,
+        "n": 57
       }
     }
   },
@@ -179,13 +179,13 @@
     "optimal_duration": "short",
     "min_hold_sec": 300,
     "max_hold_sec": 900,
-    "expected_ev": -0.3604,
-    "n": 38,
-    "wr": 13.2,
+    "expected_ev": -0.3568,
+    "n": 39,
+    "wr": 12.8,
     "all_durations": {
       "short": {
-        "pnl": -13.69,
-        "n": 38
+        "pnl": -13.92,
+        "n": 39
       },
       "medium": {
         "pnl": 0.1,
@@ -197,13 +197,13 @@
     "optimal_duration": "short",
     "min_hold_sec": 300,
     "max_hold_sec": 900,
-    "expected_ev": -0.3309,
-    "n": 30,
-    "wr": 16.7,
+    "expected_ev": -0.3315,
+    "n": 31,
+    "wr": 16.1,
     "all_durations": {
       "short": {
-        "pnl": -9.93,
-        "n": 30
+        "pnl": -10.28,
+        "n": 31
       }
     }
   },
@@ -211,13 +211,13 @@
     "optimal_duration": "medium",
     "min_hold_sec": 900,
     "max_hold_sec": 3600,
-    "expected_ev": -0.2519,
-    "n": 41,
-    "wr": 4.9,
+    "expected_ev": -0.2433,
+    "n": 42,
+    "wr": 7.1,
     "all_durations": {
       "medium": {
-        "pnl": -10.33,
-        "n": 41
+        "pnl": -10.22,
+        "n": 42
       }
     }
   },
@@ -243,8 +243,8 @@
     "n": 0
   },
   "_metadata": {
-    "updated_at": "2025-12-14T17:54:28.956940",
-    "total_trades_analyzed": 943,
+    "updated_at": "2025-12-15T18:25:15.291851",
+    "total_trades_analyzed": 950,
     "patterns_learned": 15
   }
 }

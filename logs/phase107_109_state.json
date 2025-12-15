@@ -19,7 +19,7 @@
     }
   },
   "recovery": {
-    "frozen_until_ts": 1765737523,
+    "frozen_until_ts": 1765825756,
     "reactivation_ticks": 0,
     "last_anomaly": "multi_anomaly:sharpe_collapse"
   }

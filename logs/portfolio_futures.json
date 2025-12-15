@@ -1,355 +1,15 @@
 {
   "total_margin_allocated": 6000.0,
-  "available_margin": 5991.265608843536,
-  "used_margin": 8.73439115646395,
+  "available_margin": 6000.0,
+  "used_margin": 0.0,
   "unrealized_pnl": 0.0,
-  "realized_pnl": -162.34689533342362,
+  "realized_pnl": -145.63848054028378,
   "total_funding_fees": 0.0,
-  "total_trading_fees": 288.86300000000404,
+  "total_trading_fees": 300.1784000000044,
   "open_positions_count": 0,
-  "total_notional_exposure": 240334.5962808591,
-  "effective_leverage": 3004.182453510739,
+  "total_notional_exposure": 253979.32689430457,
+  "effective_leverage": 1523.8759613658276,
   "snapshots": [
-    {
-      "timestamp": "2025-12-13T13:09:51.029624-07:00",
-      "action": "trade_close",
-      "symbol": "SOLUSDT",
-      "strategy": "Trend-Conservative",
-      "net_pnl": -0.24869823395008758,
-      "total_realized_pnl": 12.953221049087498,
-      "available_margin": 6032.507594086214,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:11:46.670791-07:00",
-      "action": "trade_close",
-      "symbol": "ETHUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.01019295086183902,
-      "total_realized_pnl": 12.963413999949337,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:11:47.134296-07:00",
-      "action": "trade_close",
-      "symbol": "LINKUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.13790697674418323,
-      "total_realized_pnl": 13.10132097669352,
-      "available_margin": 6066.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:13:45.052182-07:00",
-      "action": "trade_close",
-      "symbol": "AVAXUSDT",
-      "strategy": "Trend-Conservative",
-      "net_pnl": -0.1693192280335291,
-      "total_realized_pnl": 12.93200174865999,
-      "available_margin": 6046.852515185648,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:15:38.608559-07:00",
-      "action": "trade_close",
-      "symbol": "BTCUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.07652465161673769,
-      "total_realized_pnl": 12.855477097043252,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:15:39.122214-07:00",
-      "action": "trade_close",
-      "symbol": "SOLUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.030880361173825224,
-      "total_realized_pnl": 12.886357458217077,
-      "available_margin": 6066.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:19:21.178185-07:00",
-      "action": "trade_close",
-      "symbol": "ETHUSDT",
-      "strategy": "Breakout-Aggressive",
-      "net_pnl": -0.5066353304787471,
-      "total_realized_pnl": 12.37972212773833,
-      "available_margin": 6083.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:19:21.556371-07:00",
-      "action": "trade_close",
-      "symbol": "XRPUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.1508910891088987,
-      "total_realized_pnl": 12.22883103862943,
-      "available_margin": 6116.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:21:16.290831-07:00",
-      "action": "trade_close",
-      "symbol": "AVAXUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.29983545250562954,
-      "total_realized_pnl": 11.9289955861238,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:21:16.713669-07:00",
-      "action": "trade_close",
-      "symbol": "DOGEUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.24,
-      "total_realized_pnl": 11.6889955861238,
-      "available_margin": 6066.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:23:09.400062-07:00",
-      "action": "trade_close",
-      "symbol": "LINKUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.0071033478893738474,
-      "total_realized_pnl": 11.681892238234427,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:24:59.107291-07:00",
-      "action": "trade_close",
-      "symbol": "MATICUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.24,
-      "total_realized_pnl": 11.441892238234427,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:24:59.523041-07:00",
-      "action": "trade_close",
-      "symbol": "DOTUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.15215686274509843,
-      "total_realized_pnl": 11.594049100979525,
-      "available_margin": 6066.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:24:59.923139-07:00",
-      "action": "trade_close",
-      "symbol": "ETHUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.34694498131683127,
-      "total_realized_pnl": 11.247104119662694,
-      "available_margin": 6099.999999999999,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:26:56.812336-07:00",
-      "action": "trade_close",
-      "symbol": "SOLUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.20987951807227373,
-      "total_realized_pnl": 11.03722460159042,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:30:47.993530-07:00",
-      "action": "trade_close",
-      "symbol": "BTCUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.2590872944092899,
-      "total_realized_pnl": 10.77813730718113,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:30:48.453160-07:00",
-      "action": "trade_close",
-      "symbol": "ARBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.5186809103576614,
-      "total_realized_pnl": 10.259456396823468,
-      "available_margin": 6066.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:32:46.109612-07:00",
-      "action": "trade_close",
-      "symbol": "SOLUSDT",
-      "strategy": "Breakout-Aggressive",
-      "net_pnl": -0.11091045899174024,
-      "total_realized_pnl": 10.148545937831727,
-      "available_margin": 6083.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:32:46.560718-07:00",
-      "action": "trade_close",
-      "symbol": "AVAXUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.2698953662182196,
-      "total_realized_pnl": 9.878650571613507,
-      "available_margin": 6116.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:34:42.859438-07:00",
-      "action": "trade_close",
-      "symbol": "XRPUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.09148514851484583,
-      "total_realized_pnl": 9.787165423098662,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:36:41.968299-07:00",
-      "action": "trade_close",
-      "symbol": "ETHUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.20973989183619268,
-      "total_realized_pnl": 9.577425531262469,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:38:39.127161-07:00",
-      "action": "trade_close",
-      "symbol": "SOLUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.059277108433728055,
-      "total_realized_pnl": 9.518148422828741,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:40:33.675079-07:00",
-      "action": "trade_close",
-      "symbol": "DOTUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.05411764705883473,
-      "total_realized_pnl": 9.572266069887576,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:42:25.382013-07:00",
-      "action": "trade_close",
-      "symbol": "LINKUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.12390101892285815,
-      "total_realized_pnl": 9.696167088810434,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:44:16.202268-07:00",
-      "action": "trade_close",
-      "symbol": "BNBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.014326890850186338,
-      "total_realized_pnl": 9.681840197960247,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:44:16.773695-07:00",
-      "action": "trade_close",
-      "symbol": "AVAXUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.09052316890879575,
-      "total_realized_pnl": 9.591317029051451,
-      "available_margin": 6066.666666666666,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:44:17.127536-07:00",
-      "action": "trade_close",
-      "symbol": "ARBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -1.632757660167132,
-      "total_realized_pnl": 7.958559368884319,
-      "available_margin": 6099.999999999999,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:50:02.858641-07:00",
-      "action": "trade_close",
-      "symbol": "BNBUSDT",
-      "strategy": "Trend-Conservative",
-      "net_pnl": 0.1090641054277342,
-      "total_realized_pnl": 8.067623474312054,
-      "available_margin": 6050.0,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:50:03.477552-07:00",
-      "action": "trade_close",
-      "symbol": "BTCUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.32788935706491995,
-      "total_realized_pnl": 7.739734117247134,
-      "available_margin": 6083.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:50:04.163709-07:00",
-      "action": "trade_close",
-      "symbol": "XRPUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.05946546964607068,
-      "total_realized_pnl": 7.799199586893205,
-      "available_margin": 6125.366221188798,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:51:57.657991-07:00",
-      "action": "trade_close",
-      "symbol": "BTCUSDT",
-      "strategy": "Trend-Conservative",
-      "net_pnl": -0.23216873726677875,
-      "total_realized_pnl": 7.567030849626426,
-      "available_margin": 5970.0,
-      "used_margin": 30.0
-    },
-    {
-      "timestamp": "2025-12-13T13:53:53.728646-07:00",
-      "action": "trade_close",
-      "symbol": "ADAUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.0764215510121654,
-      "total_realized_pnl": 7.4906092986142605,
-      "available_margin": 6016.508480545634,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:55:43.492409-07:00",
-      "action": "trade_close",
-      "symbol": "MATICUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": -0.24,
-      "total_realized_pnl": 7.25060929861426,
-      "available_margin": 6033.333333333333,
-      "used_margin": 0
-    },
-    {
-      "timestamp": "2025-12-13T13:55:44.006913-07:00",
-      "action": "trade_close",
-      "symbol": "LINKUSDT",
-      "strategy": "Sentiment-Fusion",
-      "net_pnl": 0.16471120003407905,
-      "total_realized_pnl": 7.415320498648339,
-      "available_margin": 6101.404406548995,
-      "used_margin": 0
-    },
     {
       "timestamp": "2025-12-13T13:55:44.393507-07:00",
       "action": "trade_close",
@@ -10009,6 +9669,346 @@
       "total_realized_pnl": -162.34689533342362,
       "available_margin": 5991.265608843536,
       "used_margin": 8.73439115646395
+    },
+    {
+      "timestamp": "2025-12-15T10:42:21.764112-07:00",
+      "action": "trade_close",
+      "symbol": "BTCUSDT",
+      "strategy": "Reentry-Module",
+      "net_pnl": -1.0196505855507942,
+      "total_realized_pnl": -163.36654591897442,
+      "available_margin": 6040.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:42:23.690267-07:00",
+      "action": "trade_close",
+      "symbol": "ETHUSDT",
+      "strategy": "Reentry-Module",
+      "net_pnl": -1.4920373388650268,
+      "total_realized_pnl": -164.85858325783946,
+      "available_margin": 6080.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:42:23.972326-07:00",
+      "action": "trade_close",
+      "symbol": "SOLUSDT",
+      "strategy": "Reentry-Module",
+      "net_pnl": -0.8753744738305003,
+      "total_realized_pnl": -165.73395773166996,
+      "available_margin": 6120.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:42:24.234471-07:00",
+      "action": "trade_close",
+      "symbol": "AVAXUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": -0.19140913508260263,
+      "total_realized_pnl": -165.92536686675257,
+      "available_margin": 6320.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:42:24.487969-07:00",
+      "action": "trade_close",
+      "symbol": "DOTUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": -0.19870967741933676,
+      "total_realized_pnl": -166.1240765441719,
+      "available_margin": 6370.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:42:24.753628-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": -0.39748031496061254,
+      "total_realized_pnl": -166.52155685913252,
+      "available_margin": 6570.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:55:26.186490-07:00",
+      "action": "trade_close",
+      "symbol": "BTCUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 1.2762902402583443,
+      "total_realized_pnl": -165.24526661887418,
+      "available_margin": 5970.0,
+      "used_margin": 30.0
+    },
+    {
+      "timestamp": "2025-12-15T10:55:26.456106-07:00",
+      "action": "trade_close",
+      "symbol": "ETHUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": 1.828965517241366,
+      "total_realized_pnl": -163.41630110163283,
+      "available_margin": 6170.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:55:26.735081-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": -0.5957872674875733,
+      "total_realized_pnl": -164.0120883691204,
+      "available_margin": 6220.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:57:23.314511-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Trend-Conservative",
+      "net_pnl": 0.1197793715333239,
+      "total_realized_pnl": -163.89230899758707,
+      "available_margin": 6053.690279476187,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T10:58:31.790905-07:00",
+      "action": "trade_close",
+      "symbol": "SOLUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": 1.1917531021317305,
+      "total_realized_pnl": -162.70055589545532,
+      "available_margin": 6200.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:05:53.795579-07:00",
+      "action": "trade_close",
+      "symbol": "BTCUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": 0.02118238032439569,
+      "total_realized_pnl": -162.67937351513092,
+      "available_margin": 6200.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:05:54.255360-07:00",
+      "action": "trade_close",
+      "symbol": "AVAXUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": 0.9559595959595935,
+      "total_realized_pnl": -161.72341391917132,
+      "available_margin": 6400.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:05:54.660038-07:00",
+      "action": "trade_close",
+      "symbol": "ETHUSDT",
+      "strategy": "Reentry-Module",
+      "net_pnl": -0.40469083039567133,
+      "total_realized_pnl": -162.128104749567,
+      "available_margin": 6440.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:05:54.934853-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 0.6479603029511803,
+      "total_realized_pnl": -161.4801444466158,
+      "available_margin": 6473.333333333333,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:07:56.774977-07:00",
+      "action": "trade_close",
+      "symbol": "AVAXUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 1.1008723747980644,
+      "total_realized_pnl": -160.37927207181775,
+      "available_margin": 6033.333333333333,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:07:57.079318-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Breakout-Aggressive",
+      "net_pnl": 0.9669887699138604,
+      "total_realized_pnl": -159.4122833019039,
+      "available_margin": 6116.666666666666,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:09:57.378145-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Trend-Conservative",
+      "net_pnl": -0.028864490208205026,
+      "total_realized_pnl": -159.4411477921121,
+      "available_margin": 6031.607226703136,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:16:50.217686-07:00",
+      "action": "trade_close",
+      "symbol": "BTCUSDT",
+      "strategy": "Reentry-Module",
+      "net_pnl": 0.123426001520857,
+      "total_realized_pnl": -159.31772179059124,
+      "available_margin": 6040.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:16:50.472152-07:00",
+      "action": "trade_close",
+      "symbol": "DOTUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 0.08258064516130252,
+      "total_realized_pnl": -159.23514114542994,
+      "available_margin": 6073.333333333333,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:16:50.741495-07:00",
+      "action": "trade_close",
+      "symbol": "SOLUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": -0.5279999999999836,
+      "total_realized_pnl": -159.76314114542993,
+      "available_margin": 6123.333333333333,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:16:51.013517-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": -1.146575773466178,
+      "total_realized_pnl": -160.9097169188961,
+      "available_margin": 6173.333333333333,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:19:33.615700-07:00",
+      "action": "trade_close",
+      "symbol": "SOLUSDT",
+      "strategy": "Trend-Conservative",
+      "net_pnl": 0.18292471881022412,
+      "total_realized_pnl": -160.72679220008587,
+      "available_margin": 6047.638108587882,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:19:35.075462-07:00",
+      "action": "trade_close",
+      "symbol": "ETHUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 0.07725866884667158,
+      "total_realized_pnl": -160.6495335312392,
+      "available_margin": 6114.304775254549,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:21:30.210944-07:00",
+      "action": "trade_close",
+      "symbol": "SOLUSDT",
+      "strategy": "Breakout-Aggressive",
+      "net_pnl": 2.2799999999999954,
+      "total_realized_pnl": -158.3695335312392,
+      "available_margin": 6083.333333333333,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:21:30.545553-07:00",
+      "action": "trade_close",
+      "symbol": "ETHUSDT",
+      "strategy": "Trend-Conservative",
+      "net_pnl": 0.4562650971011221,
+      "total_realized_pnl": -157.91326843413808,
+      "available_margin": 6146.981665056173,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:23:17.894239-07:00",
+      "action": "trade_close",
+      "symbol": "MATICUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": -0.24,
+      "total_realized_pnl": -158.15326843413808,
+      "available_margin": 5993.333333333333,
+      "used_margin": 6.666666666666664
+    },
+    {
+      "timestamp": "2025-12-15T11:30:37.412322-07:00",
+      "action": "trade_close",
+      "symbol": "BTCUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 1.1856690973200301,
+      "total_realized_pnl": -156.96759933681807,
+      "available_margin": 6066.666666666667,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:30:37.673388-07:00",
+      "action": "trade_close",
+      "symbol": "ADAUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 2.035723270440266,
+      "total_realized_pnl": -154.9318760663778,
+      "available_margin": 6133.333333333334,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:32:29.827466-07:00",
+      "action": "trade_close",
+      "symbol": "ETHUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": 0.980570666140215,
+      "total_realized_pnl": -153.9513054002376,
+      "available_margin": 6200.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:32:30.100711-07:00",
+      "action": "trade_close",
+      "symbol": "SOLUSDT",
+      "strategy": "Alpha-OFI",
+      "net_pnl": 0.8635585765693686,
+      "total_realized_pnl": -153.08774682366823,
+      "available_margin": 6400.0,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:34:20.247800-07:00",
+      "action": "trade_close",
+      "symbol": "ETHUSDT",
+      "strategy": "Breakout-Aggressive",
+      "net_pnl": 3.8643160722178376,
+      "total_realized_pnl": -149.2234307514504,
+      "available_margin": 6083.333333333333,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:34:20.499988-07:00",
+      "action": "trade_close",
+      "symbol": "XRPUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 3.4476190476190136,
+      "total_realized_pnl": -145.77581170383138,
+      "available_margin": 6166.666666666666,
+      "used_margin": 0
+    },
+    {
+      "timestamp": "2025-12-15T11:37:01.133977-07:00",
+      "action": "trade_close",
+      "symbol": "AVAXUSDT",
+      "strategy": "Sentiment-Fusion",
+      "net_pnl": 0.13733116354759725,
+      "total_realized_pnl": -145.63848054028378,
+      "available_margin": 6025.0,
+      "used_margin": 0
     }
   ],
   "created_at": "2025-12-13T08:57:58.242699-07:00"

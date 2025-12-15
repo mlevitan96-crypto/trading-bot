@@ -2086,3 +2086,119 @@
 [2025-12-14T18:09:06.383938Z] Significant flows detected: ['BTC', 'ETH']
 [2025-12-14T18:09:06.385083Z] Saved to feature_store/onchain/exchange_flows.json
 [2025-12-14T18:09:06.385192Z] On-Chain Poll Complete
+[2025-12-15T17:18:12.240127Z] ============================================================
+[2025-12-15T17:18:12.240551Z] On-Chain Poll Starting...
+[2025-12-15T17:18:12.240631Z] ============================================================
+[2025-12-15T17:18:12.240683Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T17:18:13.070286Z]    CoinGlass BTC exchange flow: -792.89 (exchange_outflow)
+[2025-12-15T17:18:15.735336Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T17:18:18.551558Z] Fetched 2 whale transactions
+[2025-12-15T17:18:18.610657Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T17:18:18.615284Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T17:18:18.615862Z] On-Chain Poll Complete
+[2025-12-15T17:26:48.227010Z] ============================================================
+[2025-12-15T17:26:48.249014Z] On-Chain Poll Starting...
+[2025-12-15T17:26:48.253454Z] ============================================================
+[2025-12-15T17:26:48.261109Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T17:26:48.631960Z]    CoinGlass BTC exchange flow: -792.89 (exchange_outflow)
+[2025-12-15T17:26:51.828743Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T17:26:53.888379Z] Fetched 2 whale transactions
+[2025-12-15T17:26:53.888671Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T17:26:53.889616Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T17:26:53.889693Z] On-Chain Poll Complete
+[2025-12-15T17:42:10.991253Z] ============================================================
+[2025-12-15T17:42:11.022438Z] On-Chain Poll Starting...
+[2025-12-15T17:42:11.040062Z] ============================================================
+[2025-12-15T17:42:11.043850Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T17:42:11.804431Z]    CoinGlass BTC exchange flow: -792.89 (exchange_outflow)
+[2025-12-15T17:42:14.232703Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T17:42:16.605730Z] Fetched 2 whale transactions
+[2025-12-15T17:42:16.647321Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T17:42:16.662333Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T17:42:16.662431Z] On-Chain Poll Complete
+[2025-12-15T17:55:09.957506Z] ============================================================
+[2025-12-15T17:55:09.991932Z] On-Chain Poll Starting...
+[2025-12-15T17:55:09.996263Z] ============================================================
+[2025-12-15T17:55:09.996437Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T17:55:10.705418Z]    CoinGlass BTC exchange flow: -792.89 (exchange_outflow)
+[2025-12-15T17:55:13.065162Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T17:55:15.576633Z] Fetched 2 whale transactions
+[2025-12-15T17:55:15.705668Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T17:55:15.719242Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T17:55:15.755099Z] On-Chain Poll Complete
+[2025-12-15T17:58:17.184209Z] ============================================================
+[2025-12-15T17:58:17.184445Z] On-Chain Poll Starting...
+[2025-12-15T17:58:17.188730Z] ============================================================
+[2025-12-15T17:58:17.188830Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T17:58:17.795894Z]    CoinGlass BTC exchange flow: -792.89 (exchange_outflow)
+[2025-12-15T17:58:20.291727Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T17:58:22.771337Z] Fetched 2 whale transactions
+[2025-12-15T17:58:22.777788Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T17:58:22.810174Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T17:58:22.824222Z] On-Chain Poll Complete
+[2025-12-15T18:00:34.921112Z] ============================================================
+[2025-12-15T18:00:34.921294Z] On-Chain Poll Starting...
+[2025-12-15T18:00:34.921334Z] ============================================================
+[2025-12-15T18:00:34.921390Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T18:00:35.792428Z]    CoinGlass BTC exchange flow: -792.89 (exchange_outflow)
+[2025-12-15T18:00:37.899437Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T18:00:40.529774Z] Fetched 2 whale transactions
+[2025-12-15T18:00:40.570742Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T18:00:40.628016Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T18:00:40.650358Z] On-Chain Poll Complete
+[2025-12-15T18:05:36.485822Z] ============================================================
+[2025-12-15T18:05:36.489718Z] On-Chain Poll Starting...
+[2025-12-15T18:05:36.499285Z] ============================================================
+[2025-12-15T18:05:36.499501Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T18:05:37.301878Z]    CoinGlass BTC exchange flow: -792.89 (exchange_outflow)
+[2025-12-15T18:05:39.491240Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T18:05:42.154831Z] Fetched 2 whale transactions
+[2025-12-15T18:05:42.188182Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T18:05:42.190168Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T18:05:42.190329Z] On-Chain Poll Complete
+[2025-12-15T18:15:42.415313Z] ============================================================
+[2025-12-15T18:15:42.415541Z] On-Chain Poll Starting...
+[2025-12-15T18:15:42.415619Z] ============================================================
+[2025-12-15T18:15:42.415668Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T18:15:42.788447Z]    CoinGlass BTC exchange flow: -793.38 (exchange_outflow)
+[2025-12-15T18:15:45.159898Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T18:15:47.650093Z] Fetched 2 whale transactions
+[2025-12-15T18:15:47.650409Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T18:15:47.651301Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T18:15:47.651373Z] On-Chain Poll Complete
+[2025-12-15T18:18:51.175081Z] ============================================================
+[2025-12-15T18:18:51.175254Z] On-Chain Poll Starting...
+[2025-12-15T18:18:51.175319Z] ============================================================
+[2025-12-15T18:18:51.210541Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T18:18:51.837198Z]    CoinGlass BTC exchange flow: -793.38 (exchange_outflow)
+[2025-12-15T18:18:54.215715Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T18:19:18.784774Z] ============================================================
+[2025-12-15T18:19:18.846159Z] On-Chain Poll Starting...
+[2025-12-15T18:19:18.846261Z] ============================================================
+[2025-12-15T18:19:18.846305Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T18:19:19.543870Z]    CoinGlass BTC exchange flow: -793.38 (exchange_outflow)
+[2025-12-15T18:19:21.834783Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T18:19:24.311730Z] Fetched 2 whale transactions
+[2025-12-15T18:19:24.321805Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T18:19:24.344387Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T18:19:24.346984Z] On-Chain Poll Complete
+[2025-12-15T18:29:24.537575Z] ============================================================
+[2025-12-15T18:29:24.537805Z] On-Chain Poll Starting...
+[2025-12-15T18:29:24.537869Z] ============================================================
+[2025-12-15T18:29:24.537975Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T18:29:24.927323Z]    CoinGlass BTC exchange flow: -793.38 (exchange_outflow)
+[2025-12-15T18:29:27.283560Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T18:29:29.833445Z] Fetched 2 whale transactions
+[2025-12-15T18:29:29.833729Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T18:29:29.834801Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T18:29:29.834899Z] On-Chain Poll Complete
+[2025-12-15T18:39:29.869284Z] ============================================================
+[2025-12-15T18:39:29.869481Z] On-Chain Poll Starting...
+[2025-12-15T18:39:29.869553Z] ============================================================
+[2025-12-15T18:39:29.869644Z]    No WHALE_ALERT_API_KEY - trying CoinGlass exchange balance API...
+[2025-12-15T18:39:30.118583Z]    CoinGlass BTC exchange flow: -793.38 (exchange_outflow)
+[2025-12-15T18:39:32.601788Z]    CoinGlass ETH exchange flow: -74609.69 (exchange_outflow)
+[2025-12-15T18:39:35.099037Z] Fetched 2 whale transactions
+[2025-12-15T18:39:35.099335Z] Significant flows detected: ['BTC', 'ETH']
+[2025-12-15T18:39:35.100413Z] Saved to feature_store/onchain/exchange_flows.json
+[2025-12-15T18:39:35.100511Z] On-Chain Poll Complete

@@ -1,36 +1,36 @@
 {
   "symbol": "XRP",
-  "ts": "2025-12-14T18:09:01.810744Z",
+  "ts": "2025-12-15T18:39:31.716796Z",
   "taker": {
-    "buy_vol_usd": 983501830.941656,
-    "sell_vol_usd": 1132130936.57719,
-    "buy_ratio": 0.46490000000000004,
-    "sell_ratio": 0.5351,
-    "buy_sell_ratio": 0.8687173887457846
+    "buy_vol_usd": 2114823512.512158,
+    "sell_vol_usd": 2425700744.916134,
+    "buy_ratio": 0.4658,
+    "sell_ratio": 0.5342,
+    "buy_sell_ratio": 0.8718402370714842
   },
   "liquidation": {
-    "liq_long_24h": 1440061.0861385,
-    "liq_short_24h": 67512.93574,
-    "liq_total_24h": 1507574.0218785,
-    "liq_ratio": 0.955217498603567,
-    "liq_1h_long": 85870.16127,
-    "liq_1h_short": 0.0,
-    "liq_4h_long": 362451.36120485,
-    "liq_4h_short": 17002.78061
+    "liq_long_24h": 15664616.27103869,
+    "liq_short_24h": 269934.23078,
+    "liq_total_24h": 15934550.50181869,
+    "liq_ratio": 0.9830598151639615,
+    "liq_1h_long": 3951464.33827015,
+    "liq_1h_short": 2935.12494,
+    "liq_4h_long": 11584350.24378755,
+    "liq_4h_short": 25539.19667
   },
   "fear_greed": 30,
   "signal": {
     "direction": "SHORT",
-    "confidence": 0.8,
-    "composite": -0.8,
+    "confidence": 0.4,
+    "composite": -0.4,
     "components": {
-      "flow": -1,
+      "flow": 0,
       "liquidation": -1,
       "fear_greed": 0
     },
     "raw": {
-      "buy_sell_ratio": 0.869,
-      "liq_ratio": 0.955,
+      "buy_sell_ratio": 0.872,
+      "liq_ratio": 0.983,
       "fear_greed": 30
     }
   }

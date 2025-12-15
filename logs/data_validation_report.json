@@ -208,5 +208,261 @@
       "placeholder_ratio": 0.003676470588235294
     },
     "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T17:18:02.328256",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 0,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T17:22:25.178008",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 10,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T17:26:37.420796",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 10,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T17:42:00.783531",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 10,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T17:55:00.881591",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [
+      {
+        "file": "feature_store/feedback_loop_summary.json",
+        "warning": "File is 24.0 hours old - may be stale"
+      },
+      {
+        "file": "feature_store/learning_history.jsonl",
+        "warning": "File is 24.0 hours old - may be stale"
+      }
+    ],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 14,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T17:58:08.488103",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [
+      {
+        "file": "feature_store/feedback_loop_summary.json",
+        "warning": "File is 24.1 hours old - may be stale"
+      },
+      {
+        "file": "feature_store/learning_history.jsonl",
+        "warning": "File is 24.1 hours old - may be stale"
+      }
+    ],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 20,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T18:00:25.892310",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [
+      {
+        "file": "feature_store/feedback_loop_summary.json",
+        "warning": "File is 24.1 hours old - may be stale"
+      },
+      {
+        "file": "feature_store/learning_history.jsonl",
+        "warning": "File is 24.1 hours old - may be stale"
+      }
+    ],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 21,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T18:05:27.675536",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [
+      {
+        "file": "feature_store/feedback_loop_summary.json",
+        "warning": "File is 24.2 hours old - may be stale"
+      },
+      {
+        "file": "feature_store/learning_history.jsonl",
+        "warning": "File is 24.2 hours old - may be stale"
+      }
+    ],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 21,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T18:18:42.895971",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 32,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
+  },
+  {
+    "timestamp": "2025-12-15T18:19:10.608105",
+    "files_checked": 5,
+    "files_valid": 4,
+    "issues_found": [
+      {
+        "file": "logs/enriched_decisions.jsonl",
+        "issue": "File is empty: logs/enriched_decisions.jsonl",
+        "data_type": "enriched_decisions"
+      }
+    ],
+    "warnings": [],
+    "fixes_applied": [],
+    "placeholder_check": {
+      "total_trades": 32,
+      "placeholder_count": 0,
+      "placeholders_by_type": {},
+      "is_clean": true,
+      "placeholder_ratio": 0.0
+    },
+    "status": "FAIL"
   }
 ]

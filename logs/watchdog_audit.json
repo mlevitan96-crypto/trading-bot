@@ -298,5 +298,485 @@
     "level": "alert",
     "message": "Heartbeat missed: execution_guards (missed=2)",
     "ts": 1765734581.7200565
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765819085.5262513
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765819085.5627604
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765819085.584643
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765819085.5931878
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765819085.617359
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765819085.6244
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765819085.6384327
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765819085.6672401
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765819085.684072
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=2)",
+    "ts": 1765819149.1182134
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765819348.5249078
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765819348.5474296
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765819348.5582333
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765819348.5675962
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765819348.5857882
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765819348.5993464
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765819348.6086135
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765819348.6158707
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765819348.6472712
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765819600.5116112
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765819600.5296757
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765819600.5502856
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765819600.582112
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765819600.6183324
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765819600.640843
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765819600.6541026
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765819600.661119
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765819600.6688216
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765820523.8344533
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765820523.849404
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765820523.8690639
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765820523.885451
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765820523.9062455
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765820523.9190862
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765820523.9433506
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765820523.9657123
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765820523.9920433
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765821304.2601273
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765821304.2710958
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765821304.2821138
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765821304.313174
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765821304.3352816
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765821304.3372512
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765821304.3531911
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765821304.4034486
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765821304.496339
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=2)",
+    "ts": 1765821368.2765598
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765821491.6971493
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765821491.738043
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765821491.7914538
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765821491.7974107
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765821491.822179
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765821491.853646
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765821491.8753343
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765821491.8963165
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765821491.9113307
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=2)",
+    "ts": 1765821555.4694765
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765821629.2563155
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765821629.3378453
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765821629.3906386
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765821629.4040766
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765821629.4418254
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765821629.4876108
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765821629.5272102
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765821629.557257
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765821629.5781827
+  },
+  {
+    "level": "alert",
+    "message": "Integration degraded: blofin_futures",
+    "ts": 1765821638.4624932
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765821931.0921688
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765821931.1167085
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765821931.1373017
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765821931.149034
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765821931.180063
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765821931.1864552
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765821931.193374
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765821931.195916
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765821931.2323744
+  },
+  {
+    "level": "alert",
+    "message": "Integration degraded: blofin_futures",
+    "ts": 1765821938.1630106
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765822725.9642231
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765822725.990114
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765822726.0114727
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765822726.0320032
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765822726.0471754
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765822726.1149817
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765822726.1205633
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765822726.1657753
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765822726.2054305
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=1)",
+    "ts": 1765822753.5969667
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: budget_allocator (missed=1)",
+    "ts": 1765822753.6030982
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: volatility_baseline (missed=1)",
+    "ts": 1765822753.631126
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: telemetry (missed=1)",
+    "ts": 1765822753.6621878
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: promotion_gate (missed=1)",
+    "ts": 1765822753.6930654
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: ramp_controller (missed=1)",
+    "ts": 1765822753.7098267
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: correlation_control (missed=1)",
+    "ts": 1765822753.7480886
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: funding_cost_model (missed=1)",
+    "ts": 1765822753.7612886
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: watchdog (missed=1)",
+    "ts": 1765822753.8067145
+  },
+  {
+    "level": "alert",
+    "message": "Heartbeat missed: execution_guards (missed=2)",
+    "ts": 1765822825.2148287
   }
 ]

@@ -1,1315 +1,5 @@
 [
   {
-    "timestamp": "2025-12-14T12:24:35.266599",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0031,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:24:35.600702",
-    "strategy": "Trend-Conservative",
-    "roi": 0.0019,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:24:35.905438",
-    "strategy": "Breakout-Aggressive",
-    "roi": 0.0028,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:01.034517",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:05.162294",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0019,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:09.332542",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0021000000000000003,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:10.772408",
-    "strategy": "Trend-Conservative",
-    "roi": 0.0014,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:16.205746",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:20.407400",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:31.561279",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:34.909615",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:39.378770",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0031,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:39.727063",
-    "strategy": "Trend-Conservative",
-    "roi": 0.0019,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:26:40.079614",
-    "strategy": "Breakout-Aggressive",
-    "roi": 0.0028,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:12.056198",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:25.645328",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:29.140554",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:43.031682",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:45.065910",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:51.095856",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0031,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:51.390682",
-    "strategy": "Trend-Conservative",
-    "roi": 0.0019,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:28:51.704501",
-    "strategy": "Breakout-Aggressive",
-    "roi": 0.0028,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:30:26.321815",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:30:31.257554",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:30:34.722728",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:30:40.533195",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:30:45.087847",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:30:49.505201",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:30:58.559708",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:31:01.894519",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:31:09.952086",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:32:38.409674",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:32:43.119297",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:32:46.371101",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:32:52.092257",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:32:55.740388",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:33:00.250307",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:33:11.117965",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:33:14.674306",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:33:19.055948",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:34:41.119300",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:34:44.468802",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:34:54.507159",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:35:00.026681",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:35:06.349428",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:35:09.584989",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:35:20.796743",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:35:25.891370",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:35:30.553336",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:36:52.892518",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:36:56.180113",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:37:01.393190",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:37:05.844465",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:37:09.547105",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:37:12.720507",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:37:23.816542",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:37:25.869269",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:37:30.983323",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:38:54.229871",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:38:58.218537",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:39:03.960910",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:39:09.204732",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:39:11.583932",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:39:15.364296",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:39:26.698438",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:39:30.469002",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:39:38.937910",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:03.410737",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:07.366330",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:12.577352",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:16.004565",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:19.500644",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0014,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:21.025902",
-    "strategy": "Trend-Conservative",
-    "roi": 0.0008,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:30.316535",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:32.420117",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:41:36.686945",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:00.790827",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.00055,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:10.558970",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0013,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:12.216373",
-    "strategy": "Trend-Conservative",
-    "roi": 0.0007,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:12.473849",
-    "strategy": "Breakout-Aggressive",
-    "roi": 0.0011,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:15.167604",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:20.860556",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:24.323753",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:37.921747",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:41.623337",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:43:46.413528",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:08.226579",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:11.817121",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:15.171722",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:20.595108",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:27.581908",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:33.517136",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:42.510811",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:44.358203",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:45:50.545125",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:16.284112",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.00065,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:21.443058",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:27.326989",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:31.654268",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:36.071289",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:46.089931",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:48.200790",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Ranging",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:47:54.576772",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:49:21.460295",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0006000000000000001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:49:27.530237",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:49:34.612958",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:49:38.003726",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:49:41.607039",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:49:52.386912",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:49:55.552541",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:50:00.837050",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:51:42.528160",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0006000000000000001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:51:49.342453",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:51:58.430343",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:52:02.110259",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:52:05.489572",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:52:15.666093",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:52:18.164792",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:52:22.499497",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:53:47.932100",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0006000000000000001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:54:13.385083",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:54:18.550746",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:54:21.773528",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:54:30.190156",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:54:33.463241",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:54:37.981680",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Trending",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:55:59.045942",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.0006000000000000001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:56:03.356315",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Stable",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:56:06.210827",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:56:12.348370",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Volatile",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
-    "timestamp": "2025-12-14T12:56:16.083333",
-    "strategy": "Sentiment-Fusion",
-    "roi": 0.001,
-    "regime": "Unknown",
-    "vol_spike": false,
-    "atr_jump": false,
-    "bb_expansion": false,
-    "action": "normal"
-  },
-  {
     "timestamp": "2025-12-14T12:56:19.284074",
     "strategy": "Sentiment-Fusion",
     "roi": 0.001,
@@ -9991,6 +8681,1316 @@
   },
   {
     "timestamp": "2025-12-14T18:09:53.783373",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:18:29.114324",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Stable",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:18:43.798911",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:18:49.305692",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0019,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:18:51.246946",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0017,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:18:51.524878",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0025,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:18:59.703233",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:19:02.466586",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:19:05.916157",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:07.420284",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0006,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:08.932889",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0006,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:09.001694",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0008,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:18.279330",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Stable",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:22.073699",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:24.694133",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0049,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:26.353247",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0044,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:26.435046",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0066,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:36.051395",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:27:38.393326",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:42:41.047638",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0008500000000000001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:55:40.823304",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.00165,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:55:49.156947",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0004,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:55:49.492869",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0004,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:55:49.576669",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0006,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:55:58.329699",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:56:02.906653",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.00625,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:56:03.047829",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0051,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:56:03.128243",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0077,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:57:40.836114",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0052,
+    "regime": "Stable",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:57:42.829737",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0046,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:57:43.124591",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.007,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:57:51.860630",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:57:54.299591",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.00625,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:57:54.419170",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0051,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:57:54.489851",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0077,
+    "regime": "Stable",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:59:04.801176",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:59:09.210881",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.00625,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:59:09.320481",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0051,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T17:59:09.540058",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0077,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:01:01.182912",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0008,
+    "regime": "Volatile",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:01:01.393836",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0007,
+    "regime": "Trending",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:01:01.582593",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0011,
+    "regime": "Trending",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:01:08.237999",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:01:15.982186",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:01:22.729663",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:02:53.750389",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0007,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:02:53.857060",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0006,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:02:53.927294",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:06.311963",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0017,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:08.254546",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0015,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:08.528736",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0023,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:15.450036",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:23.744493",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:29.083406",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0014,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:29.202105",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0012,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:29.290343",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0018,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:06:34.117922",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:04.761787",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0008,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:05.132191",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0007,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:05.423423",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0011,
+    "regime": "Stable",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:07.707456",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0021,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:09.614621",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0018,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:09.701420",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0028,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:14.522611",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:19.189287",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Stable",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:21.731069",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0014,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:21.834752",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0012,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:21.914934",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0018,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:08:27.705403",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:15:02.408529",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:15:18.606062",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:15:26.566593",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:15:29.566799",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:16:57.933666",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0010999999999999998,
+    "regime": "Trending",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:16:58.044227",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0007999999999999999,
+    "regime": "Unknown",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:16:58.121275",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0012000000000000001,
+    "regime": "Unknown",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:17:10.168407",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:17:16.994949",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:17:20.204829",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:19:55.328260",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:20:02.600032",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:20:06.489493",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Stable",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:21:34.454508",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:21:40.998989",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:21:49.360496",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:21:56.443770",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:23:28.610460",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:23:36.480207",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:23:38.662578",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:23:43.913396",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:25:25.114205",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:25:31.767772",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:25:39.895691",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:27:11.789884",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:27:19.964496",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:27:26.141332",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:28:51.868701",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.003,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:28:52.035735",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0026,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:28:52.180350",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.004,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:28:58.203225",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:29:05.351424",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:29:13.482787",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:30:49.649140",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:31:01.157227",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:31:08.446616",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:32:41.997168",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:32:46.888382",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:32:47.009601",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0009,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:32:47.393815",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0013,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:32:49.508579",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:32:52.333119",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:32:57.971217",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:34:25.191748",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:34:35.266408",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:34:40.277979",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0004,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:34:40.612947",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0004,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:34:40.718430",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0006,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:34:42.109397",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:34:54.070371",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:27.535371",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.004,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:28.762721",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0035,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:28.853593",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0053,
+    "regime": "Volatile",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:33.180762",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:43.111652",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0022,
+    "regime": "Ranging",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:44.403387",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0016,
+    "regime": "Trending",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:44.460888",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0024,
+    "regime": "Unknown",
+    "vol_spike": true,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "protect"
+  },
+  {
+    "timestamp": "2025-12-15T18:36:47.485076",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:38:20.599806",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.001,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:38:30.840125",
+    "strategy": "Sentiment-Fusion",
+    "roi": 0.0005,
+    "regime": "Trending",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:38:30.979257",
+    "strategy": "Trend-Conservative",
+    "roi": 0.0005,
+    "regime": "Ranging",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:38:31.079121",
+    "strategy": "Breakout-Aggressive",
+    "roi": 0.0007,
+    "regime": "Unknown",
+    "vol_spike": false,
+    "atr_jump": false,
+    "bb_expansion": false,
+    "action": "normal"
+  },
+  {
+    "timestamp": "2025-12-15T18:38:36.067979",
     "strategy": "Sentiment-Fusion",
     "roi": 0.001,
     "regime": "Ranging",

@@ -10,3 +10,7 @@
 {"event": "adjustments_applied", "ts": 1765694845.4147584, "dry_run": false, "applied": 2, "failed": 0, "snapshot_path": "logs/learning_snapshots/snapshot_20251214_064725.json"}
 {"event": "learning_cycle_complete", "ts": 1765734992.036791, "samples": {"executed": 2169, "blocked": 0, "counterfactual_tracked": 5, "missed_found": 0}, "adjustments_generated": 30, "pending_cycles": ["fast"]}
 {"event": "adjustments_applied", "ts": 1765734992.0520992, "dry_run": false, "applied": 2, "failed": 0, "snapshot_path": "logs/learning_snapshots/snapshot_20251214_175632.json"}
+{"event": "learning_cycle_complete", "ts": 1765822502.5858722, "samples": {"executed": 18, "blocked": 0, "counterfactual_tracked": 5, "missed_found": 0}, "adjustments_generated": 1, "pending_cycles": ["fast", "daily"]}
+{"event": "adjustments_applied", "ts": 1765822502.624691, "dry_run": false, "applied": 1, "failed": 0, "snapshot_path": "logs/learning_snapshots/snapshot_20251215_181502.json"}
+{"event": "learning_cycle_complete", "ts": 1765822974.489675, "samples": {"executed": 26, "blocked": 0, "counterfactual_tracked": 5, "missed_found": 0}, "adjustments_generated": 1, "pending_cycles": []}
+{"event": "adjustments_applied", "ts": 1765822974.4930983, "dry_run": false, "applied": 1, "failed": 0, "snapshot_path": "logs/learning_snapshots/snapshot_20251215_182254.json"}

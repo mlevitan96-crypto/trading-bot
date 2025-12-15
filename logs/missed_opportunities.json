@@ -1,431 +1,6 @@
 {
   "missed_trades": [
     {
-      "timestamp": "2025-12-13T20:08:39.221068-07:00",
-      "symbol": "ARBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.22,
-      "exit_price": 0.22,
-      "missed_roi": 0.003229,
-      "indicators": {
-        "volume_ratio": 0.0,
-        "momentum": 0.0,
-        "ema_gap": 0.00198
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:10:42.760964-07:00",
-      "symbol": "ARBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.22,
-      "exit_price": 0.22,
-      "missed_roi": 0.00369,
-      "indicators": {
-        "volume_ratio": 0.0,
-        "momentum": 0.0,
-        "ema_gap": 0.00198
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:12:47.022725-07:00",
-      "symbol": "ARBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.22,
-      "exit_price": 0.22,
-      "missed_roi": 0.003229,
-      "indicators": {
-        "volume_ratio": 0.0,
-        "momentum": 0.0,
-        "ema_gap": 0.00198
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:14:53.856337-07:00",
-      "symbol": "ARBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.22,
-      "exit_price": 0.22,
-      "missed_roi": 0.002306,
-      "indicators": {
-        "volume_ratio": 0.0,
-        "momentum": 0.0,
-        "ema_gap": 0.00198
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:34:57.827847-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.32,
-      "missed_roi": 0.002082,
-      "indicators": {
-        "volume_ratio": 0.009905,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:34:57.913520-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.32,
-      "missed_roi": 0.002082,
-      "indicators": {
-        "volume_ratio": 0.049068,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:35:09.864859-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.004128,
-      "indicators": {
-        "volume_ratio": 0.184999,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:35:09.964908-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.004128,
-      "indicators": {
-        "volume_ratio": 0.097383,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:37:00.719633-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.41,
-      "missed_roi": 0.002183,
-      "indicators": {
-        "volume_ratio": 0.009905,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:37:00.814705-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.41,
-      "missed_roi": 0.002183,
-      "indicators": {
-        "volume_ratio": 0.049068,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:37:12.925273-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005734,
-      "indicators": {
-        "volume_ratio": 0.184999,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:37:13.016458-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005734,
-      "indicators": {
-        "volume_ratio": 0.097383,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:39:06.783774-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.74,
-      "missed_roi": 0.002552,
-      "indicators": {
-        "volume_ratio": 0.009905,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:39:06.875787-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.74,
-      "missed_roi": 0.002552,
-      "indicators": {
-        "volume_ratio": 0.049068,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:39:18.340851-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005275,
-      "indicators": {
-        "volume_ratio": 0.184999,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:39:18.438167-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005275,
-      "indicators": {
-        "volume_ratio": 0.097383,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:41:01.710479-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.65,
-      "missed_roi": 0.002451,
-      "indicators": {
-        "volume_ratio": 0.009905,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:41:01.816807-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.65,
-      "missed_roi": 0.002451,
-      "indicators": {
-        "volume_ratio": 0.049068,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:41:16.551452-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005275,
-      "indicators": {
-        "volume_ratio": 0.184999,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:41:16.647905-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005275,
-      "indicators": {
-        "volume_ratio": 0.097383,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:43:05.319785-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.62,
-      "missed_roi": 0.002418,
-      "indicators": {
-        "volume_ratio": 0.009905,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:43:05.443054-07:00",
-      "symbol": "BNBUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 893.46,
-      "exit_price": 895.62,
-      "missed_roi": 0.002418,
-      "indicators": {
-        "volume_ratio": 0.049068,
-        "momentum": -3.17,
-        "ema_gap": 4.2e-05
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:43:21.138207-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Sentiment-Fusion",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005046,
-      "indicators": {
-        "volume_ratio": 0.184999,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:43:21.225320-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.005046,
-      "indicators": {
-        "volume_ratio": 0.097383,
-        "momentum": -0.0,
-        "ema_gap": 0.001161
-      }
-    },
-    {
-      "timestamp": "2025-12-13T20:46:21.345321-07:00",
-      "symbol": "PEPEUSDT",
-      "strategy": "Trend-Conservative",
-      "regime": "Stable",
-      "filters_blocked": [
-        "ROI"
-      ],
-      "entry_price": 0.0,
-      "exit_price": 0.0,
-      "missed_roi": 0.004587,
-      "indicators": {
-        "volume_ratio": 0.0,
-        "momentum": 0.0,
-        "ema_gap": 0.000877
-      }
-    },
-    {
       "timestamp": "2025-12-13T20:48:20.446766-07:00",
       "symbol": "PEPEUSDT",
       "strategy": "Trend-Conservative",
@@ -3401,6 +2976,431 @@
         "momentum": 0.0,
         "ema_gap": 0.000237
       }
+    },
+    {
+      "timestamp": "2025-12-15T10:19:04.198580-07:00",
+      "symbol": "OPUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.28,
+      "exit_price": 0.29,
+      "missed_roi": 0.009894,
+      "indicators": {
+        "volume_ratio": 4.773905,
+        "momentum": -0.004,
+        "ema_gap": -0.024887
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:19:04.297006-07:00",
+      "symbol": "OPUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.28,
+      "exit_price": 0.29,
+      "missed_roi": 0.009894,
+      "indicators": {
+        "volume_ratio": 2.58756,
+        "momentum": -0.004,
+        "ema_gap": -0.024887
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:27:22.172782-07:00",
+      "symbol": "XRPUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 1.9,
+      "exit_price": 1.91,
+      "missed_roi": 0.003211,
+      "indicators": {
+        "volume_ratio": 1.87487,
+        "momentum": 0.0,
+        "ema_gap": -0.010856
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:27:39.784744-07:00",
+      "symbol": "OPUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.28,
+      "exit_price": 0.29,
+      "missed_roi": 0.014134,
+      "indicators": {
+        "volume_ratio": 4.773905,
+        "momentum": -0.004,
+        "ema_gap": -0.024887
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:27:39.841591-07:00",
+      "symbol": "OPUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.28,
+      "exit_price": 0.29,
+      "missed_roi": 0.014134,
+      "indicators": {
+        "volume_ratio": 2.58756,
+        "momentum": -0.004,
+        "ema_gap": -0.024887
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:42:37.259364-07:00",
+      "symbol": "SOLUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 125.31,
+      "exit_price": 125.66,
+      "missed_roi": 0.002793,
+      "indicators": {
+        "volume_ratio": 1.896726,
+        "momentum": -0.69,
+        "ema_gap": -0.013815
+      }
+    },
+    {
+      "timestamp": "2025-12-15T10:42:37.315622-07:00",
+      "symbol": "SOLUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 125.31,
+      "exit_price": 125.66,
+      "missed_roi": 0.002793,
+      "indicators": {
+        "volume_ratio": 1.557028,
+        "momentum": -0.69,
+        "ema_gap": -0.013815
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:08:30.851407-07:00",
+      "symbol": "LINKUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 12.57,
+      "exit_price": 12.62,
+      "missed_roi": 0.003819,
+      "indicators": {
+        "volume_ratio": 0.162559,
+        "momentum": -0.01,
+        "ema_gap": -0.019302
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:08:30.906787-07:00",
+      "symbol": "LINKUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 12.57,
+      "exit_price": 12.62,
+      "missed_roi": 0.003819,
+      "indicators": {
+        "volume_ratio": 1.345345,
+        "momentum": -0.01,
+        "ema_gap": -0.019302
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:25.291732-07:00",
+      "symbol": "ETHUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 2901.82,
+      "exit_price": 2915.13,
+      "missed_roi": 0.004587,
+      "indicators": {
+        "volume_ratio": 0.312285,
+        "momentum": 6.3,
+        "ema_gap": -0.00265
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:25.328361-07:00",
+      "symbol": "ETHUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 2901.82,
+      "exit_price": 2915.13,
+      "missed_roi": 0.004587,
+      "indicators": {
+        "volume_ratio": 0.157155,
+        "momentum": 6.3,
+        "ema_gap": -0.00265
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:37.696015-07:00",
+      "symbol": "ADAUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.38,
+      "exit_price": 0.38,
+      "missed_roi": 0.005032,
+      "indicators": {
+        "volume_ratio": 0.164576,
+        "momentum": -0.0046,
+        "ema_gap": -0.013829
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:37.745827-07:00",
+      "symbol": "ADAUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.38,
+      "exit_price": 0.38,
+      "missed_roi": 0.005032,
+      "indicators": {
+        "volume_ratio": 0.796751,
+        "momentum": -0.0046,
+        "ema_gap": -0.013829
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:40.443398-07:00",
+      "symbol": "DOGEUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.13,
+      "exit_price": 0.13,
+      "missed_roi": 0.003385,
+      "indicators": {
+        "volume_ratio": 3.614438,
+        "momentum": -0.00027,
+        "ema_gap": -0.001836
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:40.491287-07:00",
+      "symbol": "DOGEUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.13,
+      "exit_price": 0.13,
+      "missed_roi": 0.003385,
+      "indicators": {
+        "volume_ratio": 1.937038,
+        "momentum": -0.00027,
+        "ema_gap": -0.001836
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:48.865101-07:00",
+      "symbol": "LINKUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 12.5,
+      "exit_price": 12.57,
+      "missed_roi": 0.00568,
+      "indicators": {
+        "volume_ratio": 0.135515,
+        "momentum": -0.07,
+        "ema_gap": -0.019395
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:48.916691-07:00",
+      "symbol": "LINKUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 12.5,
+      "exit_price": 12.57,
+      "missed_roi": 0.00568,
+      "indicators": {
+        "volume_ratio": 1.114748,
+        "momentum": -0.07,
+        "ema_gap": -0.019395
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:52.206789-07:00",
+      "symbol": "PEPEUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.0,
+      "exit_price": 0.0,
+      "missed_roi": 0.002778,
+      "indicators": {
+        "volume_ratio": 8.684443,
+        "momentum": -0.0,
+        "ema_gap": -0.001847
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:36:52.260889-07:00",
+      "symbol": "PEPEUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.0,
+      "exit_price": 0.0,
+      "missed_roi": 0.002778,
+      "indicators": {
+        "volume_ratio": 4.342221,
+        "momentum": -0.0,
+        "ema_gap": -0.001847
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:38:28.048871-07:00",
+      "symbol": "ADAUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.38,
+      "exit_price": 0.38,
+      "missed_roi": 0.005032,
+      "indicators": {
+        "volume_ratio": 0.164576,
+        "momentum": -0.0046,
+        "ema_gap": -0.013829
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:38:28.091539-07:00",
+      "symbol": "ADAUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.38,
+      "exit_price": 0.38,
+      "missed_roi": 0.005032,
+      "indicators": {
+        "volume_ratio": 0.796751,
+        "momentum": -0.0046,
+        "ema_gap": -0.013829
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:38:38.447149-07:00",
+      "symbol": "LINKUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 12.5,
+      "exit_price": 12.54,
+      "missed_roi": 0.0036,
+      "indicators": {
+        "volume_ratio": 0.135515,
+        "momentum": -0.07,
+        "ema_gap": -0.019395
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:38:38.501690-07:00",
+      "symbol": "LINKUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 12.5,
+      "exit_price": 12.54,
+      "missed_roi": 0.0036,
+      "indicators": {
+        "volume_ratio": 1.114748,
+        "momentum": -0.07,
+        "ema_gap": -0.019395
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:38:42.032600-07:00",
+      "symbol": "PEPEUSDT",
+      "strategy": "Sentiment-Fusion",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.0,
+      "exit_price": 0.0,
+      "missed_roi": 0.005316,
+      "indicators": {
+        "volume_ratio": 1.098231,
+        "momentum": -0.0,
+        "ema_gap": -0.018305
+      }
+    },
+    {
+      "timestamp": "2025-12-15T11:38:42.089975-07:00",
+      "symbol": "PEPEUSDT",
+      "strategy": "Trend-Conservative",
+      "regime": "Stable",
+      "filters_blocked": [
+        "ROI"
+      ],
+      "entry_price": 0.0,
+      "exit_price": 0.0,
+      "missed_roi": 0.005316,
+      "indicators": {
+        "volume_ratio": 2.126155,
+        "momentum": -0.0,
+        "ema_gap": -0.018305
+      }
     }
   ],
   "heatmap": {
@@ -3408,31 +3408,31 @@
       "ROI": 19
     },
     "SOLUSDT_Stable": {
-      "ROI": 14
+      "ROI": 16
     },
     "OPUSDT_Stable": {
-      "ROI": 38
+      "ROI": 42
     },
     "DOGEUSDT_Stable": {
-      "ROI": 36
+      "ROI": 38
     },
     "ADAUSDT_Stable": {
-      "ROI": 34
+      "ROI": 38
     },
     "LINKUSDT_Stable": {
-      "ROI": 13
+      "ROI": 19
     },
     "BNBUSDT_Stable": {
       "ROI": 18
     },
     "ETHUSDT_Stable": {
-      "ROI": 6
+      "ROI": 8
     },
     "AVAXUSDT_Stable": {
       "ROI": 7
     },
     "PEPEUSDT_Stable": {
-      "ROI": 106
+      "ROI": 110
     },
     "BTCUSDT_Stable": {
       "ROI": 4
@@ -3442,7 +3442,7 @@
       "No Signal": 1
     },
     "XRPUSDT_Stable": {
-      "ROI": 4
+      "ROI": 5
     }
   },
   "created_at": "2025-12-13T11:20:31.025340-07:00"

@@ -7,3 +7,4 @@
 {"ts": "2025-12-14T08:16:51.903466", "event": "INVERSION_ACTIVATED", "reason": "loss_rate_90%|consecutive_13", "confidence": 0.7, "alpha_consecutive_losses": 13}
 {"ts": "2025-12-14T12:26:48.948905", "event": "INVERSION_DEACTIVATED", "reason": "max_duration_reached", "duration_minutes": 249.95074975, "beta_wins": 0}
 {"ts": "2025-12-14T14:11:20.553868", "event": "INVERSION_ACTIVATED", "reason": "loss_rate_70%|consecutive_7", "confidence": 0.7, "alpha_consecutive_losses": 7}
+{"ts": "2025-12-15T17:19:15.005691", "event": "INVERSION_DEACTIVATED", "reason": "max_duration_reached", "duration_minutes": 1627.9075291666666, "beta_wins": 0}

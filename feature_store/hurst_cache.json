@@ -1,128 +1,128 @@
 {
   "BTCUSDT": {
-    "ts": 1765735525.6384156,
+    "ts": 1765823663.7158623,
     "signal": {
       "active": true,
-      "direction": "LONG",
-      "confidence": 0.129,
-      "hurst_value": 0.4394,
-      "regime": "mean_reverting",
-      "interpretation": "Market mean-reverting (0.44), fade to LONG",
+      "direction": "SHORT",
+      "confidence": 0.163,
+      "hurst_value": 0.5562,
+      "regime": "trending",
+      "interpretation": "Market trending (0.56), favor SHORT momentum",
       "trend_direction": "SHORT",
-      "trend_strength": 0.531,
-      "timestamp": "2025-12-14T18:05:25.730352"
+      "trend_strength": 0.726,
+      "timestamp": "2025-12-15T18:34:23.838821"
     }
   },
   "ETHUSDT": {
-    "ts": 1765735400.646344,
+    "ts": 1765823554.9795218,
     "signal": {
       "active": true,
-      "direction": "LONG",
-      "confidence": 0.143,
-      "hurst_value": 0.4301,
-      "regime": "mean_reverting",
-      "interpretation": "Market mean-reverting (0.43), fade to LONG",
+      "direction": "SHORT",
+      "confidence": 0.21,
+      "hurst_value": 0.5615,
+      "regime": "trending",
+      "interpretation": "Market trending (0.56), favor SHORT momentum",
       "trend_direction": "SHORT",
-      "trend_strength": 0.512,
-      "timestamp": "2025-12-14T18:03:20.746514"
+      "trend_strength": 0.855,
+      "timestamp": "2025-12-15T18:32:35.116389"
     }
   },
   "SOLUSDT": {
-    "ts": 1765735804.8348653,
+    "ts": 1765823786.2276185,
     "signal": {
-      "active": false,
+      "active": true,
       "direction": "SHORT",
-      "confidence": 0.3,
-      "hurst_value": 0.5272,
-      "regime": "random",
-      "interpretation": "Market random walk (0.53), low confidence",
+      "confidence": 0.303,
+      "hurst_value": 0.5865,
+      "regime": "trending",
+      "interpretation": "Market trending (0.59), favor SHORT momentum",
       "trend_direction": "SHORT",
-      "trend_strength": 0.542,
-      "timestamp": "2025-12-14T18:10:05.097505"
+      "trend_strength": 0.875,
+      "timestamp": "2025-12-15T18:36:26.353120"
     }
   },
   "AVAXUSDT": {
-    "ts": 1765735539.5190308,
+    "ts": 1765823897.5006924,
     "signal": {
-      "active": false,
+      "active": true,
       "direction": "SHORT",
-      "confidence": 0.3,
-      "hurst_value": 0.5451,
-      "regime": "random",
-      "interpretation": "Market random walk (0.55), low confidence",
+      "confidence": 0.422,
+      "hurst_value": 0.6216,
+      "regime": "trending",
+      "interpretation": "Market trending (0.62), favor SHORT momentum",
       "trend_direction": "SHORT",
-      "trend_strength": 0.525,
-      "timestamp": "2025-12-14T18:05:39.632066"
+      "trend_strength": 0.868,
+      "timestamp": "2025-12-15T18:38:17.617477"
     }
   },
   "DOTUSDT": {
-    "ts": 1765735011.3140526,
+    "ts": 1765823791.9893155,
     "signal": {
-      "active": true,
-      "direction": "LONG",
-      "confidence": 0.304,
-      "hurst_value": 0.3702,
-      "regime": "mean_reverting",
-      "interpretation": "Market mean-reverting (0.37), fade to LONG",
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5066,
+      "regime": "random",
+      "interpretation": "Market random walk (0.51), low confidence",
       "trend_direction": "SHORT",
-      "trend_strength": 0.586,
-      "timestamp": "2025-12-14T17:56:51.414547"
+      "trend_strength": 0.938,
+      "timestamp": "2025-12-15T18:36:32.084583"
     }
   },
   "XRPUSDT": {
-    "ts": 1765735412.7780082,
+    "ts": 1765823904.3638463,
     "signal": {
       "active": false,
       "direction": "SHORT",
       "confidence": 0.3,
-      "hurst_value": 0.4919,
+      "hurst_value": 0.4816,
       "regime": "random",
-      "interpretation": "Market random walk (0.49), low confidence",
+      "interpretation": "Market random walk (0.48), low confidence",
       "trend_direction": "SHORT",
-      "trend_strength": 0.528,
-      "timestamp": "2025-12-14T18:03:32.875025"
+      "trend_strength": 0.741,
+      "timestamp": "2025-12-15T18:38:24.473772"
     }
   },
   "DOGEUSDT": {
-    "ts": 1765735416.5526433,
+    "ts": 1765823798.6454873,
     "signal": {
-      "active": false,
+      "active": true,
       "direction": "SHORT",
-      "confidence": 0.3,
-      "hurst_value": 0.5035,
-      "regime": "random",
-      "interpretation": "Market random walk (0.50), low confidence",
+      "confidence": 0.338,
+      "hurst_value": 0.5967,
+      "regime": "trending",
+      "interpretation": "Market trending (0.60), favor SHORT momentum",
       "trend_direction": "SHORT",
-      "trend_strength": 0.601,
-      "timestamp": "2025-12-14T18:03:36.672612"
+      "trend_strength": 0.875,
+      "timestamp": "2025-12-15T18:36:38.740964"
     }
   },
   "ADAUSDT": {
-    "ts": 1765735549.289745,
+    "ts": 1765823906.72778,
     "signal": {
       "active": false,
       "direction": "SHORT",
       "confidence": 0.3,
-      "hurst_value": 0.5234,
+      "hurst_value": 0.5262,
       "regime": "random",
-      "interpretation": "Market random walk (0.52), low confidence",
+      "interpretation": "Market random walk (0.53), low confidence",
       "trend_direction": "SHORT",
-      "trend_strength": 0.577,
-      "timestamp": "2025-12-14T18:05:49.402234"
+      "trend_strength": 0.835,
+      "timestamp": "2025-12-15T18:38:26.844339"
     }
   },
   "BNBUSDT": {
-    "ts": 1765735419.5958316,
+    "ts": 1765823689.906676,
     "signal": {
       "active": true,
-      "direction": "LONG",
-      "confidence": 0.195,
-      "hurst_value": 0.4106,
-      "regime": "mean_reverting",
-      "interpretation": "Market mean-reverting (0.41), fade to LONG",
+      "direction": "SHORT",
+      "confidence": 0.154,
+      "hurst_value": 0.551,
+      "regime": "trending",
+      "interpretation": "Market trending (0.55), favor SHORT momentum",
       "trend_direction": "SHORT",
-      "trend_strength": 0.545,
-      "timestamp": "2025-12-14T18:03:39.731907"
+      "trend_strength": 0.757,
+      "timestamp": "2025-12-15T18:34:50.026359"
     }
   }
 }

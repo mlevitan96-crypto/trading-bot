@@ -569,3 +569,45 @@
 {"ts": 1765735423, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
 {"ts": 1765735723, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
 {"ts": 1765735723, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765819086, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765819086, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765819086, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765819349, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765819349, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765819349, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765819601, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765819602, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765819602, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765820525, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765820525, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765820525, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765821306, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765821306, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765821306, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765821492, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765821492, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765821492, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765821630, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765821631, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765821631, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765821932, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765821932, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765821932, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765822232, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765822232, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765822532, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765822532, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765822727, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765822728, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765822728, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765822755, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765822755, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765822755, "event": "phase93_started", "data": {"config": {"spot_enabled_initial": false, "futures_enabled_initial": true, "venue_caps": {"spot": 0.2, "futures": 0.6}, "symbol_cap_pct": 0.1}}}
+{"ts": 1765823054, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765823055, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765823355, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765823355, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765823655, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765823655, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}
+{"ts": 1765823955, "event": "spot_unfreeze_fail", "data": {"sharpe": 0.0, "pnl": 0.0}}
+{"ts": 1765823955, "event": "tick", "data": {"spot_enabled": false, "futures_enabled": true, "spot_unfreeze_passes": 0}}

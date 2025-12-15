@@ -24,7 +24,7 @@
       "BTCUSDT",
       0.0,
       {
-        "wr": 24.0,
+        "wr": 28.000000000000004,
         "sh": 0.0,
         "pnl": 0.0,
         "eligible": false
@@ -34,7 +34,7 @@
       "AVAXUSDT",
       0.0,
       {
-        "wr": 30.0,
+        "wr": 36.0,
         "sh": 0.0,
         "pnl": 0.0,
         "eligible": false
@@ -44,7 +44,7 @@
       "DOTUSDT",
       0.0,
       {
-        "wr": 50.0,
+        "wr": 48.0,
         "sh": 0.0,
         "pnl": 0.0,
         "eligible": false
@@ -62,117 +62,119 @@
     ]
   ],
   "allocation_multipliers": {
-    "SOLUSDT": 1.0,
+    "ADAUSDT": 1.0,
     "BNBUSDT": 1.0,
     "MATICUSDT": 1.0,
-    "ETHUSDT": 1.0,
     "BTCUSDT": 1.0,
     "AVAXUSDT": 1.0,
+    "DOGEUSDT": 1.0,
+    "XRPUSDT": 1.0,
+    "ETHUSDT": 1.0,
+    "SOLUSDT": 1.0,
     "DOTUSDT": 1.0,
-    "TRXUSDT": 1.0,
-    "XRPUSDT": 1.0
+    "TRXUSDT": 1.0
   },
   "shadow_configs": {
     "ETHUSDT,Trend-Conservative": {
       "ETHUSDT:Trend-Conservative:cfg1": {
-        "mtf_conf_min": 70,
+        "mtf_conf_min": 50,
         "volume_boost_min": 1.5,
         "roi_proj_min_pct": 0.2,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 6,
-        "cooldown_min": 45
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 4,
+        "cooldown_min": 20
       },
       "ETHUSDT:Trend-Conservative:cfg2": {
-        "mtf_conf_min": 50,
+        "mtf_conf_min": 70,
         "volume_boost_min": 1.25,
         "roi_proj_min_pct": 0.2,
         "atr_trail_mult": 1.5,
-        "time_exit_hours": 6,
-        "cooldown_min": 45
+        "time_exit_hours": 4,
+        "cooldown_min": 20
       },
       "ETHUSDT:Trend-Conservative:cfg3": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 4,
-        "cooldown_min": 45
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 6,
+        "cooldown_min": 20
       }
     },
     "ETHUSDT,Breakout-Aggressive": {
       "ETHUSDT:Breakout-Aggressive:cfg1": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.2,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 6,
-        "cooldown_min": 45
-      },
-      "ETHUSDT:Breakout-Aggressive:cfg2": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.25,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.5,
-        "time_exit_hours": 6,
-        "cooldown_min": 20
-      },
-      "ETHUSDT:Breakout-Aggressive:cfg3": {
         "mtf_conf_min": 70,
         "volume_boost_min": 1.25,
         "roi_proj_min_pct": 0.5,
         "atr_trail_mult": 1.2,
         "time_exit_hours": 4,
         "cooldown_min": 20
-      }
-    },
-    "ETHUSDT,Sentiment-Fusion": {
-      "ETHUSDT:Sentiment-Fusion:cfg1": {
+      },
+      "ETHUSDT:Breakout-Aggressive:cfg2": {
         "mtf_conf_min": 70,
         "volume_boost_min": 1.25,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.2,
-        "time_exit_hours": 8,
-        "cooldown_min": 45
-      },
-      "ETHUSDT:Sentiment-Fusion:cfg2": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.25,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 6,
-        "cooldown_min": 45
-      },
-      "ETHUSDT:Sentiment-Fusion:cfg3": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.25,
         "roi_proj_min_pct": 0.2,
-        "atr_trail_mult": 1.2,
-        "time_exit_hours": 8,
-        "cooldown_min": 45
-      }
-    },
-    "SOLUSDT,Trend-Conservative": {
-      "SOLUSDT:Trend-Conservative:cfg1": {
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 4,
+        "cooldown_min": 30
+      },
+      "ETHUSDT:Breakout-Aggressive:cfg3": {
         "mtf_conf_min": 70,
         "volume_boost_min": 1.5,
         "roi_proj_min_pct": 0.3,
         "atr_trail_mult": 1.5,
+        "time_exit_hours": 8,
+        "cooldown_min": 30
+      }
+    },
+    "ETHUSDT,Sentiment-Fusion": {
+      "ETHUSDT:Sentiment-Fusion:cfg1": {
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.25,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 4,
+        "cooldown_min": 20
+      },
+      "ETHUSDT:Sentiment-Fusion:cfg2": {
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.5,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 8,
+        "cooldown_min": 45
+      },
+      "ETHUSDT:Sentiment-Fusion:cfg3": {
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.3,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 4,
+        "cooldown_min": 20
+      }
+    },
+    "SOLUSDT,Trend-Conservative": {
+      "SOLUSDT:Trend-Conservative:cfg1": {
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.25,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.8,
+        "time_exit_hours": 8,
+        "cooldown_min": 45
+      },
+      "SOLUSDT:Trend-Conservative:cfg2": {
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.25,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.5,
         "time_exit_hours": 6,
         "cooldown_min": 20
       },
-      "SOLUSDT:Trend-Conservative:cfg2": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 6,
-        "cooldown_min": 45
-      },
       "SOLUSDT:Trend-Conservative:cfg3": {
-        "mtf_conf_min": 50,
+        "mtf_conf_min": 70,
         "volume_boost_min": 1.25,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
+        "roi_proj_min_pct": 0.5,
+        "atr_trail_mult": 1.5,
         "time_exit_hours": 4,
         "cooldown_min": 20
       }
@@ -180,607 +182,607 @@
     "SOLUSDT,Breakout-Aggressive": {
       "SOLUSDT:Breakout-Aggressive:cfg1": {
         "mtf_conf_min": 60,
-        "volume_boost_min": 1.25,
+        "volume_boost_min": 1.5,
         "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 4,
-        "cooldown_min": 20
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 6,
+        "cooldown_min": 45
       },
       "SOLUSDT:Breakout-Aggressive:cfg2": {
         "mtf_conf_min": 50,
-        "volume_boost_min": 1.25,
+        "volume_boost_min": 1.1,
         "roi_proj_min_pct": 0.2,
         "atr_trail_mult": 1.8,
-        "time_exit_hours": 4,
-        "cooldown_min": 30
-      },
-      "SOLUSDT:Breakout-Aggressive:cfg3": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.2,
         "time_exit_hours": 6,
         "cooldown_min": 20
+      },
+      "SOLUSDT:Breakout-Aggressive:cfg3": {
+        "mtf_conf_min": 50,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 4,
+        "cooldown_min": 30
       }
     },
     "SOLUSDT,Sentiment-Fusion": {
       "SOLUSDT:Sentiment-Fusion:cfg1": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.5,
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.25,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 4,
+        "cooldown_min": 20
+      },
+      "SOLUSDT:Sentiment-Fusion:cfg2": {
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.1,
         "roi_proj_min_pct": 0.5,
         "atr_trail_mult": 1.5,
         "time_exit_hours": 6,
         "cooldown_min": 30
       },
-      "SOLUSDT:Sentiment-Fusion:cfg2": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 4,
-        "cooldown_min": 45
-      },
       "SOLUSDT:Sentiment-Fusion:cfg3": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.5,
-        "time_exit_hours": 6,
-        "cooldown_min": 45
-      }
-    },
-    "BTCUSDT,Trend-Conservative": {
-      "BTCUSDT:Trend-Conservative:cfg1": {
-        "mtf_conf_min": 50,
+        "mtf_conf_min": 70,
         "volume_boost_min": 1.5,
         "roi_proj_min_pct": 0.3,
         "atr_trail_mult": 1.2,
         "time_exit_hours": 6,
+        "cooldown_min": 30
+      }
+    },
+    "BTCUSDT,Trend-Conservative": {
+      "BTCUSDT:Trend-Conservative:cfg1": {
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 8,
         "cooldown_min": 45
       },
       "BTCUSDT:Trend-Conservative:cfg2": {
         "mtf_conf_min": 60,
-        "volume_boost_min": 1.25,
-        "roi_proj_min_pct": 0.3,
+        "volume_boost_min": 1.5,
+        "roi_proj_min_pct": 0.2,
         "atr_trail_mult": 1.8,
-        "time_exit_hours": 8,
-        "cooldown_min": 45
+        "time_exit_hours": 6,
+        "cooldown_min": 20
       },
       "BTCUSDT:Trend-Conservative:cfg3": {
         "mtf_conf_min": 50,
         "volume_boost_min": 1.1,
         "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.2,
+        "atr_trail_mult": 1.8,
         "time_exit_hours": 4,
-        "cooldown_min": 30
+        "cooldown_min": 45
       }
     },
     "BTCUSDT,Breakout-Aggressive": {
       "BTCUSDT:Breakout-Aggressive:cfg1": {
         "mtf_conf_min": 50,
         "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.2,
+        "roi_proj_min_pct": 0.5,
         "atr_trail_mult": 1.2,
-        "time_exit_hours": 6,
+        "time_exit_hours": 8,
         "cooldown_min": 45
       },
       "BTCUSDT:Breakout-Aggressive:cfg2": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.2,
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.3,
         "atr_trail_mult": 1.5,
-        "time_exit_hours": 4,
+        "time_exit_hours": 6,
         "cooldown_min": 20
       },
       "BTCUSDT:Breakout-Aggressive:cfg3": {
-        "mtf_conf_min": 70,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.2,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 4,
-        "cooldown_min": 45
+        "mtf_conf_min": 50,
+        "volume_boost_min": 1.5,
+        "roi_proj_min_pct": 0.3,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 8,
+        "cooldown_min": 30
       }
     },
     "BTCUSDT,Sentiment-Fusion": {
       "BTCUSDT:Sentiment-Fusion:cfg1": {
-        "mtf_conf_min": 50,
+        "mtf_conf_min": 70,
         "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.3,
+        "roi_proj_min_pct": 0.2,
         "atr_trail_mult": 1.8,
+        "time_exit_hours": 6,
+        "cooldown_min": 20
+      },
+      "BTCUSDT:Sentiment-Fusion:cfg2": {
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.5,
+        "atr_trail_mult": 1.2,
         "time_exit_hours": 8,
         "cooldown_min": 45
       },
-      "BTCUSDT:Sentiment-Fusion:cfg2": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
+      "BTCUSDT:Sentiment-Fusion:cfg3": {
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.5,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.5,
         "time_exit_hours": 4,
         "cooldown_min": 30
-      },
-      "BTCUSDT:Sentiment-Fusion:cfg3": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 6,
-        "cooldown_min": 45
       }
     },
     "AVAXUSDT,Trend-Conservative": {
       "AVAXUSDT:Trend-Conservative:cfg1": {
-        "mtf_conf_min": 60,
+        "mtf_conf_min": 70,
         "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.2,
-        "atr_trail_mult": 1.5,
-        "time_exit_hours": 6,
+        "roi_proj_min_pct": 0.3,
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 8,
         "cooldown_min": 30
       },
       "AVAXUSDT:Trend-Conservative:cfg2": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.2,
-        "time_exit_hours": 6,
-        "cooldown_min": 30
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.25,
+        "roi_proj_min_pct": 0.3,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 4,
+        "cooldown_min": 45
       },
       "AVAXUSDT:Trend-Conservative:cfg3": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.2,
-        "atr_trail_mult": 1.2,
-        "time_exit_hours": 6,
-        "cooldown_min": 20
-      }
-    },
-    "AVAXUSDT,Breakout-Aggressive": {
-      "AVAXUSDT:Breakout-Aggressive:cfg1": {
         "mtf_conf_min": 70,
         "volume_boost_min": 1.25,
         "roi_proj_min_pct": 0.2,
-        "atr_trail_mult": 1.5,
-        "time_exit_hours": 6,
-        "cooldown_min": 20
-      },
-      "AVAXUSDT:Breakout-Aggressive:cfg2": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.25,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 6,
-        "cooldown_min": 30
-      },
-      "AVAXUSDT:Breakout-Aggressive:cfg3": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.3,
         "atr_trail_mult": 1.8,
         "time_exit_hours": 8,
         "cooldown_min": 30
       }
     },
-    "AVAXUSDT,Sentiment-Fusion": {
-      "AVAXUSDT:Sentiment-Fusion:cfg1": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.25,
+    "AVAXUSDT,Breakout-Aggressive": {
+      "AVAXUSDT:Breakout-Aggressive:cfg1": {
+        "mtf_conf_min": 50,
+        "volume_boost_min": 1.5,
         "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 4,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 8,
         "cooldown_min": 20
       },
-      "AVAXUSDT:Sentiment-Fusion:cfg2": {
+      "AVAXUSDT:Breakout-Aggressive:cfg2": {
+        "mtf_conf_min": 50,
+        "volume_boost_min": 1.5,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.8,
+        "time_exit_hours": 4,
+        "cooldown_min": 30
+      },
+      "AVAXUSDT:Breakout-Aggressive:cfg3": {
+        "mtf_conf_min": 50,
+        "volume_boost_min": 1.5,
+        "roi_proj_min_pct": 0.5,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 4,
+        "cooldown_min": 20
+      }
+    },
+    "AVAXUSDT,Sentiment-Fusion": {
+      "AVAXUSDT:Sentiment-Fusion:cfg1": {
         "mtf_conf_min": 50,
         "volume_boost_min": 1.25,
         "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 6,
+        "cooldown_min": 20
+      },
+      "AVAXUSDT:Sentiment-Fusion:cfg2": {
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.25,
+        "roi_proj_min_pct": 0.5,
+        "atr_trail_mult": 1.5,
         "time_exit_hours": 4,
         "cooldown_min": 30
       },
       "AVAXUSDT:Sentiment-Fusion:cfg3": {
         "mtf_conf_min": 70,
-        "volume_boost_min": 1.25,
+        "volume_boost_min": 1.1,
         "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
-        "time_exit_hours": 6,
+        "atr_trail_mult": 1.5,
+        "time_exit_hours": 4,
         "cooldown_min": 30
       }
     },
     "DOTUSDT,Trend-Conservative": {
       "DOTUSDT:Trend-Conservative:cfg1": {
-        "mtf_conf_min": 50,
+        "mtf_conf_min": 70,
         "volume_boost_min": 1.25,
-        "roi_proj_min_pct": 0.5,
+        "roi_proj_min_pct": 0.2,
         "atr_trail_mult": 1.8,
         "time_exit_hours": 8,
         "cooldown_min": 30
       },
       "DOTUSDT:Trend-Conservative:cfg2": {
-        "mtf_conf_min": 60,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.5,
-        "time_exit_hours": 8,
-        "cooldown_min": 45
-      },
-      "DOTUSDT:Trend-Conservative:cfg3": {
         "mtf_conf_min": 70,
         "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.3,
+        "roi_proj_min_pct": 0.2,
         "atr_trail_mult": 1.8,
         "time_exit_hours": 4,
+        "cooldown_min": 20
+      },
+      "DOTUSDT:Trend-Conservative:cfg3": {
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.3,
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 6,
         "cooldown_min": 30
       }
     },
     "DOTUSDT,Breakout-Aggressive": {
       "DOTUSDT:Breakout-Aggressive:cfg1": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.5,
-        "time_exit_hours": 6,
-        "cooldown_min": 30
-      },
-      "DOTUSDT:Breakout-Aggressive:cfg2": {
-        "mtf_conf_min": 70,
-        "volume_boost_min": 1.5,
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.1,
         "roi_proj_min_pct": 0.2,
         "atr_trail_mult": 1.5,
         "time_exit_hours": 4,
-        "cooldown_min": 20
+        "cooldown_min": 45
+      },
+      "DOTUSDT:Breakout-Aggressive:cfg2": {
+        "mtf_conf_min": 70,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.2,
+        "time_exit_hours": 4,
+        "cooldown_min": 45
       },
       "DOTUSDT:Breakout-Aggressive:cfg3": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.5,
-        "time_exit_hours": 8,
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.5,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.8,
+        "time_exit_hours": 4,
         "cooldown_min": 30
       }
     },
     "DOTUSDT,Sentiment-Fusion": {
       "DOTUSDT:Sentiment-Fusion:cfg1": {
-        "mtf_conf_min": 50,
-        "volume_boost_min": 1.1,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.2,
-        "time_exit_hours": 4,
-        "cooldown_min": 45
-      },
-      "DOTUSDT:Sentiment-Fusion:cfg2": {
         "mtf_conf_min": 60,
         "volume_boost_min": 1.5,
-        "roi_proj_min_pct": 0.3,
-        "atr_trail_mult": 1.8,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.2,
         "time_exit_hours": 6,
         "cooldown_min": 30
       },
-      "DOTUSDT:Sentiment-Fusion:cfg3": {
+      "DOTUSDT:Sentiment-Fusion:cfg2": {
         "mtf_conf_min": 60,
         "volume_boost_min": 1.25,
         "roi_proj_min_pct": 0.5,
-        "atr_trail_mult": 1.2,
-        "time_exit_hours": 8,
-        "cooldown_min": 30
+        "atr_trail_mult": 1.8,
+        "time_exit_hours": 4,
+        "cooldown_min": 45
+      },
+      "DOTUSDT:Sentiment-Fusion:cfg3": {
+        "mtf_conf_min": 60,
+        "volume_boost_min": 1.1,
+        "roi_proj_min_pct": 0.2,
+        "atr_trail_mult": 1.8,
+        "time_exit_hours": 6,
+        "cooldown_min": 45
       }
     }
   },
   "shadow_results": {
     "ETHUSDT:Trend-Conservative:cfg1": {
-      "wins": 0,
-      "wr": 0.0,
-      "sharpe": 0.0,
-      "pnl": -19.52844464186367,
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.23216945634441782,
+      "pnl": 4.643389126888357,
       "samples": 2
     },
     "ETHUSDT:Trend-Conservative:cfg2": {
       "wins": 1,
       "wr": 50.0,
       "sharpe": 0.0,
-      "pnl": -3.348936311497484,
+      "pnl": -0.8256638045792286,
       "samples": 2
     },
     "ETHUSDT:Trend-Conservative:cfg3": {
-      "wins": 2,
-      "wr": 100.0,
-      "sharpe": 0.7400705452858618,
-      "pnl": 14.801410905717235,
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.12350343497023664,
+      "pnl": 2.4700686994047327,
       "samples": 2
     },
     "ETHUSDT:Breakout-Aggressive:cfg1": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.0,
-      "pnl": -0.10423146004246497,
-      "samples": 2
-    },
-    "ETHUSDT:Breakout-Aggressive:cfg2": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -14.93386097350926,
+      "pnl": -23.809833343465495,
+      "samples": 2
+    },
+    "ETHUSDT:Breakout-Aggressive:cfg2": {
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.0,
+      "pnl": -6.203764653069359,
       "samples": 2
     },
     "ETHUSDT:Breakout-Aggressive:cfg3": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -26.766726064322196,
+      "pnl": -24.574411254792977,
       "samples": 2
     },
     "ETHUSDT:Sentiment-Fusion:cfg1": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -20.243091647322466,
+      "pnl": -19.412328896366546,
       "samples": 2
     },
     "ETHUSDT:Sentiment-Fusion:cfg2": {
       "wins": 1,
       "wr": 50.0,
-      "sharpe": 0.17921861458837673,
-      "pnl": 3.5843722917675347,
+      "sharpe": 0.036696526771560836,
+      "pnl": 0.7339305354312167,
       "samples": 2
     },
     "ETHUSDT:Sentiment-Fusion:cfg3": {
       "wins": 1,
       "wr": 50.0,
-      "sharpe": 0.24758747730946543,
-      "pnl": 4.951749546189308,
+      "sharpe": 0.2550196575377351,
+      "pnl": 5.100393150754702,
       "samples": 2
     },
     "SOLUSDT:Trend-Conservative:cfg1": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -18.52111651329718,
+      "pnl": -23.686182769399373,
       "samples": 2
     },
     "SOLUSDT:Trend-Conservative:cfg2": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.09841729871870716,
-      "pnl": 1.9683459743741434,
+      "wins": 2,
+      "wr": 100.0,
+      "sharpe": 1.7216053421104385,
+      "pnl": 34.43210684220877,
       "samples": 2
     },
     "SOLUSDT:Trend-Conservative:cfg3": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -12.76485744005367,
+      "pnl": -11.823443587520464,
       "samples": 2
     },
     "SOLUSDT:Breakout-Aggressive:cfg1": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.022392488736505723,
-      "pnl": 0.44784977473011445,
+      "wins": 2,
+      "wr": 100.0,
+      "sharpe": 1.1096759297837147,
+      "pnl": 22.193518595674295,
       "samples": 2
     },
     "SOLUSDT:Breakout-Aggressive:cfg2": {
-      "wins": 0,
-      "wr": 0.0,
-      "sharpe": 0.0,
-      "pnl": -21.334884075217445,
+      "wins": 2,
+      "wr": 100.0,
+      "sharpe": 0.9160283191451797,
+      "pnl": 18.320566382903593,
       "samples": 2
     },
     "SOLUSDT:Breakout-Aggressive:cfg3": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.42645315034009396,
-      "pnl": 8.529063006801879,
-      "samples": 2
-    },
-    "SOLUSDT:Sentiment-Fusion:cfg1": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.5527997674067903,
-      "pnl": 11.055995348135806,
-      "samples": 2
-    },
-    "SOLUSDT:Sentiment-Fusion:cfg2": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.17013511912939244,
-      "pnl": 3.402702382587849,
-      "samples": 2
-    },
-    "SOLUSDT:Sentiment-Fusion:cfg3": {
-      "wins": 2,
-      "wr": 100.0,
-      "sharpe": 1.271846550506249,
-      "pnl": 25.436931010124983,
-      "samples": 2
-    },
-    "BTCUSDT:Trend-Conservative:cfg1": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -18.839260175075424,
+      "pnl": -22.800581001490208,
+      "samples": 2
+    },
+    "SOLUSDT:Sentiment-Fusion:cfg1": {
+      "wins": 0,
+      "wr": 0.0,
+      "sharpe": 0.0,
+      "pnl": -13.09211763684758,
+      "samples": 2
+    },
+    "SOLUSDT:Sentiment-Fusion:cfg2": {
+      "wins": 0,
+      "wr": 0.0,
+      "sharpe": 0.0,
+      "pnl": -22.483640539268933,
+      "samples": 2
+    },
+    "SOLUSDT:Sentiment-Fusion:cfg3": {
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.028969987602821413,
+      "pnl": 0.5793997520564282,
+      "samples": 2
+    },
+    "BTCUSDT:Trend-Conservative:cfg1": {
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.4379709192893554,
+      "pnl": 8.759418385787107,
       "samples": 2
     },
     "BTCUSDT:Trend-Conservative:cfg2": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.5292243859693336,
-      "pnl": 10.584487719386672,
+      "wins": 0,
+      "wr": 0.0,
+      "sharpe": 0.0,
+      "pnl": -17.434212858715178,
       "samples": 2
     },
     "BTCUSDT:Trend-Conservative:cfg3": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.37888201843905744,
-      "pnl": 7.577640368781148,
+      "wins": 0,
+      "wr": 0.0,
+      "sharpe": 0.0,
+      "pnl": -17.22713366040809,
       "samples": 2
     },
     "BTCUSDT:Breakout-Aggressive:cfg1": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -14.2718220376726,
+      "pnl": -19.552834210121,
       "samples": 2
     },
     "BTCUSDT:Breakout-Aggressive:cfg2": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -14.826736126361963,
+      "pnl": -21.200416221596633,
       "samples": 2
     },
     "BTCUSDT:Breakout-Aggressive:cfg3": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -10.996960793221604,
+      "pnl": -14.015317371389525,
       "samples": 2
     },
     "BTCUSDT:Sentiment-Fusion:cfg1": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -20.16287869773778,
+      "pnl": -22.019851256450288,
       "samples": 2
     },
     "BTCUSDT:Sentiment-Fusion:cfg2": {
-      "wins": 2,
-      "wr": 100.0,
-      "sharpe": 1.2342597346538067,
-      "pnl": 24.685194693076134,
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.47605660793377547,
+      "pnl": 9.52113215867551,
       "samples": 2
     },
     "BTCUSDT:Sentiment-Fusion:cfg3": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -26.41245100403432,
+      "pnl": -23.60699148607449,
       "samples": 2
     },
     "AVAXUSDT:Trend-Conservative:cfg1": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.025041400178529516,
-      "pnl": 0.5008280035705903,
+      "wins": 0,
+      "wr": 0.0,
+      "sharpe": 0.0,
+      "pnl": -19.902762029683537,
       "samples": 2
     },
     "AVAXUSDT:Trend-Conservative:cfg2": {
       "wins": 1,
       "wr": 50.0,
-      "sharpe": 0.20234891181584178,
-      "pnl": 4.046978236316836,
+      "sharpe": 0.0,
+      "pnl": -4.890297338995831,
       "samples": 2
     },
     "AVAXUSDT:Trend-Conservative:cfg3": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.0,
-      "pnl": -0.48152453671615714,
-      "samples": 2
-    },
-    "AVAXUSDT:Breakout-Aggressive:cfg1": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -18.688367352315062,
+      "pnl": -20.88538567276668,
+      "samples": 2
+    },
+    "AVAXUSDT:Breakout-Aggressive:cfg1": {
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.6909025803973324,
+      "pnl": 13.818051607946648,
       "samples": 2
     },
     "AVAXUSDT:Breakout-Aggressive:cfg2": {
       "wins": 1,
       "wr": 50.0,
-      "sharpe": 0.1530863404962683,
-      "pnl": 3.061726809925366,
+      "sharpe": 0.2492379450088996,
+      "pnl": 4.984758900177992,
       "samples": 2
     },
     "AVAXUSDT:Breakout-Aggressive:cfg3": {
       "wins": 1,
       "wr": 50.0,
-      "sharpe": 0.2797179635283683,
-      "pnl": 5.594359270567367,
+      "sharpe": 0.1847150155142503,
+      "pnl": 3.694300310285006,
       "samples": 2
     },
     "AVAXUSDT:Sentiment-Fusion:cfg1": {
       "wins": 2,
       "wr": 100.0,
-      "sharpe": 1.753723259690534,
-      "pnl": 35.07446519381068,
+      "sharpe": 1.8166834143718837,
+      "pnl": 36.333668287437675,
       "samples": 2
     },
     "AVAXUSDT:Sentiment-Fusion:cfg2": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -17.88451403272296,
+      "pnl": -23.843487444632565,
       "samples": 2
     },
     "AVAXUSDT:Sentiment-Fusion:cfg3": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -18.92897645469281,
+      "pnl": -23.148473202797923,
       "samples": 2
     },
     "DOTUSDT:Trend-Conservative:cfg1": {
-      "wins": 0,
-      "wr": 0.0,
-      "sharpe": 0.0,
-      "pnl": -23.176288182191684,
+      "wins": 2,
+      "wr": 100.0,
+      "sharpe": 1.304023083672343,
+      "pnl": 26.08046167344686,
       "samples": 2
     },
     "DOTUSDT:Trend-Conservative:cfg2": {
       "wins": 1,
       "wr": 50.0,
       "sharpe": 0.0,
-      "pnl": -1.420130184490084,
+      "pnl": -4.538843358507313,
       "samples": 2
     },
     "DOTUSDT:Trend-Conservative:cfg3": {
-      "wins": 1,
-      "wr": 50.0,
+      "wins": 0,
+      "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -3.56643519735694,
+      "pnl": -17.544640171129497,
       "samples": 2
     },
     "DOTUSDT:Breakout-Aggressive:cfg1": {
       "wins": 1,
       "wr": 50.0,
-      "sharpe": 0.22284738414347194,
-      "pnl": 4.456947682869439,
+      "sharpe": 0.0,
+      "pnl": -3.4385759690741917,
       "samples": 2
     },
     "DOTUSDT:Breakout-Aggressive:cfg2": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.0,
-      "pnl": -3.7217087826456936,
+      "wins": 2,
+      "wr": 100.0,
+      "sharpe": 0.8383883445260434,
+      "pnl": 16.767766890520868,
       "samples": 2
     },
     "DOTUSDT:Breakout-Aggressive:cfg3": {
-      "wins": 2,
-      "wr": 100.0,
-      "sharpe": 1.3145929698644578,
-      "pnl": 26.29185939728916,
+      "wins": 1,
+      "wr": 50.0,
+      "sharpe": 0.03397004902919374,
+      "pnl": 0.6794009805838748,
       "samples": 2
     },
     "DOTUSDT:Sentiment-Fusion:cfg1": {
-      "wins": 0,
-      "wr": 0.0,
+      "wins": 1,
+      "wr": 50.0,
       "sharpe": 0.0,
-      "pnl": -19.66201256868827,
+      "pnl": -0.4866230360524,
       "samples": 2
     },
     "DOTUSDT:Sentiment-Fusion:cfg2": {
-      "wins": 1,
-      "wr": 50.0,
-      "sharpe": 0.498487343141954,
-      "pnl": 9.969746862839079,
+      "wins": 0,
+      "wr": 0.0,
+      "sharpe": 0.0,
+      "pnl": -20.53065305547348,
       "samples": 2
     },
     "DOTUSDT:Sentiment-Fusion:cfg3": {
       "wins": 0,
       "wr": 0.0,
       "sharpe": 0.0,
-      "pnl": -27.240907328918674,
+      "pnl": -20.361475857926084,
       "samples": 2
     }
   },
   "live_configs": {},
-  "last_rank_ts": 1765735724.6634734
+  "last_rank_ts": 1765823958.2508142
 }

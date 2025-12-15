@@ -9,7 +9,7 @@
     "cluster_exposures": {}
   },
   "phase1015": {
-    "last_audit": 1765735727,
+    "last_audit": 1765823963,
     "repairs": [
       {
         "component": "correlation_matrix",
@@ -412,7 +412,7 @@
         "detail": "no allocations recorded"
       }
     ],
-    "issues_detected": 274,
-    "repairs_applied": 137
+    "issues_detected": 280,
+    "repairs_applied": 140
   }
 }

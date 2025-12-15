@@ -22,3 +22,11 @@
 {"ts": "2025-12-14T17:44:29.544186", "event": "flip_blocked_cooldown", "signal": "oi_velocity", "reason": "global cooldown active", "cooldown_until": "2025-12-14T18:14:29.221977"}
 {"ts": "2025-12-14T17:44:29.544275", "event": "flip_blocked_cooldown", "signal": "hurst", "reason": "global cooldown active", "cooldown_until": "2025-12-14T18:14:29.221977"}
 {"ts": "2025-12-14T17:44:29.544350", "event": "flip_blocked_cooldown", "signal": "oi_divergence", "reason": "global cooldown active", "cooldown_until": "2025-12-14T18:14:29.221977"}
+{"ts": "2025-12-15T17:56:39.774203", "event": "direction_change_applied", "signal": "liquidation", "from": [], "to": null, "reason": "Both positive (LONG +5.4, SHORT +0.4) - allow BOTH", "long_ev_bps": 5.389582806243507, "short_ev_bps": 18.31562398857244, "persistence_windows": 3, "cooldown_until_global": "2025-12-15T18:26:39.774178"}
+{"ts": "2025-12-15T17:56:40.017640", "event": "flip_blocked_cooldown", "signal": "volatility_skew", "reason": "global cooldown active", "cooldown_until": "2025-12-15T18:26:39.774178"}
+{"ts": "2025-12-15T17:56:40.017880", "event": "flip_blocked_cooldown", "signal": "whale_flow", "reason": "global cooldown active", "cooldown_until": "2025-12-15T18:26:39.774178"}
+{"ts": "2025-12-15T17:56:40.018016", "event": "flip_blocked_cooldown", "signal": "lead_lag", "reason": "global cooldown active", "cooldown_until": "2025-12-15T18:26:39.774178"}
+{"ts": "2025-12-15T17:57:02.697006", "event": "direction_change_applied", "signal": "liquidation", "from": [], "to": null, "reason": "Both positive (LONG +5.4, SHORT +0.4) - allow BOTH", "long_ev_bps": 5.389582806243507, "short_ev_bps": 18.31562398857244, "persistence_windows": 3, "cooldown_until_global": "2025-12-15T18:27:02.696976"}
+{"ts": "2025-12-15T17:57:02.758400", "event": "flip_blocked_cooldown", "signal": "volatility_skew", "reason": "global cooldown active", "cooldown_until": "2025-12-15T18:27:02.696976"}
+{"ts": "2025-12-15T17:57:02.758595", "event": "flip_blocked_cooldown", "signal": "whale_flow", "reason": "global cooldown active", "cooldown_until": "2025-12-15T18:27:02.696976"}
+{"ts": "2025-12-15T17:57:02.758693", "event": "flip_blocked_cooldown", "signal": "lead_lag", "reason": "global cooldown active", "cooldown_until": "2025-12-15T18:27:02.696976"}

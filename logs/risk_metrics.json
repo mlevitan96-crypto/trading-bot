@@ -1,138 +1,5 @@
 [
   {
-    "timestamp": "2025-12-14T00:02:04.835602",
-    "sharpe_ratio": 1.944,
-    "sortino_ratio": 0.0,
-    "total_trades": 240,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:04:03.627230",
-    "sharpe_ratio": 1.956,
-    "sortino_ratio": 0.0,
-    "total_trades": 244,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:06:01.848388",
-    "sharpe_ratio": 1.959,
-    "sortino_ratio": 0.0,
-    "total_trades": 245,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:07:59.482840",
-    "sharpe_ratio": 1.962,
-    "sortino_ratio": 0.0,
-    "total_trades": 246,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:10:01.361521",
-    "sharpe_ratio": 1.962,
-    "sortino_ratio": 0.0,
-    "total_trades": 246,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:12:04.836279",
-    "sharpe_ratio": 1.962,
-    "sortino_ratio": 0.0,
-    "total_trades": 246,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:14:09.247654",
-    "sharpe_ratio": 1.957,
-    "sortino_ratio": 0.0,
-    "total_trades": 247,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:16:11.338546",
-    "sharpe_ratio": 1.96,
-    "sortino_ratio": 0.0,
-    "total_trades": 248,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:18:09.876846",
-    "sharpe_ratio": 1.963,
-    "sortino_ratio": 0.0,
-    "total_trades": 249,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:20:06.130362",
-    "sharpe_ratio": 1.969,
-    "sortino_ratio": 0.0,
-    "total_trades": 251,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:22:02.786960",
-    "sharpe_ratio": 1.969,
-    "sortino_ratio": 0.0,
-    "total_trades": 251,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:24:02.848193",
-    "sharpe_ratio": 1.969,
-    "sortino_ratio": 0.0,
-    "total_trades": 253,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:25:58.197400",
-    "sharpe_ratio": 1.974,
-    "sortino_ratio": 0.0,
-    "total_trades": 254,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:28:03.278905",
-    "sharpe_ratio": 1.982,
-    "sortino_ratio": 0.0,
-    "total_trades": 257,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:30:02.380283",
-    "sharpe_ratio": 1.957,
-    "sortino_ratio": 0.0,
-    "total_trades": 258,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:31:58.509808",
-    "sharpe_ratio": 1.962,
-    "sortino_ratio": 0.0,
-    "total_trades": 260,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:33:58.160420",
-    "sharpe_ratio": 1.962,
-    "sortino_ratio": 0.0,
-    "total_trades": 260,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:36:03.491837",
-    "sharpe_ratio": 1.965,
-    "sortino_ratio": 0.0,
-    "total_trades": 261,
-    "avg_return": 0.0011
-  },
-  {
-    "timestamp": "2025-12-14T00:38:12.221410",
-    "sharpe_ratio": 1.965,
-    "sortino_ratio": 0.0,
-    "total_trades": 263,
-    "avg_return": 0.0011
-  },
-  {
     "timestamp": "2025-12-14T00:41:13.335649",
     "sharpe_ratio": 1.974,
     "sortino_ratio": 0.0,
@@ -3497,6 +3364,139 @@
     "sharpe_ratio": 1.405,
     "sortino_ratio": 0.0,
     "total_trades": 871,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T17:19:18.438379",
+    "sharpe_ratio": 1.408,
+    "sortino_ratio": 0.0,
+    "total_trades": 875,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T17:56:15.740003",
+    "sharpe_ratio": 1.408,
+    "sortino_ratio": 0.0,
+    "total_trades": 879,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T17:59:23.159624",
+    "sharpe_ratio": 1.403,
+    "sortino_ratio": 0.0,
+    "total_trades": 881,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:01:37.812205",
+    "sharpe_ratio": 1.403,
+    "sortino_ratio": 0.0,
+    "total_trades": 881,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:06:50.374566",
+    "sharpe_ratio": 1.406,
+    "sortino_ratio": 0.0,
+    "total_trades": 885,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:08:45.757978",
+    "sharpe_ratio": 1.406,
+    "sortino_ratio": 0.0,
+    "total_trades": 887,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:15:44.011388",
+    "sharpe_ratio": 1.406,
+    "sortino_ratio": 0.0,
+    "total_trades": 888,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:17:33.561578",
+    "sharpe_ratio": 1.407,
+    "sortino_ratio": 0.0,
+    "total_trades": 889,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:20:21.508312",
+    "sharpe_ratio": 1.408,
+    "sortino_ratio": 0.0,
+    "total_trades": 891,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:22:11.609287",
+    "sharpe_ratio": 1.408,
+    "sortino_ratio": 0.0,
+    "total_trades": 892,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:23:57.901480",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 893,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:25:54.559250",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 893,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:27:39.480134",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 893,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:29:30.774517",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 893,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:31:23.587353",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 895,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:33:13.986489",
+    "sharpe_ratio": 1.41,
+    "sortino_ratio": 0.0,
+    "total_trades": 897,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:35:10.968025",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 899,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:37:03.287249",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 899,
+    "avg_return": 0.0013
+  },
+  {
+    "timestamp": "2025-12-15T18:38:52.207260",
+    "sharpe_ratio": 1.409,
+    "sortino_ratio": 0.0,
+    "total_trades": 899,
     "avg_return": 0.0013
   }
 ]

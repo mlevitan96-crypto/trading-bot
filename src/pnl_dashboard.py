@@ -10,13 +10,15 @@ from flask import Flask, send_file
 from dash import Dash, html, dcc, Input, Output, State, dash_table, callback_context
 import dash_bootstrap_components as dbc
 
-from src.pnl_dashboard_loader import load_trades_df
+from src.pnl_dashboard_loader import load_trades_df, clear_cache
+from src.infrastructure.path_registry import resolve_path, PathRegistry
 
 DEFAULT_TIMEFRAME_HOURS = 72
 APP_TITLE = "P&L Dashboard"
-OPEN_POS_LOG = "logs/positions.json"
-FUTURES_POS_LOG = "logs/positions_futures.json"
-WALLET_SNAPSHOTS_FILE = "logs/wallet_snapshots.jsonl"
+# Use absolute paths to handle slot-based deployments (trading-bot-A/B)
+OPEN_POS_LOG = resolve_path("logs/positions.json")
+FUTURES_POS_LOG = resolve_path("logs/positions_futures.json")
+WALLET_SNAPSHOTS_FILE = resolve_path("logs/wallet_snapshots.jsonl")
 
 _dashboard_health_status = {
     "gateway_ok": True,
@@ -1191,13 +1193,21 @@ def build_app(server: Flask = None) -> Dash:
     def update_summary(tab, _n_intervals):
         """Update summary card on tab change OR interval refresh."""
         try:
+            # Handle None values from initial page load
+            if tab is None:
+                tab = "daily"
+            if _n_intervals is None:
+                _n_intervals = 0
+            
             # Record wallet snapshot (hourly, but called every refresh to check)
             record_wallet_snapshot()
             
             # Force cache refresh by clearing it if interval triggered
-            if _n_intervals and _n_intervals > 0:
-                from src.pnl_dashboard_loader import clear_cache
-                clear_cache()  # Force cache refresh
+            if _n_intervals > 0:
+                try:
+                    clear_cache()  # Force cache refresh
+                except Exception as cache_err:
+                    print(f"⚠️  [DASHBOARD] Error clearing cache: {cache_err}")
             
             df = load_trades_df()
             wallet_balance = get_wallet_balance()
@@ -1274,10 +1284,18 @@ def build_app(server: Flask = None) -> Dash:
     def update_symbol_profit_chart(selected_symbols, _n_clicks, _n_intervals, lookback_hrs, symbol, strategy):
         """Update per-symbol cumulative profit chart based on dropdown selection, filters, and intervals."""
         try:
+            # Handle None values
+            if _n_intervals is None:
+                _n_intervals = 0
+            if _n_clicks is None:
+                _n_clicks = 0
+            
             # Force cache refresh on interval
-            if _n_intervals and _n_intervals > 0:
-                from src.pnl_dashboard_loader import clear_cache
-                clear_cache()  # Force cache refresh
+            if _n_intervals > 0:
+                try:
+                    clear_cache()  # Force cache refresh
+                except Exception as cache_err:
+                    print(f"⚠️  [DASHBOARD] Error clearing cache: {cache_err}")
             
             df = load_trades_df()
             
@@ -1321,10 +1339,18 @@ def build_app(server: Flask = None) -> Dash:
     def refresh(_n_clicks, _n_intervals, lookback_hrs, symbol, strategy):
         """Refresh all charts on button click OR interval trigger."""
         try:
+            # Handle None values
+            if _n_clicks is None:
+                _n_clicks = 0
+            if _n_intervals is None:
+                _n_intervals = 0
+            
             # Force cache refresh on interval
-            if _n_intervals and _n_intervals > 0:
-                from src.pnl_dashboard_loader import clear_cache
-                clear_cache()  # Force cache refresh
+            if _n_intervals > 0:
+                try:
+                    clear_cache()  # Force cache refresh
+                except Exception as cache_err:
+                    print(f"⚠️  [DASHBOARD] Error clearing cache: {cache_err}")
             
             df = load_trades_df()
             if not df.empty and lookback_hrs and lookback_hrs > 0:

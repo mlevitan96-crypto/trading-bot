@@ -27,6 +27,7 @@ import os
 import time
 from typing import Any, Dict, List, Optional
 from pathlib import Path
+from src.infrastructure.path_registry import resolve_path
 
 
 class DataRegistry:
@@ -267,30 +268,34 @@ class DataRegistry:
     
     @classmethod
     def append_jsonl(cls, path: str, record: Dict[str, Any]) -> bool:
-        """Safely append a record to a JSONL file."""
+        """Safely append a record to a JSONL file. Resolves relative paths to absolute for slot-based deployments."""
         try:
             cls.ensure_dirs()
+            # Resolve relative paths to absolute (handles trading-bot-A/B slot deployments)
+            abs_path = resolve_path(path) if not os.path.isabs(path) else path
             # Add timestamp if not present
             if 'ts' not in record and 'timestamp' not in record:
                 record['ts'] = time.time()
                 record['ts_iso'] = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
             
-            with open(path, 'a') as f:
+            with open(abs_path, 'a') as f:
                 f.write(json.dumps(record, default=str) + '\n')
             return True
         except Exception as e:
-            print(f"Error writing to {path}: {e}")
+            print(f"Error writing to {abs_path if 'abs_path' in locals() else path}: {e}")
             return False
     
     @classmethod
     def read_jsonl(cls, path: str, last_n: Optional[int] = None) -> List[Dict]:
-        """Read records from a JSONL file."""
-        if not os.path.exists(path):
+        """Read records from a JSONL file. Resolves relative paths to absolute for slot-based deployments."""
+        # Resolve relative paths to absolute (handles trading-bot-A/B slot deployments)
+        abs_path = resolve_path(path) if not os.path.isabs(path) else path
+        if not os.path.exists(abs_path):
             return []
         
         try:
             records = []
-            with open(path, 'r') as f:
+            with open(abs_path, 'r') as f:
                 for line in f:
                     line = line.strip()
                     if line:
@@ -303,34 +308,38 @@ class DataRegistry:
                 return records[-last_n:]
             return records
         except Exception as e:
-            print(f"Error reading {path}: {e}")
+            print(f"Error reading {abs_path}: {e}")
             return []
     
     @classmethod
     def read_json(cls, path: str) -> Optional[Dict]:
-        """Read a JSON file."""
-        if not os.path.exists(path):
+        """Read a JSON file. Resolves relative paths to absolute for slot-based deployments."""
+        # Resolve relative paths to absolute (handles trading-bot-A/B slot deployments)
+        abs_path = resolve_path(path) if not os.path.isabs(path) else path
+        if not os.path.exists(abs_path):
             return None
         try:
-            with open(path, 'r') as f:
+            with open(abs_path, 'r') as f:
                 return json.load(f)
         except Exception as e:
-            print(f"Error reading {path}: {e}")
+            print(f"Error reading {abs_path}: {e}")
             return None
     
     @classmethod
     def write_json(cls, path: str, data: Dict, indent: int = 2) -> bool:
-        """Safely write a JSON file."""
+        """Safely write a JSON file. Resolves relative paths to absolute for slot-based deployments."""
         try:
             cls.ensure_dirs()
+            # Resolve relative paths to absolute (handles trading-bot-A/B slot deployments)
+            abs_path = resolve_path(path) if not os.path.isabs(path) else path
             # Write to temp file first, then rename (atomic)
-            tmp_path = path + '.tmp'
+            tmp_path = abs_path + '.tmp'
             with open(tmp_path, 'w') as f:
                 json.dump(data, f, indent=indent, default=str)
-            os.rename(tmp_path, path)
+            os.rename(tmp_path, abs_path)
             return True
         except Exception as e:
-            print(f"Error writing to {path}: {e}")
+            print(f"Error writing to {abs_path if 'abs_path' in locals() else path}: {e}")
             return False
     
     # =========================================================================

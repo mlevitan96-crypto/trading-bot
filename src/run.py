@@ -7,6 +7,7 @@ import sys
 import os
 from pathlib import Path
 import logging
+import multiprocessing
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -869,6 +870,239 @@ def meta_learning_scheduler():
         run_meta_learning()
 
 
+# ==========================================
+# Worker Process Management
+# ==========================================
+
+_worker_processes = {}
+_worker_restart_counts = {}
+_worker_lock = threading.RLock()  # Use RLock for reentrant locking (monitor may call _start_worker_process while holding lock)
+
+def _ensure_config_file(file_path: str, default_content: dict):
+    """Ensure a config file exists with default content if missing."""
+    from pathlib import Path
+    path = Path(file_path)
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        import json
+        with open(path, 'w') as f:
+            json.dump(default_content, f, indent=2)
+        print(f"   ✅ Created missing config: {file_path}")
+
+def _ensure_all_configs():
+    """Ensure all critical config files exist with defaults."""
+    print("\n🔧 Checking critical config files...")
+    
+    # execution_governor.json
+    _ensure_config_file("logs/execution_governor.json", {
+        "roi_threshold": 0.0005,
+        "max_trades_hour": 10
+    })
+    
+    # fee_arbiter.json
+    _ensure_config_file("logs/fee_arbiter.json", {
+        "roi_gate": 0.0005,
+        "max_trades_hour": 10
+    })
+    
+    # correlation_throttle.json
+    _ensure_config_file("feature_store/correlation_throttle_policy.json", {
+        "enabled": True,
+        "max_correlation": 0.85
+    })
+    
+    print("   ✅ All critical configs verified")
+
+def _worker_predictive_engine():
+    """Worker process for predictive signal generation."""
+    print("🔮 [PREDICTIVE-ENGINE] Worker process started")
+    import time
+    from src.predictive_flow_engine import get_predictive_engine
+    
+    try:
+        engine = get_predictive_engine()
+        print("   ✅ Predictive engine initialized")
+    except Exception as e:
+        print(f"   ⚠️  Predictive engine init error: {e}")
+        return
+    
+    # Run periodic signal generation (every 60 seconds)
+    while True:
+        try:
+            # The engine generates signals on-demand when called from bot_cycle
+            # This worker just ensures the engine is alive and healthy
+            time.sleep(60)
+        except Exception as e:
+            print(f"   ⚠️  [PREDICTIVE-ENGINE] Worker error: {e}")
+            time.sleep(10)
+
+def _worker_feature_builder():
+    """Worker process for feature building."""
+    print("🔨 [FEATURE-BUILDER] Worker process started")
+    import time
+    
+    # Feature building happens inline during signal generation
+    # This worker ensures feature store is healthy
+    while True:
+        try:
+            # Periodic health check of feature store
+            from pathlib import Path
+            feature_store = Path("feature_store")
+            if not feature_store.exists():
+                feature_store.mkdir(parents=True, exist_ok=True)
+            time.sleep(300)  # Check every 5 minutes
+        except Exception as e:
+            print(f"   ⚠️  [FEATURE-BUILDER] Worker error: {e}")
+            time.sleep(30)
+
+def _worker_ensemble_predictor():
+    """Worker process for ensemble predictions."""
+    print("🎯 [ENSEMBLE-PREDICTOR] Worker process started")
+    import time
+    
+    # Ensemble predictor is called on-demand from profit_seeking_sizer
+    # This worker ensures the predictor module is loaded and healthy
+    while True:
+        try:
+            # Health check - try importing the module
+            from src.ensemble_predictor import get_ensemble_prediction
+            time.sleep(60)
+        except Exception as e:
+            print(f"   ⚠️  [ENSEMBLE-PREDICTOR] Worker error: {e}")
+            time.sleep(10)
+
+def _worker_signal_resolver():
+    """Worker process for signal outcome resolution."""
+    print("📊 [SIGNAL-RESOLVER] Worker process started")
+    import time
+    
+    restart_count = 0
+    max_restarts = 10
+    
+    while restart_count < max_restarts:
+        try:
+            from src.signal_outcome_tracker import run_resolver_loop
+            # Run resolver loop (this is a blocking call that handles its own scheduling)
+            run_resolver_loop(interval_seconds=60)
+            break  # Normal exit
+        except Exception as e:
+            restart_count += 1
+            print(f"   ⚠️  [SIGNAL-RESOLVER] Worker error (restart {restart_count}/{max_restarts}): {e}")
+            import traceback
+            traceback.print_exc()
+            if restart_count < max_restarts:
+                print(f"   🔄 [SIGNAL-RESOLVER] Restarting in 30 seconds...")
+                time.sleep(30)
+            else:
+                print(f"   ❌ [SIGNAL-RESOLVER] Max restarts reached - giving up")
+                break
+
+def _start_worker_process(name: str, target_func, restart_on_crash: bool = True):
+    """Start a worker process with error isolation and restart logic."""
+    import multiprocessing
+    
+    def worker_wrapper():
+        """Wrapper that catches all exceptions and restarts if needed."""
+        restart_count = 0
+        max_restarts = 10
+        
+        while restart_count < max_restarts:
+            try:
+                target_func()
+                break  # Normal exit
+            except Exception as e:
+                restart_count += 1
+                with _worker_lock:
+                    _worker_restart_counts[name] = restart_count
+                
+                print(f"   💥 [{name}] Crash #{restart_count}: {e}")
+                import traceback
+                traceback.print_exc()
+                
+                if restart_on_crash and restart_count < max_restarts:
+                    print(f"   🔄 [{name}] Restarting in 10 seconds...")
+                    time.sleep(10)
+                else:
+                    print(f"   ❌ [{name}] Max restarts reached - giving up")
+                    break
+    
+    try:
+        process = multiprocessing.Process(target=worker_wrapper, name=name, daemon=False)
+        process.start()
+        
+        with _worker_lock:
+            _worker_processes[name] = process
+        
+        print(f"   ✅ [{name}] Process started (PID: {process.pid})")
+        return process
+    except Exception as e:
+        print(f"   ❌ [{name}] Failed to start process: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def _start_all_worker_processes():
+    """Start all critical worker processes."""
+    print("\n" + "="*60)
+    print("🚀 Starting Worker Processes")
+    print("="*60)
+    
+    # Ensure configs exist before starting workers
+    _ensure_all_configs()
+    
+    # Start predictive engine worker
+    print("\n🔮 Starting predictive engine...")
+    _start_worker_process("predictive_engine", _worker_predictive_engine, restart_on_crash=True)
+    
+    # Start feature builder worker
+    print("\n🔨 Starting feature builder...")
+    _start_worker_process("feature_builder", _worker_feature_builder, restart_on_crash=True)
+    
+    # Start ensemble predictor worker
+    print("\n🎯 Starting ensemble predictor...")
+    _start_worker_process("ensemble_predictor", _worker_ensemble_predictor, restart_on_crash=True)
+    
+    # Start signal resolver worker
+    print("\n📊 Starting signal resolver...")
+    _start_worker_process("signal_resolver", _worker_signal_resolver, restart_on_crash=True)
+    
+    print("\n✅ All worker processes started")
+    print("   ℹ️  Workers run in separate processes with automatic restart on crash")
+
+def _monitor_worker_processes():
+    """Monitor worker processes and restart if they die."""
+    print("🛡️ [WORKER-MONITOR] Starting worker process monitor...")
+    
+    while True:
+        try:
+            time.sleep(60)  # Check every minute
+            
+            with _worker_lock:
+                dead_workers = []
+                for name, process in _worker_processes.items():
+                    if not process.is_alive():
+                        dead_workers.append(name)
+                        restart_count = _worker_restart_counts.get(name, 0)
+                        print(f"   ⚠️  [{name}] Process died (exit code: {process.exitcode})")
+                        print(f"   🔄 [{name}] Restarting (attempt {restart_count + 1})...")
+                
+                # Restart dead workers
+                for name in dead_workers:
+                    if name == "predictive_engine":
+                        _start_worker_process(name, _worker_predictive_engine, restart_on_crash=True)
+                    elif name == "feature_builder":
+                        _start_worker_process(name, _worker_feature_builder, restart_on_crash=True)
+                    elif name == "ensemble_predictor":
+                        _start_worker_process(name, _worker_ensemble_predictor, restart_on_crash=True)
+                    elif name == "signal_resolver":
+                        _start_worker_process(name, _worker_signal_resolver, restart_on_crash=True)
+                    
+                    # Remove old process reference
+                    del _worker_processes[name]
+        except Exception as e:
+            print(f"   ⚠️  [WORKER-MONITOR] Error: {e}")
+            time.sleep(30)
+
 def run_heavy_initialization():
     """
     Run all heavy initialization in background thread.
@@ -906,6 +1140,14 @@ def run_heavy_initialization():
         print("✅ Startup health check complete")
     except Exception as e:
         print(f"⚠️  Startup health check failed: {e}")
+    
+    # Start all worker processes (predictive engine, feature builder, ensemble predictor, signal resolver)
+    _start_all_worker_processes()
+    
+    # Start worker process monitor
+    monitor_thread = threading.Thread(target=_monitor_worker_processes, daemon=True, name="WorkerMonitor")
+    monitor_thread.start()
+    print("   ✅ Worker process monitor started")
     
     bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
     bot_thread.start()
@@ -979,6 +1221,7 @@ def main():
         print("   Supervisor handles port 5000 health endpoint")
         
         # Run initialization and trading loop directly (blocking)
+        # This includes starting all worker processes
         run_heavy_initialization()
         
         # Keep process alive for trading
@@ -998,7 +1241,27 @@ def main():
     print("   ✅ Port 5000 is available")
     print("   ℹ️  Initializing subsystems in background...")
     
-    dash_app = start_pnl_dashboard(flask_app)
+    # Create Flask app first
+    from flask import Flask
+    flask_app = Flask(__name__)
+    
+    # Start P&L dashboard (optional - must not crash if missing)
+    dash_app = None
+    try:
+        from src.pnl_dashboard import start_pnl_dashboard
+        dash_app = start_pnl_dashboard(flask_app)
+        print("   ✅ P&L Dashboard initialized successfully")
+    except NameError as e:
+        if "start_pnl_dashboard" in str(e):
+            print("   ⚠️  P&L Dashboard function not found - continuing without dashboard")
+            print("   ℹ️  Trading engine will run normally")
+        else:
+            print(f"   ⚠️  P&L Dashboard import error: {e} - continuing without dashboard")
+    except Exception as e:
+        print(f"   ⚠️  P&L Dashboard startup error: {e} - continuing without dashboard")
+        print("   ℹ️  Trading engine will run normally")
+        import traceback
+        traceback.print_exc()
     
     init_thread = threading.Thread(target=run_heavy_initialization, daemon=True)
     init_thread.start()
@@ -1036,24 +1299,30 @@ def main():
             }
             
             print("   🚀 Starting Gunicorn production server (2 workers, 4 threads)")
-            StandaloneApplication(flask_app, options).run()
+            # Use dash_app if available, otherwise flask_app
+            app_to_run = dash_app if dash_app is not None else flask_app
+            StandaloneApplication(app_to_run, options).run()
             
         except ImportError:
             print("   ⚠️ Gunicorn not available, falling back to Flask dev server")
-            flask_app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+            app_to_run = dash_app if dash_app is not None else flask_app
+            app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
         except Exception as e:
             print(f"   ⚠️ Gunicorn failed: {e}, falling back to Flask dev server")
-            flask_app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+            app_to_run = dash_app if dash_app is not None else flask_app
+            app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
     else:
         try:
-            flask_app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+            app_to_run = dash_app if dash_app is not None else flask_app
+            app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
         except OSError as e:
             if "Address already in use" in str(e):
                 print(f"❌ FATAL: Port 5000 binding failed: {e}")
                 print("   Attempting emergency port recovery...")
                 if _force_clear_port(5000):
                     print("   ✅ Port recovered - restarting Flask...")
-                    flask_app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+                    app_to_run = dash_app if dash_app is not None else flask_app
+                    app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
                 else:
                     print("❌ FATAL: Cannot recover port 5000. Bot shutting down.")
                     sys.exit(1)

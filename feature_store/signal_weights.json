@@ -1,19 +1,15 @@
 {
   "weights": {
-    "ofi": 0.38095559012486147,
-    "ensemble": 0.23808881975027707,
+    "ofi": 0.381,
+    "ensemble": 0.2381,
     "mtf_alignment": 0.0,
     "regime": 0.0,
     "market_intel": 0.0,
     "volume": 0.0,
     "momentum": 0.0,
-    "session": 0.38095559012486147
+    "session": 0.381
   },
-  "updated_at": "2025-12-11T21:06:14.083505",
-  "adjustments": [
-    "ofi +5% (best bucket: weak EV=$0.13)",
-    "ensemble +5% (best: neutral EV=$0.03)",
-    "session +10% (high variance: $1.26)"
-  ],
-  "source": "daily_intelligence_learner"
+  "updated_at": "2025-12-14T17:56:32.042201",
+  "adjustments": [],
+  "source": "continuous_learning_controller"
 }

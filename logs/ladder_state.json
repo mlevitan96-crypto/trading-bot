@@ -1,0 +1,3719 @@
+{
+  "last_exec_ts": {
+    "MATICUSDT": 1765735718.9497533,
+    "DOTUSDT": 1765726615.720007,
+    "ETHUSDT": 1765727135.287326,
+    "AVAXUSDT": 1765728995.8479457,
+    "BNBUSDT": 1765719017.0305252,
+    "ADAUSDT": 1765713199.4816678,
+    "XRPUSDT": 1765732472.1139884,
+    "SOLUSDT": 1765731452.6021862,
+    "BTCUSDT": 1765732185.0196123,
+    "OPUSDT": 1765671368.5931678,
+    "ARBUSDT": 1765703707.5637712,
+    "DOGEUSDT": 1765681041.3936417,
+    "LINKUSDT": 1765716106.9337692
+  },
+  "fills": [
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T18:21:19.044487",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T18:45:38.405725",
+      "tiers": [
+        [
+          0,
+          101.467096
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-13T19:17:44.952271",
+      "tiers": [
+        [
+          0,
+          62.874753
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-13T19:19:40.265484",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "timestamp": "2025-12-13T19:29:11.751442",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BNBUSDT",
+      "timestamp": "2025-12-13T19:33:00.685542",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ADAUSDT",
+      "timestamp": "2025-12-13T19:34:58.721936",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-13T19:36:58.823945",
+      "tiers": [
+        [
+          0,
+          69.56841
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:01:52.680850",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:05:44.975301",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:10:39.775577",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:14:32.108599",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:18:14.350038",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:22:02.602398",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:31:39.602985",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:35:34.939692",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:39:27.238515",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:43:10.006455",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:47:02.046282",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:50:49.903578",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:54:36.795734",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-13T20:56:33.720398",
+      "tiers": [
+        [
+          0,
+          82.59168
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T20:58:25.099568",
+      "tiers": [
+        [
+          0,
+          73.756389
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:02:16.325978",
+      "tiers": [
+        [
+          0,
+          73.756389
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:06:03.092964",
+      "tiers": [
+        [
+          0,
+          73.756389
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-13T21:09:51.268361",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:09:51.537118",
+      "tiers": [
+        [
+          0,
+          73.756389
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:13:43.004445",
+      "tiers": [
+        [
+          0,
+          73.756389
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:17:41.655063",
+      "tiers": [
+        [
+          0,
+          73.756389
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:21:28.058862",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "timestamp": "2025-12-13T21:23:17.754984",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:25:11.384403",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:28:54.974728",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-13T21:30:53.461340",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:32:43.444356",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:36:31.173224",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-13T21:38:23.748055",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:40:17.011600",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:44:02.848379",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:47:56.930017",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-13T21:49:52.685579",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:51:51.001973",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T21:56:40.800969",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:00:32.616327",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:04:33.041963",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:07:34.135731",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-13T22:28:57.509727",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:31:01.368734",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:35:00.160077",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:38:57.715003",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:42:59.395315",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:46:53.318007",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T22:50:47.687077",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:05:53.336884",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:09:47.064269",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-13T23:13:45.026641",
+      "tiers": [
+        [
+          0,
+          71.478415
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:13:45.354527",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:17:58.216320",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:21:49.778086",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:25:40.972766",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:29:37.710510",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:33:40.897073",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:37:41.678596",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-13T23:39:43.433343",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:41:37.757653",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:45:40.335552",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-13T23:45:42.535541",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-13T23:49:58.069988",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-13T23:58:05.073258",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T00:00:01.174975",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-14T00:02:04.042866",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:04:03.264407",
+      "tiers": [
+        [
+          0,
+          98.696518
+        ]
+      ]
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "timestamp": "2025-12-14T00:05:59.221056",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ADAUSDT",
+      "timestamp": "2025-12-14T00:06:00.928055",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:07:58.869989",
+      "tiers": [
+        [
+          0,
+          98.696518
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:12:04.225697",
+      "tiers": [
+        [
+          0,
+          98.696518
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:16:08.365718",
+      "tiers": [
+        [
+          0,
+          98.696518
+        ]
+      ]
+    },
+    {
+      "symbol": "OPUSDT",
+      "timestamp": "2025-12-14T00:16:10.676803",
+      "tiers": [
+        [
+          0,
+          106.837472
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:20:05.822529",
+      "tiers": [
+        [
+          0,
+          98.696518
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:24:02.594490",
+      "tiers": [
+        [
+          0,
+          98.696518
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:28:03.136526",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:31:58.334743",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:36:03.284303",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:41:12.575173",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:45:09.445394",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:49:06.737590",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T00:53:07.790682",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:53:08.135080",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T00:56:52.039172",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:00:47.246132",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:04:42.339258",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:08:43.887390",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "timestamp": "2025-12-14T01:10:41.079546",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:12:39.101673",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:17:44.644546",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:21:34.089594",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:24:38.412934",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:28:41.122589",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T01:32:41.003393",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:32:41.272196",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:36:32.553054",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T01:38:35.281806",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T01:38:36.328840",
+      "tiers": [
+        [
+          0,
+          62.291996
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:40:36.245776",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:44:26.046440",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:48:20.375487",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:52:20.684590",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T01:56:21.675820",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T01:58:19.788232",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:00:17.874382",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-14T02:00:18.814851",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:04:23.009732",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T02:04:23.991029",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T02:16:25.242374",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T02:24:38.129914",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:26:50.375660",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ADAUSDT",
+      "timestamp": "2025-12-14T02:30:56.265328",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:30:56.568498",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:35:04.794465",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T02:37:10.693876",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:39:19.417167",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:43:19.211904",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:47:28.112190",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T02:47:30.785097",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:51:29.682022",
+      "tiers": [
+        [
+          0,
+          70.964864
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:55:23.987290",
+      "tiers": [
+        [
+          0,
+          70.964864
+        ]
+      ]
+    },
+    {
+      "symbol": "DOGEUSDT",
+      "timestamp": "2025-12-14T02:57:23.859322",
+      "tiers": [
+        [
+          0,
+          66.325868
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T02:59:27.070752",
+      "tiers": [
+        [
+          0,
+          70.964864
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:03:37.647677",
+      "tiers": [
+        [
+          0,
+          70.964864
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:06:48.713184",
+      "tiers": [
+        [
+          0,
+          70.964864
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:10:57.403221",
+      "tiers": [
+        [
+          0,
+          70.964864
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:19:13.478293",
+      "tiers": [
+        [
+          0,
+          120.076083
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:23:07.128368",
+      "tiers": [
+        [
+          0,
+          120.076083
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T03:25:08.475220",
+      "tiers": [
+        [
+          0,
+          117.595125
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:27:09.835072",
+      "tiers": [
+        [
+          0,
+          120.076083
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:31:12.560817",
+      "tiers": [
+        [
+          0,
+          120.076083
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:35:18.869220",
+      "tiers": [
+        [
+          0,
+          120.076083
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:39:27.352739",
+      "tiers": [
+        [
+          0,
+          120.076083
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T03:41:27.809086",
+      "tiers": [
+        [
+          0,
+          83.25626
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:43:31.153739",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:48:30.543130",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:52:37.241209",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T03:56:36.892871",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T03:56:38.941889",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:00:34.398217",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:04:37.271546",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:13:42.405251",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:17:41.876200",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:21:35.128277",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T04:23:36.248454",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:25:35.141508",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T04:27:38.488258",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:29:44.134192",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-14T04:29:46.712742",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:33:54.785542",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:38:17.529004",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:42:17.256083",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "LINKUSDT",
+      "timestamp": "2025-12-14T04:44:15.180033",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:46:09.480179",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:49:59.317429",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:53:48.028374",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T04:56:47.714835",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T04:58:46.440267",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:02:52.882307",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T05:04:52.427460",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:06:51.793013",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T05:10:44.839416",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:10:45.133371",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:14:34.277514",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-14T05:16:31.645079",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:18:24.727361",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:22:24.615977",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:26:29.173359",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:30:18.877289",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:34:06.225277",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:37:52.694032",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:41:37.706397",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T05:41:39.672736",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:45:23.840139",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:49:17.607266",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:53:02.231136",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T05:56:57.319667",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:01:02.577187",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:04:54.150266",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:08:39.901146",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:12:38.924712",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T06:16:27.174079",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:16:27.687656",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ADAUSDT",
+      "timestamp": "2025-12-14T06:20:41.607379",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:20:42.135266",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:24:53.152371",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:28:57.933711",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:33:02.692273",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:37:01.157077",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:40:52.272879",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T06:44:48.220429",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:44:48.550055",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:48:43.354447",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:52:41.548510",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T06:56:26.252580",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:00:18.655958",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T07:10:12.910415",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:18:10.296511",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T07:20:09.049236",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:22:03.343503",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:25:59.383515",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T07:27:58.263664",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:29:58.162542",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:33:42.997806",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:37:43.217441",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ADAUSDT",
+      "timestamp": "2025-12-14T07:39:46.382236",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:41:48.492990",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-14T07:43:51.788458",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:45:49.211063",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-14T07:49:59.796400",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:50:00.076025",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:54:02.943550",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T07:58:00.098850",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:02:09.321504",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ADAUSDT",
+      "timestamp": "2025-12-14T08:10:35.702046",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:23:13.606627",
+      "tiers": [
+        [
+          0,
+          103.609064
+        ]
+      ]
+    },
+    {
+      "symbol": "BNBUSDT",
+      "timestamp": "2025-12-14T08:25:25.878449",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:27:36.300900",
+      "tiers": [
+        [
+          0,
+          103.609064
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:31:41.796241",
+      "tiers": [
+        [
+          0,
+          103.609064
+        ]
+      ]
+    },
+    {
+      "symbol": "BNBUSDT",
+      "timestamp": "2025-12-14T08:33:57.747720",
+      "tiers": [
+        [
+          0,
+          90.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:36:01.184425",
+      "tiers": [
+        [
+          0,
+          103.609064
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:40:07.857027",
+      "tiers": [
+        [
+          0,
+          103.609064
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:44:11.713001",
+      "tiers": [
+        [
+          0,
+          103.609064
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:48:30.986863",
+      "tiers": [
+        [
+          0,
+          109.109948
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T08:50:33.081548",
+      "tiers": [
+        [
+          0,
+          125.895136
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:52:39.084335",
+      "tiers": [
+        [
+          0,
+          109.109948
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T08:54:43.017696",
+      "tiers": [
+        [
+          0,
+          118.434004
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T08:56:44.030423",
+      "tiers": [
+        [
+          0,
+          109.109948
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:00:57.481954",
+      "tiers": [
+        [
+          0,
+          109.109948
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:05:14.854781",
+      "tiers": [
+        [
+          0,
+          109.109948
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:09:16.747479",
+      "tiers": [
+        [
+          0,
+          109.109948
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:13:09.355253",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T09:15:07.329058",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "timestamp": "2025-12-14T09:15:08.574614",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:17:19.563836",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:21:34.272143",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:25:54.790178",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:30:08.397756",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:34:25.498466",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T09:34:26.826191",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:38:34.393547",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:42:45.984225",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:46:43.692489",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:50:59.809017",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:55:02.500560",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T09:59:07.534680",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:03:22.773121",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:07:47.714299",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T10:11:46.403240",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:11:46.725684",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:14:52.527160",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:18:45.307791",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:22:50.318025",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:30:59.913499",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T10:33:00.008700",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T10:35:10.208024",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:35:10.547978",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:39:28.849714",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:43:45.596250",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:47:42.270047",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T10:49:50.731957",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:51:52.457590",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T10:51:54.703415",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T10:56:18.153334",
+      "tiers": [
+        [
+          0,
+          78.533816
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T10:58:20.221293",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:02:31.374546",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:06:31.233200",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:10:45.244556",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:15:04.634384",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BNBUSDT",
+      "timestamp": "2025-12-14T11:19:29.545599",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:19:29.847334",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T11:23:42.705995",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:23:43.792010",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T11:25:46.694053",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:27:53.418815",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T11:30:02.856185",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:32:05.884155",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:35:59.289200",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:40:21.700429",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T11:44:34.507862",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T11:53:19.417857",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ADAUSDT",
+      "timestamp": "2025-12-14T11:53:20.584739",
+      "tiers": [
+        [
+          0,
+          57.161441
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T11:57:40.412059",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T12:07:15.798509",
+      "tiers": [
+        [
+          0,
+          56.751364
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T12:11:39.532750",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:11:39.863620",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:16:16.145100",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:20:32.119891",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:24:47.026022",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:29:01.866136",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T12:29:04.176441",
+      "tiers": [
+        [
+          0,
+          57.940156
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:33:28.154799",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:37:41.458332",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "LINKUSDT",
+      "timestamp": "2025-12-14T12:41:47.855201",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:41:48.180524",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:45:59.725469",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T12:48:06.276544",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:50:10.281446",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:54:48.351487",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T12:58:53.656704",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:03:27.918045",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:07:47.917998",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:12:26.053519",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:17:11.578911",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:21:44.397095",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:28:14.194777",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BNBUSDT",
+      "timestamp": "2025-12-14T13:30:20.055803",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:32:23.830810",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:37:00.134650",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:41:13.581029",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T13:43:13.050892",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:45:19.009141",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:49:22.830520",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T13:49:25.241768",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:53:43.710596",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T13:58:11.770709",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:02:14.969391",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:06:42.933719",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:11:24.910797",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:15:59.742898",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:20:36.760673",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:24:56.904831",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:29:01.862167",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:33:30.880200",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:37:55.149339",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:42:02.690254",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:46:27.446493",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:50:39.392863",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:53:50.317865",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T14:57:44.619902",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T15:01:52.537676",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T15:01:54.671367",
+      "tiers": [
+        [
+          0,
+          150.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T15:10:30.763631",
+      "tiers": [
+        [
+          0,
+          64.4456
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T15:15:11.621688",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T15:17:24.491910",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T15:21:53.817968",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T15:26:02.082086",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T15:30:20.974147",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T15:34:40.045624",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "DOTUSDT",
+      "timestamp": "2025-12-14T15:36:58.809416",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T15:39:06.848385",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "ETHUSDT",
+      "timestamp": "2025-12-14T15:45:37.565300",
+      "tiers": [
+        [
+          0,
+          59.625038
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:01:42.982880",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:06:24.074745",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:11:32.108387",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T16:16:35.480089",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:16:35.792090",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "timestamp": "2025-12-14T16:16:36.951216",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:21:03.591716",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:30:30.045818",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:35:14.264914",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:40:05.051781",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:44:44.442732",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:49:09.068873",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:52:33.489412",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timestamp": "2025-12-14T16:57:38.531298",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T16:57:40.181485",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T17:02:17.979217",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T17:07:17.387574",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timestamp": "2025-12-14T17:09:49.182515",
+      "tiers": [
+        [
+          0,
+          78.908831
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T17:12:13.475478",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "XRPUSDT",
+      "timestamp": "2025-12-14T17:14:34.632457",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T17:16:53.279002",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T17:43:56.922326",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    },
+    {
+      "symbol": "MATICUSDT",
+      "timestamp": "2025-12-14T18:08:39.208000",
+      "tiers": [
+        [
+          0,
+          60.0
+        ]
+      ]
+    }
+  ]
+}

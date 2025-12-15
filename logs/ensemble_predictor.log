@@ -1,0 +1,25 @@
+[2025-12-13T18:20:49.234593Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-13T18:20:49.241547Z] Pattern prediction error: 'str' object has no attribute 'get'
+[2025-12-13T18:20:56.151278Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-13T18:20:56.151836Z] Pattern prediction error: 'str' object has no attribute 'get'
+[2025-12-13T18:22:36.858592Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-13T18:22:36.859130Z] Pattern prediction error: 'str' object has no attribute 'get'
+[2025-12-13T18:22:40.050633Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-13T18:22:40.051092Z] Pattern prediction error: 'str' object has no attribute 'get'
+[2025-12-13T18:22:52.765729Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-13T18:22:52.766221Z] Pattern prediction error: 'str' object has no attribute 'get'
+[2025-12-13T18:22:55.016967Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-13T18:22:55.017480Z] Pattern prediction error: 'str' object has no attribute 'get'
+[2025-12-14T17:43:07.899450Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:43:21.442634Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:43:27.660372Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:49:22.430832Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:49:44.083985Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:49:51.315127Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:56:30.361414Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:56:45.880579Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:56:55.279792Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:57:03.593657Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-14T17:57:07.978593Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-15T01:24:09.959786Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)
+[2025-12-15T01:25:33.932130Z] GBM prediction error: cannot import name 'predict_direction' from 'src.ml_predictor' (/root/trading-bot/src/ml_predictor.py)

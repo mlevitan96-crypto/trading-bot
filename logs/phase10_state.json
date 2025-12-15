@@ -1,0 +1,17 @@
+{
+  "last_symbol_entry_ts": {},
+  "trades_today_count": 0,
+  "today_bucket": 0,
+  "last_pause_ts": 0.0,
+  "metric_cache": {
+    "symbol": {},
+    "strategy": {}
+  },
+  "attribution": {
+    "symbol": {},
+    "strategy": {}
+  },
+  "blocked_symbols": [],
+  "blocked_strategies": [],
+  "global_entry_block": false
+}

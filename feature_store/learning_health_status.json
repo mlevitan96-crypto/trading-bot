@@ -1,36 +1,37 @@
 {
-  "last_check": "2025-12-11T21:06:14.448576",
+  "last_check": "2025-12-14T17:54:29.682629",
   "overall_health": "REMEDIATED",
   "components": {
     "daily_learner": {
       "name": "Daily Intelligence Learner",
       "healthy": true,
       "checks": [
-        "Last run: 0.5h ago (OK)",
-        "Profitable patterns: 20",
-        "High potential patterns: 20"
+        "Last run: 1.0h ago (OK)",
+        "Profitable patterns: 0",
+        "High potential patterns: 0"
       ],
-      "last_run": "2025-12-11T20:33:38.293419",
+      "last_run": "2025-12-14T16:56:45.413054",
       "issues": []
     },
     "learning_history": {
       "name": "Learning History",
       "healthy": true,
       "checks": [
-        "Snapshots: 3739",
+        "Snapshots: 3782",
         "Trend analysis possible"
       ],
       "issues": []
     },
     "data_pipeline": {
       "name": "Data Pipeline",
-      "healthy": true,
+      "healthy": false,
       "checks": [
-        "Enriched decisions: 799",
-        "Signal universe: 11378",
-        "Sufficient data for learning"
+        "Enriched decisions: 0",
+        "Signal universe: 8701"
       ],
-      "issues": []
+      "issues": [
+        "Insufficient enriched decisions (0, need 10+)"
+      ]
     },
     "conditional_overlay": {
       "name": "Conditional Overlay Bridge",
@@ -46,7 +47,7 @@
       "healthy": true,
       "checks": [
         "File: EXISTS",
-        "Freshness: FRESH (11.1h)",
+        "Freshness: FRESH (26.1h)",
         "Threshold: VALID (0.2300)"
       ],
       "issues": []
@@ -56,7 +57,7 @@
       "healthy": true,
       "checks": [
         "File: EXISTS",
-        "Freshness: FRESH (5.8h)",
+        "Freshness: FRESH (26.1h)",
         "Hold times: VALID (15 symbols)"
       ],
       "issues": []
@@ -66,7 +67,7 @@
       "healthy": true,
       "checks": [
         "File: EXISTS",
-        "Freshness: FRESH (11.1h)",
+        "Freshness: FRESH (26.1h)",
         "Multipliers: VALID (5 grades)"
       ],
       "issues": []
@@ -76,7 +77,7 @@
       "healthy": false,
       "checks": [
         "Correlation matrix: EXISTS",
-        "Matrix freshness: STALE (284.1h)",
+        "Matrix freshness: STALE (26.1h)",
         "Throttle policy: EXISTS",
         "Threshold: VALID (0.61)"
       ],
@@ -89,8 +90,8 @@
       "healthy": true,
       "checks": [
         "State file: EXISTS",
-        "Last run: RECENT (0.1h ago)",
-        "Total runs: 33, Recommendations: 131"
+        "Last run: RECENT (0.9h ago)",
+        "Total runs: 42, Recommendations: 137"
       ],
       "issues": []
     },
@@ -98,8 +99,8 @@
       "name": "Streak Filter",
       "healthy": true,
       "checks": [
-        "ALPHA: OK (skips=0, allowed=1079)",
-        "BETA: OK (skips=0, allowed=1)",
+        "ALPHA: OK (skips=0, allowed=5140)",
+        "BETA: OK (skips=0, allowed=0)",
         "Auto-reset thresholds: 100 skips, 4h blocked"
       ],
       "issues": []
@@ -118,21 +119,22 @@
   },
   "issues": [
     {
-      "name": "learned_rules",
+      "name": "enriched_decisions",
       "problems": [
-        "learned_rules: STALE (59.1h old, max 48h)"
-      ]
-    },
-    {
-      "name": "optimal_thresholds",
-      "problems": [
-        "optimal_thresholds: STALE (339.3h old, max 48h)"
+        "enriched_decisions: STALE (25.9h old, max 24h)",
+        "enriched_decisions: Empty JSONL"
       ]
     },
     {
       "name": "coinglass_correlations",
       "problems": [
-        "coinglass_correlations: STALE (284.1h old, max 24h)"
+        "coinglass_correlations: STALE (26.1h old, max 24h)"
+      ]
+    },
+    {
+      "name": "Data Pipeline",
+      "problems": [
+        "Insufficient enriched decisions (0, need 10+)"
       ]
     },
     {
@@ -144,32 +146,25 @@
   ],
   "remediations": [
     {
-      "component": "learned_rules",
-      "problem": "learned_rules: STALE (59.1h old, max 48h)",
+      "component": "enriched_decisions",
+      "problem": "enriched_decisions: STALE (25.9h old, max 24h)",
       "action": "Ran daily learning cycle",
       "success": true,
-      "timestamp": "2025-12-11T21:05:37.261634"
-    },
-    {
-      "component": "optimal_thresholds",
-      "problem": "optimal_thresholds: STALE (339.3h old, max 48h)",
-      "action": "Ran daily learning cycle",
-      "success": true,
-      "timestamp": "2025-12-11T21:05:45.792278"
+      "timestamp": "2025-12-14T17:53:55.727618"
     },
     {
       "component": "coinglass_correlations",
-      "problem": "coinglass_correlations: STALE (284.1h old, max 24h)",
+      "problem": "coinglass_correlations: STALE (26.1h old, max 24h)",
       "action": "Ran daily learning cycle",
       "success": true,
-      "timestamp": "2025-12-11T21:05:55.784991"
+      "timestamp": "2025-12-14T17:54:11.094477"
     },
     {
       "component": "Correlation Throttle",
       "problem": "Correlation matrix stale (>24h)",
       "action": "Ran daily learning cycle",
       "success": true,
-      "timestamp": "2025-12-11T21:06:11.169491"
+      "timestamp": "2025-12-14T17:54:17.123193"
     }
   ],
   "all_healthy": false

@@ -1,0 +1,10 @@
+{
+  "ts": 1765734137.038642,
+  "datetime": "2025-12-14T17:42:17.038647",
+  "files_backed_up": [
+    "logs/positions.json",
+    "logs/positions_futures.json",
+    "logs/portfolio.json",
+    "logs/portfolio_futures.json"
+  ]
+}

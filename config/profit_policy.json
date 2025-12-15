@@ -1,6 +1,6 @@
 {
   "global": {
-    "MIN_PROFIT_USD": 10.0,
+    "MIN_PROFIT_USD": 5.0,
     "BASE_COLLATERAL_USD": 500.0,
     "INTERNAL_MAX_LEVERAGE": 7,
     "cooldown_sec": 1200

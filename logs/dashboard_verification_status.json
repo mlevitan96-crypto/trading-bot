@@ -1,0 +1,10 @@
+{
+  "timestamp": 1765735806.0247107,
+  "timestamp_formatted": "2025-12-14T18:10:06.024714",
+  "healthy": true,
+  "severity": "OK",
+  "backend_positions": 7,
+  "ui_positions": 7,
+  "issues": [],
+  "suggested_fixes": []
+}

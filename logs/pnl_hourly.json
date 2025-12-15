@@ -1,0 +1,255 @@
+{
+  "hourly_records": [
+    {
+      "hour": "2025-12-13T11:00:00-07:00",
+      "timestamp": "2025-12-13T11:21:19.367508-07:00",
+      "portfolio_value": 9998.903,
+      "total_profit": -1.0969999999997526,
+      "total_profit_pct": -0.010969999999997527,
+      "hourly_change": -1.0969999999997526,
+      "hourly_change_pct": -0.010969999999997527,
+      "num_trades": 9
+    },
+    {
+      "hour": "2025-12-13T12:00:00-07:00",
+      "timestamp": "2025-12-13T12:00:43.723592-07:00",
+      "portfolio_value": 9996.3473,
+      "total_profit": -3.65270000000055,
+      "total_profit_pct": -0.0365270000000055,
+      "hourly_change": -2.5557000000007974,
+      "hourly_change_pct": -0.025559803910496955,
+      "num_trades": 33
+    },
+    {
+      "hour": "2025-12-13T13:00:00-07:00",
+      "timestamp": "2025-12-13T13:01:53.020480-07:00",
+      "portfolio_value": 9994.2933,
+      "total_profit": -5.706700000000637,
+      "total_profit_pct": -0.057067000000006377,
+      "hourly_change": -2.0540000000000873,
+      "hourly_change_pct": -0.02054750538729369,
+      "num_trades": 79
+    },
+    {
+      "hour": "2025-12-13T14:00:00-07:00",
+      "timestamp": "2025-12-13T14:00:18.477381-07:00",
+      "portfolio_value": 9994.464799999998,
+      "total_profit": -5.535200000002078,
+      "total_profit_pct": -0.05535200000002078,
+      "hourly_change": 0.17149999999855936,
+      "hourly_change_pct": 0.0017159792578686818,
+      "num_trades": 117
+    },
+    {
+      "hour": "2025-12-13T15:00:00-07:00",
+      "timestamp": "2025-12-13T15:00:32.857990-07:00",
+      "portfolio_value": 9992.750899999995,
+      "total_profit": -7.249100000004546,
+      "total_profit_pct": -0.07249100000004545,
+      "hourly_change": -1.713900000002468,
+      "hourly_change_pct": -0.017148492033334975,
+      "num_trades": 154
+    },
+    {
+      "hour": "2025-12-13T16:00:00-07:00",
+      "timestamp": "2025-12-13T16:00:50.787174-07:00",
+      "portfolio_value": 9995.566099999993,
+      "total_profit": -4.43390000000727,
+      "total_profit_pct": -0.0443390000000727,
+      "hourly_change": 2.815199999997276,
+      "hourly_change_pct": 0.02817242247074604,
+      "num_trades": 200
+    },
+    {
+      "hour": "2025-12-13T17:00:00-07:00",
+      "timestamp": "2025-12-13T17:00:02.543988-07:00",
+      "portfolio_value": 9993.176700000005,
+      "total_profit": -6.8232999999945605,
+      "total_profit_pct": -0.0682329999999456,
+      "hourly_change": -2.3893999999872904,
+      "hourly_change_pct": -0.023904599060050158,
+      "num_trades": 239
+    },
+    {
+      "hour": "2025-12-13T18:00:00-07:00",
+      "timestamp": "2025-12-13T18:00:47.986395-07:00",
+      "portfolio_value": 9990.099200000011,
+      "total_profit": -9.900799999988521,
+      "total_profit_pct": -0.09900799999988522,
+      "hourly_change": -3.077499999993961,
+      "hourly_change_pct": -0.030796013043519577,
+      "num_trades": 282
+    },
+    {
+      "hour": "2025-12-13T19:00:00-07:00",
+      "timestamp": "2025-12-13T19:00:19.690039-07:00",
+      "portfolio_value": 9986.999000000007,
+      "total_profit": -13.000999999992928,
+      "total_profit_pct": -0.1300099999999293,
+      "hourly_change": -3.1002000000044063,
+      "hourly_change_pct": -0.031032724880293506,
+      "num_trades": 319
+    },
+    {
+      "hour": "2025-12-13T20:00:00-07:00",
+      "timestamp": "2025-12-13T20:01:25.947399-07:00",
+      "portfolio_value": 9990.1095,
+      "total_profit": -9.89049999999952,
+      "total_profit_pct": -0.0989049999999952,
+      "hourly_change": 3.110499999993408,
+      "hourly_change_pct": 0.03114549225441402,
+      "num_trades": 362
+    },
+    {
+      "hour": "2025-12-13T21:00:00-07:00",
+      "timestamp": "2025-12-13T21:00:35.233696-07:00",
+      "portfolio_value": 9991.897200000005,
+      "total_profit": -8.102799999995113,
+      "total_profit_pct": -0.08102799999995114,
+      "hourly_change": 1.7877000000044063,
+      "hourly_change_pct": 0.017894698751844573,
+      "num_trades": 401
+    },
+    {
+      "hour": "2025-12-13T22:00:00-07:00",
+      "timestamp": "2025-12-13T22:00:52.719705-07:00",
+      "portfolio_value": 9991.894700000013,
+      "total_profit": -8.105299999986528,
+      "total_profit_pct": -0.08105299999986529,
+      "hourly_change": -0.00249999999141437,
+      "hourly_change_pct": -2.5020273341226614e-05,
+      "num_trades": 444
+    },
+    {
+      "hour": "2025-12-13T23:00:00-07:00",
+      "timestamp": "2025-12-13T23:01:03.266163-07:00",
+      "portfolio_value": 9991.35040000002,
+      "total_profit": -8.649599999980637,
+      "total_profit_pct": -0.08649599999980637,
+      "hourly_change": -0.5442999999941094,
+      "hourly_change_pct": -0.005447415293458894,
+      "num_trades": 468
+    },
+    {
+      "hour": "2025-12-14T00:00:00-07:00",
+      "timestamp": "2025-12-14T00:00:19.151170-07:00",
+      "portfolio_value": 9988.069600000015,
+      "total_profit": -11.93039999998473,
+      "total_profit_pct": -0.11930399999984728,
+      "hourly_change": -3.280800000004092,
+      "hourly_change_pct": -0.032836402174465686,
+      "num_trades": 509
+    },
+    {
+      "hour": "2025-12-14T01:00:00-07:00",
+      "timestamp": "2025-12-14T01:00:09.273555-07:00",
+      "portfolio_value": 9986.373200000015,
+      "total_profit": -13.626799999985451,
+      "total_profit_pct": -0.1362679999998545,
+      "hourly_change": -1.6964000000007218,
+      "hourly_change_pct": -0.0169842629050234,
+      "num_trades": 551
+    },
+    {
+      "hour": "2025-12-14T02:00:00-07:00",
+      "timestamp": "2025-12-14T02:00:57.986078-07:00",
+      "portfolio_value": 9982.84360000001,
+      "total_profit": -17.156399999990754,
+      "total_profit_pct": -0.17156399999990754,
+      "hourly_change": -3.5296000000053027,
+      "hourly_change_pct": -0.0353441627837952,
+      "num_trades": 587
+    },
+    {
+      "hour": "2025-12-14T03:00:00-07:00",
+      "timestamp": "2025-12-14T03:01:13.334804-07:00",
+      "portfolio_value": 9981.450300000013,
+      "total_profit": -18.549699999986842,
+      "total_profit_pct": -0.18549699999986843,
+      "hourly_change": -1.3932999999960884,
+      "hourly_change_pct": -0.013956945093240638,
+      "num_trades": 610
+    },
+    {
+      "hour": "2025-12-14T04:00:00-07:00",
+      "timestamp": "2025-12-14T04:00:34.264343-07:00",
+      "portfolio_value": 9990.28170000001,
+      "total_profit": -9.71829999998954,
+      "total_profit_pct": -0.0971829999998954,
+      "hourly_change": 8.831399999997302,
+      "hourly_change_pct": 0.08847812426614286,
+      "num_trades": 648
+    },
+    {
+      "hour": "2025-12-14T05:00:00-07:00",
+      "timestamp": "2025-12-14T05:01:38.706839-07:00",
+      "portfolio_value": 10014.144300000009,
+      "total_profit": 14.144300000009025,
+      "total_profit_pct": 0.14144300000009025,
+      "hourly_change": 23.862599999998565,
+      "hourly_change_pct": 0.2388581294959735,
+      "num_trades": 679
+    },
+    {
+      "hour": "2025-12-14T06:00:00-07:00",
+      "timestamp": "2025-12-14T06:01:19.804348-07:00",
+      "portfolio_value": 10017.008700000013,
+      "total_profit": 17.00870000001305,
+      "total_profit_pct": 0.17008700000013052,
+      "hourly_change": 2.864400000004025,
+      "hourly_change_pct": 0.02860354229171655,
+      "num_trades": 717
+    },
+    {
+      "hour": "2025-12-14T07:00:00-07:00",
+      "timestamp": "2025-12-14T07:00:13.045169-07:00",
+      "portfolio_value": 10020.881300000012,
+      "total_profit": 20.881300000011834,
+      "total_profit_pct": 0.20881300000011832,
+      "hourly_change": 3.8725999999987835,
+      "hourly_change_pct": 0.03866024395085909,
+      "num_trades": 749
+    },
+    {
+      "hour": "2025-12-14T08:00:00-07:00",
+      "timestamp": "2025-12-14T08:01:54.940521-07:00",
+      "portfolio_value": 10027.919100000012,
+      "total_profit": 27.919100000011895,
+      "total_profit_pct": 0.2791910000001189,
+      "hourly_change": 7.037800000000061,
+      "hourly_change_pct": 0.07023134781568616,
+      "num_trades": 780
+    },
+    {
+      "hour": "2025-12-14T09:00:00-07:00",
+      "timestamp": "2025-12-14T09:01:43.186080-07:00",
+      "portfolio_value": 10035.407700000012,
+      "total_profit": 35.40770000001248,
+      "total_profit_pct": 0.3540770000001248,
+      "hourly_change": 7.488600000000588,
+      "hourly_change_pct": 0.07467750712109933,
+      "num_trades": 818
+    },
+    {
+      "hour": "2025-12-14T10:00:00-07:00",
+      "timestamp": "2025-12-14T10:00:02.135898-07:00",
+      "portfolio_value": 10038.709700000009,
+      "total_profit": 38.709700000008525,
+      "total_profit_pct": 0.38709700000008523,
+      "hourly_change": 3.301999999996042,
+      "hourly_change_pct": 0.0329034962874108,
+      "num_trades": 853
+    },
+    {
+      "hour": "2025-12-14T11:00:00-07:00",
+      "timestamp": "2025-12-14T11:00:06.110398-07:00",
+      "portfolio_value": 10041.719200000009,
+      "total_profit": 41.71920000000864,
+      "total_profit_pct": 0.4171920000000864,
+      "hourly_change": 3.0095000000001164,
+      "hourly_change_pct": 0.02997895237472714,
+      "num_trades": 868
+    }
+  ],
+  "created_at": "2025-12-13T08:57:58.242112-07:00"
+}

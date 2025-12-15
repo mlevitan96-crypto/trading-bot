@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv
+load_dotenv("/root/trading-bot/.env")
 import threading
 import time
 import sys
@@ -21,12 +24,7 @@ try:
 except ImportError:
     LOG_ROTATION_AVAILABLE = False
 
-# Suppress Flask/Werkzeug development server warning
-logging.getLogger('werkzeug').setLevel(logging.ERROR)
-
-from dashboard_app import app as flask_app
 from bot_cycle import run_bot_cycle
-from pnl_dashboard import start_pnl_dashboard
 import traceback
 
 RESTART_MARKER = Path("logs/.restart_needed")
@@ -1587,8 +1585,7 @@ def _run_all_phases():
         print("✅ Production Health Monitor started")
     except Exception as e:
         print(f"⚠️  Production Health Monitor failed to start: {e}")
-    
-    print("\n✅ All systems initialized - Flask is serving on port 5000")
+# ==========================================
 
 
 def _log_crash(error: Exception, context: str = "main"):

@@ -1,0 +1,28 @@
+{
+  "tiers": {
+    "anchors": {
+      "maker_pct": 0.0002,
+      "taker_pct": 0.0004
+    },
+    "mid": {
+      "maker_pct": 0.0003,
+      "taker_pct": 0.0005
+    },
+    "high": {
+      "maker_pct": 0.0004,
+      "taker_pct": 0.0006
+    }
+  },
+  "symbols": {
+    "BTCUSDT": "anchors",
+    "ETHUSDT": "anchors",
+    "SOLUSDT": "mid",
+    "AVAXUSDT": "mid",
+    "DOTUSDT": "mid",
+    "TRXUSDT": "mid",
+    "ADAUSDT": "mid",
+    "XRPUSDT": "mid",
+    "MATICUSDT": "mid",
+    "BNBUSDT": "high"
+  }
+}

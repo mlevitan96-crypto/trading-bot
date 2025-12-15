@@ -1,0 +1,8 @@
+{
+  "spot_enabled": false,
+  "futures_enabled": true,
+  "spot_unfreeze_passes": 0,
+  "last_breach_ts": 0.0,
+  "total_blocks": 0,
+  "total_breaches": 0
+}

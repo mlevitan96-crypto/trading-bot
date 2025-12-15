@@ -1,19 +1,19 @@
 {
   "signals": {
     "BTC": {
-      "net_flow_usd": 170997145.19900003,
-      "inflows_usd": 0,
-      "outflows_usd": 170997145.19900003,
-      "signal": 1,
+      "net_flow_usd": -169651235.76400003,
+      "inflows_usd": 169651235.76400003,
+      "outflows_usd": 0,
+      "signal": -1,
       "confidence": 1.0,
-      "interpretation": "bullish_accumulation"
+      "interpretation": "bearish_distribution"
     },
     "ETH": {
-      "net_flow_usd": 10607443.9416,
+      "net_flow_usd": 666320937.0192,
       "inflows_usd": 0,
-      "outflows_usd": 10607443.9416,
+      "outflows_usd": 666320937.0192,
       "signal": 1,
-      "confidence": 0.21,
+      "confidence": 1.0,
       "interpretation": "bullish_accumulation"
     },
     "SOL": {
@@ -121,5 +121,5 @@
       "interpretation": "neutral"
     }
   },
-  "timestamp": "2025-12-11T21:20:50.728498Z"
+  "timestamp": "2025-12-14T18:09:06.384055Z"
 }

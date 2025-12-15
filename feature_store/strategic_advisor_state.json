@@ -1,8 +1,8 @@
 {
   "created_at": "2025-12-01T02:01:52.988172Z",
-  "last_run": "2025-12-11T21:00:50.228384Z",
-  "runs_count": 33,
-  "total_recommendations": 131,
+  "last_run": "2025-12-14T17:00:45.416946Z",
+  "runs_count": 42,
+  "total_recommendations": 137,
   "metrics_history": [
     {
       "timestamp": "2025-12-01T02:01:53.003220Z",
@@ -676,93 +676,171 @@
           "scalp": 2
         }
       }
+    },
+    {
+      "timestamp": "2025-12-14T09:00:07.781630Z",
+      "metrics": {
+        "win_rate": 32.0,
+        "total_trades": 25,
+        "winners": 8,
+        "losers": 17,
+        "avg_pnl": 1.1881,
+        "total_pnl": 29.7019,
+        "total_gross_pnl": 38.3157,
+        "total_fees": 8.6138,
+        "fee_impact_pct": 22.48,
+        "avg_hold_time_seconds": 65426.81,
+        "hold_time_distribution": {
+          "long": 10,
+          "quick": 10,
+          "short": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-14T10:00:26.522843Z",
+      "metrics": {
+        "win_rate": 32.0,
+        "total_trades": 25,
+        "winners": 8,
+        "losers": 17,
+        "avg_pnl": 1.1881,
+        "total_pnl": 29.7019,
+        "total_gross_pnl": 38.3157,
+        "total_fees": 8.6138,
+        "fee_impact_pct": 22.48,
+        "avg_hold_time_seconds": 65426.81,
+        "hold_time_distribution": {
+          "long": 10,
+          "quick": 10,
+          "short": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-14T11:00:27.112465Z",
+      "metrics": {
+        "win_rate": 32.0,
+        "total_trades": 25,
+        "winners": 8,
+        "losers": 17,
+        "avg_pnl": 1.1881,
+        "total_pnl": 29.7019,
+        "total_gross_pnl": 38.3157,
+        "total_fees": 8.6138,
+        "fee_impact_pct": 22.48,
+        "avg_hold_time_seconds": 65426.81,
+        "hold_time_distribution": {
+          "long": 10,
+          "quick": 10,
+          "short": 5
+        }
+      }
+    },
+    {
+      "timestamp": "2025-12-14T12:00:28.968600Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
+    },
+    {
+      "timestamp": "2025-12-14T13:00:32.124052Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
+    },
+    {
+      "timestamp": "2025-12-14T14:00:34.103409Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
+    },
+    {
+      "timestamp": "2025-12-14T15:00:36.734522Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
+    },
+    {
+      "timestamp": "2025-12-14T16:00:41.335392Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
+    },
+    {
+      "timestamp": "2025-12-14T17:00:45.416967Z",
+      "metrics": {
+        "win_rate": 0.0,
+        "total_trades": 0,
+        "winners": 0,
+        "losers": 0,
+        "avg_pnl": 0.0,
+        "total_pnl": 0.0,
+        "total_fees": 0.0,
+        "fee_impact_pct": 0.0,
+        "avg_hold_time_seconds": 0.0,
+        "hold_time_distribution": {}
+      }
     }
   ],
   "latest_metrics": {
-    "win_rate": 32.53,
-    "total_trades": 538,
-    "winners": 175,
-    "losers": 363,
-    "avg_pnl": -0.2349,
-    "total_pnl": -126.3746,
-    "total_gross_pnl": 27.8864,
-    "total_fees": 154.261,
-    "fee_impact_pct": 553.18,
-    "avg_hold_time_seconds": 1570.14,
-    "hold_time_distribution": {
-      "short": 273,
-      "quick": 245,
-      "long": 18,
-      "scalp": 2
-    }
+    "win_rate": 0.0,
+    "total_trades": 0,
+    "winners": 0,
+    "losers": 0,
+    "avg_pnl": 0.0,
+    "total_pnl": 0.0,
+    "total_fees": 0.0,
+    "fee_impact_pct": 0.0,
+    "avg_hold_time_seconds": 0.0,
+    "hold_time_distribution": {}
   },
-  "latest_recommendations": [
-    {
-      "priority": "high",
-      "category": "hold_time_optimization",
-      "issue": "Hold time policies changed for multiple symbols",
-      "action": "Review hold time settings for: ARBUSDT, BTCUSDT, AVAXUSDT, XRPUSDT, MATICUSDT",
-      "expected_impact": "Affects minimum hold duration before exits",
-      "source": "policy_drift",
-      "generated_at": "2025-12-11T21:00:50.203648Z"
-    },
-    {
-      "id": "fee_erosion_high",
-      "type": "fee_optimization",
-      "priority": "high",
-      "issue": "High fee erosion: 113.4% of gross profit consumed by fees",
-      "action": "Increase minimum expected move threshold before entry",
-      "expected_impact": "Save ~$36.86 in fee leakage",
-      "config_suggestion": {
-        "min_expected_move_vs_fee": 2.5,
-        "fee_gate_enabled": true
-      }
-    },
-    {
-      "id": "correlation_exposure",
-      "type": "portfolio_risk",
-      "priority": "high",
-      "issue": "Correlated losses: 47 events totaling $216.84",
-      "action": "Enable correlation throttling to limit cluster exposure",
-      "expected_impact": "Avoid ~$108.42 in simultaneous losses",
-      "config_suggestion": {
-        "correlation_throttle_enabled": true,
-        "max_cluster_exposure_pct": 30
-      }
-    },
-    {
-      "id": "low_win_rate",
-      "type": "signal_quality",
-      "priority": "high",
-      "issue": "Low win rate: 32.5% (need >50% for profitability)",
-      "action": "Tighten entry criteria and signal confirmation requirements",
-      "expected_impact": "Improve trade selection quality"
-    },
-    {
-      "id": "weak_cluster_BTCUSDT...",
-      "type": "asset_selection",
-      "priority": "medium",
-      "issue": "Cluster underperforming: BTCUSDT... has P&L $-21.05",
-      "action": "Consider reducing exposure to correlated assets in this cluster",
-      "expected_impact": "Avoid further losses in weak cluster"
-    },
-    {
-      "id": "weak_cluster_ETHUSDT,SO",
-      "type": "asset_selection",
-      "priority": "medium",
-      "issue": "Cluster underperforming: ETHUSDT,SOLUSDT... has P&L $-62.00",
-      "action": "Consider reducing exposure to correlated assets in this cluster",
-      "expected_impact": "Avoid further losses in weak cluster"
-    },
-    {
-      "id": "weak_cluster_TRXUSDT,XR",
-      "type": "asset_selection",
-      "priority": "medium",
-      "issue": "Cluster underperforming: TRXUSDT,XRPUSDT... has P&L $-20.23",
-      "action": "Consider reducing exposure to correlated assets in this cluster",
-      "expected_impact": "Avoid further losses in weak cluster"
-    }
-  ],
+  "latest_recommendations": [],
   "last_policies": {
     "fee_gate": {
       "threshold": 0.22999999999999984,
@@ -1207,6 +1285,6 @@
         }
       ]
     },
-    "stored_at": "2025-12-11T21:00:50.203664Z"
+    "stored_at": "2025-12-14T17:00:45.416566Z"
   }
 }

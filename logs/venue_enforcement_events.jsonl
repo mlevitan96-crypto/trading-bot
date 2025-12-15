@@ -1,0 +1,6 @@
+{"ts": 1765650008, "event": "venue_enforcement_started", "payload": {"spot_enabled": false, "futures_enabled": true}}
+{"ts": 1765650224, "event": "venue_enforcement_started", "payload": {"spot_enabled": false, "futures_enabled": true}}
+{"ts": 1765650695, "event": "venue_enforcement_started", "payload": {"spot_enabled": false, "futures_enabled": true}}
+{"ts": 1765651595, "event": "venue_enforcement_started", "payload": {"spot_enabled": false, "futures_enabled": true}}
+{"ts": 1765734138, "event": "venue_enforcement_started", "payload": {"spot_enabled": false, "futures_enabled": true}}
+{"ts": 1765734521, "event": "venue_enforcement_started", "payload": {"spot_enabled": false, "futures_enabled": true}}

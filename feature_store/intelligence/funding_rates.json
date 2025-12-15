@@ -1,50 +1,50 @@
 {
-  "ts": "2025-12-11T21:20:09.581123Z",
+  "ts": "2025-12-14T18:10:03.512254Z",
   "rates": {
     "BTC": {
-      "funding_rate": 0.007105,
+      "funding_rate": 0.001353,
       "predicted_rate": 0,
       "funding_signal": -1,
       "source": "coinglass"
     },
     "ETH": {
-      "funding_rate": 0.001844,
+      "funding_rate": 0.008801,
       "predicted_rate": 0,
       "funding_signal": -1,
       "source": "coinglass"
     },
     "SOL": {
-      "funding_rate": -5e-05,
+      "funding_rate": -0.010291,
       "predicted_rate": 0,
-      "funding_signal": 0,
+      "funding_signal": 1,
       "source": "coinglass"
     },
     "XRP": {
-      "funding_rate": -0.013103,
+      "funding_rate": -0.011315,
       "predicted_rate": 0,
       "funding_signal": 1,
       "source": "coinglass"
     },
     "DOGE": {
-      "funding_rate": -0.001995,
+      "funding_rate": -0.006598,
       "predicted_rate": 0,
       "funding_signal": 1,
       "source": "coinglass"
     },
     "BNB": {
-      "funding_rate": 0.0,
+      "funding_rate": 0.002547,
       "predicted_rate": 0,
-      "funding_signal": 0,
+      "funding_signal": -1,
       "source": "coinglass"
     },
     "ADA": {
-      "funding_rate": -0.006802,
+      "funding_rate": -0.005532,
       "predicted_rate": 0,
       "funding_signal": 1,
       "source": "coinglass"
     },
     "AVAX": {
-      "funding_rate": -0.013057,
+      "funding_rate": -0.020895,
       "predicted_rate": 0,
       "funding_signal": 1,
       "source": "coinglass"

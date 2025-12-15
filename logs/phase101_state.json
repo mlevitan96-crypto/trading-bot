@@ -1,0 +1,30 @@
+{
+  "breach_attempts": [],
+  "attribution": {
+    "spot": {},
+    "futures": {
+      "ETHUSDT": 4.9376293639934924e-11,
+      "SOLUSDT": 6.511400147018281e-11,
+      "AVAXUSDT": 1.5980294601290433e-09,
+      "DOTUSDT": 2.002000974521836e-09,
+      "ADAUSDT": 1.2875101351637548e-09,
+      "DOGEUSDT": 5.782321904540904e-10,
+      "BNBUSDT": 1.919699571932141e-09,
+      "MATICUSDT": 2.1705009575805766e-09,
+      "ARBUSDT": 1.4693415116239116e-09,
+      "BTCUSDT": 6.361127857719397e-11,
+      "XRPUSDT": 4.843204656578629e-10,
+      "LINKUSDT": 9.666170934506432e-09,
+      "OPUSDT": 5.462108086623238e-07
+    },
+    "strategy": {
+      "Sentiment-Fusion": 8.49462707699518e-24,
+      "Breakout-Aggressive": 6.598942700232446e-10,
+      "Trend-Conservative": 1.472472513897742e-10
+    }
+  },
+  "shadow": {
+    "wins": {},
+    "enabled": true
+  }
+}

@@ -63,12 +63,6 @@
       "venue": "futures",
       "tier": "l1",
       "enabled": true
-    },
-    {
-      "symbol": "MATICUSDT",
-      "venue": "futures",
-      "tier": "l1",
-      "enabled": true
     }
   ],
   "validation_rules": {

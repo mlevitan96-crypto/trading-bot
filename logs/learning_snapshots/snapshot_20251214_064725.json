@@ -1,0 +1,986 @@
+{
+  "timestamp": "20251214_064725",
+  "signal_weights": {
+    "weights": {
+      "ofi": 0.381,
+      "ensemble": 0.2381,
+      "mtf_alignment": 0.0,
+      "regime": 0.0,
+      "market_intel": 0.0,
+      "volume": 0.0,
+      "momentum": 0.0,
+      "session": 0.381
+    },
+    "updated_at": "2025-12-14T06:47:23.928822",
+    "adjustments": [],
+    "source": "continuous_learning_controller"
+  },
+  "blocked_combos": {
+    "killed": [
+      "ETHUSDT_long",
+      "BTCUSDT_LONG",
+      "XRPUSDT_SHORT",
+      "BTCUSDT_SHORT",
+      "MATICUSDT_long",
+      "BTCUSDT_long",
+      "BNBUSDT_long",
+      "DOGEUSDT_SHORT",
+      "ETHUSDT_LONG",
+      "DOTUSDT_SHORT",
+      "SOLUSDT_long",
+      "AVAXUSDT_SHORT",
+      "ETHUSDT_SHORT",
+      "DOGEUSDT_long",
+      "AVAXUSDT_long",
+      "BNBUSDT_SHORT",
+      "SOLUSDT_LONG",
+      "ADAUSDT_SHORT",
+      "XRPUSDT_long"
+    ],
+    "updated_at": "2025-12-14T06:47:23.929188",
+    "last_additions": [
+      "ETHUSDT_long",
+      "BTCUSDT_LONG",
+      "ETHUSDT_LONG",
+      "SOLUSDT_LONG",
+      "ETHUSDT_SHORT",
+      "MATICUSDT_long",
+      "AVAXUSDT_long",
+      "BNBUSDT_long",
+      "SOLUSDT_long",
+      "BTCUSDT_long",
+      "XRPUSDT_long",
+      "DOGEUSDT_long",
+      "XRPUSDT_SHORT"
+    ],
+    "reason": "Reset by deep analysis - killed combos were over-aggressive, blocking 19 symbol+direction pairs"
+  },
+  "learning_state": {
+    "generated_at": "2025-12-14T06:47:23.926339",
+    "samples": {
+      "executed": 1680,
+      "blocked": 0,
+      "counterfactual_tracked": 5,
+      "missed_found": 0
+    },
+    "profitability": {
+      "by_symbol_dir": {
+        "ETHUSDT_long": {
+          "n": 233,
+          "win_rate": 33.48,
+          "total_pnl": -25.99,
+          "expected_value": -0.1116,
+          "avg_winner": 0.63,
+          "avg_loser": -0.49
+        },
+        "BTCUSDT_LONG": {
+          "n": 51,
+          "win_rate": 19.61,
+          "total_pnl": -17.13,
+          "expected_value": -0.336,
+          "avg_winner": 0.35,
+          "avg_loser": -0.5
+        },
+        "ETHUSDT_LONG": {
+          "n": 40,
+          "win_rate": 10.0,
+          "total_pnl": -19.51,
+          "expected_value": -0.4876,
+          "avg_winner": 0.25,
+          "avg_loser": -0.57
+        },
+        "SOLUSDT_LONG": {
+          "n": 24,
+          "win_rate": 29.17,
+          "total_pnl": -14.48,
+          "expected_value": -0.6033,
+          "avg_winner": 0.34,
+          "avg_loser": -0.99
+        },
+        "ETHUSDT_SHORT": {
+          "n": 64,
+          "win_rate": 32.81,
+          "total_pnl": -11.15,
+          "expected_value": -0.1742,
+          "avg_winner": 0.5,
+          "avg_loser": -0.5
+        },
+        "MATICUSDT_long": {
+          "n": 58,
+          "win_rate": 0.0,
+          "total_pnl": -15.66,
+          "expected_value": -0.27,
+          "avg_winner": 0,
+          "avg_loser": -0.27
+        },
+        "AVAXUSDT_long": {
+          "n": 121,
+          "win_rate": 33.88,
+          "total_pnl": -2.47,
+          "expected_value": -0.0204,
+          "avg_winner": 0.85,
+          "avg_loser": -0.47
+        },
+        "BNBUSDT_long": {
+          "n": 57,
+          "win_rate": 24.56,
+          "total_pnl": -18.7,
+          "expected_value": -0.3281,
+          "avg_winner": 0.27,
+          "avg_loser": -0.52
+        },
+        "SOLUSDT_SHORT": {
+          "n": 38,
+          "win_rate": 36.84,
+          "total_pnl": -6.68,
+          "expected_value": -0.1757,
+          "avg_winner": 0.79,
+          "avg_loser": -0.74
+        },
+        "SOLUSDT_long": {
+          "n": 188,
+          "win_rate": 29.79,
+          "total_pnl": -32.83,
+          "expected_value": -0.1746,
+          "avg_winner": 0.67,
+          "avg_loser": -0.53
+        },
+        "ADAUSDT_long": {
+          "n": 74,
+          "win_rate": 39.19,
+          "total_pnl": -9.81,
+          "expected_value": -0.1325,
+          "avg_winner": 0.64,
+          "avg_loser": -0.63
+        },
+        "BTCUSDT_SHORT": {
+          "n": 49,
+          "win_rate": 36.73,
+          "total_pnl": -5.32,
+          "expected_value": -0.1086,
+          "avg_winner": 0.5,
+          "avg_loser": -0.46
+        },
+        "BTCUSDT_long": {
+          "n": 200,
+          "win_rate": 30.0,
+          "total_pnl": -15.67,
+          "expected_value": -0.0784,
+          "avg_winner": 0.73,
+          "avg_loser": -0.43
+        },
+        "XRPUSDT_long": {
+          "n": 106,
+          "win_rate": 31.13,
+          "total_pnl": -25.35,
+          "expected_value": -0.2392,
+          "avg_winner": 0.45,
+          "avg_loser": -0.55
+        },
+        "DOGEUSDT_long": {
+          "n": 75,
+          "win_rate": 22.67,
+          "total_pnl": -16.1,
+          "expected_value": -0.2146,
+          "avg_winner": 0.52,
+          "avg_loser": -0.43
+        },
+        "DOTUSDT_long": {
+          "n": 84,
+          "win_rate": 54.76,
+          "total_pnl": 12.81,
+          "expected_value": 0.1525,
+          "avg_winner": 0.86,
+          "avg_loser": -0.71
+        },
+        "LINKUSDT_long": {
+          "n": 26,
+          "win_rate": 46.15,
+          "total_pnl": -4.1,
+          "expected_value": -0.1578,
+          "avg_winner": 0.36,
+          "avg_loser": -0.6
+        },
+        "AVAXUSDT_SHORT": {
+          "n": 35,
+          "win_rate": 42.86,
+          "total_pnl": -2.66,
+          "expected_value": -0.076,
+          "avg_winner": 0.84,
+          "avg_loser": -0.76
+        },
+        "ADAUSDT_SHORT": {
+          "n": 18,
+          "win_rate": 44.44,
+          "total_pnl": 4.36,
+          "expected_value": 0.242,
+          "avg_winner": 0.89,
+          "avg_loser": -0.28
+        },
+        "XRPUSDT_SHORT": {
+          "n": 32,
+          "win_rate": 25.0,
+          "total_pnl": -11.04,
+          "expected_value": -0.3451,
+          "avg_winner": 0.33,
+          "avg_loser": -0.57
+        },
+        "DOGEUSDT_SHORT": {
+          "n": 21,
+          "win_rate": 42.86,
+          "total_pnl": 0.13,
+          "expected_value": 0.0064,
+          "avg_winner": 0.74,
+          "avg_loser": -0.55
+        },
+        "OPUSDT_long": {
+          "n": 28,
+          "win_rate": 50.0,
+          "total_pnl": -0.87,
+          "expected_value": -0.0312,
+          "avg_winner": 0.43,
+          "avg_loser": -0.5
+        },
+        "ARBUSDT_long": {
+          "n": 48,
+          "win_rate": 45.83,
+          "total_pnl": -11.57,
+          "expected_value": -0.2411,
+          "avg_winner": 0.26,
+          "avg_loser": -0.67
+        },
+        "BNBUSDT_SHORT": {
+          "n": 9,
+          "win_rate": 44.44,
+          "total_pnl": -0.7,
+          "expected_value": -0.0773,
+          "avg_winner": 0.43,
+          "avg_loser": -0.48
+        },
+        "DOTUSDT_SHORT": {
+          "n": 1,
+          "win_rate": 100.0,
+          "total_pnl": 1.21,
+          "expected_value": 1.2114,
+          "avg_winner": 1.21,
+          "avg_loser": 0
+        }
+      },
+      "by_hour": {
+        "hour_14": {
+          "n": 92,
+          "win_rate": 39.13,
+          "total_pnl": 17.87,
+          "expected_value": 0.1942,
+          "avg_winner": 1.6,
+          "avg_loser": -0.71
+        },
+        "hour_15": {
+          "n": 78,
+          "win_rate": 26.92,
+          "total_pnl": -22.13,
+          "expected_value": -0.2838,
+          "avg_winner": 0.31,
+          "avg_loser": -0.5
+        },
+        "hour_16": {
+          "n": 99,
+          "win_rate": 32.32,
+          "total_pnl": -1.24,
+          "expected_value": -0.0126,
+          "avg_winner": 0.48,
+          "avg_loser": -0.25
+        },
+        "hour_17": {
+          "n": 91,
+          "win_rate": 34.07,
+          "total_pnl": -10.74,
+          "expected_value": -0.1181,
+          "avg_winner": 0.66,
+          "avg_loser": -0.52
+        },
+        "hour_18": {
+          "n": 115,
+          "win_rate": 40.87,
+          "total_pnl": -3.27,
+          "expected_value": -0.0284,
+          "avg_winner": 0.57,
+          "avg_loser": -0.44
+        },
+        "hour_19": {
+          "n": 114,
+          "win_rate": 38.6,
+          "total_pnl": -2.79,
+          "expected_value": -0.0244,
+          "avg_winner": 0.56,
+          "avg_loser": -0.39
+        },
+        "hour_20": {
+          "n": 115,
+          "win_rate": 22.61,
+          "total_pnl": -12.52,
+          "expected_value": -0.1089,
+          "avg_winner": 0.61,
+          "avg_loser": -0.32
+        },
+        "hour_21": {
+          "n": 121,
+          "win_rate": 27.27,
+          "total_pnl": -37.96,
+          "expected_value": -0.3137,
+          "avg_winner": 0.3,
+          "avg_loser": -0.54
+        },
+        "hour_22": {
+          "n": 112,
+          "win_rate": 25.89,
+          "total_pnl": -25.9,
+          "expected_value": -0.2313,
+          "avg_winner": 0.28,
+          "avg_loser": -0.41
+        },
+        "hour_23": {
+          "n": 85,
+          "win_rate": 37.65,
+          "total_pnl": 5.11,
+          "expected_value": 0.0602,
+          "avg_winner": 0.78,
+          "avg_loser": -0.38
+        },
+        "hour_8": {
+          "n": 55,
+          "win_rate": 49.09,
+          "total_pnl": -2.55,
+          "expected_value": -0.0463,
+          "avg_winner": 0.53,
+          "avg_loser": -0.6
+        },
+        "hour_9": {
+          "n": 60,
+          "win_rate": 50.0,
+          "total_pnl": -8.1,
+          "expected_value": -0.135,
+          "avg_winner": 0.48,
+          "avg_loser": -0.75
+        },
+        "hour_10": {
+          "n": 71,
+          "win_rate": 28.17,
+          "total_pnl": -33.45,
+          "expected_value": -0.4711,
+          "avg_winner": 0.38,
+          "avg_loser": -0.8
+        },
+        "hour_11": {
+          "n": 93,
+          "win_rate": 13.98,
+          "total_pnl": -53.7,
+          "expected_value": -0.5774,
+          "avg_winner": 0.53,
+          "avg_loser": -0.76
+        },
+        "hour_12": {
+          "n": 128,
+          "win_rate": 26.56,
+          "total_pnl": -43.46,
+          "expected_value": -0.3396,
+          "avg_winner": 0.48,
+          "avg_loser": -0.64
+        },
+        "hour_13": {
+          "n": 115,
+          "win_rate": 38.26,
+          "total_pnl": 1.79,
+          "expected_value": 0.0156,
+          "avg_winner": 0.9,
+          "avg_loser": -0.53
+        },
+        "hour_0": {
+          "n": 49,
+          "win_rate": 34.69,
+          "total_pnl": 0.22,
+          "expected_value": 0.0045,
+          "avg_winner": 0.45,
+          "avg_loser": -0.23
+        },
+        "hour_1": {
+          "n": 41,
+          "win_rate": 26.83,
+          "total_pnl": -17.9,
+          "expected_value": -0.4367,
+          "avg_winner": 0.46,
+          "avg_loser": -0.76
+        },
+        "hour_2": {
+          "n": 46,
+          "win_rate": 30.43,
+          "total_pnl": 1.44,
+          "expected_value": 0.0312,
+          "avg_winner": 1.07,
+          "avg_loser": -0.42
+        }
+      },
+      "by_session": {
+        "us_morning": {
+          "n": 413,
+          "win_rate": 32.69,
+          "total_pnl": -45.94,
+          "expected_value": -0.1112,
+          "avg_winner": 0.89,
+          "avg_loser": -0.6
+        },
+        "us_afternoon": {
+          "n": 419,
+          "win_rate": 36.75,
+          "total_pnl": -18.04,
+          "expected_value": -0.0431,
+          "avg_winner": 0.57,
+          "avg_loser": -0.4
+        },
+        "evening": {
+          "n": 433,
+          "win_rate": 27.71,
+          "total_pnl": -71.27,
+          "expected_value": -0.1646,
+          "avg_winner": 0.49,
+          "avg_loser": -0.42
+        },
+        "asia_night": {
+          "n": 279,
+          "win_rate": 32.26,
+          "total_pnl": -97.79,
+          "expected_value": -0.3505,
+          "avg_winner": 0.48,
+          "avg_loser": -0.75
+        },
+        "asia_morning": {
+          "n": 136,
+          "win_rate": 30.88,
+          "total_pnl": -16.25,
+          "expected_value": -0.1195,
+          "avg_winner": 0.66,
+          "avg_loser": -0.47
+        }
+      },
+      "by_regime": {
+        "Stable": {
+          "n": 1680,
+          "win_rate": 32.2,
+          "total_pnl": -249.28,
+          "expected_value": -0.1484,
+          "avg_winner": 0.62,
+          "avg_loser": -0.51
+        }
+      },
+      "by_conviction": {
+        "MINIMUM": {
+          "n": 585,
+          "win_rate": 33.5,
+          "total_pnl": -67.22,
+          "expected_value": -0.1149,
+          "avg_winner": 0.68,
+          "avg_loser": -0.52
+        },
+        "BASELINE": {
+          "n": 300,
+          "win_rate": 29.33,
+          "total_pnl": -38.13,
+          "expected_value": -0.1271,
+          "avg_winner": 0.64,
+          "avg_loser": -0.45
+        },
+        "LOW": {
+          "n": 635,
+          "win_rate": 32.91,
+          "total_pnl": -111.73,
+          "expected_value": -0.1759,
+          "avg_winner": 0.62,
+          "avg_loser": -0.57
+        },
+        "MEDIUM": {
+          "n": 160,
+          "win_rate": 30.0,
+          "total_pnl": -32.21,
+          "expected_value": -0.2013,
+          "avg_winner": 0.34,
+          "avg_loser": -0.43
+        }
+      },
+      "by_signal_component": {
+        "ofi_momentum": {
+          "total_aligned": 0,
+          "winner_contribution": 50.0,
+          "loser_contribution": 50.0,
+          "predictive_lift": 0.0
+        },
+        "funding": {
+          "total_aligned": 0,
+          "winner_contribution": 50.0,
+          "loser_contribution": 50.0,
+          "predictive_lift": 0.0
+        },
+        "oi_velocity": {
+          "total_aligned": 0,
+          "winner_contribution": 50.0,
+          "loser_contribution": 50.0,
+          "predictive_lift": 0.0
+        },
+        "liquidation": {
+          "total_aligned": 0,
+          "winner_contribution": 50.0,
+          "loser_contribution": 50.0,
+          "predictive_lift": 0.0
+        },
+        "whale_flow": {
+          "total_aligned": 0,
+          "winner_contribution": 50.0,
+          "loser_contribution": 50.0,
+          "predictive_lift": 0.0
+        },
+        "fear_greed": {
+          "total_aligned": 0,
+          "winner_contribution": 50.0,
+          "loser_contribution": 50.0,
+          "predictive_lift": 0.0
+        }
+      }
+    },
+    "gate_feedback": {
+      "to_loosen": [
+        {
+          "gate": "hour_1_utc",
+          "reason": "Loosen hour_1_utc - blocking 57% winners",
+          "blocked_count": 14,
+          "would_win_pct": 57.14285714285714,
+          "suggested_change": -0.05
+        }
+      ],
+      "to_tighten": [
+        {
+          "gate": "hour_15",
+          "reason": "Low win rate 26.92% with EV $-0.2838",
+          "metrics": {
+            "n": 78,
+            "win_rate": 26.92,
+            "total_pnl": -22.13,
+            "expected_value": -0.2838,
+            "avg_winner": 0.31,
+            "avg_loser": -0.5
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_16",
+          "reason": "Low win rate 32.32% with EV $-0.0126",
+          "metrics": {
+            "n": 99,
+            "win_rate": 32.32,
+            "total_pnl": -1.24,
+            "expected_value": -0.0126,
+            "avg_winner": 0.48,
+            "avg_loser": -0.25
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_17",
+          "reason": "Low win rate 34.07% with EV $-0.1181",
+          "metrics": {
+            "n": 91,
+            "win_rate": 34.07,
+            "total_pnl": -10.74,
+            "expected_value": -0.1181,
+            "avg_winner": 0.66,
+            "avg_loser": -0.52
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_19",
+          "reason": "Low win rate 38.6% with EV $-0.0244",
+          "metrics": {
+            "n": 114,
+            "win_rate": 38.6,
+            "total_pnl": -2.79,
+            "expected_value": -0.0244,
+            "avg_winner": 0.56,
+            "avg_loser": -0.39
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_20",
+          "reason": "Low win rate 22.61% with EV $-0.1089",
+          "metrics": {
+            "n": 115,
+            "win_rate": 22.61,
+            "total_pnl": -12.52,
+            "expected_value": -0.1089,
+            "avg_winner": 0.61,
+            "avg_loser": -0.32
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_21",
+          "reason": "Low win rate 27.27% with EV $-0.3137",
+          "metrics": {
+            "n": 121,
+            "win_rate": 27.27,
+            "total_pnl": -37.96,
+            "expected_value": -0.3137,
+            "avg_winner": 0.3,
+            "avg_loser": -0.54
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_22",
+          "reason": "Low win rate 25.89% with EV $-0.2313",
+          "metrics": {
+            "n": 112,
+            "win_rate": 25.89,
+            "total_pnl": -25.9,
+            "expected_value": -0.2313,
+            "avg_winner": 0.28,
+            "avg_loser": -0.41
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_10",
+          "reason": "Low win rate 28.17% with EV $-0.4711",
+          "metrics": {
+            "n": 71,
+            "win_rate": 28.17,
+            "total_pnl": -33.45,
+            "expected_value": -0.4711,
+            "avg_winner": 0.38,
+            "avg_loser": -0.8
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_11",
+          "reason": "Low win rate 13.98% with EV $-0.5774",
+          "metrics": {
+            "n": 93,
+            "win_rate": 13.98,
+            "total_pnl": -53.7,
+            "expected_value": -0.5774,
+            "avg_winner": 0.53,
+            "avg_loser": -0.76
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_12",
+          "reason": "Low win rate 26.56% with EV $-0.3396",
+          "metrics": {
+            "n": 128,
+            "win_rate": 26.56,
+            "total_pnl": -43.46,
+            "expected_value": -0.3396,
+            "avg_winner": 0.48,
+            "avg_loser": -0.64
+          },
+          "suggested_change": 0.05
+        },
+        {
+          "gate": "hour_1",
+          "reason": "Low win rate 26.83% with EV $-0.4367",
+          "metrics": {
+            "n": 41,
+            "win_rate": 26.83,
+            "total_pnl": -17.9,
+            "expected_value": -0.4367,
+            "avg_winner": 0.46,
+            "avg_loser": -0.76
+          },
+          "suggested_change": 0.05
+        }
+      ]
+    },
+    "weights": {
+      "component_weights": {
+        "ofi": 0.381,
+        "ensemble": 0.2381,
+        "mtf_alignment": 0.0,
+        "regime": 0.0,
+        "market_intel": 0.0,
+        "volume": 0.0,
+        "momentum": 0.0,
+        "session": 0.381
+      },
+      "adjustments": []
+    },
+    "sizing": {
+      "conviction_size_map": {
+        "ULTRA": 2.0,
+        "HIGH": 1.5,
+        "MEDIUM": 0.9,
+        "LOW": 0.5,
+        "REJECT": 0.0
+      }
+    },
+    "adjustments": [
+      {
+        "target": "gate",
+        "change": {
+          "action": "loosen",
+          "gate": "hour_1_utc",
+          "delta": -0.05
+        },
+        "reason": "Loosen hour_1_utc - blocking 57% winners",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_15",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 26.92% with EV $-0.2838",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_16",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 32.32% with EV $-0.0126",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_17",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 34.07% with EV $-0.1181",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_19",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 38.6% with EV $-0.0244",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_20",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 22.61% with EV $-0.1089",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_21",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 27.27% with EV $-0.3137",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_22",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 25.89% with EV $-0.2313",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_10",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 28.17% with EV $-0.4711",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_11",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 13.98% with EV $-0.5774",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_12",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 26.56% with EV $-0.3396",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "gate",
+        "change": {
+          "action": "tighten",
+          "gate": "hour_1",
+          "delta": 0.05
+        },
+        "reason": "Low win rate 26.83% with EV $-0.4367",
+        "confidence": 0.7,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "ETHUSDT_long"
+        },
+        "reason": "Sustained poor performance: 33.48% WR, $-25.99 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "BTCUSDT_LONG"
+        },
+        "reason": "Sustained poor performance: 19.61% WR, $-17.13 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "ETHUSDT_LONG"
+        },
+        "reason": "Sustained poor performance: 10.0% WR, $-19.51 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "SOLUSDT_LONG"
+        },
+        "reason": "Sustained poor performance: 29.17% WR, $-14.48 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "ETHUSDT_SHORT"
+        },
+        "reason": "Sustained poor performance: 32.81% WR, $-11.15 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "MATICUSDT_long"
+        },
+        "reason": "Sustained poor performance: 0.0% WR, $-15.66 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "AVAXUSDT_long"
+        },
+        "reason": "Sustained poor performance: 33.88% WR, $-2.47 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "BNBUSDT_long"
+        },
+        "reason": "Sustained poor performance: 24.56% WR, $-18.7 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "SOLUSDT_long"
+        },
+        "reason": "Sustained poor performance: 29.79% WR, $-32.83 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "BTCUSDT_long"
+        },
+        "reason": "Sustained poor performance: 30.0% WR, $-15.67 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "XRPUSDT_long"
+        },
+        "reason": "Sustained poor performance: 31.13% WR, $-25.35 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "DOGEUSDT_long"
+        },
+        "reason": "Sustained poor performance: 22.67% WR, $-16.1 P&L",
+        "confidence": 0.8,
+        "applied": true
+      },
+      {
+        "target": "killed_combo",
+        "change": {
+          "combo": "XRPUSDT_SHORT"
+        },
+        "reason": "Sustained poor performance: 25.0% WR, $-11.04 P&L",
+        "confidence": 0.8,
+        "applied": true
+      }
+    ],
+    "pending_cycles": [
+      "fast"
+    ],
+    "cadence": {
+      "last_fast": 1765694843.9308577,
+      "last_daily": 1765650414.2380078,
+      "last_weekly": 1765467011.4371397
+    }
+  }
+}

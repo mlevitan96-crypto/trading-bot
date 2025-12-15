@@ -1,0 +1,105 @@
+{
+  "exec_reports": [],
+  "risk_map": {
+    "stable": {
+      "stop_mult": 1.2,
+      "atr_mult": 1.2,
+      "size_mult": 1.0
+    },
+    "range": {
+      "stop_mult": 1.4,
+      "atr_mult": 1.3,
+      "size_mult": 0.9
+    },
+    "trend": {
+      "stop_mult": 1.1,
+      "atr_mult": 1.1,
+      "size_mult": 1.1
+    },
+    "volatile": {
+      "stop_mult": 0.8,
+      "atr_mult": 1.6,
+      "size_mult": 0.7
+    }
+  },
+  "limit_offsets_bps": {
+    "buy": 8.0,
+    "sell": 8.0
+  },
+  "gates": {
+    "wr_pct": 55.0,
+    "sharpe": 1.0,
+    "pnl24h_usd": 50.0
+  },
+  "last_profitable_snapshot": {
+    "risk_map": {
+      "stable": {
+        "stop_mult": 1.2,
+        "atr_mult": 1.2,
+        "size_mult": 1.0
+      },
+      "range": {
+        "stop_mult": 1.4,
+        "atr_mult": 1.3,
+        "size_mult": 0.9
+      },
+      "trend": {
+        "stop_mult": 1.1,
+        "atr_mult": 1.1,
+        "size_mult": 1.1
+      },
+      "volatile": {
+        "stop_mult": 0.8,
+        "atr_mult": 1.6,
+        "size_mult": 0.7
+      }
+    },
+    "offsets": {
+      "buy": 8.0,
+      "sell": 8.0
+    },
+    "gates": {
+      "wr_pct": 55.0,
+      "sharpe": 1.0,
+      "pnl24h_usd": 50.0
+    },
+    "ts": 1765651595
+  },
+  "last_tune_ts": 0,
+  "scenario_last_ts": 1765735422,
+  "scenario_results": [
+    {
+      "regime": "stable",
+      "spread_bps": 15,
+      "slip_bps": 5,
+      "veto": false,
+      "size_mult": 1.0,
+      "passed": true
+    },
+    {
+      "regime": "volatile",
+      "spread_bps": 40,
+      "slip_bps": 20,
+      "veto": true,
+      "size_mult": 0.7,
+      "passed": true
+    },
+    {
+      "regime": "trend",
+      "spread_bps": 10,
+      "slip_bps": 3,
+      "veto": false,
+      "size_mult": 1.1,
+      "passed": true
+    },
+    {
+      "regime": "range",
+      "spread_bps": 25,
+      "slip_bps": 12,
+      "veto": false,
+      "size_mult": 0.9,
+      "passed": true
+    }
+  ],
+  "tune_history": []
+}

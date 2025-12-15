@@ -1,31 +1,3 @@
-"""
-P&L Dashboard — Drop-in, default view
-Interactive, visually impressive P&L dashboard focused solely on trade data.
-- Historical + current P&L
-- Click-through trade details
-- Multi-dimensional slicing & filtering
-- Interactive charts (Plotly)
-- Exportable tables (CSV)
-- Integrates with existing stack; defaults to this view at root ("/")
-
-How to use:
-1) Save this file as src/pnl_dashboard.py
-2) Ensure your futures trades are logged in logs/trades_futures.json (one JSON per line)
-   Required fields per trade event (recommended):
-   - ts (int, epoch seconds)
-   - symbol (str)
-   - strategy (str)
-   - venue (str, "futures")
-   - side (str, "buy"/"sell")
-   - size_usd (float)
-   - pnl_usd (float; positive or negative at close)
-   - fee_usd (float; optional)
-   - order_id (str; optional)
-   - trade_id (str; optional)
-3) In src/run.py (or your app entry), call start_pnl_dashboard(app) to register routes
-   If you use a standalone server, run: python -m src.pnl_dashboard
-"""
-
 import io
 import base64
 import time
@@ -1348,5 +1320,5 @@ def start_pnl_dashboard(flask_app: Flask = None):
 if __name__ == "__main__":
     flask_server = Flask(__name__)
     dash_app = build_app(flask_server)
-    port = int(os.environ.get("PORT", "5000"))
-    dash_app.run_server(host="0.0.0.0", port=port, debug=False)
+    port = int(os.environ.get("PORT", "8050"))
+    dash_app.run(host="0.0.0.0", port=port, debug=False)

@@ -1,128 +1,128 @@
 {
   "BTCUSDT": {
-    "ts": 1765487995.5975635,
+    "ts": 1765735525.6384156,
     "signal": {
       "active": true,
       "direction": "LONG",
-      "confidence": 0.453,
-      "hurst_value": 0.6775,
-      "regime": "trending",
-      "interpretation": "Market trending (0.68), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.638,
-      "timestamp": "2025-12-11T21:19:55.697242"
+      "confidence": 0.129,
+      "hurst_value": 0.4394,
+      "regime": "mean_reverting",
+      "interpretation": "Market mean-reverting (0.44), fade to LONG",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.531,
+      "timestamp": "2025-12-14T18:05:25.730352"
     }
   },
   "ETHUSDT": {
-    "ts": 1765487998.2710803,
+    "ts": 1765735400.646344,
     "signal": {
       "active": true,
       "direction": "LONG",
-      "confidence": 0.411,
-      "hurst_value": 0.6759,
-      "regime": "trending",
-      "interpretation": "Market trending (0.68), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.585,
-      "timestamp": "2025-12-11T21:19:58.348937"
+      "confidence": 0.143,
+      "hurst_value": 0.4301,
+      "regime": "mean_reverting",
+      "interpretation": "Market mean-reverting (0.43), fade to LONG",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.512,
+      "timestamp": "2025-12-14T18:03:20.746514"
     }
   },
   "SOLUSDT": {
-    "ts": 1765488001.467767,
+    "ts": 1765735804.8348653,
     "signal": {
-      "active": true,
-      "direction": "LONG",
-      "confidence": 0.678,
-      "hurst_value": 0.7414,
-      "regime": "trending",
-      "interpretation": "Market trending (0.74), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.702,
-      "timestamp": "2025-12-11T21:20:01.552038"
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5272,
+      "regime": "random",
+      "interpretation": "Market random walk (0.53), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.542,
+      "timestamp": "2025-12-14T18:10:05.097505"
     }
   },
   "AVAXUSDT": {
-    "ts": 1765487674.1722991,
+    "ts": 1765735539.5190308,
     "signal": {
-      "active": true,
-      "direction": "LONG",
-      "confidence": 0.549,
-      "hurst_value": 0.7065,
-      "regime": "trending",
-      "interpretation": "Market trending (0.71), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.664,
-      "timestamp": "2025-12-11T21:14:34.681109"
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5451,
+      "regime": "random",
+      "interpretation": "Market random walk (0.55), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.525,
+      "timestamp": "2025-12-14T18:05:39.632066"
     }
   },
   "DOTUSDT": {
-    "ts": 1765487881.1981344,
+    "ts": 1765735011.3140526,
     "signal": {
       "active": true,
       "direction": "LONG",
-      "confidence": 0.133,
-      "hurst_value": 0.5614,
-      "regime": "trending",
-      "interpretation": "Market trending (0.56), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.542,
-      "timestamp": "2025-12-11T21:18:01.272106"
+      "confidence": 0.304,
+      "hurst_value": 0.3702,
+      "regime": "mean_reverting",
+      "interpretation": "Market mean-reverting (0.37), fade to LONG",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.586,
+      "timestamp": "2025-12-14T17:56:51.414547"
     }
   },
   "XRPUSDT": {
-    "ts": 1765488009.1636984,
+    "ts": 1765735412.7780082,
     "signal": {
-      "active": true,
-      "direction": "LONG",
-      "confidence": 0.26,
-      "hurst_value": 0.6059,
-      "regime": "trending",
-      "interpretation": "Market trending (0.61), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.613,
-      "timestamp": "2025-12-11T21:20:09.335402"
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.4919,
+      "regime": "random",
+      "interpretation": "Market random walk (0.49), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.528,
+      "timestamp": "2025-12-14T18:03:32.875025"
     }
   },
   "DOGEUSDT": {
-    "ts": 1765488015.223397,
+    "ts": 1765735416.5526433,
     "signal": {
-      "active": true,
-      "direction": "LONG",
-      "confidence": 0.586,
-      "hurst_value": 0.7224,
-      "regime": "trending",
-      "interpretation": "Market trending (0.72), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.659,
-      "timestamp": "2025-12-11T21:20:15.337645"
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5035,
+      "regime": "random",
+      "interpretation": "Market random walk (0.50), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.601,
+      "timestamp": "2025-12-14T18:03:36.672612"
     }
   },
   "ADAUSDT": {
-    "ts": 1765488012.302263,
+    "ts": 1765735549.289745,
     "signal": {
-      "active": true,
-      "direction": "LONG",
-      "confidence": 0.278,
-      "hurst_value": 0.6073,
-      "regime": "trending",
-      "interpretation": "Market trending (0.61), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.648,
-      "timestamp": "2025-12-11T21:20:12.418066"
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5234,
+      "regime": "random",
+      "interpretation": "Market random walk (0.52), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.577,
+      "timestamp": "2025-12-14T18:05:49.402234"
     }
   },
   "BNBUSDT": {
-    "ts": 1765488019.3336427,
+    "ts": 1765735419.5958316,
     "signal": {
       "active": true,
       "direction": "LONG",
-      "confidence": 0.527,
-      "hurst_value": 0.7199,
-      "regime": "trending",
-      "interpretation": "Market trending (0.72), favor LONG momentum",
-      "trend_direction": "LONG",
-      "trend_strength": 0.599,
-      "timestamp": "2025-12-11T21:20:19.439109"
+      "confidence": 0.195,
+      "hurst_value": 0.4106,
+      "regime": "mean_reverting",
+      "interpretation": "Market mean-reverting (0.41), fade to LONG",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.545,
+      "timestamp": "2025-12-14T18:03:39.731907"
     }
   }
 }

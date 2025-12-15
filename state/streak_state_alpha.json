@@ -1,0 +1,11 @@
+{
+  "last_trade_win": false,
+  "consecutive_wins": 0,
+  "consecutive_losses": 7,
+  "total_wins": 303,
+  "total_losses": 789,
+  "last_update": "2025-12-14T18:10:04.821255Z",
+  "cooldown_until": "2025-12-14T18:39:49.427870Z",
+  "trades_skipped": 0,
+  "trades_allowed": 5186
+}

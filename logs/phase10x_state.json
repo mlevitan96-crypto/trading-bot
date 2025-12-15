@@ -1,0 +1,420 @@
+{
+  "paused_reason": "",
+  "attribution": {
+    "symbol": {},
+    "strategy": {}
+  },
+  "experiments": {
+    "cfg": {
+      "BTCUSDT:EMA-Futures": {
+        "BTCUSDT:EMA-Futures:cfg1": {
+          "leverage_mult": 1.1,
+          "atr_trail_mult": 1.5,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 8,
+          "cooldown_min": 45
+        },
+        "BTCUSDT:EMA-Futures:cfg2": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.1,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 6,
+          "cooldown_min": 20
+        },
+        "BTCUSDT:EMA-Futures:cfg3": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.1,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 6,
+          "cooldown_min": 20
+        }
+      },
+      "ETHUSDT:EMA-Futures": {
+        "ETHUSDT:EMA-Futures:cfg1": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 4,
+          "cooldown_min": 45
+        },
+        "ETHUSDT:EMA-Futures:cfg2": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 4,
+          "cooldown_min": 45
+        },
+        "ETHUSDT:EMA-Futures:cfg3": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 6,
+          "cooldown_min": 20
+        }
+      },
+      "SOLUSDT:EMA-Futures": {
+        "SOLUSDT:EMA-Futures:cfg1": {
+          "leverage_mult": 1.1,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 8,
+          "cooldown_min": 20
+        },
+        "SOLUSDT:EMA-Futures:cfg2": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 6,
+          "cooldown_min": 45
+        },
+        "SOLUSDT:EMA-Futures:cfg3": {
+          "leverage_mult": 1.1,
+          "atr_trail_mult": 1.1,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 8,
+          "cooldown_min": 45
+        }
+      },
+      "BTCUSDT:Trend-Conservative": {
+        "BTCUSDT:Trend-Conservative:cfg1": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 6,
+          "cooldown_min": 30
+        },
+        "BTCUSDT:Trend-Conservative:cfg2": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 8,
+          "cooldown_min": 45
+        },
+        "BTCUSDT:Trend-Conservative:cfg3": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 8,
+          "cooldown_min": 30
+        }
+      },
+      "ETHUSDT:Trend-Conservative": {
+        "ETHUSDT:Trend-Conservative:cfg1": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.5,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 4,
+          "cooldown_min": 45
+        },
+        "ETHUSDT:Trend-Conservative:cfg2": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.1,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 8,
+          "cooldown_min": 20
+        },
+        "ETHUSDT:Trend-Conservative:cfg3": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 4,
+          "cooldown_min": 45
+        }
+      },
+      "SOLUSDT:Trend-Conservative": {
+        "SOLUSDT:Trend-Conservative:cfg1": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.1,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 8,
+          "cooldown_min": 45
+        },
+        "SOLUSDT:Trend-Conservative:cfg2": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 6,
+          "cooldown_min": 20
+        },
+        "SOLUSDT:Trend-Conservative:cfg3": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 4,
+          "cooldown_min": 45
+        }
+      },
+      "BTCUSDT:Breakout-Aggressive": {
+        "BTCUSDT:Breakout-Aggressive:cfg1": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 8,
+          "cooldown_min": 20
+        },
+        "BTCUSDT:Breakout-Aggressive:cfg2": {
+          "leverage_mult": 1.1,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 8,
+          "cooldown_min": 45
+        },
+        "BTCUSDT:Breakout-Aggressive:cfg3": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 4,
+          "cooldown_min": 30
+        }
+      },
+      "ETHUSDT:Breakout-Aggressive": {
+        "ETHUSDT:Breakout-Aggressive:cfg1": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 8,
+          "cooldown_min": 20
+        },
+        "ETHUSDT:Breakout-Aggressive:cfg2": {
+          "leverage_mult": 1.0,
+          "atr_trail_mult": 1.5,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 8,
+          "cooldown_min": 30
+        },
+        "ETHUSDT:Breakout-Aggressive:cfg3": {
+          "leverage_mult": 1.1,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 6,
+          "cooldown_min": 20
+        }
+      },
+      "SOLUSDT:Breakout-Aggressive": {
+        "SOLUSDT:Breakout-Aggressive:cfg1": {
+          "leverage_mult": 0.9,
+          "atr_trail_mult": 1.1,
+          "stop_atr_mult": 1.4,
+          "time_exit_hours": 4,
+          "cooldown_min": 45
+        },
+        "SOLUSDT:Breakout-Aggressive:cfg2": {
+          "leverage_mult": 1.1,
+          "atr_trail_mult": 1.3,
+          "stop_atr_mult": 1.0,
+          "time_exit_hours": 6,
+          "cooldown_min": 20
+        },
+        "SOLUSDT:Breakout-Aggressive:cfg3": {
+          "leverage_mult": 1.1,
+          "atr_trail_mult": 1.8,
+          "stop_atr_mult": 1.2,
+          "time_exit_hours": 8,
+          "cooldown_min": 30
+        }
+      }
+    },
+    "results": {
+      "BTCUSDT:EMA-Futures:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2197.053475816499,
+        "samples": 122
+      },
+      "ETHUSDT:EMA-Futures:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2258.0195820872696,
+        "samples": 124
+      },
+      "SOLUSDT:EMA-Futures:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2321.5534955769494,
+        "samples": 123
+      },
+      "BTCUSDT:Trend-Conservative:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -183.92042875270982,
+        "samples": 9
+      },
+      "ETHUSDT:Trend-Conservative:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2210.199892006699,
+        "samples": 119
+      },
+      "SOLUSDT:Trend-Conservative:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2257.0913876863337,
+        "samples": 122
+      },
+      "BTCUSDT:Breakout-Aggressive:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2095.5488582383127,
+        "samples": 121
+      },
+      "ETHUSDT:Breakout-Aggressive:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2100.674190724901,
+        "samples": 127
+      },
+      "SOLUSDT:Breakout-Aggressive:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2169.5365953076125,
+        "samples": 118
+      },
+      "BTCUSDT:Trend-Conservative:cfg1": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -2017.2030498108466,
+        "samples": 114
+      },
+      "ETHUSDT:Trend-Conservative:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -197.54870942417173,
+        "samples": 9
+      },
+      "ETHUSDT:EMA-Futures:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -198.17224721688328,
+        "samples": 9
+      },
+      "SOLUSDT:Trend-Conservative:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -121.28483518441635,
+        "samples": 5
+      },
+      "BTCUSDT:EMA-Futures:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -96.43006640667897,
+        "samples": 5
+      },
+      "SOLUSDT:EMA-Futures:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -158.16847631120174,
+        "samples": 8
+      },
+      "SOLUSDT:EMA-Futures:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -154.1451917876143,
+        "samples": 7
+      },
+      "SOLUSDT:Trend-Conservative:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -211.28202059249088,
+        "samples": 11
+      },
+      "SOLUSDT:Breakout-Aggressive:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -229.90476410904932,
+        "samples": 13
+      },
+      "BTCUSDT:Trend-Conservative:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -208.82719744507125,
+        "samples": 15
+      },
+      "BTCUSDT:EMA-Futures:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -197.20298181947413,
+        "samples": 11
+      },
+      "ETHUSDT:Breakout-Aggressive:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -100.24674228095242,
+        "samples": 4
+      },
+      "BTCUSDT:Breakout-Aggressive:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -220.92864716101252,
+        "samples": 10
+      },
+      "BTCUSDT:Breakout-Aggressive:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -121.61460284780709,
+        "samples": 7
+      },
+      "ETHUSDT:Breakout-Aggressive:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -116.23014521444847,
+        "samples": 7
+      },
+      "ETHUSDT:EMA-Futures:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -76.05829616197686,
+        "samples": 5
+      },
+      "SOLUSDT:Breakout-Aggressive:cfg2": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -99.23985560063976,
+        "samples": 7
+      },
+      "ETHUSDT:Trend-Conservative:cfg3": {
+        "wins": 0,
+        "wr": 0.0,
+        "sharpe": 0.0,
+        "pnl": -170.12591805068087,
+        "samples": 10
+      }
+    },
+    "live": {}
+  },
+  "last_ticks": {
+    "risk": 1765735722,
+    "exec": 1765735722,
+    "exp": 1765735123
+  },
+  "exec_stats": {
+    "total_orders": 0,
+    "avg_slippage_bps": 0.0,
+    "avg_fees_bps": 0.0
+  }
+}

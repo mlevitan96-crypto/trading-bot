@@ -1,0 +1,7 @@
+nohup: ignoring input
+/root/trading-bot/src/market_intelligence.py:49: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  ts = datetime.utcnow().isoformat() + "Z"
+[2025-12-15T01:20:45.478568Z] Starting Market Intelligence System
+[2025-12-15T01:20:45.478706Z] Symbols: ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'BNB', 'AVAX', 'ADA']
+[2025-12-15T01:20:45.478764Z] API Key: NOT CONFIGURED
+[2025-12-15T01:20:45.478802Z] ERROR: COINGLASS_API_KEY not set

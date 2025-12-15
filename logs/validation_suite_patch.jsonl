@@ -1,0 +1,23 @@
+{"ts": 1765650018, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765650018, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765650018, "update_type": "fix_kill_switch_structure", "old_type": "<class 'bool'>"}
+{"ts": 1765650018, "update_type": "guardrails_applied", "overlay": {"ts": 1765650018, "dd_pct_sanitized": 0.0, "reject_rate_sanitized": 0.0, "fee_mismatch_sanitized": 0.0, "suspicious_flags": [], "validation_stub_used": false, "protection_level": "normal", "recommended_actions": {"global_block": false, "size_throttle": 1.0, "protective_mode": false}}}
+{"ts": 1765650233, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765650233, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765650233, "update_type": "guardrails_applied", "overlay": {"ts": 1765650233, "dd_pct_sanitized": 0.0, "reject_rate_sanitized": 0.0, "fee_mismatch_sanitized": 0.0, "suspicious_flags": [], "validation_stub_used": false, "protection_level": "normal", "recommended_actions": {"global_block": false, "size_throttle": 1.0, "protective_mode": false}}}
+{"ts": 1765650704, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765650704, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765650704, "update_type": "fix_kill_switch_structure", "old_type": "<class 'bool'>"}
+{"ts": 1765650704, "update_type": "guardrails_applied", "overlay": {"ts": 1765650704, "dd_pct_sanitized": 0.0, "reject_rate_sanitized": 0.0, "fee_mismatch_sanitized": 0.0, "suspicious_flags": [], "validation_stub_used": false, "protection_level": "normal", "recommended_actions": {"global_block": false, "size_throttle": 1.0, "protective_mode": false}}}
+{"ts": 1765651604, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765651604, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765651604, "update_type": "fix_kill_switch_structure", "old_type": "<class 'bool'>"}
+{"ts": 1765651604, "update_type": "guardrails_applied", "overlay": {"ts": 1765651604, "dd_pct_sanitized": 0.0, "reject_rate_sanitized": 0.0, "fee_mismatch_sanitized": 0.0, "suspicious_flags": [], "validation_stub_used": false, "protection_level": "normal", "recommended_actions": {"global_block": false, "size_throttle": 1.0, "protective_mode": false}}}
+{"ts": 1765734150, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765734151, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765734151, "update_type": "fix_kill_switch_structure", "old_type": "<class 'bool'>"}
+{"ts": 1765734151, "update_type": "guardrails_applied", "overlay": {"ts": 1765734151, "dd_pct_sanitized": 0.0, "reject_rate_sanitized": 0.0, "fee_mismatch_sanitized": 0.0, "suspicious_flags": [], "validation_stub_used": false, "protection_level": "normal", "recommended_actions": {"global_block": false, "size_throttle": 1.0, "protective_mode": false}}}
+{"ts": 1765734533, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765734533, "update_type": "import_ok", "module": "src.trailing_stop", "function": "apply_futures_trailing_stops"}
+{"ts": 1765734533, "update_type": "fix_kill_switch_structure", "old_type": "<class 'bool'>"}
+{"ts": 1765734534, "update_type": "guardrails_applied", "overlay": {"ts": 1765734533, "dd_pct_sanitized": 0.0, "reject_rate_sanitized": 0.0, "fee_mismatch_sanitized": 0.0, "suspicious_flags": [], "validation_stub_used": false, "protection_level": "normal", "recommended_actions": {"global_block": false, "size_throttle": 1.0, "protective_mode": false}}}

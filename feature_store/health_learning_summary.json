@@ -1,7 +1,7 @@
 {
-  "compiled_at": "2025-12-11T10:00:13.411068Z",
+  "compiled_at": "2025-12-14T10:00:27.264536Z",
   "period_hours": 24,
-  "total_events": 38,
+  "total_events": 84,
   "gate_statistics": {
     "streak_filter": {
       "total_decisions": 0,
@@ -14,15 +14,15 @@
       "block_reasons": {}
     },
     "intelligence_gate": {
-      "total_decisions": 37,
-      "allowed_count": 35,
-      "blocked_count": 2,
-      "block_rate": 0.05405405405405406,
+      "total_decisions": 84,
+      "allowed_count": 81,
+      "blocked_count": 3,
+      "block_rate": 0.03571428571428571,
       "allowed_then_profit": 0,
       "allowed_then_loss": 0,
       "gate_accuracy": 0.0,
       "block_reasons": {
-        "intel_conflict_short_strong": 2
+        "intel_conflict_short_strong": 3
       }
     }
   },

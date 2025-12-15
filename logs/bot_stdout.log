@@ -1,0 +1,1817 @@
+nohup: ignoring input
+📋 [DataRegistry] Loaded 15 enabled symbols from config
+[PROFIT-SEEKER] Module loaded successfully - profit-seeking mode ACTIVE
+[HOLD_GOVERNOR] Module loaded successfully - minimum hold enforcement ACTIVE
+[EXIT_TIMING] Module loaded successfully - MFE-based targets ACTIVE
+[2025-12-15T01:13:15.299727Z] [FEE-GATE] Initialized - Blocks: 1, Allows: 1562
+[FEE_GATE] Module loaded successfully - fee-aware blocking ACTIVE
+[2025-12-15T01:13:15.351502Z] [EDGE-SIZER] Loaded 1000 historical sizing decisions
+[EDGE_SIZER] Module loaded successfully - edge-weighted sizing ACTIVE
+[2025-12-15T01:13:15.354333Z] [CORR-THROTTLE] Loaded correlation data for 15 symbol pairs
+[CORR_THROTTLE] Module loaded successfully - correlation throttle ACTIVE
+[2025-12-15T01:13:15.356477Z] [STRATEGIC-ADVISOR] Loaded 0 closed trades from positions_futures.json
+[STRATEGIC_ADVISOR] Module loaded successfully - hourly analysis ACTIVE
+[SignalTracker] Loaded 490 pending signals
+[ConvictionGate] Loaded learned weights from signal_weights_gate.json
+
+============================================================
+🔄 STARTING BOT (attempt 1)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #1: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 10 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 2)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #2: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 15.0 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 3)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #3: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 22.5 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 4)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #4: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 33.75 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 5)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #5: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 50.625 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 6)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #6: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 75.9375 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 7)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #7: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 113.90625 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 8)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #8: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 170.859375 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 9)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #9: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 256.2890625 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 10)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #10: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 11)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #11: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 12)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #12: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 13)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #13: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 14)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #14: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 15)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #15: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 16)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #16: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 17)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #17: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 18)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #18: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 19)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #19: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 20)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #20: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 21)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #21: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 22)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #22: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 23)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #23: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 24)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #24: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 25)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #25: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 26)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #26: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 27)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #27: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 28)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #28: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 29)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #29: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 30)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #30: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 31)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #31: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 32)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #32: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 33)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #33: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 34)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #34: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 35)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #35: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 36)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #36: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 37)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #37: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 38)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #38: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 39)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #39: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 40)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #40: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 41)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #41: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 42)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #42: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 43)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #43: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 44)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #44: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 45)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #45: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 46)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #46: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 47)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #47: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 48)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #48: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 49)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #49: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 50)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #50: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 51)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #51: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 52)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #52: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 53)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #53: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 54)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #54: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 55)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #55: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 56)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #56: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 57)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #57: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 58)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #58: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 59)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #59: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 60)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #60: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 61)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #61: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 62)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #62: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 63)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #63: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 64)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #64: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 65)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #65: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 66)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #66: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 67)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #67: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 68)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #68: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 69)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #69: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 70)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #70: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 71)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #71: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 72)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #72: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 73)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #73: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 74)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #74: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 75)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #75: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 76)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #76: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 77)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #77: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 78)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #78: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 79)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #79: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 80)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #80: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 81)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #81: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 82)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #82: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 83)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #83: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 84)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #84: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 85)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #85: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 86)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #86: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 87)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #87: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 88)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #88: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 89)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #89: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 90)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #90: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 91)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #91: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 92)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #92: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 93)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #93: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 94)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #94: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 95)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #95: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 96)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #96: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 97)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #97: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 98)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #98: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 99)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #99: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+
+============================================================
+🔄 STARTING BOT (attempt 100)
+============================================================
+💓 Process heartbeat + memory monitor started (60s interval)
+[SHUTDOWN-MGR] Signal handlers registered (SIGTERM, SIGINT)
+✅ Graceful shutdown manager initialized
+============================================================
+🚀 Starting Crypto Trading Bot System
+📍 Trading Mode: paper
+============================================================
+
+🌐 Starting P&L Dashboard on http://0.0.0.0:5000
+   ✅ Port 5000 is available
+   ℹ️  Initializing subsystems in background...
+💥 CRASH LOGGED to logs/process_crash.log
+💥 CRASH #100: NameError: name 'start_pnl_dashboard' is not defined
+   Restarting in 300 seconds...
+❌ FATAL: Exceeded 100 restart attempts. Giving up.
+💥 CRASH LOGGED to logs/process_crash.log

@@ -1,0 +1,12 @@
+{
+  "sustained_passes": 0,
+  "last_tick_ts": 1765735722.7666612,
+  "ramps_frozen": true,
+  "current_ramp_multiplier": 1.0,
+  "last_valid_multiplier": 1.0,
+  "scaling_level": "none",
+  "exposure_adjustments": [],
+  "last_valid_metrics": {
+    "pnl": 0.0
+  }
+}

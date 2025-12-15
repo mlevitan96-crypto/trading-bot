@@ -1,36 +1,36 @@
 {
   "symbol": "DOGE",
-  "ts": "2025-12-11T21:20:54.247549Z",
+  "ts": "2025-12-14T18:09:01.811156Z",
   "taker": {
-    "buy_vol_usd": 1442412659.120459,
-    "sell_vol_usd": 1588030942.973898,
-    "buy_ratio": 0.47600000000000003,
-    "sell_ratio": 0.524,
-    "buy_sell_ratio": 0.9083026155770364
+    "buy_vol_usd": 698172271.531818,
+    "sell_vol_usd": 825911027.291599,
+    "buy_ratio": 0.4581,
+    "sell_ratio": 0.5418999999999999,
+    "buy_sell_ratio": 0.8453359362706739
   },
   "liquidation": {
-    "liq_long_24h": 6517846.6008364,
-    "liq_short_24h": 715859.31530503,
-    "liq_total_24h": 7233705.91614143,
-    "liq_ratio": 0.9010383718105477,
-    "liq_1h_long": 1042.74556,
-    "liq_1h_short": 469813.56714506,
-    "liq_4h_long": 11209.83501,
-    "liq_4h_short": 555409.22163206
+    "liq_long_24h": 2469664.92449524,
+    "liq_short_24h": 119209.36636,
+    "liq_total_24h": 2588874.29085524,
+    "liq_ratio": 0.953953203992528,
+    "liq_1h_long": 889351.48871608,
+    "liq_1h_short": 58546.9596,
+    "liq_4h_long": 1311293.28586524,
+    "liq_4h_short": 62840.82635
   },
   "fear_greed": 30,
   "signal": {
     "direction": "SHORT",
-    "confidence": 0.4,
-    "composite": -0.4,
+    "confidence": 0.8,
+    "composite": -0.8,
     "components": {
-      "flow": 0,
+      "flow": -1,
       "liquidation": -1,
       "fear_greed": 0
     },
     "raw": {
-      "buy_sell_ratio": 0.908,
-      "liq_ratio": 0.901,
+      "buy_sell_ratio": 0.845,
+      "liq_ratio": 0.954,
       "fear_greed": 30
     }
   }

@@ -1,0 +1,14 @@
+{
+  "collaborative": {
+    "last_bias": {},
+    "symbol_weights": {}
+  },
+  "arbitrage": {
+    "last_spreads": {},
+    "opportunities": []
+  },
+  "operator": {
+    "overrides": [],
+    "blocks": []
+  }
+}

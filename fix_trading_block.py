@@ -23,10 +23,21 @@ def backup_file(filepath):
 def fix_signal_policies():
     """Fix alpha trading policy settings."""
     filepath = "configs/signal_policies.json"
-    backup_file(filepath)
+    file_path = Path(filepath)
     
-    with open(filepath, 'r') as f:
-        data = json.load(f)
+    # Create default if file doesn't exist
+    if not file_path.exists():
+        data = {
+            "defaults": {
+                "ema_short": 12,
+                "ema_long": 26
+            },
+            "alpha_trading": {}
+        }
+    else:
+        backup_file(filepath)
+        with open(filepath, 'r') as f:
+            data = json.load(f)
     
     # Ensure alpha trading is enabled
     if "alpha_trading" not in data:
@@ -59,10 +70,17 @@ def fix_signal_policies():
 def fix_live_config():
     """Fix live config symbol restrictions."""
     filepath = "live_config.json"
-    backup_file(filepath)
+    file_path = Path(filepath)
     
-    with open(filepath, 'r') as f:
-        data = json.load(f)
+    # Create default if file doesn't exist
+    if not file_path.exists():
+        data = {
+            "runtime": {}
+        }
+    else:
+        backup_file(filepath)
+        with open(filepath, 'r') as f:
+            data = json.load(f)
     
     if "runtime" not in data:
         data["runtime"] = {}

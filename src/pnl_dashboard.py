@@ -110,9 +110,12 @@ def record_wallet_snapshot(force: bool = False) -> bool:
                 f.write(json.dumps(snapshot) + "\n")
             
             _last_snapshot_hour = current_hour
+            print(f"📊 [SNAPSHOT] Recorded wallet snapshot: ${wallet_balance:.2f} at {current_hour}")
             return True
         except Exception as e:
-            print(f"[SNAPSHOT] Error recording wallet snapshot: {e}")
+            print(f"⚠️  [SNAPSHOT] Error recording wallet snapshot: {e}")
+            import traceback
+            traceback.print_exc()
             return False
 
 def load_wallet_snapshots(hours: int = 24) -> pd.DataFrame:
@@ -802,9 +805,16 @@ def get_wallet_balance() -> float:
         
         wallet_balance = starting_capital + total_pnl
         
+        # Log wallet balance calculation periodically (every 20 calls to avoid spam)
+        if not hasattr(get_wallet_balance, '_call_count'):
+            get_wallet_balance._call_count = 0
+        get_wallet_balance._call_count += 1
+        if get_wallet_balance._call_count % 20 == 0:
+            print(f"💰 [DASHBOARD] Wallet balance: ${wallet_balance:.2f} (from {len(closed_positions)} closed positions, P&L: ${total_pnl:.2f})")
+        
         return wallet_balance
     except Exception as e:
-        print(f"⚠️  Dashboard: Failed to calculate wallet balance: {e}")
+        print(f"⚠️  [DASHBOARD] Failed to calculate wallet balance: {e}")
         import traceback
         traceback.print_exc()
         return starting_capital
@@ -1081,6 +1091,7 @@ def build_app(server: Flask = None) -> Dash:
                     dcc.Tab(label="📈 Monthly", value="monthly", style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"}, selected_style={"backgroundColor": "#1a73e8", "color": "#fff"}),
                 ]),
                 html.Div(id="summary-container", children=summary_card(daily_summary, "Daily Summary (Last 24 Hours)"), style={"padding": "16px"}),
+                dcc.Interval(id="summary-interval", interval=30*1000, n_intervals=0),  # Auto-refresh every 30s
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Open Positions Section
@@ -1121,6 +1132,7 @@ def build_app(server: Flask = None) -> Dash:
             html.Div([
                 dcc.Graph(id="equity-curve", figure=fig_equity_curve(df0), config={"displayModeBar": True}),
             ], style={"width":"100%","padding":"8px"}),
+            dcc.Interval(id="charts-interval", interval=30*1000, n_intervals=0),  # Auto-refresh charts every 30s
         ]),
 
         html.Div([
@@ -1172,14 +1184,24 @@ def build_app(server: Flask = None) -> Dash:
 
     @app.callback(
         Output("summary-container", "children"),
-        Input("summary-tabs", "value"),
+        [Input("summary-tabs", "value"),
+         Input("summary-interval", "n_intervals")],
         prevent_initial_call=False
     )
-    def update_summary(tab):
+    def update_summary(tab, _n_intervals):
+        """Update summary card on tab change OR interval refresh."""
         try:
+            # Record wallet snapshot (hourly, but called every refresh to check)
             record_wallet_snapshot()
+            
+            # Force cache refresh by clearing it if interval triggered
+            if _n_intervals and _n_intervals > 0:
+                from src.pnl_dashboard_loader import clear_cache
+                clear_cache()  # Force cache refresh
+            
             df = load_trades_df()
             wallet_balance = get_wallet_balance()
+            
             if tab == "daily":
                 s = compute_summary(df, lookback_days=1, wallet_balance=wallet_balance)
                 return summary_card(s, "Daily Summary (Last 24 Hours)", hours=24)
@@ -1191,6 +1213,9 @@ def build_app(server: Flask = None) -> Dash:
                 return summary_card(s, "Monthly Summary (Last 30 Days)", hours=720)
             return summary_card(compute_summary(df, 1, wallet_balance), "Summary", hours=24)
         except Exception as e:
+            print(f"⚠️  [DASHBOARD] Error updating summary: {e}")
+            import traceback
+            traceback.print_exc()
             return html.Div([html.P(f"Error loading summary: {str(e)}", style={"color":"#ff6b6b","padding":"12px"})])
 
     @app.callback(
@@ -1200,8 +1225,13 @@ def build_app(server: Flask = None) -> Dash:
     def refresh_open_positions(_n):
         try:
             df = load_open_positions_df()
+            if _n and _n > 0 and _n % 10 == 0:  # Log every 10th refresh (every 5 minutes)
+                print(f"🔄 [DASHBOARD] Refreshed open positions: {len(df)} positions")
             return [make_open_positions_section(df)]
         except Exception as e:
+            print(f"⚠️  [DASHBOARD] Error loading open positions: {e}")
+            import traceback
+            traceback.print_exc()
             return [html.Div([html.P(f"Error loading open positions: {str(e)}", style={"color":"#ff6b6b","padding":"12px"})])]
 
     @app.callback(
@@ -1211,8 +1241,13 @@ def build_app(server: Flask = None) -> Dash:
     def refresh_closed_positions(_n):
         try:
             df = load_closed_positions_df()
+            if _n and _n > 0 and _n % 10 == 0:  # Log every 10th refresh (every 5 minutes)
+                print(f"🔄 [DASHBOARD] Refreshed closed positions: {len(df)} positions")
             return [make_closed_positions_section(df)]
         except Exception as e:
+            print(f"⚠️  [DASHBOARD] Error loading closed positions: {e}")
+            import traceback
+            traceback.print_exc()
             return [html.Div([html.P(f"Error loading closed positions: {str(e)}", style={"color":"#ff6b6b","padding":"12px"})])]
 
     @app.callback(
@@ -1228,31 +1263,45 @@ def build_app(server: Flask = None) -> Dash:
 
     @app.callback(
         Output("symbol-profit-chart", "figure"),
-        Input("symbol-selector", "value"),
-        Input("refresh-btn", "n_clicks"),
+        [Input("symbol-selector", "value"),
+         Input("refresh-btn", "n_clicks"),
+         Input("charts-interval", "n_intervals")],
         State("lookback-hrs", "value"),
         State("filter-symbol", "value"),
         State("filter-strategy", "value"),
         prevent_initial_call=False
     )
-    def update_symbol_profit_chart(selected_symbols, _n, lookback_hrs, symbol, strategy):
-        """Update per-symbol cumulative profit chart based on dropdown selection and filters."""
-        df = load_trades_df()
-        
-        # Apply filters (same as main refresh)
-        if not df.empty and lookback_hrs and lookback_hrs > 0:
-            cutoff = int(time.time()) - int(lookback_hrs*3600)
-            df = df[df["ts"] >= cutoff]
-        if symbol:
-            df = df[df["symbol"] == symbol]
-        if strategy:
-            df = df[df["strategy"] == strategy]
-        
-        # Default to BTC and ETH if no selection
-        if not selected_symbols:
-            selected_symbols = ["BTCUSDT", "ETHUSDT"] if not df.empty and "BTCUSDT" in df["symbol"].values else []
-        
-        return fig_symbol_cumulative_profit(df, selected_symbols)
+    def update_symbol_profit_chart(selected_symbols, _n_clicks, _n_intervals, lookback_hrs, symbol, strategy):
+        """Update per-symbol cumulative profit chart based on dropdown selection, filters, and intervals."""
+        try:
+            # Force cache refresh on interval
+            if _n_intervals and _n_intervals > 0:
+                from src.pnl_dashboard_loader import clear_cache
+                clear_cache()  # Force cache refresh
+            
+            df = load_trades_df()
+            
+            # Apply filters (same as main refresh)
+            if not df.empty and lookback_hrs and lookback_hrs > 0:
+                cutoff = int(time.time()) - int(lookback_hrs*3600)
+                df = df[df["ts"] >= cutoff]
+            if symbol:
+                df = df[df["symbol"] == symbol]
+            if strategy:
+                df = df[df["strategy"] == strategy]
+            
+            # Default to BTC and ETH if no selection
+            if not selected_symbols:
+                selected_symbols = ["BTCUSDT", "ETHUSDT"] if not df.empty and "BTCUSDT" in df["symbol"].values else []
+            
+            return fig_symbol_cumulative_profit(df, selected_symbols)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD] Error updating symbol profit chart: {e}")
+            import traceback
+            traceback.print_exc()
+            empty_fig = go.Figure()
+            empty_fig.add_annotation(text=f"Error: {str(e)}", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
+            return empty_fig
 
     @app.callback(
         Output("equity-curve","figure"),
@@ -1262,31 +1311,47 @@ def build_app(server: Flask = None) -> Dash:
         Output("win-heatmap","figure"),
         Output("trade-scatter","figure"),
         Output("table-container","children"),
-        Input("refresh-btn","n_clicks"),
+        [Input("refresh-btn","n_clicks"),
+         Input("charts-interval", "n_intervals")],
         State("lookback-hrs","value"),
         State("filter-symbol","value"),
         State("filter-strategy","value"),
-        prevent_initial_call=True
+        prevent_initial_call=False
     )
-    def refresh(_n, lookback_hrs, symbol, strategy):
-        df = load_trades_df()
-        if not df.empty and lookback_hrs and lookback_hrs > 0:
-            cutoff = int(time.time()) - int(lookback_hrs*3600)
-            df = df[df["ts"] >= cutoff]
-        if symbol:
-            df = df[df["symbol"] == symbol]
-        if strategy:
-            df = df[df["strategy"] == strategy]
+    def refresh(_n_clicks, _n_intervals, lookback_hrs, symbol, strategy):
+        """Refresh all charts on button click OR interval trigger."""
+        try:
+            # Force cache refresh on interval
+            if _n_intervals and _n_intervals > 0:
+                from src.pnl_dashboard_loader import clear_cache
+                clear_cache()  # Force cache refresh
+            
+            df = load_trades_df()
+            if not df.empty and lookback_hrs and lookback_hrs > 0:
+                cutoff = int(time.time()) - int(lookback_hrs*3600)
+                df = df[df["ts"] >= cutoff]
+            if symbol:
+                df = df[df["symbol"] == symbol]
+            if strategy:
+                df = df[df["strategy"] == strategy]
 
-        return (
-            fig_equity_curve(df),
-            fig_pnl_by_symbol(df),
-            fig_pnl_by_strategy(df),
-            fig_hourly_distribution(df),
-            fig_win_rate_heatmap(df, by="symbol"),
-            fig_trade_scatter(df),
-            [make_table(df)]
-        )
+            return (
+                fig_equity_curve(df),
+                fig_pnl_by_symbol(df),
+                fig_pnl_by_strategy(df),
+                fig_hourly_distribution(df),
+                fig_win_rate_heatmap(df, by="symbol"),
+                fig_trade_scatter(df),
+                [make_table(df)]
+            )
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD] Error refreshing charts: {e}")
+            import traceback
+            traceback.print_exc()
+            # Return empty figures on error
+            empty_fig = go.Figure()
+            empty_fig.add_annotation(text=f"Error: {str(e)}", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
+            return (empty_fig, empty_fig, empty_fig, empty_fig, empty_fig, empty_fig, [html.Div(f"Error: {str(e)}")])
 
     @app.callback(
         Output("download-csv","data"),

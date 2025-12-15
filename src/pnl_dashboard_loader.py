@@ -28,7 +28,15 @@ _df_cache: Optional[pd.DataFrame] = None
 _cache_timestamp: float = 0
 _cache_file_mtime: float = 0
 _cache_lock = threading.Lock()
-CACHE_TTL_SECONDS = 30  # Only rebuild if file changed AND 30s elapsed
+CACHE_TTL_SECONDS = 10  # Only rebuild if file changed AND 10s elapsed (reduced for fresher data)
+
+def clear_cache():
+    """Clear the DataFrame cache to force fresh data on next load."""
+    global _df_cache, _cache_timestamp, _cache_file_mtime
+    with _cache_lock:
+        _df_cache = None
+        _cache_timestamp = 0
+        _cache_file_mtime = 0
 
 def _safe_load_json(path: str) -> List[Dict[str, Any]]:
     """

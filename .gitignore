@@ -1,8 +1,9 @@
 venv/
 __pycache__/
 *.pyc
-logs/
+*.so
 *.log
 *.jsonl
 *.db
 .env
+logs/

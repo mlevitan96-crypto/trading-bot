@@ -1,7 +1,0 @@
-{
-  "symbol": "BTC",
-  "endpoint": "funding",
-  "days": 30,
-  "data": [],
-  "error": "Failed to GET https://open-api-v4.coinglass.com/api/api/futures/fundingRate/ohlc-history after 5 attempts"
-}

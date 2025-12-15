@@ -128,10 +128,27 @@ class SignalOutcomeTracker:
             if PENDING_SIGNALS_FILE.exists():
                 data = json.loads(PENDING_SIGNALS_FILE.read_text())
                 for signal_id, signal_data in data.items():
+                    # Ensure ts_epoch is a float (UTC epoch seconds)
+                    if 'ts_epoch' in signal_data:
+                        signal_data['ts_epoch'] = float(signal_data['ts_epoch'])
+                    else:
+                        # If missing, try to parse from ts string
+                        if 'ts' in signal_data:
+                            try:
+                                from datetime import datetime
+                                dt = datetime.fromisoformat(signal_data['ts'].replace('Z', '+00:00'))
+                                signal_data['ts_epoch'] = dt.timestamp()
+                            except:
+                                signal_data['ts_epoch'] = time.time()
+                        else:
+                            signal_data['ts_epoch'] = time.time()
+                    
                     self.pending_signals[signal_id] = PendingSignal.from_dict(signal_data)
                 print(f"[SignalTracker] Loaded {len(self.pending_signals)} pending signals")
         except Exception as e:
             print(f"[SignalTracker] Error loading pending signals: {e}")
+            import traceback
+            traceback.print_exc()
             self.pending_signals = {}
     
     def _save_pending_signals(self):
@@ -214,13 +231,16 @@ class SignalOutcomeTracker:
             clean_symbol = clean_symbol + 'USDT'
         
         signal_id = str(uuid.uuid4())[:8]
+        # Use time.time() which returns UTC epoch seconds (timezone-independent)
         now = time.time()
-        ts = datetime.utcnow().isoformat()
+        # Ensure now is a float
+        now = float(now)
+        ts = datetime.utcnow().isoformat() + 'Z'
         
         pending = PendingSignal(
             id=signal_id,
             ts=ts,
-            ts_epoch=now,
+            ts_epoch=now,  # UTC epoch seconds (timezone-independent)
             symbol=clean_symbol,
             signal_name=signal_name,
             direction=direction,
@@ -243,9 +263,12 @@ class SignalOutcomeTracker:
         Check all pending signals and resolve those that have passed their horizon times.
         Should be called every minute (or more frequently).
         
+        All time comparisons use UTC epoch seconds (time.time()) to avoid timezone issues.
+        
         Returns:
             Number of signals fully resolved
         """
+        # Use UTC epoch time (time.time() returns seconds since UTC epoch)
         now = time.time()
         resolved_count = 0
         signals_to_remove = []
@@ -258,20 +281,50 @@ class SignalOutcomeTracker:
         with self._lock:
             for signal_id, signal in list(self.pending_signals.items()):
                 try:
+                    # Ensure ts_epoch is a float (UTC epoch seconds)
+                    if not isinstance(signal.ts_epoch, (int, float)):
+                        print(f"[SignalTracker] Warning: Invalid ts_epoch type for signal {signal_id}: {type(signal.ts_epoch)}, fixing...")
+                        # Try to parse from ts string if available
+                        if signal.ts:
+                            try:
+                                from datetime import datetime
+                                dt = datetime.fromisoformat(signal.ts.replace('Z', '+00:00'))
+                                signal.ts_epoch = dt.timestamp()
+                            except:
+                                # Fallback to current time if parsing fails
+                                signal.ts_epoch = now
+                        else:
+                            signal.ts_epoch = now
+                    
+                    signal.ts_epoch = float(signal.ts_epoch)  # Ensure it's a float
+                    
+                    # Calculate signal age for debugging
+                    signal_age_seconds = now - signal.ts_epoch
+                    
                     for horizon in HORIZONS:
                         if horizon in signal.resolved_horizons:
                             continue
                         
+                        # Calculate target time using UTC epoch (ts_epoch is already UTC epoch)
                         target_time = signal.ts_epoch + HORIZON_SECONDS[horizon]
+                        time_until_target = target_time - now
+                        
+                        # Debug logging for 1h horizon (the problematic one)
+                        if horizon == '1h':
+                            print(f"[SignalTracker] Checking 1h horizon for {signal_id}: ts_epoch={signal.ts_epoch:.0f}, target_time={target_time:.0f}, now={now:.0f}, time_until={time_until_target:.0f}s, age={signal_age_seconds:.0f}s")
+                        
                         if now >= target_time:
                             price = self._get_current_price(signal.symbol)
                             if price is not None:
                                 signal.prices[horizon] = price
                                 signal.resolved_horizons.append(horizon)
                                 horizons_resolved_this_cycle += 1
-                                print(f"[SignalTracker] Resolved {signal_id} {horizon}: {price:.2f} (signal: {signal.symbol} {signal.signal_name} {signal.direction})")
+                                print(f"[SignalTracker] Resolved {signal_id} {horizon}: {price:.2f} (signal: {signal.symbol} {signal.signal_name} {signal.direction}, age={signal_age_seconds:.0f}s)")
                             else:
                                 print(f"[SignalTracker] Warning: Could not fetch price for {signal.symbol} at {horizon} horizon")
+                        elif horizon == '1h':
+                            # Log why 1h is not resolving
+                            print(f"[SignalTracker] 1h horizon not ready for {signal_id}: need {time_until_target:.0f}s more (target={target_time:.0f}, now={now:.0f})")
                     
                     if signal.is_fully_resolved():
                         self._write_outcome(signal)
@@ -302,7 +355,8 @@ class SignalOutcomeTracker:
     
     def _cleanup_stale_signals(self):
         """Remove signals older than 2 hours that haven't been resolved."""
-        now = time.time()
+        # Use UTC epoch time (time.time() returns seconds since UTC epoch)
+        now = float(time.time())
         max_age = 7200
         
         stale_ids = [

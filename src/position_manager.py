@@ -143,11 +143,14 @@ def initialize_futures_positions():
     file_path = Path(POSITIONS_FUTURES_FILE)
     file_path.parent.mkdir(parents=True, exist_ok=True)
     
-    print(f"🔍 [POSITION-MANAGER] Initializing positions file: {POSITIONS_FUTURES_FILE}")
+    # Force flush to ensure logs appear in systemd/journalctl
+    import sys
+    print(f"🔍 [POSITION-MANAGER] Initializing positions file: {POSITIONS_FUTURES_FILE}", flush=True)
+    print(f"🔍 [POSITION-MANAGER] Absolute path: {file_path.resolve()}", flush=True)
     
     # If file doesn't exist, create it
     if not file_path.exists():
-        print(f"📝 [POSITION-MANAGER] Creating new positions_futures.json file")
+        print(f"📝 [POSITION-MANAGER] Creating new positions_futures.json file", flush=True)
         positions = {
             "open_positions": [],
             "closed_positions": [],
@@ -155,7 +158,7 @@ def initialize_futures_positions():
         }
         with open(POSITIONS_FUTURES_FILE, 'w') as f:
             json.dump(positions, f, indent=2)
-        print(f"✅ [POSITION-MANAGER] Created positions_futures.json with proper structure")
+        print(f"✅ [POSITION-MANAGER] Created positions_futures.json with proper structure", flush=True)
         return
     
     # If file exists but is empty or malformed, repair it
@@ -164,7 +167,7 @@ def initialize_futures_positions():
             content = f.read().strip()
             if not content or content == '{}':
                 # File is empty or just empty object - repair it
-                print(f"🔧 [POSITION-MANAGER] Repairing empty positions_futures.json file")
+                print(f"🔧 [POSITION-MANAGER] Repairing empty positions_futures.json file", flush=True)
                 positions = {
                     "open_positions": [],
                     "closed_positions": [],
@@ -173,7 +176,7 @@ def initialize_futures_positions():
                 }
                 with open(POSITIONS_FUTURES_FILE, 'w') as f:
                     json.dump(positions, f, indent=2)
-                print(f"✅ [POSITION-MANAGER] Repaired empty positions_futures.json file")
+                print(f"✅ [POSITION-MANAGER] Repaired empty positions_futures.json file", flush=True)
                 return
             
             # Try to parse and validate structure
@@ -183,7 +186,7 @@ def initialize_futures_positions():
             
             # Ensure required keys exist
             if "open_positions" not in data or "closed_positions" not in data:
-                print(f"🔧 [POSITION-MANAGER] Repairing malformed positions_futures.json (missing keys)")
+                print(f"🔧 [POSITION-MANAGER] Repairing malformed positions_futures.json (missing keys)", flush=True)
                 positions = {
                     "open_positions": data.get("open_positions", []),
                     "closed_positions": data.get("closed_positions", []),
@@ -192,12 +195,12 @@ def initialize_futures_positions():
                 }
                 with open(POSITIONS_FUTURES_FILE, 'w') as f:
                     json.dump(positions, f, indent=2)
-                print(f"✅ [POSITION-MANAGER] Repaired malformed positions_futures.json file")
+                print(f"✅ [POSITION-MANAGER] Repaired malformed positions_futures.json file", flush=True)
             else:
-                print(f"✅ [POSITION-MANAGER] positions_futures.json is valid (open: {len(data.get('open_positions', []))}, closed: {len(data.get('closed_positions', []))})")
+                print(f"✅ [POSITION-MANAGER] positions_futures.json is valid (open: {len(data.get('open_positions', []))}, closed: {len(data.get('closed_positions', []))})", flush=True)
     except (json.JSONDecodeError, ValueError) as e:
         # File is corrupted - repair it
-        print(f"🔧 [POSITION-MANAGER] Repairing corrupted positions_futures.json: {e}")
+        print(f"🔧 [POSITION-MANAGER] Repairing corrupted positions_futures.json: {e}", flush=True)
         positions = {
             "open_positions": [],
             "closed_positions": [],
@@ -206,7 +209,7 @@ def initialize_futures_positions():
         }
         with open(POSITIONS_FUTURES_FILE, 'w') as f:
             json.dump(positions, f, indent=2)
-        print(f"✅ [POSITION-MANAGER] Repaired corrupted positions_futures.json file")
+        print(f"✅ [POSITION-MANAGER] Repaired corrupted positions_futures.json file", flush=True)
 
 
 def load_futures_positions():

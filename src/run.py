@@ -1645,7 +1645,7 @@ def main():
     dash_app = None
     try:
         from src.pnl_dashboard import start_pnl_dashboard
-    dash_app = start_pnl_dashboard(flask_app)
+        dash_app = start_pnl_dashboard(flask_app)
         print("   ✅ P&L Dashboard initialized successfully")
     except NameError as e:
         if "start_pnl_dashboard" in str(e):

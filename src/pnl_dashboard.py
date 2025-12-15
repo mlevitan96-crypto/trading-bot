@@ -1492,10 +1492,13 @@ def start_pnl_dashboard(flask_app: Flask = None):
     # Initialize positions file on startup (repairs empty/malformed files)
     try:
         from src.position_manager import initialize_futures_positions
+        print("🔍 [DASHBOARD] Calling initialize_futures_positions()...", flush=True)
         initialize_futures_positions()
-        print("✅ [DASHBOARD] Initialized/verified positions_futures.json structure")
+        print("✅ [DASHBOARD] Initialized/verified positions_futures.json structure", flush=True)
     except Exception as e:
-        print(f"⚠️  [DASHBOARD] Failed to initialize positions file: {e}")
+        print(f"⚠️  [DASHBOARD] Failed to initialize positions file: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
     
     app = build_app(flask_app)
     return app

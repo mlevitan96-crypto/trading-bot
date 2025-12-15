@@ -47,13 +47,55 @@ def _safe_load_json(path: str) -> List[Dict[str, Any]]:
     2. JSON lines format (one trade per line)
     3. Portfolio.json format
     4. Positions.json format (closed_positions)
+    
+    OPERATOR SAFETY: Checks for file locks before reading to avoid stale data.
     """
     # Resolve relative paths to absolute for slot-based deployments
     abs_path = resolve_path(path) if not os.path.isabs(path) else path
     if not os.path.exists(abs_path):
         return []
     
+    # OPERATOR SAFETY: Check for write lock before reading
+    lock_path = Path(f"{abs_path}.lock")
+    if lock_path.exists():
+        # File may be locked for writing - check if lock is stale
+        try:
+            lock_age = time.time() - lock_path.stat().st_mtime
+            if lock_age > 30:  # Lock older than 30s is probably stale
+                try:
+                    from src.operator_safety import alert_operator, ALERT_MEDIUM
+                    alert_operator(
+                        ALERT_MEDIUM,
+                        "DASHBOARD_LOAD",
+                        f"Reading file with stale lock (age: {lock_age:.1f}s) - data may be inconsistent",
+                        {"filepath": abs_path, "lock_age": lock_age}
+                    )
+                except:
+                    pass
+        except:
+            pass  # Lock check is best-effort
+    
     try:
+        # Use file_locks for safe reading
+        from src.file_locks import locked_json_read
+        try:
+            data = locked_json_read(abs_path, default={}, timeout=2.0)
+            # Handle different data formats
+            if isinstance(data, dict):
+                if "trades" in data and isinstance(data["trades"], list):
+                    return data["trades"]
+                elif "closed_positions" in data and isinstance(data["closed_positions"], list):
+                    return data["closed_positions"]
+                return []
+            elif isinstance(data, list):
+                return data
+            else:
+                return []
+        except:
+            # Fallback to direct read if file_locks fails
+            pass
+        
+        # Fallback: Direct read (for JSONL files or if file_locks unavailable)
         with open(abs_path, "r") as f:
             content = f.read().strip()
             if not content:

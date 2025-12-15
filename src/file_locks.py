@@ -147,6 +147,19 @@ def locked_json_read(filepath: str, default: Optional[Dict] = None, timeout: flo
     
     with open(lock_path, 'w') as lock_file:
         if not _acquire_lock(lock_file, exclusive=False, timeout=timeout):
+            # CRITICAL: Alert operator about lock timeout
+            try:
+                from src.operator_safety import alert_operator, ALERT_HIGH
+                alert_operator(
+                    ALERT_HIGH,
+                    "FILE_LOCK",
+                    f"Read lock timeout on {filepath} - returning default (may cause data inconsistency)",
+                    {"filepath": filepath, "timeout": timeout},
+                    action_required=True
+                )
+            except:
+                pass  # Don't fail if alerting fails
+            
             print(f"⚠️ [FILE-LOCK] Read lock timeout on {filepath}, returning default")
             return default.copy()
         

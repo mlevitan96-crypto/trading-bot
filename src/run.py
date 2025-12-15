@@ -1610,6 +1610,23 @@ def main():
     print(f"📍 Trading Mode: {os.getenv('TRADING_MODE', 'paper')}")
     print("="*60)
     
+    # OPERATOR SAFETY: Validate systemd slot and startup state
+    try:
+        from src.operator_safety import validate_systemd_slot, validate_startup_state
+        print("\n🔍 [SAFETY] Running startup validation...")
+        slot_validation = validate_systemd_slot()
+        state_validation = validate_startup_state()
+        
+        if not slot_validation["valid"] or not state_validation["valid"]:
+            print("❌ [SAFETY] Startup validation failed - see alerts above")
+            # Continue anyway - better to run with warnings than not run at all
+        else:
+            print("✅ [SAFETY] Startup validation passed")
+    except Exception as e:
+        print(f"⚠️ [SAFETY] Startup validation error (non-blocking): {e}")
+        import traceback
+        traceback.print_exc()
+    
     # Check if running under supervisor control
     if os.environ.get("SUPERVISOR_CONTROLLED") == "1":
         print("🛡️ Running under supervisor control - skipping dashboard")

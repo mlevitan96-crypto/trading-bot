@@ -217,11 +217,34 @@ def load_futures_positions():
 
 def save_futures_positions(positions):
     """Save futures positions atomically with file locking to prevent corruption."""
-    from src.file_locks import atomic_json_save
-    if not atomic_json_save(POSITIONS_FUTURES_FILE, positions):
-        print(f"⚠️ [POSITION-MANAGER] Failed to save positions atomically, using fallback")
-        with open(POSITIONS_FUTURES_FILE, 'w') as f:
-            json.dump(positions, f, indent=2)
+    from src.operator_safety import safe_save_with_retry, alert_operator, ALERT_CRITICAL
+    
+    # Validate positions before saving
+    from src.operator_safety import validate_position_integrity
+    validation = validate_position_integrity(positions)
+    if not validation["valid"]:
+        alert_operator(
+            ALERT_HIGH,
+            "POSITION_SAVE",
+            "Attempting to save invalid position data",
+            validation,
+            action_required=True
+        )
+        # Continue anyway - better to save invalid data than lose all data
+    
+    # Use safe save with retry and alerting
+    success = safe_save_with_retry(POSITIONS_FUTURES_FILE, positions, max_retries=3)
+    
+    if not success:
+        # This is critical - positions not saved
+        alert_operator(
+            ALERT_CRITICAL,
+            "POSITION_SAVE",
+            "CRITICAL: Failed to save positions after all retries - DATA LOSS RISK",
+            {"filepath": POSITIONS_FUTURES_FILE, "open_count": len(positions.get("open_positions", [])), "closed_count": len(positions.get("closed_positions", []))},
+            action_required=True
+        )
+        raise RuntimeError(f"CRITICAL: Failed to save positions to {POSITIONS_FUTURES_FILE} after all retries")
 
 
 MAX_OPEN_POSITIONS = 10

@@ -1,0 +1,26 @@
+{
+  "last_check": null,
+  "inception_signals": {},
+  "historical_accuracy": {},
+  "funding_history": {
+    "BTCUSDT": [
+      0
+    ],
+    "BNBUSDT": [
+      0,
+      0
+    ],
+    "DOGEUSDT": [
+      0
+    ],
+    "AVAXUSDT": [
+      0
+    ],
+    "ETHUSDT": [
+      0
+    ]
+  },
+  "oi_velocity_history": {},
+  "cross_coin_momentum": {},
+  "last_updated": "2025-12-15T20:47:01.928562"
+}

@@ -1,0 +1,225 @@
+{
+  "fear_greed": {
+    "value": 16,
+    "classification": "Extreme Fear",
+    "signal": 1,
+    "timestamp": "2025-12-15T20:47:24.810061Z"
+  },
+  "social_stats": {
+    "BTC": {
+      "reddit_active": 0,
+      "reddit_posts_per_hour": 0,
+      "twitter_followers": 0,
+      "activity_score": 0
+    },
+    "ETH": {
+      "reddit_active": 0,
+      "reddit_posts_per_hour": 0,
+      "twitter_followers": 0,
+      "activity_score": 0
+    },
+    "SOL": {
+      "reddit_active": 0,
+      "reddit_posts_per_hour": 0,
+      "twitter_followers": 0,
+      "activity_score": 0
+    },
+    "BNB": {
+      "reddit_active": 0,
+      "reddit_posts_per_hour": 0,
+      "twitter_followers": 0,
+      "activity_score": 0
+    },
+    "AVAX": {
+      "reddit_active": 0,
+      "reddit_posts_per_hour": 0,
+      "twitter_followers": 0,
+      "activity_score": 0
+    },
+    "DOT": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "XRP": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "ADA": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "DOGE": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "MATIC": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "TRX": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "LINK": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "ARB": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "OP": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    },
+    "PEPE": {
+      "activity_score": 0,
+      "reddit_active": 0,
+      "twitter_followers": 0
+    }
+  },
+  "composite": {
+    "market_wide": {
+      "fear_greed": {
+        "value": 16,
+        "classification": "Extreme Fear",
+        "signal": 1,
+        "timestamp": "2025-12-15T20:47:24.810061Z"
+      },
+      "overall_signal": -1
+    },
+    "per_symbol": {
+      "BTC": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "ETH": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "SOL": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "BNB": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "AVAX": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "DOT": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "XRP": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "ADA": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "DOGE": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "MATIC": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "TRX": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "LINK": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "ARB": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "OP": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      },
+      "PEPE": {
+        "score": -0.4,
+        "fear_greed_component": -0.4,
+        "activity_component": 0.0,
+        "activity_score": 0,
+        "signal": -1,
+        "confidence": 0.8
+      }
+    },
+    "timestamp": "2025-12-15T20:47:30.684671Z"
+  },
+  "poll_timestamp": "2025-12-15T20:47:30.684799Z"
+}

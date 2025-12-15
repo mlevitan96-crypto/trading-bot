@@ -1,0 +1,40 @@
+{
+  "timestamp": "2025-12-15T20:37:39.068110",
+  "total_opportunities": 1,
+  "total_opportunity_cost_pct": 0.67,
+  "avg_opportunity_cost_pct": 0.67,
+  "frequently_rotated_from": {
+    "TRXUSDT": {
+      "count": 1,
+      "avg_cost": 0.67,
+      "total_cost": 0.67,
+      "interpretation": "Consider shorter holds or tighter stops"
+    }
+  },
+  "frequently_rotated_to": {
+    "DOGEUSDT": {
+      "count": 1,
+      "avg_move": 0.51,
+      "max_move": 0.51,
+      "interpretation": "Good rotation target - consider priority scanning"
+    }
+  },
+  "best_rotation_pairs": {
+    "TRXUSDT \u2192 DOGEUSDT": {
+      "count": 1,
+      "avg_cost": 0.67,
+      "total_cost": 0.67
+    }
+  },
+  "direction_patterns": {
+    "LONG \u2192 LONG": {
+      "count": 1,
+      "avg_cost": 0.67
+    }
+  },
+  "rotation_rules": [],
+  "trade_integration": {
+    "status": "insufficient_data"
+  },
+  "rules_generated": 0
+}

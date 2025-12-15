@@ -1,0 +1,22 @@
+{
+  "symbol": "DOGE",
+  "ts": "2025-12-15T20:48:13.245817Z",
+  "taker": {},
+  "liquidation": {},
+  "fear_greed": 50,
+  "signal": {
+    "direction": "NEUTRAL",
+    "confidence": 0.0,
+    "composite": 0.0,
+    "components": {
+      "flow": 0,
+      "liquidation": 0,
+      "fear_greed": 0
+    },
+    "raw": {
+      "buy_sell_ratio": 1.0,
+      "liq_ratio": 0.5,
+      "fear_greed": 50
+    }
+  }
+}

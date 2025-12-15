@@ -1,0 +1,116 @@
+{
+  "BTCUSDT_SOLUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 0,
+    "correlation": 0.3657087100048519,
+    "leader_direction": "LONG",
+    "leader_strength": 0.4844363253540725,
+    "reasons": [
+      "lag_0m_below_2"
+    ],
+    "cached": false,
+    "cached_at": 1765831377.6346061
+  },
+  "BTCUSDT_AVAXUSDT": {
+    "signal": "LONG",
+    "confidence": 0.1633485109446646,
+    "optimal_lag": 2,
+    "correlation": 0.4800009335205082,
+    "leader_direction": "LONG",
+    "leader_strength": 0.2268724906381673,
+    "reasons": [
+      "btc_leads_by_2m",
+      "corr_0.48",
+      "btc_long_0.23"
+    ],
+    "cached": false,
+    "cached_at": 1765831592.0069094
+  },
+  "BTCUSDT_DOTUSDT": {
+    "signal": "LONG",
+    "confidence": 0.1809546978244952,
+    "optimal_lag": 7,
+    "correlation": 0.5317368574611803,
+    "leader_direction": "LONG",
+    "leader_strength": 0.2268724906381673,
+    "reasons": [
+      "btc_leads_by_7m",
+      "corr_0.53",
+      "btc_long_0.23"
+    ],
+    "cached": false,
+    "cached_at": 1765831594.1056678
+  },
+  "BTCUSDT_XRPUSDT": {
+    "signal": "LONG",
+    "confidence": 0.28202573415841964,
+    "optimal_lag": 8,
+    "correlation": -0.3109123971897203,
+    "leader_direction": "SHORT",
+    "leader_strength": 0.7559088902736969,
+    "reasons": [
+      "btc_leads_by_8m",
+      "inverse_corr_-0.31",
+      "btc_short_target_inverse"
+    ],
+    "cached": false,
+    "cached_at": 1765831700.4621856
+  },
+  "BTCUSDT_DOGEUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 10,
+    "correlation": -0.23404895054831368,
+    "leader_direction": "LONG",
+    "leader_strength": 0.2268724906381673,
+    "reasons": [
+      "weak_corr_-0.23"
+    ],
+    "cached": false,
+    "cached_at": 1765831602.3003218
+  },
+  "BTCUSDT_BNBUSDT": {
+    "signal": "NEUTRAL",
+    "confidence": 0.0,
+    "optimal_lag": 13,
+    "correlation": -0.2753178982039948,
+    "leader_direction": "LONG",
+    "leader_strength": 0.2268724906381673,
+    "reasons": [
+      "weak_corr_-0.28"
+    ],
+    "cached": false,
+    "cached_at": 1765831604.6570427
+  },
+  "BTCUSDT_ETHUSDT": {
+    "signal": "SHORT",
+    "confidence": 0.35615075684744363,
+    "optimal_lag": 9,
+    "correlation": 0.3141037775231437,
+    "leader_direction": "SHORT",
+    "leader_strength": 0.7559088902736969,
+    "reasons": [
+      "btc_leads_by_9m",
+      "corr_0.31",
+      "btc_short_0.76"
+    ],
+    "cached": false,
+    "cached_at": 1765831692.8356874
+  },
+  "BTCUSDT_ADAUSDT": {
+    "signal": "SHORT",
+    "confidence": 0.10817410676338067,
+    "optimal_lag": 7,
+    "correlation": -0.39733812026268894,
+    "leader_direction": "LONG",
+    "leader_strength": 0.2268724906381673,
+    "reasons": [
+      "btc_leads_by_7m",
+      "inverse_corr_-0.40",
+      "btc_long_target_inverse"
+    ],
+    "cached": false,
+    "cached_at": 1765831598.316239
+  }
+}

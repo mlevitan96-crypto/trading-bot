@@ -1,0 +1,63 @@
+{
+  "mode": "alpha",
+  "inversion_active": false,
+  "inversion_started": null,
+  "inversion_reason": null,
+  "recent_signals": [
+    {
+      "ts": "2025-12-15T20:41:07.226465",
+      "symbol": "MATICUSDT",
+      "direction": "long",
+      "pnl": -0.36,
+      "win": false,
+      "was_inverted": false,
+      "mode": "alpha"
+    },
+    {
+      "ts": "2025-12-15T20:41:07.283881",
+      "symbol": "ARBUSDT",
+      "direction": "long",
+      "pnl": -2.063665462054708,
+      "win": false,
+      "was_inverted": false,
+      "mode": "alpha"
+    },
+    {
+      "ts": "2025-12-15T20:42:51.852269",
+      "symbol": "XRPUSDT",
+      "direction": "SHORT",
+      "pnl": -0.8998903730509269,
+      "win": false,
+      "was_inverted": false,
+      "mode": "alpha"
+    },
+    {
+      "ts": "2025-12-15T20:44:38.125588",
+      "symbol": "SOLUSDT",
+      "direction": "LONG",
+      "pnl": 1.5660146738692327,
+      "win": true,
+      "was_inverted": false,
+      "mode": "alpha"
+    },
+    {
+      "ts": "2025-12-15T20:46:23.766137",
+      "symbol": "SOLUSDT",
+      "direction": "SHORT",
+      "pnl": -2.0803422390830586,
+      "win": false,
+      "was_inverted": false,
+      "mode": "alpha"
+    }
+  ],
+  "inversion_history": [],
+  "alpha_consecutive_losses": 1,
+  "beta_wins_since_inversion": 0,
+  "last_decision_time": null,
+  "stats": {
+    "total_inversions": 0,
+    "successful_inversions": 0,
+    "inversion_pnl": 0
+  },
+  "last_updated": "2025-12-15T20:46:23.766198"
+}

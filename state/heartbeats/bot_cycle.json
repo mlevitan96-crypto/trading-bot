@@ -1,0 +1,10 @@
+{
+  "component": "bot_cycle",
+  "last_heartbeat_ts": 1765831623,
+  "last_heartbeat_dt": "2025-12-15 20:47:03 UTC",
+  "metadata": {
+    "portfolio_value": 5996.16211659968,
+    "open_positions": 10,
+    "available_margin": 6166.666666666667
+  }
+}

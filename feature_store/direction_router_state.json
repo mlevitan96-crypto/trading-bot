@@ -1,0 +1,115 @@
+{
+  "signal_directions": {
+    "funding": [
+      "SHORT"
+    ],
+    "liquidation": [
+      "SHORT"
+    ],
+    "hurst": [
+      "SHORT"
+    ],
+    "whale_flow": [
+      "SHORT"
+    ],
+    "lead_lag": [
+      "LONG"
+    ],
+    "oi_velocity": null,
+    "ofi_momentum": null,
+    "fear_greed": null,
+    "volatility_skew": [],
+    "oi_divergence": null
+  },
+  "rolling_windows": {
+    "funding": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "liquidation": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "hurst": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "whale_flow": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "lead_lag": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "oi_velocity": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "ofi_momentum": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "fear_greed": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "volatility_skew": {
+      "LONG": [],
+      "SHORT": []
+    },
+    "oi_divergence": {
+      "LONG": [],
+      "SHORT": []
+    }
+  },
+  "ewma_ev": {
+    "funding": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "liquidation": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "hurst": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "whale_flow": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "lead_lag": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "oi_velocity": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "ofi_momentum": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "fear_greed": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "volatility_skew": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "oi_divergence": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    }
+  },
+  "flip_history": [],
+  "pending_flips": {},
+  "manual_overrides": {},
+  "cooldown_until_global": null,
+  "last_update": "2025-12-15T20:33:45.666425",
+  "regime_summary": {},
+  "version": "1.0.0"
+}

@@ -447,3 +447,375 @@ def safe_save_with_retry(filepath: str, data: Dict, max_retries: int = 3) -> boo
     
     return False
 
+
+# ============================================================================
+# SELF-HEALING LAYER
+# ============================================================================
+
+def self_heal() -> Dict[str, Any]:
+    """
+    Comprehensive self-healing for recoverable issues.
+    
+    Auto-heals:
+    - Cold-start: Missing/empty files, missing directories
+    - Recoverable runtime: Stale heartbeats, lock timeouts, orphan processes, corrupted JSON
+    
+    Does NOT auto-heal (CRITICAL alerts only):
+    - State mismatches (positions vs portfolio)
+    - Partial fills (incomplete trades)
+    - Conflicting positions (duplicate entries)
+    - Data integrity violations
+    
+    Returns:
+        dict with healing results:
+        {
+            "success": bool,
+            "healed": List[str],  # List of issues healed
+            "failed": List[str],   # List of issues that couldn't be healed
+            "critical": List[str], # List of dangerous issues (not auto-healed)
+            "stats": {
+                "files_created": int,
+                "files_repaired": int,
+                "directories_created": int,
+                "heartbeats_reset": int,
+                "locks_cleared": int,
+                "orphans_killed": int
+            }
+        }
+    """
+    result = {
+        "success": True,
+        "healed": [],
+        "failed": [],
+        "critical": [],
+        "stats": {
+            "files_created": 0,
+            "files_repaired": 0,
+            "directories_created": 0,
+            "heartbeats_reset": 0,
+            "locks_cleared": 0,
+            "orphans_killed": 0
+        }
+    }
+    
+    print("\n🔧 [SELF-HEAL] Starting self-healing process...")
+    
+    try:
+        from src.infrastructure.path_registry import PathRegistry
+        from src.file_locks import locked_json_read, atomic_json_save
+        
+        # ====================================================================
+        # 1. COLD-START: Create missing directories
+        # ====================================================================
+        required_dirs = [
+            PathRegistry.LOGS_DIR,
+            PathRegistry.CONFIG_DIR,
+            PathRegistry.CONFIGS_DIR,
+            PathRegistry.DATA_DIR,
+            PathRegistry.FEATURE_STORE_DIR,
+            Path("state"),
+            Path("state/heartbeats"),
+            Path("logs/backups"),
+        ]
+        
+        for dir_path in required_dirs:
+            if not dir_path.exists():
+                try:
+                    dir_path.mkdir(parents=True, exist_ok=True)
+                    result["stats"]["directories_created"] += 1
+                    result["healed"].append(f"Created directory: {dir_path}")
+                    print(f"   ✅ Created directory: {dir_path}")
+                except Exception as e:
+                    result["failed"].append(f"Failed to create directory {dir_path}: {e}")
+                    print(f"   ❌ Failed to create directory {dir_path}: {e}")
+        
+        # ====================================================================
+        # 2. COLD-START: Initialize missing/empty position files
+        # ====================================================================
+        pos_file = PathRegistry.POS_LOG
+        if not pos_file.exists() or pos_file.stat().st_size == 0:
+            try:
+                # Try to read existing data first (might be corrupted)
+                existing_data = {}
+                if pos_file.exists():
+                    try:
+                        existing_data = locked_json_read(str(pos_file), default={})
+                    except:
+                        pass  # File is corrupted, will create fresh
+                
+                # Create valid structure
+                positions = {
+                    "open_positions": existing_data.get("open_positions", []),
+                    "closed_positions": existing_data.get("closed_positions", []),
+                    "created_at": datetime.utcnow().isoformat(),
+                    "healed_at": datetime.utcnow().isoformat()
+                }
+                
+                if atomic_json_save(str(pos_file), positions):
+                    result["stats"]["files_created"] += 1
+                    result["healed"].append(f"Initialized positions file: {pos_file}")
+                    print(f"   ✅ Initialized positions file: {pos_file}")
+                else:
+                    result["failed"].append(f"Failed to save positions file: {pos_file}")
+            except Exception as e:
+                result["failed"].append(f"Failed to initialize positions file: {e}")
+                print(f"   ❌ Failed to initialize positions file: {e}")
+        else:
+            # Check if file is corrupted JSON
+            try:
+                with open(pos_file, 'r') as f:
+                    data = json.load(f)
+                # Validate structure
+                if not isinstance(data, dict) or "open_positions" not in data or "closed_positions" not in data:
+                    # Repair structure
+                    positions = {
+                        "open_positions": data.get("open_positions", []) if isinstance(data.get("open_positions"), list) else [],
+                        "closed_positions": data.get("closed_positions", []) if isinstance(data.get("closed_positions"), list) else [],
+                        "created_at": data.get("created_at", datetime.utcnow().isoformat()),
+                        "healed_at": datetime.utcnow().isoformat()
+                    }
+                    if atomic_json_save(str(pos_file), positions):
+                        result["stats"]["files_repaired"] += 1
+                        result["healed"].append(f"Repaired positions file structure: {pos_file}")
+                        print(f"   ✅ Repaired positions file structure: {pos_file}")
+            except json.JSONDecodeError:
+                # File is corrupted, try to extract what we can
+                try:
+                    from src.file_locks import DEFAULT_EMPTY
+                    positions = DEFAULT_EMPTY.copy()
+                    positions["created_at"] = datetime.utcnow().isoformat()
+                    positions["healed_at"] = datetime.utcnow().isoformat()
+                    if atomic_json_save(str(pos_file), positions):
+                        result["stats"]["files_repaired"] += 1
+                        result["healed"].append(f"Repaired corrupted positions file: {pos_file}")
+                        print(f"   ✅ Repaired corrupted positions file: {pos_file}")
+                except Exception as e:
+                    result["failed"].append(f"Failed to repair corrupted positions file: {e}")
+        
+        # ====================================================================
+        # 3. COLD-START: Initialize other critical files
+        # ====================================================================
+        critical_files = [
+            ("logs/unified_events.jsonl", None),  # JSONL file, no initialization needed
+            ("logs/portfolio_futures.json", {
+                "total_margin_allocated": 10000.0,
+                "available_margin": 10000.0,
+                "used_margin": 0.0,
+                "unrealized_pnl": 0.0,
+                "realized_pnl": 0.0,
+                "total_funding_fees": 0.0,
+                "total_trading_fees": 0.0,
+                "open_positions_count": 0,
+                "total_notional_exposure": 0.0,
+                "effective_leverage": 0.0,
+                "snapshots": [],
+                "created_at": datetime.utcnow().isoformat()
+            }),
+        ]
+        
+        for file_path_str, default_data in critical_files:
+            file_path = PathRegistry.get_path(file_path_str) if not os.path.isabs(file_path_str) else Path(file_path_str)
+            
+            if default_data is None:
+                # JSONL file - just ensure parent directory exists
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+                continue
+            
+            if not file_path.exists() or (file_path.exists() and file_path.stat().st_size == 0):
+                try:
+                    if atomic_json_save(str(file_path), default_data):
+                        result["stats"]["files_created"] += 1
+                        result["healed"].append(f"Initialized file: {file_path}")
+                        print(f"   ✅ Initialized file: {file_path}")
+                except Exception as e:
+                    result["failed"].append(f"Failed to initialize {file_path}: {e}")
+        
+        # ====================================================================
+        # 4. RUNTIME: Clear stale file locks
+        # ====================================================================
+        try:
+            import glob
+            lock_pattern = str(PathRegistry.LOGS_DIR / "*.lock")
+            lock_files = glob.glob(lock_pattern)
+            
+            current_time = time.time()
+            stale_threshold = 300  # 5 minutes
+            
+            for lock_file in lock_files:
+                try:
+                    lock_age = current_time - os.path.getmtime(lock_file)
+                    if lock_age > stale_threshold:
+                        os.remove(lock_file)
+                        result["stats"]["locks_cleared"] += 1
+                        result["healed"].append(f"Cleared stale lock: {lock_file}")
+                        print(f"   ✅ Cleared stale lock: {lock_file}")
+                except Exception as e:
+                    result["failed"].append(f"Failed to clear lock {lock_file}: {e}")
+        except Exception as e:
+            result["failed"].append(f"Failed to check locks: {e}")
+        
+        # ====================================================================
+        # 5. RUNTIME: Reset stale heartbeats
+        # ====================================================================
+        try:
+            heartbeat_file = Path("logs/.bot_heartbeat")
+            if heartbeat_file.exists():
+                heartbeat_age = time.time() - heartbeat_file.stat().st_mtime
+                if heartbeat_age > 600:  # 10 minutes stale
+                    # Reset heartbeat
+                    heartbeat_file.parent.mkdir(parents=True, exist_ok=True)
+                    with open(heartbeat_file, 'w') as f:
+                        f.write(str(int(time.time())))
+                    result["stats"]["heartbeats_reset"] += 1
+                    result["healed"].append("Reset stale bot heartbeat")
+                    print(f"   ✅ Reset stale bot heartbeat")
+            
+            # Check state/heartbeats directory
+            hb_dir = Path("state/heartbeats")
+            if hb_dir.exists():
+                for hb_file in hb_dir.glob("*.json"):
+                    try:
+                        with open(hb_file, 'r') as f:
+                            hb_data = json.load(f)
+                        last_ts = hb_data.get("last_heartbeat_ts", 0)
+                        age = time.time() - last_ts
+                        if age > 600:  # 10 minutes stale
+                            # Reset to current time
+                            hb_data["last_heartbeat_ts"] = int(time.time())
+                            hb_data["last_heartbeat_dt"] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+                            tmp_file = hb_file.with_suffix(".tmp")
+                            tmp_file.write_text(json.dumps(hb_data, indent=2))
+                            tmp_file.replace(hb_file)
+                            result["stats"]["heartbeats_reset"] += 1
+                            result["healed"].append(f"Reset stale heartbeat: {hb_file.name}")
+                            print(f"   ✅ Reset stale heartbeat: {hb_file.name}")
+                    except Exception as e:
+                        # Non-critical, continue
+                        pass
+        except Exception as e:
+            result["failed"].append(f"Failed to reset heartbeats: {e}")
+        
+        # ====================================================================
+        # 6. RUNTIME: Kill orphan processes (only if safe)
+        # ====================================================================
+        try:
+            import psutil
+            current_pid = os.getpid()
+            current_cmdline = " ".join(psutil.Process(current_pid).cmdline())
+            
+            # Find orphan Python processes running trading bot code
+            orphans = []
+            for proc in psutil.process_iter(['pid', 'cmdline', 'create_time']):
+                try:
+                    cmdline = " ".join(proc.info['cmdline'] or [])
+                    if "trading" in cmdline.lower() and "python" in cmdline.lower():
+                        if proc.info['pid'] != current_pid:
+                            # Check if process is actually stale (no recent activity)
+                            proc_obj = psutil.Process(proc.info['pid'])
+                            if proc_obj.is_running():
+                                # Check if it's been running too long without updates
+                                # (This is a heuristic - be conservative)
+                                create_time = proc.info.get('create_time', 0)
+                                if time.time() - create_time > 3600:  # 1 hour old
+                                    orphans.append(proc.info['pid'])
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    continue
+            
+            # Only kill orphans if we're confident they're stale
+            # In paper mode, be more aggressive; in real mode, be conservative
+            trading_mode = os.getenv('TRADING_MODE', 'paper').lower()
+            is_paper_mode = trading_mode == 'paper'
+            
+            for orphan_pid in orphans:
+                try:
+                    if is_paper_mode:
+                        # Paper mode: kill orphans more aggressively
+                        proc = psutil.Process(orphan_pid)
+                        proc.terminate()
+                        time.sleep(1)
+                        if proc.is_running():
+                            proc.kill()
+                        result["stats"]["orphans_killed"] += 1
+                        result["healed"].append(f"Killed orphan process: PID {orphan_pid}")
+                        print(f"   ✅ Killed orphan process: PID {orphan_pid}")
+                    else:
+                        # Real mode: only log, don't kill (too risky)
+                        result["healed"].append(f"Found orphan process (not killed in real mode): PID {orphan_pid}")
+                        print(f"   ⚠️  Found orphan process (not killed in real mode): PID {orphan_pid}")
+                except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
+                    result["failed"].append(f"Failed to kill orphan {orphan_pid}: {e}")
+        except ImportError:
+            # psutil not available, skip
+            pass
+        except Exception as e:
+            result["failed"].append(f"Failed to check orphan processes: {e}")
+        
+        # ====================================================================
+        # 7. DANGEROUS ISSUES: Detect but DO NOT auto-heal
+        # ====================================================================
+        try:
+            # Check for state mismatches
+            pos_data = locked_json_read(str(PathRegistry.POS_LOG), default={"open_positions": [], "closed_positions": []})
+            open_positions = pos_data.get("open_positions", [])
+            
+            # Check for duplicate positions (same symbol + direction)
+            seen = set()
+            duplicates = []
+            for i, pos in enumerate(open_positions):
+                key = (pos.get("symbol"), pos.get("direction"))
+                if key in seen:
+                    duplicates.append(i)
+                seen.add(key)
+            
+            if duplicates:
+                result["critical"].append(f"Duplicate positions detected: indices {duplicates}")
+                alert_operator(
+                    ALERT_CRITICAL,
+                    "POSITION_CONFLICT",
+                    f"Duplicate positions detected in open_positions (indices: {duplicates})",
+                    {"duplicate_indices": duplicates, "open_count": len(open_positions)},
+                    action_required=True
+                )
+            
+            # Check for positions with invalid data
+            invalid_positions = []
+            for i, pos in enumerate(open_positions):
+                if pos.get("entry_price", 0) <= 0 or pos.get("size", 0) <= 0:
+                    invalid_positions.append(i)
+            
+            if invalid_positions:
+                result["critical"].append(f"Invalid positions detected: indices {invalid_positions}")
+                alert_operator(
+                    ALERT_CRITICAL,
+                    "POSITION_INTEGRITY",
+                    f"Invalid position data detected (indices: {invalid_positions})",
+                    {"invalid_indices": invalid_positions, "open_count": len(open_positions)},
+                    action_required=True
+                )
+        except Exception as e:
+            result["failed"].append(f"Failed to check dangerous issues: {e}")
+        
+        # ====================================================================
+        # Summary
+        # ====================================================================
+        if result["healed"]:
+            print(f"\n✅ [SELF-HEAL] Healed {len(result['healed'])} issues")
+        if result["failed"]:
+            print(f"\n⚠️  [SELF-HEAL] Failed to heal {len(result['failed'])} issues")
+        if result["critical"]:
+            print(f"\n🚨 [SELF-HEAL] Found {len(result['critical'])} dangerous issues (NOT auto-healed)")
+            result["success"] = False  # Critical issues mean healing incomplete
+        
+        if not result["healed"] and not result["failed"] and not result["critical"]:
+            print("   ℹ️  No issues found - system healthy")
+        
+        return result
+        
+    except Exception as e:
+        result["success"] = False
+        result["failed"].append(f"Self-healing error: {e}")
+        print(f"   ❌ Self-healing error: {e}")
+        import traceback
+        traceback.print_exc()
+        return result
+

@@ -30,6 +30,9 @@ import traceback
 
 RESTART_MARKER = Path("logs/.restart_needed")
 
+# Module-level variable to store healing result for run_heavy_initialization
+_healing_result = None
+
 
 def _safe_poll(poll_fn, name: str):
     """Safely execute a polling function with error handling."""
@@ -1582,9 +1585,45 @@ def run_heavy_initialization():
     health_monitor_thread.start()
     print("   ✅ Pipeline health monitor started")
     
-    # CRITICAL: Start trading engine based on mode and health check
-    if is_paper_mode or health_check_passed:
+    # CRITICAL: Start trading engine based on mode, health check, and self-healing
+    # Paper mode: ALWAYS start, even if health checks fail or self-healing has issues
+    # Real mode: Only start if health checks pass AND self-healing succeeded (no critical issues)
+    # Use healing result from main() if available, otherwise assume success in paper mode
+    global _healing_result
+    if _healing_result is not None:
+        healing_success = _healing_result["success"] and len(_healing_result["critical"]) == 0
+    else:
+        # Healing wasn't run yet (shouldn't happen, but be safe)
+        if is_paper_mode:
+            healing_success = True  # Paper mode always succeeds
+        else:
+            # Real mode: assume failure if healing wasn't run
+            healing_success = False
+            print("   ⚠️  Self-healing result not available - assuming failure in real mode")
+    
+    should_start_engine = False
+    if is_paper_mode:
+        # Paper mode: ALWAYS start, regardless of health checks or healing
+        should_start_engine = True
         print(f"\n🤖 Starting trading engine (mode: {trading_mode.upper()})...")
+        print("   ℹ️  PAPER MODE: Engine starts regardless of health/healing status")
+    elif health_check_passed and healing_success:
+        # Real mode: Start only if both health check AND healing succeeded
+        should_start_engine = True
+        print(f"\n🤖 Starting trading engine (mode: {trading_mode.upper()})...")
+        print("   ✅ Health check passed and self-healing succeeded")
+    else:
+        # Real mode: Don't start if health check failed OR healing found critical issues
+        should_start_engine = False
+        print(f"\n⛔ Trading engine NOT started - REAL TRADING MODE safety checks failed")
+        if not health_check_passed:
+            print("   ❌ Health check failed")
+        if not healing_success:
+            print("   ❌ Self-healing found critical issues (see alerts above)")
+        print("   ℹ️  Dashboard will continue running, but no trades will execute")
+        print("   ℹ️  Fix issues and restart to enable trading")
+    
+    if should_start_engine:
         bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
         bot_thread.start()
         print("   ✅ Trading engine started")
@@ -1593,10 +1632,6 @@ def run_heavy_initialization():
         supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
         supervisor_thread.start()
         print("   ✅ Bot supervisor started")
-    else:
-        print(f"\n⛔ Trading engine NOT started - health check failed in REAL TRADING MODE")
-        print("   ℹ️  Dashboard will continue running, but no trades will execute")
-        print("   ℹ️  Fix health issues and restart to enable trading")
     
     nightly_thread = threading.Thread(target=nightly_learning_scheduler, daemon=True)
     nightly_thread.start()
@@ -1664,7 +1699,7 @@ def main():
     is_paper_mode = trading_mode == 'paper'
     
     try:
-        from src.operator_safety import validate_systemd_slot, validate_startup_state
+        from src.operator_safety import validate_systemd_slot, validate_startup_state, self_heal
         print("\n🔍 [SAFETY] Running startup validation...")
         slot_validation = validate_systemd_slot()
         state_validation = validate_startup_state()
@@ -1677,11 +1712,36 @@ def main():
                 print("   ⚠️  Continuing in REAL TRADING MODE with degraded health checks")
         else:
             print("✅ [SAFETY] Startup validation passed")
+        
+        # Run self-healing after validation
+        print("\n🔧 [SAFETY] Running self-healing...")
+        healing_result = self_heal()
+        
+        # Store healing result in module-level variable for run_heavy_initialization to access
+        global _healing_result
+        _healing_result = healing_result
+        
+        if healing_result["success"]:
+            if healing_result["healed"]:
+                print(f"✅ [SAFETY] Self-healing completed: {len(healing_result['healed'])} issues healed")
+            else:
+                print("✅ [SAFETY] Self-healing completed: No issues found")
+        else:
+            if is_paper_mode:
+                print(f"⚠️ [SAFETY] Self-healing completed with issues - continuing in PAPER MODE")
+                print(f"   Healed: {len(healing_result['healed'])}, Failed: {len(healing_result['failed'])}, Critical: {len(healing_result['critical'])}")
+            else:
+                print(f"❌ [SAFETY] Self-healing failed - REAL TRADING MODE requires successful healing")
+                print(f"   Healed: {len(healing_result['healed'])}, Failed: {len(healing_result['failed'])}, Critical: {len(healing_result['critical'])}")
+                if healing_result["critical"]:
+                    print("   🚨 CRITICAL: Dangerous issues detected - trading engine will NOT start")
+                    print("   ℹ️  Dashboard will continue running, but no trades will execute")
+                    print("   ℹ️  Fix critical issues and restart to enable trading")
     except Exception as e:
         # Safety validation must NEVER block startup, especially in paper mode
-        print(f"⚠️ [SAFETY] Startup validation error (non-blocking): {e}")
+        print(f"⚠️ [SAFETY] Startup validation/self-healing error (non-blocking): {e}")
         if is_paper_mode:
-            print("   ℹ️  Continuing in PAPER MODE despite validation error")
+            print("   ℹ️  Continuing in PAPER MODE despite validation/healing error")
         import traceback
         traceback.print_exc()
     

@@ -109,3 +109,4 @@ The trading bot uses a slot-based deployment (trading-bot-A, trading-bot-B, trad
 4. Test path resolution when CWD != project root
 5. Verify all components see same data
 
+

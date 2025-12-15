@@ -173,12 +173,13 @@ def ensure_signal_resolution_running():
         for i, line in enumerate(lines):
             if "def run_bot_cycle():" in line:
                 in_function = True
-            elif in_function and line.strip().startswith("def ") and "run_bot_cycle" not in line:
-                insert_index = i
-                break
             elif in_function and "initialize_portfolio()" in line:
-                # Insert after initialize_portfolio
+                # Insert after initialize_portfolio (preferred location)
                 insert_index = i + 1
+                break
+            elif in_function and line.strip().startswith("def ") and "run_bot_cycle" not in line:
+                # Fallback: insert before next function definition
+                insert_index = i
                 break
         
         if insert_index:
@@ -197,6 +198,10 @@ def ensure_signal_resolution_running():
                         last_import = i
                 
                 lines.insert(last_import + 1, "from src.signal_outcome_tracker import signal_tracker\n")
+                # Adjust insert_index since we added a line before it
+                # Only adjust if the import was inserted before the resolver call position
+                if last_import + 1 < insert_index:
+                    insert_index += 1
             
             # Add resolver call
             resolver_call = "    # [SIGNAL RESOLUTION] Resolve pending signals every cycle\n    try:\n        signal_tracker.resolve_pending_signals()\n    except Exception as e:\n        print(f\"⚠️ Signal resolution error: {e}\")\n    \n"
@@ -252,4 +257,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

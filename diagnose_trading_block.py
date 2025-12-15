@@ -117,7 +117,7 @@ def main():
         
         if not enabled:
             issues.append("❌ CRITICAL: alpha_trading.enabled = false (signals blocked before conviction gate)")
-        if enabled_symbols and len(enabled_symbols) == 0:
+        if not enabled_symbols:
             issues.append("⚠️ enabled_symbols is empty (no symbols allowed)")
     
     # 3. Check live config

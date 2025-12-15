@@ -7,3 +7,4 @@ __pycache__/
 *.db
 .env
 logs/
+live_config.json

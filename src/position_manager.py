@@ -7,8 +7,14 @@ from pathlib import Path
 from datetime import datetime
 import pytz
 from src.io_safe import safe_open, AccessBlocked
+from src.infrastructure.path_registry import resolve_path
 
-POSITIONS_FUTURES_FILE = "logs/positions_futures.json"
+# Use absolute path resolution for slot-based deployments
+try:
+    POSITIONS_FUTURES_FILE = resolve_path("logs/positions_futures.json")
+except Exception as e:
+    # Fallback to relative path if resolution fails
+    POSITIONS_FUTURES_FILE = "logs/positions_futures.json"
 ARIZONA_TZ = pytz.timezone('America/Phoenix')
 
 # --- AUTO-INJECT: enforce minimum hold time before allowing exit ---
@@ -133,11 +139,15 @@ def save_positions(positions):
 
 def initialize_futures_positions():
     """Initialize futures positions tracking file. Also repairs empty/malformed files."""
-    Path("logs").mkdir(exist_ok=True)
+    # Ensure the logs directory exists (using resolved path)
     file_path = Path(POSITIONS_FUTURES_FILE)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    print(f"🔍 [POSITION-MANAGER] Initializing positions file: {POSITIONS_FUTURES_FILE}")
     
     # If file doesn't exist, create it
     if not file_path.exists():
+        print(f"📝 [POSITION-MANAGER] Creating new positions_futures.json file")
         positions = {
             "open_positions": [],
             "closed_positions": [],
@@ -145,6 +155,7 @@ def initialize_futures_positions():
         }
         with open(POSITIONS_FUTURES_FILE, 'w') as f:
             json.dump(positions, f, indent=2)
+        print(f"✅ [POSITION-MANAGER] Created positions_futures.json with proper structure")
         return
     
     # If file exists but is empty or malformed, repair it
@@ -162,6 +173,7 @@ def initialize_futures_positions():
                 }
                 with open(POSITIONS_FUTURES_FILE, 'w') as f:
                     json.dump(positions, f, indent=2)
+                print(f"✅ [POSITION-MANAGER] Repaired empty positions_futures.json file")
                 return
             
             # Try to parse and validate structure
@@ -180,6 +192,9 @@ def initialize_futures_positions():
                 }
                 with open(POSITIONS_FUTURES_FILE, 'w') as f:
                     json.dump(positions, f, indent=2)
+                print(f"✅ [POSITION-MANAGER] Repaired malformed positions_futures.json file")
+            else:
+                print(f"✅ [POSITION-MANAGER] positions_futures.json is valid (open: {len(data.get('open_positions', []))}, closed: {len(data.get('closed_positions', []))})")
     except (json.JSONDecodeError, ValueError) as e:
         # File is corrupted - repair it
         print(f"🔧 [POSITION-MANAGER] Repairing corrupted positions_futures.json: {e}")
@@ -191,6 +206,7 @@ def initialize_futures_positions():
         }
         with open(POSITIONS_FUTURES_FILE, 'w') as f:
             json.dump(positions, f, indent=2)
+        print(f"✅ [POSITION-MANAGER] Repaired corrupted positions_futures.json file")
 
 
 def load_futures_positions():

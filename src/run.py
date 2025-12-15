@@ -78,8 +78,8 @@ def run_startup_health_checks():
         import signal
         import subprocess
         
-        # Check ALL critical ports (not just 5000) to prevent conflicts
-        CRITICAL_PORTS = [5000, 3000, 8080]
+        # Check ALL critical ports (not just 8050) to prevent conflicts
+        CRITICAL_PORTS = [8050, 5000, 3000, 8080]
         for port in CRITICAL_PORTS:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -1625,15 +1625,16 @@ def main():
             time.sleep(60)
         return
     
-    # Normal mode: Start Flask dashboard on port 5000
-    print("\n🌐 Starting P&L Dashboard on http://0.0.0.0:5000")
+    # Normal mode: Start Flask dashboard on port 8050 (configurable via PORT env var)
+    dashboard_port = int(os.environ.get("PORT", "8050"))
+    print(f"\n🌐 Starting P&L Dashboard on http://0.0.0.0:{dashboard_port}")
     
-    if not _force_clear_port(5000):
-        print("❌ FATAL: Cannot clear port 5000 after multiple attempts!")
+    if not _force_clear_port(dashboard_port):
+        print(f"❌ FATAL: Cannot clear port {dashboard_port} after multiple attempts!")
         print("   Please manually kill the blocking process and restart.")
         sys.exit(1)
     
-    print("   ✅ Port 5000 is available")
+    print(f"   ✅ Port {dashboard_port} is available")
     print("   ℹ️  Initializing subsystems in background...")
     
     # Create Flask app first
@@ -1682,7 +1683,7 @@ def main():
                     return self.application
             
             options = {
-                'bind': '0.0.0.0:5000',
+                'bind': f'0.0.0.0:{dashboard_port}',
                 'workers': 2,
                 'threads': 4,
                 'worker_class': 'sync',
@@ -1701,25 +1702,25 @@ def main():
         except ImportError:
             print("   ⚠️ Gunicorn not available, falling back to Flask dev server")
             app_to_run = dash_app if dash_app is not None else flask_app
-            app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+            app_to_run.run(host="0.0.0.0", port=dashboard_port, debug=False, use_reloader=False)
         except Exception as e:
             print(f"   ⚠️ Gunicorn failed: {e}, falling back to Flask dev server")
             app_to_run = dash_app if dash_app is not None else flask_app
-            app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+            app_to_run.run(host="0.0.0.0", port=dashboard_port, debug=False, use_reloader=False)
     else:
         try:
             app_to_run = dash_app if dash_app is not None else flask_app
-            app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+            app_to_run.run(host="0.0.0.0", port=dashboard_port, debug=False, use_reloader=False)
         except OSError as e:
             if "Address already in use" in str(e):
-                print(f"❌ FATAL: Port 5000 binding failed: {e}")
+                print(f"❌ FATAL: Port {dashboard_port} binding failed: {e}")
                 print("   Attempting emergency port recovery...")
-                if _force_clear_port(5000):
+                if _force_clear_port(dashboard_port):
                     print("   ✅ Port recovered - restarting Flask...")
                     app_to_run = dash_app if dash_app is not None else flask_app
-                    app_to_run.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+                    app_to_run.run(host="0.0.0.0", port=dashboard_port, debug=False, use_reloader=False)
                 else:
-                    print("❌ FATAL: Cannot recover port 5000. Bot shutting down.")
+                    print(f"❌ FATAL: Cannot recover port {dashboard_port}. Bot shutting down.")
                     sys.exit(1)
             else:
                 raise

@@ -383,15 +383,18 @@ def load_closed_positions_df():
         
         ARIZONA_TZ = pytz.timezone('America/Phoenix')
         
-        # Use DataRegistry for safe, centralized access to closed positions
-        pos_path = DR.POSITIONS_FUTURES
-        print(f"📊 [DASHBOARD] Loading closed positions from: {pos_path}")
-        print(f"📊 [DASHBOARD] Path exists: {os.path.exists(pos_path)}")
+        # Initialize positions file if needed (repairs empty files)
+        try:
+            from src.position_manager import initialize_futures_positions
+            initialize_futures_positions()
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD] Failed to initialize positions: {e}")
         
+        # Use DataRegistry for safe, centralized access to closed positions
         closed_positions = DR.get_closed_positions(hours=168)  # Last 7 days
-        print(f"📊 [DASHBOARD] Found {len(closed_positions)} closed positions")
         
         if not closed_positions:
+            print("ℹ️  [DASHBOARD] No closed positions found in last 7 days")
             return pd.DataFrame(columns=["symbol","strategy","entry_time","exit_time","entry_price","exit_price","size","hold_duration_h","roi_pct","net_pnl","fees"])
         
         df_data = []
@@ -478,13 +481,18 @@ def load_open_positions_df():
         _dashboard_health_status["last_error"] = str(gw_err)
     
     try:
-        pos_path = DR.POSITIONS_FUTURES
-        print(f"📊 [DASHBOARD] Loading open positions from: {pos_path}")
-        print(f"📊 [DASHBOARD] Path exists: {os.path.exists(pos_path)}")
+        # Initialize positions file if needed (repairs empty files)
+        try:
+            from src.position_manager import initialize_futures_positions
+            initialize_futures_positions()
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD] Failed to initialize positions: {e}")
         
         open_positions = DR.get_open_positions()
-        print(f"📊 [DASHBOARD] Found {len(open_positions)} open positions")
         _dashboard_health_status["positions_loaded"] = len(open_positions)
+        
+        if not open_positions:
+            print("ℹ️  [DASHBOARD] No open positions found")
         
         for e in open_positions:
             symbol = e.get("symbol", "")
@@ -670,10 +678,38 @@ def make_open_positions_section(df: pd.DataFrame):
             xaxis={"title": "Symbol"},
             yaxis={"title": "P&L (USD)"}
         )
+    else:
+        # Empty state message
+        bar_fig.add_annotation(
+            text="No open positions<br>Waiting for trades...",
+            xref="paper", yref="paper",
+            x=0.5, y=0.5,
+            showarrow=False,
+            font={"size": 16, "color": "#9aa0a6"}
+        )
+        bar_fig.update_layout(
+            title="Unrealized P&L by Symbol",
+            plot_bgcolor="#0f1217",
+            paper_bgcolor="#0f1217",
+            font={"color": "#e8eaed"}
+        )
 
     bar = dcc.Graph(id="open-positions-bar", figure=bar_fig, config={"displayModeBar": True})
+    
+    # Add empty state message if no positions
+    empty_message = None
+    if df.empty:
+        empty_message = dbc.Alert(
+            [
+                html.H5("No Open Positions", style={"marginBottom": "8px"}),
+                html.P("The bot is not currently holding any open positions. Positions will appear here once trades are executed.", 
+                       style={"marginBottom": "0", "color": "#9aa0a6"})
+            ],
+            color="info",
+            style={"backgroundColor": "#1b1f2a", "border": "1px solid #2d3139", "color": "#e8eaed", "marginTop": "12px"}
+        )
 
-    return html.Div([table, summary, bar])
+    return html.Div([table, summary, bar, empty_message] if empty_message else [table, summary, bar])
 
 def make_closed_positions_section(df: pd.DataFrame):
     """Create closed positions section with table, summary, and chart (matches open positions styling)"""
@@ -774,6 +810,21 @@ def make_closed_positions_section(df: pd.DataFrame):
             xaxis={"title": "Symbol"},
             yaxis={"title": "P&L (USD)"}
         )
+    else:
+        # Empty state message
+        bar_fig.add_annotation(
+            text="No closed positions in last 7 days<br>Trade history will appear here once positions are closed.",
+            xref="paper", yref="paper",
+            x=0.5, y=0.5,
+            showarrow=False,
+            font={"size": 16, "color": "#9aa0a6"}
+        )
+        bar_fig.update_layout(
+            title="Realized P&L by Symbol",
+            plot_bgcolor="#0f1217",
+            paper_bgcolor="#0f1217",
+            font={"color": "#e8eaed"}
+        )
 
     bar = dcc.Graph(id="closed-positions-bar", figure=bar_fig, config={"displayModeBar": True})
     
@@ -793,7 +844,20 @@ def make_closed_positions_section(df: pd.DataFrame):
         }
     )
     
-    return html.Div([table, summary, bar, export_btn])
+    # Add empty state message if no positions
+    empty_message = None
+    if df.empty:
+        empty_message = dbc.Alert(
+            [
+                html.H5("No Closed Positions (Last 7 Days)", style={"marginBottom": "8px"}),
+                html.P("No closed trades found in the last 7 days. Closed positions will appear here once trades are completed.", 
+                       style={"marginBottom": "0", "color": "#9aa0a6"})
+            ],
+            color="info",
+            style={"backgroundColor": "#1b1f2a", "border": "1px solid #2d3139", "color": "#e8eaed", "marginTop": "12px"}
+        )
+    
+    return html.Div([table, summary, bar, export_btn, empty_message] if empty_message else [table, summary, bar, export_btn])
 
 def get_wallet_balance() -> float:
     """
@@ -806,17 +870,9 @@ def get_wallet_balance() -> float:
     try:
         from src.data_registry import DataRegistry as DR
         
-        # Log the path being used
-        pos_path = DR.POSITIONS_FUTURES
-        print(f"💰 [DASHBOARD] Reading positions from: {pos_path}")
-        print(f"💰 [DASHBOARD] Path exists: {os.path.exists(pos_path)}")
-        
         closed_positions = DR.get_closed_positions(hours=None)
         
-        print(f"💰 [DASHBOARD] Found {len(closed_positions)} closed positions")
-        
         if not closed_positions:
-            print(f"💰 [DASHBOARD] No closed positions found - returning starting capital ${starting_capital}")
             return starting_capital
         
         total_pnl = 0.0
@@ -1433,6 +1489,14 @@ def start_pnl_dashboard(flask_app: Flask = None):
     Registers the P&L dashboard as the default view ("/") on your existing Flask app.
     If no app is provided, creates its own Flask + Dash server.
     """
+    # Initialize positions file on startup (repairs empty/malformed files)
+    try:
+        from src.position_manager import initialize_futures_positions
+        initialize_futures_positions()
+        print("✅ [DASHBOARD] Initialized/verified positions_futures.json structure")
+    except Exception as e:
+        print(f"⚠️  [DASHBOARD] Failed to initialize positions file: {e}")
+    
     app = build_app(flask_app)
     return app
 

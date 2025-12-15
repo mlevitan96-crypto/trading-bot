@@ -132,13 +132,62 @@ def save_positions(positions):
 # ============================================================================
 
 def initialize_futures_positions():
-    """Initialize futures positions tracking file."""
+    """Initialize futures positions tracking file. Also repairs empty/malformed files."""
     Path("logs").mkdir(exist_ok=True)
-    if not Path(POSITIONS_FUTURES_FILE).exists():
+    file_path = Path(POSITIONS_FUTURES_FILE)
+    
+    # If file doesn't exist, create it
+    if not file_path.exists():
         positions = {
             "open_positions": [],
             "closed_positions": [],
             "created_at": get_arizona_time().isoformat()
+        }
+        with open(POSITIONS_FUTURES_FILE, 'w') as f:
+            json.dump(positions, f, indent=2)
+        return
+    
+    # If file exists but is empty or malformed, repair it
+    try:
+        with open(POSITIONS_FUTURES_FILE, 'r') as f:
+            content = f.read().strip()
+            if not content or content == '{}':
+                # File is empty or just empty object - repair it
+                print(f"🔧 [POSITION-MANAGER] Repairing empty positions_futures.json file")
+                positions = {
+                    "open_positions": [],
+                    "closed_positions": [],
+                    "created_at": get_arizona_time().isoformat(),
+                    "repaired_at": get_arizona_time().isoformat()
+                }
+                with open(POSITIONS_FUTURES_FILE, 'w') as f:
+                    json.dump(positions, f, indent=2)
+                return
+            
+            # Try to parse and validate structure
+            data = json.loads(content)
+            if not isinstance(data, dict):
+                raise ValueError("Not a dict")
+            
+            # Ensure required keys exist
+            if "open_positions" not in data or "closed_positions" not in data:
+                print(f"🔧 [POSITION-MANAGER] Repairing malformed positions_futures.json (missing keys)")
+                positions = {
+                    "open_positions": data.get("open_positions", []),
+                    "closed_positions": data.get("closed_positions", []),
+                    "created_at": data.get("created_at", get_arizona_time().isoformat()),
+                    "repaired_at": get_arizona_time().isoformat()
+                }
+                with open(POSITIONS_FUTURES_FILE, 'w') as f:
+                    json.dump(positions, f, indent=2)
+    except (json.JSONDecodeError, ValueError) as e:
+        # File is corrupted - repair it
+        print(f"🔧 [POSITION-MANAGER] Repairing corrupted positions_futures.json: {e}")
+        positions = {
+            "open_positions": [],
+            "closed_positions": [],
+            "created_at": get_arizona_time().isoformat(),
+            "repaired_at": get_arizona_time().isoformat()
         }
         with open(POSITIONS_FUTURES_FILE, 'w') as f:
             json.dump(positions, f, indent=2)

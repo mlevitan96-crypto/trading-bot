@@ -384,7 +384,12 @@ def load_closed_positions_df():
         ARIZONA_TZ = pytz.timezone('America/Phoenix')
         
         # Use DataRegistry for safe, centralized access to closed positions
+        pos_path = DR.POSITIONS_FUTURES
+        print(f"📊 [DASHBOARD] Loading closed positions from: {pos_path}")
+        print(f"📊 [DASHBOARD] Path exists: {os.path.exists(pos_path)}")
+        
         closed_positions = DR.get_closed_positions(hours=168)  # Last 7 days
+        print(f"📊 [DASHBOARD] Found {len(closed_positions)} closed positions")
         
         if not closed_positions:
             return pd.DataFrame(columns=["symbol","strategy","entry_time","exit_time","entry_price","exit_price","size","hold_duration_h","roi_pct","net_pnl","fees"])
@@ -473,7 +478,12 @@ def load_open_positions_df():
         _dashboard_health_status["last_error"] = str(gw_err)
     
     try:
+        pos_path = DR.POSITIONS_FUTURES
+        print(f"📊 [DASHBOARD] Loading open positions from: {pos_path}")
+        print(f"📊 [DASHBOARD] Path exists: {os.path.exists(pos_path)}")
+        
         open_positions = DR.get_open_positions()
+        print(f"📊 [DASHBOARD] Found {len(open_positions)} open positions")
         _dashboard_health_status["positions_loaded"] = len(open_positions)
         
         for e in open_positions:
@@ -796,9 +806,17 @@ def get_wallet_balance() -> float:
     try:
         from src.data_registry import DataRegistry as DR
         
+        # Log the path being used
+        pos_path = DR.POSITIONS_FUTURES
+        print(f"💰 [DASHBOARD] Reading positions from: {pos_path}")
+        print(f"💰 [DASHBOARD] Path exists: {os.path.exists(pos_path)}")
+        
         closed_positions = DR.get_closed_positions(hours=None)
         
+        print(f"💰 [DASHBOARD] Found {len(closed_positions)} closed positions")
+        
         if not closed_positions:
+            print(f"💰 [DASHBOARD] No closed positions found - returning starting capital ${starting_capital}")
             return starting_capital
         
         total_pnl = 0.0

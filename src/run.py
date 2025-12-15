@@ -1108,10 +1108,20 @@ def _worker_ensemble_predictor():
             time.sleep(30)
 
 def _worker_signal_resolver():
-    """Worker process for signal outcome resolution."""
+    """
+    Worker process for signal outcome resolution.
+    
+    This worker:
+    1. Reads ensemble_predictions.jsonl to find new predictions
+    2. Logs them to pending_signals.json via signal_tracker.log_signal()
+    3. Resolves pending signals at forward horizons (1m, 5m, 15m, 30m, 1h)
+    4. Writes outcomes to signal_outcomes.jsonl
+    """
     print("📊 [SIGNAL-RESOLVER] Worker process started")
     import time
+    import json
     from pathlib import Path
+    from datetime import datetime
     
     try:
         from src.signal_outcome_tracker import signal_tracker
@@ -1123,42 +1133,144 @@ def _worker_signal_resolver():
         return
     
     # Verify file paths
+    ensemble_predictions_path = Path("logs/ensemble_predictions.jsonl")
     pending_signals_path = Path("feature_store/pending_signals.json")
     outcomes_log_path = Path("logs/signal_outcomes.jsonl")
     
     # Ensure directories exist
+    ensemble_predictions_path.parent.mkdir(parents=True, exist_ok=True)
     pending_signals_path.parent.mkdir(parents=True, exist_ok=True)
     outcomes_log_path.parent.mkdir(parents=True, exist_ok=True)
     
+    print(f"   📁 Reading from: {ensemble_predictions_path}")
     print(f"   📁 Pending signals: {pending_signals_path}")
     print(f"   📁 Outcomes log: {outcomes_log_path}")
     
+    # Track last processed prediction timestamp
+    last_processed_ts = None
     cycle_count = 0
-    last_resolved_count = 0
     
     # Run periodic resolution (every 60 seconds)
     while True:
         try:
             cycle_count += 1
+            print(f"   🔄 [SIGNAL-RESOLVER] Starting resolution cycle #{cycle_count}")
             
-            # Resolve pending signals
+            # STEP 1: Read new ensemble predictions and log them to pending_signals.json
+            predictions_logged = 0
+            if ensemble_predictions_path.exists():
+                try:
+                    # Read all predictions
+                    predictions = []
+                    with open(ensemble_predictions_path, 'r') as f:
+                        for line in f:
+                            line = line.strip()
+                            if line:
+                                try:
+                                    pred = json.loads(line)
+                                    predictions.append(pred)
+                                except json.JSONDecodeError:
+                                    continue
+                    
+                    # Process only new predictions
+                    new_predictions = []
+                    if last_processed_ts:
+                        for pred in predictions:
+                            pred_ts = pred.get('ts', pred.get('timestamp', ''))
+                            if pred_ts and pred_ts > last_processed_ts:
+                                new_predictions.append(pred)
+                    else:
+                        # First run: process last 10 predictions to catch up
+                        new_predictions = predictions[-10:]
+                    
+                    # Log new predictions to pending_signals.json
+                    for pred in new_predictions:
+                        try:
+                            symbol = pred.get('symbol', '')
+                            direction = pred.get('direction', '')
+                            confidence = pred.get('confidence', pred.get('prob_win', 0.5))
+                            pred_ts = pred.get('ts', pred.get('timestamp', ''))
+                            
+                            if not symbol or not direction:
+                                continue
+                            
+                            # Get current price for the symbol
+                            try:
+                                price = signal_tracker._get_current_price(symbol)
+                                if price is None or price <= 0:
+                                    # Try to extract from prediction if available
+                                    price = pred.get('price', pred.get('entry_price', 0))
+                                    if price <= 0:
+                                        continue
+                            except Exception as e:
+                                print(f"   ⚠️  [SIGNAL-RESOLVER] Error getting price for {symbol}: {e}")
+                                continue
+                            
+                            # Log signal to pending_signals.json
+                            # Use 'ensemble' as signal_name since it's from ensemble predictions
+                            signal_id = signal_tracker.log_signal(
+                                symbol=symbol,
+                                signal_name='ensemble',  # Mark as ensemble prediction
+                                direction=direction,
+                                confidence=float(confidence),
+                                price=float(price),
+                                signal_data={
+                                    'source': 'ensemble_predictions.jsonl',
+                                    'prediction_data': pred
+                                }
+                            )
+                            
+                            if signal_id:
+                                predictions_logged += 1
+                                if pred_ts:
+                                    last_processed_ts = pred_ts
+                                    
+                        except Exception as e:
+                            print(f"   ⚠️  [SIGNAL-RESOLVER] Error logging prediction for {pred.get('symbol', 'UNKNOWN')}: {e}")
+                            import traceback
+                            traceback.print_exc()
+                            continue
+                    
+                    if predictions_logged > 0:
+                        print(f"   ✅ [SIGNAL-RESOLVER] Logged {predictions_logged} new prediction(s) to pending_signals.json")
+                    
+                except Exception as e:
+                    print(f"   ⚠️  [SIGNAL-RESOLVER] Error reading ensemble_predictions.jsonl: {e}")
+                    import traceback
+                    traceback.print_exc()
+            else:
+                if cycle_count % 10 == 1:  # Log every 10 cycles
+                    print(f"   ⏳ [SIGNAL-RESOLVER] ensemble_predictions.jsonl does not exist yet")
+            
+            # STEP 2: Resolve pending signals at forward horizons
+            print(f"   🔍 [SIGNAL-RESOLVER] Resolving pending signals...")
+            pending_count_before = len(signal_tracker.pending_signals)
             resolved_count = signal_tracker.resolve_pending_signals()
+            pending_count_after = len(signal_tracker.pending_signals)
             
             if resolved_count > 0:
-                print(f"   ✅ [SIGNAL-RESOLVER] Resolved {resolved_count} signal(s) (cycle #{cycle_count})")
-                last_resolved_count = resolved_count
-            elif cycle_count % 10 == 1:  # Log every 10 cycles (~10 minutes)
-                pending_count = len(signal_tracker.pending_signals)
-                if pending_count > 0:
-                    print(f"   ⏳ [SIGNAL-RESOLVER] Waiting for {pending_count} pending signal(s) to reach resolution horizons...")
+                print(f"   ✅ [SIGNAL-RESOLVER] Resolved {resolved_count} signal(s) and wrote to signal_outcomes.jsonl")
+            else:
+                if pending_count_before > 0:
+                    print(f"   ⏳ [SIGNAL-RESOLVER] {pending_count_before} pending signal(s) waiting for resolution horizons")
                 else:
-                    print(f"   ⏳ [SIGNAL-RESOLVER] No pending signals to resolve")
+                    if cycle_count % 10 == 1:  # Log every 10 cycles
+                        print(f"   ⏳ [SIGNAL-RESOLVER] No pending signals to resolve")
+            
+            # STEP 3: Verify outcomes file was written
+            if resolved_count > 0 and outcomes_log_path.exists():
+                outcomes_mtime = outcomes_log_path.stat().st_mtime
+                outcomes_age_seconds = time.time() - outcomes_mtime
+                if outcomes_age_seconds < 120:  # Written in last 2 minutes
+                    print(f"   ✅ [SIGNAL-RESOLVER] Verified: signal_outcomes.jsonl was updated {outcomes_age_seconds:.1f}s ago")
+            
+            print(f"   ✅ [SIGNAL-RESOLVER] Completed resolution cycle #{cycle_count}")
             
             # Sleep before next cycle
             time.sleep(60)
             
         except Exception as e:
-            print(f"   ⚠️  [SIGNAL-RESOLVER] Worker error: {e}")
+            print(f"   ❌ [SIGNAL-RESOLVER] Worker error in cycle #{cycle_count}: {e}")
             import traceback
             traceback.print_exc()
             time.sleep(60)
@@ -1241,11 +1353,17 @@ def _start_all_worker_processes():
     else:
         print("   ❌ CRITICAL: Failed to start ensemble predictor worker!")
     
-    # Start signal resolver worker
+    # Start signal resolver worker (depends on ensemble predictions)
     print("\n📊 Starting signal resolver...")
+    print("   ℹ️  Resolver will read ensemble_predictions.jsonl and create outcomes")
     resolver_process = _start_worker_process("signal_resolver", _worker_signal_resolver, restart_on_crash=True)
     if resolver_process:
-        print("   ✅ Signal resolver worker started successfully")
+        print(f"   ✅ Signal resolver worker started successfully (PID: {resolver_process.pid})")
+        print("   📋 Resolver responsibilities:")
+        print("      - Reads ensemble_predictions.jsonl every 60 seconds")
+        print("      - Logs predictions to feature_store/pending_signals.json")
+        print("      - Resolves signals at 1m, 5m, 15m, 30m, 1h horizons")
+        print("      - Writes outcomes to logs/signal_outcomes.jsonl")
     else:
         print("   ❌ CRITICAL: Failed to start signal resolver worker!")
     

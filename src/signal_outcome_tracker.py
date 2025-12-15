@@ -56,7 +56,7 @@ HORIZON_SECONDS = {
     '1h': 3600
 }
 
-VALID_SIGNAL_NAMES = {'funding', 'whale_flow', 'oi_velocity', 'liquidation', 'ofi_momentum', 'fear_greed', 'hurst', 'lead_lag', 'volatility_skew', 'oi_divergence'}
+VALID_SIGNAL_NAMES = {'funding', 'whale_flow', 'oi_velocity', 'liquidation', 'ofi_momentum', 'fear_greed', 'hurst', 'lead_lag', 'volatility_skew', 'oi_divergence', 'ensemble'}
 VALID_DIRECTIONS = {'LONG', 'SHORT', 'NEUTRAL'}
 
 BINANCE_PRICE_URL = "https://api.binance.us/api/v3/ticker/price"
@@ -249,6 +249,11 @@ class SignalOutcomeTracker:
         now = time.time()
         resolved_count = 0
         signals_to_remove = []
+        total_pending = len(self.pending_signals)
+        horizons_resolved_this_cycle = 0
+        
+        if total_pending == 0:
+            return 0
         
         with self._lock:
             for signal_id, signal in list(self.pending_signals.items()):
@@ -263,23 +268,35 @@ class SignalOutcomeTracker:
                             if price is not None:
                                 signal.prices[horizon] = price
                                 signal.resolved_horizons.append(horizon)
-                                print(f"[SignalTracker] Resolved {signal_id} {horizon}: {price:.2f}")
+                                horizons_resolved_this_cycle += 1
+                                print(f"[SignalTracker] Resolved {signal_id} {horizon}: {price:.2f} (signal: {signal.symbol} {signal.signal_name} {signal.direction})")
+                            else:
+                                print(f"[SignalTracker] Warning: Could not fetch price for {signal.symbol} at {horizon} horizon")
                     
                     if signal.is_fully_resolved():
                         self._write_outcome(signal)
                         signals_to_remove.append(signal_id)
                         resolved_count += 1
+                        print(f"[SignalTracker] Fully resolved signal {signal_id}: {signal.symbol} {signal.signal_name} {signal.direction} - wrote to signal_outcomes.jsonl")
                 
                 except Exception as e:
                     print(f"[SignalTracker] Error resolving signal {signal_id}: {e}")
+                    import traceback
+                    traceback.print_exc()
             
             for signal_id in signals_to_remove:
                 del self.pending_signals[signal_id]
             
             if signals_to_remove:
                 self._save_pending_signals()
+                print(f"[SignalTracker] Saved pending_signals.json (removed {len(signals_to_remove)} resolved signals)")
             
             self._cleanup_stale_signals()
+        
+        if resolved_count > 0:
+            print(f"[SignalTracker] Resolved {resolved_count} signal(s) this cycle, {horizons_resolved_this_cycle} horizon(s) resolved, {len(self.pending_signals)} still pending")
+        elif horizons_resolved_this_cycle > 0:
+            print(f"[SignalTracker] Resolved {horizons_resolved_this_cycle} horizon(s) this cycle, {len(self.pending_signals)} signals still pending")
         
         return resolved_count
     

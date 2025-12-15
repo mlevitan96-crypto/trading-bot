@@ -11,14 +11,21 @@ from dash import Dash, html, dcc, Input, Output, State, dash_table, callback_con
 import dash_bootstrap_components as dbc
 
 from src.pnl_dashboard_loader import load_trades_df, clear_cache
-from src.infrastructure.path_registry import resolve_path, PathRegistry
+from src.infrastructure.path_registry import resolve_path
 
 DEFAULT_TIMEFRAME_HOURS = 72
 APP_TITLE = "P&L Dashboard"
 # Use absolute paths to handle slot-based deployments (trading-bot-A/B)
-OPEN_POS_LOG = resolve_path("logs/positions.json")
-FUTURES_POS_LOG = resolve_path("logs/positions_futures.json")
-WALLET_SNAPSHOTS_FILE = resolve_path("logs/wallet_snapshots.jsonl")
+try:
+    OPEN_POS_LOG = resolve_path("logs/positions.json")
+    FUTURES_POS_LOG = resolve_path("logs/positions_futures.json")
+    WALLET_SNAPSHOTS_FILE = resolve_path("logs/wallet_snapshots.jsonl")
+except Exception as e:
+    # Fallback to relative paths if path resolution fails
+    print(f"⚠️  [DASHBOARD] Path resolution failed, using relative paths: {e}")
+    OPEN_POS_LOG = "logs/positions.json"
+    FUTURES_POS_LOG = "logs/positions_futures.json"
+    WALLET_SNAPSHOTS_FILE = "logs/wallet_snapshots.jsonl"
 
 _dashboard_health_status = {
     "gateway_ok": True,
@@ -107,7 +114,10 @@ def record_wallet_snapshot(force: bool = False) -> bool:
                 "balance": wallet_balance
             }
             
-            os.makedirs(os.path.dirname(WALLET_SNAPSHOTS_FILE), exist_ok=True)
+            # Ensure directory exists (works for both relative and absolute paths)
+            snapshot_dir = os.path.dirname(WALLET_SNAPSHOTS_FILE)
+            if snapshot_dir:
+                os.makedirs(snapshot_dir, exist_ok=True)
             with open(WALLET_SNAPSHOTS_FILE, "a") as f:
                 f.write(json.dumps(snapshot) + "\n")
             

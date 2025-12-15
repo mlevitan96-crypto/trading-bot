@@ -162,6 +162,12 @@ def ensure_signal_resolution_running():
         print("⚠️ Signal resolution not found in main loop")
         print("   Adding signal resolution to bot_cycle.py...")
         
+        # Check if bot_cycle.py exists before attempting to modify it
+        if not bot_cycle_path.exists():
+            print(f"❌ Error: {bot_cycle_path} does not exist")
+            print("   Cannot add signal resolution - file not found")
+            return
+        
         # Read bot_cycle.py
         with open(bot_cycle_path, 'r') as f:
             lines = f.readlines()
@@ -184,14 +190,15 @@ def ensure_signal_resolution_running():
         
         if insert_index:
             # Add import at top if not present
+            # Check entire file (not just first 50 lines) to avoid duplicate imports
             import_added = False
-            for i, line in enumerate(lines[:50]):
-                if "from src.signal_outcome_tracker import" in line:
+            for i, line in enumerate(lines):
+                if "from src.signal_outcome_tracker import" in line or "import signal_tracker" in line:
                     import_added = True
                     break
             
             if not import_added:
-                # Find last import line
+                # Find last import line (check first 100 lines where imports typically are)
                 last_import = 0
                 for i, line in enumerate(lines[:100]):
                     if line.strip().startswith("import ") or line.strip().startswith("from "):

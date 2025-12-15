@@ -45,6 +45,9 @@ class DataRegistry:
     #
     # IMPORTANT: This is the ONLY canonical source for trade/position data.
     # See docs/DATA_ARCHITECTURE.md for complete schema and ownership.
+    #
+    # NOTE: Paths are stored as relative strings, but resolved to absolute
+    # via resolve_path() in all read/write operations for slot-based deployments.
     # =========================================================================
     TRADES_CANONICAL = "logs/positions_futures.json"
     POSITIONS_FUTURES = "logs/positions_futures.json"

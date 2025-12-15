@@ -16,9 +16,11 @@ from typing import List, Dict, Any, Optional, Tuple
 import pandas as pd
 from src.io_safe import safe_open, AccessBlocked
 from src.data_registry import DataRegistry as DR
+from src.infrastructure.path_registry import resolve_path
 
+# Resolve paths to absolute for slot-based deployments
 LOG_FILES = [
-    DR.PORTFOLIO_MASTER,
+    resolve_path(DR.PORTFOLIO_MASTER),
 ]
 
 DATE_FMT = "%Y-%m-%d %H:%M:%S"
@@ -46,11 +48,13 @@ def _safe_load_json(path: str) -> List[Dict[str, Any]]:
     3. Portfolio.json format
     4. Positions.json format (closed_positions)
     """
-    if not os.path.exists(path):
+    # Resolve relative paths to absolute for slot-based deployments
+    abs_path = resolve_path(path) if not os.path.isabs(path) else path
+    if not os.path.exists(abs_path):
         return []
     
     try:
-        with open(path, "r") as f:
+        with open(abs_path, "r") as f:
             content = f.read().strip()
             if not content:
                 return []
@@ -69,7 +73,7 @@ def _safe_load_json(path: str) -> List[Dict[str, Any]]:
                 return []
     except json.JSONDecodeError:
         events = []
-        with open(path, "r") as f:
+        with open(abs_path, "r") as f:
             for line in f:
                 line = line.strip()
                 if not line:
@@ -246,7 +250,9 @@ def _get_source_mtime() -> float:
     latest = 0
     for path in LOG_FILES:
         try:
-            mtime = os.path.getmtime(path)
+            # Ensure path is absolute (already resolved in LOG_FILES, but double-check)
+            abs_path = resolve_path(path) if not os.path.isabs(path) else path
+            mtime = os.path.getmtime(abs_path)
             if mtime > latest:
                 latest = mtime
         except OSError:
@@ -304,11 +310,12 @@ def get_spot_realized_pnl() -> float:
     """
     Get spot realized P&L from portfolio.json's realized_pnl field.
     This is the AUTHORITATIVE source for closed-position P&L.
-    Uses DataRegistry for canonical path.
+    Uses DataRegistry for canonical path (automatically resolves to absolute).
     
     Returns:
         Realized P&L from closed spot positions
     """
+    # DR.read_json() automatically resolves paths via resolve_path()
     portfolio = DR.read_json(DR.PORTFOLIO_MASTER)
     if not portfolio:
         return 0.0

@@ -7,14 +7,10 @@ from pathlib import Path
 from datetime import datetime
 import pytz
 from src.io_safe import safe_open, AccessBlocked
-from src.infrastructure.path_registry import resolve_path
+from src.infrastructure.path_registry import PathRegistry
 
-# Use absolute path resolution for slot-based deployments
-try:
-    POSITIONS_FUTURES_FILE = resolve_path("logs/positions_futures.json")
-except Exception as e:
-    # Fallback to relative path if resolution fails
-    POSITIONS_FUTURES_FILE = "logs/positions_futures.json"
+# Use PathRegistry for unified path resolution (handles slot-based deployments)
+POSITIONS_FUTURES_FILE = str(PathRegistry.POS_LOG)
 ARIZONA_TZ = pytz.timezone('America/Phoenix')
 
 # --- AUTO-INJECT: enforce minimum hold time before allowing exit ---

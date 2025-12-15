@@ -570,26 +570,10 @@ def bot_worker():
     except Exception as e:
         print(f"⚠️ [SIGNAL-TRACKER] Startup error: {e}")
     
-    # Start Signal Outcome Resolver for forward price tracking (in daemon thread)
-    try:
-        from src.signal_outcome_tracker import run_resolver_loop
-        
-        def delayed_resolver():
-            time.sleep(120)
-            run_resolver_loop(interval_seconds=60)
-        
-        resolver_thread = threading.Thread(
-            target=delayed_resolver,
-            daemon=True,
-            name="SignalOutcomeResolver"
-        )
-        resolver_thread.start()
-        print("✅ [SIGNAL-TRACKER] Counterfactual price tracking active")
-        print("   📈 Tracks ALL signals (executed + blocked) with price follow-up")
-        print("   🎯 Enables learning from missed opportunities")
-        print("   ⏳ First resolution deferred by 2min to reduce startup memory")
-    except Exception as e:
-        print(f"⚠️ [SIGNAL-OUTCOME] Resolver loop error: {e}")
+    # NOTE: Signal Outcome Resolver is now started as a separate worker process in _start_all_worker_processes()
+    # This ensures proper isolation, monitoring, and automatic restart on crash.
+    # The resolver worker process handles all signal resolution.
+    print("✅ [SIGNAL-TRACKER] Signal resolver will be started as worker process")
     
     # Start Learning Health Monitor (skip sync auto-remediation at startup to avoid blocking trade loop)
     print("🏥 [LEARNING-HEALTH] Starting Learning Health Monitor...")
@@ -1127,27 +1111,57 @@ def _worker_signal_resolver():
     """Worker process for signal outcome resolution."""
     print("📊 [SIGNAL-RESOLVER] Worker process started")
     import time
+    from pathlib import Path
     
-    restart_count = 0
-    max_restarts = 10
+    try:
+        from src.signal_outcome_tracker import signal_tracker
+        print("   ✅ Signal tracker module loaded")
+    except Exception as e:
+        print(f"   ❌ [SIGNAL-RESOLVER] Failed to import signal_tracker: {e}")
+        import traceback
+        traceback.print_exc()
+        return
     
-    while restart_count < max_restarts:
+    # Verify file paths
+    pending_signals_path = Path("feature_store/pending_signals.json")
+    outcomes_log_path = Path("logs/signal_outcomes.jsonl")
+    
+    # Ensure directories exist
+    pending_signals_path.parent.mkdir(parents=True, exist_ok=True)
+    outcomes_log_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    print(f"   📁 Pending signals: {pending_signals_path}")
+    print(f"   📁 Outcomes log: {outcomes_log_path}")
+    
+    cycle_count = 0
+    last_resolved_count = 0
+    
+    # Run periodic resolution (every 60 seconds)
+    while True:
         try:
-            from src.signal_outcome_tracker import run_resolver_loop
-            # Run resolver loop (this is a blocking call that handles its own scheduling)
-            run_resolver_loop(interval_seconds=60)
-            break  # Normal exit
+            cycle_count += 1
+            
+            # Resolve pending signals
+            resolved_count = signal_tracker.resolve_pending_signals()
+            
+            if resolved_count > 0:
+                print(f"   ✅ [SIGNAL-RESOLVER] Resolved {resolved_count} signal(s) (cycle #{cycle_count})")
+                last_resolved_count = resolved_count
+            elif cycle_count % 10 == 1:  # Log every 10 cycles (~10 minutes)
+                pending_count = len(signal_tracker.pending_signals)
+                if pending_count > 0:
+                    print(f"   ⏳ [SIGNAL-RESOLVER] Waiting for {pending_count} pending signal(s) to reach resolution horizons...")
+                else:
+                    print(f"   ⏳ [SIGNAL-RESOLVER] No pending signals to resolve")
+            
+            # Sleep before next cycle
+            time.sleep(60)
+            
         except Exception as e:
-            restart_count += 1
-            print(f"   ⚠️  [SIGNAL-RESOLVER] Worker error (restart {restart_count}/{max_restarts}): {e}")
+            print(f"   ⚠️  [SIGNAL-RESOLVER] Worker error: {e}")
             import traceback
             traceback.print_exc()
-            if restart_count < max_restarts:
-                print(f"   🔄 [SIGNAL-RESOLVER] Restarting in 30 seconds...")
-                time.sleep(30)
-            else:
-                print(f"   ❌ [SIGNAL-RESOLVER] Max restarts reached - giving up")
-                break
+            time.sleep(60)
 
 def _start_worker_process(name: str, target_func, restart_on_crash: bool = True):
     """Start a worker process with error isolation and restart logic."""
@@ -1203,15 +1217,23 @@ def _start_all_worker_processes():
     # Ensure configs exist before starting workers
     _ensure_all_configs()
     
-    # Start predictive engine worker
+    # Start predictive engine worker (upstream - generates signals)
     print("\n🔮 Starting predictive engine...")
-    _start_worker_process("predictive_engine", _worker_predictive_engine, restart_on_crash=True)
+    pred_process = _start_worker_process("predictive_engine", _worker_predictive_engine, restart_on_crash=True)
+    if pred_process:
+        print("   ✅ Predictive engine worker started successfully")
+    else:
+        print("   ❌ CRITICAL: Failed to start predictive engine worker!")
     
     # Start feature builder worker
     print("\n🔨 Starting feature builder...")
-    _start_worker_process("feature_builder", _worker_feature_builder, restart_on_crash=True)
+    feature_process = _start_worker_process("feature_builder", _worker_feature_builder, restart_on_crash=True)
+    if feature_process:
+        print("   ✅ Feature builder worker started successfully")
+    else:
+        print("   ⚠️  Feature builder worker failed to start (non-critical)")
     
-    # Start ensemble predictor worker
+    # Start ensemble predictor worker (depends on predictive signals)
     print("\n🎯 Starting ensemble predictor...")
     ensemble_process = _start_worker_process("ensemble_predictor", _worker_ensemble_predictor, restart_on_crash=True)
     if ensemble_process:
@@ -1221,7 +1243,11 @@ def _start_all_worker_processes():
     
     # Start signal resolver worker
     print("\n📊 Starting signal resolver...")
-    _start_worker_process("signal_resolver", _worker_signal_resolver, restart_on_crash=True)
+    resolver_process = _start_worker_process("signal_resolver", _worker_signal_resolver, restart_on_crash=True)
+    if resolver_process:
+        print("   ✅ Signal resolver worker started successfully")
+    else:
+        print("   ❌ CRITICAL: Failed to start signal resolver worker!")
     
     print("\n✅ All worker processes started")
     print("   ℹ️  Workers run in separate processes with automatic restart on crash")
@@ -1261,6 +1287,93 @@ def _monitor_worker_processes():
         except Exception as e:
             print(f"   ⚠️  [WORKER-MONITOR] Error: {e}")
             time.sleep(30)
+
+def _monitor_pipeline_health():
+    """Monitor the trading pipeline health and log warnings for blocked stages."""
+    import time
+    import json
+    from pathlib import Path
+    from datetime import datetime, timedelta
+    
+    print("🔍 [PIPELINE-HEALTH] Starting pipeline health monitor...")
+    
+    while True:
+        try:
+            time.sleep(300)  # Check every 5 minutes
+            
+            issues = []
+            warnings = []
+            
+            # Check predictive_signals.jsonl
+            pred_signals_path = Path("logs/predictive_signals.jsonl")
+            if pred_signals_path.exists():
+                mtime = pred_signals_path.stat().st_mtime
+                age_minutes = (time.time() - mtime) / 60
+                if age_minutes > 15:
+                    warnings.append(f"⚠️ predictive_signals.jsonl is stale ({age_minutes:.1f} min old)")
+            else:
+                warnings.append("⚠️ predictive_signals.jsonl does not exist")
+            
+            # Check ensemble_predictions.jsonl
+            ensemble_path = Path("logs/ensemble_predictions.jsonl")
+            if ensemble_path.exists():
+                mtime = ensemble_path.stat().st_mtime
+                age_minutes = (time.time() - mtime) / 60
+                if age_minutes > 15:
+                    warnings.append(f"⚠️ ensemble_predictions.jsonl is stale ({age_minutes:.1f} min old)")
+            else:
+                warnings.append("⚠️ ensemble_predictions.jsonl does not exist")
+            
+            # Check pending_signals.json
+            pending_path = Path("feature_store/pending_signals.json")
+            if pending_path.exists():
+                try:
+                    with open(pending_path, 'r') as f:
+                        pending_data = json.load(f)
+                        pending_count = len(pending_data) if isinstance(pending_data, dict) else 0
+                        if pending_count > 0:
+                            # Check if signals are being resolved
+                            outcomes_path = Path("logs/signal_outcomes.jsonl")
+                            if outcomes_path.exists():
+                                outcomes_mtime = outcomes_path.stat().st_mtime
+                                outcomes_age_minutes = (time.time() - outcomes_mtime) / 60
+                                if outcomes_age_minutes > 30:
+                                    issues.append(f"❌ {pending_count} pending signals exist but signal_outcomes.jsonl is stale ({outcomes_age_minutes:.1f} min old) - resolver may not be working")
+                            else:
+                                issues.append(f"❌ {pending_count} pending signals exist but signal_outcomes.jsonl does not exist - resolver may not be working")
+                except Exception as e:
+                    warnings.append(f"⚠️ Error reading pending_signals.json: {e}")
+            else:
+                # This is OK if no signals have been logged yet
+                pass
+            
+            # Check signal_outcomes.jsonl
+            outcomes_path = Path("logs/signal_outcomes.jsonl")
+            if outcomes_path.exists():
+                mtime = outcomes_path.stat().st_mtime
+                age_minutes = (time.time() - mtime) / 60
+                if age_minutes > 30:
+                    warnings.append(f"⚠️ signal_outcomes.jsonl is stale ({age_minutes:.1f} min old)")
+            else:
+                warnings.append("⚠️ signal_outcomes.jsonl does not exist (no signals resolved yet)")
+            
+            # Log issues and warnings
+            if issues:
+                print("\n" + "="*60)
+                print("🚨 PIPELINE HEALTH ISSUES DETECTED")
+                print("="*60)
+                for issue in issues:
+                    print(f"   {issue}")
+                print("="*60 + "\n")
+            
+            if warnings and (len(warnings) > 0):
+                if len(warnings) <= 2:  # Only log if there are a few warnings
+                    for warning in warnings:
+                        print(f"   {warning}")
+            
+        except Exception as e:
+            print(f"   ⚠️  [PIPELINE-HEALTH] Monitor error: {e}")
+            time.sleep(300)
 
 def run_heavy_initialization():
     """
@@ -1307,6 +1420,11 @@ def run_heavy_initialization():
     monitor_thread = threading.Thread(target=_monitor_worker_processes, daemon=True, name="WorkerMonitor")
     monitor_thread.start()
     print("   ✅ Worker process monitor started")
+    
+    # Start pipeline health monitor
+    health_monitor_thread = threading.Thread(target=_monitor_pipeline_health, daemon=True, name="PipelineHealthMonitor")
+    health_monitor_thread.start()
+    print("   ✅ Pipeline health monitor started")
     
     bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
     bot_thread.start()

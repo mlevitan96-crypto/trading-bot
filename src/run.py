@@ -402,7 +402,6 @@ def _continuous_heartbeat_emitter():
 
 _bot_worker_alive = True
 _last_bot_cycle_ts = 0
-_worker_lock = threading.Lock()
 _active_workers = 0
 
 def _bot_worker_supervisor():
@@ -959,17 +958,170 @@ def _worker_ensemble_predictor():
     """Worker process for ensemble predictions."""
     print("🎯 [ENSEMBLE-PREDICTOR] Worker process started")
     import time
+    import json
+    from pathlib import Path
+    from datetime import datetime, timedelta
     
-    # Ensemble predictor is called on-demand from profit_seeking_sizer
-    # This worker ensures the predictor module is loaded and healthy
+    try:
+        from src.ensemble_predictor import get_ensemble_prediction
+        from src.realtime_features import RealtimeFeatureCapture
+        print("   ✅ Ensemble predictor module loaded")
+    except Exception as e:
+        print(f"   ❌ [ENSEMBLE-PREDICTOR] Failed to import modules: {e}")
+        import traceback
+        traceback.print_exc()
+        return
+    
+    # Track last processed signal timestamp
+    last_processed_ts = None
+    predictive_signals_path = Path("logs/predictive_signals.jsonl")
+    ensemble_predictions_path = Path("logs/ensemble_predictions.jsonl")
+    
+    # Ensure directories exist
+    predictive_signals_path.parent.mkdir(parents=True, exist_ok=True)
+    ensemble_predictions_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    # Initialize feature capture
+    try:
+        feature_capture = RealtimeFeatureCapture()
+        print("   ✅ Feature capture initialized")
+    except Exception as e:
+        print(f"   ⚠️  [ENSEMBLE-PREDICTOR] Feature capture init warning: {e}")
+        feature_capture = None
+    
+    cycle_count = 0
+    
+    # Run periodic prediction generation (every 30 seconds)
     while True:
         try:
-            # Health check - try importing the module
-            from src.ensemble_predictor import get_ensemble_prediction
-            time.sleep(60)
+            cycle_count += 1
+            
+            # Read new predictive signals
+            if not predictive_signals_path.exists():
+                if cycle_count % 20 == 1:  # Log every 20 cycles (~10 minutes)
+                    print(f"   ⏳ [ENSEMBLE-PREDICTOR] Waiting for predictive signals...")
+                time.sleep(30)
+                continue
+            
+            # Read all signals from file
+            signals = []
+            try:
+                with open(predictive_signals_path, 'r') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line:
+                            try:
+                                signal = json.loads(line)
+                                signals.append(signal)
+                            except json.JSONDecodeError:
+                                continue
+            except Exception as e:
+                print(f"   ⚠️  [ENSEMBLE-PREDICTOR] Error reading signals: {e}")
+                time.sleep(30)
+                continue
+            
+            if not signals:
+                if cycle_count % 20 == 1:
+                    print(f"   ⏳ [ENSEMBLE-PREDICTOR] No signals found, waiting...")
+                time.sleep(30)
+                continue
+            
+            # Process only new signals (those after last_processed_ts)
+            new_signals = []
+            if last_processed_ts:
+                for signal in signals:
+                    signal_ts = signal.get('ts', '')
+                    if signal_ts and signal_ts > last_processed_ts:
+                        new_signals.append(signal)
+            else:
+                # First run: process last 5 signals to catch up
+                new_signals = signals[-5:]
+            
+            if new_signals:
+                print(f"   📊 [ENSEMBLE-PREDICTOR] Processing {len(new_signals)} new signal(s)...")
+                
+                predictions_generated = 0
+                for signal in new_signals:
+                    try:
+                        symbol = signal.get('symbol', '')
+                        direction = signal.get('direction', '')
+                        
+                        if not symbol or not direction:
+                            continue
+                        
+                        # Extract OFI and ensemble score from signal
+                        ofi = signal.get('signals', {}).get('ofi', 0.0)
+                        if isinstance(ofi, dict):
+                            ofi = ofi.get('value', 0.0)
+                        
+                        ensemble_score = signal.get('alignment_score', 0.0)
+                        confidence = signal.get('confidence', 0.0)
+                        
+                        # Build features for this symbol
+                        features = {}
+                        if feature_capture:
+                            try:
+                                features = feature_capture.capture_all_features(symbol, direction)
+                            except Exception as e:
+                                print(f"   ⚠️  [ENSEMBLE-PREDICTOR] Feature capture failed for {symbol}: {e}")
+                                # Use minimal features from signal
+                                features = {
+                                    'return_1m': 0.0,
+                                    'return_5m': 0.0,
+                                    'return_15m': 0.0,
+                                    'volatility_1h': 0.0,
+                                    'bid_ask_imbalance': 0.0,
+                                    'spread_bps': 0.0,
+                                    'depth_ratio': 1.0
+                                }
+                        else:
+                            # Minimal features if feature capture unavailable
+                            features = {
+                                'return_1m': 0.0,
+                                'return_5m': 0.0,
+                                'return_15m': 0.0,
+                                'volatility_1h': 0.0,
+                                'bid_ask_imbalance': 0.0,
+                                'spread_bps': 0.0,
+                                'depth_ratio': 1.0
+                            }
+                        
+                        # Generate ensemble prediction
+                        prediction = get_ensemble_prediction(
+                            symbol=symbol,
+                            direction=direction,
+                            features=features,
+                            ofi=float(ofi),
+                            ensemble_score=float(ensemble_score)
+                        )
+                        
+                        predictions_generated += 1
+                        
+                        # Update last processed timestamp
+                        signal_ts = signal.get('ts', '')
+                        if signal_ts:
+                            last_processed_ts = signal_ts
+                        
+                    except Exception as e:
+                        print(f"   ⚠️  [ENSEMBLE-PREDICTOR] Error processing signal for {signal.get('symbol', 'UNKNOWN')}: {e}")
+                        import traceback
+                        traceback.print_exc()
+                        continue
+                
+                if predictions_generated > 0:
+                    print(f"   ✅ [ENSEMBLE-PREDICTOR] Generated {predictions_generated} prediction(s)")
+            else:
+                if cycle_count % 40 == 1:  # Log every 40 cycles (~20 minutes)
+                    print(f"   ✓ [ENSEMBLE-PREDICTOR] No new signals to process")
+            
+            # Sleep before next cycle
+            time.sleep(30)
+            
         except Exception as e:
             print(f"   ⚠️  [ENSEMBLE-PREDICTOR] Worker error: {e}")
-            time.sleep(10)
+            import traceback
+            traceback.print_exc()
+            time.sleep(30)
 
 def _worker_signal_resolver():
     """Worker process for signal outcome resolution."""
@@ -1012,8 +1164,9 @@ def _start_worker_process(name: str, target_func, restart_on_crash: bool = True)
                 break  # Normal exit
             except Exception as e:
                 restart_count += 1
-                with _worker_lock:
-                    _worker_restart_counts[name] = restart_count
+                # Note: We don't update _worker_restart_counts here because this runs in a child process
+                # and updates won't be visible to the parent. Restart counts are tracked in the parent
+                # process by the monitor when it detects dead processes.
                 
                 print(f"   💥 [{name}] Crash #{restart_count}: {e}")
                 import traceback
@@ -1060,7 +1213,11 @@ def _start_all_worker_processes():
     
     # Start ensemble predictor worker
     print("\n🎯 Starting ensemble predictor...")
-    _start_worker_process("ensemble_predictor", _worker_ensemble_predictor, restart_on_crash=True)
+    ensemble_process = _start_worker_process("ensemble_predictor", _worker_ensemble_predictor, restart_on_crash=True)
+    if ensemble_process:
+        print("   ✅ Ensemble predictor worker started successfully")
+    else:
+        print("   ❌ CRITICAL: Failed to start ensemble predictor worker!")
     
     # Start signal resolver worker
     print("\n📊 Starting signal resolver...")
@@ -1082,9 +1239,11 @@ def _monitor_worker_processes():
                 for name, process in _worker_processes.items():
                     if not process.is_alive():
                         dead_workers.append(name)
-                        restart_count = _worker_restart_counts.get(name, 0)
+                        # Increment restart count when we detect a dead process
+                        _worker_restart_counts[name] = _worker_restart_counts.get(name, 0) + 1
+                        restart_count = _worker_restart_counts[name]
                         print(f"   ⚠️  [{name}] Process died (exit code: {process.exitcode})")
-                        print(f"   🔄 [{name}] Restarting (attempt {restart_count + 1})...")
+                        print(f"   🔄 [{name}] Restarting (attempt {restart_count})...")
                 
                 # Restart dead workers
                 for name in dead_workers:

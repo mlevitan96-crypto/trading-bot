@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "updated_at": "2025-12-15T20:19:15.187714",
+  "multipliers": {
+    "A": 1.5,
+    "B": 1.2,
+    "C": 1.0,
+    "D": 0.7,
+    "F": 0.5
+  },
+  "min_multiplier": 0.3,
+  "max_multiplier": 2.0,
+  "auto_generated": true
+}

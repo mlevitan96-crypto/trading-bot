@@ -1,0 +1,225 @@
+{
+  "ts": "2025-12-15T20:48:13.246599Z",
+  "fear_greed": 50,
+  "signals": {
+    "BTCUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    },
+    "ETHUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    },
+    "SOLUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    },
+    "XRPUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    },
+    "DOGEUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    },
+    "BNBUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    },
+    "AVAXUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    },
+    "ADAUSDT": {
+      "direction": "NEUTRAL",
+      "confidence": 0.0,
+      "composite": 0.0,
+      "components": {
+        "flow": 0,
+        "liquidation": 0,
+        "fear_greed": 0
+      },
+      "raw": {
+        "buy_sell_ratio": 1.0,
+        "liq_ratio": 0.5,
+        "fear_greed": 50
+      },
+      "enhanced": {
+        "direction": "NEUTRAL",
+        "confidence": 0.0,
+        "enhanced_composite": 0.0,
+        "base_composite": 0.0,
+        "funding_signal": 0,
+        "oi_signal": 0,
+        "funding_rate": 0,
+        "oi_change_1h": 0
+      },
+      "funding": {},
+      "oi": {}
+    }
+  },
+  "funding_rates": {},
+  "open_interest": {},
+  "enhanced_ts": "2025-12-15T20:48:13.249037Z"
+}

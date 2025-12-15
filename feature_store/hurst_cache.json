@@ -1,0 +1,128 @@
+{
+  "BTCUSDT": {
+    "ts": 1765831480.5198326,
+    "signal": {
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "interpretation": "Market random walk (0.54), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.546,
+      "timestamp": "2025-12-15T20:44:40.623683"
+    }
+  },
+  "SOLUSDT": {
+    "ts": 1765831485.5287874,
+    "signal": {
+      "active": true,
+      "direction": "SHORT",
+      "confidence": 0.184,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "interpretation": "Market trending (0.58), favor SHORT momentum",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.581,
+      "timestamp": "2025-12-15T20:44:45.635810"
+    }
+  },
+  "AVAXUSDT": {
+    "ts": 1765831591.6812649,
+    "signal": {
+      "active": true,
+      "direction": "SHORT",
+      "confidence": 0.241,
+      "hurst_value": 0.6114,
+      "regime": "trending",
+      "interpretation": "Market trending (0.61), favor SHORT momentum",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.541,
+      "timestamp": "2025-12-15T20:46:31.796481"
+    }
+  },
+  "DOTUSDT": {
+    "ts": 1765831593.7730057,
+    "signal": {
+      "active": false,
+      "direction": "LONG",
+      "confidence": 0.3,
+      "hurst_value": 0.5359,
+      "regime": "random",
+      "interpretation": "Market random walk (0.54), low confidence",
+      "trend_direction": "LONG",
+      "trend_strength": 0.537,
+      "timestamp": "2025-12-15T20:46:33.898659"
+    }
+  },
+  "XRPUSDT": {
+    "ts": 1765831700.1457124,
+    "signal": {
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5264,
+      "regime": "random",
+      "interpretation": "Market random walk (0.53), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.571,
+      "timestamp": "2025-12-15T20:48:20.254039"
+    }
+  },
+  "DOGEUSDT": {
+    "ts": 1765831601.9176762,
+    "signal": {
+      "active": true,
+      "direction": "SHORT",
+      "confidence": 0.273,
+      "hurst_value": 0.6232,
+      "regime": "trending",
+      "interpretation": "Market trending (0.62), favor SHORT momentum",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.553,
+      "timestamp": "2025-12-15T20:46:42.070179"
+    }
+  },
+  "BNBUSDT": {
+    "ts": 1765831604.3351417,
+    "signal": {
+      "active": false,
+      "direction": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5363,
+      "regime": "random",
+      "interpretation": "Market random walk (0.54), low confidence",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.51,
+      "timestamp": "2025-12-15T20:46:44.441204"
+    }
+  },
+  "ETHUSDT": {
+    "ts": 1765831482.953047,
+    "signal": {
+      "active": true,
+      "direction": "SHORT",
+      "confidence": 0.198,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "interpretation": "Market trending (0.58), favor SHORT momentum",
+      "trend_direction": "SHORT",
+      "trend_strength": 0.637,
+      "timestamp": "2025-12-15T20:44:43.066365"
+    }
+  },
+  "ADAUSDT": {
+    "ts": 1765831597.9280763,
+    "signal": {
+      "active": false,
+      "direction": "LONG",
+      "confidence": 0.3,
+      "hurst_value": 0.5254,
+      "regime": "random",
+      "interpretation": "Market random walk (0.53), low confidence",
+      "trend_direction": "LONG",
+      "trend_strength": 0.507,
+      "timestamp": "2025-12-15T20:46:38.058502"
+    }
+  }
+}

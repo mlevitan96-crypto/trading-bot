@@ -1,0 +1,69 @@
+{
+  "signal_directions": {
+    "funding": [
+      "SHORT"
+    ],
+    "liquidation": [
+      "SHORT"
+    ],
+    "hurst": [
+      "SHORT"
+    ],
+    "whale_flow": [
+      "SHORT"
+    ],
+    "lead_lag": [
+      "LONG"
+    ],
+    "oi_velocity": null,
+    "ofi_momentum": null,
+    "fear_greed": null,
+    "volatility_skew": [],
+    "oi_divergence": null
+  },
+  "ewma_ev": {
+    "funding": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "liquidation": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "hurst": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "whale_flow": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "lead_lag": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "oi_velocity": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "ofi_momentum": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "fear_greed": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "volatility_skew": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    },
+    "oi_divergence": {
+      "LONG": 0.0,
+      "SHORT": 0.0
+    }
+  },
+  "regime_summary": {},
+  "last_update": "2025-12-15T20:33:45.666425",
+  "version": "1.0.0"
+}

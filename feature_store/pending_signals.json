@@ -1,0 +1,6624 @@
+{
+  "3fa6cb91": {
+    "id": "3fa6cb91",
+    "ts": "2025-12-15T20:20:10.233588Z",
+    "ts_epoch": 1765830010.233006,
+    "symbol": "DOGEUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.0,
+    "price_at_signal": 0.1281,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:19:36.328516Z",
+        "symbol": "DOGEUSDT",
+        "direction": "LONG",
+        "prob_win": 0.5,
+        "confidence": 0.0,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 0.1281,
+      "5m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "a46c9d71": {
+    "id": "a46c9d71",
+    "ts": "2025-12-15T20:20:10.319132Z",
+    "ts_epoch": 1765830010.3187082,
+    "symbol": "BNBUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.0,
+    "price_at_signal": 847.29,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:19:38.439359Z",
+        "symbol": "BNBUSDT",
+        "direction": "LONG",
+        "prob_win": 0.5,
+        "confidence": 0.0,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 847.29,
+      "5m": 847.73
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "195b90ea": {
+    "id": "195b90ea",
+    "ts": "2025-12-15T20:20:10.406115Z",
+    "ts_epoch": 1765830010.4055882,
+    "symbol": "AVAXUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.04,
+    "price_at_signal": 12.36,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:19:40.129988Z",
+        "symbol": "AVAX",
+        "direction": "LONG",
+        "prob_win": 0.4798,
+        "confidence": 0.04,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 12.36,
+      "5m": 12.36
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "8f5340f0": {
+    "id": "8f5340f0",
+    "ts": "2025-12-15T20:20:10.596494Z",
+    "ts_epoch": 1765830010.5956907,
+    "symbol": "XRPUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.04,
+    "price_at_signal": 1.8813,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:19:40.133266Z",
+        "symbol": "XRP",
+        "direction": "LONG",
+        "prob_win": 0.4798,
+        "confidence": 0.04,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 1.8813,
+      "5m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "cc03d13e": {
+    "id": "cc03d13e",
+    "ts": "2025-12-15T20:20:10.703675Z",
+    "ts_epoch": 1765830010.7009041,
+    "symbol": "DOGEUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.04,
+    "price_at_signal": 0.1281,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:19:40.134761Z",
+        "symbol": "DOGE",
+        "direction": "LONG",
+        "prob_win": 0.4798,
+        "confidence": 0.04,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 0.1281,
+      "5m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "22b86130": {
+    "id": "22b86130",
+    "ts": "2025-12-15T20:21:11.006391Z",
+    "ts_epoch": 1765830071.0059056,
+    "symbol": "BTCUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.05,
+    "price_at_signal": 85678.85,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:04.921890Z",
+        "symbol": "BTCUSDT",
+        "direction": "LONG",
+        "prob_win": 0.5214,
+        "confidence": 0.05,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 85942.88,
+      "5m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "ee4b2848": {
+    "id": "ee4b2848",
+    "ts": "2025-12-15T20:21:11.090708Z",
+    "ts_epoch": 1765830071.0903797,
+    "symbol": "ETHUSDT",
+    "signal_name": "ensemble",
+    "direction": "SHORT",
+    "confidence": 0.05,
+    "price_at_signal": 2918.6,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:07.925150Z",
+        "symbol": "ETHUSDT",
+        "direction": "SHORT",
+        "prob_win": 0.4857,
+        "confidence": 0.05,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "3f724ab6": {
+    "id": "3f724ab6",
+    "ts": "2025-12-15T20:21:11.184257Z",
+    "ts_epoch": 1765830071.1837745,
+    "symbol": "SOLUSDT",
+    "signal_name": "ensemble",
+    "direction": "SHORT",
+    "confidence": 0.0,
+    "price_at_signal": 124.14,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:09.965675Z",
+        "symbol": "SOLUSDT",
+        "direction": "SHORT",
+        "prob_win": 0.5,
+        "confidence": 0.0,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 124.49,
+      "5m": 124.49
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "aa4fcb8a": {
+    "id": "aa4fcb8a",
+    "ts": "2025-12-15T20:21:11.272678Z",
+    "ts_epoch": 1765830071.272026,
+    "symbol": "BTCUSDT",
+    "signal_name": "ensemble",
+    "direction": "SHORT",
+    "confidence": 0.09,
+    "price_at_signal": 85678.85,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:10.141187Z",
+        "symbol": "BTC",
+        "direction": "SHORT",
+        "prob_win": 0.467,
+        "confidence": 0.09,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 85942.88,
+      "5m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "0166cae6": {
+    "id": "0166cae6",
+    "ts": "2025-12-15T20:21:11.357458Z",
+    "ts_epoch": 1765830071.3568933,
+    "symbol": "ETHUSDT",
+    "signal_name": "ensemble",
+    "direction": "SHORT",
+    "confidence": 0.09,
+    "price_at_signal": 2918.6,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:10.143042Z",
+        "symbol": "ETH",
+        "direction": "SHORT",
+        "prob_win": 0.467,
+        "confidence": 0.09,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "2baea359": {
+    "id": "2baea359",
+    "ts": "2025-12-15T20:22:11.985074Z",
+    "ts_epoch": 1765830131.9845767,
+    "symbol": "XRPUSDT",
+    "signal_name": "ensemble",
+    "direction": "SHORT",
+    "confidence": 0.0,
+    "price_at_signal": 1.8806,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:15.818009Z",
+        "symbol": "XRPUSDT",
+        "direction": "SHORT",
+        "prob_win": 0.5,
+        "confidence": 0.0,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 1.8834,
+      "5m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "d4a0068b": {
+    "id": "d4a0068b",
+    "ts": "2025-12-15T20:22:12.089560Z",
+    "ts_epoch": 1765830132.089341,
+    "symbol": "DOGEUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.0,
+    "price_at_signal": 0.1281,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:20.021410Z",
+        "symbol": "DOGEUSDT",
+        "direction": "LONG",
+        "prob_win": 0.5,
+        "confidence": 0.0,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 0.12846,
+      "5m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "18e9ee04": {
+    "id": "18e9ee04",
+    "ts": "2025-12-15T20:22:12.179179Z",
+    "ts_epoch": 1765830132.1784697,
+    "symbol": "BNBUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.0,
+    "price_at_signal": 847.29,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:22.706565Z",
+        "symbol": "BNBUSDT",
+        "direction": "LONG",
+        "prob_win": 0.5,
+        "confidence": 0.0,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 847.73,
+      "5m": 847.73
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "99658909": {
+    "id": "99658909",
+    "ts": "2025-12-15T20:22:12.274793Z",
+    "ts_epoch": 1765830132.2742882,
+    "symbol": "AVAXUSDT",
+    "signal_name": "ensemble",
+    "direction": "SHORT",
+    "confidence": 0.04,
+    "price_at_signal": 12.36,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:40.148259Z",
+        "symbol": "AVAX",
+        "direction": "SHORT",
+        "prob_win": 0.4798,
+        "confidence": 0.04,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 12.36,
+      "5m": 12.36
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "5be1e5a1": {
+    "id": "5be1e5a1",
+    "ts": "2025-12-15T20:22:12.370076Z",
+    "ts_epoch": 1765830132.3700497,
+    "symbol": "DOGEUSDT",
+    "signal_name": "ensemble",
+    "direction": "LONG",
+    "confidence": 0.04,
+    "price_at_signal": 0.1281,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:40.155465Z",
+        "symbol": "DOGE",
+        "direction": "LONG",
+        "prob_win": 0.4798,
+        "confidence": 0.04,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 0.12846,
+      "5m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "b750100f": {
+    "id": "b750100f",
+    "ts": "2025-12-15T20:22:12.372761Z",
+    "ts_epoch": 1765830132.3727355,
+    "symbol": "BNBUSDT",
+    "signal_name": "ensemble",
+    "direction": "SHORT",
+    "confidence": 0.04,
+    "price_at_signal": 847.29,
+    "signal_data": {
+      "source": "ensemble_predictions.jsonl",
+      "prediction_data": {
+        "ts": "2025-12-15T20:21:40.157242Z",
+        "symbol": "BNB",
+        "direction": "SHORT",
+        "prob_win": 0.4798,
+        "confidence": 0.04,
+        "size_mult": 1.0
+      }
+    },
+    "prices": {
+      "1m": 847.73,
+      "5m": 847.73
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "477d1a54": {
+    "id": "477d1a54",
+    "ts": "2025-12-15T20:28:37.386097Z",
+    "ts_epoch": 1765830517.3860629,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.132,
+    "price_at_signal": 85772.8,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.132,
+      "hurst_value": 0.5587,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.56), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88,
+      "5m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "4d377c10": {
+    "id": "4d377c10",
+    "ts": "2025-12-15T20:28:37.387836Z",
+    "ts_epoch": 1765830517.3878124,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85772.8,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.4956,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88,
+      "5m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "cd13ed0b": {
+    "id": "cd13ed0b",
+    "ts": "2025-12-15T20:28:39.726445Z",
+    "ts_epoch": 1765830519.7264168,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.266,
+    "price_at_signal": 2925.7,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.266,
+      "hurst_value": 0.6004,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.60), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "964be87d": {
+    "id": "964be87d",
+    "ts": "2025-12-15T20:28:39.729311Z",
+    "ts_epoch": 1765830519.7292733,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.49966706904525815,
+    "price_at_signal": 2925.7,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.49966706904525815,
+      "optimal_lag": 6,
+      "correlation": 0.33311137936350543,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_6m",
+        "corr_0.33",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "93cf77f2": {
+    "id": "93cf77f2",
+    "ts": "2025-12-15T20:28:39.732720Z",
+    "ts_epoch": 1765830519.732671,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2925.7,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3368,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.34_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "8ac5f0f2": {
+    "id": "8ac5f0f2",
+    "ts": "2025-12-15T20:28:42.073870Z",
+    "ts_epoch": 1765830522.0738564,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.219,
+    "price_at_signal": 124.09,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.219,
+      "hurst_value": 0.5904,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.59), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 124.49,
+      "5m": 124.49
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "90cf9131": {
+    "id": "90cf9131",
+    "ts": "2025-12-15T20:28:42.076546Z",
+    "ts_epoch": 1765830522.0765154,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.867,
+    "price_at_signal": 124.09,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.867,
+      "skew_value": -1.2234,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.22_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 124.49,
+      "5m": 124.49
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "b0225a5d": {
+    "id": "b0225a5d",
+    "ts": "2025-12-15T20:29:10.887113Z",
+    "ts_epoch": 1765830550.8870916,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.132,
+    "price_at_signal": 85814.8,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.132,
+      "hurst_value": 0.5587,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.56), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88,
+      "5m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "4667b2a0": {
+    "id": "4667b2a0",
+    "ts": "2025-12-15T20:29:10.892637Z",
+    "ts_epoch": 1765830550.8926136,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85814.8,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.4956,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88,
+      "5m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "7474bed1": {
+    "id": "7474bed1",
+    "ts": "2025-12-15T20:29:12.724744Z",
+    "ts_epoch": 1765830552.7247255,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.266,
+    "price_at_signal": 2925.71,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.266,
+      "hurst_value": 0.6004,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.60), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "13af2e2d": {
+    "id": "13af2e2d",
+    "ts": "2025-12-15T20:29:12.727307Z",
+    "ts_epoch": 1765830552.727277,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.49966706904525815,
+    "price_at_signal": 2925.71,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.49966706904525815,
+      "optimal_lag": 6,
+      "correlation": 0.33311137936350543,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_6m",
+        "corr_0.33",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "cf0b58ff": {
+    "id": "cf0b58ff",
+    "ts": "2025-12-15T20:29:12.729759Z",
+    "ts_epoch": 1765830552.7297318,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2925.71,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3451,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.35_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34,
+      "5m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "b9d1d736": {
+    "id": "b9d1d736",
+    "ts": "2025-12-15T20:29:16.106603Z",
+    "ts_epoch": 1765830556.1065886,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.287,
+    "price_at_signal": 12.29,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.287,
+      "hurst_value": 0.6242,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 12.36,
+      "5m": 12.36
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "494708df": {
+    "id": "494708df",
+    "ts": "2025-12-15T20:29:16.110109Z",
+    "ts_epoch": 1765830556.1100812,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7593080129737986,
+    "price_at_signal": 12.29,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7593080129737986,
+      "optimal_lag": 2,
+      "correlation": 0.5062053419825324,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.51",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 12.36,
+      "5m": 12.36
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "e5aaeb1c": {
+    "id": "e5aaeb1c",
+    "ts": "2025-12-15T20:29:16.113556Z",
+    "ts_epoch": 1765830556.1135273,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.29,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {
+      "1m": 12.36,
+      "5m": 12.36
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "cda7b481": {
+    "id": "cda7b481",
+    "ts": "2025-12-15T20:29:18.242330Z",
+    "ts_epoch": 1765830558.2423167,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.861,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.514,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 1.876,
+      "5m": 1.876
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "d27ce53a": {
+    "id": "d27ce53a",
+    "ts": "2025-12-15T20:29:18.245381Z",
+    "ts_epoch": 1765830558.2453399,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7583889922911033,
+    "price_at_signal": 1.861,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7583889922911033,
+      "optimal_lag": 7,
+      "correlation": 0.5055926615274022,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.51",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 1.876,
+      "5m": 1.876
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "7f0adf37": {
+    "id": "7f0adf37",
+    "ts": "2025-12-15T20:29:18.247989Z",
+    "ts_epoch": 1765830558.2479608,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.861,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.525,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.53_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 1.876,
+      "5m": 1.876
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "a74b16ea": {
+    "id": "a74b16ea",
+    "ts": "2025-12-15T20:29:21.316040Z",
+    "ts_epoch": 1765830561.3160193,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3804,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.4772,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.48), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804,
+      "5m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "23c21c3a": {
+    "id": "23c21c3a",
+    "ts": "2025-12-15T20:29:21.319781Z",
+    "ts_epoch": 1765830561.319751,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.47034388271140154,
+    "price_at_signal": 0.3804,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.47034388271140154,
+      "optimal_lag": 7,
+      "correlation": -0.3919532355928346,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.39",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804,
+      "5m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "1ca8b6c1": {
+    "id": "1ca8b6c1",
+    "ts": "2025-12-15T20:29:21.322865Z",
+    "ts_epoch": 1765830561.3228314,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3804,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0771,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.08_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804,
+      "5m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "a6b6cba6": {
+    "id": "a6b6cba6",
+    "ts": "2025-12-15T20:29:24.092787Z",
+    "ts_epoch": 1765830564.0927694,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.337,
+    "price_at_signal": 0.12789,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.337,
+      "hurst_value": 0.6398,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 0.12846,
+      "5m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "b85ac838": {
+    "id": "b85ac838",
+    "ts": "2025-12-15T20:29:24.096772Z",
+    "ts_epoch": 1765830564.0967343,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12789,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7745,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 0.12846,
+      "5m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "94d98182": {
+    "id": "94d98182",
+    "ts": "2025-12-15T20:29:26.328807Z",
+    "ts_epoch": 1765830566.3287952,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.115,
+    "price_at_signal": 845.55,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.115,
+      "hurst_value": 0.5521,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.55), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 847.73,
+      "5m": 847.73
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "a13bb0e6": {
+    "id": "a13bb0e6",
+    "ts": "2025-12-15T20:29:26.333423Z",
+    "ts_epoch": 1765830566.3333845,
+    "symbol": "BNBUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.4852362594637263,
+    "price_at_signal": 845.55,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.4852362594637263,
+      "optimal_lag": 4,
+      "correlation": 0.3234908396424842,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_4m",
+        "corr_0.32",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 847.73,
+      "5m": 847.73
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "3d7be437": {
+    "id": "3d7be437",
+    "ts": "2025-12-15T20:29:26.337455Z",
+    "ts_epoch": 1765830566.337419,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 845.55,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.908,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.91_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {
+      "1m": 847.73,
+      "5m": 847.73
+    },
+    "resolved_horizons": [
+      "1m",
+      "5m"
+    ]
+  },
+  "991797d3": {
+    "id": "991797d3",
+    "ts": "2025-12-15T20:30:53.481863Z",
+    "ts_epoch": 1765830653.4818468,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.132,
+    "price_at_signal": 85692.5,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.132,
+      "hurst_value": 0.5587,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.56), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "a172a358": {
+    "id": "a172a358",
+    "ts": "2025-12-15T20:30:53.485654Z",
+    "ts_epoch": 1765830653.485622,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85692.5,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.4956,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "e4f058eb": {
+    "id": "e4f058eb",
+    "ts": "2025-12-15T20:30:55.001658Z",
+    "ts_epoch": 1765830655.0016353,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.266,
+    "price_at_signal": 2920.87,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.266,
+      "hurst_value": 0.6004,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.60), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "86ab9df1": {
+    "id": "86ab9df1",
+    "ts": "2025-12-15T20:30:55.005827Z",
+    "ts_epoch": 1765830655.005789,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.49966706904525815,
+    "price_at_signal": 2920.87,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.49966706904525815,
+      "optimal_lag": 6,
+      "correlation": 0.33311137936350543,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_6m",
+        "corr_0.33",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "9d5c32bd": {
+    "id": "9d5c32bd",
+    "ts": "2025-12-15T20:30:55.009757Z",
+    "ts_epoch": 1765830655.0097194,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2920.87,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3451,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.35_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "40f133d3": {
+    "id": "40f133d3",
+    "ts": "2025-12-15T20:30:56.850994Z",
+    "ts_epoch": 1765830656.8509753,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.219,
+    "price_at_signal": 123.93,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.219,
+      "hurst_value": 0.5904,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.59), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 124.49
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "e36473c3": {
+    "id": "e36473c3",
+    "ts": "2025-12-15T20:30:56.855250Z",
+    "ts_epoch": 1765830656.855217,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.867,
+    "price_at_signal": 123.93,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.867,
+      "skew_value": -1.2244,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.22_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 124.49
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "9d3a9e55": {
+    "id": "9d3a9e55",
+    "ts": "2025-12-15T20:30:58.416741Z",
+    "ts_epoch": 1765830658.416729,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.287,
+    "price_at_signal": 12.276,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.287,
+      "hurst_value": 0.6242,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 12.36
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "e715a446": {
+    "id": "e715a446",
+    "ts": "2025-12-15T20:30:58.567143Z",
+    "ts_epoch": 1765830658.5671148,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7593080129737986,
+    "price_at_signal": 12.276,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7593080129737986,
+      "optimal_lag": 2,
+      "correlation": 0.5062053419825324,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.51",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 12.36
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "33ed24ee": {
+    "id": "33ed24ee",
+    "ts": "2025-12-15T20:30:58.572356Z",
+    "ts_epoch": 1765830658.5723212,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.276,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {
+      "1m": 12.36
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "c445a443": {
+    "id": "c445a443",
+    "ts": "2025-12-15T20:31:00.293515Z",
+    "ts_epoch": 1765830660.2934978,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.859,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.514,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 1.876
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "d990a231": {
+    "id": "d990a231",
+    "ts": "2025-12-15T20:31:00.298862Z",
+    "ts_epoch": 1765830660.2988188,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7583889922911033,
+    "price_at_signal": 1.859,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7583889922911033,
+      "optimal_lag": 7,
+      "correlation": 0.5055926615274022,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.51",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 1.876
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "99a3728b": {
+    "id": "99a3728b",
+    "ts": "2025-12-15T20:31:00.303903Z",
+    "ts_epoch": 1765830660.3038666,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.859,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.525,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.53_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 1.876
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "4bd8c3db": {
+    "id": "4bd8c3db",
+    "ts": "2025-12-15T20:31:03.208075Z",
+    "ts_epoch": 1765830663.2080507,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8803,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "da22ef29": {
+    "id": "da22ef29",
+    "ts": "2025-12-15T20:31:03.216980Z",
+    "ts_epoch": 1765830663.2169085,
+    "symbol": "XRPUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.4964277080966216,
+    "price_at_signal": 1.8803,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.4964277080966216,
+      "optimal_lag": 8,
+      "correlation": -0.4136897567471847,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_8m",
+        "inverse_corr_-0.41",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {
+      "1m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "16aec365": {
+    "id": "16aec365",
+    "ts": "2025-12-15T20:31:03.226267Z",
+    "ts_epoch": 1765830663.2262309,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.843,
+    "price_at_signal": 1.8803,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.843,
+      "skew_value": -1.1423,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.14_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "80794bfe": {
+    "id": "80794bfe",
+    "ts": "2025-12-15T20:31:04.612475Z",
+    "ts_epoch": 1765830664.6124542,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3801,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.4772,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.48), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "d82e5bfc": {
+    "id": "d82e5bfc",
+    "ts": "2025-12-15T20:31:04.618189Z",
+    "ts_epoch": 1765830664.6181583,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.47034388271140154,
+    "price_at_signal": 0.3801,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.47034388271140154,
+      "optimal_lag": 7,
+      "correlation": -0.3919532355928346,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.39",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "60708e23": {
+    "id": "60708e23",
+    "ts": "2025-12-15T20:31:04.629206Z",
+    "ts_epoch": 1765830664.6291702,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3801,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0771,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.08_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "f61894cb": {
+    "id": "f61894cb",
+    "ts": "2025-12-15T20:31:07.244114Z",
+    "ts_epoch": 1765830667.2440946,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.115,
+    "price_at_signal": 845.63,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.115,
+      "hurst_value": 0.5521,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.55), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 847.73
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "bdaeebe5": {
+    "id": "bdaeebe5",
+    "ts": "2025-12-15T20:31:07.250342Z",
+    "ts_epoch": 1765830667.2503002,
+    "symbol": "BNBUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.4852362594637263,
+    "price_at_signal": 845.63,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.4852362594637263,
+      "optimal_lag": 4,
+      "correlation": 0.3234908396424842,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_4m",
+        "corr_0.32",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 847.73
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "01a9a1c0": {
+    "id": "01a9a1c0",
+    "ts": "2025-12-15T20:31:07.256320Z",
+    "ts_epoch": 1765830667.2562883,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 845.63,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.908,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.91_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {
+      "1m": 847.73
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "bc1f7941": {
+    "id": "bc1f7941",
+    "ts": "2025-12-15T20:32:15.660188Z",
+    "ts_epoch": 1765830735.6601553,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.132,
+    "price_at_signal": 85711.8,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.132,
+      "hurst_value": 0.5587,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.56), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "79b724d6": {
+    "id": "79b724d6",
+    "ts": "2025-12-15T20:32:15.666121Z",
+    "ts_epoch": 1765830735.6660848,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85711.8,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.5021,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "7c86c66f": {
+    "id": "7c86c66f",
+    "ts": "2025-12-15T20:32:17.699619Z",
+    "ts_epoch": 1765830737.6996047,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.266,
+    "price_at_signal": 2924.37,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.266,
+      "hurst_value": 0.6004,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.60), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "54afaf95": {
+    "id": "54afaf95",
+    "ts": "2025-12-15T20:32:17.706227Z",
+    "ts_epoch": 1765830737.7061543,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.47587152744185934,
+    "price_at_signal": 2924.37,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.47587152744185934,
+      "optimal_lag": 6,
+      "correlation": 0.31724768496123956,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_6m",
+        "corr_0.32",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "bef741dc": {
+    "id": "bef741dc",
+    "ts": "2025-12-15T20:32:17.712184Z",
+    "ts_epoch": 1765830737.7121482,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2924.37,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3439,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.34_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "fdf9fe17": {
+    "id": "fdf9fe17",
+    "ts": "2025-12-15T20:32:20.319299Z",
+    "ts_epoch": 1765830740.3192809,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.219,
+    "price_at_signal": 124.25,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.219,
+      "hurst_value": 0.5904,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.59), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 124.49
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "36de2cca": {
+    "id": "36de2cca",
+    "ts": "2025-12-15T20:32:20.324666Z",
+    "ts_epoch": 1765830740.324628,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.867,
+    "price_at_signal": 124.25,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.867,
+      "skew_value": -1.2244,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.22_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 124.49
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "68ca61f9": {
+    "id": "68ca61f9",
+    "ts": "2025-12-15T20:32:22.088795Z",
+    "ts_epoch": 1765830742.0887845,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.287,
+    "price_at_signal": 12.289,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.287,
+      "hurst_value": 0.6242,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 12.36
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "758ef1e0": {
+    "id": "758ef1e0",
+    "ts": "2025-12-15T20:32:22.095207Z",
+    "ts_epoch": 1765830742.0951686,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7467183412660447,
+    "price_at_signal": 12.289,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7467183412660447,
+      "optimal_lag": 2,
+      "correlation": 0.49781222751069654,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.50",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 12.36
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "91e74a07": {
+    "id": "91e74a07",
+    "ts": "2025-12-15T20:32:22.102124Z",
+    "ts_epoch": 1765830742.1020944,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.289,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {
+      "1m": 12.36
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "2365466e": {
+    "id": "2365466e",
+    "ts": "2025-12-15T20:32:24.067857Z",
+    "ts_epoch": 1765830744.0678358,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.862,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.514,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 1.876
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "04bd3fc4": {
+    "id": "04bd3fc4",
+    "ts": "2025-12-15T20:32:24.073626Z",
+    "ts_epoch": 1765830744.0735323,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7727855944549463,
+    "price_at_signal": 1.862,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7727855944549463,
+      "optimal_lag": 7,
+      "correlation": 0.5151903963032975,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.52",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 1.876
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "62bd89d3": {
+    "id": "62bd89d3",
+    "ts": "2025-12-15T20:32:24.078825Z",
+    "ts_epoch": 1765830744.0787826,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.862,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 1.876
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "af178580": {
+    "id": "af178580",
+    "ts": "2025-12-15T20:32:26.293829Z",
+    "ts_epoch": 1765830746.2938116,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.881,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "69a9f812": {
+    "id": "69a9f812",
+    "ts": "2025-12-15T20:32:26.300123Z",
+    "ts_epoch": 1765830746.3000722,
+    "symbol": "XRPUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.4964277080966216,
+    "price_at_signal": 1.881,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.4964277080966216,
+      "optimal_lag": 8,
+      "correlation": -0.4136897567471847,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_8m",
+        "inverse_corr_-0.41",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {
+      "1m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "9c84a24d": {
+    "id": "9c84a24d",
+    "ts": "2025-12-15T20:32:26.306084Z",
+    "ts_epoch": 1765830746.3060179,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.84,
+    "price_at_signal": 1.881,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.84,
+      "skew_value": -1.1328,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.13_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 1.8834
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "195f4403": {
+    "id": "195f4403",
+    "ts": "2025-12-15T20:32:28.548722Z",
+    "ts_epoch": 1765830748.5487103,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3805,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.4772,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.48), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "3866fc36": {
+    "id": "3866fc36",
+    "ts": "2025-12-15T20:32:28.556546Z",
+    "ts_epoch": 1765830748.556513,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.4680528693212967,
+    "price_at_signal": 0.3805,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.4680528693212967,
+      "optimal_lag": 7,
+      "correlation": -0.39004405776774725,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.39",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "681312d6": {
+    "id": "681312d6",
+    "ts": "2025-12-15T20:32:28.561480Z",
+    "ts_epoch": 1765830748.5614507,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3805,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0958,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.10_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 0.3804
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "b476b982": {
+    "id": "b476b982",
+    "ts": "2025-12-15T20:32:30.616403Z",
+    "ts_epoch": 1765830750.6163828,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.337,
+    "price_at_signal": 0.12798,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.337,
+      "hurst_value": 0.6398,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "5e25c775": {
+    "id": "5e25c775",
+    "ts": "2025-12-15T20:32:30.624757Z",
+    "ts_epoch": 1765830750.6247237,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12798,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 0.12846
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "48de2032": {
+    "id": "48de2032",
+    "ts": "2025-12-15T20:32:34.764395Z",
+    "ts_epoch": 1765830754.764375,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.115,
+    "price_at_signal": 846.39,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.115,
+      "hurst_value": 0.5521,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.55), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 847.73
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "7890750a": {
+    "id": "7890750a",
+    "ts": "2025-12-15T20:32:34.770296Z",
+    "ts_epoch": 1765830754.770252,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 846.39,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.8789,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.88_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {
+      "1m": 847.73
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "7ec9c9ca": {
+    "id": "7ec9c9ca",
+    "ts": "2025-12-15T20:34:01.075852Z",
+    "ts_epoch": 1765830841.0758376,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85918.1,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "d8cd53cc": {
+    "id": "d8cd53cc",
+    "ts": "2025-12-15T20:34:01.083287Z",
+    "ts_epoch": 1765830841.0832365,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85918.1,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.5021,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 85942.88
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "b445f201": {
+    "id": "b445f201",
+    "ts": "2025-12-15T20:34:03.034155Z",
+    "ts_epoch": 1765830843.0341337,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.199,
+    "price_at_signal": 2930.58,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.199,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "c93cedfb": {
+    "id": "c93cedfb",
+    "ts": "2025-12-15T20:34:03.041247Z",
+    "ts_epoch": 1765830843.041194,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.47587152744185934,
+    "price_at_signal": 2930.58,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.47587152744185934,
+      "optimal_lag": 6,
+      "correlation": 0.31724768496123956,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_6m",
+        "corr_0.32",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "2ca1f32b": {
+    "id": "2ca1f32b",
+    "ts": "2025-12-15T20:34:03.049901Z",
+    "ts_epoch": 1765830843.0498662,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2930.58,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3439,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.34_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 2929.34
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "df01f846": {
+    "id": "df01f846",
+    "ts": "2025-12-15T20:34:05.197202Z",
+    "ts_epoch": 1765830845.1971912,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.186,
+    "price_at_signal": 124.55,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.186,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {
+      "1m": 124.49
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "40a3a58b": {
+    "id": "40a3a58b",
+    "ts": "2025-12-15T20:34:05.205368Z",
+    "ts_epoch": 1765830845.2052886,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.867,
+    "price_at_signal": 124.55,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.867,
+      "skew_value": -1.2244,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.22_below_-1.0"
+      ]
+    },
+    "prices": {
+      "1m": 124.49
+    },
+    "resolved_horizons": [
+      "1m"
+    ]
+  },
+  "ab18caae": {
+    "id": "ab18caae",
+    "ts": "2025-12-15T20:34:07.159691Z",
+    "ts_epoch": 1765830847.1596699,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.287,
+    "price_at_signal": 12.32,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.287,
+      "hurst_value": 0.6242,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "2751a571": {
+    "id": "2751a571",
+    "ts": "2025-12-15T20:34:07.167578Z",
+    "ts_epoch": 1765830847.1675246,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7467183412660447,
+    "price_at_signal": 12.32,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7467183412660447,
+      "optimal_lag": 2,
+      "correlation": 0.49781222751069654,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.50",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "2b9fe1db": {
+    "id": "2b9fe1db",
+    "ts": "2025-12-15T20:34:07.176277Z",
+    "ts_epoch": 1765830847.176235,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.32,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "2ea284bf": {
+    "id": "2ea284bf",
+    "ts": "2025-12-15T20:34:09.178278Z",
+    "ts_epoch": 1765830849.1782577,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.867,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.514,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "a4e5f202": {
+    "id": "a4e5f202",
+    "ts": "2025-12-15T20:34:09.195494Z",
+    "ts_epoch": 1765830849.193812,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.7727855944549463,
+    "price_at_signal": 1.867,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.7727855944549463,
+      "optimal_lag": 7,
+      "correlation": 0.5151903963032975,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.52",
+        "btc_long_1.00"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "59068729": {
+    "id": "59068729",
+    "ts": "2025-12-15T20:34:09.209561Z",
+    "ts_epoch": 1765830849.2094977,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.867,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "696a0f98": {
+    "id": "696a0f98",
+    "ts": "2025-12-15T20:34:11.180247Z",
+    "ts_epoch": 1765830851.1802254,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8823,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "205e35b9": {
+    "id": "205e35b9",
+    "ts": "2025-12-15T20:34:11.189391Z",
+    "ts_epoch": 1765830851.1893556,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.84,
+    "price_at_signal": 1.8823,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.84,
+      "skew_value": -1.1328,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.13_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "76e18fbf": {
+    "id": "76e18fbf",
+    "ts": "2025-12-15T20:34:12.413286Z",
+    "ts_epoch": 1765830852.4132733,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3819,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.4772,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.48), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "a9253632": {
+    "id": "a9253632",
+    "ts": "2025-12-15T20:34:12.422551Z",
+    "ts_epoch": 1765830852.4224932,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.4680528693212967,
+    "price_at_signal": 0.3819,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.4680528693212967,
+      "optimal_lag": 7,
+      "correlation": -0.39004405776774725,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.39",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "38edfb76": {
+    "id": "38edfb76",
+    "ts": "2025-12-15T20:34:12.431794Z",
+    "ts_epoch": 1765830852.4317482,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3819,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0958,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.10_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "102eb35a": {
+    "id": "102eb35a",
+    "ts": "2025-12-15T20:34:14.375297Z",
+    "ts_epoch": 1765830854.375276,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.337,
+    "price_at_signal": 0.12812,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.337,
+      "hurst_value": 0.6398,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "b515971a": {
+    "id": "b515971a",
+    "ts": "2025-12-15T20:34:14.384732Z",
+    "ts_epoch": 1765830854.3846543,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12812,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "4016c7cb": {
+    "id": "4016c7cb",
+    "ts": "2025-12-15T20:34:17.695850Z",
+    "ts_epoch": 1765830857.6958342,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.115,
+    "price_at_signal": 846.78,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.115,
+      "hurst_value": 0.5521,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.55), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "bb438290": {
+    "id": "bb438290",
+    "ts": "2025-12-15T20:34:17.707653Z",
+    "ts_epoch": 1765830857.7076,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 846.78,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.8789,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.88_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "40a4187f": {
+    "id": "40a4187f",
+    "ts": "2025-12-15T20:35:43.596674Z",
+    "ts_epoch": 1765830943.5966623,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85885.2,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "56148106": {
+    "id": "56148106",
+    "ts": "2025-12-15T20:35:43.608593Z",
+    "ts_epoch": 1765830943.6085482,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85885.2,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.5021,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "c1909d79": {
+    "id": "c1909d79",
+    "ts": "2025-12-15T20:35:45.668438Z",
+    "ts_epoch": 1765830945.6684117,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.199,
+    "price_at_signal": 2932.41,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.199,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "874170bb": {
+    "id": "874170bb",
+    "ts": "2025-12-15T20:35:45.679650Z",
+    "ts_epoch": 1765830945.6796124,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2932.41,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3439,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.34_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "4521375e": {
+    "id": "4521375e",
+    "ts": "2025-12-15T20:35:48.023606Z",
+    "ts_epoch": 1765830948.0235875,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.186,
+    "price_at_signal": 124.72,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.186,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "60409c25": {
+    "id": "60409c25",
+    "ts": "2025-12-15T20:35:48.035695Z",
+    "ts_epoch": 1765830948.0356624,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.867,
+    "price_at_signal": 124.72,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.867,
+      "skew_value": -1.2244,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.22_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "8cf2a808": {
+    "id": "8cf2a808",
+    "ts": "2025-12-15T20:35:49.941735Z",
+    "ts_epoch": 1765830949.9417174,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.273,
+    "price_at_signal": 12.315,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.273,
+      "hurst_value": 0.6224,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "695eda3b": {
+    "id": "695eda3b",
+    "ts": "2025-12-15T20:35:49.954010Z",
+    "ts_epoch": 1765830949.9539824,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.315,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "c6915615": {
+    "id": "c6915615",
+    "ts": "2025-12-15T20:35:51.991422Z",
+    "ts_epoch": 1765830951.9913926,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.866,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5147,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3d524d1c": {
+    "id": "3d524d1c",
+    "ts": "2025-12-15T20:35:52.013326Z",
+    "ts_epoch": 1765830952.0132897,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.866,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "aa6885e1": {
+    "id": "aa6885e1",
+    "ts": "2025-12-15T20:35:54.006433Z",
+    "ts_epoch": 1765830954.0064151,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8842,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "0572ed31": {
+    "id": "0572ed31",
+    "ts": "2025-12-15T20:35:54.016605Z",
+    "ts_epoch": 1765830954.0165317,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.84,
+    "price_at_signal": 1.8842,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.84,
+      "skew_value": -1.1328,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.13_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "bb8fb4e0": {
+    "id": "bb8fb4e0",
+    "ts": "2025-12-15T20:35:56.343444Z",
+    "ts_epoch": 1765830956.3434196,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3814,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5106,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "1f0a10e3": {
+    "id": "1f0a10e3",
+    "ts": "2025-12-15T20:35:56.354733Z",
+    "ts_epoch": 1765830956.3546898,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3814,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0958,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.10_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "78beb059": {
+    "id": "78beb059",
+    "ts": "2025-12-15T20:35:58.822719Z",
+    "ts_epoch": 1765830958.8227015,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.333,
+    "price_at_signal": 0.12799,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.333,
+      "hurst_value": 0.6417,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e2899b48": {
+    "id": "e2899b48",
+    "ts": "2025-12-15T20:35:58.835717Z",
+    "ts_epoch": 1765830958.8356903,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12799,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "75efa76d": {
+    "id": "75efa76d",
+    "ts": "2025-12-15T20:36:03.288042Z",
+    "ts_epoch": 1765830963.2880197,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 846.42,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.534,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.53), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "19213707": {
+    "id": "19213707",
+    "ts": "2025-12-15T20:36:03.302829Z",
+    "ts_epoch": 1765830963.3027954,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 846.42,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.8789,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.88_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "965adf05": {
+    "id": "965adf05",
+    "ts": "2025-12-15T20:37:39.806733Z",
+    "ts_epoch": 1765831059.806712,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85897.1,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "02a75e9d": {
+    "id": "02a75e9d",
+    "ts": "2025-12-15T20:37:39.818002Z",
+    "ts_epoch": 1765831059.8179624,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85897.1,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.4974,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "6dfde8ab": {
+    "id": "6dfde8ab",
+    "ts": "2025-12-15T20:37:41.674650Z",
+    "ts_epoch": 1765831061.674633,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.199,
+    "price_at_signal": 2935.41,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.199,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "defbad95": {
+    "id": "defbad95",
+    "ts": "2025-12-15T20:37:41.686064Z",
+    "ts_epoch": 1765831061.6860278,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2935.41,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3209,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.24,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.32_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "29ece0ae": {
+    "id": "29ece0ae",
+    "ts": "2025-12-15T20:37:45.248265Z",
+    "ts_epoch": 1765831065.2482424,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.186,
+    "price_at_signal": 124.98,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.186,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "fd9709ba": {
+    "id": "fd9709ba",
+    "ts": "2025-12-15T20:37:45.259496Z",
+    "ts_epoch": 1765831065.2594335,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.863,
+    "price_at_signal": 124.98,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.863,
+      "skew_value": -1.2107,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.21_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3e07e35b": {
+    "id": "3e07e35b",
+    "ts": "2025-12-15T20:37:46.898087Z",
+    "ts_epoch": 1765831066.8980627,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.273,
+    "price_at_signal": 12.33,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.273,
+      "hurst_value": 0.6224,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "0f58aa7b": {
+    "id": "0f58aa7b",
+    "ts": "2025-12-15T20:37:46.911903Z",
+    "ts_epoch": 1765831066.911866,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.33,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "9cb0f711": {
+    "id": "9cb0f711",
+    "ts": "2025-12-15T20:37:48.639482Z",
+    "ts_epoch": 1765831068.6394658,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.868,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5147,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "ff55c51f": {
+    "id": "ff55c51f",
+    "ts": "2025-12-15T20:37:48.650747Z",
+    "ts_epoch": 1765831068.6506782,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.868,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3156c4fe": {
+    "id": "3156c4fe",
+    "ts": "2025-12-15T20:37:50.815480Z",
+    "ts_epoch": 1765831070.8154583,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8844,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "f3c3a17a": {
+    "id": "f3c3a17a",
+    "ts": "2025-12-15T20:37:50.826800Z",
+    "ts_epoch": 1765831070.8267612,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.844,
+    "price_at_signal": 1.8844,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.844,
+      "skew_value": -1.1472,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.15_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "1306e2d1": {
+    "id": "1306e2d1",
+    "ts": "2025-12-15T20:37:52.550149Z",
+    "ts_epoch": 1765831072.5501263,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3825,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5106,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "74b4841a": {
+    "id": "74b4841a",
+    "ts": "2025-12-15T20:37:52.564362Z",
+    "ts_epoch": 1765831072.564311,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3825,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0929,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5bef7ceb": {
+    "id": "5bef7ceb",
+    "ts": "2025-12-15T20:37:54.324886Z",
+    "ts_epoch": 1765831074.3248737,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.333,
+    "price_at_signal": 0.12836,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.333,
+      "hurst_value": 0.6417,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "07b638c1": {
+    "id": "07b638c1",
+    "ts": "2025-12-15T20:37:54.337896Z",
+    "ts_epoch": 1765831074.3378081,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12836,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e5b6a24c": {
+    "id": "e5b6a24c",
+    "ts": "2025-12-15T20:39:24.837837Z",
+    "ts_epoch": 1765831164.8378193,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 86060.7,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "112ab6bb": {
+    "id": "112ab6bb",
+    "ts": "2025-12-15T20:39:24.853173Z",
+    "ts_epoch": 1765831164.8531249,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 86060.7,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.4974,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "6173783e": {
+    "id": "6173783e",
+    "ts": "2025-12-15T20:39:27.665833Z",
+    "ts_epoch": 1765831167.665817,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.198,
+    "price_at_signal": 2945.5,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.198,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "df684bba": {
+    "id": "df684bba",
+    "ts": "2025-12-15T20:39:27.678012Z",
+    "ts_epoch": 1765831167.6779547,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.16170891021857783,
+    "price_at_signal": 2945.5,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.16170891021857783,
+      "optimal_lag": 9,
+      "correlation": 0.3389241320845061,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_9m",
+        "corr_0.34",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "d5112f0d": {
+    "id": "d5112f0d",
+    "ts": "2025-12-15T20:39:27.690145Z",
+    "ts_epoch": 1765831167.6901062,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2945.5,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3209,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.24,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.32_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "902953e9": {
+    "id": "902953e9",
+    "ts": "2025-12-15T20:39:29.942984Z",
+    "ts_epoch": 1765831169.9429667,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.184,
+    "price_at_signal": 125.35,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.184,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "6d04d9b7": {
+    "id": "6d04d9b7",
+    "ts": "2025-12-15T20:39:29.954831Z",
+    "ts_epoch": 1765831169.954797,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.863,
+    "price_at_signal": 125.35,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.863,
+      "skew_value": -1.2107,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.21_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3bcb5b0c": {
+    "id": "3bcb5b0c",
+    "ts": "2025-12-15T20:39:31.898892Z",
+    "ts_epoch": 1765831171.8988762,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.273,
+    "price_at_signal": 12.372,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.273,
+      "hurst_value": 0.6224,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3bc9cdeb": {
+    "id": "3bc9cdeb",
+    "ts": "2025-12-15T20:39:31.911428Z",
+    "ts_epoch": 1765831171.9113846,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.22298721591389095,
+    "price_at_signal": 12.372,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.22298721591389095,
+      "optimal_lag": 2,
+      "correlation": 0.4673567369751119,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.47",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e4dd0b6b": {
+    "id": "e4dd0b6b",
+    "ts": "2025-12-15T20:39:31.923367Z",
+    "ts_epoch": 1765831171.9233048,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.372,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "db83b82b": {
+    "id": "db83b82b",
+    "ts": "2025-12-15T20:39:34.019005Z",
+    "ts_epoch": 1765831174.0189886,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.874,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5147,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "9ae73dcb": {
+    "id": "9ae73dcb",
+    "ts": "2025-12-15T20:39:34.031530Z",
+    "ts_epoch": 1765831174.0314703,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.2490884078302049,
+    "price_at_signal": 1.874,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.2490884078302049,
+      "optimal_lag": 7,
+      "correlation": 0.5220619712423546,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.52",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "c4987b0b": {
+    "id": "c4987b0b",
+    "ts": "2025-12-15T20:39:34.044367Z",
+    "ts_epoch": 1765831174.044325,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.874,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "47bbd32b": {
+    "id": "47bbd32b",
+    "ts": "2025-12-15T20:39:35.959745Z",
+    "ts_epoch": 1765831175.95972,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8899,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "15993b83": {
+    "id": "15993b83",
+    "ts": "2025-12-15T20:39:35.977040Z",
+    "ts_epoch": 1765831175.9770007,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.844,
+    "price_at_signal": 1.8899,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.844,
+      "skew_value": -1.1472,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.15_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "771a9fb5": {
+    "id": "771a9fb5",
+    "ts": "2025-12-15T20:39:40.342680Z",
+    "ts_epoch": 1765831180.342657,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3832,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5106,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "9321bfb4": {
+    "id": "9321bfb4",
+    "ts": "2025-12-15T20:39:40.357638Z",
+    "ts_epoch": 1765831180.357599,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.193926113187616,
+    "price_at_signal": 0.3832,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.193926113187616,
+      "optimal_lag": 8,
+      "correlation": 0.40644785443049464,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_8m",
+        "corr_0.41",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "bbe0b97f": {
+    "id": "bbe0b97f",
+    "ts": "2025-12-15T20:39:40.369817Z",
+    "ts_epoch": 1765831180.3697813,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3832,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0929,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5ea043b0": {
+    "id": "5ea043b0",
+    "ts": "2025-12-15T20:39:42.233699Z",
+    "ts_epoch": 1765831182.233683,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.333,
+    "price_at_signal": 0.1287,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.333,
+      "hurst_value": 0.6417,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "9b538566": {
+    "id": "9b538566",
+    "ts": "2025-12-15T20:39:42.250177Z",
+    "ts_epoch": 1765831182.2501442,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.1287,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5622fd7f": {
+    "id": "5622fd7f",
+    "ts": "2025-12-15T20:41:09.686707Z",
+    "ts_epoch": 1765831269.6866877,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85929.3,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "9e4fbb94": {
+    "id": "9e4fbb94",
+    "ts": "2025-12-15T20:41:09.703392Z",
+    "ts_epoch": 1765831269.7033372,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85929.3,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.4974,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.50_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "034d8f58": {
+    "id": "034d8f58",
+    "ts": "2025-12-15T20:41:11.503482Z",
+    "ts_epoch": 1765831271.503471,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.198,
+    "price_at_signal": 2940.02,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.198,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "bd5b1b2b": {
+    "id": "bd5b1b2b",
+    "ts": "2025-12-15T20:41:11.519250Z",
+    "ts_epoch": 1765831271.5192132,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.16170891021857783,
+    "price_at_signal": 2940.02,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.16170891021857783,
+      "optimal_lag": 9,
+      "correlation": 0.3389241320845061,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_9m",
+        "corr_0.34",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3c9a9ac1": {
+    "id": "3c9a9ac1",
+    "ts": "2025-12-15T20:41:11.537237Z",
+    "ts_epoch": 1765831271.5371935,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2940.02,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.3209,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.24,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.32_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "8908cca8": {
+    "id": "8908cca8",
+    "ts": "2025-12-15T20:41:13.388860Z",
+    "ts_epoch": 1765831273.3888404,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.184,
+    "price_at_signal": 125.14,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.184,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "33795814": {
+    "id": "33795814",
+    "ts": "2025-12-15T20:41:13.406277Z",
+    "ts_epoch": 1765831273.4062245,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.863,
+    "price_at_signal": 125.14,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.863,
+      "skew_value": -1.2107,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.21_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5722ac54": {
+    "id": "5722ac54",
+    "ts": "2025-12-15T20:41:15.091181Z",
+    "ts_epoch": 1765831275.0911622,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.274,
+    "price_at_signal": 12.345,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.274,
+      "hurst_value": 0.6224,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "eb0fae2f": {
+    "id": "eb0fae2f",
+    "ts": "2025-12-15T20:41:15.108335Z",
+    "ts_epoch": 1765831275.108299,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.22298721591389095,
+    "price_at_signal": 12.345,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.22298721591389095,
+      "optimal_lag": 2,
+      "correlation": 0.4673567369751119,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.47",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "90f64948": {
+    "id": "90f64948",
+    "ts": "2025-12-15T20:41:15.123644Z",
+    "ts_epoch": 1765831275.1236084,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.345,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.5001,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.50_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "4f1aa46b": {
+    "id": "4f1aa46b",
+    "ts": "2025-12-15T20:41:16.848342Z",
+    "ts_epoch": 1765831276.8483272,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.872,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5147,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "402800f5": {
+    "id": "402800f5",
+    "ts": "2025-12-15T20:41:16.864083Z",
+    "ts_epoch": 1765831276.8640409,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.2490884078302049,
+    "price_at_signal": 1.872,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.2490884078302049,
+      "optimal_lag": 7,
+      "correlation": 0.5220619712423546,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.52",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "84a71d34": {
+    "id": "84a71d34",
+    "ts": "2025-12-15T20:41:16.873367Z",
+    "ts_epoch": 1765831276.8733387,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.872,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "15a89b11": {
+    "id": "15a89b11",
+    "ts": "2025-12-15T20:41:18.746636Z",
+    "ts_epoch": 1765831278.746612,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8864,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "f98379b4": {
+    "id": "f98379b4",
+    "ts": "2025-12-15T20:41:18.762333Z",
+    "ts_epoch": 1765831278.7622817,
+    "symbol": "XRPUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.18318584155719606,
+    "price_at_signal": 1.8864,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.18318584155719606,
+      "optimal_lag": 8,
+      "correlation": -0.3151185408170109,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_8m",
+        "inverse_corr_-0.32",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "1d3babf3": {
+    "id": "1d3babf3",
+    "ts": "2025-12-15T20:41:18.778064Z",
+    "ts_epoch": 1765831278.7780292,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.844,
+    "price_at_signal": 1.8864,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.844,
+      "skew_value": -1.1472,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.15_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "60d09c74": {
+    "id": "60d09c74",
+    "ts": "2025-12-15T20:41:22.038409Z",
+    "ts_epoch": 1765831282.0383942,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3822,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5106,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "f7280146": {
+    "id": "f7280146",
+    "ts": "2025-12-15T20:41:22.055579Z",
+    "ts_epoch": 1765831282.0555286,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.193926113187616,
+    "price_at_signal": 0.3822,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.193926113187616,
+      "optimal_lag": 8,
+      "correlation": 0.40644785443049464,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_8m",
+        "corr_0.41",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "4dd05e4e": {
+    "id": "4dd05e4e",
+    "ts": "2025-12-15T20:41:22.073586Z",
+    "ts_epoch": 1765831282.0735476,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3822,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0929,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "dbe04a55": {
+    "id": "dbe04a55",
+    "ts": "2025-12-15T20:41:24.027572Z",
+    "ts_epoch": 1765831284.0275562,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.333,
+    "price_at_signal": 0.12841,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.333,
+      "hurst_value": 0.6417,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "8d9496ac": {
+    "id": "8d9496ac",
+    "ts": "2025-12-15T20:41:24.046256Z",
+    "ts_epoch": 1765831284.0461524,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12841,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "ee5db8de": {
+    "id": "ee5db8de",
+    "ts": "2025-12-15T20:41:26.763843Z",
+    "ts_epoch": 1765831286.7638242,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 847.95,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.534,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.53), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "b218b3cd": {
+    "id": "b218b3cd",
+    "ts": "2025-12-15T20:41:26.795860Z",
+    "ts_epoch": 1765831286.7958164,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 847.95,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.9235,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.92_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "0f309ead": {
+    "id": "0f309ead",
+    "ts": "2025-12-15T20:42:54.451134Z",
+    "ts_epoch": 1765831374.451114,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85942.4,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "b7f32243": {
+    "id": "b7f32243",
+    "ts": "2025-12-15T20:42:54.466140Z",
+    "ts_epoch": 1765831374.4660988,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85942.4,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.5075,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.51_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "70f83c5c": {
+    "id": "70f83c5c",
+    "ts": "2025-12-15T20:42:57.884086Z",
+    "ts_epoch": 1765831377.884066,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.184,
+    "price_at_signal": 125.3,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.184,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "173bd20d": {
+    "id": "173bd20d",
+    "ts": "2025-12-15T20:42:57.897717Z",
+    "ts_epoch": 1765831377.8976767,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.828,
+    "price_at_signal": 125.3,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.828,
+      "skew_value": -1.092,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.2,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "9f82a9fb": {
+    "id": "9f82a9fb",
+    "ts": "2025-12-15T20:43:00.224657Z",
+    "ts_epoch": 1765831380.2246244,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.274,
+    "price_at_signal": 12.332,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.274,
+      "hurst_value": 0.6224,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "b5e1c88f": {
+    "id": "b5e1c88f",
+    "ts": "2025-12-15T20:43:00.245200Z",
+    "ts_epoch": 1765831380.2451627,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.34010808599617304,
+    "price_at_signal": 12.332,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.34010808599617304,
+      "optimal_lag": 2,
+      "correlation": 0.46804649472090337,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.47",
+        "btc_long_0.48"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "34b3b374": {
+    "id": "34b3b374",
+    "ts": "2025-12-15T20:43:00.263008Z",
+    "ts_epoch": 1765831380.2629092,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.332,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.4949,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.49_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "9050f3c5": {
+    "id": "9050f3c5",
+    "ts": "2025-12-15T20:43:02.667808Z",
+    "ts_epoch": 1765831382.6677861,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.871,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5147,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "d2807e1a": {
+    "id": "d2807e1a",
+    "ts": "2025-12-15T20:43:02.687018Z",
+    "ts_epoch": 1765831382.6869655,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.24803102157857218,
+    "price_at_signal": 1.871,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.24803102157857218,
+      "optimal_lag": 7,
+      "correlation": 0.5206075690152958,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.52",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5b24c76d": {
+    "id": "5b24c76d",
+    "ts": "2025-12-15T20:43:02.706378Z",
+    "ts_epoch": 1765831382.7063324,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.871,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "202c3c8d": {
+    "id": "202c3c8d",
+    "ts": "2025-12-15T20:43:05.030387Z",
+    "ts_epoch": 1765831385.0303712,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8872,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "6258b034": {
+    "id": "6258b034",
+    "ts": "2025-12-15T20:43:05.048898Z",
+    "ts_epoch": 1765831385.048775,
+    "symbol": "XRPUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.18318584155719606,
+    "price_at_signal": 1.8872,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.18318584155719606,
+      "optimal_lag": 8,
+      "correlation": -0.3151185408170109,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_8m",
+        "inverse_corr_-0.32",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "09633517": {
+    "id": "09633517",
+    "ts": "2025-12-15T20:43:05.065689Z",
+    "ts_epoch": 1765831385.0656435,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.844,
+    "price_at_signal": 1.8872,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.844,
+      "skew_value": -1.1478,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.15_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "64901985": {
+    "id": "64901985",
+    "ts": "2025-12-15T20:43:08.840155Z",
+    "ts_epoch": 1765831388.8401322,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.382,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5106,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "d0ad6d9d": {
+    "id": "d0ad6d9d",
+    "ts": "2025-12-15T20:43:08.855698Z",
+    "ts_epoch": 1765831388.8556516,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.1517975955900774,
+    "price_at_signal": 0.382,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.1517975955900774,
+      "optimal_lag": 7,
+      "correlation": -0.39827163916612507,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.40",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "eb23ac33": {
+    "id": "eb23ac33",
+    "ts": "2025-12-15T20:43:08.870839Z",
+    "ts_epoch": 1765831388.8707812,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.382,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0851,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "a87cd4b4": {
+    "id": "a87cd4b4",
+    "ts": "2025-12-15T20:43:11.160462Z",
+    "ts_epoch": 1765831391.160449,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.333,
+    "price_at_signal": 0.1285,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.333,
+      "hurst_value": 0.6417,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e7e2d5fc": {
+    "id": "e7e2d5fc",
+    "ts": "2025-12-15T20:43:11.176972Z",
+    "ts_epoch": 1765831391.1768727,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.1285,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "0851d629": {
+    "id": "0851d629",
+    "ts": "2025-12-15T20:43:13.051598Z",
+    "ts_epoch": 1765831393.0515897,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 848.66,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.534,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.53), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "2663a130": {
+    "id": "2663a130",
+    "ts": "2025-12-15T20:43:13.068025Z",
+    "ts_epoch": 1765831393.067965,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 848.66,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.9235,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.92_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "195902d4": {
+    "id": "195902d4",
+    "ts": "2025-12-15T20:44:40.624951Z",
+    "ts_epoch": 1765831480.624917,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85899.3,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "59914e66": {
+    "id": "59914e66",
+    "ts": "2025-12-15T20:44:40.637198Z",
+    "ts_epoch": 1765831480.6371684,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85899.3,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.5075,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.51_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "68360fcc": {
+    "id": "68360fcc",
+    "ts": "2025-12-15T20:44:43.508013Z",
+    "ts_epoch": 1765831483.5079925,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.198,
+    "price_at_signal": 2937.9,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.198,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "2651e8f7": {
+    "id": "2651e8f7",
+    "ts": "2025-12-15T20:44:43.691166Z",
+    "ts_epoch": 1765831483.691135,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.11541126755809775,
+    "price_at_signal": 2937.9,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.11541126755809775,
+      "optimal_lag": 9,
+      "correlation": 0.3295197180628553,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_9m",
+        "corr_0.33",
+        "btc_long_0.23"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5d909ef7": {
+    "id": "5d909ef7",
+    "ts": "2025-12-15T20:44:43.708259Z",
+    "ts_epoch": 1765831483.7082055,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2937.9,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.264,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.24,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.26_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "67878bf1": {
+    "id": "67878bf1",
+    "ts": "2025-12-15T20:44:45.637324Z",
+    "ts_epoch": 1765831485.6373062,
+    "symbol": "SOLUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.184,
+    "price_at_signal": 125.1,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.184,
+      "hurst_value": 0.5791,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "0bf56849": {
+    "id": "0bf56849",
+    "ts": "2025-12-15T20:44:45.653546Z",
+    "ts_epoch": 1765831485.6534863,
+    "symbol": "SOLUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.828,
+    "price_at_signal": 125.1,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.828,
+      "skew_value": -1.092,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.2,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e89514f8": {
+    "id": "e89514f8",
+    "ts": "2025-12-15T20:44:47.116809Z",
+    "ts_epoch": 1765831487.1167843,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.274,
+    "price_at_signal": 12.327,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.274,
+      "hurst_value": 0.6224,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "c8cde2c3": {
+    "id": "c8cde2c3",
+    "ts": "2025-12-15T20:44:47.138418Z",
+    "ts_epoch": 1765831487.1383646,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.34010808599617304,
+    "price_at_signal": 12.327,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.34010808599617304,
+      "optimal_lag": 2,
+      "correlation": 0.46804649472090337,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.47",
+        "btc_long_0.48"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "f0c409fa": {
+    "id": "f0c409fa",
+    "ts": "2025-12-15T20:44:47.158562Z",
+    "ts_epoch": 1765831487.1585202,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.327,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.4949,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.49_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "adf2cae6": {
+    "id": "adf2cae6",
+    "ts": "2025-12-15T20:44:48.742257Z",
+    "ts_epoch": 1765831488.7422328,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.869,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5147,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "6d119878": {
+    "id": "6d119878",
+    "ts": "2025-12-15T20:44:48.761357Z",
+    "ts_epoch": 1765831488.7612891,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.24803102157857218,
+    "price_at_signal": 1.869,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.24803102157857218,
+      "optimal_lag": 7,
+      "correlation": 0.5206075690152958,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.52",
+        "btc_long_0.32"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5a641653": {
+    "id": "5a641653",
+    "ts": "2025-12-15T20:44:48.783482Z",
+    "ts_epoch": 1765831488.7834334,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.869,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "49f34d34": {
+    "id": "49f34d34",
+    "ts": "2025-12-15T20:44:50.638163Z",
+    "ts_epoch": 1765831490.6381438,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8853,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "ad833a8e": {
+    "id": "ad833a8e",
+    "ts": "2025-12-15T20:44:50.656246Z",
+    "ts_epoch": 1765831490.6561854,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.844,
+    "price_at_signal": 1.8853,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.844,
+      "skew_value": -1.1478,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.15_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "7ba4689e": {
+    "id": "7ba4689e",
+    "ts": "2025-12-15T20:44:53.998473Z",
+    "ts_epoch": 1765831493.9984531,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 0.3816,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5106,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.51), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "74977c8e": {
+    "id": "74977c8e",
+    "ts": "2025-12-15T20:44:54.019846Z",
+    "ts_epoch": 1765831494.019793,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.1517975955900774,
+    "price_at_signal": 0.3816,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.1517975955900774,
+      "optimal_lag": 7,
+      "correlation": -0.39827163916612507,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.40",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5371db1a": {
+    "id": "5371db1a",
+    "ts": "2025-12-15T20:44:54.041200Z",
+    "ts_epoch": 1765831494.0411234,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3816,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0851,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "02c80ac9": {
+    "id": "02c80ac9",
+    "ts": "2025-12-15T20:44:55.980066Z",
+    "ts_epoch": 1765831495.98004,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.333,
+    "price_at_signal": 0.12833,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.333,
+      "hurst_value": 0.6417,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.64), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "a9bd2978": {
+    "id": "a9bd2978",
+    "ts": "2025-12-15T20:44:56.001889Z",
+    "ts_epoch": 1765831496.0018568,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12833,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "2891115e": {
+    "id": "2891115e",
+    "ts": "2025-12-15T20:46:26.409882Z",
+    "ts_epoch": 1765831586.4098606,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85892.2,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "f269b4d1": {
+    "id": "f269b4d1",
+    "ts": "2025-12-15T20:46:26.429662Z",
+    "ts_epoch": 1765831586.429611,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85892.2,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.5075,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.51_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "18e88829": {
+    "id": "18e88829",
+    "ts": "2025-12-15T20:46:28.348545Z",
+    "ts_epoch": 1765831588.3485112,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.198,
+    "price_at_signal": 2933.04,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.198,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "4759412e": {
+    "id": "4759412e",
+    "ts": "2025-12-15T20:46:28.370162Z",
+    "ts_epoch": 1765831588.370108,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.11541126755809775,
+    "price_at_signal": 2933.04,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.11541126755809775,
+      "optimal_lag": 9,
+      "correlation": 0.3295197180628553,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_9m",
+        "corr_0.33",
+        "btc_long_0.23"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "19388b9d": {
+    "id": "19388b9d",
+    "ts": "2025-12-15T20:46:28.390688Z",
+    "ts_epoch": 1765831588.390644,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2933.04,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.264,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.24,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.26_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "aea6eebb": {
+    "id": "aea6eebb",
+    "ts": "2025-12-15T20:46:32.115435Z",
+    "ts_epoch": 1765831592.115418,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.241,
+    "price_at_signal": 12.309,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.241,
+      "hurst_value": 0.6114,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.61), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "7cfb5e2c": {
+    "id": "7cfb5e2c",
+    "ts": "2025-12-15T20:46:32.137726Z",
+    "ts_epoch": 1765831592.1376657,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.1633485109446646,
+    "price_at_signal": 12.309,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.1633485109446646,
+      "optimal_lag": 2,
+      "correlation": 0.4800009335205082,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.48",
+        "btc_long_0.23"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "73d6dcf2": {
+    "id": "73d6dcf2",
+    "ts": "2025-12-15T20:46:32.158769Z",
+    "ts_epoch": 1765831592.1587193,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.309,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.4949,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.49_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "5ff1e4e3": {
+    "id": "5ff1e4e3",
+    "ts": "2025-12-15T20:46:34.204219Z",
+    "ts_epoch": 1765831594.2041972,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "LONG",
+    "confidence": 0.3,
+    "price_at_signal": 1.865,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.3,
+      "hurst_value": 0.5359,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3f50312f": {
+    "id": "3f50312f",
+    "ts": "2025-12-15T20:46:34.223034Z",
+    "ts_epoch": 1765831594.222994,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.1809546978244952,
+    "price_at_signal": 1.865,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.1809546978244952,
+      "optimal_lag": 7,
+      "correlation": 0.5317368574611803,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.53",
+        "btc_long_0.23"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "1e858f25": {
+    "id": "1e858f25",
+    "ts": "2025-12-15T20:46:34.244649Z",
+    "ts_epoch": 1765831594.2445886,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.865,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "c425a85f": {
+    "id": "c425a85f",
+    "ts": "2025-12-15T20:46:36.347245Z",
+    "ts_epoch": 1765831596.3472288,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8809,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5377,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "fc7a2bd0": {
+    "id": "fc7a2bd0",
+    "ts": "2025-12-15T20:46:36.370117Z",
+    "ts_epoch": 1765831596.370074,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.844,
+    "price_at_signal": 1.8809,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.844,
+      "skew_value": -1.1478,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.15_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "974adb0d": {
+    "id": "974adb0d",
+    "ts": "2025-12-15T20:46:38.455140Z",
+    "ts_epoch": 1765831598.4551127,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "LONG",
+    "confidence": 0.3,
+    "price_at_signal": 0.3809,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.3,
+      "hurst_value": 0.5254,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.53), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "2b6fb2d3": {
+    "id": "2b6fb2d3",
+    "ts": "2025-12-15T20:46:38.479522Z",
+    "ts_epoch": 1765831598.4794402,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.10817410676338067,
+    "price_at_signal": 0.3809,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.10817410676338067,
+      "optimal_lag": 7,
+      "correlation": -0.39733812026268894,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.40",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "788ef16a": {
+    "id": "788ef16a",
+    "ts": "2025-12-15T20:46:38.499562Z",
+    "ts_epoch": 1765831598.4994848,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3809,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0851,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.09_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "4018aac3": {
+    "id": "4018aac3",
+    "ts": "2025-12-15T20:46:42.407145Z",
+    "ts_epoch": 1765831602.4071262,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.273,
+    "price_at_signal": 0.12811,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.273,
+      "hurst_value": 0.6232,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "90efc2f8": {
+    "id": "90efc2f8",
+    "ts": "2025-12-15T20:46:42.429770Z",
+    "ts_epoch": 1765831602.4297347,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12811,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "309a0c96": {
+    "id": "309a0c96",
+    "ts": "2025-12-15T20:46:44.917743Z",
+    "ts_epoch": 1765831604.9177217,
+    "symbol": "BNBUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 847.67,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5363,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e415a5d5": {
+    "id": "e415a5d5",
+    "ts": "2025-12-15T20:46:44.940647Z",
+    "ts_epoch": 1765831604.940613,
+    "symbol": "BNBUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 847.67,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -1.9417,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.093,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.94_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "45e0e325": {
+    "id": "45e0e325",
+    "ts": "2025-12-15T20:48:10.781450Z",
+    "ts_epoch": 1765831690.78143,
+    "symbol": "BTCUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 85840.9,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5366,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e2c14bff": {
+    "id": "e2c14bff",
+    "ts": "2025-12-15T20:48:10.797812Z",
+    "ts_epoch": 1765831690.7977576,
+    "symbol": "BTCUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 85840.9,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.5058,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.12,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.51_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "633a4914": {
+    "id": "633a4914",
+    "ts": "2025-12-15T20:48:12.922313Z",
+    "ts_epoch": 1765831692.922296,
+    "symbol": "ETHUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.198,
+    "price_at_signal": 2931.72,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.198,
+      "hurst_value": 0.5778,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.58), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "902818da": {
+    "id": "902818da",
+    "ts": "2025-12-15T20:48:12.942049Z",
+    "ts_epoch": 1765831692.941996,
+    "symbol": "ETHUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.35615075684744363,
+    "price_at_signal": 2931.72,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.35615075684744363,
+      "optimal_lag": 9,
+      "correlation": 0.3141037775231437,
+      "leader_direction": "SHORT",
+      "reasons": [
+        "btc_leads_by_9m",
+        "corr_0.31",
+        "btc_short_0.76"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "f7b7abab": {
+    "id": "f7b7abab",
+    "ts": "2025-12-15T20:48:12.959008Z",
+    "ts_epoch": 1765831692.9589138,
+    "symbol": "ETHUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 2931.72,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.264,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.24,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.26_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e154491f": {
+    "id": "e154491f",
+    "ts": "2025-12-15T20:48:16.675223Z",
+    "ts_epoch": 1765831696.6752005,
+    "symbol": "AVAXUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.241,
+    "price_at_signal": 12.316,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.241,
+      "hurst_value": 0.6114,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.61), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "b65bca43": {
+    "id": "b65bca43",
+    "ts": "2025-12-15T20:48:16.701134Z",
+    "ts_epoch": 1765831696.7010872,
+    "symbol": "AVAXUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.1633485109446646,
+    "price_at_signal": 12.316,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.1633485109446646,
+      "optimal_lag": 2,
+      "correlation": 0.4800009335205082,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_2m",
+        "corr_0.48",
+        "btc_long_0.23"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "bf3ea179": {
+    "id": "bf3ea179",
+    "ts": "2025-12-15T20:48:16.724313Z",
+    "ts_epoch": 1765831696.724275,
+    "symbol": "AVAXUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 1.0,
+    "price_at_signal": 12.316,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 1.0,
+      "skew_value": -2.4949,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.027,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.49_below_-1.0",
+        "skew_historically_extreme_low"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "8e69972f": {
+    "id": "8e69972f",
+    "ts": "2025-12-15T20:48:18.447115Z",
+    "ts_epoch": 1765831698.4471014,
+    "symbol": "DOTUSDT",
+    "signal_name": "hurst",
+    "direction": "LONG",
+    "confidence": 0.3,
+    "price_at_signal": 1.867,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.3,
+      "hurst_value": 0.5359,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.54), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "7b202226": {
+    "id": "7b202226",
+    "ts": "2025-12-15T20:48:18.468676Z",
+    "ts_epoch": 1765831698.4686098,
+    "symbol": "DOTUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.1809546978244952,
+    "price_at_signal": 1.867,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.1809546978244952,
+      "optimal_lag": 7,
+      "correlation": 0.5317368574611803,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "corr_0.53",
+        "btc_long_0.23"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "893abcc5": {
+    "id": "893abcc5",
+    "ts": "2025-12-15T20:48:18.489999Z",
+    "ts_epoch": 1765831698.489888,
+    "symbol": "DOTUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 1.867,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.5513,
+      "interpretation": "extreme_negative_fear",
+      "quantile": NaN,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.55_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "ad00b040": {
+    "id": "ad00b040",
+    "ts": "2025-12-15T20:48:20.625854Z",
+    "ts_epoch": 1765831700.6258385,
+    "symbol": "XRPUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.3,
+    "price_at_signal": 1.8829,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.3,
+      "hurst_value": 0.5264,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.53), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "4dc94898": {
+    "id": "4dc94898",
+    "ts": "2025-12-15T20:48:20.645263Z",
+    "ts_epoch": 1765831700.645201,
+    "symbol": "XRPUSDT",
+    "signal_name": "lead_lag",
+    "direction": "LONG",
+    "confidence": 0.28202573415841964,
+    "price_at_signal": 1.8829,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.28202573415841964,
+      "optimal_lag": 8,
+      "correlation": -0.3109123971897203,
+      "leader_direction": "SHORT",
+      "reasons": [
+        "btc_leads_by_8m",
+        "inverse_corr_-0.31",
+        "btc_short_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "eb38a92e": {
+    "id": "eb38a92e",
+    "ts": "2025-12-15T20:48:20.665026Z",
+    "ts_epoch": 1765831700.6649685,
+    "symbol": "XRPUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.841,
+    "price_at_signal": 1.8829,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.841,
+      "skew_value": -1.137,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.227,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.14_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "e8d47ce8": {
+    "id": "e8d47ce8",
+    "ts": "2025-12-15T20:48:22.391840Z",
+    "ts_epoch": 1765831702.3918214,
+    "symbol": "ADAUSDT",
+    "signal_name": "hurst",
+    "direction": "LONG",
+    "confidence": 0.3,
+    "price_at_signal": 0.3813,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.3,
+      "hurst_value": 0.5254,
+      "regime": "random",
+      "reasons": [
+        "hurst_random",
+        "Market random walk (0.53), low confidence"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "05cf0082": {
+    "id": "05cf0082",
+    "ts": "2025-12-15T20:48:22.411372Z",
+    "ts_epoch": 1765831702.4113107,
+    "symbol": "ADAUSDT",
+    "signal_name": "lead_lag",
+    "direction": "SHORT",
+    "confidence": 0.10817410676338067,
+    "price_at_signal": 0.3813,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.10817410676338067,
+      "optimal_lag": 7,
+      "correlation": -0.39733812026268894,
+      "leader_direction": "LONG",
+      "reasons": [
+        "btc_leads_by_7m",
+        "inverse_corr_-0.40",
+        "btc_long_target_inverse"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "a7b41051": {
+    "id": "a7b41051",
+    "ts": "2025-12-15T20:48:22.434729Z",
+    "ts_epoch": 1765831702.4346802,
+    "symbol": "ADAUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.3813,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -2.0972,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.147,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-2.10_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "1694f658": {
+    "id": "1694f658",
+    "ts": "2025-12-15T20:48:25.677435Z",
+    "ts_epoch": 1765831705.6774154,
+    "symbol": "DOGEUSDT",
+    "signal_name": "hurst",
+    "direction": "SHORT",
+    "confidence": 0.273,
+    "price_at_signal": 0.12821,
+    "signal_data": {
+      "signal": "SHORT",
+      "confidence": 0.273,
+      "hurst_value": 0.6232,
+      "regime": "trending",
+      "reasons": [
+        "hurst_trending",
+        "Market trending (0.62), favor SHORT momentum"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  },
+  "3562be3a": {
+    "id": "3562be3a",
+    "ts": "2025-12-15T20:48:25.701200Z",
+    "ts_epoch": 1765831705.7011485,
+    "symbol": "DOGEUSDT",
+    "signal_name": "volatility_skew",
+    "direction": "LONG",
+    "confidence": 0.9,
+    "price_at_signal": 0.12821,
+    "signal_data": {
+      "signal": "LONG",
+      "confidence": 0.9,
+      "skew_value": -1.7704,
+      "interpretation": "extreme_negative_fear",
+      "quantile": 0.133,
+      "reasons": [
+        "vol_skew_extreme_negative",
+        "loss_aversion_trigger",
+        "skew_-1.77_below_-1.0"
+      ]
+    },
+    "prices": {},
+    "resolved_horizons": []
+  }
+}

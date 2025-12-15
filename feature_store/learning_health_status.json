@@ -1,0 +1,231 @@
+{
+  "last_check": "2025-12-15T20:37:39.076961",
+  "overall_health": "REMEDIATED",
+  "components": {
+    "daily_learner": {
+      "name": "Daily Intelligence Learner",
+      "healthy": false,
+      "checks": [],
+      "last_run": null,
+      "issues": [
+        "Daily learning rules file missing"
+      ]
+    },
+    "learning_history": {
+      "name": "Learning History",
+      "healthy": false,
+      "checks": [
+        "Snapshots: 0"
+      ],
+      "issues": [
+        "No learning history"
+      ]
+    },
+    "data_pipeline": {
+      "name": "Data Pipeline",
+      "healthy": false,
+      "checks": [
+        "Enriched decisions: 0",
+        "Signal universe: 103"
+      ],
+      "issues": [
+        "Insufficient enriched decisions (0, need 10+)"
+      ]
+    },
+    "conditional_overlay": {
+      "name": "Conditional Overlay Bridge",
+      "healthy": true,
+      "checks": [
+        "Module importable: YES",
+        "Function callable: YES"
+      ],
+      "issues": []
+    },
+    "fee_gate_learning": {
+      "name": "Fee Gate Learning",
+      "healthy": true,
+      "checks": [
+        "File: EXISTS",
+        "Freshness: FRESH (0.3h)",
+        "Threshold: VALID (0.1700)"
+      ],
+      "issues": []
+    },
+    "hold_time_policy": {
+      "name": "Hold Time Policy",
+      "healthy": true,
+      "checks": [
+        "File: EXISTS",
+        "Freshness: FRESH (0.3h)",
+        "Hold times: VALID (15 symbols)"
+      ],
+      "issues": []
+    },
+    "edge_sizer_calibration": {
+      "name": "Edge Sizer Calibration",
+      "healthy": true,
+      "checks": [
+        "File: EXISTS",
+        "Freshness: FRESH (0.3h)",
+        "Multipliers: VALID (5 grades)"
+      ],
+      "issues": []
+    },
+    "correlation_throttle": {
+      "name": "Correlation Throttle",
+      "healthy": true,
+      "checks": [
+        "Throttle policy: EXISTS",
+        "Threshold: VALID (0.70)"
+      ],
+      "issues": []
+    },
+    "strategic_advisor": {
+      "name": "Strategic Advisor",
+      "healthy": true,
+      "checks": [
+        "State file: EXISTS",
+        "Last run: RECENT (0.3h ago)",
+        "Total runs: 1, Recommendations: 0"
+      ],
+      "issues": []
+    },
+    "streak_filter": {
+      "name": "Streak Filter",
+      "healthy": true,
+      "checks": [
+        "ALPHA: OK (skips=0, allowed=64)",
+        "BETA: OK (skips=0, allowed=0)",
+        "Auto-reset thresholds: 100 skips, 4h blocked"
+      ],
+      "issues": []
+    },
+    "hold_time_guardian": {
+      "name": "Hold Time Guardian",
+      "healthy": true,
+      "checks": [
+        "Last check: never",
+        "Total fixes applied: 0",
+        "No violations detected"
+      ],
+      "issues": [],
+      "fixes_applied": 0
+    }
+  },
+  "issues": [
+    {
+      "name": "enriched_decisions",
+      "problems": [
+        "enriched_decisions: Empty JSONL"
+      ]
+    },
+    {
+      "name": "learned_rules",
+      "problems": [
+        "learned_rules: MISSING at feature_store/learned_rules.json",
+        "learned_rules: Cannot determine age",
+        "learned_rules: File not found"
+      ]
+    },
+    {
+      "name": "daily_learning_rules",
+      "problems": [
+        "daily_learning_rules: MISSING at feature_store/daily_learning_rules.json",
+        "daily_learning_rules: Cannot determine age",
+        "daily_learning_rules: File not found"
+      ]
+    },
+    {
+      "name": "optimal_thresholds",
+      "problems": [
+        "optimal_thresholds: MISSING at feature_store/optimal_thresholds.json",
+        "optimal_thresholds: Cannot determine age",
+        "optimal_thresholds: File not found"
+      ]
+    },
+    {
+      "name": "learning_history",
+      "problems": [
+        "learning_history: Empty JSONL"
+      ]
+    },
+    {
+      "name": "coinglass_correlations",
+      "problems": [
+        "coinglass_correlations: MISSING at feature_store/coinglass_correlations.json",
+        "coinglass_correlations: Cannot determine age",
+        "coinglass_correlations: File not found"
+      ]
+    },
+    {
+      "name": "Daily Intelligence Learner",
+      "problems": [
+        "Daily learning rules file missing"
+      ]
+    },
+    {
+      "name": "Learning History",
+      "problems": [
+        "No learning history"
+      ]
+    },
+    {
+      "name": "Data Pipeline",
+      "problems": [
+        "Insufficient enriched decisions (0, need 10+)"
+      ]
+    }
+  ],
+  "remediations": [
+    {
+      "component": "learned_rules",
+      "problem": "learned_rules: MISSING at feature_store/learned_rules.json",
+      "action": "Ran daily learning cycle",
+      "success": true,
+      "timestamp": "2025-12-15T20:37:06.345271"
+    },
+    {
+      "component": "learned_rules",
+      "problem": "learned_rules: Cannot determine age",
+      "action": "Ran daily learning cycle",
+      "success": true,
+      "timestamp": "2025-12-15T20:37:13.423952"
+    },
+    {
+      "component": "learned_rules",
+      "problem": "learned_rules: File not found",
+      "action": "Ran daily learning cycle",
+      "success": true,
+      "timestamp": "2025-12-15T20:37:17.264637"
+    },
+    {
+      "component": "daily_learning_rules",
+      "problem": "daily_learning_rules: MISSING at feature_store/daily_learning_rules.json",
+      "action": "Ran daily learning cycle",
+      "success": true,
+      "timestamp": "2025-12-15T20:37:21.337200"
+    },
+    {
+      "component": "daily_learning_rules",
+      "problem": "daily_learning_rules: Cannot determine age",
+      "action": "Ran daily learning cycle",
+      "success": true,
+      "timestamp": "2025-12-15T20:37:24.641138"
+    },
+    {
+      "component": "daily_learning_rules",
+      "problem": "daily_learning_rules: File not found",
+      "action": "Ran daily learning cycle",
+      "success": true,
+      "timestamp": "2025-12-15T20:37:31.712292"
+    },
+    {
+      "component": "Daily Intelligence Learner",
+      "problem": "Daily learning rules file missing",
+      "action": "Ran daily learning cycle",
+      "success": true,
+      "timestamp": "2025-12-15T20:37:35.203305"
+    }
+  ],
+  "all_healthy": false
+}

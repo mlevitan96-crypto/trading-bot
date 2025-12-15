@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "updated_at": "2025-12-15T20:19:15.187401",
+  "symbol_hold_times": {
+    "BTCUSDT": 1800,
+    "ETHUSDT": 1800,
+    "BNBUSDT": 1200,
+    "SOLUSDT": 1500,
+    "XRPUSDT": 1200,
+    "ADAUSDT": 1200,
+    "DOTUSDT": 1500,
+    "LINKUSDT": 1800,
+    "AVAXUSDT": 1800,
+    "MATICUSDT": 1200,
+    "OPUSDT": 1800,
+    "ARBUSDT": 1200,
+    "DOGEUSDT": 1200,
+    "TRXUSDT": 3600,
+    "PEPEUSDT": 1800
+  },
+  "tier_defaults": {
+    "major": 1800,
+    "other_major": 1500,
+    "altcoin": 1200
+  },
+  "auto_generated": true,
+  "note": "Defaults set to 20-30min minimum based on data showing 'medium' duration is profitable while 'quick' loses money"
+}

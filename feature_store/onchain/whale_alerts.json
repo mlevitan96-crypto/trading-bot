@@ -1,0 +1,15 @@
+{
+  "transactions": [
+    {
+      "symbol": "BTC",
+      "amount_usd": 0,
+      "flow_type": "neutral",
+      "from_type": "unknown",
+      "to_type": "unknown",
+      "timestamp": 1765831326,
+      "is_fallback": true,
+      "source": "none"
+    }
+  ],
+  "timestamp": "2025-12-15T20:42:06.448728Z"
+}

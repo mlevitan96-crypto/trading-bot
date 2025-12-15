@@ -177,12 +177,15 @@ def validate_systemd_slot():
             result["valid"] = False
         
         if not result["valid"]:
+            # In paper mode, downgrade to HIGH alert (don't block startup)
+            # In real trading mode, keep as CRITICAL
+            alert_level = ALERT_HIGH if os.getenv('TRADING_MODE', 'paper').lower() == 'paper' else ALERT_CRITICAL
             alert_operator(
-                ALERT_CRITICAL,
+                alert_level,
                 "SYSTEMD_SLOT",
                 "Systemd slot validation failed",
                 result,
-                action_required=True
+                action_required=(alert_level == ALERT_CRITICAL)
             )
         else:
             print(f"✅ [SAFETY] Systemd slot validation passed: {result.get('expected_slot', 'unknown')} slot")
@@ -190,12 +193,15 @@ def validate_systemd_slot():
     except Exception as e:
         result["valid"] = False
         result["issues"].append(f"Validation error: {e}")
+        # In paper mode, downgrade to HIGH alert (don't block startup)
+        trading_mode = os.getenv('TRADING_MODE', 'paper').lower()
+        alert_level = ALERT_HIGH if trading_mode == 'paper' else ALERT_CRITICAL
         alert_operator(
-            ALERT_CRITICAL,
+            alert_level,
             "SYSTEMD_SLOT",
             f"Systemd slot validation error: {e}",
             {"error": str(e), "traceback": traceback.format_exc()},
-            action_required=True
+            action_required=(alert_level == ALERT_CRITICAL)
         )
     
     return result
@@ -270,12 +276,16 @@ def validate_startup_state():
                 result["checks"][f"config_{name}"] = "missing (optional)"
         
         if not result["valid"]:
+            # In paper mode, downgrade to MEDIUM alert (don't block startup)
+            # In real trading mode, keep as HIGH
+            trading_mode = os.getenv('TRADING_MODE', 'paper').lower()
+            alert_level = ALERT_MEDIUM if trading_mode == 'paper' else ALERT_HIGH
             alert_operator(
-                ALERT_HIGH,
+                alert_level,
                 "STARTUP_VALIDATION",
                 "Startup state validation failed",
                 result,
-                action_required=True
+                action_required=(alert_level == ALERT_HIGH)
             )
         else:
             print(f"✅ [SAFETY] Startup state validation passed")
@@ -285,12 +295,15 @@ def validate_startup_state():
     except Exception as e:
         result["valid"] = False
         result["issues"].append(f"Validation error: {e}")
+        # In paper mode, downgrade to MEDIUM alert (don't block startup)
+        trading_mode = os.getenv('TRADING_MODE', 'paper').lower()
+        alert_level = ALERT_MEDIUM if trading_mode == 'paper' else ALERT_HIGH
         alert_operator(
-            ALERT_HIGH,
+            alert_level,
             "STARTUP_VALIDATION",
             f"Startup validation error: {e}",
             {"error": str(e)},
-            action_required=True
+            action_required=(alert_level == ALERT_HIGH)
         )
     
     return result

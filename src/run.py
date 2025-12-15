@@ -1497,8 +1497,14 @@ def run_heavy_initialization():
     """
     Run all heavy initialization in background thread.
     This allows Flask to start quickly and bind port 5000.
+    
+    CRITICAL: In paper trading mode, trading engine ALWAYS starts regardless of health checks.
+    In real trading mode, health checks may gate startup.
     """
     import time
+    trading_mode = os.getenv('TRADING_MODE', 'paper').lower()
+    is_paper_mode = trading_mode == 'paper'
+    
     time.sleep(1)
     
     print("\n🗄️ Initializing SQLite Database (WAL mode)...")
@@ -1514,24 +1520,56 @@ def run_heavy_initialization():
         print(f"   ⚠️ Database initialization failed: {e}")
         print("   (Continuing with JSONL fallback)")
     
-    run_startup_health_checks()
+    # Run startup health checks (non-blocking)
+    try:
+        run_startup_health_checks()
+    except Exception as e:
+        print(f"⚠️  Startup health checks error (non-blocking): {e}")
+        if is_paper_mode:
+            print("   ℹ️  Continuing in PAPER MODE despite health check errors")
     
     from src.venue_config import print_venue_map
     print_venue_map()
     
     print("\n🏥 Running startup health check...")
+    health_check_passed = True
     try:
         from src.system_health_check import SystemHealthCheck
         startup_health = SystemHealthCheck()
         health_result = startup_health.run_cycle()
-        print(f"   Status: {health_result['health']['status']} (Score: {health_result['health']['score']}/100)")
-        if health_result['remediation']:
+        health_score = health_result.get('health', {}).get('score', 0)
+        health_status = health_result.get('health', {}).get('status', 'unknown')
+        
+        print(f"   Status: {health_status} (Score: {health_score}/100)")
+        if health_result.get('remediation'):
             print(f"   Remediations needed: {len(health_result['remediation'])}")
-        print("✅ Startup health check complete")
+        
+        # In real trading mode, require minimum health score
+        if not is_paper_mode:
+            if health_score < 50 or health_status == 'critical':
+                print(f"   ❌ Health check failed (score: {health_score}, status: {health_status})")
+                health_check_passed = False
+                print("   ⚠️  REAL TRADING MODE: Health check failed - trading engine will NOT start")
+            else:
+                print("✅ Startup health check passed - trading engine will start")
+        else:
+            # Paper mode: always pass health check, just log warnings
+            if health_score < 50 or health_status == 'critical':
+                print(f"   ⚠️  Health check degraded (score: {health_score}, status: {health_status})")
+                print("   ℹ️  PAPER MODE: Continuing despite degraded health - trading engine WILL start")
+            else:
+                print("✅ Startup health check complete")
     except Exception as e:
         print(f"⚠️  Startup health check failed: {e}")
+        if is_paper_mode:
+            print("   ℹ️  PAPER MODE: Continuing despite health check failure - trading engine WILL start")
+            health_check_passed = True  # Force pass in paper mode
+        else:
+            print("   ❌ REAL TRADING MODE: Health check error - trading engine will NOT start")
+            health_check_passed = False
     
     # Start all worker processes (predictive engine, feature builder, ensemble predictor, signal resolver)
+    # Always start workers regardless of health check (they're needed for dashboard too)
     _start_all_worker_processes()
     
     # Start worker process monitor
@@ -1544,12 +1582,21 @@ def run_heavy_initialization():
     health_monitor_thread.start()
     print("   ✅ Pipeline health monitor started")
     
-    bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
-    bot_thread.start()
-    
-    # Start supervisor to ensure bot runs 24/7 even if thread dies
-    supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
-    supervisor_thread.start()
+    # CRITICAL: Start trading engine based on mode and health check
+    if is_paper_mode or health_check_passed:
+        print(f"\n🤖 Starting trading engine (mode: {trading_mode.upper()})...")
+        bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
+        bot_thread.start()
+        print("   ✅ Trading engine started")
+        
+        # Start supervisor to ensure bot runs 24/7 even if thread dies
+        supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
+        supervisor_thread.start()
+        print("   ✅ Bot supervisor started")
+    else:
+        print(f"\n⛔ Trading engine NOT started - health check failed in REAL TRADING MODE")
+        print("   ℹ️  Dashboard will continue running, but no trades will execute")
+        print("   ℹ️  Fix health issues and restart to enable trading")
     
     nightly_thread = threading.Thread(target=nightly_learning_scheduler, daemon=True)
     nightly_thread.start()
@@ -1610,7 +1657,12 @@ def main():
     print(f"📍 Trading Mode: {os.getenv('TRADING_MODE', 'paper')}")
     print("="*60)
     
-    # OPERATOR SAFETY: Validate systemd slot and startup state
+    # OPERATOR SAFETY: Validate systemd slot and startup state (non-blocking)
+    # In paper mode, always continue even if validation fails
+    # In real trading mode, validation failures are logged but don't block startup
+    trading_mode = os.getenv('TRADING_MODE', 'paper').lower()
+    is_paper_mode = trading_mode == 'paper'
+    
     try:
         from src.operator_safety import validate_systemd_slot, validate_startup_state
         print("\n🔍 [SAFETY] Running startup validation...")
@@ -1618,12 +1670,18 @@ def main():
         state_validation = validate_startup_state()
         
         if not slot_validation["valid"] or not state_validation["valid"]:
-            print("❌ [SAFETY] Startup validation failed - see alerts above")
-            # Continue anyway - better to run with warnings than not run at all
+            if is_paper_mode:
+                print("⚠️ [SAFETY] Startup validation failed - continuing in PAPER MODE (warnings only)")
+            else:
+                print("❌ [SAFETY] Startup validation failed - see alerts above")
+                print("   ⚠️  Continuing in REAL TRADING MODE with degraded health checks")
         else:
             print("✅ [SAFETY] Startup validation passed")
     except Exception as e:
+        # Safety validation must NEVER block startup, especially in paper mode
         print(f"⚠️ [SAFETY] Startup validation error (non-blocking): {e}")
+        if is_paper_mode:
+            print("   ℹ️  Continuing in PAPER MODE despite validation error")
         import traceback
         traceback.print_exc()
     

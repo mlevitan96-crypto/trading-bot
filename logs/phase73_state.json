@@ -1,9 +1,0 @@
-{
-  "relax_pct_stable": {
-    "majors": 0.03,
-    "l1s": 0.05,
-    "experimental": 0.0
-  },
-  "min_hold_symbol": {},
-  "last_controller_run": 1765734137.0572011
-}

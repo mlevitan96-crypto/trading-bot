@@ -1,4 +1,0 @@
-{"timestamp": "2025-12-13T22:40:34.564455", "severity": "WARNING", "issues": ["STALE_BACKEND: Position file not updated in 344s"], "fixes": ["CHECK_POSITION_SAVE_FUNCTION"]}
-{"timestamp": "2025-12-13T22:41:36.956209", "severity": "WARNING", "issues": ["STALE_BACKEND: Position file not updated in 406s"], "fixes": ["CHECK_POSITION_SAVE_FUNCTION"]}
-{"timestamp": "2025-12-14T00:47:49.454652", "severity": "WARNING", "issues": ["STALE_BACKEND: Position file not updated in 314s"], "fixes": ["CHECK_POSITION_SAVE_FUNCTION"]}
-{"timestamp": "2025-12-14T17:56:20.619740", "severity": "WARNING", "issues": ["STALE_BACKEND: Position file not updated in 390s"], "fixes": ["CHECK_POSITION_SAVE_FUNCTION"]}

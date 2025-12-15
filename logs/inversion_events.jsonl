@@ -1,9 +1,0 @@
-{"ts": "2025-12-13T18:43:47.724965", "event": "INVERSION_ACTIVATED", "reason": "loss_rate_70%|consecutive_12", "confidence": 0.7, "alpha_consecutive_losses": 12}
-{"ts": "2025-12-13T22:54:47.594828", "event": "INVERSION_DEACTIVATED", "reason": "max_duration_reached", "duration_minutes": 250.99781991666666, "beta_wins": 0}
-{"ts": "2025-12-13T23:31:37.631973", "event": "INVERSION_ACTIVATED", "reason": "loss_rate_90%|consecutive_18", "confidence": 0.7, "alpha_consecutive_losses": 18}
-{"ts": "2025-12-14T03:33:18.165850", "event": "INVERSION_DEACTIVATED", "reason": "max_duration_reached", "duration_minutes": 241.67556711666666, "beta_wins": 0}
-{"ts": "2025-12-14T03:43:28.094527", "event": "INVERSION_ACTIVATED", "reason": "loss_rate_70%|consecutive_5", "confidence": 0.7, "alpha_consecutive_losses": 5}
-{"ts": "2025-12-14T07:45:44.154319", "event": "INVERSION_DEACTIVATED", "reason": "max_duration_reached", "duration_minutes": 242.2676483, "beta_wins": 0}
-{"ts": "2025-12-14T08:16:51.903466", "event": "INVERSION_ACTIVATED", "reason": "loss_rate_90%|consecutive_13", "confidence": 0.7, "alpha_consecutive_losses": 13}
-{"ts": "2025-12-14T12:26:48.948905", "event": "INVERSION_DEACTIVATED", "reason": "max_duration_reached", "duration_minutes": 249.95074975, "beta_wins": 0}
-{"ts": "2025-12-14T14:11:20.553868", "event": "INVERSION_ACTIVATED", "reason": "loss_rate_70%|consecutive_7", "confidence": 0.7, "alpha_consecutive_losses": 7}

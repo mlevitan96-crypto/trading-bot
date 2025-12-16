@@ -25,8 +25,24 @@ try:
 except ImportError:
     LOG_ROTATION_AVAILABLE = False
 
-from bot_cycle import run_bot_cycle
 import traceback
+
+# Import run_bot_cycle with explicit error handling
+try:
+    from src.bot_cycle import run_bot_cycle
+    _run_bot_cycle_available = True
+    print("[ENGINE] Successfully imported run_bot_cycle from src.bot_cycle")
+except ImportError as e:
+    # Fallback to old import path for compatibility
+    try:
+        from bot_cycle import run_bot_cycle
+        _run_bot_cycle_available = True
+        print("[ENGINE] Successfully imported run_bot_cycle from bot_cycle (legacy path)")
+    except ImportError as e2:
+        _run_bot_cycle_available = False
+        run_bot_cycle = None
+        print(f"[ENGINE] CRITICAL: Failed to import run_bot_cycle: {e2}")
+        print(f"[ENGINE] This will prevent the trading engine from starting!")
 
 RESTART_MARKER = Path("logs/.restart_needed")
 
@@ -658,8 +674,8 @@ def bot_worker():
                 from src.startup_health_check import update_heartbeat
                 update_heartbeat()
                 print("[ENGINE] Heartbeat updated", flush=True)
-            except:
-                pass
+            except Exception as hb_err:
+                print(f"[ENGINE] Heartbeat update failed: {hb_err}", flush=True)
             
             # Check if restart is needed due to config changes
             if RESTART_MARKER.exists():
@@ -683,7 +699,20 @@ def bot_worker():
                 # This causes workflow to restart and load new configs
                 os._exit(0)
             
+            # Call run_bot_cycle with explicit error handling
+            if not _run_bot_cycle_available or run_bot_cycle is None:
+                print("[ENGINE] CRITICAL: run_bot_cycle is not available - cannot execute trading cycle", flush=True)
+                time.sleep(60)  # Wait before retrying
+                continue
+            
+            if not callable(run_bot_cycle):
+                print("[ENGINE] CRITICAL: run_bot_cycle is not callable - cannot execute trading cycle", flush=True)
+                time.sleep(60)  # Wait before retrying
+                continue
+            
+            print("[ENGINE] Calling run_bot_cycle()", flush=True)
             run_bot_cycle()
+            print("[ENGINE] run_bot_cycle() completed successfully", flush=True)
             
             # Update timestamp to prove we're alive (supervisor monitors this)
             _last_bot_cycle_ts = time.time()
@@ -1620,13 +1649,16 @@ def run_heavy_initialization():
     try:
         if is_paper_mode:
             # Paper mode: ALWAYS start, regardless of health checks or healing
+            # This is a hard requirement - paper mode must never be blocked
             should_start_engine = True
             print(f"\n🤖 DECISION: Starting trading engine (mode: {trading_mode.upper()})")
             print("   ✅ PAPER MODE: Engine ALWAYS starts regardless of health/healing status")
+            print("   🔒 HARD REQUIREMENT: Paper mode cannot be blocked by safety checks")
             health_status_str = "PASSED" if health_check_passed else "DEGRADED"
-            print(f"   ℹ️  Health check status: {health_status_str}")
+            print(f"   ℹ️  Health check status: {health_status_str} (non-blocking in paper mode)")
             healing_status_str = "SUCCESS" if healing_success else "ISSUES DETECTED (non-blocking in paper mode)"
             print(f"   ℹ️  Healing status: {healing_status_str}")
+            print(f"   ✅ Final decision: START ENGINE (paper mode override active)")
         elif health_check_passed and healing_success:
             # Real mode: Start only if both health check AND healing succeeded
             should_start_engine = True
@@ -1656,28 +1688,55 @@ def run_heavy_initialization():
     
     print("="*60)
     
+    # FINAL SAFEGUARD: In paper mode, force start even if decision logic failed
+    if is_paper_mode and not should_start_engine:
+        print("\n🔒 PAPER MODE SAFEGUARD: Overriding decision to ensure engine starts")
+        print("   ⚠️  Decision logic set should_start_engine=False, but paper mode requires start")
+        should_start_engine = True
+        print("   ✅ Override applied: Engine will start")
+    
     if should_start_engine:
-        try:
-            print("\n🔧 Starting trading engine threads...")
-            print("[ENGINE] Attempting to start engine thread", flush=True)
-            bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
-            print("[ENGINE] Engine thread created", flush=True)
-            bot_thread.start()
-            print("[ENGINE] Engine thread started", flush=True)
-            print("   ✅ Trading engine thread started (BotWorker)")
-            
-            # Start supervisor to ensure bot runs 24/7 even if thread dies
-            supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
-            supervisor_thread.start()
-            print("   ✅ Bot supervisor thread started (BotSupervisor)")
-            print("\n✅ TRADING ENGINE IS NOW RUNNING")
-        except Exception as e:
-            print(f"\n❌ CRITICAL: Failed to start trading engine threads: {e}")
-            print(f"[ENGINE] Failed to start engine thread: {e}", flush=True)
+        # Validate that run_bot_cycle is available before starting thread
+        if not _run_bot_cycle_available or run_bot_cycle is None:
+            print("\n❌ CRITICAL: Cannot start trading engine - run_bot_cycle is not available")
+            print("[ENGINE] run_bot_cycle import failed - check import errors above", flush=True)
             if is_paper_mode:
-                print("   ⚠️  PAPER MODE: This is unexpected - engine should always start")
-            import traceback
-            traceback.print_exc()
+                print("   ⚠️  PAPER MODE: This is unexpected - import should succeed")
+        elif not callable(run_bot_cycle):
+            print("\n❌ CRITICAL: Cannot start trading engine - run_bot_cycle is not callable")
+            print(f"[ENGINE] run_bot_cycle type: {type(run_bot_cycle)}", flush=True)
+            if is_paper_mode:
+                print("   ⚠️  PAPER MODE: This is unexpected - function should be callable")
+        else:
+            try:
+                print("\n🔧 Starting trading engine threads...")
+                print("[ENGINE] Attempting to start engine thread", flush=True)
+                print(f"[ENGINE] run_bot_cycle is available and callable: {callable(run_bot_cycle)}", flush=True)
+                print(f"[ENGINE] bot_worker function: {bot_worker}", flush=True)
+                
+                bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
+                print("[ENGINE] Engine thread created", flush=True)
+                print(f"[ENGINE] Thread object: {bot_thread}", flush=True)
+                print(f"[ENGINE] Thread name: {bot_thread.name}", flush=True)
+                print(f"[ENGINE] Thread daemon: {bot_thread.daemon}", flush=True)
+                
+                bot_thread.start()
+                print("[ENGINE] Engine thread started", flush=True)
+                print(f"[ENGINE] Thread is_alive: {bot_thread.is_alive()}", flush=True)
+                print("   ✅ Trading engine thread started (BotWorker)")
+                
+                # Start supervisor to ensure bot runs 24/7 even if thread dies
+                supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
+                supervisor_thread.start()
+                print("   ✅ Bot supervisor thread started (BotSupervisor)")
+                print("\n✅ TRADING ENGINE IS NOW RUNNING")
+            except Exception as e:
+                print(f"\n❌ CRITICAL: Failed to start trading engine threads: {e}")
+                print(f"[ENGINE] Failed to start engine thread: {e}", flush=True)
+                if is_paper_mode:
+                    print("   ⚠️  PAPER MODE: This is unexpected - engine should always start")
+                import traceback
+                traceback.print_exc()
     else:
         print("\n⛔ TRADING ENGINE NOT STARTED (see reasons above)")
     

@@ -503,15 +503,36 @@ def load_open_positions_df():
             leverage = float(e.get("leverage", 1.0) or 1)
             direction = e.get("direction", e.get("side", "LONG"))
             
-            current = entry
+            # Validate entry price
+            if entry <= 0:
+                print(f"⚠️  [DASHBOARD] Invalid entry price for {symbol}: {entry}, skipping")
+                continue
+            
+            # Fetch current price with better error handling
+            current = entry  # Default to entry if fetch fails
+            price_fetched = False
             if gateway:
                 try:
                     fetched_price = gateway.get_price(symbol, venue="futures")
                     if fetched_price and fetched_price > 0:
                         current = fetched_price
+                        price_fetched = True
+                    else:
+                        print(f"⚠️  [DASHBOARD] Invalid price for {symbol}: {fetched_price}")
                 except Exception as price_err:
-                    pass
+                    print(f"⚠️  [DASHBOARD] Failed to fetch price for {symbol}: {price_err}")
+                    # Try fallback: use mark price directly
+                    try:
+                        if hasattr(gateway.fut, 'get_mark_price'):
+                            mark_price = gateway.fut.get_mark_price(symbol)
+                            if mark_price and mark_price > 0:
+                                current = mark_price
+                                price_fetched = True
+                                print(f"✅ [DASHBOARD] Using mark price for {symbol}: {current}")
+                    except Exception as mark_err:
+                        print(f"⚠️  [DASHBOARD] Mark price also failed for {symbol}: {mark_err}")
             
+            # Calculate PnL
             if direction.upper() == "LONG":
                 price_roi = ((current - entry) / entry) if entry > 0 else 0.0
             else:
@@ -520,6 +541,12 @@ def load_open_positions_df():
             leveraged_roi = price_roi * leverage
             pnl_usd = leveraged_roi * margin_collateral
             pnl_pct = leveraged_roi * 100.0
+            
+            # Debug logging if PnL is 0 or price wasn't fetched
+            if not price_fetched or (pnl_usd == 0 and current != entry):
+                print(f"🔍 [DASHBOARD] {symbol}: entry=${entry:.4f}, current=${current:.4f}, "
+                      f"price_fetched={price_fetched}, margin=${margin_collateral:.2f}, "
+                      f"leverage={leverage}x, pnl_usd=${pnl_usd:.2f}")
             
             # Get strategy/bot attribution
             strategy = e.get("strategy", e.get("strategy_id", ""))

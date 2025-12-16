@@ -626,6 +626,33 @@ class HealingOperator:
             status["self_healing"] = "yellow"  # No cycle run yet
         
         return status
+    
+    def _heal_architecture_components(self) -> Dict[str, Any]:
+        """Heal new architecture components (SignalBus, StateMachine, etc.)"""
+        result = {"healed": [], "failed": [], "actions": []}
+        
+        try:
+            from src.architecture_healing import get_architecture_healing
+            arch_healing = get_architecture_healing()
+            healing_results = arch_healing.run_architecture_healing_cycle()
+            
+            result["healed"] = healing_results.get("healed", [])
+            result["failed"] = healing_results.get("failed", [])
+            result["actions"] = healing_results.get("actions", [])
+            
+            if result["healed"]:
+                print(f"🔧 [HEALING] Architecture components healed: {', '.join(result['healed'])}", flush=True)
+            if result["failed"]:
+                print(f"🔧 [HEALING] Architecture components failed: {', '.join(result['failed'])}", flush=True)
+            
+        except ImportError:
+            # Architecture healing module not available - non-critical
+            result["actions"].append("Architecture healing module not available (non-critical)")
+        except Exception as e:
+            result["failed"].append("architecture_components")
+            result["actions"].append(f"Architecture healing error: {e}")
+        
+        return result
 
 
 # Global instance

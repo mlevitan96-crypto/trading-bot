@@ -757,6 +757,7 @@ def bot_worker():
         print("✅ [HEALING] Self-healing operator started (60s cycle)")
         print("   🔧 Auto-heals: Signal engine, Decision engine, Safety layer, File integrity")
         print("   🔧 Auto-heals: Exit gates, Trade execution, Heartbeat, Feature store")
+        print("   🔧 Auto-heals: SignalBus, StateMachine, ShadowEngine, DecisionTracker (NEW)")
         print("   🔧 Monitors all health components and repairs automatically")
     except Exception as e:
         print(f"⚠️ [HEALING] Healing operator startup error: {e}")

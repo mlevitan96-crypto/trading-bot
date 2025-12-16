@@ -2,6 +2,7 @@ import io
 import base64
 import time
 import os
+import threading
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -55,7 +56,6 @@ def _format_bot_display(strategy: str, bot_type: str) -> str:
 
 import json
 from datetime import datetime
-import threading
 import fcntl
 
 

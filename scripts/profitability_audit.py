@@ -13,8 +13,14 @@ import sys
 import os
 from pathlib import Path
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add src to path - handle both absolute and relative paths
+script_dir = Path(__file__).resolve().parent
+project_root = script_dir.parent
+sys.path.insert(0, str(project_root))
+
+# Also add current working directory as fallback
+if os.getcwd() not in sys.path:
+    sys.path.insert(0, os.getcwd())
 
 from typing import Dict, List, Any
 import json

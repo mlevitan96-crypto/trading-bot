@@ -293,29 +293,45 @@ class HealingOperator:
             else:
                 pos_file = Path("logs/positions_futures.json")
             
+            # Use atomic save with file locking to prevent corruption during active trading
+            from src.file_locks import atomic_json_save
+            
             if not pos_file.exists():
-                # Create with valid structure
+                # Create with valid structure using atomic save
                 pos_file.parent.mkdir(parents=True, exist_ok=True)
                 data = {"open_positions": [], "closed_positions": []}
-                with open(pos_file, 'w') as f:
-                    json.dump(data, f, indent=2)
-                result["actions"].append("Created positions_futures.json with valid structure")
-                result["healed"] = True
+                if atomic_json_save(str(pos_file), data):
+                    result["actions"].append("Created positions_futures.json with valid structure")
+                    result["healed"] = True
+                else:
+                    result["failed"] = True
+                    result["error"] = "Failed to create file (lock timeout)"
             else:
-                # Check and fix corrupted JSON
+                # Check and fix corrupted JSON using atomic operations
                 try:
-                    with open(pos_file, 'r') as f:
-                        data = json.load(f)
+                    # Try to read with lock
+                    from src.file_locks import locked_json_read
+                    # Use a sentinel value to detect if file was actually read or default returned
+                    sentinel = {"__sentinel__": True}
+                    data = locked_json_read(str(pos_file), default=sentinel, timeout=5.0)
+                    
+                    if data == sentinel:
+                        # File doesn't exist or read failed - skip this cycle
+                        result["actions"].append("Skipped healing (file doesn't exist or read failed)")
+                        return result
+                    
                     if not isinstance(data, dict) or "open_positions" not in data or "closed_positions" not in data:
-                        # Fix structure
+                        # Fix structure using atomic save
                         fixed_data = {
                             "open_positions": data.get("open_positions", []) if isinstance(data, dict) else [],
                             "closed_positions": data.get("closed_positions", []) if isinstance(data, dict) else []
                         }
-                        with open(pos_file, 'w') as f:
-                            json.dump(fixed_data, f, indent=2)
-                        result["actions"].append("Fixed positions_futures.json structure")
-                        result["healed"] = True
+                        if atomic_json_save(str(pos_file), fixed_data):
+                            result["actions"].append("Fixed positions_futures.json structure")
+                            result["healed"] = True
+                        else:
+                            result["failed"] = True
+                            result["error"] = "Failed to save fixed structure (lock timeout)"
                 except json.JSONDecodeError:
                     # Corrupted JSON - restore from backup or create new
                     backup_file = pos_file.with_suffix(".json.backup")
@@ -323,24 +339,30 @@ class HealingOperator:
                         try:
                             with open(backup_file, 'r') as f:
                                 data = json.load(f)
-                            with open(pos_file, 'w') as f:
-                                json.dump(data, f, indent=2)
-                            result["actions"].append("Restored positions_futures.json from backup")
-                            result["healed"] = True
+                            if atomic_json_save(str(pos_file), data):
+                                result["actions"].append("Restored positions_futures.json from backup")
+                                result["healed"] = True
+                            else:
+                                result["failed"] = True
+                                result["error"] = "Failed to restore from backup (lock timeout)"
                         except:
                             # Backup also corrupted - create new
                             data = {"open_positions": [], "closed_positions": []}
-                            with open(pos_file, 'w') as f:
-                                json.dump(data, f, indent=2)
-                            result["actions"].append("Created new positions_futures.json (backup corrupted)")
-                            result["healed"] = True
+                            if atomic_json_save(str(pos_file), data):
+                                result["actions"].append("Created new positions_futures.json (backup corrupted)")
+                                result["healed"] = True
+                            else:
+                                result["failed"] = True
+                                result["error"] = "Failed to create new file (lock timeout)"
                     else:
                         # No backup - create new
                         data = {"open_positions": [], "closed_positions": []}
-                        with open(pos_file, 'w') as f:
-                            json.dump(data, f, indent=2)
-                        result["actions"].append("Created new positions_futures.json (no backup)")
-                        result["healed"] = True
+                        if atomic_json_save(str(pos_file), data):
+                            result["actions"].append("Created new positions_futures.json (no backup)")
+                            result["healed"] = True
+                        else:
+                            result["failed"] = True
+                            result["error"] = "Failed to create new file (lock timeout)"
         except Exception as e:
             result["failed"] = True
             result["error"] = str(e)
@@ -413,13 +435,18 @@ class HealingOperator:
                 pos_file = Path("logs/positions_futures.json")
             
             # Same as safety layer - ensure file exists and is valid
+            # Use atomic save with file locking
+            from src.file_locks import atomic_json_save
+            
             if not pos_file.exists() or not pos_file.is_file():
                 pos_file.parent.mkdir(parents=True, exist_ok=True)
                 data = {"open_positions": [], "closed_positions": []}
-                with open(pos_file, 'w') as f:
-                    json.dump(data, f, indent=2)
-                result["actions"].append("Created positions_futures.json for trade execution")
-                result["healed"] = True
+                if atomic_json_save(str(pos_file), data):
+                    result["actions"].append("Created positions_futures.json for trade execution")
+                    result["healed"] = True
+                else:
+                    result["failed"] = True
+                    result["error"] = "Failed to create file (lock timeout)"
             else:
                 # Ensure file is writable
                 if not os.access(pos_file, os.W_OK):
@@ -501,26 +528,41 @@ class HealingOperator:
                 pos_file = Path("logs/positions_futures.json")
             
             if pos_file.exists():
+                # Use atomic operations with file locking
+                from src.file_locks import locked_json_read, atomic_json_save
+                
                 try:
-                    with open(pos_file, 'r') as f:
-                        data = json.load(f)
+                    # Try to read with lock
+                    # Use a sentinel value to detect if file was actually read or default returned
+                    sentinel = {"__sentinel__": True}
+                    data = locked_json_read(str(pos_file), default=sentinel, timeout=5.0)
+                    
+                    if data == sentinel:
+                        # File doesn't exist or read failed - skip this cycle
+                        result["actions"].append("Skipped integrity check (file doesn't exist or read failed)")
+                        return result
+                    
                     if not isinstance(data, dict) or "open_positions" not in data or "closed_positions" not in data:
-                        # Fix structure
+                        # Fix structure using atomic save
                         fixed_data = {
                             "open_positions": data.get("open_positions", []) if isinstance(data, dict) else [],
                             "closed_positions": data.get("closed_positions", []) if isinstance(data, dict) else []
                         }
-                        with open(pos_file, 'w') as f:
-                            json.dump(fixed_data, f, indent=2)
-                        result["actions"].append("Fixed file integrity")
-                        result["healed"] = True
+                        if atomic_json_save(str(pos_file), fixed_data):
+                            result["actions"].append("Fixed file integrity")
+                            result["healed"] = True
+                        else:
+                            result["failed"] = True
+                            result["error"] = "Failed to save fixed file (lock timeout)"
                 except json.JSONDecodeError:
-                    # Corrupted - restore or create new
+                    # Corrupted - restore or create new using atomic save
                     data = {"open_positions": [], "closed_positions": []}
-                    with open(pos_file, 'w') as f:
-                        json.dump(data, f, indent=2)
-                    result["actions"].append("Fixed corrupted file")
-                    result["healed"] = True
+                    if atomic_json_save(str(pos_file), data):
+                        result["actions"].append("Fixed corrupted file")
+                        result["healed"] = True
+                    else:
+                        result["failed"] = True
+                        result["error"] = "Failed to fix corrupted file (lock timeout)"
         except Exception as e:
             result["failed"] = True
             result["error"] = str(e)

@@ -2219,14 +2219,24 @@ def build_app(server: Flask = None) -> Dash:
     )
     def refresh_open_positions(_n):
         try:
+            # Add timeout protection - don't let this hang the dashboard
+            load_start = time.time()
             df = load_open_positions_df()
+            load_time = time.time() - load_start
+            
             if _n and _n > 0 and _n % 10 == 0:  # Log every 10th refresh (every 5 minutes)
-                print(f"🔄 [DASHBOARD] Refreshed open positions: {len(df)} positions")
+                print(f"🔄 [DASHBOARD] Refreshed open positions: {len(df)} positions (took {load_time:.2f}s)")
+            
+            # If loading took too long, log a warning
+            if load_time > 5.0:
+                print(f"⚠️  [DASHBOARD] Open positions load took {load_time:.2f}s (slow)")
+            
             return [make_open_positions_section(df)]
         except Exception as e:
             print(f"⚠️  [DASHBOARD] Error loading open positions: {e}")
             import traceback
             traceback.print_exc()
+            # Return empty section instead of crashing
             return [html.Div([html.P(f"Error loading open positions: {str(e)}", style={"color":"#ff6b6b","padding":"12px"})])]
 
     @app.callback(

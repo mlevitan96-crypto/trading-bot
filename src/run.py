@@ -444,6 +444,7 @@ def bot_worker():
     """
     global _last_bot_cycle_ts, _bot_worker_alive
     print("🤖 Bot worker thread started")
+    print("[ENGINE] Engine loop entered", flush=True)
     
     # Start continuous heartbeat emitter to prevent safety freezes
     heartbeat_thread = threading.Thread(target=_continuous_heartbeat_emitter, daemon=True, name="ContinuousHeartbeat")
@@ -453,6 +454,7 @@ def bot_worker():
     try:
         from src.startup_health_check import update_heartbeat
         update_heartbeat()
+        print("[ENGINE] Heartbeat updated", flush=True)
     except:
         pass
     
@@ -651,6 +653,14 @@ def bot_worker():
     
     while _bot_worker_alive:
         try:
+            # Update heartbeat on each cycle
+            try:
+                from src.startup_health_check import update_heartbeat
+                update_heartbeat()
+                print("[ENGINE] Heartbeat updated", flush=True)
+            except:
+                pass
+            
             # Check if restart is needed due to config changes
             if RESTART_MARKER.exists():
                 print("\n" + "="*60)
@@ -1649,8 +1659,11 @@ def run_heavy_initialization():
     if should_start_engine:
         try:
             print("\n🔧 Starting trading engine threads...")
+            print("[ENGINE] Attempting to start engine thread", flush=True)
             bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
+            print("[ENGINE] Engine thread created", flush=True)
             bot_thread.start()
+            print("[ENGINE] Engine thread started", flush=True)
             print("   ✅ Trading engine thread started (BotWorker)")
             
             # Start supervisor to ensure bot runs 24/7 even if thread dies
@@ -1660,6 +1673,7 @@ def run_heavy_initialization():
             print("\n✅ TRADING ENGINE IS NOW RUNNING")
         except Exception as e:
             print(f"\n❌ CRITICAL: Failed to start trading engine threads: {e}")
+            print(f"[ENGINE] Failed to start engine thread: {e}", flush=True)
             if is_paper_mode:
                 print("   ⚠️  PAPER MODE: This is unexpected - engine should always start")
             import traceback

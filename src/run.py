@@ -2041,7 +2041,10 @@ def main():
         traceback.print_exc()
     
     # Check if running under supervisor control
-    if os.environ.get("SUPERVISOR_CONTROLLED") == "1":
+    supervisor_controlled = os.environ.get("SUPERVISOR_CONTROLLED", "0")
+    print(f"🔍 [STARTUP] SUPERVISOR_CONTROLLED={supervisor_controlled}")
+    
+    if supervisor_controlled == "1":
         print("🛡️ Running under supervisor control - skipping dashboard")
         print("   Supervisor handles port 5000 health endpoint")
         
@@ -2057,26 +2060,29 @@ def main():
     
     # Normal mode: Start Flask dashboard on port 8050 (configurable via PORT env var)
     dashboard_port = int(os.environ.get("PORT", "8050"))
-    print(f"\n🌐 Starting P&L Dashboard on http://0.0.0.0:{dashboard_port}")
+    print(f"\n🌐 [DASHBOARD] Starting P&L Dashboard on http://0.0.0.0:{dashboard_port}")
     
     if not _force_clear_port(dashboard_port):
         print(f"❌ FATAL: Cannot clear port {dashboard_port} after multiple attempts!")
         print("   Please manually kill the blocking process and restart.")
         sys.exit(1)
     
-    print(f"   ✅ Port {dashboard_port} is available")
-    print("   ℹ️  Initializing subsystems in background...")
+    print(f"   ✅ [DASHBOARD] Port {dashboard_port} is available")
+    print("   ℹ️  [DASHBOARD] Initializing subsystems in background...")
     
     # Create Flask app first
     from flask import Flask
     flask_app = Flask(__name__)
+    print("   ✅ [DASHBOARD] Flask app created")
     
     # Start P&L dashboard (optional - must not crash if missing)
     dash_app = None
     try:
+        print("   🔍 [DASHBOARD] Importing start_pnl_dashboard...")
         from src.pnl_dashboard import start_pnl_dashboard
+        print("   ✅ [DASHBOARD] Import successful, calling start_pnl_dashboard()...")
         dash_app = start_pnl_dashboard(flask_app)
-        print("   ✅ P&L Dashboard initialized successfully")
+        print("   ✅ [DASHBOARD] P&L Dashboard initialized successfully")
     except NameError as e:
         if "start_pnl_dashboard" in str(e):
             print("   ⚠️  P&L Dashboard function not found - continuing without dashboard")
@@ -2112,6 +2118,7 @@ def main():
                 def load(self):
                     return self.application
             
+            print(f"   🔍 [DASHBOARD] Starting Gunicorn server on port {dashboard_port}...")
             options = {
                 'bind': f'0.0.0.0:{dashboard_port}',
                 'workers': 2,

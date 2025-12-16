@@ -14,6 +14,7 @@ from typing import Dict, Any, Optional
 import pandas as pd
 
 from src.memory_efficient_cache import get_ohlcv_cache
+from src.blofin_rate_limiter import get_blofin_rate_limiter
 
 # Environment configuration
 BLOFIN_BASE = os.getenv("BLOFIN_BASE_URL", "https://openapi.blofin.com")
@@ -136,6 +137,9 @@ class BlofinFuturesClient:
         url = self.base + path
         body = "" if not payload else json.dumps(payload)
         hdrs = blofin_headers(method, path, body)
+        
+        # Enforce rate limiting before making request
+        get_blofin_rate_limiter().acquire()
         
         try:
             resp = self.sess.request(method, url, headers=hdrs, data=body, timeout=TIMEOUT)

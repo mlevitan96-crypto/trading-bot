@@ -58,12 +58,18 @@ def log(msg: str):
 
 def _rate_limit():
     """Enforce CoinGlass Hobbyist rate limit (30 req/min = 2s between calls)."""
-    global _last_coinglass_call
-    elapsed = time.time() - _last_coinglass_call
-    if elapsed < COINGLASS_RATE_LIMIT_DELAY:
-        sleep_time = COINGLASS_RATE_LIMIT_DELAY - elapsed
-        time.sleep(sleep_time)
-    _last_coinglass_call = time.time()
+    # Use centralized rate limiter if available, otherwise fall back to simple delay
+    try:
+        from src.coinglass_rate_limiter import wait_for_rate_limit
+        wait_for_rate_limit()
+    except ImportError:
+        # Fallback to simple delay if rate limiter not available
+        global _last_coinglass_call
+        elapsed = time.time() - _last_coinglass_call
+        if elapsed < COINGLASS_RATE_LIMIT_DELAY:
+            sleep_time = COINGLASS_RATE_LIMIT_DELAY - elapsed
+            time.sleep(sleep_time)
+        _last_coinglass_call = time.time()
 
 
 def coinglass_get(endpoint: str, params: Optional[Dict] = None) -> Optional[Dict]:

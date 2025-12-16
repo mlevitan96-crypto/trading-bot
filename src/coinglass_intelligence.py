@@ -84,6 +84,14 @@ class CoinGlassClient:
         Returns:
             Tuple of (response_data, rate_limit, rate_used)
         """
+        # Use centralized rate limiter before making request
+        try:
+            from src.coinglass_rate_limiter import wait_for_rate_limit
+            wait_for_rate_limit()
+        except ImportError:
+            # Fallback: simple delay
+            time.sleep(2.5)
+        
         url = BASE_URL + endpoint
         
         for attempt in range(max_retries):
@@ -329,8 +337,8 @@ class CoinGlassClient:
                         "data": data
                     })
                     
-                    # Rate-limit friendly sleep
-                    time.sleep(0.15)
+                    # Rate-limit friendly sleep (30 req/min = 2.0s minimum, use 2.5s for safety)
+                    time.sleep(2.5)
                     
                 except Exception as e:
                     self.log(f"⚠️ Poll error {symbol} {endpoint_key}: {e}")

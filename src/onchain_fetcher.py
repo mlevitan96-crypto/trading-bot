@@ -129,11 +129,17 @@ COINGLASS_RATE_LIMIT_DELAY = 2.5  # Hobbyist plan: 30 req/min
 
 def _coinglass_rate_limit():
     """Enforce CoinGlass Hobbyist rate limit."""
-    global _last_coinglass_call
-    elapsed = time.time() - _last_coinglass_call
-    if elapsed < COINGLASS_RATE_LIMIT_DELAY:
-        time.sleep(COINGLASS_RATE_LIMIT_DELAY - elapsed)
-    _last_coinglass_call = time.time()
+    # Use centralized rate limiter if available, otherwise fall back to simple delay
+    try:
+        from src.coinglass_rate_limiter import wait_for_rate_limit
+        wait_for_rate_limit()
+    except ImportError:
+        # Fallback to simple delay if rate limiter not available
+        global _last_coinglass_call
+        elapsed = time.time() - _last_coinglass_call
+        if elapsed < COINGLASS_RATE_LIMIT_DELAY:
+            time.sleep(COINGLASS_RATE_LIMIT_DELAY - elapsed)
+        _last_coinglass_call = time.time()
 
 
 def _get_coinglass_exchange_flows() -> List[Dict]:

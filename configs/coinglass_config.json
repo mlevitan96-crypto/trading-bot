@@ -5,6 +5,8 @@
   "api": {
     "base_url": "https://open-api-v4.coinglass.com/api",
     "rate_limit_respect": true,
+    "rate_limit_per_minute": 30,
+    "min_delay_seconds": 2.5,
     "max_retries": 5,
     "timeout_seconds": 30
   },
@@ -22,7 +24,8 @@
       "open_interest",
       "long_short",
       "liquidations"
-    ]
+    ],
+    "note": "Keep disabled if intelligence_gate poller is active to avoid exceeding 30 req/min limit"
   },
   "symbols": [
     "BTCUSDT",
@@ -35,7 +38,10 @@
     "ADAUSDT",
     "DOGEUSDT",
     "TRXUSDT",
-    "MATICUSDT"
+    "LINKUSDT",
+    "ARBUSDT",
+    "OPUSDT",
+    "PEPEUSDT"
   ],
   "features": {
     "oi_delta_pct": {

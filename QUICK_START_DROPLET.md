@@ -96,7 +96,7 @@ ls -lh logs/shadow_trade_outcomes.jsonl
 
 ### Dashboard not loading?
 ```bash
-systemctl status trading-bot
+systemctl status tradingbot
 # Check if service is running
 ```
 

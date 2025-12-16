@@ -478,35 +478,49 @@ def get_status() -> Dict[str, str]:
             except Exception:
                 status["safety_layer"] = STATUS_YELLOW
         
-        # Check self-healing status (check if last healing was successful)
+        # Check self-healing status (check healing operator status)
         try:
-            from src.infrastructure.path_registry import resolve_path
-            alert_file = resolve_path(ALERT_LOG_FILE)
-        except:
-            alert_file = Path(ALERT_LOG_FILE)
-        if alert_file.exists():
-            # Check for recent critical alerts (within last hour)
-            try:
-                critical_count = 0
-                with open(alert_file, 'r') as f:
-                    for line in f:
-                        try:
-                            alert = json.loads(line)
-                            if alert.get("level") == ALERT_CRITICAL:
-                                alert_age = time.time() - alert.get("timestamp", 0)
-                                if alert_age < 3600:  # Last hour
-                                    critical_count += 1
-                        except:
-                            continue
-                
-                if critical_count > 0:
-                    status["self_healing"] = STATUS_YELLOW
-                else:
-                    status["self_healing"] = STATUS_GREEN
-            except Exception:
+            from src.healing_operator import get_healing_operator
+            healing_op = get_healing_operator()
+            if healing_op:
+                healing_status = healing_op.get_status()
+                status["self_healing"] = healing_status.get("self_healing", STATUS_YELLOW)
+            else:
+                # Healing operator not started yet
                 status["self_healing"] = STATUS_YELLOW
-        else:
-            status["self_healing"] = STATUS_GREEN
+        except ImportError:
+            # Healing operator not available - check alerts as fallback
+            try:
+                from src.infrastructure.path_registry import resolve_path
+                alert_file = resolve_path(ALERT_LOG_FILE)
+            except:
+                alert_file = Path(ALERT_LOG_FILE)
+            if alert_file.exists():
+                # Check for recent critical alerts (within last hour)
+                try:
+                    critical_count = 0
+                    with open(alert_file, 'r') as f:
+                        for line in f:
+                            try:
+                                alert = json.loads(line)
+                                if alert.get("level") == ALERT_CRITICAL:
+                                    alert_age = time.time() - alert.get("timestamp", 0)
+                                    if alert_age < 3600:  # Last hour
+                                        critical_count += 1
+                            except:
+                                continue
+                
+                    if critical_count > 0:
+                        status["self_healing"] = STATUS_YELLOW
+                    else:
+                        status["self_healing"] = STATUS_GREEN
+                except Exception:
+                    status["self_healing"] = STATUS_YELLOW
+            else:
+                status["self_healing"] = STATUS_GREEN
+        except Exception:
+            # Fallback if healing operator check fails
+            status["self_healing"] = STATUS_YELLOW
             
     except Exception as e:
         status["safety_layer"] = STATUS_RED

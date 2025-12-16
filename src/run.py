@@ -700,6 +700,20 @@ def bot_worker():
     except Exception as e:
         print(f"⚠️ [SIGNAL-TRACKER] Startup error: {e}")
     
+    # Start Comprehensive Self-Healing Operator
+    print("🔧 [HEALING] Starting Comprehensive Self-Healing Operator...")
+    try:
+        from src.healing_operator import start_healing_operator
+        healing_op = start_healing_operator()
+        print("✅ [HEALING] Self-healing operator started (60s cycle)")
+        print("   🔧 Auto-heals: Signal engine, Decision engine, Safety layer, File integrity")
+        print("   🔧 Auto-heals: Exit gates, Trade execution, Heartbeat, Feature store")
+        print("   🔧 Monitors all health components and repairs automatically")
+    except Exception as e:
+        print(f"⚠️ [HEALING] Healing operator startup error: {e}")
+        import traceback
+        traceback.print_exc()
+    
     # NOTE: Signal Outcome Resolver is now started as a separate worker process in _start_all_worker_processes()
     # This ensures proper isolation, monitoring, and automatic restart on crash.
     # The resolver worker process handles all signal resolution.

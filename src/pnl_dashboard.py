@@ -2155,44 +2155,7 @@ def build_app(server: Flask = None) -> Dash:
         df = load_closed_positions_df()
         return dcc.send_bytes(export_csv_bytes(df), filename=f"closed_trades_export_{int(time.time())}.csv")
 
-    # Removed symbol-profit-chart callback - chart removed from dashboard"""
-        try:
-            # Handle None values
-            if _n_intervals is None:
-                _n_intervals = 0
-            if _n_clicks is None:
-                _n_clicks = 0
-            
-            # Force cache refresh on interval
-            if _n_intervals > 0:
-                try:
-                    clear_cache()  # Force cache refresh
-                except Exception as cache_err:
-                    print(f"⚠️  [DASHBOARD] Error clearing cache: {cache_err}")
-            
-            df = load_trades_df()
-            
-            # Apply filters (same as main refresh)
-            if not df.empty and lookback_hrs and lookback_hrs > 0:
-                cutoff = int(time.time()) - int(lookback_hrs*3600)
-                df = df[df["ts"] >= cutoff]
-            if symbol:
-                df = df[df["symbol"] == symbol]
-            if strategy:
-                df = df[df["strategy"] == strategy]
-            
-            # Default to BTC and ETH if no selection
-            if not selected_symbols:
-                selected_symbols = ["BTCUSDT", "ETHUSDT"] if not df.empty and "BTCUSDT" in df["symbol"].values else []
-            
-            return fig_symbol_cumulative_profit(df, selected_symbols)
-        except Exception as e:
-            print(f"⚠️  [DASHBOARD] Error updating symbol profit chart: {e}")
-            import traceback
-            traceback.print_exc()
-            empty_fig = go.Figure()
-            empty_fig.add_annotation(text=f"Error: {str(e)}", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
-            return empty_fig
+    # Removed symbol-profit-chart callback - chart removed from dashboard
 
     @app.callback(
         Output("table-container","children"),

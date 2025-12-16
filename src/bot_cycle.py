@@ -371,23 +371,23 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
     
     if not venue_guard_entry_gate(signal):
         log_event("venue_guard_block", signal)
-            # Track decision and update state (fire-and-forget)
-            if decision_tracker:
-                try:
-                    decision_tracker.track_block(
-                        signal_id=signal_id,
-                        blocker_component="VenueGuard",
-                        blocker_reason="venue_guard_entry_gate failed",
-                        symbol=signal.get('symbol'),
-                        signal_metadata=signal
-                    )
-                except:
-                    pass  # Non-blocking
-            if state_machine and signal_id:
-                try:
-                    state_machine.transition(signal_id, SignalState.BLOCKED, reason="VenueGuard blocked")
-                except:
-                    pass  # Non-blocking
+        # Track decision and update state (fire-and-forget)
+        if decision_tracker:
+            try:
+                decision_tracker.track_block(
+                    signal_id=signal_id,
+                    blocker_component="VenueGuard",
+                    blocker_reason="venue_guard_entry_gate failed",
+                    symbol=signal.get('symbol'),
+                    signal_metadata=signal
+                )
+            except:
+                pass  # Non-blocking
+        if state_machine and signal_id:
+            try:
+                state_machine.transition(signal_id, SignalState.BLOCKED, reason="VenueGuard blocked")
+            except:
+                pass  # Non-blocking
         return {"status": "blocked", "reason": "venue_guard"}
     
     # ═══════════════════════════════════════════════════════════════

@@ -188,6 +188,15 @@ class HealingOperator:
             print(f"🔧 [HEALING] Feature store healing error: {e}", flush=True)
             failed.append("feature_store")
         
+        # 8.5. Signal Weights (Initialize if missing for learning)
+        try:
+            result = self._heal_signal_weights()
+            if result["healed"]:
+                healed.append("signal_weights")
+        except Exception as e:
+            # Not critical - defaults work fine
+            pass
+        
         # 9. File Integrity
         try:
             result = self._heal_file_integrity()
@@ -560,6 +569,58 @@ class HealingOperator:
                     result["healed"] = True
         except Exception as e:
             result["failed"] = True
+            result["error"] = str(e)
+        
+        return result
+    
+    def _heal_signal_weights(self) -> Dict[str, Any]:
+        """Initialize signal weights files if missing (enables learning)."""
+        result = {"healed": False, "failed": False, "actions": []}
+        
+        try:
+            from src.weighted_signal_fusion import SIGNAL_WEIGHTS_PATH, DEFAULT_ENTRY_WEIGHTS
+            from src.signal_weight_learner import SIGNAL_WEIGHTS_GATE_FILE, DEFAULT_SIGNAL_WEIGHTS
+            import json
+            from datetime import datetime
+            
+            # Initialize main signal weights file
+            weights_path = Path(SIGNAL_WEIGHTS_PATH)
+            if not weights_path.exists():
+                weights_path.parent.mkdir(parents=True, exist_ok=True)
+                data = {
+                    "weights": DEFAULT_ENTRY_WEIGHTS,
+                    "updated_at": datetime.utcnow().isoformat(),
+                    "metadata": {
+                        "initialized": True,
+                        "source": "healing_operator",
+                        "note": "Initialized with default weights - learning will update these"
+                    }
+                }
+                with open(weights_path, 'w') as f:
+                    json.dump(data, f, indent=2)
+                result["actions"].append("Initialized signal_weights.json")
+                result["healed"] = True
+            
+            # Initialize gate weights file
+            gate_weights_path = Path(SIGNAL_WEIGHTS_GATE_FILE)
+            if not gate_weights_path.exists():
+                gate_weights_path.parent.mkdir(parents=True, exist_ok=True)
+                data = {
+                    "weights": DEFAULT_SIGNAL_WEIGHTS,
+                    "updated_at": datetime.utcnow().isoformat(),
+                    "metadata": {
+                        "initialized": True,
+                        "source": "healing_operator",
+                        "note": "Initialized with default weights - learning will update these"
+                    }
+                }
+                with open(gate_weights_path, 'w') as f:
+                    json.dump(data, f, indent=2)
+                result["actions"].append("Initialized signal_weights_gate.json")
+                result["healed"] = True
+                
+        except Exception as e:
+            # Not critical - defaults work fine
             result["error"] = str(e)
         
         return result

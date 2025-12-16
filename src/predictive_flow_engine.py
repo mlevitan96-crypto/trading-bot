@@ -41,7 +41,8 @@ SIGNAL_HISTORY = Path("feature_store/signal_history")
 SIGNAL_HISTORY.mkdir(parents=True, exist_ok=True)
 
 OFI_HISTORY_FILE = SIGNAL_HISTORY / "ofi_momentum.json"
-PREDICTION_LOG = Path("logs/predictive_signals.jsonl")
+from src.infrastructure.path_registry import PathRegistry
+PREDICTION_LOG = Path(PathRegistry.get_path("logs", "predictive_signals.jsonl"))
 TRADING_CONFIG_FILE = Path("configs/trading_config.json")
 PREDICTION_LOG.parent.mkdir(parents=True, exist_ok=True)
 

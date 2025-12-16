@@ -1123,7 +1123,8 @@ def _worker_ensemble_predictor():
     
     # Track last processed signal timestamp
     last_processed_ts = None
-    predictive_signals_path = Path("logs/predictive_signals.jsonl")
+    from src.infrastructure.path_registry import PathRegistry
+    predictive_signals_path = Path(PathRegistry.get_path("logs", "predictive_signals.jsonl"))
     ensemble_predictions_path = Path("logs/ensemble_predictions.jsonl")
     
     # Ensure directories exist
@@ -1588,7 +1589,8 @@ def _monitor_pipeline_health():
             warnings = []
             
             # Check predictive_signals.jsonl
-            pred_signals_path = Path("logs/predictive_signals.jsonl")
+            from src.infrastructure.path_registry import PathRegistry
+            pred_signals_path = Path(PathRegistry.get_path("logs", "predictive_signals.jsonl"))
             if pred_signals_path.exists():
                 mtime = pred_signals_path.stat().st_mtime
                 age_minutes = (time.time() - mtime) / 60

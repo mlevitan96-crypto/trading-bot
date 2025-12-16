@@ -1257,7 +1257,8 @@ def run_bot_cycle():
                         }
                         
                         # Append to strategy signals log for OFI shadow intelligence
-                        signal_log_path = "logs/strategy_signals.jsonl"
+                        from src.infrastructure.path_registry import PathRegistry
+                        signal_log_path = PathRegistry.get_path("logs", "strategy_signals.jsonl")
                         os.makedirs(os.path.dirname(signal_log_path) or ".", exist_ok=True)
                         with open(signal_log_path, "a") as f:
                             import json

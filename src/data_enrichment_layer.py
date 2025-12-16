@@ -13,15 +13,18 @@
 
 import os, json, time
 from collections import defaultdict
+from src.infrastructure.path_registry import PathRegistry
 
-SIGNALS_LOG = "logs/strategy_signals.jsonl"
-TRADES_LOG = "logs/executed_trades.jsonl"
-ENRICHED_LOG = "logs/enriched_decisions.jsonl"
+# Use PathRegistry for absolute path resolution (critical for slot-based deployments)
+SIGNALS_LOG = PathRegistry.get_path("logs", "strategy_signals.jsonl")
+TRADES_LOG = PathRegistry.get_path("logs", "executed_trades.jsonl")
+ENRICHED_LOG = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
 
 def _now(): return int(time.time())
 
 def _read_jsonl(path, limit=500000):
     rows=[]
+    # PathRegistry already returns absolute paths, but handle both cases
     if not os.path.exists(path): return rows
     with open(path,"r") as f:
         for line in f:
@@ -32,6 +35,7 @@ def _read_jsonl(path, limit=500000):
     return rows[-limit:]
 
 def _append_jsonl(path, row):
+    # Ensure directory exists (PathRegistry paths are already absolute)
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     with open(path, "a") as f: f.write(json.dumps(row) + "\n")
 

@@ -27,7 +27,7 @@ import os
 import time
 from typing import Any, Dict, List, Optional
 from pathlib import Path
-from src.infrastructure.path_registry import resolve_path
+from src.infrastructure.path_registry import resolve_path, PathRegistry
 
 
 class DataRegistry:
@@ -75,7 +75,8 @@ class DataRegistry:
     # =========================================================================
     # SIGNALS - ALL signals (executed + blocked + skipped)
     # =========================================================================
-    SIGNALS_UNIVERSE = "logs/signals.jsonl"
+    # Use PathRegistry for absolute path resolution (critical for slot-based deployments)
+    SIGNALS_UNIVERSE = PathRegistry.get_path("logs", "signals.jsonl")
     
     # Legacy paths (DO NOT USE)
     _LEGACY_SIGNALS = [
@@ -87,7 +88,7 @@ class DataRegistry:
     # =========================================================================
     # DECISIONS - Enriched decision records with outcomes
     # =========================================================================
-    ENRICHED_DECISIONS = "logs/enriched_decisions.jsonl"
+    ENRICHED_DECISIONS = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
     COUNTERFACTUAL_OUTCOMES = "logs/counterfactual_outcomes.jsonl"
     
     # =========================================================================

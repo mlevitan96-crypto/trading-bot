@@ -46,28 +46,56 @@ def verify_profitability_optimizations():
     
     try:
         # Check if beta is actually disabled in code
-        from src.bot_cycle import BETA_INVERSION_ENABLED
-        
-        if beta_enabled == False and BETA_INVERSION_ENABLED:
-            issues.append("Beta should be DISABLED but BETA_INVERSION_ENABLED=True in bot_cycle.py")
-            findings.append({
-                "optimization": "Beta Disabled",
-                "status": "❌ NOT APPLIED",
-                "config": "enabled: false",
-                "actual": f"BETA_INVERSION_ENABLED={BETA_INVERSION_ENABLED}",
-                "details": "Beta is enabled in code but should be disabled per optimization"
-            })
-        elif beta_enabled == False and not BETA_INVERSION_ENABLED:
-            findings.append({
-                "optimization": "Beta Disabled",
-                "status": "✅ APPLIED",
-                "details": "Beta is correctly disabled"
-            })
+        # Read bot_cycle.py directly to check BETA_INVERSION_ENABLED
+        bot_cycle_path = Path("src/bot_cycle.py")
+        if bot_cycle_path.exists():
+            with open(bot_cycle_path, 'r') as f:
+                bot_cycle_content = f.read()
+                
+            # Check for BETA_INVERSION_ENABLED assignment
+            if "BETA_INVERSION_ENABLED = True" in bot_cycle_content:
+                beta_code_enabled = True
+            elif "BETA_INVERSION_ENABLED = False" in bot_cycle_content:
+                beta_code_enabled = False
+            else:
+                # Check for the comment that says it's re-enabled for data collection
+                if "RE-ENABLED FOR DATA COLLECTION" in bot_cycle_content or "BETA_INVERSION_ENABLED = True" in bot_cycle_content:
+                    beta_code_enabled = True
+                else:
+                    beta_code_enabled = None  # Unknown
+            
+            if beta_enabled == False and beta_code_enabled == True:
+                issues.append("Beta should be DISABLED but BETA_INVERSION_ENABLED=True in bot_cycle.py")
+                findings.append({
+                    "optimization": "Beta Disabled",
+                    "status": "❌ NOT APPLIED",
+                    "config": "enabled: false",
+                    "actual": "BETA_INVERSION_ENABLED=True (found in code)",
+                    "details": "Beta is enabled in code but should be disabled per optimization. Note: May be enabled for paper trading data collection."
+                })
+            elif beta_enabled == False and beta_code_enabled == False:
+                findings.append({
+                    "optimization": "Beta Disabled",
+                    "status": "✅ APPLIED",
+                    "details": "Beta is correctly disabled in code"
+                })
+            elif beta_enabled == False and beta_code_enabled is None:
+                findings.append({
+                    "optimization": "Beta Disabled",
+                    "status": "⚠️  UNKNOWN",
+                    "details": "Could not determine Beta status from code"
+                })
+            else:
+                findings.append({
+                    "optimization": "Beta Disabled",
+                    "status": "⚠️  CONFIG ALLOWS",
+                    "details": "Beta enabled in config - optimization may not require disabling"
+                })
         else:
             findings.append({
                 "optimization": "Beta Disabled",
-                "status": "⚠️  CONFIG ALLOWS",
-                "details": "Beta enabled in config - optimization may not require disabling"
+                "status": "⚠️  CANNOT VERIFY",
+                "error": "bot_cycle.py not found"
             })
     except Exception as e:
         findings.append({

@@ -1824,53 +1824,8 @@ def build_app(server: Flask = None) -> Dash:
             ], style={"marginBottom":"10px"})
         ], style={"padding":"12px","borderBottom":"1px solid #1b1f2a"}),
 
-        html.Div([
-            html.Div([
-                dcc.Graph(id="equity-curve", figure=fig_equity_curve(df0), config={"displayModeBar": True}),
-            ], style={"width":"100%","padding":"8px"}),
-            dcc.Interval(id="charts-interval", interval=30*1000, n_intervals=0),  # Auto-refresh charts every 30s
-        ]),
-
-        html.Div([
-            html.Div([dcc.Graph(id="pnl-by-symbol", figure=fig_pnl_by_symbol(df0), config={"displayModeBar": True})],
-                     style={"width":"49%","display":"inline-block","verticalAlign":"top","padding":"8px"}),
-            html.Div([dcc.Graph(id="pnl-by-strategy", figure=fig_pnl_by_strategy(df0), config={"displayModeBar": True})],
-                     style={"width":"49%","display":"inline-block","verticalAlign":"top","padding":"8px"}),
-        ]),
-
-        html.Div([
-            html.Div([dcc.Graph(id="hourly-dist", figure=fig_hourly_distribution(df0), config={"displayModeBar": True})],
-                     style={"width":"49%","display":"inline-block","verticalAlign":"top","padding":"8px"}),
-            html.Div([dcc.Graph(id="win-heatmap", figure=fig_win_rate_heatmap(df0, by="symbol"), config={"displayModeBar": True})],
-                     style={"width":"49%","display":"inline-block","verticalAlign":"top","padding":"8px"}),
-        ]),
-
-        html.Div([
-            html.Div([dcc.Graph(id="trade-scatter", figure=fig_trade_scatter(df0), config={"displayModeBar": True})],
-                     style={"width":"100%","padding":"8px"}),
-        ]),
-
-        html.Div([
-            html.H4("Per-Symbol Cumulative Profit", style={"color":"#fff","margin":"8px"}),
-            html.Div([
-                html.Label("Select symbols to display:", style={"color":"#9aa0a6","marginBottom":"8px","display":"block"}),
-                dcc.Dropdown(
-                    id="symbol-selector",
-                    options=[{"label": s, "value": s} for s in sorted(df0["symbol"].unique()) if s],
-                    value=["BTCUSDT", "ETHUSDT"] if not df0.empty and "BTCUSDT" in df0["symbol"].values else [],
-                    multi=True,
-                    placeholder="Select symbols...",
-                    style={"backgroundColor":"#1b1f2a","color":"#e8eaed","marginBottom":"12px"}
-                ),
-            ], style={"padding":"8px"}),
-            html.Div(id="symbol-profit-container", children=[
-                dcc.Graph(
-                    id="symbol-profit-chart",
-                    figure=fig_symbol_cumulative_profit(df0, ["BTCUSDT", "ETHUSDT"] if not df0.empty else []),
-                    config={"displayModeBar": True}
-                )
-            ], style={"padding":"8px"}),
-        ], style={"marginBottom":"20px","backgroundColor":"#0f1217","borderRadius":"8px","padding":"12px"}),
+        # Charts interval for auto-refresh
+        dcc.Interval(id="charts-interval", interval=30*1000, n_intervals=0),  # Auto-refresh charts every 30s
 
         html.Div([
             html.H4("Trades", style={"color":"#fff","margin":"8px"}),
@@ -2200,18 +2155,7 @@ def build_app(server: Flask = None) -> Dash:
         df = load_closed_positions_df()
         return dcc.send_bytes(export_csv_bytes(df), filename=f"closed_trades_export_{int(time.time())}.csv")
 
-    @app.callback(
-        Output("symbol-profit-chart", "figure"),
-        [Input("symbol-selector", "value"),
-         Input("refresh-btn", "n_clicks"),
-         Input("charts-interval", "n_intervals")],
-        State("lookback-hrs", "value"),
-        State("filter-symbol", "value"),
-        State("filter-strategy", "value"),
-        prevent_initial_call=False
-    )
-    def update_symbol_profit_chart(selected_symbols, _n_clicks, _n_intervals, lookback_hrs, symbol, strategy):
-        """Update per-symbol cumulative profit chart based on dropdown selection, filters, and intervals."""
+    # Removed symbol-profit-chart callback - chart removed from dashboard"""
         try:
             # Handle None values
             if _n_intervals is None:
@@ -2251,12 +2195,6 @@ def build_app(server: Flask = None) -> Dash:
             return empty_fig
 
     @app.callback(
-        Output("equity-curve","figure"),
-        Output("pnl-by-symbol","figure"),
-        Output("pnl-by-strategy","figure"),
-        Output("hourly-dist","figure"),
-        Output("win-heatmap","figure"),
-        Output("trade-scatter","figure"),
         Output("table-container","children"),
         [Input("refresh-btn","n_clicks"),
          Input("charts-interval", "n_intervals")],
@@ -2266,7 +2204,7 @@ def build_app(server: Flask = None) -> Dash:
         prevent_initial_call=False
     )
     def refresh(_n_clicks, _n_intervals, lookback_hrs, symbol, strategy):
-        """Refresh all charts on button click OR interval trigger."""
+        """Refresh trades table on button click OR interval trigger."""
         try:
             # Handle None values
             if _n_clicks is None:
@@ -2290,23 +2228,12 @@ def build_app(server: Flask = None) -> Dash:
             if strategy:
                 df = df[df["strategy"] == strategy]
 
-            return (
-                fig_equity_curve(df),
-                fig_pnl_by_symbol(df),
-                fig_pnl_by_strategy(df),
-                fig_hourly_distribution(df),
-                fig_win_rate_heatmap(df, by="symbol"),
-                fig_trade_scatter(df),
-                [make_table(df)]
-            )
+            return [make_table(df)]
         except Exception as e:
-            print(f"⚠️  [DASHBOARD] Error refreshing charts: {e}")
+            print(f"⚠️  [DASHBOARD] Error refreshing table: {e}")
             import traceback
             traceback.print_exc()
-            # Return empty figures on error
-            empty_fig = go.Figure()
-            empty_fig.add_annotation(text=f"Error: {str(e)}", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
-            return (empty_fig, empty_fig, empty_fig, empty_fig, empty_fig, empty_fig, [html.Div(f"Error: {str(e)}")])
+            return [html.Div(f"Error loading trades: {str(e)}", style={"color": "#ff6b6b", "padding": "20px"})]
 
     @app.callback(
         Output("download-csv","data"),

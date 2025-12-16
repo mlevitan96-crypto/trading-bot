@@ -1076,11 +1076,23 @@ def run_bot_cycle():
                             "regime": regime
                         }
                         
-                        # Append to predictive_signals.jsonl
+                        # Append to predictive_signals.jsonl (for backward compatibility)
                         import os
                         os.makedirs(os.path.dirname(predictive_signals_path), exist_ok=True)
                         with open(predictive_signals_path, 'a') as f:
                             f.write(json.dumps(signal_record) + '\n')
+                        
+                        # NEW: Also emit to SignalBus for clean architecture
+                        try:
+                            from src.signal_bus import get_signal_bus, SignalState
+                            bus = get_signal_bus()
+                            signal_id = bus.emit_signal(signal_record, source="alpha_signals_integration")
+                            if signal_id:
+                                # Signal successfully captured in bus
+                                pass  # Can add logging here if needed
+                        except Exception as bus_err:
+                            # Non-critical - bus is new, don't break existing flow
+                            pass
                     except Exception as e:
                         # Non-critical - log but don't block trading
                         print(f"⚠️ [ALPHA] Failed to write to predictive_signals.jsonl: {e}")

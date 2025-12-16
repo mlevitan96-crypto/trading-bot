@@ -1588,50 +1588,84 @@ def run_heavy_initialization():
     # CRITICAL: Start trading engine based on mode, health check, and self-healing
     # Paper mode: ALWAYS start, even if health checks fail or self-healing has issues
     # Real mode: Only start if health checks pass AND self-healing succeeded (no critical issues)
-    # Use healing result from main() if available, otherwise assume success in paper mode
+    print("\n" + "="*60)
+    print("🚀 TRADING ENGINE STARTUP DECISION")
+    print("="*60)
+    
     global _healing_result
+    healing_success = True  # Default to True for paper mode
     if _healing_result is not None:
         healing_success = _healing_result["success"] and len(_healing_result["critical"]) == 0
+        print(f"   Self-healing result: success={_healing_result['success']}, critical={len(_healing_result['critical'])}")
     else:
-        # Healing wasn't run yet (shouldn't happen, but be safe)
+        print("   Self-healing result: Not available (running in background thread)")
         if is_paper_mode:
             healing_success = True  # Paper mode always succeeds
+            print("   ℹ️  PAPER MODE: Assuming healing success")
         else:
-            # Real mode: assume failure if healing wasn't run
             healing_success = False
-            print("   ⚠️  Self-healing result not available - assuming failure in real mode")
+            print("   ⚠️  REAL MODE: Self-healing result not available - assuming failure")
     
     should_start_engine = False
-    if is_paper_mode:
-        # Paper mode: ALWAYS start, regardless of health checks or healing
-        should_start_engine = True
-        print(f"\n🤖 Starting trading engine (mode: {trading_mode.upper()})...")
-        print("   ℹ️  PAPER MODE: Engine starts regardless of health/healing status")
-    elif health_check_passed and healing_success:
-        # Real mode: Start only if both health check AND healing succeeded
-        should_start_engine = True
-        print(f"\n🤖 Starting trading engine (mode: {trading_mode.upper()})...")
-        print("   ✅ Health check passed and self-healing succeeded")
-    else:
-        # Real mode: Don't start if health check failed OR healing found critical issues
-        should_start_engine = False
-        print(f"\n⛔ Trading engine NOT started - REAL TRADING MODE safety checks failed")
-        if not health_check_passed:
-            print("   ❌ Health check failed")
-        if not healing_success:
-            print("   ❌ Self-healing found critical issues (see alerts above)")
-        print("   ℹ️  Dashboard will continue running, but no trades will execute")
-        print("   ℹ️  Fix issues and restart to enable trading")
+    try:
+        if is_paper_mode:
+            # Paper mode: ALWAYS start, regardless of health checks or healing
+            should_start_engine = True
+            print(f"\n🤖 DECISION: Starting trading engine (mode: {trading_mode.upper()})")
+            print("   ✅ PAPER MODE: Engine ALWAYS starts regardless of health/healing status")
+            health_status_str = "PASSED" if health_check_passed else "DEGRADED"
+            print(f"   ℹ️  Health check status: {health_status_str}")
+            healing_status_str = "SUCCESS" if healing_success else "ISSUES DETECTED (non-blocking in paper mode)"
+            print(f"   ℹ️  Healing status: {healing_status_str}")
+        elif health_check_passed and healing_success:
+            # Real mode: Start only if both health check AND healing succeeded
+            should_start_engine = True
+            print(f"\n🤖 DECISION: Starting trading engine (mode: {trading_mode.upper()})")
+            print("   ✅ REAL TRADING MODE: Health check passed and self-healing succeeded")
+        else:
+            # Real mode: Don't start if health check failed OR healing found critical issues
+            should_start_engine = False
+            print(f"\n⛔ DECISION: Trading engine NOT started - REAL TRADING MODE safety checks failed")
+            if not health_check_passed:
+                print("   ❌ Health check failed")
+            if not healing_success:
+                print("   ❌ Self-healing found critical issues (see alerts above)")
+            print("   ℹ️  Dashboard will continue running, but no trades will execute")
+            print("   ℹ️  Fix issues and restart to enable trading")
+    except Exception as e:
+        # If there's any error in decision logic, default based on mode
+        print(f"   ⚠️  Error in startup decision logic: {e}")
+        if is_paper_mode:
+            should_start_engine = True
+            print("   ✅ PAPER MODE: Defaulting to START despite error")
+        else:
+            should_start_engine = False
+            print("   ❌ REAL MODE: Defaulting to NOT START due to error")
+        import traceback
+        traceback.print_exc()
+    
+    print("="*60)
     
     if should_start_engine:
-        bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
-        bot_thread.start()
-        print("   ✅ Trading engine started")
-        
-        # Start supervisor to ensure bot runs 24/7 even if thread dies
-        supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
-        supervisor_thread.start()
-        print("   ✅ Bot supervisor started")
+        try:
+            print("\n🔧 Starting trading engine threads...")
+            bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
+            bot_thread.start()
+            print("   ✅ Trading engine thread started (BotWorker)")
+            
+            # Start supervisor to ensure bot runs 24/7 even if thread dies
+            supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
+            supervisor_thread.start()
+            print("   ✅ Bot supervisor thread started (BotSupervisor)")
+            print("\n✅ TRADING ENGINE IS NOW RUNNING")
+        except Exception as e:
+            print(f"\n❌ CRITICAL: Failed to start trading engine threads: {e}")
+            if is_paper_mode:
+                print("   ⚠️  PAPER MODE: This is unexpected - engine should always start")
+            import traceback
+            traceback.print_exc()
+    else:
+        print("\n⛔ TRADING ENGINE NOT STARTED (see reasons above)")
     
     nightly_thread = threading.Thread(target=nightly_learning_scheduler, daemon=True)
     nightly_thread.start()

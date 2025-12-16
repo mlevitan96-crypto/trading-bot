@@ -37,6 +37,11 @@ _dashboard_health_status = {
     "last_error": None
 }
 
+# Price cache for dashboard (prevents rate limiting)
+_price_cache: Dict[str, Dict[str, Any]] = {}
+_price_cache_lock = threading.Lock()
+PRICE_CACHE_TTL = 30  # Cache prices for 30 seconds
+
 def _format_bot_display(strategy: str, bot_type: str) -> str:
     """Format bot/strategy display for dashboard - Alpha or Beta prominently."""
     if not strategy:
@@ -508,29 +513,55 @@ def load_open_positions_df():
                 print(f"⚠️  [DASHBOARD] Invalid entry price for {symbol}: {entry}, skipping")
                 continue
             
-            # Fetch current price with better error handling
+            # Fetch current price with caching and rate limiting
             current = entry  # Default to entry if fetch fails
             price_fetched = False
-            if gateway:
-                try:
-                    fetched_price = gateway.get_price(symbol, venue="futures")
-                    if fetched_price and fetched_price > 0:
-                        current = fetched_price
+            
+            # Check cache first
+            cached_price = None
+            with _price_cache_lock:
+                if symbol in _price_cache:
+                    cache_entry = _price_cache[symbol]
+                    if time.time() - cache_entry["timestamp"] < PRICE_CACHE_TTL:
+                        cached_price = cache_entry["price"]
                         price_fetched = True
-                    else:
-                        print(f"⚠️  [DASHBOARD] Invalid price for {symbol}: {fetched_price}")
-                except Exception as price_err:
-                    print(f"⚠️  [DASHBOARD] Failed to fetch price for {symbol}: {price_err}")
-                    # Try fallback: use mark price directly
+                        current = cached_price
+            
+            # If not cached, try to fetch (with rate limiting)
+            if not price_fetched and gateway:
+                try:
+                    # Use OHLCV as primary source (cached, less rate limiting)
                     try:
-                        if hasattr(gateway.fut, 'get_mark_price'):
-                            mark_price = gateway.fut.get_mark_price(symbol)
-                            if mark_price and mark_price > 0:
-                                current = mark_price
+                        ohlcv_df = gateway.fetch_ohlcv(symbol, timeframe="1m", limit=1, venue="futures")
+                        if not ohlcv_df.empty and "close" in ohlcv_df.columns:
+                            ohlcv_price = float(ohlcv_df["close"].iloc[-1])
+                            if ohlcv_price and ohlcv_price > 0:
+                                current = ohlcv_price
                                 price_fetched = True
-                                print(f"✅ [DASHBOARD] Using mark price for {symbol}: {current}")
-                    except Exception as mark_err:
-                        print(f"⚠️  [DASHBOARD] Mark price also failed for {symbol}: {mark_err}")
+                                # Cache it
+                                with _price_cache_lock:
+                                    _price_cache[symbol] = {"price": current, "timestamp": time.time()}
+                    except Exception as ohlcv_err:
+                        pass
+                    
+                    # Fallback to mark price if OHLCV fails
+                    if not price_fetched:
+                        try:
+                            fetched_price = gateway.get_price(symbol, venue="futures")
+                            if fetched_price and fetched_price > 0:
+                                current = fetched_price
+                                price_fetched = True
+                                # Cache it
+                                with _price_cache_lock:
+                                    _price_cache[symbol] = {"price": current, "timestamp": time.time()}
+                        except Exception as price_err:
+                            # Only log if we haven't tried OHLCV or if it's not a rate limit
+                            if "429" not in str(price_err):
+                                print(f"⚠️  [DASHBOARD] Failed to fetch price for {symbol}: {price_err}")
+                except Exception as err:
+                    # Suppress rate limit errors (429) - we'll use cached or entry price
+                    if "429" not in str(err):
+                        print(f"⚠️  [DASHBOARD] Price fetch error for {symbol}: {err}")
             
             # Calculate PnL
             if direction.upper() == "LONG":

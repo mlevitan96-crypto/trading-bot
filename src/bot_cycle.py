@@ -351,28 +351,43 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             signal_id = f"{signal.get('symbol', 'UNKNOWN')}_{int(time.time()*1000)}_{uuid.uuid4().hex[:8]}"
             signal["signal_id"] = signal_id
     
-    # Initialize decision tracker (fire-and-forget, non-blocking)
+    # Initialize decision tracker and state machine (fire-and-forget, non-blocking)
     try:
         from src.learning.decision_tracker import get_decision_tracker
+        from src.signal_state_machine import get_state_machine, SignalState
         decision_tracker = get_decision_tracker()
+        state_machine = get_state_machine()
     except Exception as e:
         decision_tracker = None
+        state_machine = None
         # Non-critical, continue without tracking
+    
+    # Transition to EVALUATING state (signal is being evaluated)
+    if state_machine and signal_id:
+        try:
+            state_machine.transition(signal_id, SignalState.EVALUATING, reason="Starting gate evaluation")
+        except:
+            pass  # Non-blocking
     
     if not venue_guard_entry_gate(signal):
         log_event("venue_guard_block", signal)
-        # Track decision (fire-and-forget)
-        if decision_tracker:
-            try:
-                decision_tracker.track_block(
-                    signal_id=signal_id,
-                    blocker_component="VenueGuard",
-                    blocker_reason="venue_guard_entry_gate failed",
-                    symbol=signal.get('symbol'),
-                    signal_metadata=signal
-                )
-            except:
-                pass  # Non-blocking
+            # Track decision and update state (fire-and-forget)
+            if decision_tracker:
+                try:
+                    decision_tracker.track_block(
+                        signal_id=signal_id,
+                        blocker_component="VenueGuard",
+                        blocker_reason="venue_guard_entry_gate failed",
+                        symbol=signal.get('symbol'),
+                        signal_metadata=signal
+                    )
+                except:
+                    pass  # Non-blocking
+            if state_machine and signal_id:
+                try:
+                    state_machine.transition(signal_id, SignalState.BLOCKED, reason="VenueGuard blocked")
+                except:
+                    pass  # Non-blocking
         return {"status": "blocked", "reason": "venue_guard"}
     
     # ═══════════════════════════════════════════════════════════════
@@ -395,7 +410,7 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                 "reason": block_reason,
             })
             print(f"🔴 [REGIME-BLOCK] Trade blocked: {block_reason} | {symbol}")
-            # Track decision (fire-and-forget)
+            # Track decision and update state (fire-and-forget)
             if decision_tracker:
                 try:
                     decision_tracker.track_block(
@@ -405,6 +420,11 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                         symbol=symbol,
                         signal_metadata=signal
                     )
+                except:
+                    pass  # Non-blocking
+            if state_machine and signal_id:
+                try:
+                    state_machine.transition(signal_id, SignalState.BLOCKED, reason=f"RegimeFilter: {block_reason}")
                 except:
                     pass  # Non-blocking
             return {"status": "blocked", "reason": f"regime_{block_reason}"}
@@ -422,7 +442,7 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             "reason": streak_reason,
         })
         print(f"🔴 [STREAK-BLOCK] Trade skipped: {streak_reason} | {symbol}")
-        # Track decision (fire-and-forget)
+        # Track decision and update state (fire-and-forget)
         if decision_tracker:
             try:
                 decision_tracker.track_block(
@@ -432,6 +452,11 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                     symbol=symbol,
                     signal_metadata=signal
                 )
+            except:
+                pass  # Non-blocking
+        if state_machine and signal_id:
+            try:
+                state_machine.transition(signal_id, SignalState.BLOCKED, reason=f"StreakFilter: {streak_reason}")
             except:
                 pass  # Non-blocking
         return {"status": "blocked", "reason": f"streak_filter_{streak_reason}"}
@@ -446,7 +471,7 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             "reason": intel_reason,
         })
         print(f"🔴 [INTEL-BLOCK] Trade blocked: {intel_reason} | {symbol}")
-        # Track decision (fire-and-forget)
+        # Track decision and update state (fire-and-forget)
         if decision_tracker:
             try:
                 decision_tracker.track_block(
@@ -456,6 +481,11 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                     symbol=symbol,
                     signal_metadata=signal
                 )
+            except:
+                pass  # Non-blocking
+        if state_machine and signal_id:
+            try:
+                state_machine.transition(signal_id, SignalState.BLOCKED, reason=f"IntelligenceGate: {intel_reason}")
             except:
                 pass  # Non-blocking
         return {"status": "blocked", "reason": f"intel_{intel_reason}"}
@@ -500,7 +530,7 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                 "failures": [r.to_dict() for r in critical_failures]
             })
             
-            # Track decision (fire-and-forget)
+            # Track decision and update state (fire-and-forget)
             if decision_tracker:
                 try:
                     decision_tracker.track_block(
@@ -510,6 +540,11 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                         symbol=symbol,
                         signal_metadata=signal
                     )
+                except:
+                    pass  # Non-blocking
+            if state_machine and signal_id:
+                try:
+                    state_machine.transition(signal_id, SignalState.BLOCKED, reason="SelfValidation failed")
                 except:
                     pass  # Non-blocking
             
@@ -552,7 +587,7 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         
         if not ok:
             print(f"❌ [V6.6/V7.1 ENTRY] Entry blocked: {tel.get('reason', 'unknown')}")
-            # Track decision (fire-and-forget)
+            # Track decision and update state (fire-and-forget)
             if decision_tracker:
                 try:
                     decision_tracker.track_block(
@@ -564,11 +599,30 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                     )
                 except:
                     pass  # Non-blocking
+            if state_machine and signal_id:
+                try:
+                    state_machine.transition(signal_id, SignalState.BLOCKED, reason=f"EntryFlow: {tel.get('reason', 'unknown')}")
+                except:
+                    pass  # Non-blocking
             return {
                 "status": "blocked",
                 "reason": tel.get("reason", "entry_flow_rejected"),
                 "telemetry": tel
             }
+        
+        # All gates passed - transition to APPROVED
+        if state_machine and signal_id:
+            try:
+                state_machine.transition(signal_id, SignalState.APPROVED, reason="All gates passed")
+            except:
+                pass  # Non-blocking
+        
+        # Transition to EXECUTING (order being placed)
+        if state_machine and signal_id:
+            try:
+                state_machine.transition(signal_id, SignalState.EXECUTING, reason="Placing order")
+            except:
+                pass  # Non-blocking
         
         # Step 2: Create position record with order_id from telemetry
         order_id = tel.get("order_id")
@@ -614,6 +668,18 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         
         print(f"✅ [V6.6/V7.1 ENTRY] Order placed: {symbol} {direction} @ {leverage}x | Margin: ${final_notional:.2f} | Order ID: {order_id}")
         emit_entry_audit(symbol, direction, "executed")
+        
+        # Transition to EXECUTED (order filled, position created)
+        if state_machine and signal_id:
+            try:
+                state_machine.transition(
+                    signal_id, 
+                    SignalState.EXECUTED, 
+                    reason="Order filled, position created",
+                    metadata={"order_id": order_id, "position": position}
+                )
+            except:
+                pass  # Non-blocking
         
         # ═══════════════════════════════════════════════════════════════
         # POST-EXECUTION VALIDATION (Self-Validation & Questioning Layer)

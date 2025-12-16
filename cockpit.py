@@ -132,6 +132,39 @@ with tab2:
     st.header("🔮 Analytics & Learning")
     st.markdown("Real-time insights from Shadow Execution Engine and Decision Tracker")
     
+    # Signal Pipeline Health
+    st.subheader("📊 Signal Pipeline Health")
+    try:
+        from src.signal_pipeline_monitor import get_pipeline_monitor
+        monitor = get_pipeline_monitor()
+        health = monitor.get_pipeline_health()
+        
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric("Total Signals", health.get("total_signals", 0))
+        col2.metric("Stuck Signals", health.get("stuck_count", 0))
+        col3.metric("Status", health.get("status", "UNKNOWN"))
+        col4.metric("Signals/Hour", health.get("throughput", {}).get("signals_per_hour", 0))
+        
+        # Signals by State
+        st.write("**Signals by State:**")
+        state_counts = health.get("state_counts", {})
+        if state_counts:
+            state_data = [{"State": k, "Count": v} for k, v in state_counts.items()]
+            df_states = pd.DataFrame(state_data)
+            st.dataframe(df_states, use_container_width=True)
+        
+        # Stuck Signals
+        stuck = health.get("stuck_signals", [])
+        if stuck:
+            st.warning(f"⚠️ {len(stuck)} stuck signals detected!")
+            stuck_data = [{"Signal ID": s["signal_id"][:20] + "...", "State": s["state"], "Stuck For": f"{s['stuck_for_hours']:.1f}h", "Symbol": s["symbol"]} for s in stuck[:10]]
+            df_stuck = pd.DataFrame(stuck_data)
+            st.dataframe(df_stuck, use_container_width=True)
+        
+        st.markdown("---")
+    except Exception as e:
+        st.warning(f"Pipeline monitoring unavailable: {e}")
+    
     # Time period selector
     hours = st.selectbox("Time Period", [1, 6, 12, 24, 48, 168], index=3, help="Hours to analyze")
     

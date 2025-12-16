@@ -527,26 +527,31 @@ def load_open_positions_df():
                         price_fetched = True
                         current = cached_price
             
-            # If not cached, try to fetch (with rate limiting)
+            # If not cached, try to fetch (with rate limiting and quick timeout)
+            # Use a short timeout to prevent dashboard from hanging
             if not price_fetched and gateway:
+                fetch_start = time.time()
+                max_fetch_time = 3.0  # Max 3 seconds per symbol to prevent hanging
+                
                 try:
                     # Use OHLCV as primary source (cached, less rate limiting)
                     try:
-                        ohlcv_df = gateway.fetch_ohlcv(symbol, timeframe="1m", limit=1, venue="futures")
-                        if not ohlcv_df.empty and "close" in ohlcv_df.columns:
-                            ohlcv_price = float(ohlcv_df["close"].iloc[-1])
-                            if ohlcv_price and ohlcv_price > 0:
-                                current = ohlcv_price
-                                price_fetched = True
-                                # Cache it
-                                with _price_cache_lock:
-                                    _price_cache[symbol] = {"price": current, "timestamp": time.time()}
+                        if time.time() - fetch_start < max_fetch_time:
+                            ohlcv_df = gateway.fetch_ohlcv(symbol, timeframe="1m", limit=1, venue="futures")
+                            if not ohlcv_df.empty and "close" in ohlcv_df.columns:
+                                ohlcv_price = float(ohlcv_df["close"].iloc[-1])
+                                if ohlcv_price and ohlcv_price > 0:
+                                    current = ohlcv_price
+                                    price_fetched = True
+                                    # Cache it
+                                    with _price_cache_lock:
+                                        _price_cache[symbol] = {"price": current, "timestamp": time.time()}
                     except Exception as ohlcv_err:
-                        # Suppress errors - will try mark price fallback
+                        # Suppress errors - will try mark price fallback or use entry price
                         pass
                     
-                    # Fallback to mark price if OHLCV fails
-                    if not price_fetched:
+                    # Fallback to mark price if OHLCV fails (only if we have time left)
+                    if not price_fetched and (time.time() - fetch_start) < max_fetch_time:
                         try:
                             fetched_price = gateway.get_price(symbol, venue="futures")
                             if fetched_price and fetched_price > 0:
@@ -556,9 +561,8 @@ def load_open_positions_df():
                                 with _price_cache_lock:
                                     _price_cache[symbol] = {"price": current, "timestamp": time.time()}
                         except Exception as price_err:
-                            # Suppress rate limit errors (429) - we'll use cached or entry price
-                            if "429" not in str(price_err):
-                                pass  # Don't log - too noisy
+                            # Suppress rate limit errors (429) and timeouts - we'll use cached or entry price
+                            pass
                 except Exception as err:
                     # Suppress all errors - we'll use entry price as fallback
                     pass

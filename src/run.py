@@ -49,6 +49,9 @@ RESTART_MARKER = Path("logs/.restart_needed")
 # Module-level variable to store healing result for run_heavy_initialization
 _healing_result = None
 
+# Module-level flag to track if engine has been started (prevent double-start)
+_engine_started_flag = False
+
 
 def _safe_poll(poll_fn, name: str):
     """Safely execute a polling function with error handling."""
@@ -442,9 +445,19 @@ def _bot_worker_supervisor():
                 age = time.time() - _last_bot_cycle_ts
                 if age > 300:  # No cycle in 5 minutes = problem
                     print(f"⚠️ [SUPERVISOR] Bot cycle may be stalled (last run {age:.0f}s ago)")
+                    print(f"[ENGINE] Bot cycle stalled - no heartbeat for {age:.0f}s", flush=True)
                     # Log to file for external supervisor to detect
                     with open("logs/stall_warning.txt", "w") as f:
                         f.write(f"STALLED: {time.strftime('%Y-%m-%dT%H:%M:%SZ')} age={age:.0f}s\n")
+                    # Alert operator
+                    try:
+                        from src.operator_safety import alert_operator, ALERT_HIGH
+                        alert_operator(ALERT_HIGH, "engine_stall_detected", {
+                            "age_seconds": age,
+                            "last_cycle_ts": _last_bot_cycle_ts
+                        })
+                    except:
+                        pass
             
             # Log heartbeat proof that supervisor is alive
             with open("logs/supervisor_heartbeat.txt", "w") as f:
@@ -452,6 +465,102 @@ def _bot_worker_supervisor():
                 
         except Exception as e:
             print(f"⚠️ [SUPERVISOR] Error: {e}")
+
+
+def start_trading_engine_for_mode(is_paper_mode: bool):
+    """
+    Explicitly start the trading engine thread.
+    This function MUST be called to start the engine.
+    
+    Args:
+        is_paper_mode: True if paper trading mode, False for real trading
+    
+    Returns:
+        bool: True if engine started successfully, False otherwise
+    """
+    global _engine_started_flag
+    
+    # Prevent double-starting
+    if _engine_started_flag:
+        print("[ENGINE] Engine already started - skipping duplicate start", flush=True)
+        return True
+    
+    print("\n" + "="*60)
+    print("[ENGINE] STARTING TRADING ENGINE")
+    print("="*60)
+    print(f"[ENGINE] Mode: {'PAPER' if is_paper_mode else 'REAL'}", flush=True)
+    
+    # Validate run_bot_cycle is available
+    if not _run_bot_cycle_available or run_bot_cycle is None:
+        error_msg = "CRITICAL: run_bot_cycle is not available - cannot start engine"
+        print(f"[ENGINE] {error_msg}", flush=True)
+        try:
+            from src.operator_safety import alert_operator, ALERT_CRITICAL
+            alert_operator(ALERT_CRITICAL, "engine_startup_failed", {
+                "reason": "run_bot_cycle not available",
+                "mode": "paper" if is_paper_mode else "real"
+            })
+        except:
+            pass
+        return False
+    
+    if not callable(run_bot_cycle):
+        error_msg = f"CRITICAL: run_bot_cycle is not callable (type: {type(run_bot_cycle)})"
+        print(f"[ENGINE] {error_msg}", flush=True)
+        try:
+            from src.operator_safety import alert_operator, ALERT_CRITICAL
+            alert_operator(ALERT_CRITICAL, "engine_startup_failed", {
+                "reason": "run_bot_cycle not callable",
+                "type": str(type(run_bot_cycle)),
+                "mode": "paper" if is_paper_mode else "real"
+            })
+        except:
+            pass
+        return False
+    
+    try:
+        print("[ENGINE] Attempting to start engine thread", flush=True)
+        print(f"[ENGINE] run_bot_cycle is available and callable: {callable(run_bot_cycle)}", flush=True)
+        print(f"[ENGINE] bot_worker function: {bot_worker}", flush=True)
+        
+        bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
+        print("[ENGINE] Engine thread created", flush=True)
+        print(f"[ENGINE] Thread object: {bot_thread}", flush=True)
+        print(f"[ENGINE] Thread name: {bot_thread.name}", flush=True)
+        print(f"[ENGINE] Thread daemon: {bot_thread.daemon}", flush=True)
+        
+        bot_thread.start()
+        print("[ENGINE] Engine thread started", flush=True)
+        print(f"[ENGINE] Thread is_alive: {bot_thread.is_alive()}", flush=True)
+        
+        # Start supervisor to ensure bot runs 24/7 even if thread dies
+        supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
+        supervisor_thread.start()
+        print("   ✅ Bot supervisor thread started (BotSupervisor)")
+        print("\n✅ TRADING ENGINE IS NOW RUNNING")
+        _engine_started_flag = True
+        return True
+        
+    except Exception as e:
+        error_msg = f"CRITICAL: Failed to start trading engine threads: {e}"
+        print(f"[ENGINE] {error_msg}", flush=True)
+        print(f"[ENGINE] Trading engine failed to start", flush=True)
+        import traceback
+        traceback.print_exc()
+        
+        try:
+            from src.operator_safety import alert_operator, ALERT_CRITICAL
+            alert_operator(ALERT_CRITICAL, "engine_startup_failed", {
+                "reason": str(e),
+                "mode": "paper" if is_paper_mode else "real",
+                "traceback": traceback.format_exc()
+            })
+        except:
+            pass
+        
+        if is_paper_mode:
+            print("   ⚠️  PAPER MODE: This is unexpected - engine should always start")
+        return False
 
 
 def bot_worker():
@@ -1543,9 +1652,33 @@ def run_heavy_initialization():
     CRITICAL: In paper trading mode, trading engine ALWAYS starts regardless of health checks.
     In real trading mode, health checks may gate startup.
     """
+    print("\n" + "="*60)
+    print("[ENGINE] run_heavy_initialization() STARTED")
+    print("="*60)
+    print("[ENGINE] This function will start the trading engine", flush=True)
+    
     import time
     trading_mode = os.getenv('TRADING_MODE', 'paper').lower()
     is_paper_mode = trading_mode == 'paper'
+    
+    print(f"[ENGINE] Trading mode: {trading_mode}", flush=True)
+    print(f"[ENGINE] Is paper mode: {is_paper_mode}", flush=True)
+    
+    # CRITICAL: Start engine EARLY, before any heavy initialization that might fail
+    # In paper mode, engine MUST start regardless of other initialization failures
+    print("\n[ENGINE] Starting trading engine (early in initialization)...", flush=True)
+    engine_started = start_trading_engine_for_mode(is_paper_mode)
+    
+    if not engine_started and is_paper_mode:
+        print("[ENGINE] CRITICAL: Engine failed to start in PAPER MODE - this should never happen!", flush=True)
+        try:
+            from src.operator_safety import alert_operator, ALERT_CRITICAL
+            alert_operator(ALERT_CRITICAL, "engine_startup_failed_paper_mode", {
+                "reason": "Engine startup returned False in paper mode",
+                "mode": "paper"
+            })
+        except:
+            pass
     
     time.sleep(1)
     
@@ -1688,57 +1821,25 @@ def run_heavy_initialization():
     
     print("="*60)
     
-    # FINAL SAFEGUARD: In paper mode, force start even if decision logic failed
-    if is_paper_mode and not should_start_engine:
-        print("\n🔒 PAPER MODE SAFEGUARD: Overriding decision to ensure engine starts")
-        print("   ⚠️  Decision logic set should_start_engine=False, but paper mode requires start")
-        should_start_engine = True
-        print("   ✅ Override applied: Engine will start")
-    
-    if should_start_engine:
-        # Validate that run_bot_cycle is available before starting thread
-        if not _run_bot_cycle_available or run_bot_cycle is None:
-            print("\n❌ CRITICAL: Cannot start trading engine - run_bot_cycle is not available")
-            print("[ENGINE] run_bot_cycle import failed - check import errors above", flush=True)
-            if is_paper_mode:
-                print("   ⚠️  PAPER MODE: This is unexpected - import should succeed")
-        elif not callable(run_bot_cycle):
-            print("\n❌ CRITICAL: Cannot start trading engine - run_bot_cycle is not callable")
-            print(f"[ENGINE] run_bot_cycle type: {type(run_bot_cycle)}", flush=True)
-            if is_paper_mode:
-                print("   ⚠️  PAPER MODE: This is unexpected - function should be callable")
-        else:
+    # NOTE: Engine startup was already called early in this function for paper mode
+    # For real mode, check if we should start (engine may not have started if health checks failed)
+    if not is_paper_mode and should_start_engine:
+        # Real mode: Only start if health checks passed and we haven't started yet
+        print("\n[ENGINE] Real mode: Starting engine after health checks passed...", flush=True)
+        engine_started = start_trading_engine_for_mode(is_paper_mode)
+        if not engine_started:
+            print("[ENGINE] CRITICAL: Engine failed to start in REAL MODE despite passing health checks!", flush=True)
             try:
-                print("\n🔧 Starting trading engine threads...")
-                print("[ENGINE] Attempting to start engine thread", flush=True)
-                print(f"[ENGINE] run_bot_cycle is available and callable: {callable(run_bot_cycle)}", flush=True)
-                print(f"[ENGINE] bot_worker function: {bot_worker}", flush=True)
-                
-                bot_thread = threading.Thread(target=bot_worker, daemon=True, name="BotWorker")
-                print("[ENGINE] Engine thread created", flush=True)
-                print(f"[ENGINE] Thread object: {bot_thread}", flush=True)
-                print(f"[ENGINE] Thread name: {bot_thread.name}", flush=True)
-                print(f"[ENGINE] Thread daemon: {bot_thread.daemon}", flush=True)
-                
-                bot_thread.start()
-                print("[ENGINE] Engine thread started", flush=True)
-                print(f"[ENGINE] Thread is_alive: {bot_thread.is_alive()}", flush=True)
-                print("   ✅ Trading engine thread started (BotWorker)")
-                
-                # Start supervisor to ensure bot runs 24/7 even if thread dies
-                supervisor_thread = threading.Thread(target=_bot_worker_supervisor, daemon=True, name="BotSupervisor")
-                supervisor_thread.start()
-                print("   ✅ Bot supervisor thread started (BotSupervisor)")
-                print("\n✅ TRADING ENGINE IS NOW RUNNING")
-            except Exception as e:
-                print(f"\n❌ CRITICAL: Failed to start trading engine threads: {e}")
-                print(f"[ENGINE] Failed to start engine thread: {e}", flush=True)
-                if is_paper_mode:
-                    print("   ⚠️  PAPER MODE: This is unexpected - engine should always start")
-                import traceback
-                traceback.print_exc()
-    else:
+                from src.operator_safety import alert_operator, ALERT_CRITICAL
+                alert_operator(ALERT_CRITICAL, "engine_startup_failed_real_mode", {
+                    "reason": "Engine startup returned False in real mode despite passing checks",
+                    "mode": "real"
+                })
+            except:
+                pass
+    elif not should_start_engine:
         print("\n⛔ TRADING ENGINE NOT STARTED (see reasons above)")
+        print("[ENGINE] Engine startup skipped due to safety checks", flush=True)
     
     nightly_thread = threading.Thread(target=nightly_learning_scheduler, daemon=True)
     nightly_thread.start()

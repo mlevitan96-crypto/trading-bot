@@ -1621,9 +1621,10 @@ def build_app(server: Flask = None) -> Dash:
                 pos_file = PathRegistry.POS_LOG
                 if os.path.exists(pos_file):
                     file_age = time.time() - os.path.getmtime(pos_file)
-                    if file_age < 300:  # 5 minutes
+                    # More lenient: green if updated in last 10 minutes (not 5)
+                    if file_age < 600:  # 10 minutes
                         status["trade_execution"] = "green"
-                    elif file_age < 1800:  # 30 minutes
+                    elif file_age < 3600:  # 1 hour
                         status["trade_execution"] = "yellow"
                     else:
                         status["trade_execution"] = "red"

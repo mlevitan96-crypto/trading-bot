@@ -1135,6 +1135,170 @@ def build_app(server: Flask = None) -> Dash:
                 "stats": _dashboard_health_status.copy()
             }), 500
 
+    @server.route("/health/system_status")
+    def api_system_status():
+        """System health status endpoint returning green/yellow/red for all components"""
+        from flask import jsonify
+        try:
+            status = {}
+            
+            # 1. CoinGlass feed
+            try:
+                from src.infrastructure.path_registry import PathRegistry
+                coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
+                if os.path.exists(coinglass_dir):
+                    # Check if any recent files exist (within last hour)
+                    recent_files = False
+                    for file in os.listdir(coinglass_dir):
+                        file_path = os.path.join(coinglass_dir, file)
+                        if os.path.isfile(file_path):
+                            file_age = time.time() - os.path.getmtime(file_path)
+                            if file_age < 3600:  # 1 hour
+                                recent_files = True
+                                break
+                    status["coinglass_feed"] = "green" if recent_files else "yellow"
+                else:
+                    status["coinglass_feed"] = "red"
+            except Exception:
+                status["coinglass_feed"] = "red"
+            
+            # 2. Signal engine
+            try:
+                from src.signal_integrity import get_status as get_signal_status
+                signal_status = get_signal_status()
+                status["signal_engine"] = signal_status.get("signal_engine", "yellow")
+            except Exception:
+                status["signal_engine"] = "red"
+            
+            # 3. Decision engine (check for recent decisions)
+            try:
+                decision_file = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
+                if os.path.exists(decision_file):
+                    file_age = time.time() - os.path.getmtime(decision_file)
+                    if file_age < 600:  # 10 minutes
+                        status["decision_engine"] = "green"
+                    elif file_age < 3600:  # 1 hour
+                        status["decision_engine"] = "yellow"
+                    else:
+                        status["decision_engine"] = "red"
+                else:
+                    status["decision_engine"] = "yellow"
+            except Exception:
+                status["decision_engine"] = "red"
+            
+            # 4. Exit gates (check exit log)
+            try:
+                exit_file = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
+                if os.path.exists(exit_file):
+                    status["exit_gates"] = "green"
+                else:
+                    status["exit_gates"] = "yellow"
+            except Exception:
+                status["exit_gates"] = "yellow"
+            
+            # 5. Trade execution (check positions file updates)
+            try:
+                pos_file = PathRegistry.POS_LOG
+                if os.path.exists(pos_file):
+                    file_age = time.time() - os.path.getmtime(pos_file)
+                    if file_age < 300:  # 5 minutes
+                        status["trade_execution"] = "green"
+                    elif file_age < 1800:  # 30 minutes
+                        status["trade_execution"] = "yellow"
+                    else:
+                        status["trade_execution"] = "red"
+                else:
+                    status["trade_execution"] = "yellow"
+            except Exception:
+                status["trade_execution"] = "red"
+            
+            # 6. Heartbeat freshness
+            try:
+                heartbeat_file = PathRegistry.get_path("logs", ".bot_heartbeat")
+                if os.path.exists(heartbeat_file):
+                    file_age = time.time() - os.path.getmtime(heartbeat_file)
+                    if file_age < 120:  # 2 minutes
+                        status["heartbeat_freshness"] = "green"
+                    elif file_age < 300:  # 5 minutes
+                        status["heartbeat_freshness"] = "yellow"
+                    else:
+                        status["heartbeat_freshness"] = "red"
+                else:
+                    status["heartbeat_freshness"] = "yellow"
+            except Exception:
+                status["heartbeat_freshness"] = "red"
+            
+            # 7. Feature store updates
+            try:
+                feature_dir = PathRegistry.FEATURE_STORE_DIR
+                if os.path.exists(feature_dir):
+                    # Check for recent feature files
+                    recent_features = False
+                    for root, dirs, files in os.walk(feature_dir):
+                        for file in files:
+                            file_path = os.path.join(root, file)
+                            file_age = time.time() - os.path.getmtime(file_path)
+                            if file_age < 3600:  # 1 hour
+                                recent_features = True
+                                break
+                        if recent_features:
+                            break
+                    status["feature_store_updates"] = "green" if recent_features else "yellow"
+                else:
+                    status["feature_store_updates"] = "red"
+            except Exception:
+                status["feature_store_updates"] = "yellow"
+            
+            # 8. File integrity
+            try:
+                pos_file = PathRegistry.POS_LOG
+                if os.path.exists(pos_file):
+                    with open(pos_file, 'r') as f:
+                        data = json.load(f)
+                    if isinstance(data, dict) and "open_positions" in data and "closed_positions" in data:
+                        status["file_integrity"] = "green"
+                    else:
+                        status["file_integrity"] = "yellow"
+                else:
+                    status["file_integrity"] = "yellow"
+            except json.JSONDecodeError:
+                status["file_integrity"] = "red"
+            except Exception:
+                status["file_integrity"] = "yellow"
+            
+            # 9. Self-healing status
+            try:
+                from src.operator_safety import get_status as get_safety_status
+                safety_status = get_safety_status()
+                status["self_healing"] = safety_status.get("self_healing", "yellow")
+            except Exception:
+                status["self_healing"] = "yellow"
+            
+            # 10. Safety layer status
+            try:
+                from src.operator_safety import get_status as get_safety_status
+                safety_status = get_safety_status()
+                status["safety_layer"] = safety_status.get("safety_layer", "yellow")
+            except Exception:
+                status["safety_layer"] = "yellow"
+            
+            return jsonify(status)
+        except Exception as e:
+            # Return all red on error
+            return jsonify({
+                "coinglass_feed": "red",
+                "signal_engine": "red",
+                "decision_engine": "red",
+                "exit_gates": "red",
+                "trade_execution": "red",
+                "heartbeat_freshness": "red",
+                "feature_store_updates": "red",
+                "file_integrity": "red",
+                "self_healing": "red",
+                "safety_layer": "red",
+                "error": str(e)
+            }), 500
+
     df0 = load_trades_df()
     wallet_balance = get_wallet_balance()
     daily_summary = compute_summary(df0, lookback_days=1, wallet_balance=wallet_balance)
@@ -1161,6 +1325,15 @@ def build_app(server: Flask = None) -> Dash:
                     "border":"1px solid #2d3139","display":"inline-block"
                 }),
             ], style={"marginBottom":"12px"}),
+            
+            # System Health Panel
+            html.Div([
+                html.H4("System Health", style={"color":"#fff","margin":"8px"}),
+                html.Div(id="system-health-container", children=[
+                    html.Div("Loading system health...", style={"color":"#9aa0a6","padding":"16px"})
+                ]),
+                dcc.Interval(id="system-health-interval", interval=2*1000, n_intervals=0),  # Auto-refresh every 2s
+            ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Summary Tabs Section
             html.Div([
@@ -1260,6 +1433,207 @@ def build_app(server: Flask = None) -> Dash:
             html.Div(id="table-container", children=[make_table(df0)], style={"padding":"8px"})
         ])
     ])
+
+    @app.callback(
+        Output("system-health-container", "children"),
+        Input("system-health-interval", "n_intervals")
+    )
+    def update_system_health(_n):
+        """Update system health panel every 2 seconds"""
+        try:
+            # Call the status function directly (same as endpoint)
+            status = {}
+            
+            # 1. CoinGlass feed
+            try:
+                coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
+                if os.path.exists(coinglass_dir):
+                    recent_files = False
+                    for file in os.listdir(coinglass_dir):
+                        file_path = os.path.join(coinglass_dir, file)
+                        if os.path.isfile(file_path):
+                            file_age = time.time() - os.path.getmtime(file_path)
+                            if file_age < 3600:  # 1 hour
+                                recent_files = True
+                                break
+                    status["coinglass_feed"] = "green" if recent_files else "yellow"
+                else:
+                    status["coinglass_feed"] = "red"
+            except Exception:
+                status["coinglass_feed"] = "red"
+            
+            # 2. Signal engine
+            try:
+                from src.signal_integrity import get_status as get_signal_status
+                signal_status = get_signal_status()
+                status["signal_engine"] = signal_status.get("signal_engine", "yellow")
+            except Exception:
+                status["signal_engine"] = "red"
+            
+            # 3. Decision engine
+            try:
+                decision_file = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
+                if os.path.exists(decision_file):
+                    file_age = time.time() - os.path.getmtime(decision_file)
+                    if file_age < 600:
+                        status["decision_engine"] = "green"
+                    elif file_age < 3600:
+                        status["decision_engine"] = "yellow"
+                    else:
+                        status["decision_engine"] = "red"
+                else:
+                    status["decision_engine"] = "yellow"
+            except Exception:
+                status["decision_engine"] = "red"
+            
+            # 4. Exit gates
+            try:
+                exit_file = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
+                status["exit_gates"] = "green" if os.path.exists(exit_file) else "yellow"
+            except Exception:
+                status["exit_gates"] = "yellow"
+            
+            # 5. Trade execution
+            try:
+                pos_file = PathRegistry.POS_LOG
+                if os.path.exists(pos_file):
+                    file_age = time.time() - os.path.getmtime(pos_file)
+                    if file_age < 300:
+                        status["trade_execution"] = "green"
+                    elif file_age < 1800:
+                        status["trade_execution"] = "yellow"
+                    else:
+                        status["trade_execution"] = "red"
+                else:
+                    status["trade_execution"] = "yellow"
+            except Exception:
+                status["trade_execution"] = "red"
+            
+            # 6. Heartbeat freshness
+            try:
+                heartbeat_file = PathRegistry.get_path("logs", ".bot_heartbeat")
+                if os.path.exists(heartbeat_file):
+                    file_age = time.time() - os.path.getmtime(heartbeat_file)
+                    if file_age < 120:
+                        status["heartbeat_freshness"] = "green"
+                    elif file_age < 300:
+                        status["heartbeat_freshness"] = "yellow"
+                    else:
+                        status["heartbeat_freshness"] = "red"
+                else:
+                    status["heartbeat_freshness"] = "yellow"
+            except Exception:
+                status["heartbeat_freshness"] = "red"
+            
+            # 7. Feature store updates
+            try:
+                feature_dir = PathRegistry.FEATURE_STORE_DIR
+                if os.path.exists(feature_dir):
+                    recent_features = False
+                    for root, dirs, files in os.walk(feature_dir):
+                        for file in files:
+                            file_path = os.path.join(root, file)
+                            file_age = time.time() - os.path.getmtime(file_path)
+                            if file_age < 3600:
+                                recent_features = True
+                                break
+                        if recent_features:
+                            break
+                    status["feature_store_updates"] = "green" if recent_features else "yellow"
+                else:
+                    status["feature_store_updates"] = "red"
+            except Exception:
+                status["feature_store_updates"] = "yellow"
+            
+            # 8. File integrity
+            try:
+                pos_file = PathRegistry.POS_LOG
+                if os.path.exists(pos_file):
+                    with open(pos_file, 'r') as f:
+                        data = json.load(f)
+                    if isinstance(data, dict) and "open_positions" in data and "closed_positions" in data:
+                        status["file_integrity"] = "green"
+                    else:
+                        status["file_integrity"] = "yellow"
+                else:
+                    status["file_integrity"] = "yellow"
+            except json.JSONDecodeError:
+                status["file_integrity"] = "red"
+            except Exception:
+                status["file_integrity"] = "yellow"
+            
+            # 9. Self-healing status
+            try:
+                from src.operator_safety import get_status as get_safety_status
+                safety_status = get_safety_status()
+                status["self_healing"] = safety_status.get("self_healing", "yellow")
+            except Exception:
+                status["self_healing"] = "yellow"
+            
+            # 10. Safety layer status
+            try:
+                from src.operator_safety import get_status as get_safety_status
+                safety_status = get_safety_status()
+                status["safety_layer"] = safety_status.get("safety_layer", "yellow")
+            except Exception:
+                status["safety_layer"] = "yellow"
+                
+        except Exception as e:
+            # Fallback: all red on error
+            status = {
+                "coinglass_feed": "red",
+                "signal_engine": "red",
+                "decision_engine": "red",
+                "exit_gates": "red",
+                "trade_execution": "red",
+                "heartbeat_freshness": "red",
+                "feature_store_updates": "red",
+                "file_integrity": "red",
+                "self_healing": "red",
+                "safety_layer": "red"
+            }
+        
+        # Component names with display labels
+        components = [
+            ("coinglass_feed", "CoinGlass Feed"),
+            ("signal_engine", "Signal Engine"),
+            ("decision_engine", "Decision Engine"),
+            ("exit_gates", "Exit Gates"),
+            ("trade_execution", "Trade Execution"),
+            ("heartbeat_freshness", "Heartbeat Freshness"),
+            ("feature_store_updates", "Feature Store Updates"),
+            ("file_integrity", "File Integrity"),
+            ("self_healing", "Self-Healing"),
+            ("safety_layer", "Safety Layer")
+        ]
+        
+        # Create grid of status indicators
+        grid_items = []
+        for key, label in components:
+            color = status.get(key, "yellow")
+            bg_color = {
+                "green": "#28a745",
+                "yellow": "#ffc107",
+                "red": "#dc3545"
+            }.get(color, "#6c757d")
+            
+            grid_items.append(
+                html.Div([
+                    html.Div(label, style={"color":"#fff","fontSize":"12px","marginBottom":"4px"}),
+                    html.Div(
+                        "",
+                        style={
+                            "width":"100%",
+                            "height":"20px",
+                            "backgroundColor":bg_color,
+                            "borderRadius":"4px",
+                            "border":"1px solid #333"
+                        }
+                    )
+                ], style={"display":"inline-block","width":"18%","margin":"8px","verticalAlign":"top"})
+            )
+        
+        return html.Div(grid_items, style={"display":"flex","flexWrap":"wrap","justifyContent":"space-between"})
 
     @app.callback(
         Output("summary-container", "children"),

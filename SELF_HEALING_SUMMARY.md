@@ -108,3 +108,4 @@ These dangerous issues trigger CRITICAL alerts and require operator intervention
 4. **Test critical issue:** Add duplicate positions and restart - should detect and block (real mode)
 5. **Test paper mode:** Verify engine always starts in paper mode regardless of issues
 
+

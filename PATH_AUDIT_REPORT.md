@@ -110,3 +110,4 @@ The trading bot uses a slot-based deployment (trading-bot-A, trading-bot-B, trad
 5. Verify all components see same data
 
 
+

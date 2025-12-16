@@ -448,6 +448,79 @@ def safe_save_with_retry(filepath: str, data: Dict, max_retries: int = 3) -> boo
     return False
 
 
+def get_status() -> Dict[str, str]:
+    """
+    Get operator safety layer health status.
+    
+    Returns:
+        dict with component -> status_color mapping
+        Status colors: "green" (healthy), "yellow" (degraded), "red" (failing)
+    """
+    status = {}
+    
+    try:
+        from src.infrastructure.path_registry import PathRegistry
+        
+        # Check positions file integrity
+        pos_file = PathRegistry.POS_LOG
+        if not pos_file.exists():
+            status["safety_layer"] = STATUS_RED
+        else:
+            try:
+                with open(pos_file, 'r') as f:
+                    data = json.load(f)
+                if not isinstance(data, dict) or "open_positions" not in data or "closed_positions" not in data:
+                    status["safety_layer"] = STATUS_YELLOW
+                else:
+                    status["safety_layer"] = STATUS_GREEN
+            except json.JSONDecodeError:
+                status["safety_layer"] = STATUS_RED
+            except Exception:
+                status["safety_layer"] = STATUS_YELLOW
+        
+        # Check self-healing status (check if last healing was successful)
+        try:
+            from src.infrastructure.path_registry import resolve_path
+            alert_file = resolve_path(ALERT_LOG_FILE)
+        except:
+            alert_file = Path(ALERT_LOG_FILE)
+        if alert_file.exists():
+            # Check for recent critical alerts (within last hour)
+            try:
+                critical_count = 0
+                with open(alert_file, 'r') as f:
+                    for line in f:
+                        try:
+                            alert = json.loads(line)
+                            if alert.get("level") == ALERT_CRITICAL:
+                                alert_age = time.time() - alert.get("timestamp", 0)
+                                if alert_age < 3600:  # Last hour
+                                    critical_count += 1
+                        except:
+                            continue
+                
+                if critical_count > 0:
+                    status["self_healing"] = STATUS_YELLOW
+                else:
+                    status["self_healing"] = STATUS_GREEN
+            except Exception:
+                status["self_healing"] = STATUS_YELLOW
+        else:
+            status["self_healing"] = STATUS_GREEN
+            
+    except Exception as e:
+        status["safety_layer"] = STATUS_RED
+        status["self_healing"] = STATUS_RED
+    
+    return status
+
+
+# Status colors for get_status()
+STATUS_GREEN = "green"
+STATUS_YELLOW = "yellow"
+STATUS_RED = "red"
+
+
 # ============================================================================
 # SELF-HEALING LAYER
 # ============================================================================

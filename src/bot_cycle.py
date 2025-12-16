@@ -840,6 +840,7 @@ def run_bot_cycle():
     """
     # [PHASES 281-283] Portfolio Metadata Reconciliation - run every hour
     import os
+    import time
     from pathlib import Path
     reconcile_marker = Path("logs/.last_reconciliation")
     should_reconcile = False

@@ -896,8 +896,16 @@ def bot_worker():
                 continue
             
             print("[ENGINE] Calling run_bot_cycle()", flush=True)
-            run_bot_cycle()
-            print("[ENGINE] run_bot_cycle() completed successfully", flush=True)
+            try:
+                run_bot_cycle()
+                print("[ENGINE] run_bot_cycle() completed successfully", flush=True)
+            except Exception as e:
+                print(f"[ENGINE] ERROR in run_bot_cycle(): {e}", flush=True)
+                import traceback
+                print(traceback.format_exc(), flush=True)
+                # Continue loop - don't crash the worker thread
+                time.sleep(60)  # Wait before retrying
+                continue
             
             # Update timestamp to prove we're alive (supervisor monitors this)
             _last_bot_cycle_ts = time.time()

@@ -1,6 +1,18 @@
 import os
 from dotenv import load_dotenv
-load_dotenv("/root/trading-bot/.env")
+from pathlib import Path
+
+# Load .env from project root (works in any deployment)
+_project_root = Path(__file__).parent.parent
+_env_path = _project_root / ".env"
+if _env_path.exists():
+    load_dotenv(_env_path)
+else:
+    # Fallback to common locations
+    for fallback in ["/root/trading-bot-current/.env", "/root/trading-bot/.env", ".env"]:
+        if Path(fallback).exists():
+            load_dotenv(fallback)
+            break
 import threading
 import time
 import sys

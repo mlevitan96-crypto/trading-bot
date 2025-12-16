@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from typing import Dict
+from typing import Dict, Any
 
 from flask import Flask, send_file, request, session, redirect, url_for, jsonify
 from dash import Dash, html, dcc, Input, Output, State, dash_table, callback_context

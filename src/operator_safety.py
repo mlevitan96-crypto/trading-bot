@@ -509,7 +509,7 @@ def get_status() -> Dict[str, str]:
                                         critical_count += 1
                             except:
                                 continue
-                
+                    
                     if critical_count > 0:
                         status["self_healing"] = STATUS_YELLOW
                     else:

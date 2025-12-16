@@ -700,6 +700,21 @@ def bot_worker():
     except Exception as e:
         print(f"⚠️ [SIGNAL-TRACKER] Startup error: {e}")
     
+    # Start Shadow Execution Engine for what-if analysis
+    print("🔮 [SHADOW] Starting Shadow Execution Engine...")
+    try:
+        from src.shadow_execution_engine import get_shadow_engine
+        shadow_engine = get_shadow_engine()
+        shadow_engine.start()
+        print("✅ [SHADOW] Shadow execution engine started (background thread)")
+        print("   🔮 Simulates ALL signals (even blocked ones) for what-if analysis")
+        print("   📊 Tracks hypothetical P&L to evaluate guard effectiveness")
+        print("   💡 Enables: 'What if I disabled the Volatility Guard?' analysis")
+    except Exception as e:
+        print(f"⚠️ [SHADOW] Shadow engine startup error: {e}")
+        import traceback
+        traceback.print_exc()
+    
     # Start Comprehensive Self-Healing Operator
     print("🔧 [HEALING] Starting Comprehensive Self-Healing Operator...")
     try:

@@ -332,8 +332,47 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
     from src.profit_blofin_learning import log_event
     from src.exchange_gateway import ExchangeGateway
     
+    # Get signal_id for decision tracking (create if not exists)
+    signal_id = signal.get("signal_id")
+    if not signal_id:
+        # Try to get from SignalBus if signal was emitted
+        try:
+            from src.signal_bus import get_signal_bus
+            bus = get_signal_bus()
+            # Signal might have been emitted, try to find it
+            # For now, generate a temporary ID
+            import time
+            import uuid
+            signal_id = f"{signal.get('symbol', 'UNKNOWN')}_{int(time.time()*1000)}_{uuid.uuid4().hex[:8]}"
+            signal["signal_id"] = signal_id
+        except:
+            import time
+            import uuid
+            signal_id = f"{signal.get('symbol', 'UNKNOWN')}_{int(time.time()*1000)}_{uuid.uuid4().hex[:8]}"
+            signal["signal_id"] = signal_id
+    
+    # Initialize decision tracker (fire-and-forget, non-blocking)
+    try:
+        from src.learning.decision_tracker import get_decision_tracker
+        decision_tracker = get_decision_tracker()
+    except Exception as e:
+        decision_tracker = None
+        # Non-critical, continue without tracking
+    
     if not venue_guard_entry_gate(signal):
         log_event("venue_guard_block", signal)
+        # Track decision (fire-and-forget)
+        if decision_tracker:
+            try:
+                decision_tracker.track_block(
+                    signal_id=signal_id,
+                    blocker_component="VenueGuard",
+                    blocker_reason="venue_guard_entry_gate failed",
+                    symbol=signal.get('symbol'),
+                    signal_metadata=signal
+                )
+            except:
+                pass  # Non-blocking
         return {"status": "blocked", "reason": "venue_guard"}
     
     # ═══════════════════════════════════════════════════════════════
@@ -356,6 +395,18 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                 "reason": block_reason,
             })
             print(f"🔴 [REGIME-BLOCK] Trade blocked: {block_reason} | {symbol}")
+            # Track decision (fire-and-forget)
+            if decision_tracker:
+                try:
+                    decision_tracker.track_block(
+                        signal_id=signal_id,
+                        blocker_component="RegimeFilter",
+                        blocker_reason=f"phase2_should_block: {block_reason}",
+                        symbol=symbol,
+                        signal_metadata=signal
+                    )
+                except:
+                    pass  # Non-blocking
             return {"status": "blocked", "reason": f"regime_{block_reason}"}
     except Exception as e:
         pass  # Phase 2 is additive, don't block on errors
@@ -371,6 +422,18 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             "reason": streak_reason,
         })
         print(f"🔴 [STREAK-BLOCK] Trade skipped: {streak_reason} | {symbol}")
+        # Track decision (fire-and-forget)
+        if decision_tracker:
+            try:
+                decision_tracker.track_block(
+                    signal_id=signal_id,
+                    blocker_component="StreakFilter",
+                    blocker_reason=f"check_streak_gate: {streak_reason}",
+                    symbol=symbol,
+                    signal_metadata=signal
+                )
+            except:
+                pass  # Non-blocking
         return {"status": "blocked", "reason": f"streak_filter_{streak_reason}"}
     
     # ═══════════════════════════════════════════════════════════════
@@ -383,6 +446,18 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             "reason": intel_reason,
         })
         print(f"🔴 [INTEL-BLOCK] Trade blocked: {intel_reason} | {symbol}")
+        # Track decision (fire-and-forget)
+        if decision_tracker:
+            try:
+                decision_tracker.track_block(
+                    signal_id=signal_id,
+                    blocker_component="IntelligenceGate",
+                    blocker_reason=f"intelligence_gate: {intel_reason}",
+                    symbol=symbol,
+                    signal_metadata=signal
+                )
+            except:
+                pass  # Non-blocking
         return {"status": "blocked", "reason": f"intel_{intel_reason}"}
     
     # Apply sizing multipliers from gates
@@ -425,6 +500,19 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                 "failures": [r.to_dict() for r in critical_failures]
             })
             
+            # Track decision (fire-and-forget)
+            if decision_tracker:
+                try:
+                    decision_tracker.track_block(
+                        signal_id=signal_id,
+                        blocker_component="SelfValidation",
+                        blocker_reason=f"validation_failure: {', '.join(failure_messages[:2])}",
+                        symbol=symbol,
+                        signal_metadata=signal
+                    )
+                except:
+                    pass  # Non-blocking
+            
             return {
                 "status": "blocked",
                 "reason": "validation_failure",
@@ -464,6 +552,18 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         
         if not ok:
             print(f"❌ [V6.6/V7.1 ENTRY] Entry blocked: {tel.get('reason', 'unknown')}")
+            # Track decision (fire-and-forget)
+            if decision_tracker:
+                try:
+                    decision_tracker.track_block(
+                        signal_id=signal_id,
+                        blocker_component="EntryFlow",
+                        blocker_reason=f"run_entry_flow: {tel.get('reason', 'unknown')}",
+                        symbol=symbol,
+                        signal_metadata=signal
+                    )
+                except:
+                    pass  # Non-blocking
             return {
                 "status": "blocked",
                 "reason": tel.get("reason", "entry_flow_rejected"),

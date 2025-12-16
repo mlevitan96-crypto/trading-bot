@@ -1897,11 +1897,23 @@ def build_app(server: Flask = None) -> Dash:
                 ], style={"display":"inline-block","marginRight":"20px"}),
                 html.Div([
                     html.Label("Symbol", style={"color":"#9aa0a6"}),
-                    dcc.Dropdown(id="filter-symbol", options=[{"label":s,"value":s} for s in sorted(df0["symbol"].unique())], value=None, placeholder="All", style={"width":"200px","marginRight":"12px"}),
+                    dcc.Dropdown(
+                        id="filter-symbol", 
+                        options=[{"label":s,"value":s} for s in sorted(df0["symbol"].unique()) if s] if not df0.empty and "symbol" in df0.columns else [], 
+                        value=None, 
+                        placeholder="All", 
+                        style={"width":"200px","marginRight":"12px"}
+                    ),
                 ], style={"display":"inline-block","marginRight":"20px"}),
                 html.Div([
                     html.Label("Strategy", style={"color":"#9aa0a6"}),
-                    dcc.Dropdown(id="filter-strategy", options=[{"label":s,"value":s} for s in sorted(df0["strategy"].unique())], value=None, placeholder="All", style={"width":"220px","marginRight":"12px"}),
+                    dcc.Dropdown(
+                        id="filter-strategy", 
+                        options=[{"label":s,"value":s} for s in sorted(df0["strategy"].unique()) if s] if not df0.empty and "strategy" in df0.columns else [], 
+                        value=None, 
+                        placeholder="All", 
+                        style={"width":"220px","marginRight":"12px"}
+                    ),
                 ], style={"display":"inline-block","marginRight":"20px"}),
                 html.Button("Refresh", id="refresh-btn", n_clicks=0, style={"backgroundColor":"#1a73e8","color":"#fff","border":"none","padding":"8px 12px","borderRadius":"6px","marginRight":"12px"}),
                 html.Button("Export CSV", id="export-btn", n_clicks=0, style={"backgroundColor":"#34a853","color":"#fff","border":"none","padding":"8px 12px","borderRadius":"6px"}),

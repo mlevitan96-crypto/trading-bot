@@ -7,8 +7,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 from typing import Dict
 
-from flask import Flask, send_file
+from flask import Flask, send_file, request, session, redirect, url_for, jsonify
 from dash import Dash, html, dcc, Input, Output, State, dash_table, callback_context
+from functools import wraps
+import hashlib
 import dash_bootstrap_components as dbc
 
 from src.pnl_dashboard_loader import load_trades_df, clear_cache
@@ -16,6 +18,11 @@ from src.infrastructure.path_registry import PathRegistry
 
 DEFAULT_TIMEFRAME_HOURS = 72
 APP_TITLE = "P&L Dashboard"
+
+# Dashboard password (hashed for security)
+DASHBOARD_PASSWORD = "Echelonlev2007!"
+DASHBOARD_PASSWORD_HASH = hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest()
+
 # Use PathRegistry for unified path resolution (handles slot-based deployments)
 OPEN_POS_LOG = str(PathRegistry.get_path("logs", "positions.json"))  # Legacy spot file (may not exist)
 FUTURES_POS_LOG = str(PathRegistry.POS_LOG)  # Authoritative futures positions file
@@ -1331,10 +1338,184 @@ def generate_executive_summary() -> Dict[str, str]:
 
 def build_app(server: Flask = None) -> Dash:
     server = server or Flask(__name__)
+    
+    # Set secret key for sessions
+    server.secret_key = os.environ.get('FLASK_SECRET_KEY', hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest())
+    
     app = Dash(__name__, server=server, url_base_pathname="/", title=APP_TITLE, external_stylesheets=[dbc.themes.DARKLY])
+    
+    # Authentication decorator
+    def login_required(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not session.get('authenticated'):
+                if request.path.startswith('/api/') or request.path.startswith('/health/'):
+                    # API endpoints return 401
+                    return jsonify({'error': 'Authentication required'}), 401
+                else:
+                    # Web pages redirect to login
+                    return redirect(url_for('login'))
+            return f(*args, **kwargs)
+        return decorated_function
+    
+    # Login route
+    @server.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            password = request.form.get('password', '')
+            password_hash = hashlib.sha256(password.encode()).hexdigest()
+            
+            if password_hash == DASHBOARD_PASSWORD_HASH:
+                session['authenticated'] = True
+                next_page = request.args.get('next') or '/'
+                return redirect(next_page)
+            else:
+                return '''
+                    <html>
+                        <head>
+                            <title>Login - P&L Dashboard</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    background: #1a1a1a; 
+                                    color: #fff; 
+                                    display: flex; 
+                                    justify-content: center; 
+                                    align-items: center; 
+                                    height: 100vh; 
+                                    margin: 0;
+                                }
+                                .login-box {
+                                    background: #2d2d2d; 
+                                    padding: 30px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                                    width: 300px;
+                                }
+                                h1 { margin-top: 0; color: #00d4ff; }
+                                input[type="password"] {
+                                    width: 100%; 
+                                    padding: 10px; 
+                                    margin: 10px 0; 
+                                    border: 1px solid #444; 
+                                    border-radius: 4px; 
+                                    background: #1a1a1a; 
+                                    color: #fff;
+                                    box-sizing: border-box;
+                                }
+                                button {
+                                    width: 100%; 
+                                    padding: 10px; 
+                                    background: #00d4ff; 
+                                    color: #000; 
+                                    border: none; 
+                                    border-radius: 4px; 
+                                    cursor: pointer; 
+                                    font-weight: bold;
+                                }
+                                button:hover { background: #00b8e6; }
+                                .error { color: #ff4444; margin-top: 10px; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="login-box">
+                                <h1>🔒 P&L Dashboard</h1>
+                                <form method="POST">
+                                    <input type="password" name="password" placeholder="Enter password" required autofocus>
+                                    <button type="submit">Login</button>
+                                </form>
+                                <div class="error">Invalid password. Please try again.</div>
+                            </div>
+                        </body>
+                    </html>
+                ''', 401
+        
+        # GET request - show login form
+        return '''
+            <html>
+                <head>
+                    <title>Login - P&L Dashboard</title>
+                    <style>
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            background: #1a1a1a; 
+                            color: #fff; 
+                            display: flex; 
+                            justify-content: center; 
+                            align-items: center; 
+                            height: 100vh; 
+                            margin: 0;
+                        }
+                        .login-box {
+                            background: #2d2d2d; 
+                            padding: 30px; 
+                            border-radius: 8px; 
+                            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                            width: 300px;
+                        }
+                        h1 { margin-top: 0; color: #00d4ff; }
+                        input[type="password"] {
+                            width: 100%; 
+                            padding: 10px; 
+                            margin: 10px 0; 
+                            border: 1px solid #444; 
+                            border-radius: 4px; 
+                            background: #1a1a1a; 
+                            color: #fff;
+                            box-sizing: border-box;
+                        }
+                        button {
+                            width: 100%; 
+                            padding: 10px; 
+                            background: #00d4ff; 
+                            color: #000; 
+                            border: none; 
+                            border-radius: 4px; 
+                            cursor: pointer; 
+                            font-weight: bold;
+                        }
+                        button:hover { background: #00b8e6; }
+                    </style>
+                </head>
+                <body>
+                    <div class="login-box">
+                        <h1>🔒 P&L Dashboard</h1>
+                        <form method="POST">
+                            <input type="password" name="password" placeholder="Enter password" required autofocus>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                </body>
+            </html>
+        '''
+    
+    # Logout route
+    @server.route('/logout')
+    def logout():
+        session.pop('authenticated', None)
+        return redirect(url_for('login'))
+    
+    # Protect all routes with authentication
+    @server.before_request
+    def require_auth():
+        # Allow login, logout, and Dash internal routes without authentication
+        if (request.path == '/login' or 
+            request.path == '/logout' or
+            request.path.startswith('/_dash-') or 
+            request.path.startswith('/assets/') or
+            request.path.startswith('/_reload-hash')):
+            return None
+        
+        # Check authentication
+        if not session.get('authenticated'):
+            if request.path.startswith('/api/') or request.path.startswith('/health/') or request.path.startswith('/audit/'):
+                return jsonify({'error': 'Authentication required'}), 401
+            else:
+                return redirect(url_for('login') + '?next=' + request.path)
 
     # API endpoint for dashboard verification
     @server.route("/api/open_positions_snapshot")
+    @login_required
     def api_open_positions_snapshot():
         """JSON API endpoint that returns currently displayed positions"""
         from flask import jsonify
@@ -1356,6 +1537,7 @@ def build_app(server: Flask = None) -> Dash:
             }), 500
 
     @server.route("/api/dashboard_health")
+    @login_required
     def api_dashboard_health():
         """Health check endpoint for dashboard auto-remediation monitoring"""
         from flask import jsonify
@@ -1373,6 +1555,7 @@ def build_app(server: Flask = None) -> Dash:
             }), 500
 
     @server.route("/health/system_status")
+    @login_required
     def api_system_status():
         """System health status endpoint returning green/yellow/red for all components"""
         from flask import jsonify
@@ -1537,6 +1720,7 @@ def build_app(server: Flask = None) -> Dash:
             }), 500
 
     @server.route("/audit/executive_summary")
+    @login_required
     def api_executive_summary():
         """Executive summary endpoint generating plain-English narratives"""
         from flask import jsonify

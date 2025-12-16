@@ -190,6 +190,17 @@ class HealingOperator:
             print(f"🔧 [HEALING] File integrity healing error: {e}", flush=True)
             failed.append("file_integrity")
         
+        # 10. Architecture Components (NEW - SignalBus, StateMachine, etc.)
+        try:
+            result = self._heal_architecture_components()
+            if result.get("healed"):
+                healed.extend(result["healed"])
+            if result.get("failed"):
+                failed.extend(result["failed"])
+        except Exception as e:
+            print(f"🔧 [HEALING] Architecture components healing error: {e}", flush=True)
+            failed.append("architecture_components")
+        
         cycle_duration = time.time() - cycle_start
         self.last_healing_cycle = {
             "timestamp": datetime.utcnow().isoformat(),

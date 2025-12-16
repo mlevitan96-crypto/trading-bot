@@ -34,7 +34,6 @@ VENUE_MAP = {
     "ADAUSDT": "futures",
     "DOGEUSDT": "futures",
     "BNBUSDT": "futures",
-    "MATICUSDT": "futures",
 }
 
 _global_entry_blocked = False

@@ -20,7 +20,6 @@ VENUE_MAP = {
     "ADAUSDT": "futures",
     "DOGEUSDT": "futures",
     "BNBUSDT": "futures",
-    "MATICUSDT": "futures",
     
     # Spot-only assets (stablecoins, if needed)
     # "USDCUSDT": "spot",

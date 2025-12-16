@@ -813,7 +813,7 @@ class DataRegistry:
     _FALLBACK_SYMBOLS = [
         "BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT", "DOTUSDT",
         "TRXUSDT", "XRPUSDT", "ADAUSDT", "DOGEUSDT", "BNBUSDT", 
-        "MATICUSDT", "LINKUSDT", "ARBUSDT", "OPUSDT", "PEPEUSDT"
+        "LINKUSDT", "ARBUSDT", "OPUSDT", "PEPEUSDT"
     ]
     
     @classmethod

@@ -64,12 +64,6 @@
       "enabled": true
     },
     {
-      "symbol": "MATICUSDT",
-      "venue": "futures",
-      "tier": "l1",
-      "enabled": true
-    },
-    {
       "symbol": "LINKUSDT",
       "venue": "futures",
       "tier": "defi",

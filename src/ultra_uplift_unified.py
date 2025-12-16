@@ -45,7 +45,7 @@ ULTRA_LOG = os.path.join(LOG_DIR, "ultra_uplift_unified.jsonl")
 
 ASSETS = [
     "BTCUSDT","ETHUSDT","SOLUSDT","AVAXUSDT","DOTUSDT","TRXUSDT",
-    "XRPUSDT","ADAUSDT","DOGEUSDT","BNBUSDT","MATICUSDT"
+    "XRPUSDT","ADAUSDT","DOGEUSDT","BNBUSDT"
 ]
 
 def _now(): return int(time.time())

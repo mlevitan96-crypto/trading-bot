@@ -28,7 +28,7 @@ POLICY_CFG = "config/profit_policy.json"
 
 ALL_SYMBOLS = [
     "BTCUSDT","ETHUSDT","SOLUSDT","AVAXUSDT","DOTUSDT","TRXUSDT",
-    "XRPUSDT","ADAUSDT","DOGEUSDT","BNBUSDT","MATICUSDT"
+    "XRPUSDT","ADAUSDT","DOGEUSDT","BNBUSDT"
 ]
 
 # Global defaults & bounds

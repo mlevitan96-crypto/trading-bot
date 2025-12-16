@@ -27,7 +27,7 @@ try:
 except ImportError:
     ALL_SYMBOLS = [
         "BTCUSDT","ETHUSDT","SOLUSDT","AVAXUSDT","DOTUSDT",
-        "TRXUSDT","XRPUSDT","ADAUSDT","DOGEUSDT","BNBUSDT","MATICUSDT",
+        "TRXUSDT","XRPUSDT","ADAUSDT","DOGEUSDT","BNBUSDT",
         "LINKUSDT","ARBUSDT","OPUSDT","PEPEUSDT"
     ]
 
@@ -43,7 +43,7 @@ MIN_MOVE_PCT_FOR_MISSED = 0.01  # 1% price move threshold to consider "missed op
 
 MIN_PROFIT_TARGETS_USD = {
     "BTCUSDT": 20, "ETHUSDT": 15, "SOLUSDT": 10, "AVAXUSDT": 10, "DOTUSDT": 10,
-    "TRXUSDT": 5,  "XRPUSDT": 10, "ADAUSDT": 10, "DOGEUSDT": 5,  "BNBUSDT": 10, "MATICUSDT": 10,
+    "TRXUSDT": 5,  "XRPUSDT": 10, "ADAUSDT": 10, "DOGEUSDT": 5,  "BNBUSDT": 10,
     "DEFAULT": 10
 }
 

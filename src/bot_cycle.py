@@ -1049,6 +1049,42 @@ def run_bot_cycle():
                         regime=regime
                     )
                     
+                    # CRITICAL: Write signal to predictive_signals.jsonl for ensemble predictor
+                    # This ensures ensemble_predictions.jsonl gets written and signal engine stays green
+                    try:
+                        from src.infrastructure.path_registry import PathRegistry
+                        import json
+                        import time
+                        from datetime import datetime
+                        
+                        predictive_signals_path = PathRegistry.get_path("logs", "predictive_signals.jsonl")
+                        signal_record = {
+                            "ts": datetime.utcnow().isoformat() + "Z",
+                            "timestamp": datetime.utcnow().isoformat() + "Z",
+                            "symbol": symbol,
+                            "direction": alpha_signals.get('combined_signal', 'HOLD'),
+                            "signals": {
+                                "ofi": alpha_signals.get('ofi_value', 0.0),
+                                "ofi_signal": alpha_signals.get('ofi_signal', 'HOLD'),
+                                "arb_opportunity": alpha_signals.get('arb_opportunity', False)
+                            },
+                            "alignment_score": abs(alpha_signals.get('ofi_value', 0.0)),  # Use OFI magnitude as alignment score
+                            "confidence": abs(alpha_signals.get('ofi_value', 0.0)) * 0.5,  # Convert OFI to confidence
+                            "should_enter": alpha_signals.get('should_enter', False),
+                            "entry_reason": alpha_signals.get('entry_reason', ''),
+                            "source": "alpha_signals_integration",
+                            "regime": regime
+                        }
+                        
+                        # Append to predictive_signals.jsonl
+                        import os
+                        os.makedirs(os.path.dirname(predictive_signals_path), exist_ok=True)
+                        with open(predictive_signals_path, 'a') as f:
+                            f.write(json.dumps(signal_record) + '\n')
+                    except Exception as e:
+                        # Non-critical - log but don't block trading
+                        print(f"⚠️ [ALPHA] Failed to write to predictive_signals.jsonl: {e}")
+                    
                     # Log alpha signal for monitoring
                     if alpha_signals['combined_signal'] != 'HOLD':
                         print(f"🎯 [ALPHA] {symbol}: OFI={alpha_signals['ofi_value']:.3f} | "

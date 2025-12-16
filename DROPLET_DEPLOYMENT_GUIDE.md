@@ -82,7 +82,7 @@ The new architecture components start automatically with the bot. Just restart:
 
 ```bash
 # Restart trading bot
-systemctl restart trading-bot
+systemctl restart tradingbot
 
 # Restart dashboard (if separate service)
 systemctl restart trading-dashboard
@@ -94,7 +94,7 @@ systemctl restart cockpit
 
 ```bash
 # Check bot status
-systemctl status trading-bot
+systemctl status tradingbot
 
 # Check logs for new components
 tail -f /root/trading-bot-current/logs/bot_out.log | grep -E "SHADOW|SIGNAL-BUS|STATE-MACHINE"

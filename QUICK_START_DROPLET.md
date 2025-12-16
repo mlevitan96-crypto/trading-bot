@@ -24,7 +24,7 @@ git pull origin main
 ### Step 2: Restart Bot
 
 ```bash
-systemctl restart trading-bot
+systemctl restart tradingbot
 ```
 
 ### Step 3: Verify It's Working

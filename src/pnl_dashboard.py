@@ -5,6 +5,7 @@ import os
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from typing import Dict
 
 from flask import Flask, send_file
 from dash import Dash, html, dcc, Input, Output, State, dash_table, callback_context
@@ -1092,6 +1093,242 @@ def summary_card(summary: dict, label: str = "Summary", hours: int = 24) -> dbc.
         }
     )
 
+def generate_executive_summary() -> Dict[str, str]:
+    """
+    Generate executive summary narratives from various data sources.
+    Returns structured JSON with plain-English narratives.
+    """
+    from datetime import datetime, timedelta
+    import pytz
+    from pathlib import Path
+    
+    ARIZONA_TZ = pytz.timezone('America/Phoenix')
+    now = datetime.now(ARIZONA_TZ)
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    yesterday_start = today_start - timedelta(days=1)
+    week_start = today_start - timedelta(days=7)
+    
+    summary = {
+        "what_worked_today": "",
+        "what_didnt_work": "",
+        "missed_opportunities": "",
+        "blocked_signals": "",
+        "exit_gates": "",
+        "learning_today": "",
+        "changes_tomorrow": "",
+        "weekly_summary": ""
+    }
+    
+    # 1. Read daily stats (1-day, 2-day, 7-day summaries)
+    try:
+        from src.daily_stats_tracker import load_daily_stats
+        daily_stats = load_daily_stats()
+        
+        combined = daily_stats.get("combined", {})
+        total_pnl = combined.get("total_pnl", 0)
+        total_trades = combined.get("total_trades", 0)
+        win_rate = combined.get("win_rate", 0)
+        
+        if total_pnl > 0:
+            summary["what_worked_today"] = f"Today was profitable with ${total_pnl:.2f} in total P&L across {total_trades} trades. Win rate was {win_rate:.1f}%. "
+        elif total_pnl < 0:
+            summary["what_didnt_work"] = f"Today was unprofitable with ${abs(total_pnl):.2f} in losses across {total_trades} trades. Win rate was {win_rate:.1f}%. "
+        else:
+            summary["what_worked_today"] = "No trades executed today. "
+    except Exception as e:
+        summary["what_worked_today"] = f"Could not load daily stats: {str(e)}. "
+    
+    # 2. Read missed opportunities
+    try:
+        missed_file = PathRegistry.get_path("logs", "missed_opportunities.json")
+        if os.path.exists(missed_file):
+            with open(missed_file, 'r') as f:
+                missed_data = json.load(f)
+            
+            missed_trades = missed_data.get("missed_trades", [])
+            today_missed = []
+            for m in missed_trades:
+                try:
+                    ts_str = m.get("timestamp", "")
+                    if ts_str:
+                        record_time = datetime.fromisoformat(ts_str.replace("Z", "+00:00")).replace(tzinfo=ARIZONA_TZ)
+                        if record_time >= today_start:
+                            today_missed.append(m)
+                except:
+                    continue
+            
+            if today_missed:
+                total_missed_roi = sum(m.get("missed_roi", 0) for m in today_missed)
+                top_missed = sorted(today_missed, key=lambda x: x.get("missed_roi", 0), reverse=True)[:3]
+                symbols = [m.get("symbol") for m in top_missed]
+                summary["missed_opportunities"] = f"Identified {len(today_missed)} missed opportunities today with potential ROI of {total_missed_roi*100:.2f}%. Top missed: {', '.join(symbols)}. "
+            else:
+                summary["missed_opportunities"] = "No significant missed opportunities detected today. "
+        else:
+            summary["missed_opportunities"] = "Missed opportunity tracking not available. "
+    except Exception as e:
+        summary["missed_opportunities"] = f"Error analyzing missed opportunities: {str(e)}. "
+    
+    # 3. Read blocked signals
+    try:
+        blocked_file = PathRegistry.get_path("logs", "conviction_gate_log.jsonl")
+        blocked_today = []
+        if os.path.exists(blocked_file):
+            with open(blocked_file, 'r') as f:
+                for line in f:
+                    try:
+                        record = json.loads(line)
+                        if not record.get("should_trade", True):
+                            ts = record.get("ts", 0)
+                            if ts:
+                                record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
+                                if record_time >= today_start:
+                                    blocked_today.append(record)
+                    except:
+                        continue
+        
+        if blocked_today:
+            by_reason = {}
+            for b in blocked_today:
+                reason = b.get("block_reason", "unknown")
+                by_reason[reason] = by_reason.get(reason, 0) + 1
+            
+            top_reasons = sorted(by_reason.items(), key=lambda x: x[1], reverse=True)[:3]
+            reasons_str = ", ".join([f"{r[0]} ({r[1]}x)" for r in top_reasons])
+            summary["blocked_signals"] = f"Blocked {len(blocked_today)} signals today. Top block reasons: {reasons_str}. "
+        else:
+            summary["blocked_signals"] = "No signals were blocked today. "
+    except Exception as e:
+        summary["blocked_signals"] = f"Error analyzing blocked signals: {str(e)}. "
+    
+    # 4. Exit gate analysis
+    try:
+        exit_file = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
+        exit_events_today = []
+        if os.path.exists(exit_file):
+            with open(exit_file, 'r') as f:
+                for line in f:
+                    try:
+                        record = json.loads(line)
+                        ts = record.get("ts", 0)
+                        if ts:
+                            record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
+                            if record_time >= today_start:
+                                exit_events_today.append(record)
+                    except:
+                        continue
+        
+        if exit_events_today:
+            exit_types = {}
+            for e in exit_events_today:
+                exit_type = e.get("exit_type", "unknown")
+                exit_types[exit_type] = exit_types.get(exit_type, 0) + 1
+            
+            types_str = ", ".join([f"{k} ({v}x)" for k, v in exit_types.items()])
+            summary["exit_gates"] = f"Exit gates triggered {len(exit_events_today)} times today. Exit types: {types_str}. "
+        else:
+            summary["exit_gates"] = "No exit gate events recorded today. "
+    except Exception as e:
+        summary["exit_gates"] = f"Error analyzing exit gates: {str(e)}. "
+    
+    # 5. Learning history
+    try:
+        learning_file = PathRegistry.get_path("feature_store", "learning_history.jsonl")
+        learning_today = []
+        if os.path.exists(learning_file):
+            with open(learning_file, 'r') as f:
+                for line in f:
+                    try:
+                        record = json.loads(line)
+                        ts = record.get("ts", record.get("timestamp", 0))
+                        if ts:
+                            if isinstance(ts, str):
+                                record_time = datetime.fromisoformat(ts.replace("Z", "+00:00")).replace(tzinfo=ARIZONA_TZ)
+                            else:
+                                record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
+                            if record_time >= today_start:
+                                learning_today.append(record)
+                    except:
+                        continue
+        
+        if learning_today:
+            update_types = {}
+            for l in learning_today:
+                update_type = l.get("update_type", "unknown")
+                update_types[update_type] = update_types.get(update_type, 0) + 1
+            
+            types_str = ", ".join([f"{k} ({v}x)" for k, v in update_types.items()])
+            summary["learning_today"] = f"The engine learned from {len(learning_today)} events today. Learning types: {types_str}. "
+        else:
+            summary["learning_today"] = "No learning events recorded today. "
+    except Exception as e:
+        summary["learning_today"] = f"Error analyzing learning: {str(e)}. "
+    
+    # 6. Changes tomorrow (from nightly digest)
+    try:
+        digest_file = PathRegistry.get_path("logs", "nightly_digest.json")
+        if os.path.exists(digest_file):
+            with open(digest_file, 'r') as f:
+                digest = json.load(f)
+            
+            changes = []
+            if digest.get("auto_calibration"):
+                ac = digest["auto_calibration"]
+                changes.append("Auto-calibration adjustments")
+            if digest.get("strategy_auto_tuning"):
+                st = digest["strategy_auto_tuning"]
+                changes.append("Strategy auto-tuning updates")
+            
+            if changes:
+                summary["changes_tomorrow"] = f"Tomorrow's changes: {', '.join(changes)}. "
+            else:
+                summary["changes_tomorrow"] = "No scheduled changes for tomorrow. "
+        else:
+            summary["changes_tomorrow"] = "Digest not available for tomorrow's changes. "
+    except Exception as e:
+        summary["changes_tomorrow"] = f"Error analyzing tomorrow's changes: {str(e)}. "
+    
+    # 7. Weekly summary
+    try:
+        from src.daily_stats_tracker import load_daily_stats
+        daily_stats = load_daily_stats()
+        
+        combined = daily_stats.get("combined", {})
+        weekly_pnl = combined.get("total_pnl", 0)  # This is actually daily, but we'll use it
+        weekly_trades = combined.get("total_trades", 0)
+        weekly_wr = combined.get("win_rate", 0)
+        
+        # Try to get enriched decisions for weekly analysis
+        decisions_file = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
+        weekly_decisions = []
+        if os.path.exists(decisions_file):
+            with open(decisions_file, 'r') as f:
+                for line in f:
+                    try:
+                        record = json.loads(line)
+                        ts = record.get("ts", 0)
+                        if ts:
+                            record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
+                            if record_time >= week_start:
+                                weekly_decisions.append(record)
+                    except:
+                        continue
+        
+        if weekly_decisions:
+            profitable = [d for d in weekly_decisions if d.get("outcome_pnl", 0) > 0]
+            summary["weekly_summary"] = f"Over the past week: {len(weekly_decisions)} decisions, {len(profitable)} profitable. Win rate: {len(profitable)/len(weekly_decisions)*100:.1f}% if data available. "
+        else:
+            summary["weekly_summary"] = f"Weekly summary: {weekly_trades} trades, ${weekly_pnl:.2f} P&L, {weekly_wr:.1f}% win rate. "
+    except Exception as e:
+        summary["weekly_summary"] = f"Error generating weekly summary: {str(e)}. "
+    
+    # Clean up empty narratives
+    for key in summary:
+        if not summary[key] or summary[key].strip() == "":
+            summary[key] = "No data available for this section. "
+    
+    return summary
+
 def build_app(server: Flask = None) -> Dash:
     server = server or Flask(__name__)
     app = Dash(__name__, server=server, url_base_pathname="/", title=APP_TITLE, external_stylesheets=[dbc.themes.DARKLY])
@@ -1299,6 +1536,26 @@ def build_app(server: Flask = None) -> Dash:
                 "error": str(e)
             }), 500
 
+    @server.route("/audit/executive_summary")
+    def api_executive_summary():
+        """Executive summary endpoint generating plain-English narratives"""
+        from flask import jsonify
+        try:
+            summary = generate_executive_summary()
+            return jsonify(summary)
+        except Exception as e:
+            return jsonify({
+                "error": str(e),
+                "what_worked_today": "Error generating summary",
+                "what_didnt_work": "Error generating summary",
+                "missed_opportunities": "Error generating summary",
+                "blocked_signals": "Error generating summary",
+                "exit_gates": "Error generating summary",
+                "learning_today": "Error generating summary",
+                "changes_tomorrow": "Error generating summary",
+                "weekly_summary": "Error generating summary"
+            }), 500
+
     df0 = load_trades_df()
     wallet_balance = get_wallet_balance()
     daily_summary = compute_summary(df0, lookback_days=1, wallet_balance=wallet_balance)
@@ -1341,9 +1598,11 @@ def build_app(server: Flask = None) -> Dash:
                     dcc.Tab(label="📅 Daily", value="daily", style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"}, selected_style={"backgroundColor": "#1a73e8", "color": "#fff"}),
                     dcc.Tab(label="📊 Weekly", value="weekly", style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"}, selected_style={"backgroundColor": "#1a73e8", "color": "#fff"}),
                     dcc.Tab(label="📈 Monthly", value="monthly", style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"}, selected_style={"backgroundColor": "#1a73e8", "color": "#fff"}),
+                    dcc.Tab(label="📋 Executive Summary", value="executive", style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"}, selected_style={"backgroundColor": "#1a73e8", "color": "#fff"}),
                 ]),
                 html.Div(id="summary-container", children=summary_card(daily_summary, "Daily Summary (Last 24 Hours)"), style={"padding": "16px"}),
                 dcc.Interval(id="summary-interval", interval=30*1000, n_intervals=0),  # Auto-refresh every 30s
+                dcc.Interval(id="executive-summary-interval", interval=24*60*60*1000, n_intervals=0),  # Auto-refresh once per day
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Open Positions Section
@@ -1638,11 +1897,45 @@ def build_app(server: Flask = None) -> Dash:
     @app.callback(
         Output("summary-container", "children"),
         [Input("summary-tabs", "value"),
-         Input("summary-interval", "n_intervals")],
+         Input("summary-interval", "n_intervals"),
+         Input("executive-summary-interval", "n_intervals")],
         prevent_initial_call=False
     )
-    def update_summary(tab, _n_intervals):
+    def update_summary(tab, _n_intervals, _exec_n_intervals):
         """Update summary card on tab change OR interval refresh."""
+        
+        # Handle Executive Summary tab
+        if tab == "executive":
+            try:
+                summary = generate_executive_summary()
+                
+                sections = [
+                    ("What Worked Today", summary.get("what_worked_today", "No data available.")),
+                    ("What Didn't Work", summary.get("what_didnt_work", "No data available.")),
+                    ("Missed Opportunities", summary.get("missed_opportunities", "No data available.")),
+                    ("Blocked Signals", summary.get("blocked_signals", "No data available.")),
+                    ("Exit Gates Analysis", summary.get("exit_gates", "No data available.")),
+                    ("Learning Today", summary.get("learning_today", "No data available.")),
+                    ("Changes Tomorrow", summary.get("changes_tomorrow", "No data available.")),
+                    ("Weekly Summary", summary.get("weekly_summary", "No data available."))
+                ]
+                
+                content = []
+                for title, text in sections:
+                    content.append(
+                        html.Div([
+                            html.H5(title, style={"color":"#fff","marginBottom":"8px","marginTop":"16px"}),
+                            html.P(text, style={"color":"#9aa0a6","lineHeight":"1.6","marginBottom":"12px"})
+                        ])
+                    )
+                
+                return html.Div(content, style={"padding":"16px"})
+            except Exception as e:
+                return html.Div([
+                    html.P(f"Error loading executive summary: {str(e)}", style={"color":"#ff6b6b","padding":"12px"})
+                ])
+        
+        # Handle other tabs (daily, weekly, monthly)
         try:
             # Handle None values from initial page load
             if tab is None:

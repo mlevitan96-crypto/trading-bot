@@ -2321,19 +2321,33 @@ def start_pnl_dashboard(flask_app: Flask = None):
     Registers the P&L dashboard as the default view ("/") on your existing Flask app.
     If no app is provided, creates its own Flask + Dash server.
     """
-    # Initialize positions file on startup (repairs empty/malformed files)
     try:
-        from src.position_manager import initialize_futures_positions
-        print("🔍 [DASHBOARD] Calling initialize_futures_positions()...", flush=True)
-        initialize_futures_positions()
-        print("✅ [DASHBOARD] Initialized/verified positions_futures.json structure", flush=True)
+        # Initialize positions file on startup (repairs empty/malformed files)
+        try:
+            from src.position_manager import initialize_futures_positions
+            print("🔍 [DASHBOARD] Calling initialize_futures_positions()...", flush=True)
+            initialize_futures_positions()
+            print("✅ [DASHBOARD] Initialized/verified positions_futures.json structure", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD] Failed to initialize positions file: {e}", flush=True)
+            # Don't crash - continue without initialization
+        
+        app = build_app(flask_app)
+        print("✅ [DASHBOARD] Dashboard app built successfully", flush=True)
+        return app
     except Exception as e:
-        print(f"⚠️  [DASHBOARD] Failed to initialize positions file: {e}", flush=True)
+        print(f"❌ [DASHBOARD] CRITICAL: Dashboard startup failed: {e}", flush=True)
         import traceback
         traceback.print_exc()
-    
-    app = build_app(flask_app)
-    return app
+        # Return a minimal Flask app so the server doesn't crash
+        if flask_app:
+            return flask_app
+        from flask import Flask
+        minimal_app = Flask(__name__)
+        @minimal_app.route('/')
+        def error_page():
+            return f"<h1>Dashboard Error</h1><p>Dashboard failed to start: {str(e)}</p><p>Check logs for details.</p>", 500
+        return minimal_app
 
 if __name__ == "__main__":
     flask_server = Flask(__name__)

@@ -2,7 +2,7 @@
 #
 # Unified Intelligence Upgrade (Learning Mode, no real money)
 # Covers all 11 coins:
-# BTCUSDT, ETHUSDT, SOLUSDT, AVAXUSDT, DOTUSDT, TRXUSDT, XRPUSDT, ADAUSDT, DOGEUSDT, BNBUSDT, MATICUSDT
+# BTCUSDT, ETHUSDT, SOLUSDT, AVAXUSDT, DOTUSDT, TRXUSDT, XRPUSDT, ADAUSDT, DOGEUSDT, BNBUSDT
 #
 # Features:
 # - Missed opportunity audit: detect significant moves without signals across all coins
@@ -273,7 +273,6 @@ if __name__ == "__main__":
         {"symbol":"ADAUSDT","roi":0.005,"confidence":0.57,"regime":"choppy","strategy":"sentiment_fusion","size_usd":BASE_COLLATERAL_USD},
         {"symbol":"DOGEUSDT","roi":0.004,"confidence":0.55,"regime":"choppy","strategy":"momentum_scalp","size_usd":BASE_COLLATERAL_USD},
         {"symbol":"BNBUSDT","roi":0.006,"confidence":0.63,"regime":"stable","strategy":"breakout","size_usd":BASE_COLLATERAL_USD},
-        {"symbol":"MATICUSDT","roi":0.005,"confidence":0.58,"regime":"stable","strategy":"trend_follow","size_usd":BASE_COLLATERAL_USD},
     ]
     for sample in samples:
         stats = realized_outcomes_summary(sample["symbol"])

@@ -49,10 +49,13 @@
 
 ## 🔄 IN PROGRESS
 
-### 1. Verify Profitability Optimizations Applied
-- Need to verify `profitability_optimization.json` settings are being used
-- Check if OFI filter is inverted
-- Verify only SHORT trades are allowed (if that's the optimization)
+### 1. Verify Profitability Optimizations Applied ✅ SCRIPT CREATED
+- ✅ Created `scripts/verify_profitability_optimizations.py` to check:
+  - Beta disabled status
+  - OFI filter inversion (weak OFI < 0.3)
+  - Direction filter (SHORT only)
+  - Symbol priorities
+- ⏳ **Next**: Run script on droplet to verify optimizations are applied
 
 ### 2. Verify Learning Systems Improve Profitability
 - Add metrics to track learning effectiveness

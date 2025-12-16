@@ -16,7 +16,7 @@ project_root = script_dir.parent
 sys.path.insert(0, str(project_root))
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 def initialize_signal_weights():
     """Initialize signal weights file with defaults if it doesn't exist."""
@@ -41,7 +41,7 @@ def initialize_signal_weights():
         weights_path.parent.mkdir(parents=True, exist_ok=True)
         data = {
             "weights": default_entry_weights,
-            "updated_at": datetime.utcnow().isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
             "metadata": {
                 "initialized": True,
                 "source": "default_weights",
@@ -72,7 +72,7 @@ def initialize_signal_weights():
         }
         data = {
             "weights": default_gate_weights,
-            "updated_at": datetime.utcnow().isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
             "metadata": {
                 "initialized": True,
                 "source": "default_weights",

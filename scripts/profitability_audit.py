@@ -153,11 +153,15 @@ def audit_profit_filters():
     # Print findings
     print("\n📊 Profit Filter Status:")
     for finding in findings:
-        print(f"  {finding['status']} {finding['filter']}")
+        status = finding.get('status', '⚠️  UNKNOWN')
+        filter_name = finding.get('filter', 'unknown')
+        print(f"  {status} {filter_name}")
         if 'details' in finding:
             print(f"     {finding['details']}")
         if 'error' in finding:
             print(f"     ERROR: {finding['error']}")
+        if 'note' in finding:
+            print(f"     NOTE: {finding['note']}")
     
     if issues:
         print("\n⚠️  Issues Found:")
@@ -327,6 +331,19 @@ def audit_signal_quality():
             "status": "❌ ERROR",
             "error": str(e)
         })
+    
+    # Print findings
+    print("\n📈 Signal Quality Status:")
+    for finding in findings:
+        status = finding.get('status', '⚠️  UNKNOWN')
+        system_name = finding.get('system', 'unknown')
+        print(f"  {status} {system_name}")
+        if 'details' in finding:
+            print(f"     {finding['details']}")
+        if 'error' in finding:
+            print(f"     ERROR: {finding['error']}")
+        if 'signals_tracked' in finding:
+            print(f"     Signals tracked: {finding['signals_tracked']}")
     
     if issues:
         print("\n⚠️  Issues Found:")

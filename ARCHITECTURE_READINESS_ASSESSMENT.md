@@ -279,3 +279,4 @@ The current architecture has too many failure modes:
 
 **The "Big Wheel" Effect:** Only works if learning directly feeds back into signal generation. Current architecture has this, but it's loose. Clean architecture makes it tight and guaranteed.
 
+

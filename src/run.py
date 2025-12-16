@@ -1125,7 +1125,7 @@ def _worker_ensemble_predictor():
     last_processed_ts = None
     from src.infrastructure.path_registry import PathRegistry
     predictive_signals_path = Path(PathRegistry.get_path("logs", "predictive_signals.jsonl"))
-    ensemble_predictions_path = Path("logs/ensemble_predictions.jsonl")
+    ensemble_predictions_path = Path(PathRegistry.get_path("logs", "ensemble_predictions.jsonl"))
     
     # Ensure directories exist
     predictive_signals_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1299,7 +1299,8 @@ def _worker_signal_resolver():
         return
     
     # Verify file paths
-    ensemble_predictions_path = Path("logs/ensemble_predictions.jsonl")
+    from src.infrastructure.path_registry import PathRegistry
+    ensemble_predictions_path = Path(PathRegistry.get_path("logs", "ensemble_predictions.jsonl"))
     pending_signals_path = Path("feature_store/pending_signals.json")
     outcomes_log_path = Path("logs/signal_outcomes.jsonl")
     

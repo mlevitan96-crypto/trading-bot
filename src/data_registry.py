@@ -179,7 +179,7 @@ class DataRegistry:
     
     # Prediction Logs
     ML_PREDICTIONS_LOG = "logs/ml_predictions.jsonl"
-    ENSEMBLE_PREDICTIONS_LOG = "logs/ensemble_predictions.jsonl"
+    ENSEMBLE_PREDICTIONS_LOG = PathRegistry.get_path("logs", "ensemble_predictions.jsonl")
     
     # =========================================================================
     # CONFIGS - System configuration (mostly read-only)

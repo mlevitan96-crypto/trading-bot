@@ -211,8 +211,8 @@ class HealingOperator:
         
         try:
             if PathRegistry:
-                signal_file = PathRegistry.get_path("logs", "signals.jsonl")
-                ensemble_file = PathRegistry.get_path("logs", "ensemble_predictions.jsonl")
+                signal_file = Path(PathRegistry.get_path("logs", "signals.jsonl"))
+                ensemble_file = Path(PathRegistry.get_path("logs", "ensemble_predictions.jsonl"))
             else:
                 signal_file = Path("logs/signals.jsonl")
                 ensemble_file = Path("logs/ensemble_predictions.jsonl")
@@ -261,7 +261,7 @@ class HealingOperator:
         
         try:
             if PathRegistry:
-                decision_file = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
+                decision_file = Path(PathRegistry.get_path("logs", "enriched_decisions.jsonl"))
             else:
                 decision_file = Path("logs/enriched_decisions.jsonl")
             

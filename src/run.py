@@ -700,6 +700,40 @@ def bot_worker():
     except Exception as e:
         print(f"⚠️ [SIGNAL-TRACKER] Startup error: {e}")
     
+    # Start Signal State Machine with auto-expire
+    print("🔄 [STATE-MACHINE] Starting Signal State Machine...")
+    try:
+        from src.signal_state_machine import get_state_machine
+        state_machine = get_state_machine()
+        
+        # Auto-expire old signals on startup
+        expired_count = state_machine.auto_expire_old_signals(max_age_seconds=7200)  # 2 hours
+        if expired_count > 0:
+            print(f"   🧹 Auto-expired {expired_count} old signals")
+        
+        # Start background thread to auto-expire old signals periodically
+        def auto_expire_loop():
+            import time
+            while True:
+                try:
+                    time.sleep(3600)  # Check every hour
+                    expired = state_machine.auto_expire_old_signals(max_age_seconds=7200)
+                    if expired > 0:
+                        print(f"🔄 [STATE-MACHINE] Auto-expired {expired} old signals")
+                except Exception as e:
+                    print(f"⚠️ [STATE-MACHINE] Auto-expire error: {e}")
+                    time.sleep(60)
+        
+        expire_thread = threading.Thread(target=auto_expire_loop, daemon=True, name="SignalAutoExpire")
+        expire_thread.start()
+        print("✅ [STATE-MACHINE] State machine started with auto-expire (1h cycle)")
+        print("   🔄 Auto-expires signals older than 2 hours")
+        print("   📊 Tracks signal lifecycle explicitly")
+    except Exception as e:
+        print(f"⚠️ [STATE-MACHINE] State machine startup error: {e}")
+        import traceback
+        traceback.print_exc()
+    
     # Start Shadow Execution Engine for what-if analysis
     print("🔮 [SHADOW] Starting Shadow Execution Engine...")
     try:

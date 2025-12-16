@@ -89,7 +89,8 @@ class HealingOperator:
         healed = []
         failed = []
         
-        print("\n🔧 [HEALING] Starting healing cycle...", flush=True)
+        # MISSION: Silent autonomous operation - only log if issues found
+        # Don't print every cycle, only log to file for debugging
         
         # 1. Signal Engine
         try:
@@ -99,7 +100,15 @@ class HealingOperator:
             elif result["failed"]:
                 failed.append("signal_engine")
         except Exception as e:
-            print(f"🔧 [HEALING] Signal engine healing error: {e}", flush=True)
+            # Only log actual errors (not routine operations)
+            if alert_operator:
+                try:
+                    alert_operator(ALERT_HIGH, "HEALING_OPERATOR", f"Signal engine healing error: {e}", {
+                        "error": str(e),
+                        "traceback": traceback.format_exc()
+                    })
+                except:
+                    pass
             failed.append("signal_engine")
         
         # 2. Decision Engine
@@ -209,12 +218,15 @@ class HealingOperator:
             "duration_seconds": cycle_duration
         }
         
+        # MISSION: Silent autonomous operation - only log if issues found or fixed
+        # Don't print "all healthy" every cycle (too noisy)
         if healed:
-            print(f"🔧 [HEALING] Cycle complete: {len(healed)} components healed: {', '.join(healed)}", flush=True)
+            # Only log when something was actually healed (important event)
+            print(f"🔧 [HEALING] Fixed {len(healed)} components: {', '.join(healed)}", flush=True)
         if failed:
-            print(f"🔧 [HEALING] Cycle complete: {len(failed)} components failed: {', '.join(failed)}", flush=True)
-        if not healed and not failed:
-            print(f"🔧 [HEALING] Cycle complete: All components healthy", flush=True)
+            # Always log failures (they need attention, even if self-healing)
+            print(f"⚠️  [HEALING] {len(failed)} components need attention: {', '.join(failed)}", flush=True)
+        # Removed: "All components healthy" message (too noisy for every cycle)
     
     def _heal_signal_engine(self) -> Dict[str, Any]:
         """Heal signal engine issues."""

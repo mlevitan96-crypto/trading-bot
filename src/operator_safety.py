@@ -74,6 +74,9 @@ def alert_operator(level: str, category: str, message: str, details: Dict = None
     """
     Send an alert to the operator.
     
+    MISSION: Silent autonomous operation - only log to file, no stdout unless CRITICAL.
+    All alerts are logged for debugging, but only CRITICAL alerts print to console.
+    
     Args:
         level: Alert level (CRITICAL, HIGH, MEDIUM, LOW)
         category: Alert category (e.g., "POSITION_SAVE", "FILE_LOCK", "SYSTEMD_SLOT")
@@ -83,11 +86,12 @@ def alert_operator(level: str, category: str, message: str, details: Dict = None
     """
     alert = OperatorAlert(level, category, message, details, action_required)
     
-    # Always print to stdout (captured by systemd/journalctl)
-    if ALERT_STDOUT:
+    # MISSION: Only print CRITICAL alerts to stdout (silent autonomous operation)
+    # All other alerts are logged to file only for debugging
+    if ALERT_STDOUT and level == "CRITICAL":
         print(alert.format_for_operator(), flush=True)
     
-    # Log to alert file
+    # Always log to alert file (for debugging and review)
     try:
         from src.infrastructure.path_registry import resolve_path
         alert_file = resolve_path(ALERT_LOG_FILE)

@@ -58,6 +58,14 @@ def check_autonomy():
     try:
         from src.healing_operator import get_healing_operator
         healing_op = get_healing_operator()
+        
+        if healing_op is None:
+            if not healing_in_logs:
+                print("\n❌ Healing operator NOT detected (not in logs or process)")
+                autonomous = False
+                issues.append("Healing operator not started")
+            else:
+                print("\n✅ Healing operator detected in logs (may not be accessible in this process)")
         else:
             print(f"✅ Healing operator running: {healing_op.running}")
             if healing_op.thread:

@@ -1167,6 +1167,9 @@ def generate_executive_summary() -> Dict[str, str]:
     """
     Generate executive summary narratives from various data sources.
     Returns structured JSON with plain-English narratives.
+    
+    Uses positions_futures.json as source of truth for trade data,
+    with daily_stats_tracker as secondary source for consistency checks.
     """
     from datetime import datetime, timedelta
     import pytz
@@ -1189,49 +1192,160 @@ def generate_executive_summary() -> Dict[str, str]:
         "weekly_summary": ""
     }
     
-    # 1. Read daily stats (1-day, 2-day, 7-day summaries)
+    # 1. Read trade data from positions_futures.json (SOURCE OF TRUTH)
+    # This is more reliable than daily_stats which may not be synced
     try:
-        from src.daily_stats_tracker import load_daily_stats
-        daily_stats = load_daily_stats()
+        from src.position_manager import load_futures_positions
+        positions_data = load_futures_positions()
+        closed_positions = positions_data.get("closed_positions", [])
         
-        combined = daily_stats.get("combined", {})
-        total_pnl = combined.get("total_pnl", 0)
-        total_trades = combined.get("total_trades", 0)
-        win_rate = combined.get("win_rate", 0)
+        # Filter to today's closed positions
+        today_closed = []
+        today_pnl = 0.0
+        today_wins = 0
+        today_losses = 0
+        today_symbols = {}
         
-        if total_pnl > 0:
-            summary["what_worked_today"] = f"Today was profitable with ${total_pnl:.2f} in total P&L across {total_trades} trades. Win rate was {win_rate:.1f}%. "
-        elif total_pnl < 0:
-            summary["what_didnt_work"] = f"Today was unprofitable with ${abs(total_pnl):.2f} in losses across {total_trades} trades. Win rate was {win_rate:.1f}%. "
+        for pos in closed_positions:
+            closed_at = pos.get("closed_at")
+            if not closed_at:
+                continue
+            
+            try:
+                # Parse timestamp (handle both ISO string and timestamp)
+                if isinstance(closed_at, str):
+                    record_time = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    if record_time.tzinfo is None:
+                        record_time = ARIZONA_TZ.localize(record_time)
+                    else:
+                        record_time = record_time.astimezone(ARIZONA_TZ)
+                else:
+                    record_time = datetime.fromtimestamp(closed_at, tz=ARIZONA_TZ)
+                
+                if record_time >= today_start:
+                    today_closed.append(pos)
+                    net_pnl = pos.get("net_pnl", 0) or pos.get("pnl", 0) or 0.0
+                    today_pnl += net_pnl
+                    
+                    symbol = pos.get("symbol", "UNKNOWN")
+                    if symbol not in today_symbols:
+                        today_symbols[symbol] = {"pnl": 0.0, "count": 0}
+                    today_symbols[symbol]["pnl"] += net_pnl
+                    today_symbols[symbol]["count"] += 1
+                    
+                    if net_pnl > 0:
+                        today_wins += 1
+                    elif net_pnl < 0:
+                        today_losses += 1
+            except Exception as e:
+                continue
+        
+        total_trades_today = len(today_closed)
+        win_rate_today = (today_wins / total_trades_today * 100.0) if total_trades_today > 0 else 0.0
+        
+        # Build "What Worked Today" or "What Didn't Work"
+        if total_trades_today == 0:
+            summary["what_worked_today"] = "No trades closed today. "
+        elif today_pnl > 0:
+            # Profitable day
+            top_winners = sorted(today_symbols.items(), key=lambda x: x[1]["pnl"], reverse=True)[:3]
+            winner_symbols = [f"{sym} (+${pnl['pnl']:.2f})" for sym, pnl in top_winners]
+            
+            summary["what_worked_today"] = (
+                f"Today was profitable with ${today_pnl:.2f} in total P&L across {total_trades_today} closed trades. "
+                f"Win rate: {win_rate_today:.1f}% ({today_wins} wins, {today_losses} losses). "
+                f"Top performers: {', '.join(winner_symbols) if winner_symbols else 'N/A'}. "
+            )
+        elif today_pnl < 0:
+            # Losing day
+            top_losers = sorted(today_symbols.items(), key=lambda x: x[1]["pnl"])[:3]
+            loser_symbols = [f"{sym} (${pnl['pnl']:.2f})" for sym, pnl in top_losers]
+            
+            summary["what_didnt_work"] = (
+                f"Today was unprofitable with ${abs(today_pnl):.2f} in losses across {total_trades_today} closed trades. "
+                f"Win rate: {win_rate_today:.1f}% ({today_wins} wins, {today_losses} losses). "
+                f"Biggest losses: {', '.join(loser_symbols) if loser_symbols else 'N/A'}. "
+            )
         else:
-            summary["what_worked_today"] = "No trades executed today. "
+            # Break-even day
+            summary["what_worked_today"] = (
+                f"Today was break-even with ${today_pnl:.2f} P&L across {total_trades_today} closed trades. "
+                f"Win rate: {win_rate_today:.1f}%. "
+            )
     except Exception as e:
-        summary["what_worked_today"] = f"Could not load daily stats: {str(e)}. "
+        # Fallback to daily_stats if positions file fails
+        try:
+            from src.daily_stats_tracker import load_daily_stats
+            daily_stats = load_daily_stats()
+            combined = daily_stats.get("combined", {})
+            total_pnl = combined.get("total_pnl", 0)
+            total_trades = combined.get("total_trades", 0)
+            wins = combined.get("wins", 0)
+            losses = combined.get("losses", 0)
+            win_rate_fallback = (wins / (wins + losses) * 100.0) if (wins + losses) > 0 else 0.0
+            
+            if total_pnl > 0:
+                summary["what_worked_today"] = (
+                    f"Today was profitable with ${total_pnl:.2f} in total P&L across {total_trades} trades. "
+                    f"Win rate: {win_rate_fallback:.1f}% ({wins} wins, {losses} losses). "
+                )
+            elif total_pnl < 0:
+                summary["what_didnt_work"] = (
+                    f"Today was unprofitable with ${abs(total_pnl):.2f} in losses across {total_trades} trades. "
+                    f"Win rate: {win_rate_fallback:.1f}% ({wins} wins, {losses} losses). "
+                )
+            else:
+                summary["what_worked_today"] = f"No trades executed today (from daily stats). "
+        except:
+            summary["what_worked_today"] = f"Could not load trade data: {str(e)}. "
     
-    # 2. Read missed opportunities
+    # 2. Read missed opportunities - More detailed analysis
     try:
         missed_file = PathRegistry.get_path("logs", "missed_opportunities.json")
+        today_missed = []
+        total_missed_roi = 0.0
+        total_missed_pnl = 0.0
+        
         if os.path.exists(missed_file):
             with open(missed_file, 'r') as f:
                 missed_data = json.load(f)
             
             missed_trades = missed_data.get("missed_trades", [])
-            today_missed = []
             for m in missed_trades:
                 try:
-                    ts_str = m.get("timestamp", "")
+                    ts_str = m.get("timestamp", "") or m.get("ts", "")
                     if ts_str:
-                        record_time = datetime.fromisoformat(ts_str.replace("Z", "+00:00")).replace(tzinfo=ARIZONA_TZ)
+                        if isinstance(ts_str, (int, float)):
+                            record_time = datetime.fromtimestamp(ts_str, tz=ARIZONA_TZ)
+                        else:
+                            record_time = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
+                            if record_time.tzinfo is None:
+                                record_time = ARIZONA_TZ.localize(record_time)
+                            else:
+                                record_time = record_time.astimezone(ARIZONA_TZ)
                         if record_time >= today_start:
                             today_missed.append(m)
+                            total_missed_roi += m.get("missed_roi", 0) or 0.0
+                            total_missed_pnl += m.get("missed_pnl", 0) or m.get("potential_pnl", 0) or 0.0
                 except:
                     continue
             
             if today_missed:
-                total_missed_roi = sum(m.get("missed_roi", 0) for m in today_missed)
-                top_missed = sorted(today_missed, key=lambda x: x.get("missed_roi", 0), reverse=True)[:3]
-                symbols = [m.get("symbol") for m in top_missed]
-                summary["missed_opportunities"] = f"Identified {len(today_missed)} missed opportunities today with potential ROI of {total_missed_roi*100:.2f}%. Top missed: {', '.join(symbols)}. "
+                top_missed = sorted(today_missed, key=lambda x: x.get("missed_roi", 0) or x.get("missed_pnl", 0) or 0, reverse=True)[:3]
+                missed_details = []
+                for m in top_missed:
+                    symbol = m.get("symbol", "UNKNOWN")
+                    roi = m.get("missed_roi", 0) * 100 if m.get("missed_roi") else 0
+                    pnl = m.get("missed_pnl", 0) or m.get("potential_pnl", 0) or 0
+                    if roi > 0:
+                        missed_details.append(f"{symbol} ({roi:.1f}% ROI, ${pnl:.2f})")
+                    else:
+                        missed_details.append(f"{symbol} (${pnl:.2f})")
+                
+                summary["missed_opportunities"] = (
+                    f"Identified {len(today_missed)} missed opportunities today with potential ROI of {total_missed_roi*100:.2f}% "
+                    f"(${total_missed_pnl:.2f} potential P&L). Top missed: {', '.join(missed_details)}. "
+                )
             else:
                 summary["missed_opportunities"] = "No significant missed opportunities detected today. "
         else:
@@ -1239,39 +1353,76 @@ def generate_executive_summary() -> Dict[str, str]:
     except Exception as e:
         summary["missed_opportunities"] = f"Error analyzing missed opportunities: {str(e)}. "
     
-    # 3. Read blocked signals
+    # 3. Read blocked signals - Check multiple gate log sources
     try:
-        blocked_file = PathRegistry.get_path("logs", "conviction_gate_log.jsonl")
         blocked_today = []
-        if os.path.exists(blocked_file):
-            with open(blocked_file, 'r') as f:
-                for line in f:
-                    try:
-                        record = json.loads(line)
-                        if not record.get("should_trade", True):
-                            ts = record.get("ts", 0)
-                            if ts:
-                                record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
-                                if record_time >= today_start:
-                                    blocked_today.append(record)
-                    except:
-                        continue
+        
+        # Check multiple potential gate log files
+        gate_logs = [
+            ("logs", "conviction_gate_log.jsonl"),
+            ("logs", "intelligence_gate.log"),
+            ("logs", "signals.jsonl"),  # May contain blocked signals
+        ]
+        
+        for dir_name, filename in gate_logs:
+            blocked_file = PathRegistry.get_path(dir_name, filename)
+            if os.path.exists(blocked_file):
+                try:
+                    with open(blocked_file, 'r') as f:
+                        for line in f:
+                            try:
+                                record = json.loads(line) if filename.endswith('.jsonl') else {"message": line}
+                                
+                                # Check if this is a blocked signal (various formats)
+                                is_blocked = (
+                                    not record.get("should_trade", True) or
+                                    record.get("blocked", False) or
+                                    "BLOCK" in str(record.get("reason", "")).upper() or
+                                    "INTEL-BLOCK" in str(record.get("message", ""))
+                                )
+                                
+                                if is_blocked:
+                                    ts = record.get("ts", 0) or record.get("timestamp", 0)
+                                    if ts:
+                                        if isinstance(ts, str):
+                                            try:
+                                                record_time = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                                                if record_time.tzinfo is None:
+                                                    record_time = ARIZONA_TZ.localize(record_time)
+                                                else:
+                                                    record_time = record_time.astimezone(ARIZONA_TZ)
+                                            except:
+                                                continue
+                                        else:
+                                            record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
+                                        
+                                        if record_time >= today_start:
+                                            blocked_today.append(record)
+                            except:
+                                continue
+                except:
+                    continue
         
         if blocked_today:
             by_reason = {}
             for b in blocked_today:
-                reason = b.get("block_reason", "unknown")
+                reason = (
+                    b.get("block_reason") or 
+                    b.get("reason") or 
+                    b.get("intel_reason", "").replace("intel_", "").replace("_", " ").title() or
+                    "unknown"
+                )
                 by_reason[reason] = by_reason.get(reason, 0) + 1
             
             top_reasons = sorted(by_reason.items(), key=lambda x: x[1], reverse=True)[:3]
             reasons_str = ", ".join([f"{r[0]} ({r[1]}x)" for r in top_reasons])
             summary["blocked_signals"] = f"Blocked {len(blocked_today)} signals today. Top block reasons: {reasons_str}. "
         else:
-            summary["blocked_signals"] = "No signals were blocked today. "
+            summary["blocked_signals"] = "No signals were blocked today (or blocking logs not available). "
     except Exception as e:
         summary["blocked_signals"] = f"Error analyzing blocked signals: {str(e)}. "
     
-    # 4. Exit gate analysis
+    # 4. Exit gate analysis - Detailed breakdown with profitability
     try:
         exit_file = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
         exit_events_today = []
@@ -1290,19 +1441,50 @@ def generate_executive_summary() -> Dict[str, str]:
         
         if exit_events_today:
             exit_types = {}
+            profitable_exits = 0
+            total_exit_pnl = 0.0
+            
             for e in exit_events_today:
                 exit_type = e.get("exit_type", "unknown")
-                exit_types[exit_type] = exit_types.get(exit_type, 0) + 1
+                exit_types[exit_type] = exit_types.get(exit_type, {"count": 0, "profitable": 0, "pnl": 0.0})
+                exit_types[exit_type]["count"] += 1
+                
+                roi = e.get("roi", 0) or e.get("final_roi", 0) or 0.0
+                pnl = e.get("pnl", 0) or e.get("net_pnl", 0) or 0.0
+                was_profitable = e.get("was_profitable", False) or (roi > 0) or (pnl > 0)
+                
+                if was_profitable:
+                    exit_types[exit_type]["profitable"] += 1
+                    profitable_exits += 1
+                
+                total_exit_pnl += pnl
+                exit_types[exit_type]["pnl"] += pnl
             
-            types_str = ", ".join([f"{k} ({v}x)" for k, v in exit_types.items()])
-            summary["exit_gates"] = f"Exit gates triggered {len(exit_events_today)} times today. Exit types: {types_str}. "
+            # Build detailed exit analysis
+            type_details = []
+            for exit_type, stats in sorted(exit_types.items(), key=lambda x: x[1]["count"], reverse=True):
+                profit_pct = (stats["profitable"] / stats["count"] * 100.0) if stats["count"] > 0 else 0.0
+                type_details.append(
+                    f"{exit_type} ({stats['count']}x, {profit_pct:.0f}% profitable, ${stats['pnl']:.2f})"
+                )
+            
+            profit_pct = (profitable_exits / len(exit_events_today) * 100.0) if exit_events_today else 0.0
+            summary["exit_gates"] = (
+                f"Exit gates triggered {len(exit_events_today)} times today. "
+                f"{profitable_exits} exits were profitable ({profit_pct:.1f}% profit rate). "
+                f"Total exit P&L: ${total_exit_pnl:.2f}. "
+                f"Breakdown: {', '.join(type_details)}. "
+            )
         else:
             summary["exit_gates"] = "No exit gate events recorded today. "
     except Exception as e:
         summary["exit_gates"] = f"Error analyzing exit gates: {str(e)}. "
     
-    # 5. Learning history
+    # 5. Learning history - Multiple sources for comprehensive view
     try:
+        learning_sources = []
+        
+        # Source 1: Learning history file
         learning_file = PathRegistry.get_path("feature_store", "learning_history.jsonl")
         learning_today = []
         if os.path.exists(learning_file):
@@ -1321,74 +1503,182 @@ def generate_executive_summary() -> Dict[str, str]:
                     except:
                         continue
         
+        # Source 2: Adaptive learning rules
+        adaptive_rules_file = PathRegistry.get_path("feature_store", "adaptive_review.json")
+        adaptive_updates = 0
+        if os.path.exists(adaptive_rules_file):
+            try:
+                file_mtime = os.path.getmtime(adaptive_rules_file)
+                file_time = datetime.fromtimestamp(file_mtime, tz=ARIZONA_TZ)
+                if file_time >= today_start:
+                    adaptive_updates = 1
+            except:
+                pass
+        
+        # Source 3: Exit learning (nightly tuning)
+        exit_learning_file = PathRegistry.get_path("feature_store", "exit_learning_state.json")
+        exit_learning_updates = 0
+        if os.path.exists(exit_learning_file):
+            try:
+                file_mtime = os.path.getmtime(exit_learning_file)
+                file_time = datetime.fromtimestamp(file_mtime, tz=ARIZONA_TZ)
+                if file_time >= today_start:
+                    exit_learning_updates = 1
+            except:
+                pass
+        
+        # Categorize learning events by meaningful types
         if learning_today:
             update_types = {}
             for l in learning_today:
-                update_type = l.get("update_type", "unknown")
+                # Try multiple fields to identify learning type
+                update_type = (
+                    l.get("update_type") or 
+                    l.get("action") or 
+                    l.get("event_type") or 
+                    l.get("type") or
+                    "rule_update"  # Default category
+                )
                 update_types[update_type] = update_types.get(update_type, 0) + 1
             
-            types_str = ", ".join([f"{k} ({v}x)" for k, v in update_types.items()])
-            summary["learning_today"] = f"The engine learned from {len(learning_today)} events today. Learning types: {types_str}. "
+            # Build meaningful description
+            type_details = []
+            for k, v in sorted(update_types.items(), key=lambda x: x[1], reverse=True):
+                type_details.append(f"{k} ({v}x)")
+            
+            learning_desc = f"Learning from {len(learning_today)} events: {', '.join(type_details)}. "
+        else:
+            learning_desc = ""
+        
+        # Combine all learning sources
+        total_learning = len(learning_today) + adaptive_updates + exit_learning_updates
+        if total_learning > 0:
+            parts = []
+            if learning_desc:
+                parts.append(learning_desc.strip())
+            if adaptive_updates > 0:
+                parts.append("Adaptive rules reviewed.")
+            if exit_learning_updates > 0:
+                parts.append("Exit parameters optimized.")
+            
+            summary["learning_today"] = " ".join(parts) + " "
         else:
             summary["learning_today"] = "No learning events recorded today. "
     except Exception as e:
         summary["learning_today"] = f"Error analyzing learning: {str(e)}. "
     
-    # 6. Changes tomorrow (from nightly digest)
+    # 6. Changes tomorrow (from nightly digest and learning files)
     try:
+        changes = []
+        
+        # Check nightly digest
         digest_file = PathRegistry.get_path("logs", "nightly_digest.json")
         if os.path.exists(digest_file):
-            with open(digest_file, 'r') as f:
-                digest = json.load(f)
-            
-            changes = []
-            if digest.get("auto_calibration"):
-                ac = digest["auto_calibration"]
-                changes.append("Auto-calibration adjustments")
-            if digest.get("strategy_auto_tuning"):
-                st = digest["strategy_auto_tuning"]
-                changes.append("Strategy auto-tuning updates")
-            
-            if changes:
-                summary["changes_tomorrow"] = f"Tomorrow's changes: {', '.join(changes)}. "
-            else:
-                summary["changes_tomorrow"] = "No scheduled changes for tomorrow. "
+            try:
+                with open(digest_file, 'r') as f:
+                    digest = json.load(f)
+                
+                if digest.get("auto_calibration"):
+                    ac = digest["auto_calibration"]
+                    changes.append("Auto-calibration adjustments")
+                if digest.get("strategy_auto_tuning"):
+                    st = digest["strategy_auto_tuning"]
+                    changes.append("Strategy auto-tuning updates")
+                if digest.get("exit_tuning"):
+                    changes.append("Exit parameter optimization")
+            except:
+                pass
+        
+        # Check if exit learning ran (would affect tomorrow)
+        exit_learning_file = PathRegistry.get_path("feature_store", "exit_learning_state.json")
+        if os.path.exists(exit_learning_file):
+            try:
+                file_mtime = os.path.getmtime(exit_learning_file)
+                file_time = datetime.fromtimestamp(file_mtime, tz=ARIZONA_TZ)
+                # If updated in last 24 hours, it will affect tomorrow
+                if file_time >= yesterday_start:
+                    changes.append("Exit parameters updated (nightly tuning)")
+            except:
+                pass
+        
+        # Check adaptive rules updates
+        adaptive_rules_file = PathRegistry.get_path("feature_store", "adaptive_review.json")
+        if os.path.exists(adaptive_rules_file):
+            try:
+                file_mtime = os.path.getmtime(adaptive_rules_file)
+                file_time = datetime.fromtimestamp(file_mtime, tz=ARIZONA_TZ)
+                if file_time >= yesterday_start:
+                    changes.append("Adaptive trading rules updated")
+            except:
+                pass
+        
+        if changes:
+            summary["changes_tomorrow"] = f"Planned changes: {', '.join(changes)}. "
         else:
-            summary["changes_tomorrow"] = "Digest not available for tomorrow's changes. "
+            summary["changes_tomorrow"] = "No scheduled parameter changes detected. Bot will continue with current settings. "
     except Exception as e:
-        summary["changes_tomorrow"] = f"Error analyzing tomorrow's changes: {str(e)}. "
+        summary["changes_tomorrow"] = f"Error analyzing scheduled changes: {str(e)}. "
     
-    # 7. Weekly summary
+    # 7. Weekly summary - Use actual weekly data from positions
     try:
-        from src.daily_stats_tracker import load_daily_stats
-        daily_stats = load_daily_stats()
+        # Get weekly closed positions
+        from src.position_manager import load_futures_positions
+        positions_data = load_futures_positions()
+        closed_positions = positions_data.get("closed_positions", [])
         
-        combined = daily_stats.get("combined", {})
-        weekly_pnl = combined.get("total_pnl", 0)  # This is actually daily, but we'll use it
-        weekly_trades = combined.get("total_trades", 0)
-        weekly_wr = combined.get("win_rate", 0)
+        weekly_closed = []
+        weekly_pnl = 0.0
+        weekly_wins = 0
+        weekly_losses = 0
+        weekly_symbols = {}
         
-        # Try to get enriched decisions for weekly analysis
-        decisions_file = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
-        weekly_decisions = []
-        if os.path.exists(decisions_file):
-            with open(decisions_file, 'r') as f:
-                for line in f:
-                    try:
-                        record = json.loads(line)
-                        ts = record.get("ts", 0)
-                        if ts:
-                            record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
-                            if record_time >= week_start:
-                                weekly_decisions.append(record)
-                    except:
-                        continue
+        for pos in closed_positions:
+            closed_at = pos.get("closed_at")
+            if not closed_at:
+                continue
+            
+            try:
+                if isinstance(closed_at, str):
+                    record_time = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    if record_time.tzinfo is None:
+                        record_time = ARIZONA_TZ.localize(record_time)
+                    else:
+                        record_time = record_time.astimezone(ARIZONA_TZ)
+                else:
+                    record_time = datetime.fromtimestamp(closed_at, tz=ARIZONA_TZ)
+                
+                if record_time >= week_start:
+                    weekly_closed.append(pos)
+                    net_pnl = pos.get("net_pnl", 0) or pos.get("pnl", 0) or 0.0
+                    weekly_pnl += net_pnl
+                    
+                    symbol = pos.get("symbol", "UNKNOWN")
+                    if symbol not in weekly_symbols:
+                        weekly_symbols[symbol] = {"pnl": 0.0, "count": 0}
+                    weekly_symbols[symbol]["pnl"] += net_pnl
+                    weekly_symbols[symbol]["count"] += 1
+                    
+                    if net_pnl > 0:
+                        weekly_wins += 1
+                    elif net_pnl < 0:
+                        weekly_losses += 1
+            except:
+                continue
         
-        if weekly_decisions:
-            profitable = [d for d in weekly_decisions if d.get("outcome_pnl", 0) > 0]
-            summary["weekly_summary"] = f"Over the past week: {len(weekly_decisions)} decisions, {len(profitable)} profitable. Win rate: {len(profitable)/len(weekly_decisions)*100:.1f}% if data available. "
+        weekly_trades = len(weekly_closed)
+        weekly_win_rate = (weekly_wins / weekly_trades * 100.0) if weekly_trades > 0 else 0.0
+        
+        if weekly_trades > 0:
+            top_weekly = sorted(weekly_symbols.items(), key=lambda x: x[1]["pnl"], reverse=True)[:3]
+            top_symbols = [f"{sym} (+${pnl['pnl']:.2f}, {pnl['count']} trades)" for sym, pnl in top_weekly]
+            
+            summary["weekly_summary"] = (
+                f"Over the past 7 days: {weekly_trades} trades closed, ${weekly_pnl:.2f} total P&L. "
+                f"Win rate: {weekly_win_rate:.1f}% ({weekly_wins} wins, {weekly_losses} losses). "
+                f"Top performers: {', '.join(top_symbols) if top_symbols else 'N/A'}. "
+            )
         else:
-            summary["weekly_summary"] = f"Weekly summary: {weekly_trades} trades, ${weekly_pnl:.2f} P&L, {weekly_wr:.1f}% win rate. "
+            summary["weekly_summary"] = "No trades closed in the past 7 days. "
     except Exception as e:
         summary["weekly_summary"] = f"Error generating weekly summary: {str(e)}. "
     

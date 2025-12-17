@@ -23,15 +23,15 @@ def check_autonomy():
     print("ℹ️  Note: This script runs separately from the bot process")
     print("   Checking bot logs and service status instead...\n")
     
-    # 1. Check bot logs for healing operator
-    log_file = "logs/bot_out.log"
+    # 1. Check bot logs for healing operator (try multiple sources)
     healing_in_logs = False
     
+    # First try: Check log file if it exists
+    log_file = "logs/bot_out.log"
     if os.path.exists(log_file):
         try:
             with open(log_file, 'r') as f:
                 lines = f.readlines()
-                # Check last 500 lines for healing messages
                 recent_lines = lines[-500:] if len(lines) > 500 else lines
                 
                 healing_started = any("healing operator started" in line.lower() for line in recent_lines)
@@ -40,18 +40,55 @@ def check_autonomy():
                 if healing_started:
                     print("✅ Bot logs show healing operator STARTED")
                     healing_in_logs = True
-                else:
-                    print("⚠️  Bot logs don't show healing operator started")
-                    
                 if healing_running:
                     print("✅ Recent [HEALING] activity in logs")
                     healing_in_logs = True
-                else:
-                    print("⚠️  No recent [HEALING] activity (may be normal if no issues)")
         except Exception as e:
-            print(f"⚠️  Error reading logs: {e}")
-    else:
-        print(f"⚠️  Log file not found: {log_file}")
+            print(f"⚠️  Error reading log file: {e}")
+    
+    # Second try: Check systemd journal (logs may be going here)
+    if not healing_in_logs:
+        try:
+            import subprocess
+            result = subprocess.run(
+                ["journalctl", "-u", "tradingbot", "-n", "200", "--no-pager"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if result.returncode == 0:
+                output = result.stdout
+                healing_started = "healing operator started" in output.lower() or "healing operator started" in output.lower()
+                healing_running = "[HEALING]" in output
+                
+                if healing_started:
+                    print("✅ Systemd journal shows healing operator STARTED")
+                    healing_in_logs = True
+                if healing_running:
+                    print("✅ Recent [HEALING] activity in journal")
+                    healing_in_logs = True
+                    
+                if not healing_in_logs:
+                    # Check for startup errors
+                    if "healing" in output.lower():
+                        print("⚠️  Found healing-related messages but no 'started' confirmation")
+                        # Show relevant lines
+                        lines = output.split('\n')
+                        healing_lines = [l for l in lines if "healing" in l.lower()][-5:]
+                        if healing_lines:
+                            print("   Recent healing messages:")
+                            for line in healing_lines:
+                                print(f"     {line.strip()[:100]}")
+            else:
+                print("⚠️  Could not read systemd journal")
+        except FileNotFoundError:
+            print("⚠️  journalctl not available")
+        except Exception as e:
+            print(f"⚠️  Error checking journal: {e}")
+    
+    if not healing_in_logs:
+        print("⚠️  Could not find evidence of healing operator in logs or journal")
     
     # 2. Try to check healing operator instance (may fail if separate process)
     healing_op = None

@@ -1631,34 +1631,64 @@ def build_app(server: Flask = None) -> Dash:
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
                 
+                # Convert to strings if Path objects
+                coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, Path) else coinglass_dir
+                intel_dir = str(intel_dir) if isinstance(intel_dir, Path) else intel_dir
+                
                 # Check if API key is configured (CoinGlass is optional)
+                # Try environment first, then check systemd service
                 has_api_key = bool(os.getenv('COINGLASS_API_KEY', ''))
+                if not has_api_key:
+                    try:
+                        import subprocess
+                        result = subprocess.run(
+                            ["systemctl", "show", "tradingbot"],
+                            capture_output=True,
+                            text=True,
+                            timeout=1
+                        )
+                        if "COINGLASS_API_KEY" in result.stdout:
+                            has_api_key = True
+                    except:
+                        pass
                 
                 recent_files = False
+                recent_file_count = 0
                 
                 # Check coinglass directory
                 if os.path.exists(coinglass_dir):
-                    for file in os.listdir(coinglass_dir):
-                        file_path = os.path.join(coinglass_dir, file)
-                        if os.path.isfile(file_path):
-                            file_age = time.time() - os.path.getmtime(file_path)
-                            if file_age < 3600:  # 1 hour
-                                recent_files = True
-                                break
-                
-                # Also check intelligence directory (where market_intelligence.py writes)
-                if not recent_files and os.path.exists(intel_dir):
-                    for file in os.listdir(intel_dir):
-                        if "intel" in file.lower() or file.endswith(".json"):
-                            file_path = os.path.join(intel_dir, file)
+                    try:
+                        for file in os.listdir(coinglass_dir):
+                            file_path = os.path.join(coinglass_dir, file)
                             if os.path.isfile(file_path):
                                 file_age = time.time() - os.path.getmtime(file_path)
                                 if file_age < 3600:  # 1 hour
                                     recent_files = True
+                                    recent_file_count += 1
                                     break
+                    except Exception:
+                        pass
                 
-                # Status logic: If API key not set, CoinGlass is optional - yellow is acceptable
-                if recent_files:
+                # Also check intelligence directory (where market_intelligence.py writes)
+                # This is the PRIMARY location for CoinGlass data
+                if os.path.exists(intel_dir):
+                    try:
+                        for file in os.listdir(intel_dir):
+                            # Check for intel JSON files (e.g., BTCUSDT_intel.json, summary.json)
+                            if ("intel" in file.lower() and file.endswith(".json")) or \
+                               (file == "summary.json"):
+                                file_path = os.path.join(intel_dir, file)
+                                if os.path.isfile(file_path):
+                                    file_age = time.time() - os.path.getmtime(file_path)
+                                    if file_age < 3600:  # 1 hour
+                                        recent_files = True
+                                        recent_file_count += 1
+                                        # Don't break - count all recent files
+                    except Exception as e:
+                        print(f"⚠️ [DASHBOARD] Error checking intel_dir: {e}")
+                
+                # Status logic: If we found recent files, it's GREEN
+                if recent_files and recent_file_count > 0:
                     status["coinglass_feed"] = "green"
                 elif not has_api_key:
                     # No API key - CoinGlass is optional, yellow is acceptable
@@ -1666,19 +1696,27 @@ def build_app(server: Flask = None) -> Dash:
                 elif os.path.exists(coinglass_dir) or os.path.exists(intel_dir):
                     # Files exist but stale - check how old
                     max_age = 0
-                    for dir_path in [coinglass_dir, intel_dir]:
-                        if os.path.exists(dir_path):
-                            for file in os.listdir(dir_path):
-                                file_path = os.path.join(dir_path, file)
-                                if os.path.isfile(file_path):
-                                    file_age = time.time() - os.path.getmtime(file_path)
-                                    max_age = max(max_age, file_age)
+                    try:
+                        for dir_path in [coinglass_dir, intel_dir]:
+                            if os.path.exists(dir_path):
+                                for file in os.listdir(dir_path):
+                                    if "intel" in file.lower() or file.endswith(".json"):
+                                        file_path = os.path.join(dir_path, file)
+                                        if os.path.isfile(file_path):
+                                            file_age = time.time() - os.path.getmtime(file_path)
+                                            max_age = max(max_age, file_age)
+                    except Exception:
+                        pass
                     # Yellow if < 24 hours (stale but not dead), red if > 24 hours
                     status["coinglass_feed"] = "yellow" if max_age < 86400 else "red"
                 else:
                     # No files, but API key exists - yellow (expected if just started or rate limited)
                     status["coinglass_feed"] = "yellow" if has_api_key else "yellow"
-            except Exception:
+            except Exception as e:
+                # Log error for debugging but don't fail the status check
+                print(f"⚠️ [DASHBOARD] CoinGlass status check error: {e}")
+                import traceback
+                traceback.print_exc()
                 status["coinglass_feed"] = "yellow"  # Errors are less critical - CoinGlass is optional
             
             # 2. Signal engine

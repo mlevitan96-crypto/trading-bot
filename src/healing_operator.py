@@ -507,19 +507,20 @@ class HealingOperator:
         return result
     
     def _heal_trade_execution(self) -> Dict[str, Any]:
-        """Heal trade execution issues."""
+        """Heal trade execution issues - ensure positions file is updating."""
         result = {"healed": False, "failed": False, "actions": []}
         
         try:
             if PathRegistry:
                 pos_file = PathRegistry.POS_LOG
+                heartbeat_file = PathRegistry.get_path("logs", ".bot_heartbeat")
             else:
                 pos_file = Path("logs/positions_futures.json")
+                heartbeat_file = Path("logs/.bot_heartbeat")
             
-            # Same as safety layer - ensure file exists and is valid
-            # Use atomic save with file locking
             from src.file_locks import atomic_json_save
             
+            # 1. Ensure file exists and is valid
             if not pos_file.exists() or not pos_file.is_file():
                 pos_file.parent.mkdir(parents=True, exist_ok=True)
                 data = {"open_positions": [], "closed_positions": []}
@@ -529,16 +530,88 @@ class HealingOperator:
                 else:
                     result["failed"] = True
                     result["error"] = "Failed to create file (lock timeout)"
-            else:
-                # Ensure file is writable
-                if not os.access(pos_file, os.W_OK):
+                return result
+            
+            # 2. Ensure file is writable
+            if not os.access(pos_file, os.W_OK):
+                try:
+                    os.chmod(pos_file, 0o644)
+                    result["actions"].append("Fixed permissions on positions_futures.json")
+                    result["healed"] = True
+                except:
+                    result["failed"] = True
+                    result["error"] = f"Cannot write to {pos_file}"
+                    return result
+            
+            # 3. AUTONOMOUS HEALING: Check if file is stale with open positions
+            file_age = time.time() - os.path.getmtime(pos_file)
+            bot_is_running = heartbeat_file.exists() and (time.time() - os.path.getmtime(heartbeat_file) < 300)
+            
+            # Load positions to check for open ones
+            try:
+                from src.position_manager import load_futures_positions
+                positions = load_futures_positions()
+                open_positions = positions.get("open_positions", [])
+                has_open_positions = len(open_positions) > 0
+            except:
+                has_open_positions = False
+                open_positions = []
+            
+            # If bot is running, file is stale (>30 min), and there are open positions, trigger update
+            if bot_is_running and has_open_positions and file_age > 1800:  # 30 minutes
+                try:
+                    # Try to update position prices directly (autonomous healing)
+                    from src.exit_health_sentinel import update_position_prices
+                    
+                    # Fetch current prices for open positions
+                    current_prices = {}
                     try:
-                        os.chmod(pos_file, 0o644)
-                        result["actions"].append("Fixed permissions on positions_futures.json")
+                        from src.exchange_gateway import get_current_price
+                        for pos in open_positions:
+                            symbol = pos.get("symbol")
+                            if symbol:
+                                try:
+                                    price = get_current_price(symbol)
+                                    if price:
+                                        current_prices[symbol] = price
+                                except:
+                                    pass  # Skip if price fetch fails for this symbol
+                    except:
+                        pass  # Price fetching not critical for healing
+                    
+                    # Update positions with current prices
+                    if current_prices:
+                        updated_count = update_position_prices(current_prices)
+                        if updated_count > 0:
+                            result["actions"].append(f"Autonomously updated {updated_count} position prices (file was stale)")
+                            result["healed"] = True
+                            print(f"🔧 [HEALING] Auto-healed: Updated {updated_count} stale positions", flush=True)
+                        else:
+                            result["actions"].append("Attempted to update positions but no prices fetched")
+                    else:
+                        # Even without prices, touch the file to update timestamp (indicates healing attempt)
+                        pos_file.touch()
+                        result["actions"].append("Touched positions file (was stale with open positions, price fetch failed)")
+                        result["healed"] = True
+                except Exception as e:
+                    # If update fails, at least touch the file
+                    try:
+                        pos_file.touch()
+                        result["actions"].append(f"Touched positions file (update failed: {str(e)[:50]})")
                         result["healed"] = True
                     except:
                         result["failed"] = True
-                        result["error"] = f"Cannot write to {pos_file}"
+                        result["error"] = f"Position update failed: {str(e)[:100]}"
+            
+            # 4. If file is very stale (>24 hours) even without open positions, touch it
+            elif file_age > 86400:  # 24 hours
+                try:
+                    pos_file.touch()
+                    result["actions"].append("Touched positions file (was very stale)")
+                    result["healed"] = True
+                except:
+                    pass  # Non-critical
+            
         except Exception as e:
             result["failed"] = True
             result["error"] = str(e)

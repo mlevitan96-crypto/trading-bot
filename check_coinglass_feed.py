@@ -73,9 +73,10 @@ def check_coinglass():
             
             # Check intelligence directory (alternative location)
             intel_dir = PathRegistry.get_path("feature_store", "intelligence")
+            intel_dir_path = Path(intel_dir) if isinstance(intel_dir, str) else intel_dir
             if os.path.exists(intel_dir):
-                funding_file = intel_dir / "funding_rates.json"
-                oi_file = intel_dir / "open_interest.json"
+                funding_file = intel_dir_path / "funding_rates.json"
+                oi_file = intel_dir_path / "open_interest.json"
                 
                 if funding_file.exists():
                     funding_age = (current_time - os.path.getmtime(str(funding_file))) / 3600

@@ -544,8 +544,12 @@ class HealingOperator:
                     return result
             
             # 3. AUTONOMOUS HEALING: Check if file is stale with open positions
-            file_age = time.time() - os.path.getmtime(pos_file)
-            bot_is_running = heartbeat_file.exists() and (time.time() - os.path.getmtime(heartbeat_file) < 300)
+            # Convert Path to string for os.path operations
+            pos_file_str = str(pos_file) if isinstance(pos_file, Path) else pos_file
+            heartbeat_file_str = str(heartbeat_file) if isinstance(heartbeat_file, Path) else heartbeat_file
+            
+            file_age = time.time() - os.path.getmtime(pos_file_str)
+            bot_is_running = os.path.exists(heartbeat_file_str) and (time.time() - os.path.getmtime(heartbeat_file_str) < 300)
             
             # Load positions to check for open ones
             try:
@@ -600,14 +604,14 @@ class HealingOperator:
                                 print(f"⚠️ [HEALING] Position update failed, using touch fallback: {e}", flush=True)
                         
                         # Fallback: Even without prices or if update fails, touch the file
-                        os.utime(pos_file, None)
+                        os.utime(pos_file_str, None)
                         result["actions"].append("Touched positions file (was stale with open positions - fallback healing)")
                         result["healed"] = True
                         print(f"🔧 [HEALING] Auto-healed: Touched stale positions file (file_age={file_age/3600:.1f}h)", flush=True)
                     except Exception as e:
                         # If everything fails, at least try to touch
                         try:
-                            os.utime(pos_file, None)
+                            os.utime(pos_file_str, None)
                             result["actions"].append(f"Touched positions file (exception caught: {str(e)[:50]})")
                             result["healed"] = True
                             print(f"🔧 [HEALING] Auto-healed via exception handler: Touched file", flush=True)
@@ -619,7 +623,7 @@ class HealingOperator:
                     # ALWAYS touch if file is stale > 30 min (even without open positions)
                     # This prevents red status when bot just hasn't traded
                     try:
-                        os.utime(pos_file, None)
+                        os.utime(pos_file_str, None)
                         result["actions"].append(f"Touched positions file (was stale: {file_age/3600:.1f}h)")
                         result["healed"] = True
                         print(f"🔧 [HEALING] Auto-healed: Touched stale file to prevent red status", flush=True)

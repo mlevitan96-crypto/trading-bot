@@ -1913,25 +1913,48 @@ def generate_executive_summary() -> Dict[str, str]:
                     improvements.append(f"Win rate improved: {yesterday_wr:.1f}% → {win_rate_today:.1f}% (+{win_rate_today - yesterday_wr:.1f}%)")
         
         # Check exit profitability trend (if profit_target exits are increasing)
-        if exit_events_today:
-            profit_target_exits = sum(1 for e in exit_events_today if e.get("exit_type") == "profit_target")
-            time_stop_exits = sum(1 for e in exit_events_today if e.get("exit_type") == "time_stop")
+        try:
+            # Get exit events if not already loaded
+            exit_file_check = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
+            exit_events_for_trend = []
+            if os.path.exists(exit_file_check):
+                with open(exit_file_check, 'r') as f:
+                    for line in f:
+                        try:
+                            record = json.loads(line)
+                            ts = record.get("ts", 0)
+                            if ts:
+                                record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
+                                if record_time >= today_start:
+                                    exit_events_for_trend.append(record)
+                        except:
+                            continue
             
-            if profit_target_exits > time_stop_exits:
-                improvements.append(f"Profit-taking working: {profit_target_exits} profit_target exits vs {time_stop_exits} time_stops (taking profits proactively)")
+            if exit_events_for_trend:
+                profit_target_count = sum(1 for e in exit_events_for_trend if e.get("exit_type") == "profit_target")
+                time_stop_count = sum(1 for e in exit_events_for_trend if e.get("exit_type") == "time_stop")
+                
+                if profit_target_count > 0:
+                    profit_target_pct = (profit_target_count / len(exit_events_for_trend) * 100.0)
+                    if profit_target_pct > 30:  # More than 30% are profit targets
+                        improvements.append(f"Profit-taking working well: {profit_target_count} profit_target exits ({profit_target_pct:.0f}% of all exits)")
+        except:
+            pass
         
         # Learning improvements
         if learning_details:
-            improvements.append(f"Learning active: {len(learning_details)} system updates applied today")
+            improvements.append(f"Learning active: {len(learning_details)} system optimization(s) applied today")
+        
+        # Parameter changes indicate system evolution
+        if changes:
+            improvements.append(f"System evolving: {len(changes)} parameter update(s) scheduled")
         
         if improvements:
-            summary["improvements_trends"] = "Trends: " + ". ".join(improvements) + ". "
+            summary["improvements_trends"] = "Improvements: " + ". ".join(improvements) + ". "
         else:
-            summary["improvements_trends"] = "Monitoring performance trends. System learning from each trade. "
+            summary["improvements_trends"] = "System is monitoring performance and learning from each trade. Trends being analyzed. "
     except Exception as e:
         summary["improvements_trends"] = f"Error analyzing trends: {str(e)}. "
-    
-    # 8. Improvements & Trends - Show that things ARE getting better
     try:
         improvements = []
         

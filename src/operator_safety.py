@@ -564,8 +564,14 @@ def get_status() -> Dict[str, str]:
                     status["self_healing"] = STATUS_YELLOW
             else:
                 status["self_healing"] = STATUS_GREEN
-        except Exception:
+        except Exception as e:
             # Fallback if healing operator check fails
+            # Log but don't crash - this is just status reporting
+            try:
+                import sys
+                print(f"⚠️ [SAFETY] Self-healing status check error (non-critical): {e}", file=sys.stderr)
+            except:
+                pass
             status["self_healing"] = STATUS_YELLOW
             
     except Exception as e:

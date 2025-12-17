@@ -372,28 +372,53 @@ def phase92_get_exit_recommendations(positions: List[Dict]) -> List[Dict]:
         exit_triggered = False
         exit_reason = None
         
-        # Tier 1: Exit after 2h if losing > 0.5%
-        if time_held_hours >= CFG92.tier1_exit_hours and current_pnl_pct < -0.5:
+        # CRITICAL: Check profit targets FIRST before time-based exits
+        # This ensures we lock in gains instead of waiting for time limits
+        time_held_minutes = time_held_hours * 60
+        
+        # Profit target 1: +0.5% after 30 minutes (priority - lock in gains early)
+        if time_held_minutes >= 30 and current_pnl_pct >= 0.5:
+            exit_triggered = True
+            exit_reason = f"profit_target_0.5pct_after_{time_held_minutes:.0f}min"
+        
+        # Profit target 2: +1.0% after 60 minutes
+        elif time_held_minutes >= 60 and current_pnl_pct >= 1.0:
+            exit_triggered = True
+            exit_reason = f"profit_target_1.0pct_after_{time_held_minutes:.0f}min"
+        
+        # Profit target 3: +1.5% after 90 minutes
+        elif time_held_minutes >= 90 and current_pnl_pct >= 1.5:
+            exit_triggered = True
+            exit_reason = f"profit_target_1.5pct_after_{time_held_minutes:.0f}min"
+        
+        # Profit target 4: +2.0% anytime (big winners)
+        elif current_pnl_pct >= 2.0:
+            exit_triggered = True
+            exit_reason = f"profit_target_2.0pct_after_{time_held_minutes:.0f}min"
+        
+        # Only check time-based exits if NO profit target hit
+        elif time_held_hours >= CFG92.tier1_exit_hours and current_pnl_pct < -0.5:
+            # Tier 1: Exit after 2h if losing > 0.5%
             exit_triggered = True
             exit_reason = f"tier1_loss_{time_held_hours:.1f}h_at_{current_pnl_pct:.2f}pct"
         
-        # Tier 2: Exit after 4h if gain < 0.2%
         elif time_held_hours >= CFG92.tier2_exit_hours and current_pnl_pct < 0.2:
+            # Tier 2: Exit after 4h if gain < 0.2%
             exit_triggered = True
             exit_reason = f"tier2_stagnant_{time_held_hours:.1f}h_at_{current_pnl_pct:.2f}pct"
         
-        # Tier 3: Exit after 8h if gain < 0.5%
         elif time_held_hours >= CFG92.tier3_exit_hours and current_pnl_pct < 0.5:
+            # Tier 3: Exit after 8h if gain < 0.5%
             exit_triggered = True
             exit_reason = f"tier3_weak_{time_held_hours:.1f}h_at_{current_pnl_pct:.2f}pct"
         
-        # Max hold time: Force exit after 12h regardless of P&L
         elif time_held_hours >= CFG92.max_hold_hours:
+            # Max hold time: Force exit after 12h regardless of P&L
             exit_triggered = True
             exit_reason = f"max_hold_{time_held_hours:.1f}h_force_exit"
         
-        # Legacy: Original 6h stagnant exit (kept for backward compatibility)
         elif time_held_hours >= CFG92.time_exit_hours and unrealized_pct < 0.1:
+            # Legacy: Original 6h stagnant exit (kept for backward compatibility)
             exit_triggered = True
             exit_reason = f"stagnant_{time_held_hours:.1f}h_with_{unrealized_pct:.2f}pct_gain"
         

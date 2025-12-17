@@ -1743,20 +1743,54 @@ def build_app(server: Flask = None) -> Dash:
             except Exception:
                 status["exit_gates"] = "yellow"
             
-            # 5. Trade execution (check positions file updates)
+            # 5. Trade execution (check positions file updates and bot activity)
             try:
                 pos_file = PathRegistry.POS_LOG
+                heartbeat_file = PathRegistry.get_path("logs", ".bot_heartbeat")
+                
+                # Check if bot is running (heartbeat freshness)
+                bot_is_running = False
+                if os.path.exists(heartbeat_file):
+                    heartbeat_age = time.time() - os.path.getmtime(heartbeat_file)
+                    bot_is_running = heartbeat_age < 300  # Bot active if heartbeat < 5 min
+                
                 if os.path.exists(pos_file):
                     file_age = time.time() - os.path.getmtime(pos_file)
-                    # More lenient: green if updated in last 10 minutes (not 5)
-                    if file_age < 600:  # 10 minutes
-                        status["trade_execution"] = "green"
-                    elif file_age < 3600:  # 1 hour
-                        status["trade_execution"] = "yellow"
+                    
+                    # Check if there are open positions (should be updated frequently if open)
+                    try:
+                        with open(pos_file, 'r') as f:
+                            pos_data = json.load(f)
+                            open_positions = pos_data.get("open_positions", [])
+                            has_open_positions = len(open_positions) > 0
+                    except:
+                        has_open_positions = False
+                    
+                    # If bot is running and has open positions, file should be updated frequently
+                    if bot_is_running and has_open_positions:
+                        if file_age < 600:  # 10 minutes
+                            status["trade_execution"] = "green"
+                        elif file_age < 1800:  # 30 minutes
+                            status["trade_execution"] = "yellow"
+                        else:
+                            status["trade_execution"] = "red"  # Open positions but stale file
+                    elif bot_is_running:
+                        # Bot running but no open positions - file age less critical
+                        if file_age < 3600:  # 1 hour (normal if no trades)
+                            status["trade_execution"] = "green"
+                        elif file_age < 86400:  # 24 hours
+                            status["trade_execution"] = "yellow"
+                        else:
+                            status["trade_execution"] = "red"  # Very stale even with no trades
                     else:
-                        status["trade_execution"] = "red"
+                        # Bot not running - can't determine status accurately
+                        status["trade_execution"] = "yellow"
                 else:
-                    status["trade_execution"] = "yellow"
+                    # File doesn't exist
+                    if bot_is_running:
+                        status["trade_execution"] = "red"  # Bot running but no positions file
+                    else:
+                        status["trade_execution"] = "yellow"  # Bot not running, file may not exist yet
             except Exception:
                 status["trade_execution"] = "red"
             

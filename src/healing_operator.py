@@ -696,21 +696,23 @@ class HealingOperator:
         
         if self.last_healing_cycle:
             failed_items = self.last_healing_cycle.get("failed", [])
+            healed_items = self.last_healing_cycle.get("healed", [])
             
             # Check if we have critical failures
             critical_failures = [item for item in failed_items if item in CRITICAL_COMPONENTS]
             
             if critical_failures:
-                # Critical component failed - RED
+                # Critical component failed - RED (needs attention)
                 status["self_healing"] = "red"
-            elif failed_items:
-                # Non-critical failures - YELLOW (healing is working but some issues remain)
-                status["self_healing"] = "yellow"
-            elif self.last_healing_cycle.get("healed"):
-                # Successfully healed issues - this is GOOD, show green
+            elif healed_items:
+                # Actively healing issues - GREEN (autonomous and working!)
+                # This shows the bot is self-healing, which is the goal
                 status["self_healing"] = "green"
+            elif failed_items:
+                # Non-critical failures but not actively healing - YELLOW (monitoring)
+                status["self_healing"] = "yellow"
             else:
-                # No issues found, everything healthy
+                # No issues found, everything healthy - GREEN
                 status["self_healing"] = "green"
         else:
             # Check if healing operator is running (recent cycle timestamp)

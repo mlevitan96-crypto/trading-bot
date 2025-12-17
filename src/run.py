@@ -579,6 +579,7 @@ def bot_worker():
     """
     Background thread that runs the trading bot cycle.
     """
+    import time  # Ensure time is available in this scope
     global _last_bot_cycle_ts, _bot_worker_alive
     print("🤖 Bot worker thread started")
     print("[ENGINE] Engine loop entered", flush=True)

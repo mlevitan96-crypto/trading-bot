@@ -375,6 +375,10 @@ class HealingOperator:
             else:
                 pos_file = Path("logs/positions_futures.json")
             
+            # Ensure pos_file is a Path object
+            if isinstance(pos_file, str):
+                pos_file = Path(pos_file)
+            
             # Use atomic save with file locking to prevent corruption during active trading
             from src.file_locks import atomic_json_save
             
@@ -461,6 +465,10 @@ class HealingOperator:
                 alert_file = resolve_path("logs/operator_alerts.jsonl")
             else:
                 alert_file = Path("logs/operator_alerts.jsonl")
+            
+            # Ensure alert_file is a Path object
+            if isinstance(alert_file, str):
+                alert_file = Path(alert_file)
             
             if not alert_file.exists():
                 alert_file.parent.mkdir(parents=True, exist_ok=True)

@@ -62,19 +62,21 @@
 
 ## Deployment Steps
 
-1. **Pull changes to droplet:**
-   ```bash
-   cd /path/to/trading-bot
-   git pull origin main
-   ```
+**Use the standard A/B deployment script (recommended):**
 
-2. **Restart bot:**
-   ```bash
-   # The bot should auto-restart, but if needed:
-   pm2 restart trading-bot
-   # or
-   systemctl restart trading-bot
-   ```
+```bash
+# On droplet:
+/root/trading-bot-tools/deploy.sh
+```
+
+This script:
+- Pulls changes into inactive slot
+- Installs dependencies
+- Runs health checks
+- Switches symlink atomically
+- Restarts service
+
+**See `DEPLOYMENT_PROCEDURE.md` for detailed deployment documentation.**
 
 3. **Verify changes:**
    - Check dashboard - exit gates should turn green after profitable trades close

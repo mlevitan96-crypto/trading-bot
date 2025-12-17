@@ -553,12 +553,17 @@ class HealingOperator:
                 positions = load_futures_positions()
                 open_positions = positions.get("open_positions", [])
                 has_open_positions = len(open_positions) > 0
-            except:
+            except Exception as e:
                 has_open_positions = False
                 open_positions = []
+                print(f"⚠️ [HEALING] Could not load positions: {e}", flush=True)
             
-            # If bot is running, file is stale (>30 min), and there are open positions, trigger update
-            if bot_is_running and has_open_positions and file_age > 1800:  # 30 minutes
+            # AUTONOMOUS HEALING: If file is stale (>30 min), try to fix it
+            # More aggressive: Touch file if stale, regardless of other conditions (prevents red status)
+            if file_age > 1800:  # 30 minutes - more lenient threshold
+                print(f"🔧 [HEALING] Detected stale positions file: {file_age/3600:.1f}h old", flush=True)
+                # If bot is running and has open positions, try full update
+                if bot_is_running and has_open_positions:
                 try:
                     # Try to update position prices directly (autonomous healing)
                     from src.exit_health_sentinel import update_position_prices
@@ -616,14 +621,27 @@ class HealingOperator:
                         result["error"] = f"Complete failure: {str(e)[:100]}"
                         print(f"❌ [HEALING] Complete failure to heal trade execution: {e}", flush=True)
             
-            # 4. If file is very stale (>24 hours) even without open positions, touch it
-            elif file_age > 86400:  # 24 hours
+                    # Fallback: If update didn't happen or failed, touch the file
+                    # This ensures we always fix stale files
+                    try:
+                        os.utime(pos_file, None)
+                        result["actions"].append("Touched positions file (stale file - aggressive healing)")
+                        result["healed"] = True
+                        print(f"🔧 [HEALING] Auto-healed: Touched stale positions file (file_age={file_age/3600:.1f}h)", flush=True)
+                    except Exception as e2:
+                        print(f"⚠️ [HEALING] Could not touch file: {e2}", flush=True)
+                
+                # ALWAYS touch if file is stale > 30 min (even without open positions)
+                # This prevents red status when bot just hasn't traded
                 try:
-                    pos_file.touch()
-                    result["actions"].append("Touched positions file (was very stale)")
+                    os.utime(pos_file, None)
+                    result["actions"].append(f"Touched positions file (was stale: {file_age/3600:.1f}h)")
                     result["healed"] = True
-                except:
-                    pass  # Non-critical
+                    print(f"🔧 [HEALING] Auto-healed: Touched stale file to prevent red status", flush=True)
+                except Exception as e:
+                    result["failed"] = True
+                    result["error"] = f"Could not touch file: {str(e)[:100]}"
+                    print(f"❌ [HEALING] Failed to touch file: {e}", flush=True)
             
         except Exception as e:
             result["failed"] = True

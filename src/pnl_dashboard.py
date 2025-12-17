@@ -2164,12 +2164,18 @@ def build_app(server: Flask = None) -> Dash:
                 # Status logic: Green if recent files found, yellow otherwise
                 if recent_files and recent_file_count > 0:
                     status["coinglass_feed"] = "green"
+                    print(f"✅ [DASHBOARD-CALLBACK] CoinGlass feed: GREEN (found {recent_file_count} recent files)")
                 elif os.path.exists(coinglass_dir) or os.path.exists(intel_dir):
                     status["coinglass_feed"] = "yellow"
+                    print(f"⚠️ [DASHBOARD-CALLBACK] CoinGlass feed: YELLOW (dirs exist but no recent files: recent_files={recent_files}, count={recent_file_count})")
                 else:
                     status["coinglass_feed"] = "red"
-            except Exception:
+                    print(f"❌ [DASHBOARD-CALLBACK] CoinGlass feed: RED (directories don't exist)")
+            except Exception as e:
                 status["coinglass_feed"] = "yellow"  # Errors are less critical - CoinGlass is optional
+                print(f"⚠️ [DASHBOARD-CALLBACK] CoinGlass status check error: {e}")
+                import traceback
+                traceback.print_exc()
             
             # 2. Signal engine
             try:

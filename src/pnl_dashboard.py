@@ -1626,9 +1626,13 @@ def build_app(server: Flask = None) -> Dash:
             
             # 1. CoinGlass feed (check both coinglass/ and intelligence/ directories)
             try:
+                import os
                 from src.infrastructure.path_registry import PathRegistry
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
+                
+                # Check if API key is configured (CoinGlass is optional)
+                has_api_key = bool(os.getenv('COINGLASS_API_KEY', ''))
                 
                 recent_files = False
                 
@@ -1653,9 +1657,12 @@ def build_app(server: Flask = None) -> Dash:
                                     recent_files = True
                                     break
                 
-                # More lenient: yellow if files exist but stale (< 24 hours), red only if no files or > 24h
+                # Status logic: If API key not set, CoinGlass is optional - yellow is acceptable
                 if recent_files:
                     status["coinglass_feed"] = "green"
+                elif not has_api_key:
+                    # No API key - CoinGlass is optional, yellow is acceptable
+                    status["coinglass_feed"] = "yellow"
                 elif os.path.exists(coinglass_dir) or os.path.exists(intel_dir):
                     # Files exist but stale - check how old
                     max_age = 0
@@ -1669,9 +1676,10 @@ def build_app(server: Flask = None) -> Dash:
                     # Yellow if < 24 hours (stale but not dead), red if > 24 hours
                     status["coinglass_feed"] = "yellow" if max_age < 86400 else "red"
                 else:
-                    status["coinglass_feed"] = "yellow"  # Changed from red - directory missing is less critical
+                    # No files, but API key exists - yellow (expected if just started or rate limited)
+                    status["coinglass_feed"] = "yellow" if has_api_key else "yellow"
             except Exception:
-                status["coinglass_feed"] = "yellow"  # Changed from red - errors are less critical
+                status["coinglass_feed"] = "yellow"  # Errors are less critical - CoinGlass is optional
             
             # 2. Signal engine
             try:

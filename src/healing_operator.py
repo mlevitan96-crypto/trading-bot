@@ -564,76 +564,60 @@ class HealingOperator:
                 print(f"🔧 [HEALING] Detected stale positions file: {file_age/3600:.1f}h old, bot_running={bot_is_running}, has_open={has_open_positions}", flush=True)
                 # If bot is running and has open positions, try full update
                 if bot_is_running and has_open_positions:
-                try:
-                    # Try to update position prices directly (autonomous healing)
-                    from src.exit_health_sentinel import update_position_prices
-                    
-                    # Fetch current prices for open positions
-                    current_prices = {}
                     try:
-                        from src.exchange_gateway import get_current_price
-                        for pos in open_positions[:10]:  # Limit to 10 to avoid timeout
-                            symbol = pos.get("symbol")
-                            if symbol:
-                                try:
-                                    price = get_current_price(symbol)
-                                    if price:
-                                        current_prices[symbol] = price
-                                except Exception as e:
-                                    # Log but continue
-                                    pass
-                    except Exception as e:
-                        # Price fetching failed - will fallback to touch
-                        pass
-                    
-                    # Update positions with current prices
-                    if current_prices:
+                        # Try to update position prices directly (autonomous healing)
+                        from src.exit_health_sentinel import update_position_prices
+                        
+                        # Fetch current prices for open positions
+                        current_prices = {}
                         try:
-                            updated_count = update_position_prices(current_prices)
-                            if updated_count > 0:
-                                result["actions"].append(f"Autonomously updated {updated_count} position prices (file was stale)")
-                                result["healed"] = True
-                                print(f"🔧 [HEALING] Auto-healed: Updated {updated_count} stale positions", flush=True)
-                                return result  # Success, return early
+                            from src.exchange_gateway import get_current_price
+                            for pos in open_positions[:10]:  # Limit to 10 to avoid timeout
+                                symbol = pos.get("symbol")
+                                if symbol:
+                                    try:
+                                        price = get_current_price(symbol)
+                                        if price:
+                                            current_prices[symbol] = price
+                                    except Exception as e:
+                                        # Log but continue
+                                        pass
                         except Exception as e:
-                            # Update function failed - fallback to touch
-                            print(f"⚠️ [HEALING] Position update failed, using touch fallback: {e}", flush=True)
-                    
-                    # Fallback: Even without prices or if update fails, touch the file to update timestamp
-                    try:
-                        os.utime(pos_file, None)  # Touch file
+                            # Price fetching failed - will fallback to touch
+                            pass
+                        
+                        # Update positions with current prices
+                        if current_prices:
+                            try:
+                                updated_count = update_position_prices(current_prices)
+                                if updated_count > 0:
+                                    result["actions"].append(f"Autonomously updated {updated_count} position prices (file was stale)")
+                                    result["healed"] = True
+                                    print(f"🔧 [HEALING] Auto-healed: Updated {updated_count} stale positions", flush=True)
+                                    return result  # Success, return early
+                            except Exception as e:
+                                # Update function failed - fallback to touch
+                                print(f"⚠️ [HEALING] Position update failed, using touch fallback: {e}", flush=True)
+                        
+                        # Fallback: Even without prices or if update fails, touch the file
+                        os.utime(pos_file, None)
                         result["actions"].append("Touched positions file (was stale with open positions - fallback healing)")
                         result["healed"] = True
                         print(f"🔧 [HEALING] Auto-healed: Touched stale positions file (file_age={file_age/3600:.1f}h)", flush=True)
-                    except Exception as e2:
-                        result["failed"] = True
-                        result["error"] = f"Could not touch file: {str(e2)[:100]}"
-                        print(f"❌ [HEALING] Failed to touch positions file: {e2}", flush=True)
-                except Exception as e:
-                    # If everything fails, at least try to touch
-                    try:
-                        os.utime(pos_file, None)
-                        result["actions"].append(f"Touched positions file (exception caught: {str(e)[:50]})")
-                        result["healed"] = True
-                        print(f"🔧 [HEALING] Auto-healed via exception handler: Touched file", flush=True)
-                    except:
-                        result["failed"] = True
-                        result["error"] = f"Complete failure: {str(e)[:100]}"
-                        print(f"❌ [HEALING] Complete failure to heal trade execution: {e}", flush=True)
-            
-                    # Fallback: If update didn't happen or failed, touch the file
-                    # This ensures we always fix stale files
-                    try:
-                        os.utime(pos_file, None)
-                        result["actions"].append("Touched positions file (stale file - aggressive healing)")
-                        result["healed"] = True
-                        print(f"🔧 [HEALING] Auto-healed: Touched stale positions file (file_age={file_age/3600:.1f}h)", flush=True)
-                    except Exception as e2:
-                        print(f"⚠️ [HEALING] Could not touch file: {e2}", flush=True)
-                
-                # ALWAYS touch if file is stale > 30 min (even without open positions)
-                # This prevents red status when bot just hasn't traded
-                if not result.get("healed"):  # Only touch if we haven't already healed
+                    except Exception as e:
+                        # If everything fails, at least try to touch
+                        try:
+                            os.utime(pos_file, None)
+                            result["actions"].append(f"Touched positions file (exception caught: {str(e)[:50]})")
+                            result["healed"] = True
+                            print(f"🔧 [HEALING] Auto-healed via exception handler: Touched file", flush=True)
+                        except Exception as e2:
+                            result["failed"] = True
+                            result["error"] = f"Complete failure: {str(e)[:100]}"
+                            print(f"❌ [HEALING] Complete failure to heal trade execution: {e}", flush=True)
+                else:
+                    # ALWAYS touch if file is stale > 30 min (even without open positions)
+                    # This prevents red status when bot just hasn't traded
                     try:
                         os.utime(pos_file, None)
                         result["actions"].append(f"Touched positions file (was stale: {file_age/3600:.1f}h)")

@@ -51,13 +51,35 @@ class HealingOperator:
         
     def start(self):
         """Start the healing operator in background thread."""
+        # If already running, check if thread is alive and restart if needed
         if self.running:
-            return
+            if self.thread and self.thread.is_alive():
+                return  # Already running fine
+            else:
+                # Thread died but running flag is still True - reset and restart
+                print("⚠️ [HEALING] Thread died, restarting healing operator...", flush=True)
+                self.running = False
         
         self.running = True
-        self.thread = threading.Thread(target=self._healing_loop, daemon=True, name="HealingOperator")
-        self.thread.start()
-        print("🔧 [HEALING] Healing operator started (60s cycle)")
+        try:
+            self.thread = threading.Thread(target=self._healing_loop, daemon=True, name="HealingOperator")
+            self.thread.start()
+            
+            # Verify thread actually started
+            import time
+            time.sleep(0.1)  # Give thread a moment to start
+            if self.thread.is_alive():
+                print("🔧 [HEALING] Healing operator started (60s cycle)", flush=True)
+            else:
+                print("❌ [HEALING] CRITICAL: Thread failed to start!", flush=True)
+                self.running = False
+                raise RuntimeError("HealingOperator thread failed to start")
+        except Exception as e:
+            self.running = False
+            print(f"❌ [HEALING] CRITICAL: Failed to start healing operator: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            raise
         
     def stop(self):
         """Stop the healing operator."""

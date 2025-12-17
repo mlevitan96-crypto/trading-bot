@@ -764,9 +764,22 @@ def bot_worker():
     # Start Comprehensive Self-Healing Operator
     print("🔧 [HEALING] Starting Comprehensive Self-Healing Operator...")
     try:
-        from src.healing_operator import start_healing_operator
-        healing_op = start_healing_operator()
-        if healing_op and healing_op.running:
+        from src.healing_operator import start_healing_operator, get_healing_operator
+        import time
+        
+        # Try to get existing instance first
+        healing_op = get_healing_operator()
+        if healing_op is None:
+            healing_op = start_healing_operator()
+        else:
+            # Already exists, make sure it's running
+            if not healing_op.running or not healing_op.thread or not healing_op.thread.is_alive():
+                print("   ⚠️  Existing instance not running, starting...")
+                healing_op.start()
+        
+        # Verify it's actually running
+        time.sleep(0.3)  # Give thread time to start
+        if healing_op and healing_op.running and healing_op.thread and healing_op.thread.is_alive():
             print("✅ [HEALING] Self-healing operator started (60s cycle)")
             print("   🔧 Auto-heals: Signal engine, Decision engine, Safety layer, File integrity")
             print("   🔧 Auto-heals: Exit gates, Trade execution, Heartbeat, Feature store")
@@ -774,18 +787,23 @@ def bot_worker():
             print("   🔧 Monitors all health components and repairs automatically")
         else:
             print("❌ [HEALING] CRITICAL: Healing operator failed to start properly!")
-            print("   → Healing operator instance created but not running")
-            print("   → Self-healing will NOT work until this is fixed")
-            # Try to start it manually as fallback
-            if healing_op:
-                try:
-                    healing_op.start()
-                    if healing_op.running:
-                        print("   ✅ Fallback: Successfully started healing operator")
-                    else:
-                        print("   ❌ Fallback: Still failed to start")
-                except Exception as e2:
-                    print(f"   ❌ Fallback error: {e2}")
+            print("   → Attempting emergency restart...")
+            # Emergency restart: create fresh instance
+            try:
+                from src.healing_operator import _healing_operator
+                import src.healing_operator as healing_module
+                # Force new instance
+                healing_module._healing_operator = None
+                healing_op = start_healing_operator()
+                time.sleep(0.3)
+                if healing_op and healing_op.running and healing_op.thread and healing_op.thread.is_alive():
+                    print("   ✅ Emergency restart successful!")
+                else:
+                    print("   ❌ Emergency restart failed!")
+                    print("   → Self-healing will NOT work until this is fixed")
+            except Exception as e2:
+                print(f"   ❌ Emergency restart error: {e2}")
+                print("   → Self-healing will NOT work until this is fixed")
     except Exception as e:
         print(f"❌ [HEALING] CRITICAL: Healing operator startup error: {e}")
         import traceback
@@ -1815,13 +1833,28 @@ def run_heavy_initialization():
     try:
         from src.healing_operator import start_healing_operator, get_healing_operator
         healing_op = start_healing_operator()
-        # Verify it's actually running
-        if healing_op and healing_op.running:
-            print("   ✅ Healing operator confirmed running")
+        # Verify it's actually running with thread check
+        if healing_op:
+            import time
+            time.sleep(0.2)  # Give thread time to start
+            if healing_op.running and healing_op.thread and healing_op.thread.is_alive():
+                print("   ✅ Healing operator confirmed running (thread alive)")
+            else:
+                print("   ❌ Healing operator NOT running properly!")
+                print("   → Attempting fallback start...")
+                try:
+                    healing_op.start()  # Try again
+                    time.sleep(0.2)
+                    if healing_op.running and healing_op.thread and healing_op.thread.is_alive():
+                        print("   ✅ Fallback start successful")
+                    else:
+                        print("   ❌ Fallback start failed - bot_worker will try again")
+                except Exception as e2:
+                    print(f"   ❌ Fallback start error: {e2}")
         else:
-            print("   ⚠️  Healing operator started but may not be running - bot_worker will attempt to start it")
+            print("   ❌ Failed to get healing operator instance")
     except Exception as e:
-        print(f"   ⚠️  Healing operator early start failed: {e}")
+        print(f"   ❌ Healing operator early start failed: {e}")
         print("   → bot_worker will attempt to start it later")
         import traceback
         traceback.print_exc()

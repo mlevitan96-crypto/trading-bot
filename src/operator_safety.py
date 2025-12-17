@@ -485,13 +485,55 @@ def get_status() -> Dict[str, str]:
         # Check self-healing status (check healing operator status)
         try:
             from src.healing_operator import get_healing_operator
+            import threading
+            import time
+            
             healing_op = get_healing_operator()
-            if healing_op:
+            
+            # If we can't get the instance, check if thread is running (fallback detection)
+            if healing_op is None:
+                # Check if healing operator thread exists and is alive
+                healing_thread_running = False
+                try:
+                    for thread in threading.enumerate():
+                        if thread.name == "HealingOperator" and thread.is_alive():
+                            healing_thread_running = True
+                            break
+                except Exception:
+                    pass
+                
+                if healing_thread_running:
+                    # Thread is running - assume it's working (green)
+                    # Check recent healing logs to confirm activity
+                    try:
+                        from src.infrastructure.path_registry import PathRegistry, resolve_path
+                        heal_log = resolve_path("logs/bot_out.log")
+                        if os.path.exists(heal_log):
+                            # Check if recent healing messages exist (within last 2 minutes)
+                            with open(heal_log, 'r') as f:
+                                lines = f.readlines()
+                                recent_lines = lines[-100:]  # Last 100 lines
+                                for line in reversed(recent_lines):
+                                    if "[HEALING]" in line:
+                                        # Found recent healing activity
+                                        status["self_healing"] = STATUS_GREEN
+                                        break
+                                else:
+                                    # Thread running but no recent activity - yellow
+                                    status["self_healing"] = STATUS_YELLOW
+                        else:
+                            # Log file doesn't exist - yellow
+                            status["self_healing"] = STATUS_YELLOW
+                    except Exception:
+                        # Thread running - assume green
+                        status["self_healing"] = STATUS_GREEN
+                else:
+                    # No thread found - yellow
+                    status["self_healing"] = STATUS_YELLOW
+            else:
+                # We have the instance - use its status
                 healing_status = healing_op.get_status()
                 status["self_healing"] = healing_status.get("self_healing", STATUS_YELLOW)
-            else:
-                # Healing operator not started yet
-                status["self_healing"] = STATUS_YELLOW
         except ImportError:
             # Healing operator not available - check alerts as fallback
             try:

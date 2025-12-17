@@ -1988,13 +1988,31 @@ def generate_executive_summary() -> Dict[str, str]:
         
         # Check exit profitability trend (if profit_target exits are increasing)
         try:
-            exit_file_check = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
-            if os.path.exists(exit_file_check):
-                profit_target_count = sum(1 for e in exit_events_today if e.get("exit_type") == "profit_target")
-                time_stop_count = sum(1 for e in exit_events_today if e.get("exit_type") == "time_stop")
+            # Get exit events if not already loaded
+            if 'exit_events_today' not in locals():
+                exit_file_check = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
+                exit_events_for_trend = []
+                if os.path.exists(exit_file_check):
+                    with open(exit_file_check, 'r') as f:
+                        for line in f:
+                            try:
+                                record = json.loads(line)
+                                ts = record.get("ts", 0)
+                                if ts:
+                                    record_time = datetime.fromtimestamp(ts, tz=ARIZONA_TZ)
+                                    if record_time >= today_start:
+                                        exit_events_for_trend.append(record)
+                            except:
+                                continue
+            else:
+                exit_events_for_trend = exit_events_today
+            
+            if exit_events_for_trend:
+                profit_target_count = sum(1 for e in exit_events_for_trend if e.get("exit_type") == "profit_target")
+                time_stop_count = sum(1 for e in exit_events_for_trend if e.get("exit_type") == "time_stop")
                 
                 if profit_target_count > 0:
-                    profit_target_pct = (profit_target_count / len(exit_events_today) * 100.0) if exit_events_today else 0
+                    profit_target_pct = (profit_target_count / len(exit_events_for_trend) * 100.0)
                     if profit_target_pct > 30:  # More than 30% are profit targets
                         improvements.append(f"Profit-taking working well: {profit_target_count} profit_target exits ({profit_target_pct:.0f}% of all exits)")
         except:

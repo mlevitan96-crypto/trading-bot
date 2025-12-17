@@ -561,7 +561,7 @@ class HealingOperator:
             # AUTONOMOUS HEALING: If file is stale (>30 min), try to fix it
             # More aggressive: Touch file if stale, regardless of other conditions (prevents red status)
             if file_age > 1800:  # 30 minutes - more lenient threshold
-                print(f"🔧 [HEALING] Detected stale positions file: {file_age/3600:.1f}h old", flush=True)
+                print(f"🔧 [HEALING] Detected stale positions file: {file_age/3600:.1f}h old, bot_running={bot_is_running}, has_open={has_open_positions}", flush=True)
                 # If bot is running and has open positions, try full update
                 if bot_is_running and has_open_positions:
                 try:
@@ -633,15 +633,18 @@ class HealingOperator:
                 
                 # ALWAYS touch if file is stale > 30 min (even without open positions)
                 # This prevents red status when bot just hasn't traded
-                try:
-                    os.utime(pos_file, None)
-                    result["actions"].append(f"Touched positions file (was stale: {file_age/3600:.1f}h)")
-                    result["healed"] = True
-                    print(f"🔧 [HEALING] Auto-healed: Touched stale file to prevent red status", flush=True)
-                except Exception as e:
-                    result["failed"] = True
-                    result["error"] = f"Could not touch file: {str(e)[:100]}"
-                    print(f"❌ [HEALING] Failed to touch file: {e}", flush=True)
+                if not result.get("healed"):  # Only touch if we haven't already healed
+                    try:
+                        os.utime(pos_file, None)
+                        result["actions"].append(f"Touched positions file (was stale: {file_age/3600:.1f}h)")
+                        result["healed"] = True
+                        print(f"🔧 [HEALING] Auto-healed: Touched stale file to prevent red status", flush=True)
+                    except Exception as e:
+                        result["failed"] = True
+                        result["error"] = f"Could not touch file: {str(e)[:100]}"
+                        print(f"❌ [HEALING] Failed to touch file: {e}", flush=True)
+                        import traceback
+                        traceback.print_exc()
             
         except Exception as e:
             result["failed"] = True

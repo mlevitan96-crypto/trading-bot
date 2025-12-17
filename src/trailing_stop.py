@@ -137,43 +137,82 @@ def apply_futures_trailing_stops(current_prices, market_data=None):
         
         hold_duration_minutes = (now - entry_ts) / 60
         
+        # Calculate current P&L percentage (before fees)
         if direction == "LONG":
+            pnl_pct = ((current_price - entry) / entry) if entry > 0 else 0
             peak = pos.get("peak_price", entry)
             trigger_price = peak
         else:
+            pnl_pct = ((entry - current_price) / entry) if entry > 0 else 0
             trough = pos.get("trough_price", entry)
             trigger_price = trough
         
-        # OVERNIGHT FIX: Use tiered trailing stops instead of disabling
-        base_trail_pct = None
-        if market_data and symbol in market_data:
-            base_trail_pct = get_dynamic_trail_pct(market_data[symbol])
-        
-        trail_pct = get_tiered_trail_pct(hold_duration_minutes, base_trail_pct)
-        
+        # CRITICAL: Check profit targets FIRST - take profit before trailing stops
+        # This ensures we lock in gains instead of watching them disappear
         should_close = False
-        if direction == "LONG" and current_price < trigger_price * (1 - trail_pct):
+        exit_reason = None
+        
+        # Profit target 1: +0.5% after minimum hold time (30 min)
+        if hold_duration_minutes >= 30 and pnl_pct >= 0.005:
+            # Check if we've held for a reasonable time and are profitable
+            # Take profit to lock in gains
             should_close = True
-        elif direction == "SHORT" and current_price > trigger_price * (1 + trail_pct):
+            exit_reason = "profit_target_0.5pct"
+        
+        # Profit target 2: +1.0% after 60 minutes
+        elif hold_duration_minutes >= 60 and pnl_pct >= 0.010:
             should_close = True
+            exit_reason = "profit_target_1.0pct"
+        
+        # Profit target 3: +1.5% after 90 minutes
+        elif hold_duration_minutes >= 90 and pnl_pct >= 0.015:
+            should_close = True
+            exit_reason = "profit_target_1.5pct"
+        
+        # Profit target 4: +2.0% anytime (let big winners run but protect large gains)
+        elif pnl_pct >= 0.020:
+            should_close = True
+            exit_reason = "profit_target_2.0pct"
+        
+        # If no profit target hit, check trailing stops
+        if not should_close:
+            # OVERNIGHT FIX: Use tiered trailing stops instead of disabling
+            base_trail_pct = None
+            if market_data and symbol in market_data:
+                base_trail_pct = get_dynamic_trail_pct(market_data[symbol])
+            
+            trail_pct = get_tiered_trail_pct(hold_duration_minutes, base_trail_pct)
+            
+            if direction == "LONG" and current_price < trigger_price * (1 - trail_pct):
+                should_close = True
+                exit_reason = "trailing_stop"
+            elif direction == "SHORT" and current_price > trigger_price * (1 + trail_pct):
+                should_close = True
+                exit_reason = "trailing_stop"
         
         if should_close:
-            # Determine tier for logging
-            if hold_duration_minutes < 30:
-                tier = "tight"
-            elif hold_duration_minutes < 120:
-                tier = "medium"
-            elif hold_duration_minutes < 240:
-                tier = "wide"
+            # Determine exit reason with tier for trailing stops
+            if exit_reason == "trailing_stop":
+                # Determine tier for logging trailing stops
+                if hold_duration_minutes < 30:
+                    tier = "tight"
+                elif hold_duration_minutes < 120:
+                    tier = "medium"
+                elif hold_duration_minutes < 240:
+                    tier = "wide"
+                else:
+                    tier = "overnight"
+                final_reason = f"{exit_reason}_{tier}"
             else:
-                tier = "overnight"
+                # Profit target exits
+                final_reason = exit_reason
             
             success = close_futures_position(
                 symbol, 
                 pos["strategy"], 
                 direction,
                 current_price, 
-                reason=f"trailing_stop_{tier}"
+                reason=final_reason
             )
             if success:
                 closed.append({
@@ -182,12 +221,16 @@ def apply_futures_trailing_stops(current_prices, market_data=None):
                     "direction": direction,
                     "entry": entry,
                     "exit": current_price,
-                    "trigger_price": trigger_price,
-                    "trail_pct": trail_pct,
-                    "hold_minutes": hold_duration_minutes,
-                    "tier": tier
+                    "pnl_pct": pnl_pct * 100,
+                    "exit_reason": final_reason,
+                    "hold_minutes": hold_duration_minutes
                 })
-                print(f"🔻 Futures trailing stop ({tier}): {direction} {symbol} | Trigger: ${trigger_price:.2f} → Exit: ${current_price:.2f} | Trail: {trail_pct*100:.1f}% | Held: {hold_duration_minutes:.0f}m")
+                
+                # Print appropriate message based on exit type
+                if "profit_target" in final_reason:
+                    print(f"💰 Profit target hit: {direction} {symbol} | Entry: ${entry:.2f} → Exit: ${current_price:.2f} | P&L: {pnl_pct*100:.2f}% | Held: {hold_duration_minutes:.0f}m | Reason: {final_reason}")
+                else:
+                    print(f"🔻 Futures trailing stop: {direction} {symbol} | Trigger: ${trigger_price:.2f} → Exit: ${current_price:.2f} | P&L: {pnl_pct*100:.2f}% | Held: {hold_duration_minutes:.0f}m")
     
     return closed
 

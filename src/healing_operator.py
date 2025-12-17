@@ -47,6 +47,7 @@ class HealingOperator:
         self.check_interval = 60  # Check every 60 seconds
         self.healing_log = []
         self.last_healing_cycle = None
+        self.last_healing_cycle_ts = None
         
     def start(self):
         """Start the healing operator in background thread."""
@@ -220,6 +221,7 @@ class HealingOperator:
             failed.append("architecture_components")
         
         cycle_duration = time.time() - cycle_start
+        self.last_healing_cycle_ts = time.time()  # Track timestamp for status checks
         self.last_healing_cycle = {
             "timestamp": datetime.utcnow().isoformat(),
             "healed": healed,
@@ -690,13 +692,30 @@ class HealingOperator:
         
         if self.last_healing_cycle:
             if self.last_healing_cycle.get("failed"):
-                status["self_healing"] = "red"
+                # Check if critical failures
+                failed_items = self.last_healing_cycle.get("failed", [])
+                if failed_items and len(failed_items) > 0:
+                    status["self_healing"] = "red"
+                else:
+                    # Minor failures, healing still working
+                    status["self_healing"] = "green"
             elif self.last_healing_cycle.get("healed"):
-                status["self_healing"] = "yellow"  # Recently healed, monitoring
+                # Successfully healed issues - this is GOOD, show green
+                status["self_healing"] = "green"
             else:
+                # No issues found, everything healthy
                 status["self_healing"] = "green"
         else:
-            status["self_healing"] = "yellow"  # No cycle run yet
+            # Check if healing operator is running (recent cycle timestamp)
+            import time
+            if hasattr(self, 'last_healing_cycle_ts'):
+                cycle_age = time.time() - self.last_healing_cycle_ts if self.last_healing_cycle_ts else 999
+                if cycle_age < 120:  # Cycle run within last 2 minutes
+                    status["self_healing"] = "green"
+                else:
+                    status["self_healing"] = "yellow"  # No recent activity
+            else:
+                status["self_healing"] = "yellow"  # No cycle run yet
         
         return status
     

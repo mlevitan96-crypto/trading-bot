@@ -1668,12 +1668,77 @@ def build_app(server: Flask = None) -> Dash:
             except Exception:
                 status["decision_engine"] = "red"
             
-            # 4. Exit gates (check exit log)
+            # 4. Exit gates (check exit log for recent activity and profitable exits)
             try:
                 exit_file = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
                 if os.path.exists(exit_file):
-                    status["exit_gates"] = "green"
+                    # Check file modification time (should be recent - within last 24 hours)
+                    file_age = time.time() - os.path.getmtime(exit_file)
+                    
+                    # Read recent exit events (last 100 lines to check for profitable exits)
+                    profitable_exits_recent = 0
+                    total_exits_recent = 0
+                    recent_exit_times = []
+                    
+                    try:
+                        with open(exit_file, 'r') as f:
+                            lines = f.readlines()
+                            # Check last 100 lines for recent activity
+                            for line in lines[-100:]:
+                                try:
+                                    record = json.loads(line.strip())
+                                    if not record:
+                                        continue
+                                    
+                                    # Get timestamp
+                                    record_ts = record.get("ts", 0)
+                                    if record_ts:
+                                        record_age = time.time() - record_ts
+                                        # Only count exits within last 7 days as "recent"
+                                        if record_age < 604800:  # 7 days
+                                            recent_exit_times.append(record_ts)
+                                            total_exits_recent += 1
+                                            
+                                            # Check if profitable
+                                            roi = record.get("roi") or record.get("realized_roi", 0)
+                                            was_profitable = record.get("was_profitable", False)
+                                            
+                                            if (roi and roi > 0) or was_profitable:
+                                                profitable_exits_recent += 1
+                                except:
+                                    continue
+                    except Exception:
+                        pass
+                    
+                    # Determine status based on activity and profitability
+                    if file_age < 86400:  # File modified within last 24 hours
+                        if total_exits_recent > 0:
+                            # Check profitability rate
+                            profit_rate = profitable_exits_recent / total_exits_recent if total_exits_recent > 0 else 0
+                            
+                            # Green if: recent activity + at least one profitable exit in last 7 days
+                            if profitable_exits_recent > 0:
+                                status["exit_gates"] = "green"
+                            elif total_exits_recent >= 3:
+                                # Yellow if: recent activity but no profitable exits yet (may be stop losses)
+                                status["exit_gates"] = "yellow"
+                            else:
+                                # Yellow if: minimal activity
+                                status["exit_gates"] = "yellow"
+                        else:
+                            # File exists but no recent exits
+                            status["exit_gates"] = "yellow"
+                    elif file_age < 604800:  # File modified within last 7 days
+                        # Older activity
+                        if profitable_exits_recent > 0:
+                            status["exit_gates"] = "green"
+                        else:
+                            status["exit_gates"] = "yellow"
+                    else:
+                        # File exists but very old (no recent activity)
+                        status["exit_gates"] = "yellow"
                 else:
+                    # File doesn't exist
                     status["exit_gates"] = "yellow"
             except Exception:
                 status["exit_gates"] = "yellow"
@@ -1986,10 +2051,73 @@ def build_app(server: Flask = None) -> Dash:
             except Exception:
                 status["decision_engine"] = "red"
             
-            # 4. Exit gates
+            # 4. Exit gates (check exit log for recent activity and profitable exits)
             try:
                 exit_file = PathRegistry.get_path("logs", "exit_runtime_events.jsonl")
-                status["exit_gates"] = "green" if os.path.exists(exit_file) else "yellow"
+                if os.path.exists(exit_file):
+                    # Check file modification time (should be recent - within last 24 hours)
+                    file_age = time.time() - os.path.getmtime(exit_file)
+                    
+                    # Read recent exit events (last 100 lines to check for profitable exits)
+                    profitable_exits_recent = 0
+                    total_exits_recent = 0
+                    
+                    try:
+                        with open(exit_file, 'r') as f:
+                            lines = f.readlines()
+                            # Check last 100 lines for recent activity
+                            for line in lines[-100:]:
+                                try:
+                                    record = json.loads(line.strip())
+                                    if not record:
+                                        continue
+                                    
+                                    # Get timestamp
+                                    record_ts = record.get("ts", 0)
+                                    if record_ts:
+                                        record_age = time.time() - record_ts
+                                        # Only count exits within last 7 days as "recent"
+                                        if record_age < 604800:  # 7 days
+                                            total_exits_recent += 1
+                                            
+                                            # Check if profitable
+                                            roi = record.get("roi") or record.get("realized_roi", 0)
+                                            was_profitable = record.get("was_profitable", False)
+                                            
+                                            if (roi and roi > 0) or was_profitable:
+                                                profitable_exits_recent += 1
+                                except:
+                                    continue
+                    except Exception:
+                        pass
+                    
+                    # Determine status based on activity and profitability
+                    if file_age < 86400:  # File modified within last 24 hours
+                        if total_exits_recent > 0:
+                            # Green if: recent activity + at least one profitable exit in last 7 days
+                            if profitable_exits_recent > 0:
+                                status["exit_gates"] = "green"
+                            elif total_exits_recent >= 3:
+                                # Yellow if: recent activity but no profitable exits yet (may be stop losses)
+                                status["exit_gates"] = "yellow"
+                            else:
+                                # Yellow if: minimal activity
+                                status["exit_gates"] = "yellow"
+                        else:
+                            # File exists but no recent exits
+                            status["exit_gates"] = "yellow"
+                    elif file_age < 604800:  # File modified within last 7 days
+                        # Older activity
+                        if profitable_exits_recent > 0:
+                            status["exit_gates"] = "green"
+                        else:
+                            status["exit_gates"] = "yellow"
+                    else:
+                        # File exists but very old (no recent activity)
+                        status["exit_gates"] = "yellow"
+                else:
+                    # File doesn't exist
+                    status["exit_gates"] = "yellow"
             except Exception:
                 status["exit_gates"] = "yellow"
             

@@ -809,6 +809,48 @@ def close_futures_position(symbol, strategy, direction, exit_price, reason="manu
             except Exception as e:
                 pass  # Non-blocking
             
+            # [EXIT GATE LOGGING] Log to exit_runtime_events.jsonl for dashboard monitoring
+            try:
+                from src.exit_learning_and_enforcement import EXIT_RUNTIME_LOG, _append_jsonl
+                
+                # Determine exit type based on reason and profitability
+                exit_type = "closed"
+                if "tp1" in reason.lower() or "profit_target" in reason.lower():
+                    exit_type = "tp1"
+                elif "tp2" in reason.lower():
+                    exit_type = "tp2"
+                elif "trailing" in reason.lower() or "trail" in reason.lower():
+                    exit_type = "trailing"
+                elif "stop" in reason.lower() or "loss" in reason.lower():
+                    exit_type = "stop"
+                elif "time" in reason.lower():
+                    exit_type = "time_stop"
+                
+                # Calculate minutes open
+                minutes_open = trade_duration_seconds / 60 if trade_duration_seconds else 0
+                
+                exit_event = {
+                    "symbol": symbol,
+                    "exit_type": exit_type,
+                    "roi": net_roi,  # Net ROI after fees
+                    "realized_roi": net_roi,  # For compatibility
+                    "pnl_usd": net_pnl_usd,
+                    "minutes_open": round(minutes_open, 1),
+                    "reason": reason,
+                    "was_profitable": net_roi > 0,
+                    "strategy": strategy,
+                    "direction": direction,
+                    "entry_price": closed_pos.get("entry_price"),
+                    "exit_price": exit_price,
+                    "leverage": closed_pos.get("leverage", 1),
+                    "ts": int(__pm_time.time())  # Use existing time import
+                }
+                
+                _append_jsonl(EXIT_RUNTIME_LOG, exit_event)
+            except Exception as e:
+                print(f"⚠️ [EXIT-LOG] Failed to log exit event: {e}")
+                pass  # Non-blocking
+            
             return True
     
     return False

@@ -232,12 +232,18 @@ class ExitTuner:
         for sym, events in by_symbol.items():
             if not events: continue
 
-            # Hit-rate proxies
+            # Hit-rate proxies (include new profit_target exits from trailing_stop.py)
             tp1_hits = sum(1 for e in events if e.get("exit_type") == "tp1")
             tp2_hits = sum(1 for e in events if e.get("exit_type") == "tp2")
-            trail_exits = sum(1 for e in events if e.get("exit_type") == "trailing")
+            trail_exits = sum(1 for e in events if e.get("exit_type") == "trailing" or (e.get("exit_type") == "closed" and "trailing" in str(e.get("reason", ""))))
+            # Count profit target exits (from trailing_stop.py profit_target_* reasons)
+            profit_target_exits = sum(1 for e in events if "profit_target" in str(e.get("exit_type", "")) or "profit_target" in str(e.get("reason", "")))
             stops = sum(1 for e in events if e.get("exit_type") == "stop")
             time_stops = sum(1 for e in events if e.get("exit_type") == "time_stop")
+            
+            # Analyze profitability of exits
+            profitable_exits = sum(1 for e in events if e.get("was_profitable", False) or (e.get("roi", 0) or e.get("realized_roi", 0)) > 0)
+            total_exits_count = len(events)
 
             # Volatility proxy from ATR
             atrs = [float(e.get("atr_roi", 0.0)) for e in events if e.get("atr_roi") is not None]
@@ -257,11 +263,15 @@ class ExitTuner:
 
             # Tuning heuristics (data-driven adjustments):
             # 1) TP levels: if tp1_hits are frequent and tp2 rare, consider lowering TP2 slightly
-            total_exits = max(1, tp1_hits + tp2_hits + trail_exits + stops + time_stops)
+            total_exits = max(1, tp1_hits + tp2_hits + trail_exits + profit_target_exits + stops + time_stops)
             tp1_rate = tp1_hits / total_exits
             tp2_rate = tp2_hits / total_exits
             trail_rate = trail_exits / total_exits
+            profit_target_rate = profit_target_exits / total_exits
             stop_rate = stops / total_exits
+            
+            # Analyze if profit targets are working (profitable exits increasing)
+            profitability_rate = profitable_exits / total_exits_count if total_exits_count > 0 else 0
 
             # Lower TP2 if very few reach TP2 but many reach TP1 (suggest targets too far in current regime)
             if tp1_rate > 0.35 and tp2_rate < 0.10:
@@ -269,6 +279,16 @@ class ExitTuner:
             # Raise TP1 if too many time_stops/stops occur before TP1 (avoid dead trades)
             if (time_stops + stops) / total_exits > 0.30:
                 new_params["TP1_ROI"] = min(current["TP1_ROI"] + 0.001, 0.012)  # increase by 0.1%
+            
+            # CRITICAL: If profit targets are working (high profitability rate), keep them
+            # If profitability is low despite profit targets, they may be too aggressive or not triggering
+            if profit_target_rate > 0.30 and profitability_rate < 0.40:
+                # Many profit targets but low profitability - may be exiting too early or targets too low
+                # Could also mean positions reversing before targets hit
+                pass  # Monitor but don't auto-adjust yet (needs more data)
+            elif profit_target_rate > 0.50 and profitability_rate > 0.60:
+                # High profit target rate AND high profitability - system is working well!
+                pass  # Keep current thresholds
 
             # 2) Trailing distance: widen in high volatility, tighten in chop
             if avg_atr > 0.007:    # high vol regime proxy
@@ -298,11 +318,15 @@ class ExitTuner:
                     "tp1_rate": round(tp1_rate, 3),
                     "tp2_rate": round(tp2_rate, 3),
                     "trail_rate": round(trail_rate, 3),
+                    "profit_target_rate": round(profit_target_rate, 3),
+                    "profitability_rate": round(profitability_rate, 3),
                     "stop_rate": round(stop_rate, 3),
                     "avg_atr": round(avg_atr, 6),
                     "avg_mfe": round(avg_mfe, 6),
                     "avg_mae": round(avg_mae, 6),
-                    "total_exits": total_exits
+                    "total_exits": total_exits,
+                    "profitable_exits": profitable_exits,
+                    "total_exits_count": total_exits_count
                 }
             }
             tuning_decisions.append(decision)

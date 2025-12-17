@@ -669,23 +669,77 @@ class HealingOperator:
         return result
     
     def _heal_feature_store(self) -> Dict[str, Any]:
-        """Heal feature store issues."""
+        """Heal feature store issues - including CoinGlass feed."""
         result = {"healed": False, "failed": False, "actions": []}
         
         try:
             if PathRegistry:
                 feature_dir = PathRegistry.FEATURE_STORE_DIR
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
+                intel_dir = PathRegistry.get_path("feature_store", "intelligence")
             else:
                 feature_dir = Path("feature_store")
                 coinglass_dir = Path("feature_store/coinglass")
+                intel_dir = Path("feature_store/intelligence")
             
             # Ensure directories exist
-            for dir_path in [feature_dir, coinglass_dir]:
+            for dir_path in [feature_dir, coinglass_dir, intel_dir]:
                 if not dir_path.exists():
                     dir_path.mkdir(parents=True, exist_ok=True)
                     result["actions"].append(f"Created {dir_path.name} directory")
                     result["healed"] = True
+            
+            # AUTONOMOUS HEALING: Check CoinGlass feed freshness
+            # CoinGlass data can be in either coinglass/ or intelligence/ directories
+            coinglass_fresh = False
+            current_time = time.time()
+            
+            # Check coinglass directory
+            if coinglass_dir.exists():
+                for file_path in coinglass_dir.glob("*"):
+                    if file_path.is_file():
+                        file_age = current_time - os.path.getmtime(str(file_path))
+                        if file_age < 3600:  # < 1 hour
+                            coinglass_fresh = True
+                            break
+            
+            # Check intelligence directory (alternative location)
+            if not coinglass_fresh and intel_dir.exists():
+                for file_path in intel_dir.glob("*"):
+                    if file_path.is_file() and "intel" in file_path.name.lower():
+                        file_age = current_time - os.path.getmtime(str(file_path))
+                        if file_age < 3600:  # < 1 hour
+                            coinglass_fresh = True
+                            break
+            
+            # If CoinGlass feed is stale, try to trigger a fetch
+            if not coinglass_fresh:
+                try:
+                    # Check if intelligence poller should be running
+                    from src.intelligence_gate import _poller_instance
+                    if _poller_instance and hasattr(_poller_instance, 'running') and _poller_instance.running:
+                        # Poller is running but data is stale - might be rate limited or API issues
+                        result["actions"].append("CoinGlass feed stale but poller is running (may be rate limited)")
+                        # Don't mark as healed - this is informational
+                    else:
+                        # Poller not running - try to trigger a fetch
+                        try:
+                            from src.market_intelligence import poll_intelligence
+                            # This might fail if API key is missing or rate limited, but worth trying
+                            poll_intelligence()
+                            result["actions"].append("Triggered CoinGlass fetch (feed was stale)")
+                            result["healed"] = True
+                            print(f"🔧 [HEALING] Auto-healed: Triggered CoinGlass fetch", flush=True)
+                        except Exception as e:
+                            # Fetch failed - might be API key or rate limit
+                            result["actions"].append(f"CoinGlass fetch failed (may need API key or rate limited): {str(e)[:50]}")
+                except ImportError:
+                    # Intelligence gate not available - non-critical
+                    result["actions"].append("CoinGlass intelligence module not available")
+                except Exception as e:
+                    # Non-critical - CoinGlass is optional
+                    result["actions"].append(f"CoinGlass check error: {str(e)[:50]}")
+            
         except Exception as e:
             result["failed"] = True
             result["error"] = str(e)

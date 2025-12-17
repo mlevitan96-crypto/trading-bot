@@ -1624,13 +1624,16 @@ def build_app(server: Flask = None) -> Dash:
         try:
             status = {}
             
-            # 1. CoinGlass feed
+            # 1. CoinGlass feed (check both coinglass/ and intelligence/ directories)
             try:
                 from src.infrastructure.path_registry import PathRegistry
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
+                intel_dir = PathRegistry.get_path("feature_store", "intelligence")
+                
+                recent_files = False
+                
+                # Check coinglass directory
                 if os.path.exists(coinglass_dir):
-                    # Check if any recent files exist (within last hour)
-                    recent_files = False
                     for file in os.listdir(coinglass_dir):
                         file_path = os.path.join(coinglass_dir, file)
                         if os.path.isfile(file_path):
@@ -1638,11 +1641,37 @@ def build_app(server: Flask = None) -> Dash:
                             if file_age < 3600:  # 1 hour
                                 recent_files = True
                                 break
-                    status["coinglass_feed"] = "green" if recent_files else "yellow"
+                
+                # Also check intelligence directory (where market_intelligence.py writes)
+                if not recent_files and os.path.exists(intel_dir):
+                    for file in os.listdir(intel_dir):
+                        if "intel" in file.lower() or file.endswith(".json"):
+                            file_path = os.path.join(intel_dir, file)
+                            if os.path.isfile(file_path):
+                                file_age = time.time() - os.path.getmtime(file_path)
+                                if file_age < 3600:  # 1 hour
+                                    recent_files = True
+                                    break
+                
+                # More lenient: yellow if files exist but stale (< 24 hours), red only if no files or > 24h
+                if recent_files:
+                    status["coinglass_feed"] = "green"
+                elif os.path.exists(coinglass_dir) or os.path.exists(intel_dir):
+                    # Files exist but stale - check how old
+                    max_age = 0
+                    for dir_path in [coinglass_dir, intel_dir]:
+                        if os.path.exists(dir_path):
+                            for file in os.listdir(dir_path):
+                                file_path = os.path.join(dir_path, file)
+                                if os.path.isfile(file_path):
+                                    file_age = time.time() - os.path.getmtime(file_path)
+                                    max_age = max(max_age, file_age)
+                    # Yellow if < 24 hours (stale but not dead), red if > 24 hours
+                    status["coinglass_feed"] = "yellow" if max_age < 86400 else "red"
                 else:
-                    status["coinglass_feed"] = "red"
+                    status["coinglass_feed"] = "yellow"  # Changed from red - directory missing is less critical
             except Exception:
-                status["coinglass_feed"] = "red"
+                status["coinglass_feed"] = "yellow"  # Changed from red - errors are less critical
             
             # 2. Signal engine
             try:

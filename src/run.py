@@ -766,15 +766,32 @@ def bot_worker():
     try:
         from src.healing_operator import start_healing_operator
         healing_op = start_healing_operator()
-        print("✅ [HEALING] Self-healing operator started (60s cycle)")
-        print("   🔧 Auto-heals: Signal engine, Decision engine, Safety layer, File integrity")
-        print("   🔧 Auto-heals: Exit gates, Trade execution, Heartbeat, Feature store")
-        print("   🔧 Auto-heals: SignalBus, StateMachine, ShadowEngine, DecisionTracker (NEW)")
-        print("   🔧 Monitors all health components and repairs automatically")
+        if healing_op and healing_op.running:
+            print("✅ [HEALING] Self-healing operator started (60s cycle)")
+            print("   🔧 Auto-heals: Signal engine, Decision engine, Safety layer, File integrity")
+            print("   🔧 Auto-heals: Exit gates, Trade execution, Heartbeat, Feature store")
+            print("   🔧 Auto-heals: SignalBus, StateMachine, ShadowEngine, DecisionTracker (NEW)")
+            print("   🔧 Monitors all health components and repairs automatically")
+        else:
+            print("❌ [HEALING] CRITICAL: Healing operator failed to start properly!")
+            print("   → Healing operator instance created but not running")
+            print("   → Self-healing will NOT work until this is fixed")
+            # Try to start it manually as fallback
+            if healing_op:
+                try:
+                    healing_op.start()
+                    if healing_op.running:
+                        print("   ✅ Fallback: Successfully started healing operator")
+                    else:
+                        print("   ❌ Fallback: Still failed to start")
+                except Exception as e2:
+                    print(f"   ❌ Fallback error: {e2}")
     except Exception as e:
-        print(f"⚠️ [HEALING] Healing operator startup error: {e}")
+        print(f"❌ [HEALING] CRITICAL: Healing operator startup error: {e}")
         import traceback
         traceback.print_exc()
+        print("   → Self-healing will NOT work until this is fixed")
+        print("   → Bot will continue but health monitoring is disabled")
     
     # NOTE: Signal Outcome Resolver is now started as a separate worker process in _start_all_worker_processes()
     # This ensures proper isolation, monitoring, and automatic restart on crash.
@@ -1792,6 +1809,22 @@ def run_heavy_initialization():
     
     from src.venue_config import print_venue_map
     print_venue_map()
+    
+    # CRITICAL: Start healing operator early (before bot_worker) to ensure it always runs
+    print("\n🔧 [HEALING] Ensuring healing operator is started...")
+    try:
+        from src.healing_operator import start_healing_operator, get_healing_operator
+        healing_op = start_healing_operator()
+        # Verify it's actually running
+        if healing_op and healing_op.running:
+            print("   ✅ Healing operator confirmed running")
+        else:
+            print("   ⚠️  Healing operator started but may not be running - bot_worker will attempt to start it")
+    except Exception as e:
+        print(f"   ⚠️  Healing operator early start failed: {e}")
+        print("   → bot_worker will attempt to start it later")
+        import traceback
+        traceback.print_exc()
     
     print("\n🏥 Running startup health check...")
     health_check_passed = True

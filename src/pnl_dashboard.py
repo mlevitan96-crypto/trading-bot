@@ -2118,23 +2118,58 @@ def build_app(server: Flask = None) -> Dash:
             # Call the status function directly (same as endpoint)
             status = {}
             
-            # 1. CoinGlass feed
+            # 1. CoinGlass feed (check both coinglass/ and intelligence/ directories)
             try:
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
+                intel_dir = PathRegistry.get_path("feature_store", "intelligence")
+                
+                # Convert to strings if Path objects
+                coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, Path) else coinglass_dir
+                intel_dir = str(intel_dir) if isinstance(intel_dir, Path) else intel_dir
+                
+                recent_files = False
+                recent_file_count = 0
+                
+                # Check coinglass directory
                 if os.path.exists(coinglass_dir):
-                    recent_files = False
-                    for file in os.listdir(coinglass_dir):
-                        file_path = os.path.join(coinglass_dir, file)
-                        if os.path.isfile(file_path):
-                            file_age = time.time() - os.path.getmtime(file_path)
-                            if file_age < 3600:  # 1 hour
-                                recent_files = True
-                                break
-                    status["coinglass_feed"] = "green" if recent_files else "yellow"
+                    try:
+                        for file in os.listdir(coinglass_dir):
+                            file_path = os.path.join(coinglass_dir, file)
+                            if os.path.isfile(file_path):
+                                file_age = time.time() - os.path.getmtime(file_path)
+                                if file_age < 3600:  # 1 hour
+                                    recent_files = True
+                                    recent_file_count += 1
+                                    break
+                    except Exception:
+                        pass
+                
+                # Check intelligence directory (PRIMARY location for CoinGlass data)
+                if os.path.exists(intel_dir):
+                    try:
+                        for file in os.listdir(intel_dir):
+                            # Check for intel JSON files (e.g., BTCUSDT_intel.json, summary.json)
+                            if ("intel" in file.lower() and file.endswith(".json")) or \
+                               (file == "summary.json"):
+                                file_path = os.path.join(intel_dir, file)
+                                if os.path.isfile(file_path):
+                                    file_age = time.time() - os.path.getmtime(file_path)
+                                    if file_age < 3600:  # 1 hour
+                                        recent_files = True
+                                        recent_file_count += 1
+                                        # Don't break - count all recent files
+                    except Exception:
+                        pass
+                
+                # Status logic: Green if recent files found, yellow otherwise
+                if recent_files and recent_file_count > 0:
+                    status["coinglass_feed"] = "green"
+                elif os.path.exists(coinglass_dir) or os.path.exists(intel_dir):
+                    status["coinglass_feed"] = "yellow"
                 else:
                     status["coinglass_feed"] = "red"
             except Exception:
-                status["coinglass_feed"] = "red"
+                status["coinglass_feed"] = "yellow"  # Errors are less critical - CoinGlass is optional
             
             # 2. Signal engine
             try:

@@ -184,14 +184,18 @@ def update_position_prices(current_prices: dict):
         current_prices: Dict of {symbol: price}
     """
     try:
-        if not os.path.exists(POSITIONS_FILE):
-            # File doesn't exist - nothing to update
-            return 0
-            
-        with open(POSITIONS_FILE, "r") as f:
-            data = json.load(f)
+        # Use position_manager functions for proper atomic saves
+        from src.position_manager import load_futures_positions, save_futures_positions
         
-        open_positions = data.get("open_positions", [])
+        positions = load_futures_positions()
+        
+        if not positions:
+            return 0
+        
+        open_positions = positions.get("open_positions", [])
+        if not open_positions:
+            return 0
+        
         updated_count = 0
         
         for pos in open_positions:
@@ -201,12 +205,10 @@ def update_position_prices(current_prices: dict):
                 pos["updated_at"] = datetime.now(ARIZONA_TZ).isoformat()
                 updated_count += 1
         
-        # Save updated positions
-        with open(POSITIONS_FILE, "w") as f:
-            json.dump(data, f, indent=2)
-        
+        # Use atomic save function to ensure file is properly updated
         if updated_count > 0:
-            print(f"✅ Exit Sentinel: Updated {updated_count} positions with current prices")
+            save_futures_positions(positions)
+            print(f"✅ Exit Sentinel: Updated {updated_count} positions with current prices", flush=True)
         
         log_sentinel_event("position_prices_updated", {
             "updated_count": updated_count,
@@ -216,6 +218,8 @@ def update_position_prices(current_prices: dict):
         return updated_count
         
     except Exception as e:
-        print(f"⚠️ Exit Sentinel: Failed to update position prices: {e}")
+        print(f"⚠️ Exit Sentinel: Failed to update position prices: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
         log_sentinel_event("position_price_update_failed", {"error": str(e)})
         return 0

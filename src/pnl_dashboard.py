@@ -1912,6 +1912,57 @@ def generate_executive_summary() -> Dict[str, str]:
                 if win_rate_today > yesterday_wr:
                     improvements.append(f"Win rate improved: {yesterday_wr:.1f}% → {win_rate_today:.1f}% (+{win_rate_today - yesterday_wr:.1f}%)")
         
+        # Compare today vs yesterday performance (if we have data)
+        if total_trades_today > 0:  # Only if we have today's data
+            from src.position_manager import load_futures_positions
+            positions_data = load_futures_positions()
+            closed_positions = positions_data.get("closed_positions", [])
+            
+            yesterday_closed = []
+            yesterday_pnl = 0.0
+            yesterday_wins = 0
+            yesterday_losses = 0
+            
+            for pos in closed_positions:
+                closed_at = pos.get("closed_at")
+                if not closed_at:
+                    continue
+                
+                try:
+                    if isinstance(closed_at, str):
+                        record_time = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        if record_time.tzinfo is None:
+                            record_time = ARIZONA_TZ.localize(record_time)
+                        else:
+                            record_time = record_time.astimezone(ARIZONA_TZ)
+                    else:
+                        record_time = datetime.fromtimestamp(closed_at, tz=ARIZONA_TZ)
+                    
+                    # Yesterday's trades
+                    if yesterday_start <= record_time < today_start:
+                        yesterday_closed.append(pos)
+                        net_pnl = pos.get("net_pnl", 0) or pos.get("pnl", 0) or 0.0
+                        yesterday_pnl += net_pnl
+                        if net_pnl > 0:
+                            yesterday_wins += 1
+                        else:
+                            yesterday_losses += 1
+                except:
+                    continue
+            
+            yesterday_trades = len(yesterday_closed)
+            if yesterday_trades > 0:
+                yesterday_wr = (yesterday_wins / yesterday_trades * 100.0)
+                
+                # Compare trends
+                if today_pnl > yesterday_pnl:
+                    improvements.append(f"P&L improved: ${yesterday_pnl:.2f} yesterday → ${today_pnl:.2f} today (+${today_pnl - yesterday_pnl:.2f})")
+                elif today_pnl < yesterday_pnl and today_pnl > 0:
+                    improvements.append(f"Profitable today: ${today_pnl:.2f} (yesterday: ${yesterday_pnl:.2f})")
+                
+                if win_rate_today > yesterday_wr + 2:  # Significant improvement
+                    improvements.append(f"Win rate improved: {yesterday_wr:.1f}% → {win_rate_today:.1f}% (+{win_rate_today - yesterday_wr:.1f}%)")
+        
         # Check exit profitability trend (if profit_target exits are increasing)
         try:
             # Get exit events if not already loaded
@@ -1941,12 +1992,12 @@ def generate_executive_summary() -> Dict[str, str]:
         except:
             pass
         
-        # Learning improvements
-        if learning_details:
+        # Learning improvements (use learning_details and changes from earlier sections)
+        if 'learning_details' in locals() and learning_details:
             improvements.append(f"Learning active: {len(learning_details)} system optimization(s) applied today")
         
         # Parameter changes indicate system evolution
-        if changes:
+        if 'changes' in locals() and changes:
             improvements.append(f"System evolving: {len(changes)} parameter update(s) scheduled")
         
         if improvements:

@@ -4,13 +4,23 @@ Prevents silent exit logic failures by hard-failing when positions lack price da
 """
 import json
 import time
+import os
 from datetime import datetime, timedelta
 import pytz
+from pathlib import Path
 
 ARIZONA_TZ = pytz.timezone('America/Phoenix')
 SENTINEL_LOG = "logs/exit_health_sentinel.jsonl"
 MAX_POSITION_STALE_MINUTES = 10  # Trigger safe-mode if position has no price update for 10+ minutes
 MAX_EXIT_STALL_HOURS = 1  # Trigger alert if no exits in 1+ hour with open positions
+
+# Use PathRegistry for unified path resolution
+try:
+    from src.infrastructure.path_registry import PathRegistry
+    POSITIONS_FILE = str(PathRegistry.POS_LOG)
+except ImportError:
+    # Fallback to default path
+    POSITIONS_FILE = "logs/positions_futures.json"
 
 def log_sentinel_event(event: str, payload: dict):
     """Log sentinel events for auditing."""
@@ -45,8 +55,19 @@ def audit_exit_health() -> dict:
     stale_count = 0
     
     try:
-        # Load positions
-        with open("logs/positions.json", "r") as f:
+        # Load positions using correct path
+        if not os.path.exists(POSITIONS_FILE):
+            # File doesn't exist - not an error if no positions
+            return {
+                "healthy": True,
+                "issues": [],
+                "stale_positions": 0,
+                "total_positions": 0,
+                "last_exit_minutes_ago": None,
+                "action": "pass"
+            }
+        
+        with open(POSITIONS_FILE, "r") as f:
             data = json.load(f)
         
         open_positions = data.get("open_positions", [])
@@ -163,7 +184,11 @@ def update_position_prices(current_prices: dict):
         current_prices: Dict of {symbol: price}
     """
     try:
-        with open("logs/positions.json", "r") as f:
+        if not os.path.exists(POSITIONS_FILE):
+            # File doesn't exist - nothing to update
+            return 0
+            
+        with open(POSITIONS_FILE, "r") as f:
             data = json.load(f)
         
         open_positions = data.get("open_positions", [])
@@ -177,7 +202,7 @@ def update_position_prices(current_prices: dict):
                 updated_count += 1
         
         # Save updated positions
-        with open("logs/positions.json", "w") as f:
+        with open(POSITIONS_FILE, "w") as f:
             json.dump(data, f, indent=2)
         
         if updated_count > 0:

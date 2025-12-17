@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from typing import Dict, Any
+from pathlib import Path
 
 from flask import Flask, send_file, request, session, redirect, url_for, jsonify
 from dash import Dash, html, dcc, Input, Output, State, dash_table, callback_context
@@ -2120,6 +2121,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 1. CoinGlass feed (check both coinglass/ and intelligence/ directories)
             try:
+                from pathlib import Path
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
                 

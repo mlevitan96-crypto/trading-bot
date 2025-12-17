@@ -570,11 +570,20 @@ def get_status() -> Dict[str, str]:
             try:
                 import sys
                 print(f"⚠️ [SAFETY] Self-healing status check error (non-critical): {e}", file=sys.stderr)
+                # Log full traceback for debugging
+                traceback.print_exc(file=sys.stderr)
             except:
                 pass
             status["self_healing"] = STATUS_YELLOW
             
     except Exception as e:
+        # Top-level exception - this is a real problem, log it properly
+        try:
+            import sys
+            print(f"🚨 [SAFETY] Critical error in get_status(): {e}", file=sys.stderr)
+            traceback.print_exc(file=sys.stderr)
+        except:
+            pass
         status["safety_layer"] = STATUS_RED
         status["self_healing"] = STATUS_RED
     

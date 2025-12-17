@@ -689,16 +689,23 @@ class HealingOperator:
             dict with status colors
         """
         status = {}
+        import time
+        
+        # Critical components that would cause red status if failing
+        CRITICAL_COMPONENTS = ["safety_layer", "file_integrity", "trade_execution"]
         
         if self.last_healing_cycle:
-            if self.last_healing_cycle.get("failed"):
-                # Check if critical failures
-                failed_items = self.last_healing_cycle.get("failed", [])
-                if failed_items and len(failed_items) > 0:
-                    status["self_healing"] = "red"
-                else:
-                    # Minor failures, healing still working
-                    status["self_healing"] = "green"
+            failed_items = self.last_healing_cycle.get("failed", [])
+            
+            # Check if we have critical failures
+            critical_failures = [item for item in failed_items if item in CRITICAL_COMPONENTS]
+            
+            if critical_failures:
+                # Critical component failed - RED
+                status["self_healing"] = "red"
+            elif failed_items:
+                # Non-critical failures - YELLOW (healing is working but some issues remain)
+                status["self_healing"] = "yellow"
             elif self.last_healing_cycle.get("healed"):
                 # Successfully healed issues - this is GOOD, show green
                 status["self_healing"] = "green"
@@ -707,15 +714,20 @@ class HealingOperator:
                 status["self_healing"] = "green"
         else:
             # Check if healing operator is running (recent cycle timestamp)
-            import time
-            if hasattr(self, 'last_healing_cycle_ts'):
-                cycle_age = time.time() - self.last_healing_cycle_ts if self.last_healing_cycle_ts else 999
+            if hasattr(self, 'last_healing_cycle_ts') and self.last_healing_cycle_ts:
+                cycle_age = time.time() - self.last_healing_cycle_ts
                 if cycle_age < 120:  # Cycle run within last 2 minutes
                     status["self_healing"] = "green"
+                elif cycle_age < 300:  # Less than 5 minutes - still acceptable
+                    status["self_healing"] = "yellow"
                 else:
                     status["self_healing"] = "yellow"  # No recent activity
             else:
-                status["self_healing"] = "yellow"  # No cycle run yet
+                # Check if thread is running as fallback
+                if self.running and self.thread and self.thread.is_alive():
+                    status["self_healing"] = "yellow"  # Running but no cycle yet
+                else:
+                    status["self_healing"] = "yellow"  # Not running properly
         
         return status
     

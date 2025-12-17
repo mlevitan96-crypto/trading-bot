@@ -62,9 +62,27 @@ def check_coinglass():
             print("=" * 60)
             api_key = os.getenv('COINGLASS_API_KEY', '')
             if api_key:
-                print(f"✅ COINGLASS_API_KEY is set (length: {len(api_key)})")
+                print(f"✅ COINGLASS_API_KEY is set in this process (length: {len(api_key)})")
             else:
-                print("⚠️  COINGLASS_API_KEY not found in environment")
+                print("⚠️  COINGLASS_API_KEY not found in this process's environment")
+                print("   (This script runs separately - checking if bot has it...)")
+                # Check if systemd service has it
+                try:
+                    import subprocess
+                    result = subprocess.run(
+                        ["systemctl", "show", "tradingbot"],
+                        capture_output=True,
+                        text=True,
+                        timeout=2
+                    )
+                    if "COINGLASS_API_KEY" in result.stdout:
+                        print("   ✅ Bot service HAS the API key configured (good!)")
+                        print("   ℹ️  This script can't see it because it runs separately")
+                    else:
+                        print("   ❌ Bot service does NOT have the API key")
+                        print("   → Check /etc/systemd/system/tradingbot.service")
+                except:
+                    print("   ⚠️  Could not check systemd service")
             
             # Check if CoinGlass fetch is being called
             print("\n" + "=" * 60)
@@ -73,10 +91,10 @@ def check_coinglass():
             
             # Check intelligence directory (alternative location)
             intel_dir = PathRegistry.get_path("feature_store", "intelligence")
-            intel_dir_path = Path(intel_dir) if isinstance(intel_dir, str) else intel_dir
             if os.path.exists(intel_dir):
-                funding_file = intel_dir_path / "funding_rates.json"
-                oi_file = intel_dir_path / "open_interest.json"
+                intel_path = Path(intel_dir)
+                funding_file = intel_path / "funding_rates.json"
+                oi_file = intel_path / "open_interest.json"
                 
                 if funding_file.exists():
                     funding_age = (current_time - os.path.getmtime(str(funding_file))) / 3600
@@ -85,6 +103,14 @@ def check_coinglass():
                 if oi_file.exists():
                     oi_age = (current_time - os.path.getmtime(str(oi_file))) / 3600
                     print(f"Open interest file: {oi_age:.1f} hours old")
+                
+                # Check for intel JSON files
+                intel_files = list(intel_path.glob("*intel.json"))
+                if intel_files:
+                    print(f"\nIntel files found: {len(intel_files)}")
+                    for intel_file in intel_files[:5]:
+                        file_age = (current_time - os.path.getmtime(str(intel_file))) / 3600
+                        print(f"  • {intel_file.name}: {file_age:.1f} hours old")
             
             # Status assessment
             print("\n" + "=" * 60)

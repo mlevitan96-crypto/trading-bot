@@ -800,7 +800,9 @@ class HealingOperator:
         import time
         
         # Critical components that would cause red status if failing
-        CRITICAL_COMPONENTS = ["safety_layer", "file_integrity", "trade_execution"]
+        # Note: trade_execution removed from critical - healing failures shouldn't turn healing red
+        # (that would create a loop - healing fails → status red → healing red)
+        CRITICAL_COMPONENTS = ["safety_layer", "file_integrity"]
         
         if self.last_healing_cycle:
             failed_items = self.last_healing_cycle.get("failed", [])

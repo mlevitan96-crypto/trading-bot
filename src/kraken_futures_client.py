@@ -196,10 +196,19 @@ class KrakenFuturesClient:
     Interface matches BlofinFuturesClient for seamless integration.
     """
     
-    def __init__(self, base_url: str = KRAKEN_FUTURES_BASE, session: Optional[requests.Session] = None):
+    def __init__(self, base_url: str = None, session: Optional[requests.Session] = None):
+        """
+        Initialize Kraken Futures API client.
+        
+        Args:
+            base_url: Base URL for Kraken Futures API (defaults from env)
+            session: Optional requests session (for connection pooling)
+        """
+        if base_url is None:
+            base_url = KRAKEN_FUTURES_BASE
         self.base = base_url.rstrip("/")
         self.sess = session or requests.Session()
-        self.mode = "paper" if not KRAKEN_FUTURES_API_KEY else "live"
+        self.mode = "paper" if KRAKEN_FUTURES_TESTNET else ("live" if KRAKEN_FUTURES_API_KEY else "paper")
         self._cache = get_ohlcv_cache()
     
     @staticmethod
@@ -367,9 +376,10 @@ class KrakenFuturesClient:
             if cached is not None:
                 return cached
         
-        # Kraken OHLCV endpoint: /derivatives/api/v3/instruments/{symbol}/ohlc?resolution={timeframe}
-        # Note: Kraken doesn't support limit parameter directly - we use from/to timestamps instead
-        # Map timeframe to Kraken format (1m, 5m, 15m, 1h, 4h, 12h, 1d, 1w)
+        # Kraken OHLCV endpoint format: GET /:tick_type/:symbol/:resolution
+        # tick_type can be: 'mark', 'spot', or 'trade'
+        # We use 'trade' for actual trading data, or 'mark' for mark prices
+        tick_type = "trade"  # Use 'trade' for OHLCV data (actual price movements)
         kraken_timeframe = timeframe  # Kraken uses same format: 1m, 5m, 15m, 1h, 4h, 1d
         
         # Calculate from timestamp (limit candles back from now)
@@ -381,10 +391,22 @@ class KrakenFuturesClient:
         interval_seconds = timeframe_seconds.get(timeframe, 3600)
         from_timestamp = int(time.time()) - (limit * interval_seconds)
         
-        # Path without query params, query params as payload
-        endpoint_path = f"/derivatives/api/v3/instruments/{kraken_symbol}/ohlc"
-        query_params = {"resolution": kraken_timeframe, "from": from_timestamp}
-        data = self._req("GET", endpoint_path, payload=query_params)
+        # Kraken endpoint: /api/charts/v1/:tick_type/:symbol/:resolution?from={timestamp}
+        # Note: This might be /derivatives/api/v3/charts/:tick_type/:symbol/:resolution
+        # Let's try both formats and see which works
+        endpoint_path = f"/api/charts/v1/{tick_type}/{kraken_symbol}/{kraken_timeframe}"
+        query_params = {"from": from_timestamp}
+        
+        try:
+            data = self._req("GET", endpoint_path, payload=query_params)
+        except Exception as e:
+            # Try alternative endpoint format
+            if "404" in str(e) or "NOT_FOUND" in str(e):
+                # Alternative: /derivatives/api/v3/charts/:tick_type/:symbol/:resolution
+                endpoint_path = f"/derivatives/api/v3/charts/{tick_type}/{kraken_symbol}/{kraken_timeframe}"
+                data = self._req("GET", endpoint_path, payload=query_params)
+            else:
+                raise
         
         # Kraken response format: {"candles": [{"time": ms, "open": str, "high": str, "low": str, "close": str, "volume": str}, ...]}
         candles = data.get("candles", [])

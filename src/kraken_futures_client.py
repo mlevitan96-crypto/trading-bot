@@ -4,6 +4,17 @@ Supports leverage trading, margin management, and position monitoring.
 Designed to match the interface of BlofinFuturesClient for seamless integration.
 """
 import os
+import sys
+from pathlib import Path
+
+# Fix Python path when running directly (for testing)
+# Add project root to path so 'src' imports work
+# Must happen before any 'src' imports
+_script_dir = Path(__file__).parent
+_project_root = _script_dir.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
 import time
 import hmac
 import hashlib

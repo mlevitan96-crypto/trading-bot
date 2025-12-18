@@ -1190,7 +1190,8 @@ def generate_executive_summary() -> Dict[str, str]:
         "learning_today": "",
         "changes_tomorrow": "",
         "weekly_summary": "",
-        "improvements_trends": ""
+        "improvements_trends": "",
+        "venue_validation": ""  # Added for Kraken symbol validation
     }
     
     # 1. Read trade data from positions_futures.json (SOURCE OF TRUTH)
@@ -2006,6 +2007,51 @@ def generate_executive_summary() -> Dict[str, str]:
             summary["improvements_trends"] = "System is monitoring performance and learning from each trade. Trends being analyzed. "
     except Exception as e:
         summary["improvements_trends"] = f"Error analyzing trends: {str(e)}. "
+    
+    # 9. Venue Symbol Validation Status (if using Kraken)
+    try:
+        exchange = os.getenv("EXCHANGE", "blofin").lower()
+        if exchange == "kraken":
+            from src.venue_symbol_validator import VenueSymbolValidator
+            validator = VenueSymbolValidator()
+            status = validator.load_validation_status()
+            
+            symbols = status.get("symbols", {})
+            total_symbols = len(symbols)
+            valid_count = sum(1 for s in symbols.values() if s.get("valid", False))
+            suppressed_count = sum(1 for s in symbols.values() if s.get("suppressed", False))
+            
+            if total_symbols > 0:
+                validation_pct = (valid_count / total_symbols * 100.0) if total_symbols > 0 else 0.0
+                last_validation = status.get("last_validation", "Never")
+                
+                validation_summary = (
+                    f"Venue Symbol Validation: {valid_count}/{total_symbols} symbols valid ({validation_pct:.0f}%). "
+                )
+                
+                if suppressed_count > 0:
+                    suppressed_symbols = [s for s, d in symbols.items() if d.get("suppressed", False)]
+                    validation_summary += (
+                        f"{suppressed_count} symbols suppressed: {', '.join(suppressed_symbols[:5])}"
+                        f"{'...' if len(suppressed_symbols) > 5 else ''}. "
+                    )
+                else:
+                    validation_summary += "All symbols validated successfully. "
+                
+                # Add last validation time
+                if last_validation != "Never":
+                    try:
+                        last_time = datetime.fromisoformat(last_validation.replace("Z", "+00:00"))
+                        hours_ago = (now.astimezone(pytz.UTC) - last_time).total_seconds() / 3600
+                        validation_summary += f"Last validated: {hours_ago:.1f} hours ago. "
+                    except:
+                        validation_summary += f"Last validated: {last_validation}. "
+                
+                summary["venue_validation"] = validation_summary
+            else:
+                summary["venue_validation"] = "Symbol validation not yet run. "
+    except Exception as e:
+        summary["venue_validation"] = f"Error loading validation status: {str(e)}. "
     
     # Clean up empty narratives
     for key in summary:
@@ -3057,6 +3103,10 @@ def build_app(server: Flask = None) -> Dash:
                     ("Changes Tomorrow", summary.get("changes_tomorrow", "No data available.")),
                     ("Weekly Summary", summary.get("weekly_summary", "No data available."))
                 ]
+                
+                # Add venue validation section if it exists (Kraken only)
+                if "venue_validation" in summary:
+                    sections.insert(3, ("Venue Symbol Validation", summary.get("venue_validation", "No data available.")))
                 
                 content = []
                 for title, text in sections:

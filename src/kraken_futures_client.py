@@ -15,6 +15,7 @@ from typing import Dict, Any, Optional
 import pandas as pd
 
 from src.memory_efficient_cache import get_ohlcv_cache
+from src.kraken_rate_limiter import get_kraken_rate_limiter
 
 # Environment configuration
 KRAKEN_FUTURES_BASE = os.getenv("KRAKEN_FUTURES_BASE_URL", "https://futures.kraken.com")
@@ -228,6 +229,9 @@ class KrakenFuturesClient:
             # Authenticated request
             headers = kraken_headers(method, path, post_data)
             body = post_data.encode('utf-8') if post_data else None
+        
+        # Enforce rate limiting before making request
+        get_kraken_rate_limiter().acquire()
         
         try:
             if method == "GET":

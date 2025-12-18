@@ -7,7 +7,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from typing import Dict, Any
-from pathlib import Path
+from pathlib import Path  # CRITICAL: Must be imported at module level for all callbacks
 
 from flask import Flask, send_file, request, session, redirect, url_for, jsonify
 from dash import Dash, html, dcc, Input, Output, State, dash_table, callback_context
@@ -1225,7 +1225,7 @@ def generate_executive_summary() -> Dict[str, str]:
     """
     from datetime import datetime, timedelta
     import pytz
-    from pathlib import Path
+    # Path is already imported at module level - no need to re-import
     
     ARIZONA_TZ = pytz.timezone('America/Phoenix')
     now = datetime.now(ARIZONA_TZ)
@@ -2428,11 +2428,11 @@ def build_app(server: Flask = None) -> Dash:
             try:
                 import os
                 from src.infrastructure.path_registry import PathRegistry
-                from pathlib import Path  # Import Path for isinstance check
+                # Path is imported at module level - use it directly
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
                 
-                # Convert to strings if Path objects
+                # Convert to strings if Path objects (use module-level Path import)
                 coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, Path) else coinglass_dir
                 intel_dir = str(intel_dir) if isinstance(intel_dir, Path) else intel_dir
                 
@@ -2922,11 +2922,11 @@ def build_app(server: Flask = None) -> Dash:
             
             # 1. CoinGlass feed (check both coinglass/ and intelligence/ directories)
             try:
-                from pathlib import Path
+                # Path is imported at module level - use it directly
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
                 
-                # Convert to strings if Path objects
+                # Convert to strings if Path objects (use module-level Path import)
                 coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, Path) else coinglass_dir
                 intel_dir = str(intel_dir) if isinstance(intel_dir, Path) else intel_dir
                 

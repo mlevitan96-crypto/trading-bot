@@ -13,6 +13,18 @@ _project_root = Path(__file__).parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
+# Load .env file first
+from dotenv import load_dotenv
+_env_path = _project_root / ".env"
+if _env_path.exists():
+    load_dotenv(_env_path)
+else:
+    # Try fallback locations
+    for fallback in ["/root/trading-bot-current/.env", "/root/trading-bot/.env"]:
+        if Path(fallback).exists():
+            load_dotenv(fallback)
+            break
+
 import os
 import json
 from src.data_registry import DataRegistry as DR

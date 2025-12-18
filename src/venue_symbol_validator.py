@@ -24,19 +24,33 @@ from src.exchange_utils import normalize_to_kraken, KRAKEN_SYMBOL_MAP
 from src.infrastructure.path_registry import PathRegistry
 
 
-# Validation thresholds
-# Note: Testnet may have very sparse orderbooks, so we use relaxed thresholds
-import os
-IS_TESTNET = os.getenv("KRAKEN_FUTURES_TESTNET", "false").lower() == "true"
+# Validation thresholds - will be determined at runtime based on testnet status
+# Default to production values, but will be overridden in validate_orderbook()
+MIN_ORDERBOOK_DEPTH_USD = 1000.0  # Default: production threshold
+MAX_SPREAD_PCT = 0.5  # Default: production threshold (0.5%)
+MIN_OHLCV_CANDLES = 10  # Default: production threshold
 
-if IS_TESTNET:
-    MIN_ORDERBOOK_DEPTH_USD = 100.0  # Lower threshold for testnet
-    MAX_SPREAD_PCT = 10.0  # Much higher spread tolerance for testnet (10% vs 0.5%)
-    MIN_OHLCV_CANDLES = 5  # Fewer candles needed for testnet
-else:
-    MIN_ORDERBOOK_DEPTH_USD = 1000.0  # Minimum $1000 orderbook depth (production)
-    MAX_SPREAD_PCT = 0.5  # Maximum 0.5% bid-ask spread (production)
-    MIN_OHLCV_CANDLES = 10  # Minimum candles required for OHLCV validation (production)
+def _get_validation_thresholds():
+    """
+    Get validation thresholds based on testnet/production mode.
+    
+    Testnet has very sparse/illiquid orderbooks, so we use relaxed thresholds.
+    """
+    import os
+    is_testnet = os.getenv("KRAKEN_FUTURES_TESTNET", "false").lower() == "true"
+    
+    if is_testnet:
+        return {
+            "MIN_ORDERBOOK_DEPTH_USD": 100.0,  # Lower threshold for testnet
+            "MAX_SPREAD_PCT": 10.0,  # Much higher spread tolerance (10% vs 0.5%)
+            "MIN_OHLCV_CANDLES": 5  # Fewer candles needed
+        }
+    else:
+        return {
+            "MIN_ORDERBOOK_DEPTH_USD": 1000.0,  # Production threshold
+            "MAX_SPREAD_PCT": 0.5,  # Production threshold
+            "MIN_OHLCV_CANDLES": 10  # Production threshold
+        }
 
 # State file paths
 STATUS_FILE = PathRegistry.FEATURE_STORE_DIR / "venue_symbol_status.json"
@@ -138,6 +152,12 @@ class VenueSymbolValidator:
             (is_valid, error_message, metrics_dict)
         """
         try:
+            # Get thresholds based on testnet/production
+            thresholds = _get_validation_thresholds()
+            max_spread = thresholds["MAX_SPREAD_PCT"]
+            min_depth = thresholds["MIN_ORDERBOOK_DEPTH_USD"]
+            is_testnet = thresholds["MAX_SPREAD_PCT"] > 1.0  # Testnet has >1% threshold
+            
             orderbook = self.gateway.get_orderbook(symbol, venue="futures", depth=10)
             
             bids = orderbook.get("bids", [])
@@ -168,7 +188,7 @@ class VenueSymbolValidator:
             total_depth_usd = (bid_depth + ask_depth) / 2  # Average of bid/ask depth
             
             # Debug: Log actual values for testnet debugging
-            if IS_TESTNET and spread_pct > 50:  # Very high spread - log for debugging
+            if is_testnet and spread_pct > 50:  # Very high spread - log for debugging
                 print(f"   ⚠️ [DEBUG] {symbol}: bid={best_bid:.2f}, ask={best_ask:.2f}, spread={spread_pct:.1f}%")
                 print(f"   ⚠️ [DEBUG] Sample bids: {bids[:2]}, Sample asks: {asks[:2]}")
             
@@ -181,16 +201,19 @@ class VenueSymbolValidator:
                 "ask_depth_usd": ask_depth,
                 "total_depth_usd": total_depth_usd,
                 "num_bid_levels": len(bids),
-                "num_ask_levels": len(asks)
+                "num_ask_levels": len(asks),
+                "threshold_max_spread": max_spread,
+                "threshold_min_depth": min_depth,
+                "is_testnet": is_testnet
             }
             
             # Check thresholds
             errors = []
-            if spread_pct > MAX_SPREAD_PCT:
-                errors.append(f"Spread {spread_pct:.3f}% exceeds max {MAX_SPREAD_PCT}%")
+            if spread_pct > max_spread:
+                errors.append(f"Spread {spread_pct:.3f}% exceeds max {max_spread}%")
             
-            if total_depth_usd < MIN_ORDERBOOK_DEPTH_USD:
-                errors.append(f"Depth ${total_depth_usd:.0f} below minimum ${MIN_ORDERBOOK_DEPTH_USD}")
+            if total_depth_usd < min_depth:
+                errors.append(f"Depth ${total_depth_usd:.0f} below minimum ${min_depth}")
             
             if errors:
                 return False, "; ".join(errors), metrics
@@ -208,13 +231,15 @@ class VenueSymbolValidator:
             (is_valid, error_message, metrics_dict)
         """
         try:
-            df = self.gateway.fetch_ohlcv(symbol, timeframe="1m", limit=MIN_OHLCV_CANDLES, venue="futures")
+            thresholds = _get_validation_thresholds()
+            min_candles = thresholds["MIN_OHLCV_CANDLES"]
+            df = self.gateway.fetch_ohlcv(symbol, timeframe="1m", limit=min_candles, venue="futures")
             
             if df is None or df.empty:
                 return False, "OHLCV data is empty", {}
             
-            if len(df) < MIN_OHLCV_CANDLES:
-                return False, f"Only {len(df)} candles, need at least {MIN_OHLCV_CANDLES}", {}
+            if len(df) < min_candles:
+                return False, f"Only {len(df)} candles, need at least {min_candles}", {}
             
             # Check for required columns
             required_cols = ["timestamp", "open", "high", "low", "close", "volume"]

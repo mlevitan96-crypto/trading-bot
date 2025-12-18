@@ -302,10 +302,20 @@ class KrakenFuturesClient:
         # Find matching ticker
         ticker = next((t for t in tickers if t.get("tag") == "perpetual" or t.get("pair") == kraken_symbol), tickers[0])
         
-        # Mark price field (may be "markPrice" or "indexPrice" - check Kraken docs)
-        mark_price = ticker.get("markPrice") or ticker.get("indexPrice") or ticker.get("last")
+        # Mark price field (check multiple possible field names per Kraken API)
+        # Kraken may use: markPrice, mark_price, indexPrice, last, lastPrice
+        mark_price = (
+            ticker.get("markPrice") or 
+            ticker.get("mark_price") or
+            ticker.get("indexPrice") or 
+            ticker.get("last") or
+            ticker.get("lastPrice") or
+            ticker.get("fundingRate")  # Fallback, unlikely but possible
+        )
         if mark_price is None:
-            raise Exception(f"Mark price field missing for {kraken_symbol} - ticker: {ticker}")
+            # Debug: print available fields
+            available_fields = list(ticker.keys())
+            raise Exception(f"Mark price field missing for {kraken_symbol}. Available fields: {available_fields}. Ticker: {ticker}")
         
         return float(mark_price)
     

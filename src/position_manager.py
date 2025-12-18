@@ -610,10 +610,13 @@ def close_futures_position(symbol, strategy, direction, exit_price, reason="manu
             
             leveraged_roi = price_roi * closed_pos["leverage"]
             
-            # Calculate fees using Blofin fee calculator (market orders = taker fees)
+            # Calculate fees using exchange-aware fee calculator (market orders = taker fees)
             from src.fee_calculator import calculate_trading_fee
+            import os
+            # Get current exchange for correct fee rates
+            exchange = os.getenv("EXCHANGE", "blofin").lower()
             notional_size = closed_pos["margin_collateral"] * closed_pos["leverage"]
-            trading_fees_usd = calculate_trading_fee(notional_size, "taker") * 2  # entry + exit
+            trading_fees_usd = calculate_trading_fee(notional_size, "taker", exchange=exchange) * 2  # entry + exit
             trading_fees_roi = trading_fees_usd / closed_pos["margin_collateral"] if closed_pos["margin_collateral"] > 0 else 0
             funding_fees_roi = closed_pos["funding_fees"] / closed_pos["margin_collateral"] if closed_pos["margin_collateral"] > 0 else 0
             net_roi = leveraged_roi - trading_fees_roi - funding_fees_roi

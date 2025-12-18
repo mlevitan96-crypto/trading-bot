@@ -99,6 +99,7 @@ _snapshot_lock = threading.Lock()
 _last_snapshot_hour = None
 
 def record_wallet_snapshot(force: bool = False) -> bool:
+    """Record wallet balance snapshot (hourly). Uses Path which should be imported at module level."""
     """
     Record wallet balance snapshot (hourly).
     Returns True if snapshot was recorded, False if skipped.
@@ -2427,6 +2428,7 @@ def build_app(server: Flask = None) -> Dash:
             try:
                 import os
                 from src.infrastructure.path_registry import PathRegistry
+                from pathlib import Path  # Import Path for isinstance check
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
                 

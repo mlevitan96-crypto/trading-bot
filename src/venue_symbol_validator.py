@@ -25,9 +25,18 @@ from src.infrastructure.path_registry import PathRegistry
 
 
 # Validation thresholds
-MIN_ORDERBOOK_DEPTH_USD = 1000.0  # Minimum $1000 orderbook depth
-MAX_SPREAD_PCT = 0.5  # Maximum 0.5% bid-ask spread
-MIN_OHLCV_CANDLES = 10  # Minimum candles required for OHLCV validation
+# Note: Testnet may have very sparse orderbooks, so we use relaxed thresholds
+import os
+IS_TESTNET = os.getenv("KRAKEN_FUTURES_TESTNET", "false").lower() == "true"
+
+if IS_TESTNET:
+    MIN_ORDERBOOK_DEPTH_USD = 100.0  # Lower threshold for testnet
+    MAX_SPREAD_PCT = 10.0  # Much higher spread tolerance for testnet (10% vs 0.5%)
+    MIN_OHLCV_CANDLES = 5  # Fewer candles needed for testnet
+else:
+    MIN_ORDERBOOK_DEPTH_USD = 1000.0  # Minimum $1000 orderbook depth (production)
+    MAX_SPREAD_PCT = 0.5  # Maximum 0.5% bid-ask spread (production)
+    MIN_OHLCV_CANDLES = 10  # Minimum candles required for OHLCV validation (production)
 
 # State file paths
 STATUS_FILE = PathRegistry.FEATURE_STORE_DIR / "venue_symbol_status.json"
@@ -152,9 +161,16 @@ class VenueSymbolValidator:
             spread_pct = ((best_ask - best_bid) / mid_price) * 100
             
             # Calculate depth (sum of top 5 levels)
+            # For Kraken perpetual futures, orderbook quantities are in contracts
+            # Each contract is worth $1 (contract_size = 1.0), so depth = price * qty
             bid_depth = sum(float(bid[0]) * float(bid[1]) for bid in bids[:5])
             ask_depth = sum(float(ask[0]) * float(ask[1]) for ask in asks[:5])
             total_depth_usd = (bid_depth + ask_depth) / 2  # Average of bid/ask depth
+            
+            # Debug: Log actual values for testnet debugging
+            if IS_TESTNET and spread_pct > 50:  # Very high spread - log for debugging
+                print(f"   ⚠️ [DEBUG] {symbol}: bid={best_bid:.2f}, ask={best_ask:.2f}, spread={spread_pct:.1f}%")
+                print(f"   ⚠️ [DEBUG] Sample bids: {bids[:2]}, Sample asks: {asks[:2]}")
             
             metrics = {
                 "best_bid": best_bid,

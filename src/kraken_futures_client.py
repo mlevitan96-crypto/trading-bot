@@ -15,6 +15,17 @@ _project_root = _script_dir.parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
+# Load .env file if running directly (for testing)
+if __name__ == "__main__":
+    try:
+        from dotenv import load_dotenv
+        env_path = _project_root / ".env"
+        if env_path.exists():
+            load_dotenv(env_path)
+            print(f"✅ Loaded .env from: {env_path}")
+    except ImportError:
+        pass  # dotenv not available, use environment variables as-is
+
 import time
 import hmac
 import hashlib

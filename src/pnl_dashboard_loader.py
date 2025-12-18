@@ -326,9 +326,10 @@ def load_trades_df() -> pd.DataFrame:
         all_trades = []
         
         try:
-            closed_trades = DR.get_closed_trades_from_db(limit=None, symbol=None)
+            # Limit to last 1000 trades for performance (dashboard doesn't need all history on load)
+            closed_trades = DR.get_closed_trades_from_db(limit=1000, symbol=None)
             if closed_trades:
-                print(f"📊 [LOADER] Loaded {len(closed_trades)} trades from SQLite")
+                print(f"📊 [LOADER] Loaded {len(closed_trades)} trades from SQLite (limited to 1000 for performance)")
                 all_trades.extend(closed_trades)
         except Exception as e:
             print(f"⚠️  [LOADER] SQLite read failed, falling back to JSONL: {e}")

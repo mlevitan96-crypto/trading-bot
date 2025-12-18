@@ -925,15 +925,43 @@ def make_closed_positions_section(df: pd.DataFrame):
 
 def get_wallet_balance() -> float:
     """
-    Get wallet balance from authoritative source (positions_futures.json).
-    Calculates starting_capital + sum(all closed P&L) for accurate balance.
+    Get wallet balance from authoritative source (portfolio_futures.json).
+    Uses portfolio file for fast lookup, falls back to calculating from closed positions.
     """
     import math
     starting_capital = 10000.0
     
+    # PERFORMANCE: Try portfolio file first (much faster than loading all closed positions)
+    try:
+        from src.futures_portfolio_tracker import load_futures_portfolio
+        portfolio = load_futures_portfolio()
+        realized_pnl = portfolio.get("realized_pnl", 0.0)
+        unrealized_pnl = portfolio.get("unrealized_pnl", 0.0)
+        
+        # Wallet balance = starting capital + realized P&L (unrealized is separate)
+        wallet_balance = starting_capital + realized_pnl
+        
+        # Cache the result for this call (thread-local)
+        if not hasattr(get_wallet_balance, '_call_count'):
+            get_wallet_balance._call_count = 0
+            get_wallet_balance._last_result = None
+            get_wallet_balance._last_ts = 0
+        
+        get_wallet_balance._call_count += 1
+        
+        # Log periodically (every 20 calls)
+        if get_wallet_balance._call_count % 20 == 0:
+            print(f"💰 [DASHBOARD] Wallet balance: ${wallet_balance:.2f} (realized P&L: ${realized_pnl:.2f}, unrealized: ${unrealized_pnl:.2f})")
+        
+        return wallet_balance
+    except Exception as e:
+        print(f"⚠️  [DASHBOARD] Failed to get wallet balance from portfolio, falling back: {e}")
+    
+    # FALLBACK: Calculate from closed positions (slower but accurate)
     try:
         from src.data_registry import DataRegistry as DR
         
+        # Load all closed positions for accurate total
         closed_positions = DR.get_closed_positions(hours=None)
         
         if not closed_positions:
@@ -954,14 +982,6 @@ def get_wallet_balance() -> float:
                 continue
         
         wallet_balance = starting_capital + total_pnl
-        
-        # Log wallet balance calculation periodically (every 20 calls to avoid spam)
-        if not hasattr(get_wallet_balance, '_call_count'):
-            get_wallet_balance._call_count = 0
-        get_wallet_balance._call_count += 1
-        if get_wallet_balance._call_count % 20 == 0:
-            print(f"💰 [DASHBOARD] Wallet balance: ${wallet_balance:.2f} (from {len(closed_positions)} closed positions, P&L: ${total_pnl:.2f})")
-        
         return wallet_balance
     except Exception as e:
         print(f"⚠️  [DASHBOARD] Failed to calculate wallet balance: {e}")
@@ -1198,11 +1218,12 @@ def generate_executive_summary() -> Dict[str, str]:
     }
     
     # 1. Read trade data from positions_futures.json (SOURCE OF TRUTH)
-    # This is more reliable than daily_stats which may not be synced
+    # PERFORMANCE: Use DataRegistry which may cache, and limit to recent trades for faster processing
     try:
-        from src.position_manager import load_futures_positions
-        positions_data = load_futures_positions()
-        closed_positions = positions_data.get("closed_positions", [])
+        from src.data_registry import DataRegistry as DR
+        # For executive summary, we need today/yesterday comparisons, so load last 7 days
+        # This is still much faster than loading all 261+ trades
+        closed_positions = DR.get_closed_positions(hours=168)  # Last 7 days only
         
         # Filter to today's closed positions
         today_closed = []

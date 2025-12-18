@@ -143,9 +143,10 @@ def get_closed_futures_positions(limit=100):
     from src.data_registry import DataRegistry as DR
     
     try:
-        closed_positions = DR.get_closed_trades_from_db(limit=None, symbol=None)
+        # Limit to last 500 trades for performance (dashboard tables don't show all history)
+        closed_positions = DR.get_closed_trades_from_db(limit=500, symbol=None)
         if closed_positions:
-            print(f"📊 [DASHBOARD] Loaded {len(closed_positions)} closed trades from SQLite")
+            print(f"📊 [DASHBOARD] Loaded {len(closed_positions)} closed trades from SQLite (limited to 500 for performance)")
         else:
             closed_positions = []
     except Exception as e:

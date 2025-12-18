@@ -47,7 +47,8 @@ PROMOTE_EXPECTANCY = 0.55
 PROMOTE_PNL        = 0.0
 
 # Allocation rules
-MIN_TRADES_FOR_DECISION = 20
+MIN_TRADES_FOR_DECISION = 30  # Increased from 20 to 30 (aligned with sample readiness)
+MIN_DAYS_FOR_DECISION = 7     # Minimum days of data required
 WIN_FLOOR_WINNER        = 0.52    # winners need at least 52% WR or strong net PnL
 NET_PNL_FLOOR_WINNER    = 0.0     # positive net
 WIN_CEILING_LOSER       = 0.35    # losers below 35% WR or strongly negative net
@@ -225,6 +226,14 @@ def _publish_kg(subject: Dict[str,Any], predicate: str, obj: Dict[str,Any]):
 
 def _allocation_rules(stats: Dict[str,Any], missed: Dict[str,Any], regime: str) -> Dict[str,Any]:
     # Decide enable/disable and sizing adjustments per symbol, focusing EMA-Futures, Breakout-Aggressive, Sentiment-Fusion
+    # Check sample readiness before making allocation decisions
+    try:
+        from src.symbol_sample_readiness import is_symbol_ready_for_allocation, SymbolSampleReadiness
+        sample_readiness = SymbolSampleReadiness()
+    except Exception:
+        sample_readiness = None
+        print("⚠️ [ALLOCATION] Sample readiness check unavailable, using basic thresholds")
+    
     alloc={}
     for sym, s in stats.items():
         count=s.get("count",0); wr=s.get("win_rate",0.0); net=s.get("net_pnl",0.0)
@@ -232,7 +241,16 @@ def _allocation_rules(stats: Dict[str,Any], missed: Dict[str,Any], regime: str) 
         ema=by_strat.get("EMA-Futures", {"count":0,"win_rate":0.0,"net_pnl":0.0})
         # Default posture: enable EMA on winners, size down on break-even, disable EMA on chronic losers; give other strategies room
         decision={"enable": [], "disable": [], "size_multiplier": 1.0, "notes": []}
-        if count >= MIN_TRADES_FOR_DECISION:
+        
+        # Check sample readiness first
+        is_ready = False
+        if sample_readiness:
+            is_ready = sample_readiness.is_symbol_ready(sym)
+        else:
+            # Fallback to basic threshold check
+            is_ready = count >= MIN_TRADES_FOR_DECISION
+        
+        if is_ready and count >= MIN_TRADES_FOR_DECISION:
             # Winner condition
             if (wr >= WIN_FLOOR_WINNER and net >= NET_PNL_FLOOR_WINNER) or (ema["win_rate"] >= WIN_FLOOR_WINNER and ema["net_pnl"] >= NET_PNL_FLOOR_WINNER):
                 decision["enable"] += ["EMA-Futures","Breakout-Aggressive","Sentiment-Fusion"]
@@ -257,8 +275,16 @@ def _allocation_rules(stats: Dict[str,Any], missed: Dict[str,Any], regime: str) 
                 decision["notes"].append("mixed_symbol")
         else:
             # Not enough data: keep shadow learning for EMA, allow others cautiously
+            # Don't make allocation changes until sample requirements met
             decision["enable"] += ["Breakout-Aggressive","Sentiment-Fusion"]
-            decision["notes"].append("insufficient_data")
+            decision["size_multiplier"] = 1.0  # No size changes without sufficient data
+            if sample_readiness:
+                symbol_data = sample_readiness.load_state().get("symbols", {}).get(sym, {})
+                trades_needed = symbol_data.get("trades_needed", MIN_TRADES_FOR_DECISION - count)
+                days_needed = symbol_data.get("days_needed", MIN_DAYS_FOR_DECISION)
+                decision["notes"].append(f"insufficient_samples: need {trades_needed} more trades, {days_needed} more days")
+            else:
+                decision["notes"].append(f"insufficient_data: {count}/{MIN_TRADES_FOR_DECISION} trades")
         # Consider missed profit (blocked signals implying loosening)
         mp=missed.get(sym, {"blocked_count":0,"missed_net":0.0})
         if mp["blocked_count"] >= 10 and mp["missed_net"] > 0.02:
@@ -312,19 +338,54 @@ def run_symbol_allocation_cycle() -> Dict[str,Any]:
     # Allocation decisions
     alloc=_allocation_rules(stats, missed, regime)
 
-    # Build proposals with gates
-    proposals=[]
-    for sym, decision in alloc.items():
-        proposals.append({
-            "type":"symbol_allocation",
-            "symbol": sym,
-            "enable": decision["enable"],
-            "disable": decision["disable"],
-            "size_multiplier": round(decision["size_multiplier"],3),
-            "notes": decision["notes"],
-            "regime": regime,
-            "source": "allocation_intelligence"
-        })
+    # Filter proposals by sample readiness
+    try:
+        from src.symbol_sample_readiness import SymbolSampleReadiness
+        sample_readiness = SymbolSampleReadiness()
+        
+        # Update readiness state from executed trades
+        sample_readiness.update_readiness(exec_rows)
+        
+        # Build proposals
+        raw_proposals = []
+        for sym, decision in alloc.items():
+            raw_proposals.append({
+                "type":"symbol_allocation",
+                "symbol": sym,
+                "enable": decision["enable"],
+                "disable": decision["disable"],
+                "size_multiplier": round(decision["size_multiplier"],3),
+                "notes": decision["notes"],
+                "regime": regime,
+                "source": "allocation_intelligence"
+            })
+        
+        # Filter by sample readiness
+        proposals, blocked = sample_readiness.filter_allocation_proposals(raw_proposals)
+        
+        # Log blocked proposals
+        if blocked:
+            _append_jsonl(LEARN_LOG, {
+                "ts": _now(),
+                "update_type": "allocation_blocked_insufficient_samples",
+                "blocked_proposals": blocked
+            })
+            print(f"🚫 [ALLOCATION] Blocked {len(blocked)} allocation proposals due to insufficient samples")
+    except Exception as e:
+        # Fallback if sample readiness unavailable
+        print(f"⚠️ [ALLOCATION] Sample readiness filter failed: {e}, using all proposals")
+        proposals = []
+        for sym, decision in alloc.items():
+            proposals.append({
+                "type":"symbol_allocation",
+                "symbol": sym,
+                "enable": decision["enable"],
+                "disable": decision["disable"],
+                "size_multiplier": round(decision["size_multiplier"],3),
+                "notes": decision["notes"],
+                "regime": regime,
+                "source": "allocation_intelligence"
+            })
     # Gate promotion: publish proposals; governors apply only if gates pass
     if proposals:
         _append_jsonl(LEARN_LOG, {"ts": _now(), "update_type":"allocation_proposals", "proposals": proposals, "verdict": verdict_meta, "risk": risk})
@@ -333,8 +394,21 @@ def run_symbol_allocation_cycle() -> Dict[str,Any]:
     # Update runtime overlays (non-invasive; governors decide actual application)
     rt.setdefault("alloc_overlays", {})
     rt["alloc_overlays"]["per_symbol"]=alloc
-    rt["alloc_overlays"]["rules"]={"min_trades": MIN_TRADES_FOR_DECISION, "win_floor_winner": WIN_FLOOR_WINNER, "win_ceiling_loser": WIN_CEILING_LOSER}
+    rt["alloc_overlays"]["rules"]={
+        "min_trades": MIN_TRADES_FOR_DECISION,
+        "min_days": MIN_DAYS_FOR_DECISION,
+        "win_floor_winner": WIN_FLOOR_WINNER,
+        "win_ceiling_loser": WIN_CEILING_LOSER
+    }
     rt["alloc_overlays"]["min_pass_lanes"]={"comment":"preserve smart-YES lanes; allocation shifts capital, not blanket blocks"}
+    
+    # Add sample readiness stats to runtime
+    try:
+        from src.symbol_sample_readiness import get_symbol_readiness
+        readiness_stats = get_symbol_readiness()
+        rt["alloc_overlays"]["sample_readiness"] = readiness_stats
+    except Exception as e:
+        print(f"⚠️ [ALLOCATION] Failed to add sample readiness stats: {e}")
     live["runtime"]=rt
     _write_json(LIVE_CFG, live)
 

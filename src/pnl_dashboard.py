@@ -1226,7 +1226,8 @@ def generate_executive_summary() -> Dict[str, str]:
     """
     from datetime import datetime, timedelta
     import pytz
-    # Path is already imported at module level - no need to re-import
+    import os  # Ensure os is available
+    import json  # Ensure json is available
     
     ARIZONA_TZ = pytz.timezone('America/Phoenix')
     now = datetime.now(ARIZONA_TZ)

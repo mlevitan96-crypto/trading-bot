@@ -240,9 +240,12 @@ def record_futures_trade(symbol, direction, entry_price, exit_price, margin_coll
     else:
         # Path 2: Estimate fees using fee_calculator for paper trading
         from src.fee_calculator import calculate_trading_fee
+        import os
+        # Get current exchange for correct fee rates
+        exchange = os.getenv("EXCHANGE", "blofin").lower()
         notional_size = margin_collateral * leverage
         # Entry fee + exit fee (both assessed on notional)
-        trading_fees_usd = calculate_trading_fee(notional_size, order_type) * 2
+        trading_fees_usd = calculate_trading_fee(notional_size, order_type, exchange=exchange) * 2
     
     trading_fees_roi = trading_fees_usd / margin_collateral if margin_collateral > 0 else 0
     funding_fees_roi = funding_fees / margin_collateral if margin_collateral > 0 else 0

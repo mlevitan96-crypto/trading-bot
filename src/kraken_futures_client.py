@@ -408,25 +408,48 @@ class KrakenFuturesClient:
             else:
                 raise
         
-        # Kraken response format: {"candles": [{"time": ms, "open": str, "high": str, "low": str, "close": str, "volume": str}, ...]}
+        # Kraken response format may vary - check for different structures
+        # Format 1: {"candles": [{"time": ms, "open": str, ...}, ...]}
+        # Format 2: {"result": "success", "candles": [[timestamp, open, high, low, close, volume], ...]}
+        # Format 3: Direct array [[timestamp, open, high, low, close, volume], ...]
+        
         candles = data.get("candles", [])
+        if not candles and isinstance(data, list):
+            candles = data  # Direct array format
+        
         if not candles:
-            raise Exception(f"No candle data returned for {kraken_symbol}")
+            raise Exception(f"No candle data returned for {kraken_symbol}. Response: {data}")
         
         # Limit to requested number (Kraken may return more)
         candles = candles[:limit]
         
-        # Convert to DataFrame
+        # Convert to DataFrame - handle both formats
         df_data = []
         for candle in candles:
-            df_data.append({
-                "timestamp": candle["time"],
-                "open": float(candle["open"]),
-                "high": float(candle["high"]),
-                "low": float(candle["low"]),
-                "close": float(candle["close"]),
-                "volume": float(candle["volume"])
-            })
+            if isinstance(candle, dict):
+                # Format 1: {"time": ms, "open": str, ...}
+                df_data.append({
+                    "timestamp": candle.get("time") or candle.get("timestamp"),
+                    "open": float(candle.get("open", 0)),
+                    "high": float(candle.get("high", 0)),
+                    "low": float(candle.get("low", 0)),
+                    "close": float(candle.get("close", 0)),
+                    "volume": float(candle.get("volume", 0))
+                })
+            elif isinstance(candle, list) and len(candle) >= 6:
+                # Format 2: [timestamp, open, high, low, close, volume]
+                df_data.append({
+                    "timestamp": candle[0],
+                    "open": float(candle[1]),
+                    "high": float(candle[2]),
+                    "low": float(candle[3]),
+                    "close": float(candle[4]),
+                    "volume": float(candle[5])
+                })
+        
+        if not df_data:
+            raise Exception(f"Could not parse candle data for {kraken_symbol}. Format: {type(candles[0]) if candles else 'empty'}")
+        
         df = pd.DataFrame(df_data)
         
         # Convert timestamp (Kraken uses milliseconds)

@@ -33,10 +33,18 @@ MIN_OHLCV_CANDLES = 10  # Default: production threshold
 def _get_validation_thresholds():
     """
     Get validation thresholds based on testnet/production mode.
-    
+
     Testnet has very sparse/illiquid orderbooks, so we use relaxed thresholds.
     """
     import os
+    from pathlib import Path
+    from dotenv import load_dotenv
+    
+    # Load .env file to ensure environment variables are available
+    env_file = Path(__file__).parent.parent / ".env"
+    if env_file.exists():
+        load_dotenv(env_file)
+    
     is_testnet = os.getenv("KRAKEN_FUTURES_TESTNET", "false").lower() == "true"
     
     if is_testnet:

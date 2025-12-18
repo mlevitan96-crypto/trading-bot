@@ -3131,8 +3131,38 @@ def build_app(server: Flask = None) -> Dash:
             ("feature_store_updates", "Feature Store Updates"),
             ("file_integrity", "File Integrity"),
             ("self_healing", "Self-Healing"),
-            ("safety_layer", "Safety Layer")
+            ("safety_layer", "Safety Layer"),
+            ("exchange_health", "Exchange Health"),
+            ("healing_escalation", "Healing Escalation")
         ]
+        
+        # Get exchange health status
+        try:
+            from src.exchange_health_monitor import get_exchange_health_status
+            health_status = get_exchange_health_status()
+            exchange_status = health_status.get("status", "healthy")
+            if exchange_status == "degraded":
+                status["exchange_health"] = "red"
+            elif exchange_status == "healthy":
+                status["exchange_health"] = "green"
+            else:
+                status["exchange_health"] = "yellow"
+        except:
+            status["exchange_health"] = "yellow"
+        
+        # Get healing escalation status
+        try:
+            from src.healing_escalation import get_escalation_status
+            escalation = get_escalation_status()
+            escalation_status = escalation.get("escalation_status", "normal")
+            if escalation_status == "critical" or escalation.get("soft_kill_switch_active", False):
+                status["healing_escalation"] = "red"
+            elif escalation_status == "normal":
+                status["healing_escalation"] = "green"
+            else:
+                status["healing_escalation"] = "yellow"
+        except:
+            status["healing_escalation"] = "yellow"
         
         # Create grid of status indicators
         grid_items = []

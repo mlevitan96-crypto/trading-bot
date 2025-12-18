@@ -1826,6 +1826,35 @@ def run_heavy_initialization():
         if is_paper_mode:
             print("   ℹ️  Continuing in PAPER MODE despite health check errors")
     
+    # Run venue symbol validation on startup (if using Kraken)
+    try:
+        exchange = os.getenv("EXCHANGE", "blofin").lower()
+        if exchange == "kraken":
+            print("\n🔍 [VALIDATION] Running startup venue symbol validation...")
+            from src.venue_symbol_validator import validate_venue_symbols
+            validation_results = validate_venue_symbols(update_config=False)
+            
+            suppressed = validation_results.get("summary", {}).get("suppressed", 0)
+            if suppressed > 0:
+                print(f"⚠️  [VALIDATION] {suppressed} symbols failed validation and should be suppressed")
+                print("   💡 Review validation results and consider updating asset_universe.json")
+            else:
+                print("✅ [VALIDATION] All symbols validated successfully")
+            
+            # Register daily validation task
+            try:
+                from src.phase10_profit_engine import register_periodic_task
+                from src.venue_validation_scheduler import register_daily_validation
+                register_daily_validation(register_periodic_task)
+            except Exception as e:
+                print(f"⚠️  [VALIDATION] Failed to register daily validation scheduler: {e}")
+        else:
+            print(f"ℹ️  [VALIDATION] Skipping (not using Kraken, current exchange: {exchange})")
+    except Exception as e:
+        print(f"⚠️  [VALIDATION] Symbol validation error (non-blocking): {e}")
+        if is_paper_mode:
+            print("   ℹ️  Continuing in PAPER MODE despite validation errors")
+    
     from src.venue_config import print_venue_map
     print_venue_map()
     

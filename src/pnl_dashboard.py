@@ -1191,7 +1191,10 @@ def generate_executive_summary() -> Dict[str, str]:
         "changes_tomorrow": "",
         "weekly_summary": "",
         "improvements_trends": "",
-        "venue_validation": ""  # Added for Kraken symbol validation
+        "venue_validation": "",  # Added for Kraken symbol validation
+        "self_healing_escalation": "",  # Self-healing escalation status
+        "symbol_readiness": "",  # Symbol sample readiness
+        "exchange_health": ""  # Exchange health status
     }
     
     # 1. Read trade data from positions_futures.json (SOURCE OF TRUTH)
@@ -2052,6 +2055,88 @@ def generate_executive_summary() -> Dict[str, str]:
                 summary["venue_validation"] = "Symbol validation not yet run. "
     except Exception as e:
         summary["venue_validation"] = f"Error loading validation status: {str(e)}. "
+    
+    # 10. Self-Healing Escalation Status
+    try:
+        from src.healing_escalation import get_escalation_status
+        escalation = get_escalation_status()
+        
+        status_type = escalation.get("escalation_status", "normal")
+        soft_kill_active = escalation.get("soft_kill_switch_active", False)
+        counts_24h = escalation.get("heal_counts_24h", {})
+        
+        if soft_kill_active:
+            escalation_summary = (
+                f"🚨 Self-Healing Escalation: Soft kill-switch ACTIVE - new entries blocked. "
+                f"Heal counts (24h): {', '.join([f'{k}={v}' for k, v in counts_24h.items() if v > 0][:3])}. "
+            )
+        elif status_type == "critical":
+            escalation_summary = (
+                f"⚠️ Self-Healing Escalation: CRITICAL status. "
+                f"Heal counts (24h): {', '.join([f'{k}={v}' for k, v in counts_24h.items() if v > 0][:3])}. "
+            )
+        else:
+            max_count = max(counts_24h.values(), default=0)
+            if max_count > 0:
+                escalation_summary = f"Self-Healing: Normal operation. Max heal count (24h): {max_count}. "
+            else:
+                escalation_summary = "Self-Healing: Normal operation, no recent heals. "
+        
+        summary["self_healing_escalation"] = escalation_summary
+    except Exception as e:
+        summary["self_healing_escalation"] = f"Error loading escalation status: {str(e)}. "
+    
+    # 11. Symbol Sample Readiness
+    try:
+        from src.symbol_sample_readiness import get_symbol_readiness
+        readiness_stats = get_symbol_readiness()
+        
+        ready_count = readiness_stats.get("ready_count", 0)
+        total_symbols = readiness_stats.get("total_symbols", 0)
+        not_ready_symbols = readiness_stats.get("not_ready_symbols", [])
+        
+        if total_symbols > 0:
+            readiness_pct = readiness_stats.get("readiness_pct", 0.0)
+            readiness_summary = (
+                f"Symbol Sample Readiness: {ready_count}/{total_symbols} symbols ready ({readiness_pct:.0f}%). "
+            )
+            
+            if not_ready_symbols:
+                readiness_summary += (
+                    f"Not ready ({len(not_ready_symbols)}): {', '.join(not_ready_symbols[:5])}"
+                    f"{'...' if len(not_ready_symbols) > 5 else ''}. "
+                )
+            
+            summary["symbol_readiness"] = readiness_summary
+        else:
+            summary["symbol_readiness"] = "Sample readiness: No symbols tracked yet. "
+    except Exception as e:
+        summary["symbol_readiness"] = f"Error loading sample readiness: {str(e)}. "
+    
+    # 12. Exchange Health Status
+    try:
+        from src.exchange_health_monitor import get_exchange_health_status
+        health_status = get_exchange_health_status()
+        
+        exchange_status = health_status.get("status", "healthy")
+        consecutive_failures = health_status.get("consecutive_failures", 0)
+        
+        if exchange_status == "degraded":
+            health_summary = (
+                f"🚨 Exchange Health: DEGRADED ({consecutive_failures} consecutive failures). "
+                f"New entries blocked. Managing exits only. "
+            )
+        elif consecutive_failures > 0:
+            health_summary = (
+                f"⚠️ Exchange Health: {consecutive_failures} recent failure(s), monitoring. "
+            )
+        else:
+            exchange_name = health_status.get("exchange", "unknown").upper()
+            health_summary = f"Exchange Health ({exchange_name}): Healthy, all connectivity checks passing. "
+        
+        summary["exchange_health"] = health_summary
+    except Exception as e:
+        summary["exchange_health"] = f"Error loading exchange health: {str(e)}. "
     
     # Clean up empty narratives
     for key in summary:
@@ -3104,9 +3189,21 @@ def build_app(server: Flask = None) -> Dash:
                     ("Weekly Summary", summary.get("weekly_summary", "No data available."))
                 ]
                 
-                # Add venue validation section if it exists (Kraken only)
-                if "venue_validation" in summary:
-                    sections.insert(3, ("Venue Symbol Validation", summary.get("venue_validation", "No data available.")))
+                # Add operational status sections
+                operational_sections = []
+                if "venue_validation" in summary and summary.get("venue_validation"):
+                    operational_sections.append(("Venue Symbol Validation", summary.get("venue_validation")))
+                if "self_healing_escalation" in summary and summary.get("self_healing_escalation"):
+                    operational_sections.append(("Self-Healing Escalation", summary.get("self_healing_escalation")))
+                if "symbol_readiness" in summary and summary.get("symbol_readiness"):
+                    operational_sections.append(("Symbol Sample Readiness", summary.get("symbol_readiness")))
+                if "exchange_health" in summary and summary.get("exchange_health"):
+                    operational_sections.append(("Exchange Health", summary.get("exchange_health")))
+                
+                # Insert operational sections after "What Didn't Work"
+                if operational_sections:
+                    for i, (title, text) in enumerate(operational_sections):
+                        sections.insert(3 + i, (title, text))
                 
                 content = []
                 for title, text in sections:

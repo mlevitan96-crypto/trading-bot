@@ -1286,9 +1286,9 @@ def generate_executive_summary() -> Dict[str, str]:
     # PERFORMANCE: Use DataRegistry which may cache, and limit to recent trades for faster processing
     try:
         from src.data_registry import DataRegistry as DR
-        # For executive summary, we need today/yesterday comparisons, so load last 3 days
-        # This is faster than 7 days and still captures recent trends
-        closed_positions = DR.get_closed_positions(hours=72)  # Last 3 days only (optimized from 7 days)
+        # For executive summary, we need today/yesterday AND weekly summaries, so load last 7 days
+        # Weekly summary section requires 7 days of data
+        closed_positions = DR.get_closed_positions(hours=168)  # Last 7 days (required for weekly summary)
         
         # Filter to today's closed positions
         today_closed = []

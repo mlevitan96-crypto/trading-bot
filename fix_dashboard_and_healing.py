@@ -122,7 +122,7 @@ def main():
             print("   🟡 YELLOW STATUS - Analyzing reasons:")
             
             # Check last cycle results
-            last_result = healing_op.last_healing_cycle_result
+            last_result = healing_op.last_healing_cycle
             if last_result:
                 healed = last_result.get('healed', [])
                 failed = last_result.get('failed', [])

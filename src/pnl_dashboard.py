@@ -1224,10 +1224,12 @@ def generate_executive_summary() -> Dict[str, str]:
     Uses positions_futures.json as source of truth for trade data,
     with daily_stats_tracker as secondary source for consistency checks.
     """
+    # Explicit imports at function start to ensure availability in all contexts
     from datetime import datetime, timedelta
     import pytz
-    import os  # Ensure os is available
-    import json  # Ensure json is available
+    import os
+    import json
+    from src.infrastructure.path_registry import PathRegistry
     
     ARIZONA_TZ = pytz.timezone('America/Phoenix')
     now = datetime.now(ARIZONA_TZ)
@@ -3298,8 +3300,13 @@ def build_app(server: Flask = None) -> Dash:
                 
                 return html.Div(content, style={"padding":"16px"})
             except Exception as e:
+                import traceback
+                error_details = traceback.format_exc()
+                print(f"❌ [DASHBOARD] Error in update_summary (executive tab): {e}")
+                print(f"❌ [DASHBOARD] Traceback:\n{error_details}")
                 return html.Div([
-                    html.P(f"Error loading executive summary: {str(e)}", style={"color":"#ff6b6b","padding":"12px"})
+                    html.P(f"Error loading executive summary: {str(e)}", style={"color":"#ff6b6b","padding":"12px"}),
+                    html.Pre(error_details[:500], style={"color":"#ff6b6b","fontSize":"10px","padding":"8px","background":"#2a2a2a"})
                 ])
         
         # Handle other tabs (daily, weekly, monthly)
@@ -3334,10 +3341,15 @@ def build_app(server: Flask = None) -> Dash:
                 return summary_card(s, "Monthly Summary (Last 30 Days)", hours=720)
             return summary_card(compute_summary(df, 1, wallet_balance), "Summary", hours=24)
         except Exception as e:
-            print(f"⚠️  [DASHBOARD] Error updating summary: {e}")
             import traceback
+            error_details = traceback.format_exc()
+            print(f"❌ [DASHBOARD] Error in update_summary callback: {e}")
+            print(f"❌ [DASHBOARD] Traceback:\n{error_details}")
             traceback.print_exc()
-            return html.Div([html.P(f"Error loading summary: {str(e)}", style={"color":"#ff6b6b","padding":"12px"})])
+            return html.Div([
+                html.P(f"Error loading summary: {str(e)}", style={"color":"#ff6b6b","padding":"12px"}),
+                html.Pre(error_details[:500], style={"color":"#ff6b6b","fontSize":"10px","padding":"8px","background":"#2a2a2a"})
+            ])
 
     @app.callback(
         Output("open-positions-container", "children"),

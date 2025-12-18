@@ -26,9 +26,10 @@ DASHBOARD_PASSWORD = "Echelonlev2007!"
 DASHBOARD_PASSWORD_HASH = hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest()
 
 # Use PathRegistry for unified path resolution (handles slot-based deployments)
-OPEN_POS_LOG = str(PathRegistry.get_path("logs", "positions.json"))  # Legacy spot file (may not exist)
-FUTURES_POS_LOG = str(PathRegistry.POS_LOG)  # Authoritative futures positions file
-WALLET_SNAPSHOTS_FILE = str(PathRegistry.get_path("logs", "wallet_snapshots.jsonl"))
+# PathRegistry.get_path() returns strings, not Path objects
+OPEN_POS_LOG = PathRegistry.get_path("logs", "positions.json")  # Legacy spot file (may not exist)
+FUTURES_POS_LOG = str(PathRegistry.POS_LOG)  # POS_LOG is a Path object, convert to str  
+WALLET_SNAPSHOTS_FILE = PathRegistry.get_path("logs", "wallet_snapshots.jsonl")
 
 _dashboard_health_status = {
     "gateway_ok": True,

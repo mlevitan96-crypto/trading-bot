@@ -63,3 +63,29 @@ def register_daily_validation(register_periodic_task):
     # Check every 30 minutes to catch 4 AM UTC window
     register_periodic_task(daily_validation_check, interval_sec=30 * 60)
     print("✅ [VALIDATION] Daily validation scheduler registered (4 AM UTC)")
+
+
+def exchange_health_check():
+    """
+    Periodic exchange health check (runs every 5 minutes).
+    """
+    try:
+        from src.exchange_health_monitor import check_exchange_health
+        state = check_exchange_health()
+        
+        if state.get("status") == "degraded":
+            print(f"🚨 [EXCHANGE-HEALTH] Exchange is DEGRADED ({state.get('consecutive_failures')} consecutive failures)")
+    except Exception as e:
+        print(f"⚠️ [EXCHANGE-HEALTH] Health check error: {e}")
+
+
+def register_exchange_health_monitor(register_periodic_task):
+    """
+    Register exchange health monitoring task.
+    
+    Args:
+        register_periodic_task: Function that accepts (task_fn, interval_sec)
+    """
+    # Check every 5 minutes
+    register_periodic_task(exchange_health_check, interval_sec=5 * 60)
+    print("✅ [EXCHANGE-HEALTH] Exchange health monitor registered (5min interval)")

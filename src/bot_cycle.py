@@ -400,6 +400,37 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         # Escalation check is non-critical, continue if unavailable
         pass
     
+    # Check exchange health (blocks entries if exchange is degraded)
+    try:
+        from src.exchange_health_monitor import is_exchange_healthy
+        if not is_exchange_healthy():
+            log_event("exchange_health_block", {
+                "signal": signal,
+                "reason": "Exchange marked as degraded"
+            })
+            print(f"🚨 [EXCHANGE-HEALTH] Entry blocked: Exchange is DEGRADED")
+            # Track decision and update state (fire-and-forget)
+            if decision_tracker:
+                try:
+                    decision_tracker.track_block(
+                        signal_id=signal_id,
+                        blocker_component="ExchangeHealth",
+                        blocker_reason="Exchange degraded - API failures detected",
+                        symbol=signal.get('symbol'),
+                        signal_metadata=signal
+                    )
+                except:
+                    pass  # Non-blocking
+            if state_machine and signal_id:
+                try:
+                    state_machine.transition(signal_id, SignalState.BLOCKED, reason="ExchangeHealth: exchange degraded")
+                except:
+                    pass  # Non-blocking
+            return {"status": "blocked", "reason": "exchange_degraded"}
+    except Exception as e:
+        # Exchange health check is non-critical, continue if unavailable
+        pass
+    
     if not venue_guard_entry_gate(signal):
         log_event("venue_guard_block", signal)
         # Track decision and update state (fire-and-forget)

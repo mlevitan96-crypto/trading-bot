@@ -537,14 +537,33 @@ class KrakenFuturesClient:
         """
         Get account balance and margin info.
         
+        Note: Balance endpoint is not supported on Kraken Futures testnet.
+        This will return an authentication error, which is expected.
+        
         Returns:
             Account balance data
         """
         try:
-            return self._req("GET", "/derivatives/api/v3/accounts")
+            result = self._req("GET", "/derivatives/api/v3/accounts")
+            return result
         except Exception as e:
-            print(f"⚠️ Failed to get balance: {e}")
-            return {"result": "error", "accounts": []}
+            error_str = str(e)
+            
+            # Handle testnet limitation explicitly
+            if "authenticationError" in error_str or "authentication" in error_str.lower():
+                is_testnet = os.getenv("KRAKEN_FUTURES_TESTNET", "false").lower() == "true"
+                if is_testnet:
+                    # Expected limitation on testnet - log but don't treat as error
+                    print(f"ℹ️  [KRAKEN] Balance endpoint unsupported on testnet (expected limitation)")
+                    return {
+                        "result": "error",
+                        "error": "Balance endpoint unsupported on testnet",
+                        "testnet_limitation": True,
+                        "accounts": []
+                    }
+            
+            print(f"⚠️ [KRAKEN] Failed to get balance: {error_str}")
+            return {"result": "error", "error": error_str, "accounts": []}
     
     def place_order(
         self,

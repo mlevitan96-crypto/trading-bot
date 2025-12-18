@@ -4,14 +4,34 @@ Fix dashboard cache and diagnose self-healing yellow status.
 """
 
 import sys
+import os
 from pathlib import Path
 
 _project_root = Path(__file__).parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
+# Try to use venv if available
+_venv_python = _project_root / "venv" / "bin" / "python3"
+if _venv_python.exists():
+    # We're already using the correct Python if run via venv/bin/python
+    pass
+
 # Load .env
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    print("⚠️  Warning: python-dotenv not found. Trying to load .env manually...")
+    # Manual .env loading as fallback
+    def load_dotenv_manual(path):
+        if path.exists():
+            with open(path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, value = line.split('=', 1)
+                        os.environ[key.strip()] = value.strip()
+    load_dotenv = lambda p: load_dotenv_manual(p)
 _env_path = _project_root / ".env"
 if _env_path.exists():
     load_dotenv(_env_path)

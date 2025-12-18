@@ -967,6 +967,8 @@ def get_wallet_balance() -> float:
     Uses portfolio file for fast lookup, falls back to calculating from closed positions.
     Uses request-level caching to avoid redundant calculations.
     """
+    global _request_cache  # Declare as global to access module-level variable
+    
     # Check request cache first (fast path)
     cache_key = "wallet_balance"
     current_time = time.time()

@@ -242,13 +242,52 @@ class HealingOperator:
             print(f"🔧 [HEALING] Architecture components healing error: {e}", flush=True)
             failed.append("architecture_components")
         
+        # Collect healing stats for escalation tracking
+        heal_stats = {
+            "files_created": 0,
+            "files_repaired": 0,
+            "directories_created": 0,
+            "heartbeats_reset": 0,
+            "locks_cleared": 0,
+            "orphans_killed": 0
+        }
+        
+        # Aggregate stats from all healing results
+        for component in healed:
+            # Stats are collected per-component, aggregate here
+            # Note: Individual heal methods don't return detailed stats yet
+            # For now, count each healed component as one "heal"
+            # TODO: Enhance individual heal methods to return detailed stats
+            pass
+        
+        # Track escalation (check heal counts)
+        try:
+            from src.healing_escalation import track_healing_cycle
+            escalation_result = track_healing_cycle(healed)  # Pass list of healed components
+            
+            if escalation_result.get("soft_kill_switch_active"):
+                print(f"🚨 [ESCALATION] Soft kill-switch ACTIVE - blocking new entries", flush=True)
+            
+            if escalation_result.get("escalation_status") == "critical":
+                if alert_operator:
+                    try:
+                        alert_operator(ALERT_CRITICAL, "HEALING_ESCALATION", 
+                            f"Critical escalation: {escalation_result.get('counts_24h')}",
+                            escalation_result)
+                    except:
+                        pass
+        except Exception as e:
+            # Escalation tracking is non-critical, don't fail healing if it errors
+            pass
+        
         cycle_duration = time.time() - cycle_start
         self.last_healing_cycle_ts = time.time()  # Track timestamp for status checks
         self.last_healing_cycle = {
             "timestamp": datetime.utcnow().isoformat(),
             "healed": healed,
             "failed": failed,
-            "duration_seconds": cycle_duration
+            "duration_seconds": cycle_duration,
+            "heal_stats": heal_stats
         }
         
         # MISSION: Silent autonomous operation - only log if issues found or fixed

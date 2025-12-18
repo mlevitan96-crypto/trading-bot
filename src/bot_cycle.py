@@ -369,6 +369,37 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         except:
             pass  # Non-blocking
     
+    # Check soft kill-switch from healing escalation (blocks entries if too many heals)
+    try:
+        from src.healing_escalation import is_soft_kill_switch_active
+        if is_soft_kill_switch_active():
+            log_event("healing_escalation_block", {
+                "signal": signal,
+                "reason": "Soft kill-switch active due to excessive healing"
+            })
+            print(f"🚨 [ESCALATION] Entry blocked: Soft kill-switch active (excessive healing detected)")
+            # Track decision and update state (fire-and-forget)
+            if decision_tracker:
+                try:
+                    decision_tracker.track_block(
+                        signal_id=signal_id,
+                        blocker_component="HealingEscalation",
+                        blocker_reason="Soft kill-switch active - excessive healing",
+                        symbol=signal.get('symbol'),
+                        signal_metadata=signal
+                    )
+                except:
+                    pass  # Non-blocking
+            if state_machine and signal_id:
+                try:
+                    state_machine.transition(signal_id, SignalState.BLOCKED, reason="HealingEscalation: soft kill-switch")
+                except:
+                    pass  # Non-blocking
+            return {"status": "blocked", "reason": "healing_escalation_soft_kill_switch"}
+    except Exception as e:
+        # Escalation check is non-critical, continue if unavailable
+        pass
+    
     if not venue_guard_entry_gate(signal):
         log_event("venue_guard_block", signal)
         # Track decision and update state (fire-and-forget)

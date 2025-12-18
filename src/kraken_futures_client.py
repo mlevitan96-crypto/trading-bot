@@ -371,8 +371,10 @@ class KrakenFuturesClient:
         interval_seconds = timeframe_seconds.get(timeframe, 3600)
         from_timestamp = int(time.time()) - (limit * interval_seconds)
         
-        endpoint = f"/derivatives/api/v3/instruments/{kraken_symbol}/ohlc?resolution={kraken_timeframe}&from={from_timestamp}"
-        data = self._req("GET", endpoint)
+        # Path without query params, query params as payload
+        endpoint_path = f"/derivatives/api/v3/instruments/{kraken_symbol}/ohlc"
+        query_params = {"resolution": kraken_timeframe, "from": from_timestamp}
+        data = self._req("GET", endpoint_path, payload=query_params)
         
         # Kraken response format: {"candles": [{"time": ms, "open": str, "high": str, "low": str, "close": str, "volume": str}, ...]}
         candles = data.get("candles", [])

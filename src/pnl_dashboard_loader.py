@@ -30,7 +30,7 @@ _df_cache: Optional[pd.DataFrame] = None
 _cache_timestamp: float = 0
 _cache_file_mtime: float = 0
 _cache_lock = threading.Lock()
-CACHE_TTL_SECONDS = 10  # Only rebuild if file changed AND 10s elapsed (reduced for fresher data)
+CACHE_TTL_SECONDS = 30  # Cache for 30s to reduce database queries and improve performance
 
 def clear_cache():
     """Clear the DataFrame cache to force fresh data on next load."""
@@ -327,10 +327,25 @@ def load_trades_df() -> pd.DataFrame:
         
         try:
             # Limit to last 1000 trades for performance (dashboard doesn't need all history on load)
-            closed_trades = DR.get_closed_trades_from_db(limit=1000, symbol=None)
-            if closed_trades:
-                print(f"📊 [LOADER] Loaded {len(closed_trades)} trades from SQLite (limited to 1000 for performance)")
-                all_trades.extend(closed_trades)
+            # Add timeout wrapper to prevent hanging
+            import signal
+            
+            def timeout_handler(signum, frame):
+                raise TimeoutError("Database query timed out")
+            
+            signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(5)  # 5 second timeout
+            
+            try:
+                closed_trades = DR.get_closed_trades_from_db(limit=1000, symbol=None)
+                if closed_trades:
+                    print(f"📊 [LOADER] Loaded {len(closed_trades)} trades from SQLite (limited to 1000 for performance)")
+                    all_trades.extend(closed_trades)
+            finally:
+                signal.alarm(0)  # Cancel timeout
+        except TimeoutError:
+            print(f"⚠️  [LOADER] Database query timed out, falling back to JSONL")
+            closed_trades = []
         except Exception as e:
             print(f"⚠️  [LOADER] SQLite read failed, falling back to JSONL: {e}")
             for log_path in LOG_FILES:

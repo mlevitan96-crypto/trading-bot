@@ -537,10 +537,11 @@ def _run_async(coro):
 
 
 def get_closed_trades_sync(limit: int = None, symbol: str = None) -> List[Dict[str, Any]]:
-    """Synchronous wrapper for get_closed_trades."""
+    """Synchronous wrapper for get_closed_trades with timeout."""
     try:
         db = get_db()
-        return _run_async(db.get_closed_trades(limit=limit, symbol=symbol))
+        result = _run_async(db.get_closed_trades(limit=limit, symbol=symbol), timeout=5.0)
+        return result if result is not None else []
     except Exception as e:
         logger.error(f"Sync get_closed_trades failed: {e}")
         return []

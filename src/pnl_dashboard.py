@@ -478,10 +478,27 @@ def load_open_positions_df():
     gateway = None
     _dashboard_health_status["last_load_attempt"] = datetime.now().isoformat()
     
+    # Initialize ExchangeGateway with timeout to prevent hanging
+    gateway = None
     try:
-        from src.exchange_gateway import ExchangeGateway
-        gateway = ExchangeGateway()
-        _dashboard_health_status["gateway_ok"] = True
+        import signal
+        
+        def timeout_handler(signum, frame):
+            raise TimeoutError("ExchangeGateway initialization timed out")
+        
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(3)  # 3 second timeout
+        
+        try:
+            from src.exchange_gateway import ExchangeGateway
+            gateway = ExchangeGateway()
+            _dashboard_health_status["gateway_ok"] = True
+        finally:
+            signal.alarm(0)  # Cancel timeout
+    except TimeoutError:
+        print(f"⚠️  [DASHBOARD-HEALTH] ExchangeGateway init timed out")
+        _dashboard_health_status["gateway_ok"] = False
+        _dashboard_health_status["last_error"] = "Initialization timeout"
     except Exception as gw_err:
         print(f"⚠️  [DASHBOARD-HEALTH] ExchangeGateway init failed: {gw_err}")
         _dashboard_health_status["gateway_ok"] = False

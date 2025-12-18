@@ -229,7 +229,8 @@ def get_all_closed_positions_stats():
     from src.data_registry import DataRegistry as DR
     
     try:
-        closed_positions = DR.get_closed_trades_from_db(limit=None, symbol=None)
+        # PERFORMANCE: Limit to last 5000 trades for stats (enough for accurate totals without loading everything)
+        closed_positions = DR.get_closed_trades_from_db(limit=5000, symbol=None)
     except Exception as e:
         print(f"⚠️  [DASHBOARD] SQLite stats read failed, falling back to JSONL: {e}")
         data = read_json_log("positions_futures.json")

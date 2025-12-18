@@ -93,9 +93,30 @@ grep KRAKEN .env
 
 ## Step 5: Test Connection
 
+**IMPORTANT:** Use the venv's Python, not system python3:
+
 ```bash
 cd /root/trading-bot-current
-python3 src/kraken_futures_client.py
+
+# Method 1: Use venv Python directly (recommended)
+/root/trading-bot-current/venv/bin/python src/kraken_futures_client.py
+
+# Method 2: Activate venv first (alternative)
+source venv/bin/activate
+python src/kraken_futures_client.py
+deactivate  # When done
+```
+
+**If you get "ModuleNotFoundError: No module named 'pandas'"**:
+```bash
+# Make sure dependencies are installed in venv
+cd /root/trading-bot-current
+source venv/bin/activate
+pip install -r requirements.txt
+deactivate
+
+# Then test again
+/root/trading-bot-current/venv/bin/python src/kraken_futures_client.py
 ```
 
 **Expected output:**

@@ -1826,6 +1826,26 @@ def run_heavy_initialization():
         if is_paper_mode:
             print("   ℹ️  Continuing in PAPER MODE despite health check errors")
     
+    # Run venue migration (tag learning files, reset old venue learnings)
+    try:
+        print("\n🔄 [VENUE-MIGRATION] Checking venue migration status...")
+        from src.learning_venue_migration import migrate_venue_learning
+        migration_results = migrate_venue_learning(decay_factor=0.1)  # Keep 10% of old learnings
+        
+        files_migrated = len(migration_results.get("files_migrated", []))
+        files_tagged = len(migration_results.get("files_tagged", []))
+        
+        if files_migrated > 0:
+            print(f"✅ [VENUE-MIGRATION] Migrated {files_migrated} learning files to new venue")
+        elif files_tagged > 0:
+            print(f"✅ [VENUE-MIGRATION] Tagged {files_tagged} learning files with current venue")
+        else:
+            print("ℹ️  [VENUE-MIGRATION] Learning files already tagged for current venue")
+    except Exception as e:
+        print(f"⚠️  [VENUE-MIGRATION] Migration error (non-blocking): {e}")
+        if is_paper_mode:
+            print("   ℹ️  Continuing in PAPER MODE despite migration errors")
+    
     # Run venue symbol validation on startup (if using Kraken)
     try:
         exchange = os.getenv("EXCHANGE", "blofin").lower()

@@ -388,6 +388,21 @@ class SignalWeightLearner:
             total_adjustment = adjustment + disagreement_bonus
             total_adjustment = max(-MAX_WEIGHT_CHANGE_PCT, min(MAX_WEIGHT_CHANGE_PCT, total_adjustment))
             
+            # Apply venue-aware clamping during initial learning period
+            try:
+                from src.learning_venue_migration import VenueMigrationManager
+                migration_manager = VenueMigrationManager()
+                clamp_multiplier = migration_manager.get_learning_clamp_multiplier()
+                
+                # Clamp adjustment to max ±10% during initial learning period
+                if clamp_multiplier < 1.0:
+                    venue_max_change = 0.10  # 10% max during initial period
+                    clamped_adjustment = max(-venue_max_change, min(venue_max_change, total_adjustment * clamp_multiplier))
+                    if abs(clamped_adjustment) < abs(total_adjustment):
+                        total_adjustment = clamped_adjustment
+            except Exception:
+                pass  # If venue migration not available, use normal adjustment
+            
             new_weight = current_weight * (1 + total_adjustment)
             new_weight = max(MIN_WEIGHT_FLOOR, new_weight)
             

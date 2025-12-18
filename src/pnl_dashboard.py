@@ -478,29 +478,43 @@ def load_open_positions_df():
     gateway = None
     _dashboard_health_status["last_load_attempt"] = datetime.now().isoformat()
     
-    # Initialize ExchangeGateway with timeout to prevent hanging
-    gateway = None
+    # Initialize ExchangeGateway with timeout protection (but don't fail silently)
     try:
-        import signal
+        from src.exchange_gateway import ExchangeGateway
         
-        def timeout_handler(signum, frame):
-            raise TimeoutError("ExchangeGateway initialization timed out")
+        # Try to initialize, but don't let it hang forever
+        # Use threading timeout instead of signal (more reliable)
+        import threading
         
-        signal.signal(signal.SIGALRM, timeout_handler)
-        signal.alarm(3)  # 3 second timeout
+        gateway_init_result = [None]
+        gateway_init_error = [None]
         
-        try:
-            from src.exchange_gateway import ExchangeGateway
-            gateway = ExchangeGateway()
+        def init_gateway():
+            try:
+                gateway_init_result[0] = ExchangeGateway()
+            except Exception as e:
+                gateway_init_error[0] = e
+        
+        init_thread = threading.Thread(target=init_gateway, daemon=True)
+        init_thread.start()
+        init_thread.join(timeout=3.0)  # 3 second timeout
+        
+        if init_thread.is_alive():
+            print(f"⚠️  [DASHBOARD-HEALTH] ExchangeGateway init timed out (still initializing)")
+            gateway = None
+            _dashboard_health_status["gateway_ok"] = False
+            _dashboard_health_status["last_error"] = "Initialization timeout"
+        elif gateway_init_error[0]:
+            print(f"⚠️  [DASHBOARD-HEALTH] ExchangeGateway init failed: {gateway_init_error[0]}")
+            gateway = None
+            _dashboard_health_status["gateway_ok"] = False
+            _dashboard_health_status["last_error"] = str(gateway_init_error[0])
+        else:
+            gateway = gateway_init_result[0]
             _dashboard_health_status["gateway_ok"] = True
-        finally:
-            signal.alarm(0)  # Cancel timeout
-    except TimeoutError:
-        print(f"⚠️  [DASHBOARD-HEALTH] ExchangeGateway init timed out")
-        _dashboard_health_status["gateway_ok"] = False
-        _dashboard_health_status["last_error"] = "Initialization timeout"
     except Exception as gw_err:
-        print(f"⚠️  [DASHBOARD-HEALTH] ExchangeGateway init failed: {gw_err}")
+        print(f"⚠️  [DASHBOARD-HEALTH] ExchangeGateway import/init error: {gw_err}")
+        gateway = None
         _dashboard_health_status["gateway_ok"] = False
         _dashboard_health_status["last_error"] = str(gw_err)
     
@@ -549,14 +563,14 @@ def load_open_positions_df():
             # Use a short timeout to prevent dashboard from hanging
             if not price_fetched and gateway:
                 fetch_start = time.time()
-                max_fetch_time = 3.0  # Max 3 seconds per symbol to prevent hanging
+                max_fetch_time = 2.0  # Max 2 seconds per symbol to prevent hanging
                 
                 try:
                     # Use OHLCV as primary source (cached, less rate limiting)
                     try:
                         if time.time() - fetch_start < max_fetch_time:
                             ohlcv_df = gateway.fetch_ohlcv(symbol, timeframe="1m", limit=1, venue="futures")
-                            if not ohlcv_df.empty and "close" in ohlcv_df.columns:
+                            if ohlcv_df is not None and not ohlcv_df.empty and "close" in ohlcv_df.columns:
                                 ohlcv_price = float(ohlcv_df["close"].iloc[-1])
                                 if ohlcv_price and ohlcv_price > 0:
                                     current = ohlcv_price
@@ -565,8 +579,9 @@ def load_open_positions_df():
                                     with _price_cache_lock:
                                         _price_cache[symbol] = {"price": current, "timestamp": time.time()}
                     except Exception as ohlcv_err:
-                        # Suppress errors - will try mark price fallback or use entry price
-                        pass
+                        # Log error but continue to fallback
+                        if time.time() - fetch_start < 0.1:  # Only log if it failed immediately
+                            print(f"⚠️  [DASHBOARD] OHLCV fetch failed for {symbol}: {ohlcv_err}")
                     
                     # Fallback to mark price if OHLCV fails (only if we have time left)
                     if not price_fetched and (time.time() - fetch_start) < max_fetch_time:
@@ -579,11 +594,12 @@ def load_open_positions_df():
                                 with _price_cache_lock:
                                     _price_cache[symbol] = {"price": current, "timestamp": time.time()}
                         except Exception as price_err:
-                            # Suppress rate limit errors (429) and timeouts - we'll use cached or entry price
-                            pass
+                            # Log error but continue (we'll use entry price as fallback)
+                            if time.time() - fetch_start < 0.1:  # Only log if it failed immediately
+                                print(f"⚠️  [DASHBOARD] Price fetch failed for {symbol}: {price_err}")
                 except Exception as err:
-                    # Suppress all errors - we'll use entry price as fallback
-                    pass
+                    # Log unexpected errors
+                    print(f"⚠️  [DASHBOARD] Unexpected error fetching price for {symbol}: {err}")
             
             # Calculate PnL
             if direction.upper() == "LONG":
@@ -595,11 +611,9 @@ def load_open_positions_df():
             pnl_usd = leveraged_roi * margin_collateral
             pnl_pct = leveraged_roi * 100.0
             
-            # Debug logging if PnL is 0 or price wasn't fetched
-            if not price_fetched or (pnl_usd == 0 and current != entry):
-                print(f"🔍 [DASHBOARD] {symbol}: entry=${entry:.4f}, current=${current:.4f}, "
-                      f"price_fetched={price_fetched}, margin=${margin_collateral:.2f}, "
-                      f"leverage={leverage}x, pnl_usd=${pnl_usd:.2f}")
+            # Debug logging if price wasn't fetched (but P&L is still calculated)
+            if not price_fetched:
+                print(f"⚠️  [DASHBOARD] {symbol}: Price not fetched, using entry price for P&L calculation (entry=${entry:.4f})")
             
             # Get strategy/bot attribution
             strategy = e.get("strategy", e.get("strategy_id", ""))

@@ -2428,13 +2428,14 @@ def build_app(server: Flask = None) -> Dash:
             try:
                 import os
                 from src.infrastructure.path_registry import PathRegistry
-                # Path is imported at module level - use it directly
+                # Import Path locally to ensure it's available in callback context
+                from pathlib import Path as PathType
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
                 
-                # Convert to strings if Path objects (use module-level Path import)
-                coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, Path) else coinglass_dir
-                intel_dir = str(intel_dir) if isinstance(intel_dir, Path) else intel_dir
+                # Convert to strings if Path objects (PathType is locally imported)
+                coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, PathType) else coinglass_dir
+                intel_dir = str(intel_dir) if isinstance(intel_dir, PathType) else intel_dir
                 
                 # Check if API key is configured (CoinGlass is optional)
                 # Try environment first, then check systemd service
@@ -2922,13 +2923,14 @@ def build_app(server: Flask = None) -> Dash:
             
             # 1. CoinGlass feed (check both coinglass/ and intelligence/ directories)
             try:
-                # Path is imported at module level - use it directly
+                # Import Path locally to ensure it's available in callback context
+                from pathlib import Path as PathType
                 coinglass_dir = PathRegistry.get_path("feature_store", "coinglass")
                 intel_dir = PathRegistry.get_path("feature_store", "intelligence")
                 
-                # Convert to strings if Path objects (use module-level Path import)
-                coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, Path) else coinglass_dir
-                intel_dir = str(intel_dir) if isinstance(intel_dir, Path) else intel_dir
+                # Convert to strings if Path objects (PathType is locally imported)
+                coinglass_dir = str(coinglass_dir) if isinstance(coinglass_dir, PathType) else coinglass_dir
+                intel_dir = str(intel_dir) if isinstance(intel_dir, PathType) else intel_dir
                 
                 recent_files = False
                 recent_file_count = 0
@@ -3255,7 +3257,6 @@ def build_app(server: Flask = None) -> Dash:
     )
     def update_summary(tab, _n_intervals, _exec_n_intervals):
         """Update summary card on tab change OR interval refresh."""
-        
         # Handle Executive Summary tab
         if tab == "executive":
             try:

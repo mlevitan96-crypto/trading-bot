@@ -246,14 +246,20 @@ class KrakenFuturesClient:
         
         try:
             if method == "GET":
-                # For GET, params go in URL, post_data for auth signature
-                if post_data and not KRAKEN_FUTURES_API_KEY:
-                    # Public GET with query params
-                    url += "?" + post_data
-                    resp = self.sess.request(method, url, headers=headers, timeout=TIMEOUT)
+                # For GET, params go in URL
+                if post_data:
+                    # Add query params to URL
+                    if "?" in url:
+                        url += "&" + post_data
+                    else:
+                        url += "?" + post_data
+                
+                if not KRAKEN_FUTURES_API_KEY:
+                    # Public GET - no auth headers needed
+                    resp = self.sess.request(method, url, timeout=TIMEOUT)
                 else:
-                    # Authenticated GET
-                    resp = self.sess.request(method, url, headers=headers, data=body, timeout=TIMEOUT)
+                    # Authenticated GET - use headers but no body
+                    resp = self.sess.request(method, url, headers=headers, timeout=TIMEOUT)
             else:
                 # POST/PUT/DELETE - body in request
                 resp = self.sess.request(method, url, headers=headers, data=body, timeout=TIMEOUT)
@@ -351,22 +357,46 @@ class KrakenFuturesClient:
             if cached is not None:
                 return cached
         
-        # Kraken candles endpoint: /derivatives/api/v3/candles?symbol=PI_XBTUSD&interval=1m&limit=100
-        # Map timeframe to Kraken format (may need adjustment)
+        # Kraken OHLCV endpoint: /derivatives/api/v3/instruments/{symbol}/ohlc?resolution={timeframe}
+        # Note: Kraken doesn't support limit parameter directly - we use from/to timestamps instead
+        # Map timeframe to Kraken format (1m, 5m, 15m, 1h, 4h, 12h, 1d, 1w)
         kraken_timeframe = timeframe  # Kraken uses same format: 1m, 5m, 15m, 1h, 4h, 1d
         
-        data = self._req("GET", f"/derivatives/api/v3/candles?symbol={kraken_symbol}&interval={kraken_timeframe}&limit={limit}")
+        # Calculate from timestamp (limit candles back from now)
+        # Approximate: 1m = 60s, 5m = 300s, 15m = 900s, 1h = 3600s, 4h = 14400s, 1d = 86400s
+        timeframe_seconds = {
+            "1m": 60, "5m": 300, "15m": 900, "1h": 3600, 
+            "4h": 14400, "12h": 43200, "1d": 86400, "1w": 604800
+        }
+        interval_seconds = timeframe_seconds.get(timeframe, 3600)
+        from_timestamp = int(time.time()) - (limit * interval_seconds)
         
-        # Kraken response format: {"result": "success", "candles": [[timestamp, open, high, low, close, volume], ...]}
+        endpoint = f"/derivatives/api/v3/instruments/{kraken_symbol}/ohlc?resolution={kraken_timeframe}&from={from_timestamp}"
+        data = self._req("GET", endpoint)
+        
+        # Kraken response format: {"candles": [{"time": ms, "open": str, "high": str, "low": str, "close": str, "volume": str}, ...]}
         candles = data.get("candles", [])
         if not candles:
             raise Exception(f"No candle data returned for {kraken_symbol}")
         
+        # Limit to requested number (Kraken may return more)
+        candles = candles[:limit]
+        
         # Convert to DataFrame
-        df = pd.DataFrame(candles, columns=["timestamp", "open", "high", "low", "close", "volume"])
+        df_data = []
+        for candle in candles:
+            df_data.append({
+                "timestamp": candle["time"],
+                "open": float(candle["open"]),
+                "high": float(candle["high"]),
+                "low": float(candle["low"]),
+                "close": float(candle["close"]),
+                "volume": float(candle["volume"])
+            })
+        df = pd.DataFrame(df_data)
         
         # Convert timestamp (Kraken uses milliseconds)
-        df["timestamp"] = pd.to_datetime(df["timestamp"].astype(int), unit="ms")
+        df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
         df["open"] = df["open"].astype(float)
         df["high"] = df["high"].astype(float)
         df["low"] = df["low"].astype(float)

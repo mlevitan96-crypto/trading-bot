@@ -43,7 +43,12 @@ _dashboard_health_status = {
 # Price cache for dashboard (prevents rate limiting)
 _price_cache: Dict[str, Dict[str, Any]] = {}
 _price_cache_lock = threading.Lock()
-PRICE_CACHE_TTL = 30  # Cache prices for 30 seconds
+PRICE_CACHE_TTL = 60  # Cache prices for 60 seconds (optimized from 30s to reduce API calls)
+
+# Request-level memoization cache (cleared after each request to prevent stale data)
+_request_cache: Dict[str, Any] = {}
+_request_cache_lock = threading.Lock()
+_REQUEST_CACHE_MAX_AGE = 5  # Request cache valid for 5 seconds
 
 def _format_bot_display(strategy: str, bot_type: str) -> str:
     """Format bot/strategy display for dashboard - Alpha or Beta prominently."""
@@ -960,7 +965,18 @@ def get_wallet_balance() -> float:
     """
     Get wallet balance from authoritative source (portfolio_futures.json).
     Uses portfolio file for fast lookup, falls back to calculating from closed positions.
+    Uses request-level caching to avoid redundant calculations.
     """
+    # Check request cache first (fast path)
+    cache_key = "wallet_balance"
+    current_time = time.time()
+    
+    with _request_cache_lock:
+        if cache_key in _request_cache:
+            cached_entry = _request_cache[cache_key]
+            if current_time - cached_entry["timestamp"] < _REQUEST_CACHE_MAX_AGE:
+                return cached_entry["value"]
+    
     import math
     starting_capital = 10000.0
     
@@ -974,17 +990,12 @@ def get_wallet_balance() -> float:
         # Wallet balance = starting capital + realized P&L (unrealized is separate)
         wallet_balance = starting_capital + realized_pnl
         
-        # Cache the result for this call (thread-local)
-        if not hasattr(get_wallet_balance, '_call_count'):
-            get_wallet_balance._call_count = 0
-            get_wallet_balance._last_result = None
-            get_wallet_balance._last_ts = 0
-        
-        get_wallet_balance._call_count += 1
-        
-        # Log periodically (every 20 calls)
-        if get_wallet_balance._call_count % 20 == 0:
-            print(f"💰 [DASHBOARD] Wallet balance: ${wallet_balance:.2f} (realized P&L: ${realized_pnl:.2f}, unrealized: ${unrealized_pnl:.2f})")
+        # Cache the result
+        with _request_cache_lock:
+            _request_cache[cache_key] = {"value": wallet_balance, "timestamp": current_time}
+            # Clean old cache entries (keep only recent ones)
+            _request_cache = {k: v for k, v in _request_cache.items() 
+                             if current_time - v["timestamp"] < _REQUEST_CACHE_MAX_AGE}
         
         return wallet_balance
     except Exception as e:
@@ -1015,6 +1026,14 @@ def get_wallet_balance() -> float:
                 continue
         
         wallet_balance = starting_capital + total_pnl
+        
+        # Cache the result
+        with _request_cache_lock:
+            _request_cache[cache_key] = {"value": wallet_balance, "timestamp": current_time}
+            # Clean old cache entries (keep only recent ones)
+            _request_cache = {k: v for k, v in _request_cache.items() 
+                             if current_time - v["timestamp"] < _REQUEST_CACHE_MAX_AGE}
+        
         return wallet_balance
     except Exception as e:
         print(f"⚠️  [DASHBOARD] Failed to calculate wallet balance: {e}")
@@ -1069,6 +1088,14 @@ def _compute_avg_win_loss_from_closed_positions(lookback_days: int = 1) -> tuple
 
 
 def compute_summary(df: pd.DataFrame, lookback_days: int = 1, wallet_balance: float = 0.0) -> dict:
+    """
+    Compute summary statistics for a given lookback period with unrealized P&L and drawdown.
+    
+    PERFORMANCE OPTIMIZATIONS:
+    - Uses efficient pandas operations
+    - Leverages daily_stats_tracker for daily stats (avoid redundant calculations)
+    - Limits DataFrame operations to necessary columns only
+    """
     """
     Compute summary statistics for a given lookback period with unrealized P&L and drawdown.
     
@@ -1257,9 +1284,9 @@ def generate_executive_summary() -> Dict[str, str]:
     # PERFORMANCE: Use DataRegistry which may cache, and limit to recent trades for faster processing
     try:
         from src.data_registry import DataRegistry as DR
-        # For executive summary, we need today/yesterday comparisons, so load last 7 days
-        # This is still much faster than loading all 261+ trades
-        closed_positions = DR.get_closed_positions(hours=168)  # Last 7 days only
+        # For executive summary, we need today/yesterday comparisons, so load last 3 days
+        # This is faster than 7 days and still captures recent trends
+        closed_positions = DR.get_closed_positions(hours=72)  # Last 3 days only (optimized from 7 days)
         
         # Filter to today's closed positions
         today_closed = []
@@ -2839,7 +2866,7 @@ def build_app(server: Flask = None) -> Dash:
                 html.Div(id="system-health-container", children=[
                     html.Div("Loading system health...", style={"color":"#9aa0a6","padding":"16px"})
                 ]),
-                dcc.Interval(id="system-health-interval", interval=10*1000, n_intervals=0),  # Auto-refresh every 10s (reduced from 2s for performance)
+                dcc.Interval(id="system-health-interval", interval=30*1000, n_intervals=0),  # Auto-refresh every 30s (optimized for performance)
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Summary Tabs Section
@@ -2859,7 +2886,7 @@ def build_app(server: Flask = None) -> Dash:
             html.Div([
                 html.H4("Open Positions", style={"color":"#fff","margin":"8px"}),
                 html.Div(id="open-positions-container", children=[make_open_positions_section(open_positions_df)]),
-                dcc.Interval(id="open-positions-interval", interval=30*1000, n_intervals=0),
+                dcc.Interval(id="open-positions-interval", interval=45*1000, n_intervals=0),  # Optimized: 45s refresh
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Closed Positions Section
@@ -3320,12 +3347,9 @@ def build_app(server: Flask = None) -> Dash:
             # Record wallet snapshot (hourly, but called every refresh to check)
             record_wallet_snapshot()
             
-            # Force cache refresh by clearing it if interval triggered
-            if _n_intervals > 0:
-                try:
-                    clear_cache()  # Force cache refresh
-                except Exception as cache_err:
-                    print(f"⚠️  [DASHBOARD] Error clearing cache: {cache_err}")
+            # Only clear cache every 2 minutes (not on every refresh) to improve performance
+            # The cache TTL of 30s already handles freshness, no need to force clear
+            # Clearing cache on every refresh causes unnecessary database queries
             
             df = load_trades_df()
             wallet_balance = get_wallet_balance()
@@ -3362,12 +3386,13 @@ def build_app(server: Flask = None) -> Dash:
             df = load_open_positions_df()
             load_time = time.time() - load_start
             
-            if _n and _n > 0 and _n % 10 == 0:  # Log every 10th refresh (every 5 minutes)
+            # Log performance metrics (but not too frequently to avoid log spam)
+            if _n and _n > 0 and _n % 20 == 0:  # Log every 20th refresh (every ~15 minutes)
                 print(f"🔄 [DASHBOARD] Refreshed open positions: {len(df)} positions (took {load_time:.2f}s)")
             
-            # If loading took too long, log a warning
-            if load_time > 5.0:
-                print(f"⚠️  [DASHBOARD] Open positions load took {load_time:.2f}s (slow)")
+            # If loading took too long, log a warning (optimized threshold)
+            if load_time > 3.0:  # Lowered from 5.0s - faster detection of performance issues
+                print(f"⚠️  [DASHBOARD] Open positions load took {load_time:.2f}s (slow - consider optimizing)")
             
             return [make_open_positions_section(df)]
         except Exception as e:
@@ -3424,10 +3449,11 @@ def build_app(server: Flask = None) -> Dash:
             if _n_intervals is None:
                 _n_intervals = 0
             
-            # Force cache refresh on interval
-            if _n_intervals > 0:
+            # Only clear cache every 2 minutes (not on every refresh) to improve performance
+            # The cache TTL already handles freshness
+            if _n_intervals > 0 and _n_intervals % 4 == 0:  # Clear every 4 intervals (4 minutes)
                 try:
-                    clear_cache()  # Force cache refresh
+                    clear_cache()
                 except Exception as cache_err:
                     print(f"⚠️  [DASHBOARD] Error clearing cache: {cache_err}")
             

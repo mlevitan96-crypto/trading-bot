@@ -328,22 +328,32 @@ def load_trades_df() -> pd.DataFrame:
         
         try:
             # Limit to last 1000 trades for performance (dashboard doesn't need all history on load)
-            # Add timeout wrapper to prevent hanging
-            import signal
+            # Use threading-based timeout (more reliable than signal.SIGALRM)
+            import threading
             
-            def timeout_handler(signum, frame):
-                raise TimeoutError("Database query timed out")
+            closed_trades_result = [None]
+            closed_trades_error = [None]
             
-            signal.signal(signal.SIGALRM, timeout_handler)
-            signal.alarm(5)  # 5 second timeout
+            def fetch_trades():
+                try:
+                    closed_trades_result[0] = DR.get_closed_trades_from_db(limit=1000, symbol=None)
+                except Exception as e:
+                    closed_trades_error[0] = e
             
-            try:
-                closed_trades = DR.get_closed_trades_from_db(limit=1000, symbol=None)
+            fetch_thread = threading.Thread(target=fetch_trades, daemon=True)
+            fetch_thread.start()
+            fetch_thread.join(timeout=5.0)  # 5 second timeout
+            
+            if fetch_thread.is_alive():
+                print(f"⚠️  [LOADER] Database query timed out (>5s), falling back to JSONL")
+                closed_trades = []
+            elif closed_trades_error[0]:
+                raise closed_trades_error[0]
+            else:
+                closed_trades = closed_trades_result[0] or []
                 if closed_trades:
                     print(f"📊 [LOADER] Loaded {len(closed_trades)} trades from SQLite (limited to 1000 for performance)")
                     all_trades.extend(closed_trades)
-            finally:
-                signal.alarm(0)  # Cancel timeout
         except TimeoutError:
             print(f"⚠️  [LOADER] Database query timed out, falling back to JSONL")
             closed_trades = []

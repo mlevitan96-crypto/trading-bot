@@ -512,11 +512,15 @@ async def init_database() -> bool:
     return await db.initialize()
 
 
-def _run_async(coro):
+def _run_async(coro, timeout=10.0):
     """
     Run an async coroutine from sync context using a dedicated event loop.
     Uses event-loop-safe pattern to avoid deadlocks when called from
     within an existing async context.
+    
+    Args:
+        coro: Async coroutine to run
+        timeout: Maximum time to wait (seconds). Default 10s.
     """
     old_loop = None
     try:
@@ -527,7 +531,10 @@ def _run_async(coro):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     try:
-        return loop.run_until_complete(coro)
+        return loop.run_until_complete(asyncio.wait_for(coro, timeout=timeout))
+    except asyncio.TimeoutError:
+        logger.error(f"Async operation timed out after {timeout}s")
+        return None
     finally:
         loop.close()
         if old_loop is not None and not old_loop.is_closed():
@@ -537,7 +544,7 @@ def _run_async(coro):
 
 
 def get_closed_trades_sync(limit: int = None, symbol: str = None) -> List[Dict[str, Any]]:
-    """Synchronous wrapper for get_closed_trades with timeout."""
+    """Synchronous wrapper for get_closed_trades with 5s timeout to prevent dashboard hang."""
     try:
         db = get_db()
         result = _run_async(db.get_closed_trades(limit=limit, symbol=symbol), timeout=5.0)

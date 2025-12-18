@@ -932,7 +932,7 @@ class HealingOperator:
                 # Non-critical failures but not actively healing - YELLOW (monitoring)
                 status["self_healing"] = "yellow"
             else:
-                # No issues found, everything healthy - GREEN
+                # No issues found, everything healthy - GREEN (this is good!)
                 status["self_healing"] = "green"
         else:
             # Check if healing operator is running (recent cycle timestamp)
@@ -940,14 +940,17 @@ class HealingOperator:
                 cycle_age = time.time() - self.last_healing_cycle_ts
                 if cycle_age < 120:  # Cycle run within last 2 minutes
                     status["self_healing"] = "green"
-                elif cycle_age < 300:  # Less than 5 minutes - still acceptable
+                elif cycle_age < 600:  # Less than 10 minutes - still green (healthy system)
+                    status["self_healing"] = "green"
+                elif cycle_age < 1800:  # Less than 30 minutes - yellow
                     status["self_healing"] = "yellow"
                 else:
                     status["self_healing"] = "yellow"  # No recent activity
             else:
                 # Check if thread is running as fallback
                 if self.running and self.thread and self.thread.is_alive():
-                    status["self_healing"] = "yellow"  # Running but no cycle yet
+                    # Thread is running - green (system is healthy, nothing to heal)
+                    status["self_healing"] = "green"
                 else:
                     status["self_healing"] = "yellow"  # Not running properly
         

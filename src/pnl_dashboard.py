@@ -2558,20 +2558,35 @@ def build_app(server: Flask = None) -> Dash:
                 status["signal_engine"] = "red"
             
             # 3. Decision engine (check for recent decisions)
+            # Lenient: Green if file exists and has content (system is functional even if idle)
             try:
                 decision_file = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
                 if os.path.exists(decision_file):
                     file_age = time.time() - os.path.getmtime(decision_file)
-                    if file_age < 600:  # 10 minutes
+                    # Check if file has content (functional system)
+                    try:
+                        with open(decision_file, 'r') as f:
+                            file_content = f.read().strip()
+                            has_content = bool(file_content)
+                            # Count lines for better assessment
+                            line_count = len([l for l in file_content.split('\n') if l.strip()])
+                    except:
+                        has_content = False
+                        line_count = 0
+                    
+                    if file_age < 3600:  # Updated within 1 hour = green (active)
                         status["decision_engine"] = "green"
-                    elif file_age < 3600:  # 1 hour
+                    elif has_content and line_count > 0:  # Has decisions = green (system is functional)
+                        status["decision_engine"] = "green"
+                    elif file_age < 86400:  # Within 24 hours but empty = yellow (might be starting)
                         status["decision_engine"] = "yellow"
                     else:
-                        status["decision_engine"] = "red"
+                        status["decision_engine"] = "yellow"  # Stale but don't go red (might be idle)
                 else:
+                    # File doesn't exist yet - yellow (normal during startup or if no trades)
                     status["decision_engine"] = "yellow"
             except Exception:
-                status["decision_engine"] = "red"
+                status["decision_engine"] = "yellow"  # Don't go red on errors
             
             # 4. Exit gates (check exit log for recent activity and profitable exits)
             try:

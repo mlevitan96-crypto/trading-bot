@@ -1,7 +1,8 @@
 """
-Exchange Gateway: Unified interface for spot (Binance) and futures (Blofin) trading.
+Exchange Gateway: Unified interface for spot (Binance) and futures (Blofin/Kraken) trading.
 Routes market data and trading operations to appropriate exchange client.
 """
+import os
 from typing import Dict, Any, Optional
 import pandas as pd
 
@@ -12,31 +13,47 @@ class ExchangeGateway:
     
     Features:
     - Unified interface for both spot and futures
+    - Support for multiple exchanges (Blofin, Kraken)
     - Automatic routing based on venue parameter
     - Preserves compatibility with existing bot code
     """
     
-    def __init__(self, spot_client=None, futures_client=None):
+    def __init__(self, exchange: str = None, spot_client=None, futures_client=None):
         """
         Initialize gateway with exchange clients.
         
         Args:
-            spot_client: Spot trading client (defaults to BlofinClient for Binance.US)
-            futures_client: Futures trading client (defaults to BlofinFuturesClient for Blofin)
+            exchange: Exchange name ("kraken" or "blofin"). If None, uses EXCHANGE env var or defaults to "blofin"
+            spot_client: Spot trading client (defaults based on exchange)
+            futures_client: Futures trading client (defaults based on exchange)
         
         Note: Both clients are instantiated with default parameters if not provided,
         enabling zero-config usage: gateway = ExchangeGateway()
         """
+        # Determine exchange from parameter or environment
+        if exchange is None:
+            exchange = os.getenv("EXCHANGE", "blofin").lower()
+        self.exchange = exchange.lower()
+        
+        # Initialize spot client (defaults to Binance.US for now)
         if spot_client is None:
             from src.blofin_client import BlofinClient
             spot_client = BlofinClient()
+        
+        # Initialize futures client based on exchange selection
         if futures_client is None:
-            from src.blofin_futures_client import BlofinFuturesClient
-            futures_client = BlofinFuturesClient()
+            if self.exchange == "kraken":
+                from src.kraken_futures_client import KrakenFuturesClient
+                futures_client = KrakenFuturesClient()
+            else:  # Default to Blofin
+                from src.blofin_futures_client import BlofinFuturesClient
+                futures_client = BlofinFuturesClient()
         
         self.spot = spot_client
         self.fut = futures_client
         self.default_venue = "spot"  # Default to spot for backward compatibility
+        
+        print(f"✅ ExchangeGateway initialized with exchange: {self.exchange.upper()}")
     
     def get_price(self, symbol: str, venue: str = "spot") -> float:
         """

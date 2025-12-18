@@ -564,8 +564,8 @@ class KrakenFuturesClient:
         Args:
             symbol: Futures symbol (e.g., "BTCUSDT" or "PI_XBTUSD")
             side: "BUY" or "SELL"
-            qty: Order quantity (size)
-            price: Limit price (None for market orders)
+            qty: Order quantity (size in USD notional - will be converted to contracts)
+            price: Limit price (None for market orders, will be normalized to tick size)
             leverage: Leverage multiplier (1-10x) - note: Kraken may require separate leverage setting
             order_type: "MARKET" or "LIMIT"
             reduce_only: If True, only reduce existing position
@@ -577,12 +577,83 @@ class KrakenFuturesClient:
         """
         kraken_symbol = self.normalize_symbol(symbol)
         
+        # Normalize size using canonical sizing helper
+        # qty is expected to be in USD notional - convert to contracts
+        if price is None or price <= 0:
+            # For market orders, get current price first
+            try:
+                price = self.get_mark_price(symbol)
+            except Exception as e:
+                print(f"⚠️ [SIZING] Failed to get price for market order sizing: {e}")
+                # Fallback - use qty as contracts (may cause issues but better than crash)
+                print(f"   ⚠️ Using qty={qty} as contracts (not normalized)")
+                price = 0  # Will be handled below
+        
+        # Normalize using canonical sizing helper
+        try:
+            from src.canonical_sizing_helper import normalize_position_size
+            contracts, adjusted_usd, adjustments = normalize_position_size(
+                symbol=symbol,
+                target_usd=qty,
+                price=price,
+                exchange="kraken"
+            )
+            
+            if contracts <= 0:
+                return {
+                    "result": "error",
+                    "error": f"Size ${qty:.2f} too small or invalid (normalized to 0 contracts)",
+                    "adjustments": adjustments
+                }
+            
+            # Use normalized contracts and adjusted price
+            qty = contracts
+            if price > 0 and adjustments.get("price_tick_rounded"):
+                price = adjustments.get("tick_rounded_price", price)
+            
+            # Log if significant adjustment
+            if adjustments.get("size_change_pct", 0) != 0:
+                change_pct = adjustments.get("size_change_pct", 0)
+                print(f"📏 [SIZING] Normalized {symbol}: ${qty * price:.2f} → ${adjusted_usd:.2f} ({change_pct:+.1f}%)")
+        except Exception as e:
+            print(f"⚠️ [SIZING] Size normalization failed, using raw values: {e}")
+            # Continue with original qty (may cause rejection but won't crash)
+        
+        # Normalize price to tick size if provided
+        if price and price > 0:
+            try:
+                from src.kraken_contract_specs import get_kraken_contract_specs, normalize_to_tick_size
+                specs = get_kraken_contract_specs(kraken_symbol)
+                price = normalize_to_tick_size(price, specs["tick_size"])
+            except Exception as e:
+                print(f"⚠️ [SIZING] Price tick normalization failed: {e}")
+        
+        # Validate order size before placing
+        try:
+            from src.canonical_sizing_helper import validate_order_size
+            is_valid, error_msg, validation_details = validate_order_size(
+                symbol=symbol,
+                contracts=qty,
+                price=price if price else 1.0,
+                exchange="kraken"
+            )
+            if not is_valid:
+                return {
+                    "result": "error",
+                    "error": f"Invalid order size: {error_msg}",
+                    "validation_details": validation_details
+                }
+        except Exception as e:
+            print(f"⚠️ [SIZING] Order size validation failed: {e}")
+            # Continue anyway (validation is best-effort)
+        
         # Kraken sendorder endpoint requires URL-encoded post_data
         # Format: orderType=limit&symbol=PI_XBTUSD&side=buy&size=1&limitPrice=50000
+        # Note: size is in contracts (already normalized by canonical sizing helper above)
         payload_dict = {
             "symbol": kraken_symbol,
             "side": side.lower(),  # buy or sell
-            "size": str(qty),
+            "size": str(qty),  # Contract count (normalized)
         }
         
         # Order type

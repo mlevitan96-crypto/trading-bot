@@ -234,7 +234,7 @@ class SymbolSampleReadiness:
             "config": state.get("config", {})
         }
     
-    def filter_allocation_proposals(self, proposals: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]:
+    def filter_allocation_proposals(self, proposals: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         """
         Filter allocation proposals by sample readiness.
         

@@ -3249,6 +3249,11 @@ def build_app(server: Flask = None) -> Dash:
     )
     def update_summary(tab, _n_intervals, _exec_n_intervals):
         """Update summary card on tab change OR interval refresh."""
+        # Ensure all imports are available in callback context
+        import os
+        import json
+        from datetime import datetime
+        
         # Handle Executive Summary tab
         if tab == "executive":
             try:

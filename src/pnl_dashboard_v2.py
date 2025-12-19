@@ -589,8 +589,18 @@ def build_app(server: Flask = None) -> Dash:
         server = Flask(__name__)
         server.secret_key = os.environ.get('FLASK_SECRET_KEY', hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest())
     
-    app = Dash(__name__, server=server, external_stylesheets=[dbc.themes.DARKLY])
-    app.title = APP_TITLE
+    # CRITICAL: Dash initialization - must match old dashboard exactly
+    app = Dash(
+        __name__, 
+        server=server, 
+        url_base_pathname="/",
+        external_stylesheets=[dbc.themes.DARKLY],
+        title=APP_TITLE
+    )
+    
+    # CRITICAL: Configure Dash for production/Gunicorn
+    app.config.suppress_callback_exceptions = True
+    app.config.requests_pathname_prefix = "/"
     
     # Set server secret key if not already set
     if not hasattr(server, 'secret_key') or not server.secret_key:
@@ -1065,7 +1075,7 @@ def start_pnl_dashboard(flask_app: Flask = None) -> Dash:
             raise RuntimeError("build_app() returned None - dashboard build failed")
         
         # CRITICAL: Ensure Dash app is fully configured for Gunicorn
-        # Set app.config to ensure proper worker initialization
+        # Config already set in build_app, but verify here
         if hasattr(app, 'config'):
             app.config.suppress_callback_exceptions = True
         

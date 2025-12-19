@@ -467,7 +467,47 @@ class ProfitabilityTraderPersona:
         if "learning_effectiveness" in analysis and "recommendations" in analysis["learning_effectiveness"]:
             actions.extend(analysis["learning_effectiveness"]["recommendations"])
         
+        # Add research optimization recommendations
+        if "research_optimizations" in analysis:
+            research = analysis["research_optimizations"]
+            if "combined_recommendations" in research:
+                actions.extend(research["combined_recommendations"])
+        
         return actions
+    
+    def apply_critical_recommendations(self, analysis: Dict) -> Dict[str, Any]:
+        """
+        Automatically apply CRITICAL profitability recommendations.
+        
+        This is where the trader persona takes action to maximize profitability.
+        """
+        applied = []
+        failed = []
+        
+        critical_actions = [a for a in analysis.get("profitability_actions", []) if a.get("priority") == "CRITICAL"]
+        
+        for action in critical_actions:
+            category = action.get("category", "")
+            
+            # Apply exit target optimizations
+            if category == "exit_optimization" or "profit target" in action.get("recommendation", "").lower():
+                try:
+                    # This will be picked up by ExitTuner in the next cycle
+                    # For now, we log the recommendation
+                    applied.append({
+                        "action": "exit_target_optimization",
+                        "recommendation": action.get("recommendation"),
+                        "status": "logged_for_exit_tuner"
+                    })
+                except Exception as e:
+                    failed.append({"action": action, "error": str(e)})
+        
+        return {
+            "applied_count": len(applied),
+            "failed_count": len(failed),
+            "applied": applied,
+            "failed": failed
+        }
     
     def _extract_key_insights(self, analysis: Dict) -> List[str]:
         """Extract key profitability insights."""

@@ -2268,17 +2268,17 @@ def main():
             print(f"   🔍 [DASHBOARD] Starting Gunicorn server on port {dashboard_port}...")
             options = {
                 'bind': f'0.0.0.0:{dashboard_port}',
-                'workers': 1,  # Reduced to 1 worker for Dash compatibility (Dash doesn't work well with multiple workers)
+                'workers': 1,  # CRITICAL: Dash requires 1 worker - multiple workers cause dependency registration issues
                 'threads': 4,
                 'worker_class': 'sync',
                 'timeout': 120,
                 'accesslog': '-',
                 'errorlog': '-',
                 'loglevel': 'warning',
-                'preload_app': False,  # CRITICAL: Set to False for Dash - allows each worker to register Dash dependencies
+                'preload_app': False,  # CRITICAL: Set to False for Dash - allows worker to register Dash dependencies
             }
             
-            print("   🚀 Starting Gunicorn production server (2 workers, 4 threads)")
+            print("   🚀 Starting Gunicorn production server (1 worker, 4 threads) - Dash compatibility mode")
             # Use dash_app if available, otherwise flask_app
             app_to_run = dash_app if dash_app is not None else flask_app
             StandaloneApplication(app_to_run, options).run()

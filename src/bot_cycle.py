@@ -1759,8 +1759,9 @@ def run_bot_cycle():
                         threshold_pct = roi_threshold * 100
                         mode_str = f"BURN-IN {trade_count}/200" if is_burn_in else "NORMAL"
                         
-                        # Initialize roi_sizing_mult for all paths
+                        # Initialize roi_sizing_mult and roi_reason for all paths (CRITICAL: must be before any conditional blocks)
                         roi_sizing_mult = 1.0
+                        roi_reason = "above_threshold"
                         
                         if confirmed == 'partial' and roi >= roi_threshold:
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
@@ -1829,9 +1830,7 @@ def run_bot_cycle():
                                 print(f"   📊 [ROI-SIZING] {symbol}: ROI adjustment applied → mult={roi_sizing_mult:.2f}x → ${base_position_size:.2f} → ${position_size:.2f}")
                             
                             # Store ROI gate state for learning (add to signal_context when opening position)
-                            # roi_reason and roi_sizing_mult are now defined in the if/elif/else block above
-                            if 'roi_reason' not in locals():
-                                roi_reason = "above_threshold"  # Default if not set
+                            # roi_reason and roi_sizing_mult are initialized at the start, so they're always defined
                             
                             # [PHASE 10.2] Apply futures concentration strategy
                             try:
@@ -1864,13 +1863,13 @@ def run_bot_cycle():
                                 "roi": roi,
                                 "regime": regime,
                                 "strategy": "Trend-Conservative",
-                                # Include ROI gate state (roi_reason and roi_sizing_mult from above)
-                                "roi_reason": roi_reason if 'roi_reason' in locals() else None,
-                                "roi_mult": roi_sizing_mult if 'roi_sizing_mult' in locals() else 1.0,
+                                # Include ROI gate state (roi_reason and roi_sizing_mult initialized at start)
+                                "roi_reason": roi_reason,
+                                "roi_mult": roi_sizing_mult,
                                 # Gate attribution for sizing multiplier learning
                                 "gate_attribution": {
-                                    "roi_reason": roi_reason if 'roi_reason' in locals() else None,
-                                    "roi_mult": roi_sizing_mult if 'roi_sizing_mult' in locals() else 1.0,
+                                    "roi_reason": roi_reason,
+                                    "roi_mult": roi_sizing_mult,
                                 }
                             }
                             
@@ -1959,8 +1958,9 @@ def run_bot_cycle():
                         threshold_pct = roi_threshold * 100
                         mode_str = f"BURN-IN {trade_count}/200" if is_burn_in else "NORMAL"
                         
-                        # Initialize roi_sizing_mult for all paths
+                        # Initialize roi_sizing_mult and roi_reason for all paths (CRITICAL: must be before any conditional blocks)
                         roi_sizing_mult = 1.0
+                        roi_reason = "above_threshold"
                         
                         if confirmed == 'partial' and roi >= roi_threshold:
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
@@ -2131,8 +2131,9 @@ def run_bot_cycle():
                         threshold_pct = roi_threshold * 100
                         mode_str = f"BURN-IN {trade_count}/200" if is_burn_in else "NORMAL"
                         
-                        # Initialize roi_sizing_mult for all paths
+                        # Initialize roi_sizing_mult and roi_reason for all paths (CRITICAL: must be before any conditional blocks)
                         roi_sizing_mult = 1.0
+                        roi_reason = "above_threshold"
                         
                         if confirmed == 'partial' and roi >= roi_threshold:
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")

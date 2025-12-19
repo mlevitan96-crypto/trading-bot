@@ -312,6 +312,9 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
         df = pd.DataFrame(rows)
         if not df.empty:
             df = df.sort_values("exit_time", ascending=False)
+            # Keep only most recent for display (memory optimization)
+            if len(df) > 500:
+                df = df.head(500)
         return df
     except Exception as e:
         print(f"⚠️  Failed to load closed positions: {e}")
@@ -321,28 +324,43 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
 def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
     """Compute summary statistics for a given lookback period."""
     try:
-        positions_data = DR.read_json(DR.POSITIONS_FUTURES)
-        if not positions_data:
-            # Return empty summary if no data
-            return {
-                "wallet_balance": wallet_balance,
-                "total_trades": 0,
-                "wins": 0,
-                "losses": 0,
-                "win_rate": 0.0,
-                "net_pnl": 0.0,
-                "avg_win": 0.0,
-                "avg_loss": 0.0,
-                "drawdown_pct": 0.0,
-            }
-        closed_positions = positions_data.get("closed_positions", [])
-        open_positions = positions_data.get("open_positions", [])
+        # Use DataRegistry for efficient closed positions loading (with time limit)
+        try:
+            # Get closed positions from last 30 days (more than any lookback period)
+            closed_positions = DR.get_closed_positions(hours=lookback_days * 24 + 168)  # Add 7 days buffer
+        except Exception:
+            # Fallback to direct read
+            positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+            if not positions_data:
+                return {
+                    "wallet_balance": wallet_balance,
+                    "total_trades": 0,
+                    "wins": 0,
+                    "losses": 0,
+                    "win_rate": 0.0,
+                    "net_pnl": 0.0,
+                    "avg_win": 0.0,
+                    "avg_loss": 0.0,
+                    "drawdown_pct": 0.0,
+                }
+            closed_positions = positions_data.get("closed_positions", [])
+        
+        # Get open positions (limited count)
+        try:
+            positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+            open_positions = positions_data.get("open_positions", []) if positions_data else []
+        except:
+            open_positions = []
         
         # Filter to lookback period
         cutoff = datetime.utcnow() - timedelta(days=lookback_days)
         recent_closed = []
         
-        for pos in closed_positions:
+        # Limit processing to prevent memory issues
+        max_positions_to_process = 1000
+        positions_to_process = closed_positions[-max_positions_to_process:] if len(closed_positions) > max_positions_to_process else closed_positions
+        
+        for pos in positions_to_process:
             closed_at = pos.get("closed_at", "")
             if closed_at:
                 try:
@@ -974,23 +992,44 @@ def build_app(server: Flask = None) -> Dash:
         """Update tab content based on selected tab and refresh interval."""
         try:
             print(f"🔍 [DASHBOARD-V2] update_tab_content called: tab={tab}, n_intervals={n_intervals}", flush=True)
+            
+            if tab is None:
+                # Default to daily tab if no tab selected
+                tab = "daily"
+                print("⚠️  [DASHBOARD-V2] Tab was None, defaulting to 'daily'", flush=True)
+            
             if tab == "daily":
+                print("🔍 [DASHBOARD-V2] Building daily summary tab...", flush=True)
                 content = build_daily_summary_tab()
-                print("✅ [DASHBOARD-V2] Daily summary tab built successfully", flush=True)
+                if content is None:
+                    raise ValueError("build_daily_summary_tab() returned None")
+                print(f"✅ [DASHBOARD-V2] Daily summary tab built successfully (type: {type(content)})", flush=True)
                 return content
             elif tab == "executive":
+                print("🔍 [DASHBOARD-V2] Building executive summary tab...", flush=True)
                 content = build_executive_summary_tab()
-                print("✅ [DASHBOARD-V2] Executive summary tab built successfully", flush=True)
+                if content is None:
+                    raise ValueError("build_executive_summary_tab() returned None")
+                print(f"✅ [DASHBOARD-V2] Executive summary tab built successfully (type: {type(content)})", flush=True)
                 return content
-            return html.Div("Unknown tab", style={"color": "#fff"})
+            else:
+                print(f"⚠️  [DASHBOARD-V2] Unknown tab value: {tab}", flush=True)
+                return html.Div([
+                    html.H4(f"Unknown tab: {tab}", style={"color": "#ea4335"}),
+                    html.P("Please select Daily Summary or Executive Summary.", style={"color": "#9aa0a6"}),
+                ])
         except Exception as e:
-            print(f"❌ [DASHBOARD-V2] Error updating tab content: {e}", flush=True)
+            print(f"❌ [DASHBOARD-V2] CRITICAL ERROR updating tab content: {e}", flush=True)
             import traceback
             traceback.print_exc()
+            error_msg = str(e)
+            error_tb = traceback.format_exc()
+            print(f"❌ [DASHBOARD-V2] Full traceback:\n{error_tb}", flush=True)
             return html.Div([
-                html.H4("Error loading content", style={"color": "#ea4335"}),
-                html.P(str(e), style={"color": "#9aa0a6"}),
-                html.P("Check server logs for details.", style={"color": "#9aa0a6", "fontSize": "12px"}),
+                html.H4("❌ Error loading content", style={"color": "#ea4335", "marginBottom": "12px"}),
+                html.P(f"Error: {error_msg}", style={"color": "#9aa0a6", "marginBottom": "8px"}),
+                html.Pre(error_tb[-500:], style={"color": "#9aa0a6", "fontSize": "10px", "overflow": "auto", "backgroundColor": "#1a1a1a", "padding": "10px"}),
+                html.P("Check server logs for full details.", style={"color": "#9aa0a6", "fontSize": "12px", "marginTop": "8px"}),
             ])
     
     # Note: Tables are updated via the tab content refresh callback
@@ -1096,7 +1135,7 @@ def build_daily_summary_tab() -> html.Div:
             ]),
         ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"})
     
-        # Open Positions Table
+    # Open Positions Table
     open_table = html.Div([
         html.H4(f"Open Positions ({len(open_df)} active)", style={"color": "#fff", "marginBottom": "12px"}),
         dash_table.DataTable(
@@ -1131,7 +1170,7 @@ def build_daily_summary_tab() -> html.Div:
         ),
     ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px", "marginBottom": "20px"})
     
-        # Closed Positions Table
+    # Closed Positions Table
     closed_table = html.Div([
         html.H4(f"Closed Trades (Recent - Showing {min(100, len(closed_df))} of {len(closed_df)} total)", style={"color": "#fff", "marginBottom": "12px"}),
         dash_table.DataTable(
@@ -1168,54 +1207,66 @@ def build_daily_summary_tab() -> html.Div:
         ),
     ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px", "marginBottom": "20px"})
     
-    return html.Div([
-        # Summary Cards (Daily, Weekly, Monthly)
-        summary_card(daily_summary, "📅 Daily Summary (Last 24 Hours)"),
-        summary_card(weekly_summary, "📊 Weekly Summary (Last 7 Days)"),
-        summary_card(monthly_summary, "📈 Monthly Summary (Last 30 Days)"),
-        
-        # Wallet Balance Trend
-        html.Div([
-            html.H4("Wallet Balance Trend", style={"color": "#fff", "marginBottom": "12px"}),
-            dcc.Graph(figure=create_wallet_balance_trend(), config={"displayModeBar": True}),
-        ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px", "marginBottom": "20px"}),
-        
-        # Charts Row 1
-        dbc.Row([
-            dbc.Col([
-                html.Div([
-                    html.H4("Equity Curve", style={"color": "#fff", "marginBottom": "12px"}),
-                    dcc.Graph(figure=create_equity_curve_chart(closed_df), config={"displayModeBar": True}),
-                ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
-            ], width=6),
-            dbc.Col([
-                html.Div([
-                    html.H4("P&L by Symbol", style={"color": "#fff", "marginBottom": "12px"}),
-                    dcc.Graph(figure=create_pnl_by_symbol_chart(closed_df), config={"displayModeBar": True}),
-                ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
-            ], width=6),
-        ], style={"marginBottom": "20px"}),
-        
-        # Charts Row 2
-        dbc.Row([
-            dbc.Col([
-                html.Div([
-                    html.H4("P&L by Strategy", style={"color": "#fff", "marginBottom": "12px"}),
-                    dcc.Graph(figure=create_pnl_by_strategy_chart(closed_df), config={"displayModeBar": True}),
-                ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
-            ], width=6),
-            dbc.Col([
-                html.Div([
-                    html.H4("Win Rate Heatmap", style={"color": "#fff", "marginBottom": "12px"}),
-                    dcc.Graph(figure=create_win_rate_heatmap(closed_df), config={"displayModeBar": True}),
-                ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
-            ], width=6),
-        ], style={"marginBottom": "20px"}),
-        
-        # Tables
-        open_table,
-        closed_table,
-    ])
+    try:
+        content = html.Div([
+            # Summary Cards (Daily, Weekly, Monthly)
+            summary_card(daily_summary, "📅 Daily Summary (Last 24 Hours)"),
+            summary_card(weekly_summary, "📊 Weekly Summary (Last 7 Days)"),
+            summary_card(monthly_summary, "📈 Monthly Summary (Last 30 Days)"),
+            
+            # Wallet Balance Trend
+            html.Div([
+                html.H4("Wallet Balance Trend", style={"color": "#fff", "marginBottom": "12px"}),
+                dcc.Graph(figure=create_wallet_balance_trend(), config={"displayModeBar": True}),
+            ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px", "marginBottom": "20px"}),
+            
+            # Charts Row 1
+            dbc.Row([
+                dbc.Col([
+                    html.Div([
+                        html.H4("Equity Curve", style={"color": "#fff", "marginBottom": "12px"}),
+                        dcc.Graph(figure=create_equity_curve_chart(closed_df), config={"displayModeBar": True}),
+                    ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
+                ], width=6),
+                dbc.Col([
+                    html.Div([
+                        html.H4("P&L by Symbol", style={"color": "#fff", "marginBottom": "12px"}),
+                        dcc.Graph(figure=create_pnl_by_symbol_chart(closed_df), config={"displayModeBar": True}),
+                    ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
+                ], width=6),
+            ], style={"marginBottom": "20px"}),
+            
+            # Charts Row 2
+            dbc.Row([
+                dbc.Col([
+                    html.Div([
+                        html.H4("P&L by Strategy", style={"color": "#fff", "marginBottom": "12px"}),
+                        dcc.Graph(figure=create_pnl_by_strategy_chart(closed_df), config={"displayModeBar": True}),
+                    ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
+                ], width=6),
+                dbc.Col([
+                    html.Div([
+                        html.H4("Win Rate Heatmap", style={"color": "#fff", "marginBottom": "12px"}),
+                        dcc.Graph(figure=create_win_rate_heatmap(closed_df), config={"displayModeBar": True}),
+                    ], style={"backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "16px"}),
+                ], width=6),
+            ], style={"marginBottom": "20px"}),
+            
+            # Tables
+            open_table,
+            closed_table,
+        ])
+        print(f"✅ [DASHBOARD-V2] Daily summary tab content built: {len(content.children) if hasattr(content, 'children') else 'N/A'} components", flush=True)
+        return content
+    except Exception as e:
+        print(f"❌ [DASHBOARD-V2] Error building daily summary tab HTML structure: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        return html.Div([
+            html.H4("Error loading Daily Summary", style={"color": "#ea4335"}),
+            html.P(str(e), style={"color": "#9aa0a6"}),
+            html.P("Check server logs for details.", style={"color": "#9aa0a6", "fontSize": "12px"}),
+        ])
 
 
 def build_executive_summary_tab() -> html.Div:

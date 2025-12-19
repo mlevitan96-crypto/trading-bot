@@ -2896,7 +2896,12 @@ def build_app(server: Flask = None) -> Dash:
                 ]),
                 html.Div(id="summary-container", children=summary_card(daily_summary, "Daily Summary (Last 24 Hours)"), style={"padding": "16px"}),
                 dcc.Interval(id="summary-interval", interval=60*1000, n_intervals=0),  # Auto-refresh every 60s (reduced from 30s for performance)
-                dcc.Interval(id="executive-summary-interval", interval=24*60*60*1000, n_intervals=0),  # Auto-refresh once per day
+                dcc.Interval(id="executive-summary-interval", interval=24*60*60*1000, n_intervals=0),  # Auto-refresh once per day (executive summary only)
+                dcc.Loading(
+                    id="executive-summary-loading",
+                    type="default",
+                    children=[html.Div(id="executive-summary-placeholder")]
+                ),
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Open Positions Section

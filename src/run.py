@@ -2211,8 +2211,8 @@ def main():
     # Start P&L dashboard (optional - must not crash if missing)
     dash_app = None
     try:
-        print("   🔍 [DASHBOARD] Importing start_pnl_dashboard...")
-        from src.pnl_dashboard import start_pnl_dashboard
+        print("   🔍 [DASHBOARD] Importing start_pnl_dashboard (V2 - Clean Dashboard)...")
+        from src.pnl_dashboard_v2 import start_pnl_dashboard
         print("   ✅ [DASHBOARD] Import successful, calling start_pnl_dashboard()...")
         dash_app = start_pnl_dashboard(flask_app)
         print("   ✅ [DASHBOARD] P&L Dashboard initialized successfully")

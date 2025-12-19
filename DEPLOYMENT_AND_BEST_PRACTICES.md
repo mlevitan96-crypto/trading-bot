@@ -145,12 +145,8 @@ The bot uses an A/B slot deployment system:
 
 ### Standard Deployment Steps
 
-#### Step 1: SSH to Droplet
-```bash
-ssh root@159.65.168.230
-```
-
-#### Step 2: Navigate to Active Slot
+#### Step 1: Navigate to Active Slot
+**Note:** If you're already on the server, skip the SSH step.
 ```bash
 cd /root/trading-bot-current
 ```

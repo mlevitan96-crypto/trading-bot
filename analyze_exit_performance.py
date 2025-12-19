@@ -98,9 +98,13 @@ def analyze_exit_performance() -> Dict[str, Any]:
         else:
             roi_pct = ((entry_price - exit_price) / entry_price) * 100
         
-        # Categorize exit reason
+        # Categorize exit reason (check more patterns to catch all cases)
         exit_type = "unknown"
-        if "profit_target" in reason.lower():
+        reason_lower = reason.lower() if reason else ""
+        
+        # Check for profit targets first (most important)
+        if any(keyword in reason_lower for keyword in ["profit_target", "profit_target_0.5", "profit_target_1.0", 
+                                                        "profit_target_1.5", "profit_target_2.0", "tp1", "tp2"]):
             exit_type = "profit_target"
             analysis["profit_target_exits"].append({
                 "symbol": symbol,
@@ -109,7 +113,9 @@ def analyze_exit_performance() -> Dict[str, Any]:
                 "reason": reason,
                 "closed_at": closed_at
             })
-        elif "time" in reason.lower() or "stagnant" in reason.lower():
+        # Check for time-based exits
+        elif any(keyword in reason_lower for keyword in ["time", "stagnant", "tier1", "tier2", "tier3", 
+                                                          "max_hold", "phase92_time_exit", "time_exit"]):
             exit_type = "time_stop"
             analysis["time_stop_exits"].append({
                 "symbol": symbol,
@@ -118,7 +124,8 @@ def analyze_exit_performance() -> Dict[str, Any]:
                 "reason": reason,
                 "closed_at": closed_at
             })
-        elif "trailing" in reason.lower() or "trail" in reason.lower():
+        # Check for trailing stops
+        elif any(keyword in reason_lower for keyword in ["trailing", "trail", "trailing_stop"]):
             exit_type = "trailing_stop"
             analysis["trailing_stop_exits"].append({
                 "symbol": symbol,
@@ -127,7 +134,8 @@ def analyze_exit_performance() -> Dict[str, Any]:
                 "reason": reason,
                 "closed_at": closed_at
             })
-        elif "stop" in reason.lower() or "loss" in reason.lower():
+        # Check for stop losses
+        elif any(keyword in reason_lower for keyword in ["stop", "loss", "stop_loss", "catastrophic"]):
             exit_type = "stop_loss"
             analysis["stop_loss_exits"].append({
                 "symbol": symbol,
@@ -136,6 +144,17 @@ def analyze_exit_performance() -> Dict[str, Any]:
                 "reason": reason,
                 "closed_at": closed_at
             })
+        # If we still don't know, try to infer from ROI and hold time
+        else:
+            # If profitable and held < 2 hours, likely profit target
+            if net_pnl > 0 and minutes_open < 120:
+                exit_type = "profit_target_likely"
+            # If losing after long hold, likely time stop
+            elif net_pnl < 0 and minutes_open > 240:
+                exit_type = "time_stop_likely"
+            # Default
+            else:
+                exit_type = "unknown"
         
         # Categorize by exit reason for statistics
         reason_bucket = analysis["by_exit_reason"][exit_type]

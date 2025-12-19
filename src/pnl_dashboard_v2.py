@@ -771,34 +771,47 @@ def build_app(server: Flask = None) -> Dash:
         dcc.Interval(id="refresh-interval", interval=5*60*1000, n_intervals=0),  # 5 minutes
     ], style={"backgroundColor": "#0b0e13", "fontFamily": "Inter, Segoe UI, Arial", "padding": "20px", "minHeight": "100vh"})
     
-    # Callbacks
+    # Callbacks - MUST be registered after layout is set
     @app.callback(
         Output("system-health-container", "children"),
         Input("system-health-interval", "n_intervals"),
     )
     def update_system_health(n):
-        return system_health_panel()
+        try:
+            return system_health_panel()
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Error updating system health: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            return html.Div("System health unavailable", style={"color": "#ea4335"})
     
     @app.callback(
         Output("tab-content", "children"),
         Input("main-tabs", "value"),
         Input("refresh-interval", "n_intervals"),
+        prevent_initial_call=False,  # CRITICAL: Allow callback to fire on initial load
     )
     def update_tab_content(tab, n_intervals):
         """Update tab content based on selected tab and refresh interval."""
         try:
+            print(f"🔍 [DASHBOARD-V2] update_tab_content called: tab={tab}, n_intervals={n_intervals}", flush=True)
             if tab == "daily":
-                return build_daily_summary_tab()
+                content = build_daily_summary_tab()
+                print("✅ [DASHBOARD-V2] Daily summary tab built successfully", flush=True)
+                return content
             elif tab == "executive":
-                return build_executive_summary_tab()
+                content = build_executive_summary_tab()
+                print("✅ [DASHBOARD-V2] Executive summary tab built successfully", flush=True)
+                return content
             return html.Div("Unknown tab", style={"color": "#fff"})
         except Exception as e:
-            print(f"⚠️  Error updating tab content: {e}")
+            print(f"❌ [DASHBOARD-V2] Error updating tab content: {e}", flush=True)
             import traceback
             traceback.print_exc()
             return html.Div([
                 html.H4("Error loading content", style={"color": "#ea4335"}),
                 html.P(str(e), style={"color": "#9aa0a6"}),
+                html.P("Check server logs for details.", style={"color": "#9aa0a6", "fontSize": "12px"}),
             ])
     
     # Note: Tables are updated via the tab content refresh callback
@@ -811,13 +824,18 @@ def build_app(server: Flask = None) -> Dash:
 def build_daily_summary_tab() -> html.Div:
     """Build Daily Summary tab content."""
     try:
+        print("🔍 [DASHBOARD-V2] Building daily summary tab...", flush=True)
         wallet_balance = get_wallet_balance()
+        print(f"💰 [DASHBOARD-V2] Wallet balance: ${wallet_balance:.2f}", flush=True)
+        
         daily_summary = compute_summary(wallet_balance, lookback_days=1)
         weekly_summary = compute_summary(wallet_balance, lookback_days=7)
         monthly_summary = compute_summary(wallet_balance, lookback_days=30)
+        print("📊 [DASHBOARD-V2] Summaries computed", flush=True)
         
         closed_df = load_closed_positions_df()
         open_df = load_open_positions_df()
+        print(f"📈 [DASHBOARD-V2] Loaded {len(closed_df)} closed, {len(open_df)} open positions", flush=True)
     except Exception as e:
         print(f"⚠️  [DASHBOARD-V2] Error building daily summary tab: {e}", flush=True)
         import traceback
@@ -1001,7 +1019,9 @@ def build_daily_summary_tab() -> html.Div:
 def build_executive_summary_tab() -> html.Div:
     """Build Executive Summary tab content."""
     try:
+        print("🔍 [DASHBOARD-V2] Building executive summary tab...", flush=True)
         summary = generate_executive_summary()
+        print("✅ [DASHBOARD-V2] Executive summary generated", flush=True)
     except Exception as e:
         print(f"⚠️  Error generating executive summary: {e}")
         import traceback

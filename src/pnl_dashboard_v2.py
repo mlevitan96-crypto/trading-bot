@@ -1043,15 +1043,13 @@ def build_app(server: Flask = None) -> Dash:
     # Note: Tables are updated via the tab content refresh callback
     # which rebuilds the entire tab when refresh-interval fires
     
-    # Verify callbacks are registered
-    callback_count = len(app.callback_map)
-    print(f"✅ [DASHBOARD-V2] Dashboard app fully configured - {callback_count} callbacks registered", flush=True)
-    
-    # List registered callbacks for debugging
-    for callback_id, callback_info in app.callback_map.items():
-        outputs = [str(out) for out in callback_info['callback'].outputs]
-        inputs = [str(inp) for inp in callback_info['callback'].inputs]
-        print(f"   📋 Callback: {callback_id} | Outputs: {outputs} | Inputs: {inputs}", flush=True)
+    # Verify callbacks are registered (safe check without accessing internal attributes)
+    try:
+        callback_count = len(app.callback_map) if hasattr(app, 'callback_map') else 0
+        print(f"✅ [DASHBOARD-V2] Dashboard app fully configured - {callback_count} callbacks registered", flush=True)
+    except Exception as e:
+        print(f"⚠️  [DASHBOARD-V2] Could not verify callback count: {e}", flush=True)
+        print("✅ [DASHBOARD-V2] Dashboard app fully configured", flush=True)
     
     return app
 

@@ -1078,18 +1078,25 @@ def build_daily_summary_tab() -> html.Div:
         
         # Load wallet balance with error handling
         try:
+            print("🔍 [DASHBOARD-V2] Step 1: Getting wallet balance...", flush=True)
             wallet_balance = get_wallet_balance()
             print(f"💰 [DASHBOARD-V2] Wallet balance: ${wallet_balance:.2f}", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error getting wallet balance: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
             wallet_balance = 10000.0
         
         # Compute summaries with error handling
         try:
+            print("🔍 [DASHBOARD-V2] Step 2: Computing summaries...", flush=True)
             daily_summary = compute_summary(wallet_balance, lookback_days=1)
+            print("🔍 [DASHBOARD-V2] Daily summary computed", flush=True)
             weekly_summary = compute_summary(wallet_balance, lookback_days=7)
+            print("🔍 [DASHBOARD-V2] Weekly summary computed", flush=True)
             monthly_summary = compute_summary(wallet_balance, lookback_days=30)
-            print("📊 [DASHBOARD-V2] Summaries computed", flush=True)
+            print("🔍 [DASHBOARD-V2] Monthly summary computed", flush=True)
+            print("📊 [DASHBOARD-V2] All summaries computed", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error computing summaries: {e}", flush=True)
             import traceback
@@ -1098,9 +1105,12 @@ def build_daily_summary_tab() -> html.Div:
         
         # Load positions with error handling and limits for memory efficiency
         try:
+            print("🔍 [DASHBOARD-V2] Step 3: Loading positions...", flush=True)
             # Limit to last 500 closed positions to prevent OOM
             closed_df = load_closed_positions_df(limit=500)
+            print(f"🔍 [DASHBOARD-V2] Closed positions loaded: {len(closed_df)}", flush=True)
             open_df = load_open_positions_df()
+            print(f"🔍 [DASHBOARD-V2] Open positions loaded: {len(open_df)}", flush=True)
             print(f"📈 [DASHBOARD-V2] Loaded {len(closed_df)} closed (limited to 500 most recent), {len(open_df)} open positions", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error loading positions: {e}", flush=True)

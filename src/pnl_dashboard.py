@@ -2896,7 +2896,7 @@ def build_app(server: Flask = None) -> Dash:
                 ]),
                 html.Div(id="summary-container", children=summary_card(daily_summary, "Daily Summary (Last 24 Hours)"), style={"padding": "16px"}),
                 dcc.Interval(id="summary-interval", interval=60*1000, n_intervals=0),  # Auto-refresh every 60s (reduced from 30s for performance)
-                dcc.Interval(id="executive-summary-interval", interval=24*60*60*1000, n_intervals=0),  # Auto-refresh once per day (executive summary only)
+                dcc.Interval(id="executive-summary-interval", interval=24*60*60*1000, n_intervals=0),  # Auto-refresh once per day (executive summary only refreshes daily) (executive summary only)
                 dcc.Loading(
                     id="executive-summary-loading",
                     type="default",
@@ -3305,24 +3305,28 @@ def build_app(server: Flask = None) -> Dash:
         import json
         from datetime import datetime
         
-        # Handle Executive Summary tab
+        # Handle Executive Summary tab - LAZY LOAD (only when tab is clicked, not on initial load)
         if tab == "executive":
             try:
+                # Generate summary ONLY when executive tab is selected
+                # This prevents heavy data loading during initial dashboard render
+                print("📋 [DASHBOARD] Loading executive summary (lazy load - tab clicked)...")
                 summary = generate_executive_summary()
                 
+                # Build sections list - ONLY TEXT CONTENT, no heavy data processing
                 sections = [
-                    ("What Worked Today", summary.get("what_worked_today", "No data available.")),
-                    ("What Didn't Work", summary.get("what_didnt_work", "No data available.")),
-                    ("Improvements & Trends", summary.get("improvements_trends", "No data available.")),
-                    ("Missed Opportunities", summary.get("missed_opportunities", "No data available.")),
-                    ("Blocked Signals", summary.get("blocked_signals", "No data available.")),
-                    ("Exit Gates Analysis", summary.get("exit_gates", "No data available.")),
-                    ("Learning Today", summary.get("learning_today", "No data available.")),
-                    ("Changes Tomorrow", summary.get("changes_tomorrow", "No data available.")),
-                    ("Weekly Summary", summary.get("weekly_summary", "No data available."))
+                    ("What Worked Today", summary.get("what_worked_today", "")),
+                    ("What Didn't Work", summary.get("what_didnt_work", "")),
+                    ("Improvements & Trends", summary.get("improvements_trends", "")),
+                    ("Missed Opportunities", summary.get("missed_opportunities", "")),
+                    ("Blocked Signals", summary.get("blocked_signals", "")),
+                    ("Exit Gates Analysis", summary.get("exit_gates", "")),
+                    ("Learning Today", summary.get("learning_today", "")),
+                    ("Changes Tomorrow", summary.get("changes_tomorrow", "")),
+                    ("Weekly Summary", summary.get("weekly_summary", ""))
                 ]
                 
-                # Add operational status sections
+                # Add operational status sections (lightweight - just text)
                 operational_sections = []
                 if "venue_validation" in summary and summary.get("venue_validation"):
                     operational_sections.append(("Venue Symbol Validation", summary.get("venue_validation")))
@@ -3338,25 +3342,38 @@ def build_app(server: Flask = None) -> Dash:
                     for i, (title, text) in enumerate(operational_sections):
                         sections.insert(3 + i, (title, text))
                 
+                # Render as simple text sections - TEXT ONLY, no heavy components
                 content = []
                 for title, text in sections:
-                    content.append(
-                        html.Div([
-                            html.H5(title, style={"color":"#fff","marginBottom":"8px","marginTop":"16px"}),
-                            html.P(text, style={"color":"#9aa0a6","lineHeight":"1.6","marginBottom":"12px"})
-                        ])
-                    )
+                    # Only show sections with actual content (filter out empty/default messages)
+                    if text and text.strip() and text not in ["No data available.", "No data available for this section.", ""]:
+                        content.append(
+                            html.Div([
+                                html.H5(title, style={"color":"#fff","marginBottom":"8px","marginTop":"16px","fontSize":"18px","fontWeight":"bold"}),
+                                html.P(text, style={"color":"#9aa0a6","lineHeight":"1.6","marginBottom":"12px","fontSize":"14px"})
+                            ])
+                        )
                 
-                return html.Div(content, style={"padding":"16px"})
+                if not content:
+                    content = [html.P("Executive summary is being generated. Please check back in a moment.", 
+                                     style={"color":"#9aa0a6","padding":"16px","fontSize":"14px"})]
+                
+                print("✅ [DASHBOARD] Executive summary loaded successfully")
+                return html.Div(content, style={"padding":"16px", "backgroundColor":"#0f1217", "borderRadius":"8px"})
             except Exception as e:
                 import traceback
                 error_details = traceback.format_exc()
                 print(f"❌ [DASHBOARD] Error in update_summary (executive tab): {e}")
                 print(f"❌ [DASHBOARD] Traceback:\n{error_details}")
                 return html.Div([
-                    html.P(f"Error loading executive summary: {str(e)}", style={"color":"#ff6b6b","padding":"12px"}),
-                    html.Pre(error_details[:500], style={"color":"#ff6b6b","fontSize":"10px","padding":"8px","background":"#2a2a2a"})
-                ])
+                    html.H5("Error Loading Executive Summary", style={"color":"#ff6b6b","marginBottom":"8px"}),
+                    html.P(f"Error: {str(e)}", style={"color":"#ff6b6b","padding":"12px"}),
+                    html.P("Please check the logs for details.", style={"color":"#9aa0a6","padding":"8px"}),
+                    html.Details([
+                        html.Summary("Technical Details", style={"color":"#9aa0a6","cursor":"pointer","marginTop":"8px"}),
+                        html.Pre(error_details[:1000], style={"color":"#ff6b6b","fontSize":"10px","padding":"8px","background":"#2a2a2a","overflow":"auto","maxHeight":"300px"})
+                    ])
+                ], style={"padding":"16px", "backgroundColor":"#0f1217", "borderRadius":"8px"})
         
         # Handle other tabs (daily, weekly, monthly)
         try:

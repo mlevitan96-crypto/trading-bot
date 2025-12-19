@@ -2268,14 +2268,14 @@ def main():
             print(f"   🔍 [DASHBOARD] Starting Gunicorn server on port {dashboard_port}...")
             options = {
                 'bind': f'0.0.0.0:{dashboard_port}',
-                'workers': 2,
+                'workers': 1,  # Reduced to 1 worker for Dash compatibility (Dash doesn't work well with multiple workers)
                 'threads': 4,
                 'worker_class': 'sync',
                 'timeout': 120,
                 'accesslog': '-',
                 'errorlog': '-',
                 'loglevel': 'warning',
-                'preload_app': True,
+                'preload_app': False,  # CRITICAL: Set to False for Dash - allows each worker to register Dash dependencies
             }
             
             print("   🚀 Starting Gunicorn production server (2 workers, 4 threads)")

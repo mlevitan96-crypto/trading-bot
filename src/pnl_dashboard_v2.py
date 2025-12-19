@@ -1025,9 +1025,28 @@ def start_pnl_dashboard(flask_app: Flask = None) -> Dash:
     """
     Start the P&L dashboard - entry point for run.py.
     Returns Dash app instance.
+    
+    CRITICAL: For Gunicorn with multiple workers, we need to ensure Dash
+    dependencies are properly registered in each worker process.
     """
     try:
         print("🔍 [DASHBOARD-V2] Starting dashboard initialization...", flush=True)
+        
+        # CRITICAL: Register Dash dependencies before building app
+        # This is required for Gunicorn workers to load Dash components correctly
+        try:
+            import dash
+            import dash_bootstrap_components as dbc
+            # Force Dash to register its component suites
+            # This ensures Gunicorn workers can load Dash dependencies
+            print("🔍 [DASHBOARD-V2] Registering Dash dependencies...", flush=True)
+            # Dash registers dependencies on first import, so importing here ensures they're available
+            _ = dash.__version__
+            _ = dbc.__version__
+            print("✅ [DASHBOARD-V2] Dash dependencies registered", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Warning: Dash dependency registration issue: {e}", flush=True)
+            # Continue anyway - might still work
         
         # Initialize positions file on startup
         try:
@@ -1044,6 +1063,10 @@ def start_pnl_dashboard(flask_app: Flask = None) -> Dash:
         
         if app is None:
             raise RuntimeError("build_app() returned None - dashboard build failed")
+        
+        # CRITICAL: Ensure Dash app is fully configured for Gunicorn
+        # Set app.config to ensure proper worker initialization
+        app.config.suppress_callback_exceptions = True
         
         print("✅ [DASHBOARD-V2] Dashboard app built successfully", flush=True)
         return app

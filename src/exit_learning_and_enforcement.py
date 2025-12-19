@@ -280,15 +280,33 @@ class ExitTuner:
             if (time_stops + stops) / total_exits > 0.30:
                 new_params["TP1_ROI"] = min(current["TP1_ROI"] + 0.001, 0.012)  # increase by 0.1%
             
-            # CRITICAL: If profit targets are working (high profitability rate), keep them
-            # If profitability is low despite profit targets, they may be too aggressive or not triggering
+            # CRITICAL: Learn from less profitable exits - adjust targets based on MFE analysis
+            # If profit targets have high hit rate but we're missing bigger moves (low MFE capture)
             if profit_target_rate > 0.30 and profitability_rate < 0.40:
-                # Many profit targets but low profitability - may be exiting too early or targets too low
-                # Could also mean positions reversing before targets hit
-                pass  # Monitor but don't auto-adjust yet (needs more data)
+                # Many profit targets but low profitability - may be exiting too early
+                # Check if we're capturing enough of the MFE
+                if avg_mfe > current["TP1_ROI"] * 2.0:  # MFE is much higher than TP1
+                    # We're exiting too early - positions are reaching higher profits
+                    # BUT: If profitability is low, it means positions are reversing before targets
+                    # So we should LOWER targets to capture profits before reversal
+                    new_params["TP1_ROI"] = max(current["TP1_ROI"] - 0.001, 0.003)  # Lower TP1 to 0.3%
+                    new_params["TP2_ROI"] = max(current["TP2_ROI"] - 0.002, current["TP1_ROI"] + 0.002)
+                    tuning_decisions[-1]["stats"]["adjustment"] = "Lowered targets to capture profits before reversals"
             elif profit_target_rate > 0.50 and profitability_rate > 0.60:
                 # High profit target rate AND high profitability - system is working well!
-                pass  # Keep current thresholds
+                # But check if we could capture more of the MFE
+                if avg_mfe > current["TP2_ROI"] * 1.5:  # MFE is 50% higher than TP2
+                    # Consider raising TP2 slightly to capture more profit
+                    new_params["TP2_ROI"] = min(current["TP2_ROI"] + 0.002, 0.015)  # Raise TP2 by 0.2%
+                    tuning_decisions[-1]["stats"]["adjustment"] = "Raised TP2 to capture more of high MFE moves"
+            
+            # NEW: Learn from early exits - if we're frequently missing >1% profit opportunities
+            early_exit_events = [e for e in events if e.get("mfe", 0) > e.get("roi", 0) * 1.5 and e.get("roi", 0) > 0]
+            if len(early_exit_events) > total_exits * 0.20:  # >20% of exits are early
+                avg_early_miss = sum(e.get("mfe", 0) - e.get("roi", 0) for e in early_exit_events) / len(early_exit_events)
+                if avg_early_miss > 0.005:  # Missing >0.5% on average
+                    # Consider adding a "hold extended" rule or higher tier profit targets
+                    tuning_decisions[-1]["stats"]["early_exit_warning"] = f"Missing avg {avg_early_miss*100:.2f}% profit on {len(early_exit_events)} early exits"
 
             # 2) Trailing distance: widen in high volatility, tighten in chop
             if avg_atr > 0.007:    # high vol regime proxy

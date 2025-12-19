@@ -2665,7 +2665,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 5. Trade execution (check positions file updates and bot activity)
             try:
-                pos_file = PathRegistry.POS_LOG
+                pos_file = str(PathRegistry.POS_LOG)  # Convert Path to string
                 heartbeat_file = PathRegistry.get_path("logs", ".bot_heartbeat")
                 
                 # Check if bot is running (heartbeat freshness)
@@ -2732,7 +2732,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 7. Feature store updates
             try:
-                feature_dir = PathRegistry.FEATURE_STORE_DIR
+                feature_dir = str(PathRegistry.FEATURE_STORE_DIR)  # Convert Path to string
                 if os.path.exists(feature_dir):
                     # Check for recent feature files
                     recent_features = False
@@ -2753,7 +2753,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 8. File integrity
             try:
-                pos_file = PathRegistry.POS_LOG
+                pos_file = str(PathRegistry.POS_LOG)  # Convert Path to string
                 if os.path.exists(pos_file):
                     with open(pos_file, 'r') as f:
                         data = json.load(f)
@@ -3116,7 +3116,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 5. Trade execution
             try:
-                pos_file = PathRegistry.POS_LOG
+                pos_file = str(PathRegistry.POS_LOG)  # Convert Path to string
                 if os.path.exists(pos_file):
                     file_age = time.time() - os.path.getmtime(pos_file)
                     if file_age < 300:
@@ -3132,7 +3132,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 6. Heartbeat freshness
             try:
-                heartbeat_file = PathRegistry.get_path("logs", ".bot_heartbeat")
+                heartbeat_file = PathRegistry.get_path("logs", ".bot_heartbeat")  # Already a string
                 if os.path.exists(heartbeat_file):
                     file_age = time.time() - os.path.getmtime(heartbeat_file)
                     if file_age < 120:
@@ -3148,7 +3148,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 7. Feature store updates
             try:
-                feature_dir = PathRegistry.FEATURE_STORE_DIR
+                feature_dir = str(PathRegistry.FEATURE_STORE_DIR)  # Convert Path to string
                 if os.path.exists(feature_dir):
                     recent_features = False
                     for root, dirs, files in os.walk(feature_dir):
@@ -3168,7 +3168,7 @@ def build_app(server: Flask = None) -> Dash:
             
             # 8. File integrity
             try:
-                pos_file = PathRegistry.POS_LOG
+                pos_file = str(PathRegistry.POS_LOG)  # Convert Path to string
                 if os.path.exists(pos_file):
                     with open(pos_file, 'r') as f:
                         data = json.load(f)

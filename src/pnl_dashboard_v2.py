@@ -77,6 +77,8 @@ def get_wallet_balance() -> float:
     try:
         starting_capital = 10000.0
         positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+        if not positions_data:
+            return starting_capital
         closed_positions = positions_data.get("closed_positions", [])
         
         total_pnl = 0.0
@@ -103,6 +105,8 @@ def load_open_positions_df() -> pd.DataFrame:
         from src.exchange_gateway import ExchangeGateway
         
         positions_data = load_futures_positions()
+        if not positions_data:
+            return pd.DataFrame(columns=["symbol", "strategy", "side", "entry_price", "current_price", "size", "margin_collateral", "leverage", "pnl_usd", "pnl_pct", "entry_time"])
         open_positions = positions_data.get("open_positions", [])
         
         rows = []
@@ -170,6 +174,8 @@ def load_closed_positions_df() -> pd.DataFrame:
     """Load closed positions from positions_futures.json."""
     try:
         positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+        if not positions_data:
+            return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
         closed_positions = positions_data.get("closed_positions", [])
         
         rows = []
@@ -234,6 +240,19 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
     """Compute summary statistics for a given lookback period."""
     try:
         positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+        if not positions_data:
+            # Return empty summary if no data
+            return {
+                "wallet_balance": wallet_balance,
+                "total_trades": 0,
+                "wins": 0,
+                "losses": 0,
+                "win_rate": 0.0,
+                "net_pnl": 0.0,
+                "avg_win": 0.0,
+                "avg_loss": 0.0,
+                "drawdown_pct": 0.0,
+            }
         closed_positions = positions_data.get("closed_positions", [])
         open_positions = positions_data.get("open_positions", [])
         
@@ -576,6 +595,9 @@ def build_app(server: Flask = None) -> Dash:
     # Set server secret key if not already set
     if not hasattr(server, 'secret_key') or not server.secret_key:
         server.secret_key = os.environ.get('FLASK_SECRET_KEY', hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest())
+    
+    # Don't load data at build time - let callbacks load it on demand
+    # Initial data load removed - prevents errors if data files don't exist yet
     
     # System Health Component
     def system_health_panel() -> html.Div:

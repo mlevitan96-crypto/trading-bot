@@ -832,10 +832,27 @@ def close_futures_position(symbol, strategy, direction, exit_price, reason="manu
                 # Calculate minutes open
                 minutes_open = trade_duration_seconds / 60 if trade_duration_seconds else 0
                 
+                # Calculate MFE (Max Favorable Excursion) from peak_price
+                entry_price_pos = closed_pos.get("entry_price", 0) or entry_price
+                peak_price = closed_pos.get("peak_price", exit_price)
+                trough_price = closed_pos.get("trough_price", exit_price)
+                
+                # Calculate peak ROI (MFE)
+                if direction == "LONG":
+                    peak_roi = ((peak_price - entry_price_pos) / entry_price_pos) if entry_price_pos > 0 else 0.0
+                    mfe_roi = peak_roi  # For LONG, peak is MFE
+                else:  # SHORT
+                    trough_roi = ((entry_price_pos - trough_price) / entry_price_pos) if entry_price_pos > 0 else 0.0
+                    mfe_roi = trough_roi  # For SHORT, trough is MFE
+                
+                # Calculate capture rate (% of MFE we captured)
+                exit_roi_raw = net_roi / 100.0  # Convert percentage to decimal
+                capture_rate = (exit_roi_raw / mfe_roi * 100.0) if mfe_roi > 0 else 0.0
+                
                 exit_event = {
                     "symbol": symbol,
                     "exit_type": exit_type,
-                    "roi": net_roi,  # Net ROI after fees
+                    "roi": net_roi,  # Net ROI after fees (percentage)
                     "realized_roi": net_roi,  # For compatibility
                     "pnl_usd": net_pnl_usd,
                     "minutes_open": round(minutes_open, 1),
@@ -843,8 +860,12 @@ def close_futures_position(symbol, strategy, direction, exit_price, reason="manu
                     "was_profitable": net_roi > 0,
                     "strategy": strategy,
                     "direction": direction,
-                    "entry_price": closed_pos.get("entry_price"),
+                    "entry_price": entry_price_pos,
                     "exit_price": exit_price,
+                    "peak_price": peak_price if direction == "LONG" else None,
+                    "trough_price": trough_price if direction == "SHORT" else None,
+                    "mfe_roi": mfe_roi * 100.0,  # MFE as percentage (for learning analysis)
+                    "capture_rate_pct": capture_rate,  # % of MFE captured (100% = perfect, <70% = early exit)
                     "leverage": closed_pos.get("leverage", 1),
                     "ts": int(__pm_time.time())  # Use existing time import
                 }

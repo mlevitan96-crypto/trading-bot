@@ -218,6 +218,10 @@ class ExitTuner:
         # Load current policy and runtime logs
         policy = _read_json(EXIT_POLICY_PATH, {})
         logs = _read_jsonl(EXIT_RUNTIME_LOG)
+        
+        if not logs:
+            print(f"⚠️ [EXIT_TUNER] No exit events found in {EXIT_RUNTIME_LOG}")
+            return []
 
         # Aggregate by symbol (optionally by regime if present)
         by_symbol = {}
@@ -249,11 +253,23 @@ class ExitTuner:
             atrs = [float(e.get("atr_roi", 0.0)) for e in events if e.get("atr_roi") is not None]
             avg_atr = mean(atrs) if atrs else 0.0
 
-            # MFE/MAE averages
-            mfes = [float(e.get("mfe", 0.0)) for e in events]
+            # MFE/MAE averages (use mfe_roi if available, otherwise fallback to mfe field)
+            mfes = []
+            for e in events:
+                mfe_val = e.get("mfe_roi")  # New field from position_manager (percentage)
+                if mfe_val is None:
+                    mfe_val = e.get("mfe", 0.0)  # Fallback to old field (decimal)
+                    if mfe_val and mfe_val < 1.0:  # If decimal, convert to percentage
+                        mfe_val = mfe_val * 100.0
+                mfes.append(float(mfe_val))
+            
             maes = [float(e.get("mae", 0.0)) for e in events]
             avg_mfe = mean(mfes) if mfes else 0.0
             avg_mae = mean(maes) if maes else 0.0
+            
+            # Calculate average capture rate (% of MFE we captured)
+            capture_rates = [float(e.get("capture_rate_pct", 0.0)) for e in events if e.get("capture_rate_pct") is not None]
+            avg_capture_rate = mean(capture_rates) if capture_rates else None
 
             # Current params (fallback to defaults)
             current = dict(DEFAULT_EXIT_POLICY)
@@ -300,13 +316,40 @@ class ExitTuner:
                     new_params["TP2_ROI"] = min(current["TP2_ROI"] + 0.002, 0.015)  # Raise TP2 by 0.2%
                     tuning_decisions[-1]["stats"]["adjustment"] = "Raised TP2 to capture more of high MFE moves"
             
-            # NEW: Learn from early exits - if we're frequently missing >1% profit opportunities
-            early_exit_events = [e for e in events if e.get("mfe", 0) > e.get("roi", 0) * 1.5 and e.get("roi", 0) > 0]
-            if len(early_exit_events) > total_exits * 0.20:  # >20% of exits are early
-                avg_early_miss = sum(e.get("mfe", 0) - e.get("roi", 0) for e in early_exit_events) / len(early_exit_events)
-                if avg_early_miss > 0.005:  # Missing >0.5% on average
-                    # Consider adding a "hold extended" rule or higher tier profit targets
-                    tuning_decisions[-1]["stats"]["early_exit_warning"] = f"Missing avg {avg_early_miss*100:.2f}% profit on {len(early_exit_events)} early exits"
+            # NEW: Learn from early exits - if we're frequently missing profit opportunities
+            # Use capture_rate_pct if available, otherwise calculate from mfe_roi vs roi
+            early_exit_count = 0
+            early_exit_missed_pct = []
+            
+            for e in events:
+                capture_rate = e.get("capture_rate_pct")
+                if capture_rate is not None:
+                    if capture_rate < 70.0 and e.get("roi", 0) > 0:  # Captured <70% of MFE and was profitable
+                        early_exit_count += 1
+                        missed = 100.0 - capture_rate
+                        early_exit_missed_pct.append(missed)
+                else:
+                    # Fallback: Calculate from mfe_roi vs roi
+                    mfe_val = e.get("mfe_roi") or (e.get("mfe", 0.0) * 100.0 if e.get("mfe") else 0.0)
+                    roi_val = e.get("roi", 0.0)
+                    if mfe_val > roi_val * 1.5 and roi_val > 0:
+                        early_exit_count += 1
+                        missed = ((mfe_val - roi_val) / mfe_val) * 100.0 if mfe_val > 0 else 0
+                        early_exit_missed_pct.append(missed)
+            
+            if early_exit_count > total_exits * 0.20:  # >20% of exits are early
+                avg_missed = mean(early_exit_missed_pct) if early_exit_missed_pct else 0.0
+                if avg_missed > 30.0:  # Missing >30% of potential profit on average
+                    # Lower profit targets to capture profits before positions reverse
+                    new_params["TP1_ROI"] = max(current["TP1_ROI"] - 0.002, 0.003)  # Lower TP1 to 0.3%
+                    new_params["TP2_ROI"] = max(current["TP2_ROI"] - 0.003, current["TP1_ROI"] + 0.002)  # Lower TP2
+                    tuning_decisions[-1]["stats"]["early_exit_adjustment"] = f"Lowered targets - missing avg {avg_missed:.1f}% profit on {early_exit_count}/{total_exits} exits"
+            
+            # Add capture rate to stats
+            if avg_capture_rate is not None:
+                tuning_decisions[-1]["stats"]["avg_capture_rate"] = round(avg_capture_rate, 1)
+                if avg_capture_rate < 60.0:
+                    tuning_decisions[-1]["stats"]["capture_warning"] = f"Low capture rate ({avg_capture_rate:.1f}%) - consider adjusting targets"
 
             # 2) Trailing distance: widen in high volatility, tighten in chop
             if avg_atr > 0.007:    # high vol regime proxy
@@ -342,6 +385,8 @@ class ExitTuner:
                     "avg_atr": round(avg_atr, 6),
                     "avg_mfe": round(avg_mfe, 6),
                     "avg_mae": round(avg_mae, 6),
+                    "avg_capture_rate": round(avg_capture_rate, 1) if avg_capture_rate is not None else None,
+                    "early_exit_count": early_exit_count,
                     "total_exits": total_exits,
                     "profitable_exits": profitable_exits,
                     "total_exits_count": total_exits_count

@@ -1043,12 +1043,22 @@ def build_app(server: Flask = None) -> Dash:
     # Note: Tables are updated via the tab content refresh callback
     # which rebuilds the entire tab when refresh-interval fires
     
-    print("✅ [DASHBOARD-V2] Dashboard app fully configured")
+    # Verify callbacks are registered
+    callback_count = len(app.callback_map)
+    print(f"✅ [DASHBOARD-V2] Dashboard app fully configured - {callback_count} callbacks registered", flush=True)
+    
+    # List registered callbacks for debugging
+    for callback_id, callback_info in app.callback_map.items():
+        outputs = [str(out) for out in callback_info['callback'].outputs]
+        inputs = [str(inp) for inp in callback_info['callback'].inputs]
+        print(f"   📋 Callback: {callback_id} | Outputs: {outputs} | Inputs: {inputs}", flush=True)
+    
     return app
 
 
 def build_daily_summary_tab() -> html.Div:
     """Build Daily Summary tab content with robust error handling."""
+    print("🔍 [DASHBOARD-V2] ====== build_daily_summary_tab() STARTED ======", flush=True)
     wallet_balance = 10000.0
     empty_summary = {
         "wallet_balance": wallet_balance,
@@ -1264,17 +1274,22 @@ def build_daily_summary_tab() -> html.Div:
             open_table,
             closed_table,
         ])
-        print(f"✅ [DASHBOARD-V2] Daily summary tab content built: {len(content.children) if hasattr(content, 'children') else 'N/A'} components", flush=True)
+        component_count = len(content.children) if hasattr(content, 'children') else 'N/A'
+        print(f"✅ [DASHBOARD-V2] Daily summary tab content built: {component_count} components", flush=True)
+        print(f"✅ [DASHBOARD-V2] Content type: {type(content)}", flush=True)
+        print("✅ [DASHBOARD-V2] ====== build_daily_summary_tab() COMPLETED ======", flush=True)
         return content
     except Exception as e:
         print(f"❌ [DASHBOARD-V2] Error building daily summary tab HTML structure: {e}", flush=True)
         import traceback
         traceback.print_exc()
-        return html.Div([
+        error_content = html.Div([
             html.H4("Error loading Daily Summary", style={"color": "#ea4335"}),
             html.P(str(e), style={"color": "#9aa0a6"}),
             html.P("Check server logs for details.", style={"color": "#9aa0a6", "fontSize": "12px"}),
         ])
+        print(f"❌ [DASHBOARD-V2] Returning error content: {type(error_content)}", flush=True)
+        return error_content
 
 
 def build_executive_summary_tab() -> html.Div:

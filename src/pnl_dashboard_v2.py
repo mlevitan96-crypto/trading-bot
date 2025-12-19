@@ -710,6 +710,26 @@ def build_app(server: Flask = None) -> Dash:
             session.pop('authenticated', None)
             return redirect('/login')
     
+    # CRITICAL: Allow Dash internal routes without authentication
+    # This is required for Dash components to load properly
+    @flask_server.before_request
+    def require_auth():
+        # Allow login, logout, and Dash internal routes without authentication
+        if (request.path == '/login' or 
+            request.path == '/logout' or
+            request.path.startswith('/_dash-') or 
+            request.path.startswith('/assets/') or
+            request.path.startswith('/_reload-hash')):
+            return None
+        
+        # Check authentication for all other routes
+        if not session.get('authenticated'):
+            if request.path.startswith('/api/') or request.path.startswith('/health/') or request.path.startswith('/audit/'):
+                from flask import jsonify
+                return jsonify({'error': 'Authentication required'}), 401
+            else:
+                return redirect('/login')
+    
     # Main Layout
     app.layout = html.Div([
         html.Div([

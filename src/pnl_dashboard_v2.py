@@ -600,29 +600,14 @@ def create_wallet_balance_trend() -> go.Figure:
 
 
 # Executive Summary Generator
-# NOTE: generate_executive_summary is imported from pnl_dashboard.py (full implementation)
-# This placeholder is here for reference but not used
-def _generate_executive_summary_placeholder() -> Dict[str, str]:
-    """
-    DEPRECATED: Use generate_executive_summary from pnl_dashboard.py instead.
-    This is kept for reference only.
-    """
-    try:
-        # Import the existing executive summary generator
-        from src.pnl_dashboard import generate_executive_summary as _old_generate
-        return _old_generate()
-    except Exception as e:
-        print(f"⚠️  Failed to generate executive summary: {e}")
-        return {
-            "what_worked_today": "Executive summary generation in progress...",
-            "what_didnt_work": "",
-            "missed_opportunities": "",
-            "blocked_signals": "",
-            "exit_gates": "",
-            "learning_today": "",
-            "changes_tomorrow": "",
-            "weekly_summary": "",
-        }
+# Import from old dashboard for full implementation
+try:
+    from src.pnl_dashboard import generate_executive_summary
+except ImportError:
+    # Fallback if import fails - use basic implementation
+    print("⚠️  [DASHBOARD-V2] Could not import generate_executive_summary, using fallback", flush=True)
+    def generate_executive_summary() -> Dict[str, str]:
+        return _get_basic_executive_summary()
 
 
 # System Health Check

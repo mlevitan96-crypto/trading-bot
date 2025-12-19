@@ -590,6 +590,7 @@ def build_app(server: Flask = None) -> Dash:
         server.secret_key = os.environ.get('FLASK_SECRET_KEY', hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest())
     
     # CRITICAL: Dash initialization - must match old dashboard exactly
+    # url_base_pathname="/" already sets requests_pathname_prefix internally
     app = Dash(
         __name__, 
         server=server, 
@@ -599,8 +600,8 @@ def build_app(server: Flask = None) -> Dash:
     )
     
     # CRITICAL: Configure Dash for production/Gunicorn
+    # requests_pathname_prefix is read-only and set via url_base_pathname in constructor
     app.config.suppress_callback_exceptions = True
-    app.config.requests_pathname_prefix = "/"
     
     # Set server secret key if not already set
     if not hasattr(server, 'secret_key') or not server.secret_key:

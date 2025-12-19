@@ -646,8 +646,9 @@ def build_app(server: Flask = None) -> Dash:
     # Authentication (simplified)
     from flask import session, request, redirect, url_for, render_template_string
     
-    # Get Flask server from Dash app (ensure we use the right server)
-    server = app.server
+    # Get Flask server from Dash app (Dash creates its own server wrapper)
+    # IMPORTANT: Use app.server, not the original server variable, as Dash wraps it
+    flask_server = app.server
     
     login_template = """
     <!DOCTYPE html>
@@ -673,20 +674,31 @@ def build_app(server: Flask = None) -> Dash:
     </html>
     """
     
-    @server.route('/login', methods=['GET', 'POST'])
-    def login():
-        if request.method == 'POST':
-            password = request.form.get('password', '')
-            if hashlib.sha256(password.encode()).hexdigest() == DASHBOARD_PASSWORD_HASH:
-                session['authenticated'] = True
-                return redirect('/')
-            return render_template_string(login_template + '<p style="color: #ea4335;">Invalid password</p>')
-        return render_template_string(login_template)
+    # Register routes only if they don't already exist (prevent duplicate route errors)
+    try:
+        existing_rules = [rule.rule for rule in flask_server.url_map.iter_rules()]
+        has_login = '/login' in existing_rules
+        has_logout = '/logout' in existing_rules
+    except:
+        has_login = False
+        has_logout = False
     
-    @server.route('/logout')
-    def logout():
-        session.pop('authenticated', None)
-        return redirect('/login')
+    if not has_login:
+        @flask_server.route('/login', methods=['GET', 'POST'])
+        def login():
+            if request.method == 'POST':
+                password = request.form.get('password', '')
+                if hashlib.sha256(password.encode()).hexdigest() == DASHBOARD_PASSWORD_HASH:
+                    session['authenticated'] = True
+                    return redirect('/')
+                return render_template_string(login_template + '<p style="color: #ea4335;">Invalid password</p>')
+            return render_template_string(login_template)
+    
+    if not has_logout:
+        @flask_server.route('/logout')
+        def logout():
+            session.pop('authenticated', None)
+            return redirect('/login')
     
     # Main Layout
     app.layout = html.Div([

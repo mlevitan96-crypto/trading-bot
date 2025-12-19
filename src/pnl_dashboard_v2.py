@@ -75,7 +75,14 @@ def safe_load_json(filepath: str, default=None) -> dict:
 
 
 def get_wallet_balance() -> float:
-    """Get current wallet balance including unrealized P&L from open positions."""
+    """
+    Get wallet balance from closed positions ONLY (realized P&L).
+    
+    CRITICAL: Wallet balance = starting_capital + realized P&L from closed positions.
+    Does NOT include unrealized P&L (that would be misleading).
+    
+    Matches original dashboard logic exactly.
+    """
     try:
         starting_capital = 10000.0
         positions_data = DR.read_json(DR.POSITIONS_FUTURES)
@@ -83,11 +90,11 @@ def get_wallet_balance() -> float:
             return starting_capital
         
         closed_positions = positions_data.get("closed_positions", [])
-        open_positions = positions_data.get("open_positions", [])
         
-        # Calculate realized P&L from closed positions
+        # Calculate realized P&L from closed positions ONLY
         total_realized_pnl = 0.0
         for pos in closed_positions:
+            # Try pnl field first (most reliable), then fallbacks
             val = pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0)))
             if val is None:
                 continue
@@ -98,37 +105,10 @@ def get_wallet_balance() -> float:
             except (TypeError, ValueError):
                 continue
         
-        # Calculate unrealized P&L from open positions
-        unrealized_pnl = 0.0
-        try:
-            from src.exchange_gateway import ExchangeGateway
-            gateway = ExchangeGateway()
-            
-            for pos in open_positions:
-                symbol = pos.get("symbol", "")
-                entry_price = pos.get("entry_price", 0.0)
-                direction = pos.get("direction", "LONG")
-                margin = pos.get("margin_collateral", 0.0)
-                leverage = pos.get("leverage", 1)
-                
-                if not margin or margin <= 0:
-                    continue
-                    
-                try:
-                    current_price = gateway.get_price(symbol, venue="futures")
-                    if entry_price > 0:
-                        if direction == "LONG":
-                            price_roi = (current_price - entry_price) / entry_price
-                        else:
-                            price_roi = (entry_price - current_price) / entry_price
-                        unrealized_pnl += margin * price_roi * leverage
-                except Exception as e:
-                    # If we can't get price, use entry price as fallback (0 unrealized)
-                    pass
-        except Exception as e:
-            print(f"⚠️  [WALLET] Error calculating unrealized P&L: {e}", flush=True)
-        
-        return starting_capital + total_realized_pnl + unrealized_pnl
+        # Wallet balance = starting capital + realized P&L ONLY
+        # Do NOT include unrealized P&L (show separately)
+        wallet_balance = starting_capital + total_realized_pnl
+        return wallet_balance
     except Exception as e:
         print(f"⚠️  [WALLET] Failed to calculate wallet balance: {e}", flush=True)
         import traceback
@@ -1121,7 +1101,8 @@ def build_daily_summary_tab() -> html.Div:
     except Exception as e:
         print(f"❌ [DASHBOARD-V2] CRITICAL error building daily summary tab: {e}", flush=True)
         import traceback
-        traceback.print_exc()
+        error_tb = traceback.format_exc()
+        print(f"❌ [DASHBOARD-V2] Full traceback:\n{error_tb}", flush=True)
         # Continue with default empty data
     
     def summary_card(summary: dict, label: str) -> dbc.Card:

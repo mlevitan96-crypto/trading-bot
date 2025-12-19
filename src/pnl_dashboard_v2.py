@@ -73,15 +73,18 @@ def safe_load_json(filepath: str, default=None) -> dict:
 
 
 def get_wallet_balance() -> float:
-    """Get current wallet balance from positions_futures.json."""
+    """Get current wallet balance including unrealized P&L from open positions."""
     try:
         starting_capital = 10000.0
         positions_data = DR.read_json(DR.POSITIONS_FUTURES)
         if not positions_data:
             return starting_capital
-        closed_positions = positions_data.get("closed_positions", [])
         
-        total_pnl = 0.0
+        closed_positions = positions_data.get("closed_positions", [])
+        open_positions = positions_data.get("open_positions", [])
+        
+        # Calculate realized P&L from closed positions
+        total_realized_pnl = 0.0
         for pos in closed_positions:
             val = pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0)))
             if val is None:
@@ -89,13 +92,45 @@ def get_wallet_balance() -> float:
             try:
                 val = float(val)
                 if not math.isnan(val):
-                    total_pnl += val
+                    total_realized_pnl += val
             except (TypeError, ValueError):
                 continue
         
-        return starting_capital + total_pnl
+        # Calculate unrealized P&L from open positions
+        unrealized_pnl = 0.0
+        try:
+            from src.exchange_gateway import ExchangeGateway
+            gateway = ExchangeGateway()
+            
+            for pos in open_positions:
+                symbol = pos.get("symbol", "")
+                entry_price = pos.get("entry_price", 0.0)
+                direction = pos.get("direction", "LONG")
+                margin = pos.get("margin_collateral", 0.0)
+                leverage = pos.get("leverage", 1)
+                
+                if not margin or margin <= 0:
+                    continue
+                    
+                try:
+                    current_price = gateway.get_price(symbol, venue="futures")
+                    if entry_price > 0:
+                        if direction == "LONG":
+                            price_roi = (current_price - entry_price) / entry_price
+                        else:
+                            price_roi = (entry_price - current_price) / entry_price
+                        unrealized_pnl += margin * price_roi * leverage
+                except Exception as e:
+                    # If we can't get price, use entry price as fallback (0 unrealized)
+                    pass
+        except Exception as e:
+            print(f"⚠️  [WALLET] Error calculating unrealized P&L: {e}", flush=True)
+        
+        return starting_capital + total_realized_pnl + unrealized_pnl
     except Exception as e:
-        print(f"⚠️  Failed to calculate wallet balance: {e}")
+        print(f"⚠️  [WALLET] Failed to calculate wallet balance: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
         return 10000.0
 
 
@@ -293,13 +328,29 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
             except:
                 pass
         
-        # Calculate unrealized P&L from open positions
+        # Calculate unrealized P&L ONLY for open positions opened within lookback period
         unrealized_pnl = 0.0
         try:
             from src.exchange_gateway import ExchangeGateway
             gateway = ExchangeGateway()
             
             for pos in open_positions:
+                # Only count unrealized P&L if position was opened within lookback period
+                opened_at = pos.get("opened_at", pos.get("entry_time", ""))
+                if opened_at:
+                    try:
+                        if isinstance(opened_at, str):
+                            opened_dt = datetime.fromisoformat(opened_at.replace("Z", "+00:00"))
+                        else:
+                            opened_dt = datetime.fromtimestamp(opened_at)
+                        
+                        # Skip if position opened before lookback period
+                        if opened_dt < cutoff:
+                            continue
+                    except:
+                        # If we can't parse the date, skip this position for unrealized P&L
+                        continue
+                
                 symbol = pos.get("symbol", "")
                 entry_price = pos.get("entry_price", 0.0)
                 direction = pos.get("direction", "LONG")
@@ -325,10 +376,13 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
         avg_win = sum(wins) / len(wins) if wins else 0.0
         avg_loss = sum(losses) / len(losses) if losses else 0.0
         
-        # Calculate drawdown
+        # CRITICAL FIX: Only include unrealized P&L if there are closed trades OR if unrealized P&L exists
+        # Net P&L should be from closed trades only - unrealized is separate
+        # But for display purposes, we can show total including unrealized if there are open positions
+        
+        # Calculate drawdown based on wallet balance only (realized P&L)
         starting_capital = 10000.0
-        total_value = wallet_balance + unrealized_pnl
-        drawdown_pct = ((total_value - starting_capital) / starting_capital) * 100.0
+        drawdown_pct = ((wallet_balance - starting_capital) / starting_capital) * 100.0
         
         return {
             "wallet_balance": wallet_balance,
@@ -336,7 +390,9 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
             "wins": wins_count,
             "losses": losses_count,
             "win_rate": win_rate,
-            "net_pnl": total_pnl + unrealized_pnl,
+            # CRITICAL: Net P&L should ONLY include closed trades P&L, not unrealized
+            # Only add unrealized if there are closed trades in this period
+            "net_pnl": total_pnl + (unrealized_pnl if total_trades > 0 else 0.0),
             "avg_win": avg_win,
             "avg_loss": avg_loss,
             "drawdown_pct": drawdown_pct,
@@ -567,17 +623,93 @@ def generate_executive_summary() -> Dict[str, str]:
 
 # System Health Check
 def get_system_health() -> dict:
-    """Get system health status."""
+    """Get system health status by checking actual component files and logs."""
+    import os
+    import time
+    from pathlib import Path
+    from src.infrastructure.path_registry import PathRegistry
+    
+    health = {
+        "signal_engine": "unknown",
+        "decision_engine": "unknown",
+        "trade_execution": "unknown",
+        "self_healing": "unknown",
+    }
+    
     try:
-        from src.system_health_check import get_health_status
-        return get_health_status()
-    except:
-        return {
-            "signal_engine": "unknown",
-            "decision_engine": "unknown",
-            "trade_execution": "unknown",
-            "self_healing": "unknown",
-        }
+        # Check Signal Engine - signals.jsonl should be recent (< 10 minutes)
+        signals_file = Path(PathRegistry.get_path("logs", "signals.jsonl"))
+        if signals_file.exists():
+            age_seconds = time.time() - signals_file.stat().st_mtime
+            if age_seconds < 600:  # 10 minutes
+                health["signal_engine"] = "healthy"
+            elif age_seconds < 3600:  # 1 hour
+                health["signal_engine"] = "warning"
+            else:
+                health["signal_engine"] = "error"
+        else:
+            health["signal_engine"] = "error"
+    except Exception as e:
+        print(f"⚠️  [HEALTH] Error checking signal engine: {e}", flush=True)
+        health["signal_engine"] = "error"
+    
+    try:
+        # Check Decision Engine - enriched_decisions.jsonl should be recent
+        decisions_file = Path(PathRegistry.get_path("logs", "enriched_decisions.jsonl"))
+        if decisions_file.exists():
+            age_seconds = time.time() - decisions_file.stat().st_mtime
+            if age_seconds < 600:
+                health["decision_engine"] = "healthy"
+            elif age_seconds < 3600:
+                health["decision_engine"] = "warning"
+            else:
+                health["decision_engine"] = "error"
+        else:
+            health["decision_engine"] = "error"
+    except Exception as e:
+        print(f"⚠️  [HEALTH] Error checking decision engine: {e}", flush=True)
+        health["decision_engine"] = "error"
+    
+    try:
+        # Check Trade Execution - positions_futures.json should exist and be recent
+        positions_file = Path(PathRegistry.POS_LOG)
+        if positions_file.exists():
+            age_seconds = time.time() - positions_file.stat().st_mtime
+            if age_seconds < 3600:  # 1 hour for positions (less frequent updates)
+                health["trade_execution"] = "healthy"
+            elif age_seconds < 86400:  # 24 hours
+                health["trade_execution"] = "warning"
+            else:
+                health["trade_execution"] = "error"
+        else:
+            health["trade_execution"] = "warning"  # May not exist if no trades yet
+    except Exception as e:
+        print(f"⚠️  [HEALTH] Error checking trade execution: {e}", flush=True)
+        health["trade_execution"] = "error"
+    
+    try:
+        # Check Self-Healing - healing operator heartbeat or logs
+        heartbeat_file = Path(PathRegistry.get_path("state", "heartbeats", "bot_cycle.json"))
+        if heartbeat_file.exists():
+            age_seconds = time.time() - heartbeat_file.stat().st_mtime
+            if age_seconds < 120:  # 2 minutes (healing runs every 60s)
+                health["self_healing"] = "healthy"
+            elif age_seconds < 600:
+                health["self_healing"] = "warning"
+            else:
+                health["self_healing"] = "error"
+        else:
+            # Check if healing operator is running via logs
+            health_log = Path(PathRegistry.get_path("logs", "healing_operator.jsonl"))
+            if health_log.exists() and (time.time() - health_log.stat().st_mtime) < 300:
+                health["self_healing"] = "healthy"
+            else:
+                health["self_healing"] = "warning"
+    except Exception as e:
+        print(f"⚠️  [HEALTH] Error checking self-healing: {e}", flush=True)
+        health["self_healing"] = "error"
+    
+    return health
 
 
 # Build Dashboard App

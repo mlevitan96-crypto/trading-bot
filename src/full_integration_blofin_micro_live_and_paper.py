@@ -1685,9 +1685,13 @@ def alpha_entry_wrapper(symbol: str,
             
             margin_collateral = final_notional / leverage
             
-            # Build signal context for learning
+            # Build signal context for learning (including gate attribution for sizing multiplier learning)
             # Note: In run_entry_flow_unified, default to "alpha" since this is the Alpha-OFI strategy
             bot_type_for_context = "alpha"
+            
+            # Get gate attribution from attribution dict (contains gate decisions)
+            gate_attribution_alpha = attribution.get("gate_attribution", {}) if isinstance(attribution, dict) else {}
+            
             signal_context = {
                 "ofi": ofi_confidence,
                 "ensemble": ensemble_score,
@@ -1696,7 +1700,9 @@ def alpha_entry_wrapper(symbol: str,
                 "expected_roi": expected_edge_hint,
                 "volatility": 0.0,
                 "bot_type": bot_type_for_context,
-                "was_inverted": False
+                "was_inverted": False,
+                # [SIZING MULTIPLIER LEARNING] Store gate attribution for learning
+                "gate_attribution": gate_attribution_alpha,
             }
             
             # [ML-PREDICTOR] Capture synchronized market microstructure features at entry time

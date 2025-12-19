@@ -1759,17 +1759,42 @@ def run_bot_cycle():
                         threshold_pct = roi_threshold * 100
                         mode_str = f"BURN-IN {trade_count}/200" if is_burn_in else "NORMAL"
                         
+                        # Initialize roi_sizing_mult for all paths
+                        roi_sizing_mult = 1.0
+                        
                         if confirmed == 'partial' and roi >= roi_threshold:
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
                             should_trade, reason = True, "partial_confirmation"
+                            roi_reason = "above_threshold"
                         elif confirmed == 'partial' and roi < roi_threshold:
                             # CONVERTED: ROI checks now use sizing adjustments instead of blocking
                             roi_ratio = roi / roi_threshold if roi_threshold > 0 else 0.0
                             roi_sizing_mult = max(0.4, min(0.8, 0.4 + (0.4 * roi_ratio)))  # 0.4x to 0.8x
                             print(f"   ⚠️ [{mode_str}] Partial ROI below threshold: ROI {roi*100:.2f}% < {threshold_pct:.2f}% → sizing reduced to {roi_sizing_mult:.2f}x (was blocking)")
                             should_trade, reason = True, f"partial_roi_reduced_to_{roi_sizing_mult:.2f}x"
+                            roi_reason = f"below_threshold_reduced_to_{roi_sizing_mult:.2f}x"
                         else:
                             should_trade, reason = should_execute_trade(symbol, roi)
+                            # If should_execute_trade returns False, convert to sizing reduction
+                            if not should_trade:
+                                # Load learned ROI multipliers
+                                try:
+                                    import json
+                                    roi_sizing_path = "feature_store/roi_threshold_sizing.json"
+                                    if os.path.exists(roi_sizing_path):
+                                        with open(roi_sizing_path, 'r') as f:
+                                            roi_data = json.load(f)
+                                            roi_multipliers = roi_data.get("multipliers", {})
+                                            roi_sizing_mult = roi_multipliers.get("below_threshold", 0.6)
+                                    else:
+                                        roi_sizing_mult = 0.6  # Default fallback
+                                except:
+                                    roi_sizing_mult = 0.6
+                                should_trade = True  # Always allow, just reduce sizing
+                                reason = f"roi_adjusted_to_{roi_sizing_mult:.2f}x"
+                                roi_reason = f"below_threshold_learned_{roi_sizing_mult:.2f}x"
+                            else:
+                                roi_reason = "above_threshold"
                         
                         # [PHASE 9.3 ENFORCEMENT] Gate-level venue check before sizing
                         if not venue_guard_entry_gate(signal_ctx):
@@ -1804,11 +1829,9 @@ def run_bot_cycle():
                                 print(f"   📊 [ROI-SIZING] {symbol}: ROI adjustment applied → mult={roi_sizing_mult:.2f}x → ${base_position_size:.2f} → ${position_size:.2f}")
                             
                             # Store ROI gate state for learning (add to signal_context when opening position)
-                            signal_context_roi = {
-                                "roi": roi,
-                                "roi_reason": reason,  # Includes "partial_roi_reduced_to_X.XXx" or "roi_adjusted_to_X.XXx"
-                                "roi_mult": roi_sizing_mult if 'roi_sizing_mult' in locals() else 1.0,
-                            }
+                            # roi_reason and roi_sizing_mult are now defined in the if/elif/else block above
+                            if 'roi_reason' not in locals():
+                                roi_reason = "above_threshold"  # Default if not set
                             
                             # [PHASE 10.2] Apply futures concentration strategy
                             try:
@@ -1841,13 +1864,13 @@ def run_bot_cycle():
                                 "roi": roi,
                                 "regime": regime,
                                 "strategy": "Trend-Conservative",
-                                # Include ROI gate state if available
-                                "roi_reason": signal_context_roi.get("roi_reason") if 'signal_context_roi' in locals() else None,
-                                "roi_mult": signal_context_roi.get("roi_mult", 1.0) if 'signal_context_roi' in locals() else 1.0,
+                                # Include ROI gate state (roi_reason and roi_sizing_mult from above)
+                                "roi_reason": roi_reason if 'roi_reason' in locals() else None,
+                                "roi_mult": roi_sizing_mult if 'roi_sizing_mult' in locals() else 1.0,
                                 # Gate attribution for sizing multiplier learning
                                 "gate_attribution": {
-                                    "roi_reason": signal_context_roi.get("roi_reason") if 'signal_context_roi' in locals() else None,
-                                    "roi_mult": signal_context_roi.get("roi_mult", 1.0) if 'signal_context_roi' in locals() else 1.0,
+                                    "roi_reason": roi_reason if 'roi_reason' in locals() else None,
+                                    "roi_mult": roi_sizing_mult if 'roi_sizing_mult' in locals() else 1.0,
                                 }
                             }
                             
@@ -1936,17 +1959,42 @@ def run_bot_cycle():
                         threshold_pct = roi_threshold * 100
                         mode_str = f"BURN-IN {trade_count}/200" if is_burn_in else "NORMAL"
                         
+                        # Initialize roi_sizing_mult for all paths
+                        roi_sizing_mult = 1.0
+                        
                         if confirmed == 'partial' and roi >= roi_threshold:
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
                             should_trade, reason = True, "partial_confirmation"
+                            roi_reason = "above_threshold"
                         elif confirmed == 'partial' and roi < roi_threshold:
                             # CONVERTED: ROI checks now use sizing adjustments instead of blocking
                             roi_ratio = roi / roi_threshold if roi_threshold > 0 else 0.0
                             roi_sizing_mult = max(0.4, min(0.8, 0.4 + (0.4 * roi_ratio)))  # 0.4x to 0.8x
                             print(f"   ⚠️ [{mode_str}] Partial ROI below threshold: ROI {roi*100:.2f}% < {threshold_pct:.2f}% → sizing reduced to {roi_sizing_mult:.2f}x (was blocking)")
                             should_trade, reason = True, f"partial_roi_reduced_to_{roi_sizing_mult:.2f}x"
+                            roi_reason = f"below_threshold_reduced_to_{roi_sizing_mult:.2f}x"
                         else:
                             should_trade, reason = should_execute_trade(symbol, roi)
+                            # If should_execute_trade returns False, convert to sizing reduction
+                            if not should_trade:
+                                # Load learned ROI multipliers
+                                try:
+                                    import json
+                                    roi_sizing_path = "feature_store/roi_threshold_sizing.json"
+                                    if os.path.exists(roi_sizing_path):
+                                        with open(roi_sizing_path, 'r') as f:
+                                            roi_data = json.load(f)
+                                            roi_multipliers = roi_data.get("multipliers", {})
+                                            roi_sizing_mult = roi_multipliers.get("below_threshold", 0.6)
+                                    else:
+                                        roi_sizing_mult = 0.6  # Default fallback
+                                except:
+                                    roi_sizing_mult = 0.6
+                                should_trade = True  # Always allow, just reduce sizing
+                                reason = f"roi_adjusted_to_{roi_sizing_mult:.2f}x"
+                                roi_reason = f"below_threshold_learned_{roi_sizing_mult:.2f}x"
+                            else:
+                                roi_reason = "above_threshold"
                         
                         # [PHASE 9.3 ENFORCEMENT] Gate-level venue check before sizing
                         if not venue_guard_entry_gate(signal_ctx):
@@ -2083,17 +2131,42 @@ def run_bot_cycle():
                         threshold_pct = roi_threshold * 100
                         mode_str = f"BURN-IN {trade_count}/200" if is_burn_in else "NORMAL"
                         
+                        # Initialize roi_sizing_mult for all paths
+                        roi_sizing_mult = 1.0
+                        
                         if confirmed == 'partial' and roi >= roi_threshold:
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
                             should_trade, reason = True, "partial_confirmation"
+                            roi_reason = "above_threshold"
                         elif confirmed == 'partial' and roi < roi_threshold:
                             # CONVERTED: ROI checks now use sizing adjustments instead of blocking
                             roi_ratio = roi / roi_threshold if roi_threshold > 0 else 0.0
                             roi_sizing_mult = max(0.4, min(0.8, 0.4 + (0.4 * roi_ratio)))  # 0.4x to 0.8x
                             print(f"   ⚠️ [{mode_str}] Partial ROI below threshold: ROI {roi*100:.2f}% < {threshold_pct:.2f}% → sizing reduced to {roi_sizing_mult:.2f}x (was blocking)")
                             should_trade, reason = True, f"partial_roi_reduced_to_{roi_sizing_mult:.2f}x"
+                            roi_reason = f"below_threshold_reduced_to_{roi_sizing_mult:.2f}x"
                         else:
                             should_trade, reason = should_execute_trade(symbol, roi)
+                            # If should_execute_trade returns False, convert to sizing reduction
+                            if not should_trade:
+                                # Load learned ROI multipliers
+                                try:
+                                    import json
+                                    roi_sizing_path = "feature_store/roi_threshold_sizing.json"
+                                    if os.path.exists(roi_sizing_path):
+                                        with open(roi_sizing_path, 'r') as f:
+                                            roi_data = json.load(f)
+                                            roi_multipliers = roi_data.get("multipliers", {})
+                                            roi_sizing_mult = roi_multipliers.get("below_threshold", 0.6)
+                                    else:
+                                        roi_sizing_mult = 0.6  # Default fallback
+                                except:
+                                    roi_sizing_mult = 0.6
+                                should_trade = True  # Always allow, just reduce sizing
+                                reason = f"roi_adjusted_to_{roi_sizing_mult:.2f}x"
+                                roi_reason = f"below_threshold_learned_{roi_sizing_mult:.2f}x"
+                            else:
+                                roi_reason = "above_threshold"
                         
                         # [PHASE 9.3 ENFORCEMENT] Gate-level venue check before sizing
                         if not venue_guard_entry_gate(signal_ctx):

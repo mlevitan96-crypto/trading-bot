@@ -483,7 +483,53 @@ def run_nightly_cycle():
     except Exception as e:
         _append_event("exit_learning_error", {"error": str(e)})
         print(f"⚠️  Exit learning error: {e}")
+    
+    # 5.5. Profitability Trader Persona - Comprehensive Profitability Analysis
+    print("\n🧠 Running Profitability Trader Persona Analysis...")
+    try:
+        from src.profitability_trader_persona import run_profitability_analysis
+        profitability_analysis = run_profitability_analysis()
+        _append_event("profitability_analysis_complete", {
+            "insights_count": len(profitability_analysis.get("key_insights", [])),
+            "actions_count": len(profitability_analysis.get("profitability_actions", []))
+        })
+        
+        # Print critical insights
+        if profitability_analysis.get("profitability_actions"):
+            critical_actions = [a for a in profitability_analysis["profitability_actions"] if a.get("priority") == "CRITICAL"]
+            if critical_actions:
+                print(f"🚨 {len(critical_actions)} CRITICAL profitability issues found:")
+                for action in critical_actions[:3]:  # Top 3
+                    print(f"   • {action.get('issue')}")
+        
+        print("✅ Profitability analysis complete")
+    except Exception as e:
+        _append_event("profitability_analysis_error", {"error": str(e)})
+        print(f"⚠️  Profitability analysis error: {e}")
 
+    # 5.6. Profitability Trader Persona - Comprehensive Profitability Analysis (BEFORE other adjustments)
+    print("\n🧠 Running Profitability Trader Persona Analysis...")
+    try:
+        from src.profitability_trader_persona import run_profitability_analysis
+        profitability_analysis = run_profitability_analysis()
+        _append_event("profitability_analysis_complete", {
+            "insights_count": len(profitability_analysis.get("key_insights", [])),
+            "actions_count": len(profitability_analysis.get("profitability_actions", []))
+        })
+        
+        # Apply critical profitability improvements immediately
+        critical_actions = [a for a in profitability_analysis.get("profitability_actions", []) if a.get("priority") == "CRITICAL"]
+        if critical_actions:
+            print(f"🚨 {len(critical_actions)} CRITICAL profitability issues identified:")
+            for action in critical_actions[:5]:  # Top 5 critical
+                print(f"   • {action.get('category', 'general')}: {action.get('issue', 'N/A')}")
+                print(f"     → {action.get('recommendation', 'N/A')}")
+        
+        print("✅ Profitability analysis complete")
+    except Exception as e:
+        _append_event("profitability_analysis_error", {"error": str(e)})
+        print(f"⚠️  Profitability analysis error: {e}")
+    
     # 6. Multi-symbol profitability review + autonomous sizing update
     print("\n🎯 Running multi-symbol promotion & allocation...")
     try:

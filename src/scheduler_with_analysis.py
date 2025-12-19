@@ -122,6 +122,17 @@ def start_unified_scheduler(interval_secs=600):
                 # === PHASE 4: Profit-First Allocation ===
                 run_profit_first_governor()  # Promote/demote based on realized profits
                 
+                # === PHASE 5: Profitability Trader Persona - Comprehensive Analysis ===
+                try:
+                    from src.profitability_trader_persona import run_profitability_analysis
+                    profitability_analysis = run_profitability_analysis()
+                    if profitability_analysis.get("profitability_actions"):
+                        critical = [a for a in profitability_analysis["profitability_actions"] if a.get("priority") == "CRITICAL"]
+                        if critical:
+                            print(f"🚨 [PROFITABILITY] {len(critical)} CRITICAL issues identified - review report")
+                except Exception as e:
+                    print(f"⚠️ [PROFITABILITY] Trader persona analysis failed: {e}")
+                
                 last_digest_day=utc_d
         except Exception as e:
             print("Scheduler error:",e)

@@ -1031,7 +1031,15 @@ def nightly_learning_scheduler():
             print(f"❌ Nightly learning failed: {e}")
     
     # Schedule for 10 AM UTC (3 AM Arizona time)
-    schedule.every().day.at("10:00").do(run_nightly_learning)
+        schedule.every().day.at("10:00").do(run_nightly_learning)
+        
+        # Also run profitability trader persona analysis nightly
+        try:
+            from src.profitability_trader_persona import run_profitability_analysis
+            schedule.every().day.at("10:30").do(lambda: run_profitability_analysis())
+            print("   ✅ Profitability Trader Persona scheduled for 10:30 UTC (after main learning)")
+        except Exception as e:
+            print(f"   ⚠️ Could not schedule profitability trader persona: {e}")
     
     while True:
         schedule.run_pending()

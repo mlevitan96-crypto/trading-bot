@@ -144,17 +144,28 @@ def analyze_exit_performance() -> Dict[str, Any]:
                 "reason": reason,
                 "closed_at": closed_at
             })
+        # Calculate hold duration in minutes
+        minutes_open = 0
+        if closed_at and pos.get("opened_at"):
+            try:
+                from datetime import datetime
+                opened_dt = datetime.fromisoformat(str(pos.get("opened_at")).replace('Z', '+00:00'))
+                closed_dt = datetime.fromisoformat(str(closed_at).replace('Z', '+00:00'))
+                duration_seconds = (closed_dt - opened_dt).total_seconds()
+                minutes_open = duration_seconds / 60.0
+            except:
+                # Fallback: try to get from hold_duration fields
+                minutes_open = pos.get("hold_duration_minutes", 0) or (pos.get("hold_duration_seconds", 0) / 60.0) or 0
+        
         # If we still don't know, try to infer from ROI and hold time
-        else:
+        if exit_type == "unknown":
             # If profitable and held < 2 hours, likely profit target
             if net_pnl > 0 and minutes_open < 120:
                 exit_type = "profit_target_likely"
             # If losing after long hold, likely time stop
             elif net_pnl < 0 and minutes_open > 240:
                 exit_type = "time_stop_likely"
-            # Default
-            else:
-                exit_type = "unknown"
+            # Default stays unknown
         
         # Categorize by exit reason for statistics
         reason_bucket = analysis["by_exit_reason"][exit_type]

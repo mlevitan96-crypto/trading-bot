@@ -425,7 +425,7 @@ def phase92_get_exit_recommendations(positions: List[Dict]) -> List[Dict]:
         if exit_triggered:
             recommendations.append({
                 "symbol": symbol,
-                "action": "time_exit",
+                "action": "time_exit" if "time" in exit_reason.lower() or "tier" in exit_reason.lower() or "stagnant" in exit_reason.lower() or "max_hold" in exit_reason.lower() else "profit_exit",
                 "reason": exit_reason
             })
         

@@ -37,6 +37,8 @@ from src.data_registry import DataRegistry as DR
 from src.position_manager import load_futures_positions
 from src.infrastructure.path_registry import PathRegistry
 from src.pnl_dashboard_loader import load_trades_df, clear_cache
+# Import generate_executive_summary from old dashboard (has full implementation)
+from src.pnl_dashboard import generate_executive_summary
 
 # Configuration
 DEFAULT_TIMEFRAME_HOURS = 72
@@ -598,10 +600,12 @@ def create_wallet_balance_trend() -> go.Figure:
 
 
 # Executive Summary Generator
-def generate_executive_summary() -> Dict[str, str]:
+# NOTE: generate_executive_summary is imported from pnl_dashboard.py (full implementation)
+# This placeholder is here for reference but not used
+def _generate_executive_summary_placeholder() -> Dict[str, str]:
     """
-    Generate executive summary narratives.
-    This is a simplified version - full implementation follows the pattern from old dashboard.
+    DEPRECATED: Use generate_executive_summary from pnl_dashboard.py instead.
+    This is kept for reference only.
     """
     try:
         # Import the existing executive summary generator
@@ -955,40 +959,62 @@ def build_app(server: Flask = None) -> Dash:
 
 
 def build_daily_summary_tab() -> html.Div:
-    """Build Daily Summary tab content."""
+    """Build Daily Summary tab content with robust error handling."""
+    wallet_balance = 10000.0
+    empty_summary = {
+        "wallet_balance": wallet_balance,
+        "total_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate": 0.0,
+        "net_pnl": 0.0,
+        "avg_win": 0.0,
+        "avg_loss": 0.0,
+        "drawdown_pct": 0.0,
+    }
+    daily_summary = weekly_summary = monthly_summary = empty_summary
+    closed_df = pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+    open_df = pd.DataFrame(columns=["symbol", "strategy", "side", "entry_price", "current_price", "size", "margin_collateral", "leverage", "pnl_usd", "pnl_pct", "entry_time"])
+    
     try:
         print("🔍 [DASHBOARD-V2] Building daily summary tab...", flush=True)
-        wallet_balance = get_wallet_balance()
-        print(f"💰 [DASHBOARD-V2] Wallet balance: ${wallet_balance:.2f}", flush=True)
         
-        daily_summary = compute_summary(wallet_balance, lookback_days=1)
-        weekly_summary = compute_summary(wallet_balance, lookback_days=7)
-        monthly_summary = compute_summary(wallet_balance, lookback_days=30)
-        print("📊 [DASHBOARD-V2] Summaries computed", flush=True)
+        # Load wallet balance with error handling
+        try:
+            wallet_balance = get_wallet_balance()
+            print(f"💰 [DASHBOARD-V2] Wallet balance: ${wallet_balance:.2f}", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Error getting wallet balance: {e}", flush=True)
+            wallet_balance = 10000.0
         
-        closed_df = load_closed_positions_df()
-        open_df = load_open_positions_df()
-        print(f"📈 [DASHBOARD-V2] Loaded {len(closed_df)} closed, {len(open_df)} open positions", flush=True)
+        # Compute summaries with error handling
+        try:
+            daily_summary = compute_summary(wallet_balance, lookback_days=1)
+            weekly_summary = compute_summary(wallet_balance, lookback_days=7)
+            monthly_summary = compute_summary(wallet_balance, lookback_days=30)
+            print("📊 [DASHBOARD-V2] Summaries computed", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Error computing summaries: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            # Use default empty summaries
+        
+        # Load positions with error handling
+        try:
+            closed_df = load_closed_positions_df()
+            open_df = load_open_positions_df()
+            print(f"📈 [DASHBOARD-V2] Loaded {len(closed_df)} closed, {len(open_df)} open positions", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Error loading positions: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            # Use default empty DataFrames
+            
     except Exception as e:
-        print(f"⚠️  [DASHBOARD-V2] Error building daily summary tab: {e}", flush=True)
+        print(f"❌ [DASHBOARD-V2] CRITICAL error building daily summary tab: {e}", flush=True)
         import traceback
         traceback.print_exc()
-        # Return empty but functional dashboard instead of error
-        wallet_balance = 10000.0
-        empty_summary = {
-            "wallet_balance": wallet_balance,
-            "total_trades": 0,
-            "wins": 0,
-            "losses": 0,
-            "win_rate": 0.0,
-            "net_pnl": 0.0,
-            "avg_win": 0.0,
-            "avg_loss": 0.0,
-            "drawdown_pct": 0.0,
-        }
-        daily_summary = weekly_summary = monthly_summary = empty_summary
-        closed_df = pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
-        open_df = pd.DataFrame(columns=["symbol", "strategy", "side", "entry_price", "current_price", "size", "margin_collateral", "leverage", "pnl_usd", "pnl_pct", "entry_time"])
+        # Continue with default empty data
     
     def summary_card(summary: dict, label: str) -> dbc.Card:
         pnl_color = "#34a853" if summary["net_pnl"] >= 0 else "#ea4335"
@@ -1150,25 +1176,16 @@ def build_daily_summary_tab() -> html.Div:
 
 
 def build_executive_summary_tab() -> html.Div:
-    """Build Executive Summary tab content."""
+    """Build Executive Summary tab content with robust error handling."""
     try:
         print("🔍 [DASHBOARD-V2] Building executive summary tab...", flush=True)
         summary = generate_executive_summary()
         print("✅ [DASHBOARD-V2] Executive summary generated", flush=True)
     except Exception as e:
-        print(f"⚠️  Error generating executive summary: {e}")
+        print(f"❌ [DASHBOARD-V2] Error generating executive summary: {e}", flush=True)
         import traceback
         traceback.print_exc()
-        summary = {
-            "what_worked_today": f"Error generating summary: {str(e)}",
-            "what_didnt_work": "",
-            "missed_opportunities": "",
-            "blocked_signals": "",
-            "exit_gates": "",
-            "learning_today": "",
-            "changes_tomorrow": "",
-            "weekly_summary": "",
-        }
+        summary = _get_basic_executive_summary()
     
     return html.Div([
         dbc.Card([

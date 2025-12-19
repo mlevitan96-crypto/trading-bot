@@ -2883,7 +2883,7 @@ def build_app(server: Flask = None) -> Dash:
                 html.Div(id="system-health-container", children=[
                     html.Div("Loading system health...", style={"color":"#9aa0a6","padding":"16px"})
                 ]),
-                dcc.Interval(id="system-health-interval", interval=30*1000, n_intervals=0),  # Auto-refresh every 30s (optimized for performance)
+                dcc.Interval(id="system-health-interval", interval=5*60*1000, n_intervals=0),  # Auto-refresh every 5 minutes
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Summary Tabs Section
@@ -2895,7 +2895,7 @@ def build_app(server: Flask = None) -> Dash:
                     dcc.Tab(label="📋 Executive Summary", value="executive", style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"}, selected_style={"backgroundColor": "#1a73e8", "color": "#fff"}),
                 ]),
                 html.Div(id="summary-container", children=summary_card(daily_summary, "Daily Summary (Last 24 Hours)"), style={"padding": "16px"}),
-                dcc.Interval(id="summary-interval", interval=60*1000, n_intervals=0),  # Auto-refresh every 60s (reduced from 30s for performance)
+                dcc.Interval(id="summary-interval", interval=5*60*1000, n_intervals=0),  # Auto-refresh every 5 minutes
                 dcc.Interval(id="executive-summary-interval", interval=24*60*60*1000, n_intervals=0),  # Auto-refresh once per day (executive summary only refreshes daily) (executive summary only)
                 dcc.Loading(
                     id="executive-summary-loading",
@@ -2908,14 +2908,14 @@ def build_app(server: Flask = None) -> Dash:
             html.Div([
                 html.H4("Open Positions", style={"color":"#fff","margin":"8px"}),
                 html.Div(id="open-positions-container", children=[make_open_positions_section(open_positions_df)]),
-                dcc.Interval(id="open-positions-interval", interval=45*1000, n_intervals=0),  # Optimized: 45s refresh
+                dcc.Interval(id="open-positions-interval", interval=5*60*1000, n_intervals=0),  # Auto-refresh every 5 minutes
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
             # Closed Positions Section
             html.Div([
                 html.H4("Closed Trades History", style={"color":"#fff","margin":"8px"}),
                 html.Div(id="closed-positions-container", children=[make_closed_positions_section(closed_positions_df)]),
-                dcc.Interval(id="closed-positions-interval", interval=60*1000, n_intervals=0),  # Reduced from 30s for performance
+                dcc.Interval(id="closed-positions-interval", interval=5*60*1000, n_intervals=0),  # Auto-refresh every 5 minutes
                 dcc.Download(id="download-closed-csv"),
             ], style={"marginBottom": "20px", "backgroundColor": "#0f1217", "borderRadius": "8px", "padding": "12px"}),
             
@@ -2951,7 +2951,7 @@ def build_app(server: Flask = None) -> Dash:
         ], style={"padding":"12px","borderBottom":"1px solid #1b1f2a"}),
 
         # Charts interval for auto-refresh
-        dcc.Interval(id="charts-interval", interval=60*1000, n_intervals=0),  # Auto-refresh charts every 60s (reduced from 30s for performance)
+        dcc.Interval(id="charts-interval", interval=5*60*1000, n_intervals=0),  # Auto-refresh charts every 5 minutes
 
         html.Div([
             html.H4("Trades", style={"color":"#fff","margin":"8px"}),

@@ -137,22 +137,48 @@ def get_wallet_balance() -> float:
 
 
 def load_open_positions_df() -> pd.DataFrame:
-    """Load open positions with real-time pricing."""
+    """Load open positions with real-time pricing - limited for memory efficiency."""
     try:
-        from src.exchange_gateway import ExchangeGateway
-        
         positions_data = load_futures_positions()
         if not positions_data:
             return pd.DataFrame(columns=["symbol", "strategy", "side", "entry_price", "current_price", "size", "margin_collateral", "leverage", "pnl_usd", "pnl_pct", "entry_time"])
         open_positions = positions_data.get("open_positions", [])
         
+        # Open positions are typically limited (max 10-20), but limit just in case
+        if len(open_positions) > 50:
+            open_positions = open_positions[:50]
+        
         rows = []
         gateway = None
         
+        # Use timeout for ExchangeGateway to prevent hanging
         try:
-            gateway = ExchangeGateway()
+            import threading
+            gateway_result = [None]
+            gateway_error = [None]
+            
+            def init_gateway():
+                try:
+                    from src.exchange_gateway import ExchangeGateway
+                    gateway_result[0] = ExchangeGateway()
+                except Exception as e:
+                    gateway_error[0] = e
+            
+            init_thread = threading.Thread(target=init_gateway, daemon=True)
+            init_thread.start()
+            init_thread.join(timeout=2.0)  # 2 second timeout
+            
+            if init_thread.is_alive():
+                print(f"⚠️  [DASHBOARD-V2] ExchangeGateway init timed out", flush=True)
+                gateway = None
+            elif gateway_error[0]:
+                print(f"⚠️  [DASHBOARD-V2] ExchangeGateway init failed: {gateway_error[0]}", flush=True)
+                gateway = None
+            else:
+                gateway = gateway_result[0]
         except Exception as e:
-            print(f"⚠️  ExchangeGateway init failed: {e}")
+            print(f"⚠️  [DASHBOARD-V2] ExchangeGateway error: {e}", flush=True)
+            gateway = None
         
         for pos in open_positions:
             symbol = pos.get("symbol", "")
@@ -207,13 +233,32 @@ def load_open_positions_df() -> pd.DataFrame:
         return pd.DataFrame(columns=["symbol", "strategy", "side", "entry_price", "current_price", "size", "margin_collateral", "leverage", "pnl_usd", "pnl_pct", "entry_time"])
 
 
-def load_closed_positions_df() -> pd.DataFrame:
-    """Load closed positions from positions_futures.json."""
+def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
+    """
+    Load closed positions from positions_futures.json.
+    
+    CRITICAL: Limits to most recent N positions to prevent memory issues.
+    For dashboard display, we only need recent trades anyway.
+    """
     try:
-        positions_data = DR.read_json(DR.POSITIONS_FUTURES)
-        if not positions_data:
-            return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
-        closed_positions = positions_data.get("closed_positions", [])
+        # Use DataRegistry method which can limit by time (more efficient)
+        try:
+            from src.data_registry import DataRegistry as DR
+            # Get last 30 days (720 hours) - reasonable limit for dashboard
+            closed_positions = DR.get_closed_positions(hours=720)
+            # Further limit to last N positions for memory efficiency
+            if len(closed_positions) > limit:
+                closed_positions = closed_positions[-limit:]
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Using fallback position loading: {e}", flush=True)
+            # Fallback to direct file read with limit
+            positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+            if not positions_data:
+                return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+            closed_positions = positions_data.get("closed_positions", [])
+            # Limit to most recent N positions
+            if len(closed_positions) > limit:
+                closed_positions = closed_positions[-limit:]
         
         rows = []
         for pos in closed_positions:
@@ -599,16 +644,28 @@ def create_wallet_balance_trend() -> go.Figure:
         return fig
 
 
-# Executive Summary Generator
+# Executive Summary Generator - Helper function first
+def _get_basic_executive_summary() -> Dict[str, str]:
+    """Fallback basic executive summary when full generator unavailable."""
+    return {
+        "what_worked_today": "Dashboard is loading data. Full executive summary will be available once data processing completes.",
+        "what_didnt_work": "",
+        "missed_opportunities": "",
+        "blocked_signals": "",
+        "exit_gates": "",
+        "learning_today": "",
+        "changes_tomorrow": "",
+        "weekly_summary": "Weekly analysis in progress. Data is being collected and analyzed.",
+    }
+
 # Import from old dashboard for full implementation
 try:
     from src.pnl_dashboard import generate_executive_summary
-except ImportError:
+except (ImportError, Exception) as e:
     # Fallback if import fails - use basic implementation
-    print("⚠️  [DASHBOARD-V2] Could not import generate_executive_summary, using fallback", flush=True)
+    print(f"⚠️  [DASHBOARD-V2] Could not import generate_executive_summary: {e}, using fallback", flush=True)
     def generate_executive_summary() -> Dict[str, str]:
         return _get_basic_executive_summary()
-
 
 # System Health Check
 def get_system_health() -> dict:
@@ -984,11 +1041,12 @@ def build_daily_summary_tab() -> html.Div:
             traceback.print_exc()
             # Use default empty summaries
         
-        # Load positions with error handling
+        # Load positions with error handling and limits for memory efficiency
         try:
-            closed_df = load_closed_positions_df()
+            # Limit to last 500 closed positions to prevent OOM
+            closed_df = load_closed_positions_df(limit=500)
             open_df = load_open_positions_df()
-            print(f"📈 [DASHBOARD-V2] Loaded {len(closed_df)} closed, {len(open_df)} open positions", flush=True)
+            print(f"📈 [DASHBOARD-V2] Loaded {len(closed_df)} closed (limited to 500 most recent), {len(open_df)} open positions", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error loading positions: {e}", flush=True)
             import traceback

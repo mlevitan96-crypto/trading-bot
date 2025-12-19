@@ -1554,16 +1554,53 @@ def generate_executive_summary() -> Dict[str, str]:
             by_reason = {}
             by_gate = {}
             for b in blocked_today:
+                # Extract block reason - check multiple possible fields
                 reason = (
                     b.get("block_reason") or 
                     b.get("reason") or 
+                    b.get("blocker_reason") or
                     b.get("intel_reason", "").replace("intel_", "").replace("_", " ").title() or
-                    "Low conviction" if not b.get("should_trade", True) else
+                    b.get("status", "").replace("blocked_", "").title() if "blocked" in str(b.get("status", "")).lower() else None or
+                    b.get("disposition", "").replace("BLOCKED", "").strip() if b.get("disposition") == "BLOCKED" else None or
+                    # Try to infer from other fields
+                    "Low conviction" if not b.get("should_trade", True) and not b.get("block_reason") else None or
+                    "Score below threshold" if b.get("weighted_score", 0) < 0.5 and not b.get("block_reason") else None or
+                    "Regime filter" if "regime" in str(b).lower() and not b.get("block_reason") else None or
+                    "Fee gate" if "fee" in str(b).lower() and not b.get("block_reason") else None or
                     "Unknown"
                 )
+                
+                # Clean up reason string
+                if reason and reason != "Unknown":
+                    reason = str(reason).strip()
+                    if not reason or reason == "None":
+                        reason = "Unknown"
+                
                 by_reason[reason] = by_reason.get(reason, 0) + 1
                 
-                gate = b.get("block_gate") or b.get("gate") or "Unknown"
+                # Extract gate/blocker - check multiple possible fields
+                gate = (
+                    b.get("block_gate") or 
+                    b.get("gate") or 
+                    b.get("blocker_component") or
+                    b.get("blocker") or
+                    b.get("component") or
+                    # Try to infer from message/reason
+                    "ConvictionGate" if "conviction" in str(b).lower() or "score" in str(b).lower() else None or
+                    "IntelligenceGate" if "intel" in str(b).lower() or "INTEL-BLOCK" in str(b.get("message", "")) else None or
+                    "FeeGate" if "fee" in str(b).lower() else None or
+                    "RegimeFilter" if "regime" in str(b).lower() else None or
+                    "CorrelationThrottle" if "correlation" in str(b).lower() else None or
+                    "HoldGovernor" if "hold" in str(b).lower() else None or
+                    "Unknown"
+                )
+                
+                # Clean up gate string
+                if gate and gate != "Unknown":
+                    gate = str(gate).strip()
+                    if not gate or gate == "None":
+                        gate = "Unknown"
+                
                 by_gate[gate] = by_gate.get(gate, 0) + 1
             
             top_reasons = sorted(by_reason.items(), key=lambda x: x[1], reverse=True)[:3]

@@ -1066,7 +1066,8 @@ def start_pnl_dashboard(flask_app: Flask = None) -> Dash:
         
         # CRITICAL: Ensure Dash app is fully configured for Gunicorn
         # Set app.config to ensure proper worker initialization
-        app.config.suppress_callback_exceptions = True
+        if hasattr(app, 'config'):
+            app.config.suppress_callback_exceptions = True
         
         print("✅ [DASHBOARD-V2] Dashboard app built successfully", flush=True)
         return app

@@ -962,7 +962,14 @@ def build_app(server: Flask = None) -> Dash:
             ),
         ]),
         
-        html.Div(id="tab-content", style={"marginTop": "20px"}),
+        html.Div(
+            id="tab-content", 
+            style={"marginTop": "20px"},
+            children=html.Div([
+                html.H4("Loading...", style={"color": "#9aa0a6"}),
+                html.P("Initializing dashboard...", style={"color": "#9aa0a6"}),
+            ])
+        ),
         
         # Refresh intervals
         dcc.Interval(id="refresh-interval", interval=5*60*1000, n_intervals=0),  # 5 minutes
@@ -982,16 +989,17 @@ def build_app(server: Flask = None) -> Dash:
             traceback.print_exc()
             return html.Div("System health unavailable", style={"color": "#ea4335"})
     
+    # CRITICAL: Register callback with explicit dependencies
     @app.callback(
         Output("tab-content", "children"),
-        Input("main-tabs", "value"),
-        Input("refresh-interval", "n_intervals"),
+        [Input("main-tabs", "value"), Input("refresh-interval", "n_intervals")],
         prevent_initial_call=False,  # CRITICAL: Allow callback to fire on initial load
     )
     def update_tab_content(tab, n_intervals):
         """Update tab content based on selected tab and refresh interval."""
         try:
-            print(f"🔍 [DASHBOARD-V2] update_tab_content called: tab={tab}, n_intervals={n_intervals}", flush=True)
+            print(f"🔍 [DASHBOARD-V2] ====== update_tab_content CALLED ======", flush=True)
+            print(f"🔍 [DASHBOARD-V2] Parameters: tab={tab!r} (type: {type(tab)}), n_intervals={n_intervals!r}", flush=True)
             
             if tab is None:
                 # Default to daily tab if no tab selected

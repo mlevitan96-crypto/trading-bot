@@ -92,18 +92,68 @@ def get_signal_for_symbol(symbol: str) -> Optional[Dict]:
     return signals.get(symbol)
 
 
+# Cache for learned multipliers (loaded once, refreshed periodically)
+_INTEL_SIZING_CACHE = None
+_INTEL_SIZING_CACHE_TIME = None
+_INTEL_SIZING_CACHE_TTL = 300  # Refresh every 5 minutes
+
+
+def _load_learned_intel_multipliers() -> Dict[str, float]:
+    """Load learned sizing multipliers from feature_store, with caching."""
+    global _INTEL_SIZING_CACHE, _INTEL_SIZING_CACHE_TIME
+    
+    now = time.time()
+    
+    # Return cached if still valid
+    if _INTEL_SIZING_CACHE and _INTEL_SIZING_CACHE_TIME and (now - _INTEL_SIZING_CACHE_TIME) < _INTEL_SIZING_CACHE_TTL:
+        return _INTEL_SIZING_CACHE
+    
+    # Default multipliers (fallback if learning hasn't run yet)
+    default_multipliers = {
+        "strong_conflict": 0.4,
+        "moderate_conflict": 0.6,
+        "weak_conflict": 0.8,
+        "neutral": 0.85,
+        "aligned": 1.0,
+        "aligned_boost": 1.3,
+    }
+    
+    try:
+        import json
+        sizing_path = "feature_store/intelligence_gate_sizing.json"
+        if os.path.exists(sizing_path):
+            with open(sizing_path, 'r') as f:
+                data = json.load(f)
+                learned = data.get("multipliers", {})
+                # Merge with defaults (learned values override)
+                _INTEL_SIZING_CACHE = {**default_multipliers, **learned}
+                _INTEL_SIZING_CACHE_TIME = now
+                return _INTEL_SIZING_CACHE
+    except Exception as e:
+        _log(f"Error loading learned intel multipliers: {e}")
+    
+    _INTEL_SIZING_CACHE = default_multipliers
+    _INTEL_SIZING_CACHE_TIME = now
+    return _INTEL_SIZING_CACHE
+
+
 def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     """
     Check if signal aligns with market intelligence (enhanced with funding + OI).
     
+    Uses LEARNED sizing multipliers from historical performance data.
+    
     Returns:
         Tuple of (allowed: bool, reason: str, sizing_multiplier: float)
-        - allowed: True if signal passes gate
+        - allowed: True if signal passes gate (always True now)
         - reason: Explanation for decision
-        - sizing_multiplier: 0.5-1.5x based on confidence alignment
+        - sizing_multiplier: Learned multiplier based on intel alignment
     """
     symbol = signal.get('symbol', '')
     action = signal.get('action', signal.get('direction', ''))
+    
+    # Load learned multipliers
+    multipliers = _load_learned_intel_multipliers()
     
     intel_signal = get_signal_for_symbol(symbol)
     
@@ -129,36 +179,43 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     signal_is_short = action.upper() in ['OPEN_SHORT', 'SELL', 'SHORT']
     
     if intel_direction == 'NEUTRAL':
-        return True, "intel_neutral", 0.85
+        sizing_mult = multipliers.get("neutral", 0.85)
+        return True, "intel_neutral", sizing_mult
     
     intel_is_long = intel_direction == 'LONG'
     intel_is_short = intel_direction == 'SHORT'
     
     if (signal_is_long and intel_is_long) or (signal_is_short and intel_is_short):
-        sizing_mult = 1.0 + (intel_confidence * 0.3)
-        sizing_mult = min(sizing_mult, 1.3)
+        # Intel aligns with signal - use learned aligned multiplier
+        base_mult = multipliers.get("aligned", 1.0)
+        # Apply boost for high confidence (learned boost multiplier)
+        if intel_confidence >= 0.7:
+            boost_mult = multipliers.get("aligned_boost", 1.3)
+            sizing_mult = min(boost_mult, base_mult * (1 + (intel_confidence * 0.3)))
+        else:
+            sizing_mult = base_mult * (1 + (intel_confidence * 0.2))  # Reduced from 0.3
         
-        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f})")
+        sizing_mult = min(sizing_mult, 1.5)  # Cap at 1.5x
+        
+        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}) [LEARNED]")
         log_gate_decision("intelligence_gate", symbol, action, True, f"intel_confirmed_{intel_direction.lower()}",
-                          {"intel_direction": intel_direction, "confidence": intel_confidence, "composite": composite_score})
+                          {"intel_direction": intel_direction, "confidence": intel_confidence, "composite": composite_score, "sizing_mult": sizing_mult})
         return True, f"intel_confirmed_{intel_direction.lower()}", sizing_mult
     
     if (signal_is_long and intel_is_short) or (signal_is_short and intel_is_long):
         # CONVERTED TO SIZING ADJUSTMENT: Never block, only reduce sizing
-        # Strong conflict (confidence >= 0.6) → 0.4x sizing
-        # Moderate conflict (confidence 0.4-0.6) → 0.6x sizing
-        # Weak conflict (confidence < 0.4) → 0.8x sizing
+        # Use LEARNED multipliers instead of hard-coded values
         if intel_confidence >= 0.6:
-            sizing_mult = 0.4  # Strong conflict - significant size reduction
+            sizing_mult = multipliers.get("strong_conflict", 0.4)
             reason = f"intel_conflict_{intel_direction.lower()}_strong"
         elif intel_confidence >= 0.4:
-            sizing_mult = 0.6  # Moderate conflict - moderate size reduction
+            sizing_mult = multipliers.get("moderate_conflict", 0.6)
             reason = f"intel_conflict_{intel_direction.lower()}_moderate"
         else:
-            sizing_mult = 0.8  # Weak conflict - light size reduction
+            sizing_mult = multipliers.get("weak_conflict", 0.8)
             reason = f"intel_conflict_{intel_direction.lower()}_weak"
         
-        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f})")
+        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}) [LEARNED]")
         log_gate_decision("intelligence_gate", symbol, action, True, reason,
                           {"intel_direction": intel_direction, "confidence": intel_confidence, "sizing_mult": sizing_mult, "composite": composite_score})
         return True, reason, sizing_mult

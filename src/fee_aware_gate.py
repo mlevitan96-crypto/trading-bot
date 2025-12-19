@@ -206,11 +206,15 @@ class FeeAwareGate:
         net_expected_pct = expected_move_pct - breakeven_pct
         net_expected_usd = (net_expected_pct / 100) * order_size_usd
         
+        # Load learned sizing multipliers
+        multipliers = self._load_learned_fee_multipliers()
+        
         # CONVERTED TO SIZING ADJUSTMENT: Never block, only adjust sizing based on fee drag
         # Always allow, but reduce sizing if fees eat into expected value
+        # Uses LEARNED multipliers from historical performance
         if expected_move_pct >= min_required_pct:
             allow = True
-            sizing_mult = 1.0  # Full size for good edge
+            sizing_mult = multipliers.get("good_edge", 1.0)  # Use learned multiplier
             if edge_ratio >= 3.0:
                 reason = f"strong_edge_{edge_ratio:.1f}x"
             elif edge_ratio >= 2.0:
@@ -218,18 +222,40 @@ class FeeAwareGate:
             else:
                 reason = f"acceptable_edge_{edge_ratio:.1f}x"
         else:
-            # Calculate sizing multiplier based on edge ratio
-            # Negative EV → 0.3x sizing (minimum viable)
-            # Insufficient buffer → 0.5-0.8x sizing based on how close to breakeven
+            # Calculate sizing multiplier based on edge ratio using LEARNED multipliers
             allow = True  # Always allow, just reduce sizing
             if expected_move_pct < breakeven_pct:
-                sizing_mult = 0.3  # Negative EV - minimal sizing
-                reason = f"negative_ev_after_fees_edge_{edge_ratio:.2f}x_reduced_to_0.3x"
+                sizing_mult = multipliers.get("negative_ev", 0.3)  # Use learned multiplier
+                reason = f"negative_ev_after_fees_edge_{edge_ratio:.2f}x_reduced_to_{sizing_mult:.2f}x"
             else:
-                # Interpolate sizing between 0.5x and 0.8x based on how close to breakeven
+                # Interpolate sizing between learned min and max based on how close to breakeven
+                base_mult = multipliers.get("insufficient_buffer", 0.65)
                 buffer_ratio = (expected_move_pct - breakeven_pct) / (min_required_pct - breakeven_pct) if min_required_pct > breakeven_pct else 0.0
-                sizing_mult = 0.5 + (0.3 * min(1.0, max(0.0, buffer_ratio)))  # 0.5x to 0.8x
+                # Interpolate between 0.5x and 0.8x using learned base
+                min_buffer = multipliers.get("negative_ev", 0.3) + 0.2  # Slightly above negative_ev
+                max_buffer = multipliers.get("good_edge", 1.0) - 0.2  # Slightly below good_edge
+                sizing_mult = min_buffer + ((max_buffer - min_buffer) * min(1.0, max(0.0, buffer_ratio)))
                 reason = f"insufficient_buffer_edge_{edge_ratio:.2f}x_reduced_to_{sizing_mult:.2f}x"
+    
+    def _load_learned_fee_multipliers(self) -> Dict[str, float]:
+        """Load learned fee gate sizing multipliers from feature_store."""
+        default_multipliers = {
+            "negative_ev": 0.3,
+            "insufficient_buffer": 0.65,
+            "good_edge": 1.0,
+        }
+        
+        try:
+            sizing_path = "feature_store/fee_gate_sizing_multipliers.json"
+            if os.path.exists(sizing_path):
+                with open(sizing_path, 'r') as f:
+                    data = json.load(f)
+                    learned = data.get("multipliers", {})
+                    return {**default_multipliers, **learned}
+        except Exception as e:
+            _log(f"Error loading learned fee multipliers: {e}")
+        
+        return default_multipliers
         
         result = {
             "allow": allow,

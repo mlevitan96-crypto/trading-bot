@@ -472,6 +472,8 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             from src.phase_2_orchestrator import get_orchestrator
             orchestrator = get_orchestrator()
             regime_mult, regime_reason = orchestrator.get_regime_sizing_multiplier(symbol, strategy)
+            signal["regime_reason"] = regime_reason  # Store for learning
+            signal["regime_mult"] = regime_mult  # Store for learning
             if regime_mult < 1.0:
                 print(f"⚠️ [REGIME-REDUCE] {symbol} {strategy}: {regime_reason} → sizing reduced to {regime_mult:.2f}x (was blocking)")
                 log_event("phase2_regime_sizing_reduction", {
@@ -481,6 +483,8 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                 })
         except Exception as e:
             regime_mult = 1.0  # Fallback to full sizing if orchestrator unavailable
+            signal["regime_reason"] = "orchestrator_unavailable"
+            signal["regime_mult"] = 1.0
         # Continue with trade (no longer blocked)
     except Exception as e:
         pass  # Phase 2 is additive, don't block on errors
@@ -508,6 +512,13 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
     combined_mult = streak_mult * intel_mult
     if combined_mult != 1.0:
         print(f"📊 [GATE-SIZING] Multiplier applied: {combined_mult:.2f} (streak={streak_mult:.2f}, intel={intel_mult:.2f}) | {symbol}")
+    
+    # Store gate states in signal for learning (will be passed to signal_context)
+    signal["intel_reason"] = intel_reason
+    signal["streak_reason"] = streak_reason
+    signal["intel_mult"] = intel_mult
+    signal["streak_mult"] = streak_mult
+    signal["regime_mult"] = regime_mult if 'regime_mult' in locals() else 1.0
     
     if is_profit_learning_enabled():
         result = open_profit_blofin_entry(signal, wallet_balance, rolling_expectancy)
@@ -649,14 +660,27 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         leverage = params.get("leverage", 1)
         qty = compute_futures_qty(symbol, mark_price, leverage, final_notional)
         
-        # Build signal context for learning
+        # Build signal context for learning (including gate states for sizing multiplier learning)
         signal_context = {
             "ofi": params.get("ofi_score", 0.0),
             "ensemble": params.get("ensemble_score", 0.0),
             "mtf": params.get("mtf_confidence", 0.0),
             "regime": regime_state,
             "expected_roi": expected_edge,
-            "volatility": params.get("volatility", 0.0)
+            "volatility": params.get("volatility", 0.0),
+            # Gate attribution for sizing multiplier learning
+            "gate_attribution": {
+                "intel_reason": params.get("intel_reason"),  # From intelligence_gate
+                "streak_reason": params.get("streak_reason"),  # From streak_filter
+                "regime_reason": params.get("regime_reason"),  # From regime_filter
+                "fee_reason": params.get("fee_reason"),  # From fee_gate
+                "roi_reason": params.get("roi_reason"),  # From ROI checks
+                "intel_mult": params.get("intel_mult", 1.0),
+                "streak_mult": params.get("streak_mult", 1.0),
+                "regime_mult": params.get("regime_mult", 1.0),
+                "fee_mult": params.get("fee_mult", 1.0),
+                "roi_mult": params.get("roi_mult", 1.0),
+            }
         }
         
         position = open_futures_position(
@@ -1601,6 +1625,29 @@ def run_bot_cycle():
                                     # Note: alpha_entry_wrapper already opens and persists the position
                                     # No need for separate open_futures_position call here
                                     
+                                    # Build gate attribution for learning
+                                    gate_attribution_alpha = {
+                                        "intel_reason": None,  # Will be filled if intel gate was checked
+                                        "streak_reason": streak_reason if 'streak_reason' in locals() else None,
+                                        "regime_reason": None,  # Will try to get from orchestrator
+                                        "fee_reason": None,  # Will be filled if fee gate was checked
+                                        "roi_reason": None,
+                                        "intel_mult": intel_mult if 'intel_mult' in locals() else 1.0,
+                                        "streak_mult": streak_mult if 'streak_mult' in locals() else 1.0,
+                                        "regime_mult": regime_mult if 'regime_mult' in locals() else 1.0,
+                                        "fee_mult": 1.0,
+                                        "roi_mult": 1.0,
+                                    }
+                                    
+                                    # Try to get regime reason
+                                    try:
+                                        from src.phase_2_orchestrator import get_orchestrator
+                                        orchestrator = get_orchestrator()
+                                        _, regime_reason_alpha = orchestrator.get_regime_sizing_multiplier(symbol, "Sentiment-Fusion")
+                                        gate_attribution_alpha["regime_reason"] = regime_reason_alpha
+                                    except:
+                                        pass
+                                    
                                     alpha_tel = {
                                         "ts": int(time.time()),
                                         "symbol": symbol,
@@ -1613,7 +1660,8 @@ def run_bot_cycle():
                                         "size_multiplier": adjusted_size_mult,
                                         "margin_usd": final_margin,
                                         "regime": regime,
-                                        "gate_attribution": entry_tel.get("attribution", {})
+                                        "gate_attribution": gate_attribution_alpha,
+                                        "entry_telemetry": entry_tel.get("attribution", {})
                                     }
                                     tel_path = alpha_policy.get("telemetry_log", "logs/alpha_trades.jsonl")
                                     os.makedirs(os.path.dirname(tel_path) or ".", exist_ok=True)
@@ -1755,6 +1803,13 @@ def run_bot_cycle():
                             if roi_sizing_mult < 1.0:
                                 print(f"   📊 [ROI-SIZING] {symbol}: ROI adjustment applied → mult={roi_sizing_mult:.2f}x → ${base_position_size:.2f} → ${position_size:.2f}")
                             
+                            # Store ROI gate state for learning (add to signal_context when opening position)
+                            signal_context_roi = {
+                                "roi": roi,
+                                "roi_reason": reason,  # Includes "partial_roi_reduced_to_X.XXx" or "roi_adjusted_to_X.XXx"
+                                "roi_mult": roi_sizing_mult if 'roi_sizing_mult' in locals() else 1.0,
+                            }
+                            
                             # [PHASE 10.2] Apply futures concentration strategy
                             try:
                                 from src.phase102_futures_optimizer import phase102_allocate_for_signal
@@ -1781,6 +1836,21 @@ def run_bot_cycle():
                                 continue
                             
                             # Open futures position and record trade
+                            # Build comprehensive signal_context with all gate states for learning
+                            signal_context_trend = {
+                                "roi": roi,
+                                "regime": regime,
+                                "strategy": "Trend-Conservative",
+                                # Include ROI gate state if available
+                                "roi_reason": signal_context_roi.get("roi_reason") if 'signal_context_roi' in locals() else None,
+                                "roi_mult": signal_context_roi.get("roi_mult", 1.0) if 'signal_context_roi' in locals() else 1.0,
+                                # Gate attribution for sizing multiplier learning
+                                "gate_attribution": {
+                                    "roi_reason": signal_context_roi.get("roi_reason") if 'signal_context_roi' in locals() else None,
+                                    "roi_mult": signal_context_roi.get("roi_mult", 1.0) if 'signal_context_roi' in locals() else 1.0,
+                                }
+                            }
+                            
                             position = open_futures_position(
                                 symbol=symbol,
                                 direction="long",
@@ -1791,7 +1861,7 @@ def run_bot_cycle():
                                 liquidation_price=None,
                                 margin_collateral=position_size / 6,
                                 order_id=None,
-                                signal_context={"roi": roi, "regime": regime}
+                                signal_context=signal_context_trend
                             )
                             
                             if position:

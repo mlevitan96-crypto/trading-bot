@@ -105,6 +105,26 @@ def start_unified_scheduler(interval_secs=600):
                 
                 # === PHASE 3: Performance Acceleration & Learning ===
                 run_full_upgrade_pack_cycle()  # v7.2+ Performance Acceleration Pack
+                
+                # === PHASE 3.1: Sizing Multiplier Learning (NEW) ===
+                # Learn optimal sizing multipliers for all gates from historical performance
+                try:
+                    from src.sizing_multiplier_learners import run_all_sizing_learners
+                    sizing_results = run_all_sizing_learners()
+                    print(f"✅ [Nightly] Sizing Multiplier Learning complete - {sizing_results['summary']['total_multipliers_updated']} multipliers updated")
+                except Exception as e:
+                    print(f"⚠️ [Nightly] Sizing Multiplier Learning failed (non-fatal): {e}")
+                    import traceback
+                    traceback.print_exc()
+                
+                # === PHASE 3.2: Profitability Acceleration Learning ===
+                try:
+                    from src.profitability_acceleration_learner import run_all_profitability_learners
+                    profit_results = run_all_profitability_learners()
+                    print(f"✅ [Nightly] Profitability Acceleration Learning complete")
+                except Exception as e:
+                    print(f"⚠️ [Nightly] Profitability Acceleration Learning failed (non-fatal): {e}")
+                
                 nightly_learning_digest()
                 run_analysis_cycle()
                 run_counterfactual_cycle(horizon_minutes=60)

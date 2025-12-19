@@ -130,12 +130,55 @@ def update_streak(won: bool, pnl: float = 0.0, symbol: str = "", bot_type: str =
     save_streak_state(state, bot_type)
 
 
+# Cache for learned multipliers
+_STREAK_SIZING_CACHE = None
+_STREAK_SIZING_CACHE_TIME = None
+_STREAK_SIZING_CACHE_TTL = 300  # 5 minutes
+
+
+def _load_learned_streak_multipliers() -> Dict[str, float]:
+    """Load learned streak sizing multipliers from feature_store, with caching."""
+    global _STREAK_SIZING_CACHE, _STREAK_SIZING_CACHE_TIME
+    
+    now = time.time()
+    
+    if _STREAK_SIZING_CACHE and _STREAK_SIZING_CACHE_TIME and (now - _STREAK_SIZING_CACHE_TIME) < _STREAK_SIZING_CACHE_TTL:
+        return _STREAK_SIZING_CACHE
+    
+    default_multipliers = {
+        "3_plus_wins": 1.5,
+        "2_wins": 1.3,
+        "1_win": 1.1,
+        "neutral": 1.0,
+        "1_loss": 0.85,
+        "2_losses": 0.7,
+        "3_plus_losses": 0.5,
+    }
+    
+    try:
+        import json
+        sizing_path = "feature_store/streak_sizing_weights.json"
+        if os.path.exists(sizing_path):
+            with open(sizing_path, 'r') as f:
+                data = json.load(f)
+                learned = data.get("multipliers", {})
+                _STREAK_SIZING_CACHE = {**default_multipliers, **learned}
+                _STREAK_SIZING_CACHE_TIME = now
+                return _STREAK_SIZING_CACHE
+    except Exception as e:
+        _log(f"Error loading learned streak multipliers: {e}")
+    
+    _STREAK_SIZING_CACHE = default_multipliers
+    _STREAK_SIZING_CACHE_TIME = now
+    return _STREAK_SIZING_CACHE
+
+
 def check_streak_gate(symbol: str = "", direction: str = "", bot_type: str = "alpha") -> Tuple[bool, str, float]:
     """
     Check if a new trade should be allowed based on streak state.
     
     CONVERTED TO SIZING ADJUSTMENT: Never blocks, only adjusts sizing.
-    Uses weighted scoring approach - sizing multiplier based on streak state.
+    Uses LEARNED sizing multipliers from historical performance data.
     
     Returns:
         Tuple of (allowed: bool (always True), reason: str, sizing_multiplier: float)
@@ -144,25 +187,34 @@ def check_streak_gate(symbol: str = "", direction: str = "", bot_type: str = "al
     cons_wins = state.get("consecutive_wins", 0)
     cons_losses = state.get("consecutive_losses", 0)
     
-    # CONVERTED: Always allow, adjust sizing based on streak
+    # Load learned multipliers
+    multipliers = _load_learned_streak_multipliers()
+    
+    # CONVERTED: Always allow, adjust sizing based on streak using LEARNED multipliers
     if cons_wins >= 3:
-        mult = min(1.5, 1.0 + (cons_wins * 0.1))
-        _log(f"[{bot_type.upper()}] STREAK-BOOST: {cons_wins} consecutive wins | {symbol} | mult={mult:.2f}")
+        mult = multipliers.get("3_plus_wins", 1.5)
+        # Allow slight variation for very long streaks
+        if cons_wins > 3:
+            mult = min(1.8, mult + (cons_wins - 3) * 0.05)
+        _log(f"[{bot_type.upper()}] STREAK-BOOST: {cons_wins} consecutive wins | {symbol} | mult={mult:.2f} [LEARNED]")
         state["trades_allowed"] = state.get("trades_allowed", 0) + 1
         save_streak_state(state, bot_type)
         return True, f"streak_boost_{cons_wins}_wins", mult
+    elif cons_wins == 2:
+        mult = multipliers.get("2_wins", 1.3)
+        return True, f"streak_boost_{cons_wins}_wins", mult
+    elif cons_wins == 1:
+        mult = multipliers.get("1_win", 1.1)
+        return True, f"streak_boost_{cons_wins}_wins", mult
     elif cons_losses >= 3:
-        # Loss streak → reduce sizing to 0.5x (was blocking before)
-        mult = 0.5
-        _log(f"[{bot_type.upper()}] STREAK-REDUCE: {cons_losses} consecutive losses | {symbol} | mult={mult:.2f} (was blocking)")
+        mult = multipliers.get("3_plus_losses", 0.5)
+        _log(f"[{bot_type.upper()}] STREAK-REDUCE: {cons_losses} consecutive losses | {symbol} | mult={mult:.2f} [LEARNED]")
         return True, f"streak_reduce_{cons_losses}_losses", mult
-    elif cons_losses >= 2:
-        # 2 losses → reduce sizing to 0.7x
-        mult = 0.7
+    elif cons_losses == 2:
+        mult = multipliers.get("2_losses", 0.7)
         return True, f"streak_reduce_{cons_losses}_losses", mult
-    elif cons_losses >= 1:
-        # 1 loss → reduce sizing to 0.85x
-        mult = 0.85
+    elif cons_losses == 1:
+        mult = multipliers.get("1_loss", 0.85)
         return True, f"streak_reduce_{cons_losses}_losses", mult
         return True, f"hot_streak_{cons_wins}", mult
     

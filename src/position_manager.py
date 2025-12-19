@@ -348,6 +348,28 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         position["conviction"] = signal_context.get("conviction", "UNKNOWN")
         position["aligned_signals"] = signal_context.get("aligned_signals", 0)
         position["signal_components"] = signal_context.get("signal_components", {})
+        
+        # [SIZING MULTIPLIER LEARNING] Store gate attribution for learning optimal multipliers
+        gate_attr = signal_context.get("gate_attribution", {})
+        if gate_attr:
+            position["gate_attribution"] = {
+                "intel_reason": gate_attr.get("intel_reason"),
+                "streak_reason": gate_attr.get("streak_reason"),
+                "regime_reason": gate_attr.get("regime_reason"),
+                "fee_reason": gate_attr.get("fee_reason"),
+                "roi_reason": gate_attr.get("roi_reason"),
+                "intel_mult": gate_attr.get("intel_mult", 1.0),
+                "streak_mult": gate_attr.get("streak_mult", 1.0),
+                "regime_mult": gate_attr.get("regime_mult", 1.0),
+                "fee_mult": gate_attr.get("fee_mult", 1.0),
+                "roi_mult": gate_attr.get("roi_mult", 1.0),
+            }
+        # Also store directly in position if not in gate_attribution
+        position["intel_reason"] = signal_context.get("intel_reason") or gate_attr.get("intel_reason")
+        position["streak_reason"] = signal_context.get("streak_reason") or gate_attr.get("streak_reason")
+        position["regime_reason"] = signal_context.get("regime_reason") or gate_attr.get("regime_reason")
+        position["fee_reason"] = signal_context.get("fee_reason") or gate_attr.get("fee_reason")
+        position["roi_reason"] = signal_context.get("roi_reason") or gate_attr.get("roi_reason")
         # [ML-PREDICTOR] Store synchronized market microstructure features at entry time
         # Store the complete ml_features dict for future training
         if signal_context.get("ml_features"):

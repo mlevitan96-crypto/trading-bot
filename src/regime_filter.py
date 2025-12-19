@@ -201,26 +201,55 @@ class RegimeFilter:
         """
         Get sizing multiplier based on regime alignment (converted from blocking to sizing adjustment).
         
+        Uses LEARNED sizing multipliers from historical performance data.
+        
         Args:
             symbol: Trading symbol
             strategy_type: 'trend_following', 'mean_reversion', or 'momentum'
             
         Returns:
-            (sizing_multiplier, reason) - multiplier between 0.6x (mismatch) and 1.0x (match)
+            (sizing_multiplier, reason) - multiplier using learned values
         """
         regime = self.get_regime(symbol)
         h = self.get_hurst_exponent(symbol)
         strategy_lower = strategy_type.lower().replace('-', '_').replace(' ', '_')
         
-        # Regime mismatch → 0.6x sizing (was blocking before)
+        # Load learned multipliers
+        multipliers = self._load_learned_regime_multipliers()
+        
+        # Regime mismatch → use learned multiplier (default 0.6x)
         if regime == "MEAN_REVERSION" and strategy_lower in ['trend_following', 'breakout', 'momentum']:
-            return 0.6, f"REGIME_MISMATCH: {strategy_type} in MEAN_REVERSION regime (H={h:.3f})"
+            mult = multipliers.get("mismatch", 0.6)
+            return mult, f"REGIME_MISMATCH: {strategy_type} in MEAN_REVERSION regime (H={h:.3f}) [LEARNED]"
         
         if regime == "TRENDING" and strategy_lower in ['mean_reversion', 'range', 'fade']:
-            return 0.6, f"REGIME_MISMATCH: {strategy_type} in TRENDING regime (H={h:.3f})"
+            mult = multipliers.get("mismatch", 0.6)
+            return mult, f"REGIME_MISMATCH: {strategy_type} in TRENDING regime (H={h:.3f}) [LEARNED]"
         
-        # Regime match → full sizing
-        return 1.0, f"REGIME_MATCH: {strategy_type} matches {regime} regime (H={h:.3f})"
+        # Regime match → full sizing (always 1.0)
+        return multipliers.get("match", 1.0), f"REGIME_MATCH: {strategy_type} matches {regime} regime (H={h:.3f})"
+    
+    def _load_learned_regime_multipliers(self) -> Dict[str, float]:
+        """Load learned regime sizing multipliers from feature_store."""
+        import json
+        import time
+        
+        default_multipliers = {
+            "mismatch": 0.6,
+            "match": 1.0,
+        }
+        
+        try:
+            sizing_path = "feature_store/regime_sizing_weights.json"
+            if os.path.exists(sizing_path):
+                with open(sizing_path, 'r') as f:
+                    data = json.load(f)
+                    learned = data.get("multipliers", {})
+                    return {**default_multipliers, **learned}
+        except Exception as e:
+            pass
+        
+        return default_multipliers
 
     def get_all_regimes(self) -> Dict[str, Dict]:
         """Get regime status for all tracked symbols."""

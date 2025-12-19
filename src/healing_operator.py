@@ -242,6 +242,17 @@ class HealingOperator:
             print(f"🔧 [HEALING] Architecture components healing error: {e}", flush=True)
             failed.append("architecture_components")
         
+        # 11. Expansive Profitability Analyzer
+        try:
+            result = self._heal_expansive_analyzer()
+            self.healing_results["expansive_analyzer"] = result
+            if result.get("healed"):
+                healed.append("expansive_analyzer")
+                print(f"🔧 [HEALING] Expansive analyzer: {', '.join(result.get('actions', []))}", flush=True)
+        except Exception as e:
+            # Non-critical - analyzer is optional
+            pass
+        
         # Collect healing stats for escalation tracking
         heal_stats = {
             "files_created": 0,
@@ -980,6 +991,78 @@ class HealingOperator:
         except Exception as e:
             result["failed"].append("architecture_components")
             result["actions"].append(f"Architecture healing error: {e}")
+        
+        return result
+    
+    def _heal_expansive_analyzer(self) -> Dict[str, Any]:
+        """Heal expansive profitability analyzer issues."""
+        result = {"healed": False, "failed": False, "actions": []}
+        
+        try:
+            from src.expansive_multi_dimensional_profitability_analyzer import ExpansiveMultiDimensionalProfitabilityAnalyzer
+            
+            # Check health status
+            health = ExpansiveMultiDimensionalProfitabilityAnalyzer.check_health()
+            status = health.get("status", "unknown")
+            
+            if status == "healthy":
+                # Healthy - nothing to do
+                return result
+            
+            # Check status file
+            status_file = Path("feature_store/expansive_analyzer_status.json")
+            if not status_file.exists():
+                # Status file missing - analyzer may not have run yet
+                # This is OK, not an error condition
+                return result
+            
+            # Check if status is stale
+            try:
+                with open(status_file, 'r') as f:
+                    status_data = json.load(f)
+                
+                last_run = status_data.get("last_run")
+                if last_run:
+                    last_dt = datetime.fromisoformat(last_run.replace('Z', '+00:00'))
+                    age_hours = (datetime.utcnow().replace(tzinfo=last_dt.tzinfo) - last_dt).total_seconds() / 3600
+                    
+                    if age_hours > 72:  # Stale (>3 days)
+                        result["actions"].append(f"Status file stale ({age_hours:.1f}h old) - analyzer needs to run")
+                        result["healed"] = False  # Can't auto-heal stale status, just log
+                        return result
+                
+                # Check for repeated failures
+                error_count = status_data.get("error_count", 0)
+                if error_count > 5:
+                    result["actions"].append(f"High error count ({error_count}) - check logs")
+                    # Could trigger a fresh run here if needed
+                
+                # Health file exists and is reasonable - nothing to heal
+                return result
+                
+            except json.JSONDecodeError:
+                # Corrupted status file - recreate it
+                status_file.parent.mkdir(parents=True, exist_ok=True)
+                fresh_status = {
+                    "last_run": None,
+                    "status": "unknown",
+                    "components_completed": 0,
+                    "components_failed": 0,
+                    "error_count": 0,
+                    "execution_time_seconds": 0,
+                    "lookback_days": 14
+                }
+                with open(status_file, 'w') as f:
+                    json.dump(fresh_status, f, indent=2)
+                result["actions"].append("Recreated corrupted status file")
+                result["healed"] = True
+                
+        except ImportError:
+            # Analyzer module not available - not an error
+            pass
+        except Exception as e:
+            result["failed"] = True
+            result["error"] = str(e)
         
         return result
 

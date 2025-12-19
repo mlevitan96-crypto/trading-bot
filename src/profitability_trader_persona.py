@@ -104,6 +104,52 @@ class ProfitabilityTraderPersona:
             print(f"⚠️  Research optimization failed: {e}")
             analysis["research_optimizations"] = {"error": str(e)}
         
+        # Run EXPANSIVE multi-dimensional analysis (all data, all dimensions)
+        try:
+            from src.expansive_multi_dimensional_profitability_analyzer import run_expansive_analysis
+            print("🔬 Running EXPANSIVE Multi-Dimensional Analysis...")
+            expansive_result = run_expansive_analysis()
+            analysis["expansive_analysis"] = expansive_result
+            print()
+            
+            # Check if analysis was successful (even if partial)
+            status = expansive_result.get("status", "unknown")
+            if status in ["success", "partial_success"]:
+                # Add expansive insights to actionable insights
+                if expansive_result.get("actionable_insights"):
+                    analysis["key_insights"].extend(expansive_result["actionable_insights"])
+                
+                # Add expansive recommendations
+                if expansive_result.get("optimization_recommendations"):
+                    analysis["profitability_actions"].extend(expansive_result["optimization_recommendations"])
+                
+                # Log partial success warnings
+                if status == "partial_success":
+                    failed = expansive_result.get("components_failed", [])
+                    print(f"⚠️  Expansive analysis partial: {len(failed)} components failed: {', '.join(failed)}")
+            else:
+                print(f"⚠️  Expansive analysis failed: {status}")
+                if expansive_result.get("errors"):
+                    print(f"   Errors: {expansive_result['errors'][:3]}")  # Show first 3 errors
+        except Exception as e:
+            print(f"⚠️  Expansive analysis failed: {e}")
+            import traceback
+            traceback.print_exc()
+            analysis["expansive_analysis"] = {"error": str(e), "status": "failed"}
+            # Log to health status
+            try:
+                from src.expansive_multi_dimensional_profitability_analyzer import ExpansiveMultiDimensionalProfitabilityAnalyzer
+                ExpansiveMultiDimensionalProfitabilityAnalyzer._log_health_event({
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "status": "failed",
+                    "error": str(e),
+                    "components_completed": 0,
+                    "components_failed": [],
+                    "execution_time_seconds": 0
+                })
+            except:
+                pass
+        
         # Generate profitability-focused recommendations
         analysis["profitability_actions"] = self._generate_profitability_actions(analysis)
         analysis["key_insights"] = self._extract_key_insights(analysis)

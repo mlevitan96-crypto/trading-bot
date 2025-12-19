@@ -897,6 +897,16 @@ class LearningHealthMonitor:
             components["strategic_advisor"] = strategic_check
             status = "✅" if strategic_check["healthy"] else "❌"
             print(f"   {status} {strategic_check['name']}")
+            
+            expansive_check = self.check_expansive_profitability_analyzer()
+            components["expansive_profitability_analyzer"] = expansive_check
+            status = "✅" if expansive_check["healthy"] else "❌"
+            print(f"   {status} {expansive_check['name']}")
+            for check in expansive_check["checks"]:
+                print(f"      {check}")
+            if expansive_check["issues"]:
+                all_healthy = False
+                all_issues.append(expansive_check)
             for check in strategic_check["checks"]:
                 print(f"      {check}")
             if strategic_check["issues"]:

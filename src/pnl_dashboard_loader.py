@@ -283,8 +283,10 @@ def _normalize_trades(events: List[Dict[str, Any]]) -> pd.DataFrame:
     if "net_pnl_usd" not in df.columns or df["net_pnl_usd"].isna().any():
         df["net_pnl_usd"] = df["pnl_usd"] - df["fee_usd"].fillna(0.0)
     
-    df["hour"] = pd.to_datetime(df["time"]).dt.floor("H").astype(str)
-    df["date"] = pd.to_datetime(df["time"]).dt.date.astype(str)
+    # Convert datetime columns (fix FutureWarning by using .dt.strftime instead of .astype(str))
+    if not df.empty and "time" in df.columns:
+        df["hour"] = pd.to_datetime(df["time"]).dt.floor("H").dt.strftime("%Y-%m-%d %H:00:00")
+        df["date"] = pd.to_datetime(df["time"]).dt.date.astype(str)
     
     return df
 

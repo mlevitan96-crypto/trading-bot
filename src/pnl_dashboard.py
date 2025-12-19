@@ -3517,6 +3517,8 @@ def start_pnl_dashboard(flask_app: Flask = None):
     If no app is provided, creates its own Flask + Dash server.
     """
     try:
+        print("🔍 [DASHBOARD] Starting dashboard initialization...", flush=True)
+        
         # Initialize positions file on startup (repairs empty/malformed files)
         try:
             from src.position_manager import initialize_futures_positions
@@ -3525,24 +3527,31 @@ def start_pnl_dashboard(flask_app: Flask = None):
             print("✅ [DASHBOARD] Initialized/verified positions_futures.json structure", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD] Failed to initialize positions file: {e}", flush=True)
+            import traceback
+            print("   [DASHBOARD] Positions init traceback:", flush=True)
+            traceback.print_exc()
             # Don't crash - continue without initialization
         
+        print("🔍 [DASHBOARD] Calling build_app()...", flush=True)
         app = build_app(flask_app)
+        
+        if app is None:
+            raise RuntimeError("build_app() returned None - dashboard build failed")
+        
         print("✅ [DASHBOARD] Dashboard app built successfully", flush=True)
         return app
-    except Exception as e:
-        print(f"❌ [DASHBOARD] CRITICAL: Dashboard startup failed: {e}", flush=True)
+    except ImportError as e:
+        print(f"❌ [DASHBOARD] CRITICAL IMPORT ERROR: {e}", flush=True)
         import traceback
+        print("   [DASHBOARD] Full import traceback:", flush=True)
         traceback.print_exc()
-        # Return a minimal Flask app so the server doesn't crash
-        if flask_app:
-            return flask_app
-        from flask import Flask
-        minimal_app = Flask(__name__)
-        @minimal_app.route('/')
-        def error_page():
-            return f"<h1>Dashboard Error</h1><p>Dashboard failed to start: {str(e)}</p><p>Check logs for details.</p>", 500
-        return minimal_app
+        raise  # Re-raise to be caught by run.py
+    except Exception as e:
+        print(f"❌ [DASHBOARD] CRITICAL: Dashboard startup failed: {type(e).__name__}: {e}", flush=True)
+        import traceback
+        print("   [DASHBOARD] Full startup traceback:", flush=True)
+        traceback.print_exc()
+        raise  # Re-raise to be caught by run.py
 
 if __name__ == "__main__":
     flask_server = Flask(__name__)

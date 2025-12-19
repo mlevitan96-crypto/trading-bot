@@ -2216,17 +2216,31 @@ def main():
         print("   ✅ [DASHBOARD] Import successful, calling start_pnl_dashboard()...")
         dash_app = start_pnl_dashboard(flask_app)
         print("   ✅ [DASHBOARD] P&L Dashboard initialized successfully")
+        if dash_app is None:
+            print("   ❌ [DASHBOARD] CRITICAL: start_pnl_dashboard() returned None!")
+            raise RuntimeError("Dashboard initialization returned None")
+    except ImportError as e:
+        print(f"   ❌ [DASHBOARD] CRITICAL IMPORT ERROR: {e}")
+        import traceback
+        print("   📋 [DASHBOARD] Full traceback:")
+        traceback.print_exc()
+        print("   ⚠️  Dashboard will not be available - trading engine continues")
     except NameError as e:
+        print(f"   ❌ [DASHBOARD] CRITICAL NAME ERROR: {e}")
+        import traceback
+        print("   📋 [DASHBOARD] Full traceback:")
+        traceback.print_exc()
         if "start_pnl_dashboard" in str(e):
             print("   ⚠️  P&L Dashboard function not found - continuing without dashboard")
-            print("   ℹ️  Trading engine will run normally")
         else:
-            print(f"   ⚠️  P&L Dashboard import error: {e} - continuing without dashboard")
+            print(f"   ⚠️  P&L Dashboard import error - continuing without dashboard")
     except Exception as e:
-        print(f"   ⚠️  P&L Dashboard startup error: {e} - continuing without dashboard")
-        print("   ℹ️  Trading engine will run normally")
+        print(f"   ❌ [DASHBOARD] CRITICAL STARTUP ERROR: {type(e).__name__}: {e}")
         import traceback
+        print("   📋 [DASHBOARD] Full traceback:")
         traceback.print_exc()
+        print("   ⚠️  Dashboard startup failed - trading engine will continue without dashboard")
+        print("   💡 [DASHBOARD] Check logs above for root cause")
     
     init_thread = threading.Thread(target=run_heavy_initialization, daemon=True)
     init_thread.start()

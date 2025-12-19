@@ -81,20 +81,22 @@ def get_wallet_balance() -> float:
     CRITICAL: Wallet balance = starting_capital + realized P&L from closed positions.
     Does NOT include unrealized P&L (that would be misleading).
     
-    Matches original dashboard logic exactly.
+    Matches original dashboard logic exactly - uses DR.get_closed_positions().
     """
     try:
         starting_capital = 10000.0
-        positions_data = DR.read_json(DR.POSITIONS_FUTURES)
-        if not positions_data:
-            return starting_capital
         
-        closed_positions = positions_data.get("closed_positions", [])
+        # Use DataRegistry.get_closed_positions() to get ALL closed positions (like original dashboard)
+        # This is more reliable than reading from JSON directly
+        closed_positions = DR.get_closed_positions(hours=None)
+        
+        if not closed_positions:
+            return starting_capital
         
         # Calculate realized P&L from closed positions ONLY
         total_realized_pnl = 0.0
         for pos in closed_positions:
-            # Try pnl field first (most reliable), then fallbacks
+            # Try pnl field first (most reliable), then fallbacks (matches original)
             val = pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0)))
             if val is None:
                 continue
@@ -108,6 +110,7 @@ def get_wallet_balance() -> float:
         # Wallet balance = starting capital + realized P&L ONLY
         # Do NOT include unrealized P&L (show separately)
         wallet_balance = starting_capital + total_realized_pnl
+        print(f"🔍 [WALLET] Calculated: ${starting_capital:.2f} + ${total_realized_pnl:.2f} = ${wallet_balance:.2f}", flush=True)
         return wallet_balance
     except Exception as e:
         print(f"⚠️  [WALLET] Failed to calculate wallet balance: {e}", flush=True)

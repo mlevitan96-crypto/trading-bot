@@ -206,8 +206,11 @@ class FeeAwareGate:
         net_expected_pct = expected_move_pct - breakeven_pct
         net_expected_usd = (net_expected_pct / 100) * order_size_usd
         
+        # CONVERTED TO SIZING ADJUSTMENT: Never block, only adjust sizing based on fee drag
+        # Always allow, but reduce sizing if fees eat into expected value
         if expected_move_pct >= min_required_pct:
             allow = True
+            sizing_mult = 1.0  # Full size for good edge
             if edge_ratio >= 3.0:
                 reason = f"strong_edge_{edge_ratio:.1f}x"
             elif edge_ratio >= 2.0:
@@ -215,16 +218,24 @@ class FeeAwareGate:
             else:
                 reason = f"acceptable_edge_{edge_ratio:.1f}x"
         else:
-            allow = False
+            # Calculate sizing multiplier based on edge ratio
+            # Negative EV → 0.3x sizing (minimum viable)
+            # Insufficient buffer → 0.5-0.8x sizing based on how close to breakeven
+            allow = True  # Always allow, just reduce sizing
             if expected_move_pct < breakeven_pct:
-                reason = f"negative_ev_after_fees_edge_{edge_ratio:.2f}x"
+                sizing_mult = 0.3  # Negative EV - minimal sizing
+                reason = f"negative_ev_after_fees_edge_{edge_ratio:.2f}x_reduced_to_0.3x"
             else:
-                reason = f"insufficient_buffer_edge_{edge_ratio:.2f}x"
+                # Interpolate sizing between 0.5x and 0.8x based on how close to breakeven
+                buffer_ratio = (expected_move_pct - breakeven_pct) / (min_required_pct - breakeven_pct) if min_required_pct > breakeven_pct else 0.0
+                sizing_mult = 0.5 + (0.3 * min(1.0, max(0.0, buffer_ratio)))  # 0.5x to 0.8x
+                reason = f"insufficient_buffer_edge_{edge_ratio:.2f}x_reduced_to_{sizing_mult:.2f}x"
         
         result = {
             "allow": allow,
-            "decision": "ALLOW" if allow else "BLOCK",
+            "decision": "ALLOW",  # Always ALLOW now (sizing adjustment replaces blocking)
             "reason": reason,
+            "sizing_multiplier": sizing_mult if 'sizing_mult' in locals() else 1.0,  # Add sizing multiplier
             "symbol": symbol,
             "side": side,
             "order_size_usd": order_size_usd,

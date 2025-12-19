@@ -134,26 +134,43 @@ def check_streak_gate(symbol: str = "", direction: str = "", bot_type: str = "al
     """
     Check if a new trade should be allowed based on streak state.
     
-    DISABLED 2025-12-02: Streak filter was blocking ALL trades for 8+ hours.
-    Now relies on position sizing, ML features, and other filters instead.
+    CONVERTED TO SIZING ADJUSTMENT: Never blocks, only adjusts sizing.
+    Uses weighted scoring approach - sizing multiplier based on streak state.
     
     Returns:
-        Tuple of (allowed: bool, reason: str, sizing_multiplier: float)
+        Tuple of (allowed: bool (always True), reason: str, sizing_multiplier: float)
     """
     state = load_streak_state(bot_type)
     cons_wins = state.get("consecutive_wins", 0)
+    cons_losses = state.get("consecutive_losses", 0)
     
+    # CONVERTED: Always allow, adjust sizing based on streak
     if cons_wins >= 3:
         mult = min(1.5, 1.0 + (cons_wins * 0.1))
         _log(f"[{bot_type.upper()}] STREAK-BOOST: {cons_wins} consecutive wins | {symbol} | mult={mult:.2f}")
         state["trades_allowed"] = state.get("trades_allowed", 0) + 1
         save_streak_state(state, bot_type)
+        return True, f"streak_boost_{cons_wins}_wins", mult
+    elif cons_losses >= 3:
+        # Loss streak → reduce sizing to 0.5x (was blocking before)
+        mult = 0.5
+        _log(f"[{bot_type.upper()}] STREAK-REDUCE: {cons_losses} consecutive losses | {symbol} | mult={mult:.2f} (was blocking)")
+        return True, f"streak_reduce_{cons_losses}_losses", mult
+    elif cons_losses >= 2:
+        # 2 losses → reduce sizing to 0.7x
+        mult = 0.7
+        return True, f"streak_reduce_{cons_losses}_losses", mult
+    elif cons_losses >= 1:
+        # 1 loss → reduce sizing to 0.85x
+        mult = 0.85
+        return True, f"streak_reduce_{cons_losses}_losses", mult
         return True, f"hot_streak_{cons_wins}", mult
     
+    # No streak → normal sizing
     state["trades_allowed"] = state.get("trades_allowed", 0) + 1
     save_streak_state(state, bot_type)
-    _log(f"[{bot_type.upper()}] STREAK-PASS: Trading allowed | {symbol}")
-    return True, "streak_disabled", 1.0
+    _log(f"[{bot_type.upper()}] STREAK-NEUTRAL: Trading allowed | {symbol}")
+    return True, "streak_neutral", 1.0
 
 
 def get_streak_stats(bot_type: str = "alpha") -> Dict:

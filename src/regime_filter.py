@@ -170,27 +170,57 @@ class RegimeFilter:
         """
         Determine if a strategy should be blocked based on regime mismatch.
         
+        NOTE: This function is kept for backward compatibility but is being phased out.
+        New code should use get_regime_sizing_multiplier() which returns sizing adjustments.
+        
         Args:
             symbol: Trading symbol
             strategy_type: 'trend_following', 'mean_reversion', or 'momentum'
             
         Returns:
-            (should_block, reason)
+            (should_block, reason) - should_block is False (never blocks, sizing adjustment used instead)
+        """
+        # CONVERTED: No longer blocks, always returns False
+        # Sizing adjustments are handled by get_regime_sizing_multiplier()
+        regime = self.get_regime(symbol)
+        h = self.get_hurst_exponent(symbol)
+        strategy_lower = strategy_type.lower().replace('-', '_').replace(' ', '_')
+        
+        # Check if there's a mismatch (for sizing calculation)
+        is_mismatch = False
+        if regime == "MEAN_REVERSION" and strategy_lower in ['trend_following', 'breakout', 'momentum']:
+            is_mismatch = True
+        elif regime == "TRENDING" and strategy_lower in ['mean_reversion', 'range', 'fade']:
+            is_mismatch = True
+        
+        if is_mismatch:
+            return False, f"SIZING_REDUCE: {strategy_type} in {regime} regime (H={h:.3f}) - sizing adjusted"
+        return False, f"ALLOWED: {strategy_type} matches {regime} regime (H={h:.3f})"
+    
+    def get_regime_sizing_multiplier(self, symbol: str, strategy_type: str) -> Tuple[float, str]:
+        """
+        Get sizing multiplier based on regime alignment (converted from blocking to sizing adjustment).
+        
+        Args:
+            symbol: Trading symbol
+            strategy_type: 'trend_following', 'mean_reversion', or 'momentum'
+            
+        Returns:
+            (sizing_multiplier, reason) - multiplier between 0.6x (mismatch) and 1.0x (match)
         """
         regime = self.get_regime(symbol)
         h = self.get_hurst_exponent(symbol)
-        
         strategy_lower = strategy_type.lower().replace('-', '_').replace(' ', '_')
         
-        # Block trend-following in mean-reverting markets
+        # Regime mismatch → 0.6x sizing (was blocking before)
         if regime == "MEAN_REVERSION" and strategy_lower in ['trend_following', 'breakout', 'momentum']:
-            return True, f"BLOCKED: {strategy_type} in MEAN_REVERSION regime (H={h:.3f})"
+            return 0.6, f"REGIME_MISMATCH: {strategy_type} in MEAN_REVERSION regime (H={h:.3f})"
         
-        # Block mean-reversion in trending markets
         if regime == "TRENDING" and strategy_lower in ['mean_reversion', 'range', 'fade']:
-            return True, f"BLOCKED: {strategy_type} in TRENDING regime (H={h:.3f})"
+            return 0.6, f"REGIME_MISMATCH: {strategy_type} in TRENDING regime (H={h:.3f})"
         
-        return False, f"ALLOWED: {strategy_type} matches {regime} regime (H={h:.3f})"
+        # Regime match → full sizing
+        return 1.0, f"REGIME_MATCH: {strategy_type} matches {regime} regime (H={h:.3f})"
 
     def get_all_regimes(self) -> Dict[str, Dict]:
         """Get regime status for all tracked symbols."""

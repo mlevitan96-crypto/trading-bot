@@ -144,17 +144,24 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         return True, f"intel_confirmed_{intel_direction.lower()}", sizing_mult
     
     if (signal_is_long and intel_is_short) or (signal_is_short and intel_is_long):
+        # CONVERTED TO SIZING ADJUSTMENT: Never block, only reduce sizing
+        # Strong conflict (confidence >= 0.6) → 0.4x sizing
+        # Moderate conflict (confidence 0.4-0.6) → 0.6x sizing
+        # Weak conflict (confidence < 0.4) → 0.8x sizing
         if intel_confidence >= 0.6:
-            _log(f"❌ INTEL-BLOCK {symbol}: Signal={action} conflicts with strong Intel={intel_direction} (conf={intel_confidence:.2f})")
-            log_gate_decision("intelligence_gate", symbol, action, False, f"intel_conflict_{intel_direction.lower()}_strong",
-                              {"intel_direction": intel_direction, "confidence": intel_confidence, "composite": composite_score})
-            return False, f"intel_conflict_{intel_direction.lower()}_strong", 0.0
+            sizing_mult = 0.4  # Strong conflict - significant size reduction
+            reason = f"intel_conflict_{intel_direction.lower()}_strong"
+        elif intel_confidence >= 0.4:
+            sizing_mult = 0.6  # Moderate conflict - moderate size reduction
+            reason = f"intel_conflict_{intel_direction.lower()}_moderate"
+        else:
+            sizing_mult = 0.8  # Weak conflict - light size reduction
+            reason = f"intel_conflict_{intel_direction.lower()}_weak"
         
-        sizing_mult = 0.5
-        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with weak Intel={intel_direction} (conf={intel_confidence:.2f}, mult=0.5)")
-        log_gate_decision("intelligence_gate", symbol, action, True, f"intel_conflict_{intel_direction.lower()}_weak",
-                          {"intel_direction": intel_direction, "confidence": intel_confidence, "sizing_mult": 0.5})
-        return True, f"intel_conflict_{intel_direction.lower()}_weak", sizing_mult
+        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f})")
+        log_gate_decision("intelligence_gate", symbol, action, True, reason,
+                          {"intel_direction": intel_direction, "confidence": intel_confidence, "sizing_mult": sizing_mult, "composite": composite_score})
+        return True, reason, sizing_mult
     
     return True, "no_action_match", 1.0
 

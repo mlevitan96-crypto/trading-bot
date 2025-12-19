@@ -106,30 +106,50 @@ class Phase2Orchestrator:
         """
         Check if a strategy should be blocked based on regime.
         
+        NOTE: CONVERTED - This function now always returns False (never blocks).
+        Use get_regime_sizing_multiplier() for sizing adjustments.
+        
         Args:
             symbol: Trading symbol
             strategy_name: Name of strategy (e.g., 'Trend-Conservative')
             
         Returns:
-            (should_block, reason)
+            (should_block, reason) - should_block is always False
         """
         # Map strategy name to type
         strategy_type = STRATEGY_TYPES.get(strategy_name, 'momentum')
         
-        blocked, reason = self.regime_filter.should_block_strategy(symbol, strategy_type)
+        # Use new sizing multiplier method
+        sizing_mult, reason = self.regime_filter.get_regime_sizing_multiplier(symbol, strategy_type)
         
-        if blocked:
-            self.blocked_count += 1
-            self._log_decision('blocked', {
+        # Log sizing adjustment (no longer blocking)
+        if sizing_mult < 1.0:
+            self._log_decision('sizing_reduction', {
                 'symbol': symbol,
                 'strategy': strategy_name,
                 'strategy_type': strategy_type,
+                'sizing_multiplier': sizing_mult,
                 'reason': reason
             })
         else:
             self.allowed_count += 1
         
-        return blocked, reason
+        # Always return False (never blocks)
+        return False, reason
+    
+    def get_regime_sizing_multiplier(self, symbol: str, strategy_name: str) -> Tuple[float, str]:
+        """
+        Get sizing multiplier based on regime alignment.
+        
+        Args:
+            symbol: Trading symbol
+            strategy_name: Name of strategy (e.g., 'Trend-Conservative')
+            
+        Returns:
+            (sizing_multiplier, reason) - multiplier between 0.6x and 1.0x
+        """
+        strategy_type = STRATEGY_TYPES.get(strategy_name, 'momentum')
+        return self.regime_filter.get_regime_sizing_multiplier(symbol, strategy_type)
 
     async def refresh_market_data(self, symbols: List[str]):
         """

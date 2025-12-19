@@ -465,31 +465,23 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         if price > 0:
             phase2_update_price(symbol, price)
         
-        blocked, block_reason = phase2_should_block(symbol, strategy)
-        if blocked:
-            log_event("phase2_regime_block", {
-                "signal": signal,
-                "reason": block_reason,
-            })
-            print(f"🔴 [REGIME-BLOCK] Trade blocked: {block_reason} | {symbol}")
-            # Track decision and update state (fire-and-forget)
-            if decision_tracker:
-                try:
-                    decision_tracker.track_block(
-                        signal_id=signal_id,
-                        blocker_component="RegimeFilter",
-                        blocker_reason=f"phase2_should_block: {block_reason}",
-                        symbol=symbol,
-                        signal_metadata=signal
-                    )
-                except:
-                    pass  # Non-blocking
-            if state_machine and signal_id:
-                try:
-                    state_machine.transition(signal_id, SignalState.BLOCKED, reason=f"RegimeFilter: {block_reason}")
-                except:
-                    pass  # Non-blocking
-            return {"status": "blocked", "reason": f"regime_{block_reason}"}
+        # PHASE 2 REGIME FILTER (Converted to Sizing Adjustment)
+        # ═══════════════════════════════════════════════════════════════
+        # CONVERTED: No longer blocks - regime mismatch now reduces sizing instead
+        try:
+            from src.phase_2_orchestrator import get_orchestrator
+            orchestrator = get_orchestrator()
+            regime_mult, regime_reason = orchestrator.get_regime_sizing_multiplier(symbol, strategy)
+            if regime_mult < 1.0:
+                print(f"⚠️ [REGIME-REDUCE] {symbol} {strategy}: {regime_reason} → sizing reduced to {regime_mult:.2f}x (was blocking)")
+                log_event("phase2_regime_sizing_reduction", {
+                    "signal": signal,
+                    "reason": regime_reason,
+                    "sizing_multiplier": regime_mult,
+                })
+        except Exception as e:
+            regime_mult = 1.0  # Fallback to full sizing if orchestrator unavailable
+        # Continue with trade (no longer blocked)
     except Exception as e:
         pass  # Phase 2 is additive, don't block on errors
     
@@ -497,65 +489,25 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
     # STREAK FILTER (Skip trades after losses - 54.8% WR after win vs 11.5% after loss)
     # ═══════════════════════════════════════════════════════════════
     
+    # STREAK FILTER (Momentum-Based Sizing Adjustment)
+    # ═══════════════════════════════════════════════════════════════
+    # CONVERTED: No longer blocks - always returns sizing multiplier
     streak_allowed, streak_reason, streak_mult = check_streak_gate(symbol, direction, bot_type)
-    if not streak_allowed:
-        log_event("streak_filter_block", {
-            "signal": signal,
-            "reason": streak_reason,
-        })
-        print(f"🔴 [STREAK-BLOCK] Trade skipped: {streak_reason} | {symbol}")
-        # Track decision and update state (fire-and-forget)
-        if decision_tracker:
-            try:
-                decision_tracker.track_block(
-                    signal_id=signal_id,
-                    blocker_component="StreakFilter",
-                    blocker_reason=f"check_streak_gate: {streak_reason}",
-                    symbol=symbol,
-                    signal_metadata=signal
-                )
-            except:
-                pass  # Non-blocking
-        if state_machine and signal_id:
-            try:
-                state_machine.transition(signal_id, SignalState.BLOCKED, reason=f"StreakFilter: {streak_reason}")
-            except:
-                pass  # Non-blocking
-        return {"status": "blocked", "reason": f"streak_filter_{streak_reason}"}
+    # streak_allowed is now always True (converted to sizing adjustment)
+    if streak_mult != 1.0:
+        print(f"📊 [STREAK-SIZING] {symbol}: {streak_reason} → mult={streak_mult:.2f}")
     
     # ═══════════════════════════════════════════════════════════════
     # INTELLIGENCE GATE (CoinGlass market intelligence alignment)
     # ═══════════════════════════════════════════════════════════════
+    # CONVERTED: No longer blocks - always returns sizing multiplier
     intel_allowed, intel_reason, intel_mult = intelligence_gate(signal)
-    if not intel_allowed:
-        log_event("intelligence_gate_block", {
-            "signal": signal,
-            "reason": intel_reason,
-        })
-        print(f"🔴 [INTEL-BLOCK] Trade blocked: {intel_reason} | {symbol}")
-        # Track decision and update state (fire-and-forget)
-        if decision_tracker:
-            try:
-                decision_tracker.track_block(
-                    signal_id=signal_id,
-                    blocker_component="IntelligenceGate",
-                    blocker_reason=f"intelligence_gate: {intel_reason}",
-                    symbol=symbol,
-                    signal_metadata=signal
-                )
-            except:
-                pass  # Non-blocking
-        if state_machine and signal_id:
-            try:
-                state_machine.transition(signal_id, SignalState.BLOCKED, reason=f"IntelligenceGate: {intel_reason}")
-            except:
-                pass  # Non-blocking
-        return {"status": "blocked", "reason": f"intel_{intel_reason}"}
+    # intel_allowed is now always True (converted to sizing adjustment)
     
-    # Apply sizing multipliers from gates
+    # Apply sizing multipliers from gates (all gates now contribute to sizing, not blocking)
     combined_mult = streak_mult * intel_mult
     if combined_mult != 1.0:
-        print(f"📊 [GATE-SIZING] Multiplier applied: {combined_mult:.2f} (streak={streak_mult:.2f}, intel={intel_mult:.2f})")
+        print(f"📊 [GATE-SIZING] Multiplier applied: {combined_mult:.2f} (streak={streak_mult:.2f}, intel={intel_mult:.2f}) | {symbol}")
     
     if is_profit_learning_enabled():
         result = open_profit_blofin_entry(signal, wallet_balance, rolling_expectancy)
@@ -1573,13 +1525,14 @@ def run_bot_cycle():
                                     continue
                                 
                                 # ═══════════════════════════════════════════════════════════════
-                                # STREAK FILTER (Unified Gate - Skip trades after losses)
+                                # STREAK FILTER (Converted to Sizing Adjustment)
                                 # ═══════════════════════════════════════════════════════════════
+                                # CONVERTED: No longer blocks - always returns sizing multiplier
                                 direction = alpha_signals['combined_signal']
                                 streak_allowed, streak_reason, streak_mult = check_streak_gate(symbol, direction, "alpha")
-                                if not streak_allowed:
-                                    print(f"   🔴 [ALPHA] {symbol}: Streak filter blocked ({streak_reason})")
-                                    continue
+                                # streak_allowed is now always True (converted to sizing adjustment)
+                                if streak_mult != 1.0:
+                                    print(f"   📊 [ALPHA-STREAK] {symbol}: {streak_reason} → mult={streak_mult:.2f}x")
                                 
                                 # ═══════════════════════════════════════════════════════════════
                                 # WEIGHTED SIGNAL AGGREGATOR - PURE SCORING (NO BLOCKING)
@@ -1604,9 +1557,25 @@ def run_bot_cycle():
                                 
                                 # Use conviction-based size multiplier (replaces old static multiplier)
                                 conviction_size_mult = conviction_result['size_multiplier']
-                                adjusted_size_mult = conviction_size_mult * (0.5 + mtf_conf * 0.5)
                                 
-                                print(f"🚀 [ALPHA-EXECUTE] {symbol}: Conv={conviction_result['conviction']} | MTF={mtf_conf:.2f} | SizeMult={adjusted_size_mult:.2f}")
+                                # Apply all sizing adjustments: conviction → MTF → streak → regime
+                                mtf_mult = (0.5 + mtf_conf * 0.5)  # MTF confidence multiplier
+                                
+                                # Combine all sizing multipliers
+                                adjusted_size_mult = conviction_size_mult * mtf_mult * streak_mult
+                                
+                                # Apply regime multiplier if available (try to get it)
+                                try:
+                                    from src.phase_2_orchestrator import get_orchestrator
+                                    orchestrator = get_orchestrator()
+                                    regime_mult, _ = orchestrator.get_regime_sizing_multiplier(symbol, "Sentiment-Fusion")
+                                    adjusted_size_mult *= regime_mult
+                                    if regime_mult < 1.0:
+                                        print(f"   📊 [ALPHA-REGIME] {symbol}: Regime adjustment → mult={regime_mult:.2f}x")
+                                except:
+                                    pass  # Regime check is optional
+                                
+                                print(f"🚀 [ALPHA-EXECUTE] {symbol}: Conv={conviction_result['conviction']} | MTF={mtf_conf:.2f} | ConvMult={conviction_size_mult:.2f} | StreakMult={streak_mult:.2f} | FinalSizeMult={adjusted_size_mult:.2f}")
                                 
                                 from src.phase72_execution import get_futures_margin_budget
                                 direction = conviction_result['direction']  # Use conviction gate direction
@@ -1746,8 +1715,11 @@ def run_bot_cycle():
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
                             should_trade, reason = True, "partial_confirmation"
                         elif confirmed == 'partial' and roi < roi_threshold:
-                            print(f"   ❌ [{mode_str}] Rejecting partial: ROI {roi*100:.2f}% < {threshold_pct:.2f}%")
-                            should_trade, reason = False, "sub_fee_roi"
+                            # CONVERTED: ROI checks now use sizing adjustments instead of blocking
+                            roi_ratio = roi / roi_threshold if roi_threshold > 0 else 0.0
+                            roi_sizing_mult = max(0.4, min(0.8, 0.4 + (0.4 * roi_ratio)))  # 0.4x to 0.8x
+                            print(f"   ⚠️ [{mode_str}] Partial ROI below threshold: ROI {roi*100:.2f}% < {threshold_pct:.2f}% → sizing reduced to {roi_sizing_mult:.2f}x (was blocking)")
+                            should_trade, reason = True, f"partial_roi_reduced_to_{roi_sizing_mult:.2f}x"
                         else:
                             should_trade, reason = should_execute_trade(symbol, roi)
                         
@@ -1756,6 +1728,7 @@ def run_bot_cycle():
                             log_signal_evaluation(symbol, strategy_name, "blocked_venue_gate", roi)
                             continue
                         
+                        # CONVERTED: Always trade (should_trade is now always True after ROI conversion)
                         if should_trade:
                             log_strategy_performance(df, "Trend-Conservative", roi)
                             amount = 0.01 if symbol != "BTCUSDT" else 0.001
@@ -1775,7 +1748,12 @@ def run_bot_cycle():
                                 portfolio_value=portfolio["current_value"]
                             )
                             
-                            position_size = min(kelly_size, budget_cap, correlation_cap)
+                            # Apply ROI sizing multiplier (from converted ROI check)
+                            base_position_size = min(kelly_size, budget_cap, correlation_cap)
+                            position_size = base_position_size * roi_sizing_mult  # Apply ROI adjustment
+                            
+                            if roi_sizing_mult < 1.0:
+                                print(f"   📊 [ROI-SIZING] {symbol}: ROI adjustment applied → mult={roi_sizing_mult:.2f}x → ${base_position_size:.2f} → ${position_size:.2f}")
                             
                             # [PHASE 10.2] Apply futures concentration strategy
                             try:
@@ -1892,8 +1870,11 @@ def run_bot_cycle():
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
                             should_trade, reason = True, "partial_confirmation"
                         elif confirmed == 'partial' and roi < roi_threshold:
-                            print(f"   ❌ [{mode_str}] Rejecting partial: ROI {roi*100:.2f}% < {threshold_pct:.2f}%")
-                            should_trade, reason = False, "sub_fee_roi"
+                            # CONVERTED: ROI checks now use sizing adjustments instead of blocking
+                            roi_ratio = roi / roi_threshold if roi_threshold > 0 else 0.0
+                            roi_sizing_mult = max(0.4, min(0.8, 0.4 + (0.4 * roi_ratio)))  # 0.4x to 0.8x
+                            print(f"   ⚠️ [{mode_str}] Partial ROI below threshold: ROI {roi*100:.2f}% < {threshold_pct:.2f}% → sizing reduced to {roi_sizing_mult:.2f}x (was blocking)")
+                            should_trade, reason = True, f"partial_roi_reduced_to_{roi_sizing_mult:.2f}x"
                         else:
                             should_trade, reason = should_execute_trade(symbol, roi)
                         
@@ -2036,8 +2017,11 @@ def run_bot_cycle():
                             print(f"   🟢 [{mode_str}] Accepting partial: ROI {roi*100:.2f}% >= {threshold_pct:.2f}%")
                             should_trade, reason = True, "partial_confirmation"
                         elif confirmed == 'partial' and roi < roi_threshold:
-                            print(f"   ❌ [{mode_str}] Rejecting partial: ROI {roi*100:.2f}% < {threshold_pct:.2f}%")
-                            should_trade, reason = False, "sub_fee_roi"
+                            # CONVERTED: ROI checks now use sizing adjustments instead of blocking
+                            roi_ratio = roi / roi_threshold if roi_threshold > 0 else 0.0
+                            roi_sizing_mult = max(0.4, min(0.8, 0.4 + (0.4 * roi_ratio)))  # 0.4x to 0.8x
+                            print(f"   ⚠️ [{mode_str}] Partial ROI below threshold: ROI {roi*100:.2f}% < {threshold_pct:.2f}% → sizing reduced to {roi_sizing_mult:.2f}x (was blocking)")
+                            should_trade, reason = True, f"partial_roi_reduced_to_{roi_sizing_mult:.2f}x"
                         else:
                             should_trade, reason = should_execute_trade(symbol, roi)
                         

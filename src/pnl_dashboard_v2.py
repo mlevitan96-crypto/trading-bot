@@ -373,46 +373,9 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
             except:
                 pass
         
-        # Calculate unrealized P&L ONLY for open positions opened within lookback period
-        unrealized_pnl = 0.0
-        try:
-            from src.exchange_gateway import ExchangeGateway
-            gateway = ExchangeGateway()
-            
-            for pos in open_positions:
-                # Only count unrealized P&L if position was opened within lookback period
-                opened_at = pos.get("opened_at", pos.get("entry_time", ""))
-                if opened_at:
-                    try:
-                        if isinstance(opened_at, str):
-                            opened_dt = datetime.fromisoformat(opened_at.replace("Z", "+00:00"))
-                        else:
-                            opened_dt = datetime.fromtimestamp(opened_at)
-                        
-                        # Skip if position opened before lookback period
-                        if opened_dt < cutoff:
-                            continue
-                    except:
-                        # If we can't parse the date, skip this position for unrealized P&L
-                        continue
-                
-                symbol = pos.get("symbol", "")
-                entry_price = pos.get("entry_price", 0.0)
-                direction = pos.get("direction", "LONG")
-                margin = pos.get("margin_collateral", 0.0)
-                leverage = pos.get("leverage", 1)
-                
-                try:
-                    current_price = gateway.get_price(symbol, venue="futures")
-                    if direction == "LONG":
-                        price_roi = ((current_price - entry_price) / entry_price) if entry_price > 0 else 0.0
-                    else:
-                        price_roi = ((entry_price - current_price) / entry_price) if entry_price > 0 else 0.0
-                    unrealized_pnl += margin * price_roi * leverage
-                except:
-                    pass
-        except:
-            pass
+        # NOTE: Unrealized P&L is NOT included in net_pnl for summary calculations
+        # Wallet balance = starting_capital + realized P&L only
+        # Unrealized P&L can be displayed separately but should not affect wallet balance or net_pnl
         
         total_trades = len(recent_closed)
         wins_count = len(wins)
@@ -425,9 +388,13 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
         # Net P&L should be from closed trades only - unrealized is separate
         # But for display purposes, we can show total including unrealized if there are open positions
         
-        # Calculate drawdown based on wallet balance only (realized P&L)
+        # Calculate drawdown based on wallet balance (realized P&L only)
         starting_capital = 10000.0
         drawdown_pct = ((wallet_balance - starting_capital) / starting_capital) * 100.0
+        
+        # CRITICAL: Net P&L = realized P&L from closed trades ONLY in this period
+        # Unrealized P&L is NOT included (shown separately if needed)
+        net_pnl_calculated = total_pnl
         
         return {
             "wallet_balance": wallet_balance,
@@ -435,9 +402,7 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
             "wins": wins_count,
             "losses": losses_count,
             "win_rate": win_rate,
-            # CRITICAL: Net P&L should ONLY include closed trades P&L, not unrealized
-            # Only add unrealized if there are closed trades in this period
-            "net_pnl": total_pnl + (unrealized_pnl if total_trades > 0 else 0.0),
+            "net_pnl": net_pnl_calculated,  # Only realized P&L from closed trades
             "avg_win": avg_win,
             "avg_loss": avg_loss,
             "drawdown_pct": drawdown_pct,

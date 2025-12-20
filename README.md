@@ -1,5 +1,18 @@
 # Crypto Trading Bot
 
+## ⚠️ AI ASSISTANTS: READ THIS FIRST
+
+**Before making ANY changes, you MUST read:**
+1. **`MEMORY_BANK.md`** - Critical project knowledge, past failures, and mandatory processes
+2. **`CONTEXT.md`** - Quick reference and project structure
+3. **`AI_CONTEXT.md`** - AI assistant context and guidelines
+
+**Critical:** This project has experienced failures due to assumptions without verification. The user has explicitly stated these scenarios "can't keep happening."
+
+See `MEMORY_BANK.md` section "CRITICAL: Disconnect Between Code and Reality" for the December 2024 incident that caused extreme user frustration.
+
+---
+
 ## Overview
 This project is a multi-strategy cryptocurrency futures trading bot designed for autonomous 24/7 operation on the BloFin exchange. Its primary purpose is to achieve consistent profitability through sophisticated self-optimization, robust risk management, and fee-aware execution. The bot prioritizes quality trades over quantity, targeting 5-20 positions per day with sizes ranging from $200-$2,000. It is currently in PAPER TRADING mode for validation before live deployment, aiming for significant market potential through its advanced features.
 

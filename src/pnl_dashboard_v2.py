@@ -11,6 +11,21 @@ Uses standardized data sources:
 - Standardized field names throughout
 
 Port: 8050 (must match existing)
+
+⚠️ AI ASSISTANTS: CRITICAL - Before modifying this file:
+- READ MEMORY_BANK.md section "CRITICAL: Disconnect Between Code and Reality"
+- This dashboard has had multiple critical failures (December 2024 incident)
+- Follow REQUIRED PROCESS in MEMORY_BANK.md for ALL date/data changes
+- Test with actual data before claiming fixes
+- User has explicitly stated failures "can't keep happening"
+
+Key issues that occurred:
+- Wrong year assumption (2025 vs 2024) filtered out ALL data
+- Date parsing failures with timezone-aware strings
+- P&L field name mismatches causing zeros
+- Not testing with real data before claiming fixes
+
+See MEMORY_BANK.md for complete documentation.
 """
 
 import io

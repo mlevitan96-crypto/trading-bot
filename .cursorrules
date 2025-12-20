@@ -1,0 +1,45 @@
+# Cursor Rules for Trading Bot Project
+
+## Mandatory Reading Before Any Changes
+
+1. **ALWAYS read `MEMORY_BANK.md` first** - Contains critical project knowledge, past failures, and mandatory processes
+2. **Review `CONTEXT.md`** - Quick reference for project structure
+3. **Check `README.md`** - Project overview and setup instructions
+
+## Critical Sections to Reference
+
+- **MEMORY_BANK.md "READ THIS FIRST"** - Mandatory reading
+- **MEMORY_BANK.md "CRITICAL: Disconnect Between Code and Reality"** - December 2024 incident
+- **MEMORY_BANK.md "REQUIRED PROCESS"** - Mandatory steps for date/data changes
+
+## When to Reference MEMORY_BANK.md
+
+- **ALWAYS** before making dashboard changes
+- **ALWAYS** before making date-related changes  
+- **ALWAYS** before making data filtering changes
+- **ALWAYS** when user reports issues that "should be working"
+- **ALWAYS** when code looks correct but doesn't work
+
+## Key Principles
+
+1. **BELIEVE THE USER** - If they say something is broken, it's broken
+2. **Test with actual data** - Don't just review code
+3. **Verify before claiming fixes** - Check logs and real data
+4. **Add comprehensive logging** - See what's actually happening
+5. **No assumptions** - Verify dates, field names, data formats
+
+## Project Context
+
+- **Main Entry**: `src/run.py`
+- **Dashboard**: `src/pnl_dashboard_v2.py` (has had critical issues - see MEMORY_BANK.md)
+- **Data Registry**: `src/data_registry.py` - Canonical data paths
+- **Authoritative Data**: `logs/positions_futures.json`
+
+## Past Failures (See MEMORY_BANK.md for details)
+
+- Wrong year assumption (2025 vs 2024) filtered out ALL data
+- Date parsing failures with timezone-aware strings
+- P&L field name mismatches causing zeros
+- Not testing with real data before claiming fixes
+
+**The user has explicitly stated these scenarios "can't keep happening"** - they caused extreme frustration.

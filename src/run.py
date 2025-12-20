@@ -1,3 +1,14 @@
+"""
+Trading Bot - Main Entry Point
+
+⚠️ AI ASSISTANTS: Before modifying this file or related dashboard code:
+- READ MEMORY_BANK.md - Contains critical project knowledge and past failures
+- See CONTEXT.md for quick reference
+- Follow REQUIRED PROCESS in MEMORY_BANK.md for date/data changes
+
+The dashboard (pnl_dashboard_v2.py) has had critical issues documented in MEMORY_BANK.md.
+"""
+
 import os
 from dotenv import load_dotenv
 from pathlib import Path

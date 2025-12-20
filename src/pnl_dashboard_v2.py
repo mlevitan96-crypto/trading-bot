@@ -94,7 +94,7 @@ def get_wallet_balance() -> float:
     CRITICAL: Wallet balance = starting_capital + realized P&L from closed positions AFTER RESET DATE.
     Does NOT include unrealized P&L (that would be misleading).
     
-    WALLET RESET: Only counts trades closed after Dec 18, 2025 (reset date).
+    WALLET RESET: Temporarily disabled - showing all trades until correct reset date is verified.
     """
     try:
         starting_capital = STARTING_CAPITAL_AFTER_RESET

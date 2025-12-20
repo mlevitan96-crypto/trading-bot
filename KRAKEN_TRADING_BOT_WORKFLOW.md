@@ -14,9 +14,10 @@
 5. [Trade Monitoring & Exit Decisions](#trade-monitoring--exit-decisions)
 6. [Post-Trade Review](#post-trade-review)
 7. [Learning Engine](#learning-engine)
-8. [Timing & Update Cycles](#timing--update-cycles)
-9. [Kraken Integration](#kraken-integration)
-10. [CoinGlass Integration](#coinglass-integration)
+8. [Profitability Framework](#profitability-framework)
+9. [Timing & Update Cycles](#timing--update-cycles)
+10. [Kraken Integration](#kraken-integration)
+11. [CoinGlass Integration](#coinglass-integration)
 
 ---
 
@@ -137,6 +138,40 @@ The system uses **10 independent signal components** with the following weights:
 - **Live Mode**: Stricter thresholds to reduce false signals
 - Thresholds loaded from `configs/trading_config.json`
 
+### Signal Profitability Impact
+
+**How Signals Drive Profitability**:
+
+1. **Signal Quality → Win Rate**
+   - Higher conviction signals (4+ aligned) have higher win rates
+   - Signal weights are learned from historical profitability
+   - Profitable signals get increased weights, unprofitable signals get decreased weights
+
+2. **Signal Alignment → Expected Edge**
+   - More aligned signals = higher expected edge
+   - Expected edge must exceed fees for trade to execute
+   - Edge calculation: `confidence × expected_move - fees - slippage`
+
+3. **Signal-Specific Profitability Tracking**
+   - Each signal component's profitability is tracked separately
+   - Liquidation cascade signals: High profitability (22% weight)
+   - Whale flow signals: Strong profitability (20% weight)
+   - Funding rate signals: Moderate profitability (16% weight)
+   - Weights adjusted based on realized P&L attribution
+
+4. **Learning from Signal Outcomes**
+   - Signal outcomes tracked at multiple horizons (1m, 5m, 15m, 30m, 1h)
+   - Win rates calculated per signal component
+   - Weights updated every 30 minutes based on performance
+   - Profitable signals get weight increases (up to +20% per update)
+   - Unprofitable signals get weight decreases (up to -20% per update)
+
+5. **Profit Attribution to Signals**
+   - Each trade's P&L is attributed to contributing signals
+   - Signals that contributed to profitable trades get rewarded
+   - Signals that contributed to losing trades get penalized
+   - Attribution scores decay over time (recent performance weighted more)
+
 ---
 
 ## Signal Review Process
@@ -199,6 +234,21 @@ Signals go through multiple review gates before becoming trades. The review proc
 - Cascade boost if liquidation cascade active
 - Regime bias multiplier based on market regime
 
+**Profitability Impact of Conviction Levels**:
+- **ULTRA**: 2.5x size multiplier → Highest profit potential, lowest frequency
+- **HIGH**: 1.5x size multiplier → High profit potential, moderate frequency
+- **MEDIUM**: 1.0x size multiplier → Standard profit potential, higher frequency
+- **BASELINE**: 0.8x size multiplier → Reduced profit potential, highest frequency
+- **LOW**: 0.5x size multiplier → Minimal profit potential, very high frequency
+- **MINIMUM**: 0.4x size multiplier → Lowest profit potential, maximum frequency
+
+**Historical Performance Adjustment**:
+- Win rate ≥ 55%: 1.3x multiplier (size up on proven winners)
+- Win rate ≥ 45%: 1.1x multiplier (slight size increase)
+- Win rate ≥ 35%: 0.8x multiplier (size down on weak performers)
+- Win rate ≥ 25%: 0.5x multiplier (significant size reduction)
+- Win rate < 25%: 0.4x multiplier (minimal size on poor performers)
+
 **Output**:
 - `should_trade`: Always `True` (no blocking)
 - `direction`: LONG or SHORT
@@ -219,6 +269,13 @@ Signals go through multiple review gates before becoming trades. The review proc
 - Calculates expected profit after fees
 - Compares to minimum edge threshold
 - Can block trades if edge is insufficient
+
+**Profitability Impact**:
+- **Prevents Fee Erosion**: Only trades with expected edge > fees are executed
+- **Dynamic Threshold Learning**: Fee gate threshold learned from profitability data
+- **Fee-Aware Sizing**: Position sizing adjusted based on fee impact
+- **Expected Edge Calculation**: `confidence × expected_move - maker_fee - taker_fee - slippage`
+- **Minimum Edge**: Typically 0.1-0.2% above fees to ensure profitability
 
 ### Correlation Throttle
 
@@ -332,14 +389,21 @@ Signals go through multiple review gates before becoming trades. The review proc
    - Final sizing calculated (base size × multipliers)
    - Direction confirmed (LONG or SHORT)
 
-2. **Position Sizing**
+2. **Position Sizing** (Profitability-Optimized)
    - Base notional calculated from portfolio allocation
    - Multipliers applied:
-     - Conviction multiplier
-     - Historical performance multiplier
-     - Regime bias multiplier
-     - Intelligence alignment multiplier
+     - Conviction multiplier (0.4x to 2.5x based on signal quality)
+     - Historical performance multiplier (based on symbol/strategy win rate)
+     - Regime bias multiplier (align with market regime for better profitability)
+     - Intelligence alignment multiplier (0.4x to 1.3x based on signal conflict)
    - Final size normalized to exchange requirements
+   
+   **Profitability Impact of Sizing**:
+   - **Larger positions on high-conviction signals** → Maximize profit on winners
+   - **Smaller positions on low-conviction signals** → Limit losses on uncertain trades
+   - **Historical performance sizing** → Size up on proven profitable patterns
+   - **Intelligence alignment sizing** → Reduce size when signals conflict (lower win rate)
+   - **Regime-aware sizing** → Size up when trading with market regime (higher profitability)
 
 3. **Order Placement**
    - **Kraken**: Uses `KrakenFuturesClient.place_order()`
@@ -488,10 +552,17 @@ if pnl_pct < -2.5:
 - **Tier 3**: +1.5% after 90 minutes
 - **Tier 4**: +2.0% anytime (big winners)
 
-**Take Profit Logic**:
+**Take Profit Logic** (Profitability-Optimized):
 - Profitable + alignment weakening = TAKE PROFIT (don't give it back)
 - Very profitable + extended hold = TAKE PROFIT
 - Profit + strong alignment = LET IT RUN
+
+**Profitability Impact of Exit Timing**:
+- **Early Profit Taking**: Locks in gains before reversals (prevents giving back profits)
+- **Hold Extended on Strong Signals**: Maximizes profit on high-conviction trades
+- **Exit on Alignment Degradation**: Prevents losses when market turns against position
+- **Optimal Hold Time Learning**: Learns hold durations that maximize profit per symbol/direction
+- **Exit Efficiency Tracking**: Measures how well exits captured available profit (0.0-1.0 score)
 
 #### 4. Stop Losses
 
@@ -674,6 +745,39 @@ All post-trade data flows into learning systems:
 - **Timing Intelligence**: Learns optimal hold times
 - **Counterfactual Learning**: Analyzes what-if scenarios
 
+### Profit Attribution
+
+**Location**: `src/phase101_attribution.py`, `src/profit_attribution_module.py`
+
+**Purpose**: Attribute realized P&L to symbols, strategies, and signals
+
+**Attribution Process**:
+1. **Symbol Attribution**: Tracks P&L per symbol
+   - Winning symbols get higher allocation scores
+   - Losing symbols get lower allocation scores
+   - Scores decay over time (recent performance weighted more)
+
+2. **Strategy Attribution**: Tracks P&L per strategy
+   - Profitable strategies get higher weight
+   - Unprofitable strategies get lower weight
+   - Used for capital allocation decisions
+
+3. **Signal Attribution**: Tracks which signals contributed to profit
+   - Signals that led to profitable trades get weight increases
+   - Signals that led to losing trades get weight decreases
+   - Attribution scores used for signal weight learning
+
+4. **Profit Uplift Calculation**:
+   - Compares short-window P&L vs long-window baseline
+   - Attributes profit uplift to recent changes (calibrations, promotions)
+   - Tracks which adjustments improved profitability
+
+**Profit-Driven Adjustments**:
+- **Promote**: When profits persist after changes
+- **Rollback**: When profits degrade after changes
+- **Tighten Filters**: When unprofitable patterns detected
+- **Ease Filters**: When profitable patterns detected
+
 ---
 
 ## Learning Engine
@@ -842,6 +946,241 @@ All learning results are stored in:
 - `feature_store/` - Learned parameters and weights
 - `logs/learning_audit.jsonl` - Learning cycle logs
 - `feature_store/enhanced_learnings.json` - Comprehensive learnings
+
+### Profitability-Driven Learning
+
+**How Learning Improves Profitability**:
+
+1. **Signal Weight Learning** (`signal_weight_learner.py`)
+   - **Process**: Analyzes win rates and P&L per signal component
+   - **Adjustment**: ±20% max per update, minimum weight 0.05
+   - **Impact**: Profitable signals get more influence, unprofitable signals get less
+   - **Example**: If liquidation signals have 60% win rate → weight increases from 0.22 to 0.26
+   - **Frequency**: Every 30 minutes
+
+2. **Profit Target Learning** (`profit_target_sizing_intelligence.py`)
+   - **Process**: Analyzes optimal profit targets per symbol/strategy
+   - **Adjustment**: Learns profit targets that maximize total P&L
+   - **Impact**: Takes profit at optimal levels (not too early, not too late)
+   - **Example**: Learns that BTC profits peak at +1.5% after 45 minutes
+   - **Frequency**: Daily
+
+3. **Sizing Multiplier Learning** (`profitability_acceleration_learner.py`)
+   - **Process**: Analyzes P&L vs position size for different signal qualities
+   - **Adjustment**: Learns optimal sizing multipliers per conviction level
+   - **Impact**: Maximizes profit on high-quality signals, minimizes losses on low-quality
+   - **Example**: Learns that HIGH conviction signals should be 1.8x (not 1.5x)
+   - **Frequency**: Daily
+
+4. **Hold Time Learning** (`position_timing_intelligence.py`)
+   - **Process**: Analyzes P&L vs hold duration per symbol/direction
+   - **Adjustment**: Learns optimal hold times that maximize profit
+   - **Impact**: Holds positions for durations that maximize profitability
+   - **Example**: Learns that ETH LONG positions are most profitable at 35-50 minutes
+   - **Frequency**: Daily
+
+5. **Fee Gate Learning** (`profitability_acceleration_learner.py`)
+   - **Process**: Analyzes profitability vs fee gate threshold
+   - **Adjustment**: Learns optimal fee gate threshold
+   - **Impact**: Balances trade frequency vs profitability
+   - **Example**: Learns that 0.15% edge threshold maximizes total profit
+   - **Frequency**: Daily
+
+6. **Profit-Driven Evolution** (`profit_driven_evolution.py`)
+   - **Process**: Attributes profit to gates, strategies, and configurations
+   - **Adjustment**: Adjusts runtime configs, alpha/EMA policies based on profit
+   - **Impact**: System-wide adjustments based on what's actually making money
+   - **Example**: If alpha strategy profitable → increase allocation, if not → decrease
+   - **Frequency**: Daily (nightly)
+
+7. **Symbol Allocation Intelligence** (`symbol_allocation_intelligence.py`)
+   - **Process**: Analyzes profitability per symbol
+   - **Adjustment**: Reallocates capital from losers to winners
+   - **Impact**: More capital on profitable symbols, less on unprofitable
+   - **Example**: BTC profitable → increase allocation 20%, TRX losing → decrease 15%
+   - **Frequency**: Daily
+
+8. **Counterfactual Learning** (`counterfactual_scaling_engine.py`)
+   - **Process**: Simulates what would have happened if blocked signals were traded
+   - **Adjustment**: Identifies missed opportunities and adjusts gates
+   - **Impact**: Reduces over-blocking of profitable signals
+   - **Example**: Finds that 30% of blocked signals would have been profitable → loosen gates
+   - **Frequency**: Daily (nightly)
+
+**Learning Validation**:
+- All learning adjustments validated against profitability metrics
+- Changes that degrade profitability are rolled back
+- Changes that improve profitability are promoted
+- Profit attribution tracks which changes led to profit improvements
+
+---
+
+## Profitability Framework
+
+### Overview
+
+The bot is designed with **profitability as the single measure of success**. Every component - signals, entries, exits, and learning - is optimized to maximize realized P&L.
+
+### Profitability Optimization Strategy
+
+#### 1. Entry Profitability
+
+**Signal Quality → Entry Profitability**:
+- **High Conviction Signals (4+ aligned)**: Higher win rate → More profitable entries
+- **Signal Weight Learning**: Profitable signals get more weight → Better entry selection
+- **Historical Performance**: Entries on symbols/strategies with proven profitability
+- **Intelligence Alignment**: Entries when signals align (higher win rate)
+
+**Entry Sizing → Profit Maximization**:
+- **Size Up on Winners**: High conviction + proven profitability = larger positions
+- **Size Down on Uncertain**: Low conviction + unproven = smaller positions
+- **Fee-Aware Sizing**: Ensures position size accounts for fee impact
+- **Regime-Aware Sizing**: Size up when trading with market regime
+
+**Entry Timing → Profit Capture**:
+- **Multi-Timeframe Confirmation**: Entries when multiple timeframes align
+- **Momentum Entry**: Entries when momentum is building (better profit potential)
+- **Optimal Entry Learning**: Learns entry conditions that maximize profitability
+
+#### 2. Exit Profitability
+
+**Exit Timing → Profit Maximization**:
+- **Take Profit on Alignment Weakening**: Locks in gains before reversals
+- **Hold Extended on Strong Signals**: Maximizes profit on high-conviction trades
+- **Optimal Hold Time**: Holds positions for durations that maximize profit
+- **Exit Efficiency**: Measures how well exits captured available profit
+
+**Exit Strategy → Profit Protection**:
+- **Tiered Profit Targets**: Takes profit at multiple levels (0.5%, 1.0%, 1.5%, 2.0%)
+- **Stop Loss Protection**: Limits losses to -2.5% (prevents large drawdowns)
+- **Time-Based Exits**: Exits unprofitable positions after time limits
+- **Signal Reversal Exits**: Exits when original signal reverses
+
+**Exit Learning → Profit Optimization**:
+- **Hold Time Learning**: Learns optimal hold durations per symbol/direction
+- **Profit Target Learning**: Learns profit targets that maximize total P&L
+- **Exit Efficiency Tracking**: Tracks how well exits captured available profit
+
+#### 3. Signal Profitability
+
+**Signal Component Profitability**:
+- Each signal component's profitability is tracked separately
+- Profitable signals get increased weights (up to +20% per update)
+- Unprofitable signals get decreased weights (up to -20% per update)
+- Minimum weight 0.05 (signals never fully disappear)
+
+**Signal Alignment Profitability**:
+- More aligned signals = higher win rate = higher profitability
+- Conviction levels based on signal alignment:
+  - HIGH (4+ signals): ~55-60% win rate
+  - MEDIUM (3 signals): ~45-50% win rate
+  - LOW (2 signals): ~35-40% win rate
+
+**Signal Learning → Profitability Improvement**:
+- Signal weights updated every 30 minutes based on performance
+- Profitable signals get more influence in decision-making
+- Unprofitable signals get less influence
+- System continuously adapts to what's actually making money
+
+#### 4. Learning Profitability
+
+**Profit Attribution**:
+- Every trade's P&L is attributed to contributing factors:
+  - Symbol attribution (which symbols are profitable)
+  - Strategy attribution (which strategies are profitable)
+  - Signal attribution (which signals are profitable)
+  - Gate attribution (which gates help/hurt profitability)
+
+**Profit-Driven Adjustments**:
+- **Promote**: Changes that improve profitability are promoted
+- **Rollback**: Changes that degrade profitability are rolled back
+- **Tighten**: Unprofitable patterns trigger tighter filters
+- **Ease**: Profitable patterns trigger eased filters
+
+**Learning Validation**:
+- All learning adjustments validated against profitability metrics
+- Changes tracked with profit attribution
+- System learns what actually makes money, not just what looks good
+
+#### 5. Portfolio Profitability
+
+**Capital Allocation**:
+- **Symbol Allocation**: More capital on profitable symbols, less on unprofitable
+- **Strategy Allocation**: More capital on profitable strategies, less on unprofitable
+- **Performance-Based Reallocation**: Capital reallocated based on realized P&L
+
+**Risk Management**:
+- **Position Limits**: Limits exposure to prevent large losses
+- **Correlation Limits**: Prevents over-concentration in correlated positions
+- **Drawdown Protection**: Kill-switch activates if drawdown exceeds threshold
+
+**Profit Tracking**:
+- **Realized P&L**: Tracks net profit after all fees
+- **Win Rate**: Tracks percentage of profitable trades
+- **Expectancy**: Tracks expected profit per trade
+- **Sharpe Ratio**: Tracks risk-adjusted returns
+
+### Profitability Metrics
+
+**Key Metrics Tracked**:
+1. **Total Realized P&L**: Net profit after all fees
+2. **Win Rate**: Percentage of profitable trades
+3. **Average Profit per Trade**: Total P&L / number of trades
+4. **Expectancy**: Expected profit per trade
+5. **Sharpe Ratio**: Risk-adjusted returns
+6. **Drawdown**: Maximum peak-to-trough decline
+7. **Exit Efficiency**: How well exits captured available profit (0.0-1.0)
+
+**Profitability Attribution**:
+- **Per Symbol**: Which symbols are most/least profitable
+- **Per Strategy**: Which strategies are most/least profitable
+- **Per Signal**: Which signals contribute most to profit
+- **Per Gate**: Which gates help/hurt profitability
+- **Per Timeframe**: Which timeframes are most profitable
+
+### Profitability Optimization Flow
+
+```
+1. Trade Execution
+   └─> Entry with profitability-optimized sizing
+   
+2. Position Monitoring
+   └─> Exit decisions based on profitability optimization
+   
+3. Trade Closure
+   └─> P&L calculated (net of fees)
+   
+4. Profit Attribution
+   └─> P&L attributed to symbols, strategies, signals
+   
+5. Learning Updates
+   └─> Adjustments based on profitability data
+   
+6. Profit-Driven Evolution
+   └─> System-wide adjustments based on what's making money
+   
+7. Validation
+   └─> Changes validated against profitability metrics
+   
+8. Promotion/Rollback
+   └─> Profitable changes promoted, unprofitable rolled back
+```
+
+### Profitability Goals
+
+**Primary Goal**: Maximize realized P&L (net of all fees)
+
+**Secondary Goals**:
+- Maintain positive win rate (>40%)
+- Maintain positive expectancy
+- Minimize drawdowns
+- Maximize risk-adjusted returns (Sharpe ratio)
+
+**Optimization Strategy**:
+- **Continuous Learning**: System learns from every trade
+- **Profit Attribution**: Understand what's making money
+- **Adaptive Adjustments**: Adjust based on profitability data
+- **Validation**: Ensure changes actually improve profitability
 
 ---
 
@@ -1298,6 +1637,43 @@ The system is designed for continuous improvement, with learning cycles running 
 
 ---
 
-**Document Version**: 1.0  
+**Document Version**: 2.0  
 **Last Updated**: 2025-12-16  
 **Maintained By**: Trading Bot Development Team
+
+---
+
+## Profitability Summary
+
+This trading bot is designed with **profitability as the single measure of success**. The entire system - from signal generation through exit decisions to learning - is optimized to maximize realized P&L.
+
+### Key Profitability Features
+
+1. **Signal Profitability**
+   - 10 independent signal components weighted by historical profitability
+   - Signal weights updated every 30 minutes based on performance
+   - Profitable signals get more influence, unprofitable signals get less
+
+2. **Entry Profitability**
+   - High-conviction signals (4+ aligned) have higher win rates
+   - Position sizing optimized based on signal quality and historical performance
+   - Fee-aware entry decisions ensure expected edge exceeds fees
+
+3. **Exit Profitability**
+   - Optimal hold times learned per symbol/direction
+   - Tiered profit targets (0.5%, 1.0%, 1.5%, 2.0%)
+   - Exit efficiency tracking measures profit capture
+
+4. **Learning Profitability**
+   - All learning systems driven by profitability data
+   - Profit attribution tracks what's making money
+   - Changes validated against profitability metrics
+   - Profitable changes promoted, unprofitable rolled back
+
+5. **Portfolio Profitability**
+   - Capital allocation based on realized P&L
+   - More capital on profitable symbols/strategies
+   - Less capital on unprofitable symbols/strategies
+   - Continuous reallocation based on performance
+
+The system continuously learns from every trade, attributing profit to signals, strategies, and configurations, and adjusting to maximize profitability over time.

@@ -364,6 +364,13 @@ def record_futures_trade(symbol, direction, entry_price, exit_price, margin_coll
     except Exception as e:
         pass  # Fail silently
     
+    # Unified Stack: Post-trade learning updates (attribution, calibration, expectancy)
+    try:
+        from src.unified_stack import unified_on_trade_close
+        unified_on_trade_close(trade)
+    except Exception as e:
+        print(f"⚠️ Unified stack post-trade warning: {e}")  # Non-critical, log but don't break
+    
     return trade
 
 

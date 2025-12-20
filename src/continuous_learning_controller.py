@@ -52,6 +52,7 @@ LEARNING_SNAPSHOTS_DIR = Path("logs/learning_snapshots")
 
 LEARNING_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
 LEARNING_SNAPSHOTS_DIR.mkdir(parents=True, exist_ok=True)
+LEARNING_AUDIT_LOG.parent.mkdir(parents=True, exist_ok=True)  # Ensure logs/ directory exists
 
 SESSIONS = {
     'asia_morning': (0, 4),

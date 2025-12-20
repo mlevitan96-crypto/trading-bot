@@ -1,0 +1,178 @@
+{
+  "timestamp": "2025-12-20T15:46:15.044259",
+  "analysis_source": "Existing profitability optimization data + learning system data",
+  "data_summary": {
+    "total_trades_analyzed": 3791,
+    "analysis_date": "2025-11-30",
+    "signal_universe_size": 103
+  },
+  "executive_summary": {
+    "total_pnl": -2390.28,
+    "alpha_pnl": -467.23,
+    "root_cause": "OFI filter inverted + Beta catastrophic losses",
+    "key_insight": "Focus on learning from all data to optimize signal weights and timing, not blocking"
+  },
+  "signal_analysis": {
+    "current_weights": {
+      "liquidation": 0.22,
+      "funding": 0.16,
+      "oi_velocity": 0.05,
+      "whale_flow": 0.2,
+      "ofi_momentum": 0.06,
+      "fear_greed": 0.06,
+      "hurst": 0.08,
+      "lead_lag": 0.08,
+      "volatility_skew": 0.05,
+      "oi_divergence": 0.04
+    },
+    "weight_status": "All weights at default - insufficient outcome data (0 < 50 samples required)",
+    "weight_optimization_opportunity": "Need trade outcome data to optimize weights based on actual performance",
+    "signal_components": {
+      "liquidation": {
+        "weight": 0.22,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "funding": {
+        "weight": 0.16,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "whale_flow": {
+        "weight": 0.2,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "ofi_momentum": {
+        "weight": 0.06,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "fear_greed": {
+        "weight": 0.06,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "hurst": {
+        "weight": 0.08,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "lead_lag": {
+        "weight": 0.08,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "oi_velocity": {
+        "weight": 0.05,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "volatility_skew": {
+        "weight": 0.05,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      },
+      "oi_divergence": {
+        "weight": 0.04,
+        "status": "No data",
+        "recommendation": "Track outcomes to optimize"
+      }
+    }
+  },
+  "profitable_patterns_from_analysis": {
+    "XRPUSDT|SHORT|weak": {
+      "pnl": 4.48,
+      "wr": 33,
+      "ev": 0.3,
+      "n": 15
+    },
+    "BNBUSDT|SHORT|weak": {
+      "pnl": 3.63,
+      "wr": 20,
+      "ev": 0.36,
+      "n": 10
+    },
+    "AVAXUSDT|SHORT|weak": {
+      "pnl": 3.37,
+      "wr": 14,
+      "ev": 0.15,
+      "n": 22
+    },
+    "ETHUSDT|SHORT|weak": {
+      "pnl": 1.76,
+      "wr": 20,
+      "ev": 0.09,
+      "n": 20
+    },
+    "ADAUSDT|SHORT|weak": {
+      "pnl": 0.9,
+      "wr": 15,
+      "ev": 0.07,
+      "n": 13
+    },
+    "DOGEUSDT|SHORT|weak": {
+      "pnl": 0.25,
+      "wr": 17,
+      "ev": 0.02,
+      "n": 12
+    }
+  },
+  "learning_system_status": {
+    "overall_health": "REMEDIATED",
+    "data_pipeline": {
+      "enriched_decisions": 0,
+      "signal_universe": 103,
+      "status": "Insufficient enriched decisions - need trade outcome data"
+    },
+    "signal_weight_learning": {
+      "status": "Insufficient data (0 outcomes < 50 required)",
+      "action_required": "Need to capture and track signal outcomes from trades"
+    }
+  },
+  "critical_findings": {
+    "data_gap": "Signal weight learning system exists but has no outcome data to learn from",
+    "opportunity": "103 signals in universe but 0 enriched decisions - missing link between signals and outcomes",
+    "recommendation": "Ensure signal outcome tracking is active to feed learning system"
+  },
+  "actionable_recommendations": [
+    {
+      "priority": "CRITICAL",
+      "category": "Data Pipeline",
+      "action": "Ensure signal outcome tracking is capturing trade results",
+      "reason": "Learning system needs outcome data to optimize weights"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Signal Weight Optimization",
+      "action": "Once outcome data available, analyze which signals predict profitability",
+      "reason": "Current weights are defaults - optimization will improve profitability"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Pattern Learning",
+      "action": "Learn from profitable patterns identified in previous analysis",
+      "reason": "XRPUSDT|SHORT|weak pattern showed profitability - need to understand why"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Timing Optimization",
+      "action": "Analyze entry/exit timing from trade data",
+      "reason": "Hold time policy exists but needs validation against actual outcomes"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Volume Analysis",
+      "action": "Correlate volume patterns with trade outcomes",
+      "reason": "Volume at entry/exit may predict profitability"
+    }
+  ],
+  "next_steps": [
+    "1. Verify signal outcome tracking is active and capturing trade results",
+    "2. Run comprehensive analysis on server where trade data exists",
+    "3. Feed outcome data into learning system to optimize signal weights",
+    "4. Analyze signal combinations that lead to profitable trades",
+    "5. Optimize entry/exit timing based on actual trade performance",
+    "6. Learn from blocked trades and missed opportunities"
+  ]
+}

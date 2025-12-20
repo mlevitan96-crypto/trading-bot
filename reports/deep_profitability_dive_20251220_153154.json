@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-12-20T15:31:54.695486",
+  "overall_metrics": {},
+  "win_rate_analysis": {
+    "by_symbol": {},
+    "by_direction": {},
+    "by_strategy": {},
+    "by_conviction": {},
+    "by_ofi_bucket": {},
+    "by_hour": {},
+    "by_day_of_week": {}
+  },
+  "pnl_distribution": {},
+  "entry_analysis": {},
+  "exit_analysis": {},
+  "fee_impact": {
+    "total_gross_pnl": 0.0,
+    "total_fees": 0.0,
+    "net_pnl": 0.0,
+    "fee_pct_of_gross": 0,
+    "trades_where_fees_exceed_profit": 0,
+    "fee_erosion_pct": 0
+  },
+  "signal_quality": {},
+  "learning_effectiveness": {},
+  "losing_patterns": {},
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Win Rate",
+      "issue": "Win rate is 0.0% (below 50%)",
+      "recommendation": "Focus on improving signal quality and entry timing. Consider tightening entry filters to only trade highest-conviction signals.",
+      "action": "Increase minimum conviction threshold, require more signal alignment"
+    }
+  ]
+}

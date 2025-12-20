@@ -51,8 +51,8 @@ DASHBOARD_PASSWORD_HASH = hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest(
 
 # WALLET RESET DATE - All trades before this date are excluded
 # Reset happened on December 18, 2025 late in the day
-WALLET_RESET_DATE = datetime(2025, 12, 18, 0, 0, 0)  # Start of Dec 18
-WALLET_RESET_TS = WALLET_RESET_DATE.timestamp()
+# Use UTC timestamp for reliable comparison (avoids timezone issues)
+WALLET_RESET_TS = datetime(2025, 12, 18, 0, 0, 0).timestamp()  # Dec 18, 2025 00:00:00 UTC as timestamp
 STARTING_CAPITAL_AFTER_RESET = 10000.0
 
 # Price cache for dashboard (prevents rate limiting)
@@ -103,9 +103,10 @@ def get_wallet_balance() -> float:
             print(f"🔍 [WALLET] No closed positions, returning starting capital: ${starting_capital:.2f}", flush=True)
             return starting_capital
         
-        print(f"🔍 [WALLET] Processing {len(closed_positions)} closed positions (filtering by reset date: {WALLET_RESET_DATE})", flush=True)
+        print(f"🔍 [WALLET] Processing {len(closed_positions)} closed positions (filtering by reset timestamp: {WALLET_RESET_TS})", flush=True)
         
         # CRITICAL: Filter to only trades AFTER wallet reset date (Dec 18, 2025)
+        # Use timestamp comparison to avoid timezone issues
         post_reset_positions = []
         for pos in closed_positions:
             closed_at = pos.get("closed_at", "")
@@ -113,16 +114,17 @@ def get_wallet_balance() -> float:
                 continue
             
             try:
-                # Parse timestamp
+                # Parse to timestamp for reliable comparison
                 if isinstance(closed_at, str):
                     closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    closed_ts = closed_dt.timestamp()
                 elif isinstance(closed_at, (int, float)):
-                    closed_dt = datetime.fromtimestamp(closed_at)
+                    closed_ts = float(closed_at)
                 else:
                     continue
                 
-                # Only include trades closed AFTER reset date
-                if closed_dt >= WALLET_RESET_DATE:
+                # Only include trades closed AFTER reset timestamp
+                if closed_ts >= WALLET_RESET_TS:
                     post_reset_positions.append(pos)
             except Exception as e:
                 print(f"⚠️  [WALLET] Error parsing closed_at for position: {e}", flush=True)
@@ -174,10 +176,38 @@ def load_open_positions_df() -> pd.DataFrame:
             open_positions = open_positions[:50]
         
         rows = []
-        # PERFORMANCE: Skip ExchangeGateway initialization on initial load
-        # This prevents slow loading - prices will update on refresh interval
         gateway = None
-        print(f"🔍 [DASHBOARD-V2] Skipping ExchangeGateway init for faster loading (prices will update on refresh)", flush=True)
+        
+        # Initialize ExchangeGateway with timeout for price fetching
+        # CRITICAL: We need prices to calculate P&L, but don't let it hang
+        try:
+            import threading
+            gateway_result = [None]
+            gateway_error = [None]
+            
+            def init_gateway():
+                try:
+                    from src.exchange_gateway import ExchangeGateway
+                    gateway_result[0] = ExchangeGateway()
+                except Exception as e:
+                    gateway_error[0] = e
+            
+            init_thread = threading.Thread(target=init_gateway, daemon=True)
+            init_thread.start()
+            init_thread.join(timeout=3.0)  # 3 second timeout
+            
+            if init_thread.is_alive():
+                print(f"⚠️  [DASHBOARD-V2] ExchangeGateway init timed out (will use entry_price as fallback)", flush=True)
+                gateway = None
+            elif gateway_error[0]:
+                print(f"⚠️  [DASHBOARD-V2] ExchangeGateway init failed: {gateway_error[0]} (will use entry_price as fallback)", flush=True)
+                gateway = None
+            else:
+                gateway = gateway_result[0]
+                print(f"✅ [DASHBOARD-V2] ExchangeGateway initialized successfully", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] ExchangeGateway error: {e} (will use entry_price as fallback)", flush=True)
+            gateway = None
         
         for pos in open_positions:
             symbol = pos.get("symbol", "")
@@ -189,26 +219,84 @@ def load_open_positions_df() -> pd.DataFrame:
             strategy = pos.get("strategy", "Unknown")
             entry_time = pos.get("opened_at", "")
             
-                # Get current price - SKIP on initial load for performance
-            # Use entry_price as fallback to prevent slow ExchangeGateway calls
-            current_price = entry_price
-            # PERFORMANCE: Skip price fetching on initial load - dashboard will update via refresh
-            # Uncomment below if real-time prices are critical (slows down initial load)
-            # try:
-            #     if gateway:
-            #         current_price = gateway.get_price(symbol, venue="futures")
-            # except:
-            #     pass
-            
-            # Calculate P&L
-            if direction == "LONG":
-                price_roi = ((current_price - entry_price) / entry_price) if entry_price > 0 else 0.0
+            # CRITICAL: Check if position already has unrealized_pnl calculated
+            # This is the most reliable source
+            if "unrealized_pnl" in pos and pos["unrealized_pnl"] is not None:
+                try:
+                    unrealized_pnl = float(pos["unrealized_pnl"])
+                    if not math.isnan(unrealized_pnl):
+                        # Use pre-calculated unrealized P&L
+                        pnl_usd = unrealized_pnl
+                        # Calculate percentage from USD P&L
+                        pnl_pct = (pnl_usd / margin * 100) if margin > 0 else 0.0
+                        # Get current price from mark_price if available, else estimate from P&L
+                        if "mark_price" in pos and pos["mark_price"]:
+                            current_price = float(pos["mark_price"])
+                        elif "current_price" in pos and pos["current_price"]:
+                            current_price = float(pos["current_price"])
+                        else:
+                            # Estimate current price from P&L
+                            if direction == "LONG":
+                                current_price = entry_price * (1 + pnl_pct / 100 / leverage) if leverage > 0 else entry_price
+                            else:
+                                current_price = entry_price * (1 - pnl_pct / 100 / leverage) if leverage > 0 else entry_price
+                        print(f"🔍 [OPEN-POS] {symbol}: Using pre-calculated unrealized_pnl=${pnl_usd:.2f}", flush=True)
+                    else:
+                        raise ValueError("NaN unrealized_pnl")
+                except (ValueError, TypeError):
+                    # Fall through to calculate from price
+                    unrealized_pnl = None
             else:
-                price_roi = ((entry_price - current_price) / entry_price) if entry_price > 0 else 0.0
+                unrealized_pnl = None
             
-            leveraged_roi = price_roi * leverage
-            pnl_usd = margin * leveraged_roi
-            pnl_pct = leveraged_roi * 100
+            # If no pre-calculated P&L, try to get current price and calculate
+            if unrealized_pnl is None:
+                # Try to get current price from position data first
+                current_price = pos.get("mark_price") or pos.get("current_price") or entry_price
+                
+                # If we have mark_price or current_price, use it
+                if current_price != entry_price and current_price > 0:
+                    print(f"🔍 [OPEN-POS] {symbol}: Using mark_price/current_price={current_price:.4f}", flush=True)
+                else:
+                    # Try to fetch price with quick timeout (non-blocking)
+                    try:
+                        if gateway:
+                            # Use threading to fetch price with timeout
+                            price_result = [entry_price]
+                            price_error = [None]
+                            
+                            def fetch_price():
+                                try:
+                                    price_result[0] = gateway.get_price(symbol, venue="futures")
+                                except Exception as e:
+                                    price_error[0] = e
+                            
+                            fetch_thread = threading.Thread(target=fetch_price, daemon=True)
+                            fetch_thread.start()
+                            fetch_thread.join(timeout=1.0)  # 1 second max per symbol
+                            
+                            if not fetch_thread.is_alive() and price_error[0] is None:
+                                current_price = price_result[0]
+                                print(f"🔍 [OPEN-POS] {symbol}: Fetched price={current_price:.4f}", flush=True)
+                            else:
+                                current_price = entry_price
+                                print(f"⚠️  [OPEN-POS] {symbol}: Price fetch timeout/error, using entry_price", flush=True)
+                        else:
+                            current_price = entry_price
+                            print(f"⚠️  [OPEN-POS] {symbol}: No gateway, using entry_price (P&L will be 0)", flush=True)
+                    except Exception as e:
+                        current_price = entry_price
+                        print(f"⚠️  [OPEN-POS] {symbol}: Error fetching price: {e}, using entry_price", flush=True)
+                
+                # Calculate P&L from prices
+                if direction == "LONG":
+                    price_roi = ((current_price - entry_price) / entry_price) if entry_price > 0 else 0.0
+                else:
+                    price_roi = ((entry_price - current_price) / entry_price) if entry_price > 0 else 0.0
+                
+                leveraged_roi = price_roi * leverage
+                pnl_usd = margin * leveraged_roi
+                pnl_pct = leveraged_roi * 100
             
             rows.append({
                 "symbol": symbol,
@@ -268,19 +356,21 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
             closed_at = pos.get("closed_at", "")
             if not closed_at:
                 continue
-            try:
-                if isinstance(closed_at, str):
-                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
-                elif isinstance(closed_at, (int, float)):
-                    closed_dt = datetime.fromtimestamp(closed_at)
-                else:
-                    continue
-                
-                # Only include trades AFTER reset date
-                if closed_dt >= WALLET_RESET_DATE:
-                    post_reset_positions.append(pos)
-            except:
-                pass
+                try:
+                    # Parse to timestamp for reliable comparison
+                    if isinstance(closed_at, str):
+                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        closed_ts = closed_dt.timestamp()
+                    elif isinstance(closed_at, (int, float)):
+                        closed_ts = float(closed_at)
+                    else:
+                        continue
+                    
+                    # Only include trades AFTER reset timestamp
+                    if closed_ts >= WALLET_RESET_TS:
+                        post_reset_positions.append(pos)
+                except:
+                    pass
         
         print(f"🔍 [DASHBOARD-V2] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
         
@@ -366,15 +456,17 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
             if not closed_at:
                 continue
             try:
+                # Parse to timestamp for reliable comparison
                 if isinstance(closed_at, str):
                     closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    closed_ts = closed_dt.timestamp()
                 elif isinstance(closed_at, (int, float)):
-                    closed_dt = datetime.fromtimestamp(closed_at)
+                    closed_ts = float(closed_at)
                 else:
                     continue
                 
-                # Only include trades AFTER reset date
-                if closed_dt >= WALLET_RESET_DATE:
+                # Only include trades AFTER reset timestamp
+                if closed_ts >= WALLET_RESET_TS:
                     post_reset_positions.append(pos)
             except:
                 pass
@@ -408,21 +500,31 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
         wins = []
         losses = []
         total_pnl = 0.0
+        pnl_values_found = 0
+        pnl_values_missing = 0
         
         for pos in recent_closed:
-            net_pnl = pos.get("pnl", pos.get("net_pnl", 0.0))
+            # Try multiple field names for P&L
+            net_pnl = pos.get("pnl") or pos.get("net_pnl") or pos.get("realized_pnl") or pos.get("profit_usd")
             if net_pnl is None:
+                pnl_values_missing += 1
                 continue
             try:
                 net_pnl = float(net_pnl)
-                if not math.isnan(net_pnl):
-                    total_pnl += net_pnl
-                    if net_pnl > 0:
-                        wins.append(net_pnl)
-                    else:
-                        losses.append(net_pnl)
-            except:
-                pass
+                if math.isnan(net_pnl):
+                    pnl_values_missing += 1
+                    continue
+                total_pnl += net_pnl
+                pnl_values_found += 1
+                if net_pnl > 0:
+                    wins.append(net_pnl)
+                else:
+                    losses.append(net_pnl)
+            except (TypeError, ValueError):
+                pnl_values_missing += 1
+                continue
+        
+        print(f"🔍 [SUMMARY] P&L stats: {pnl_values_found} valid, {pnl_values_missing} missing/invalid, total_pnl=${total_pnl:.2f}", flush=True)
         
         total_trades = len(recent_closed)
         wins_count = len(wins)
@@ -430,6 +532,8 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
         win_rate = (wins_count / total_trades * 100.0) if total_trades > 0 else 0.0
         avg_win = sum(wins) / len(wins) if wins else 0.0
         avg_loss = sum(losses) / len(losses) if losses else 0.0
+        
+        print(f"🔍 [SUMMARY] Final stats: {total_trades} trades, {wins_count} wins, {losses_count} losses, win_rate={win_rate:.1f}%, net_pnl=${total_pnl:.2f}", flush=True)
         
         # Calculate drawdown based on wallet balance (realized P&L only)
         starting_capital = STARTING_CAPITAL_AFTER_RESET
@@ -494,19 +598,21 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
             closed_at = pos.get("closed_at", "")
             if not closed_at:
                 continue
-            try:
-                if isinstance(closed_at, str):
-                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
-                elif isinstance(closed_at, (int, float)):
-                    closed_dt = datetime.fromtimestamp(closed_at)
-                else:
-                    continue
-                
-                # Only include trades AFTER reset date
-                if closed_dt >= WALLET_RESET_DATE:
-                    post_reset_positions.append(pos)
-            except:
-                pass
+                try:
+                    # Parse to timestamp for reliable comparison
+                    if isinstance(closed_at, str):
+                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        closed_ts = closed_dt.timestamp()
+                    elif isinstance(closed_at, (int, float)):
+                        closed_ts = float(closed_at)
+                    else:
+                        continue
+                    
+                    # Only include trades AFTER reset timestamp
+                    if closed_ts >= WALLET_RESET_TS:
+                        post_reset_positions.append(pos)
+                except:
+                    pass
         
         # Get open positions (limited count)
         try:
@@ -1239,19 +1345,31 @@ def build_daily_summary_tab() -> html.Div:
                 if not closed_at:
                     continue
                 try:
+                    # Parse to timestamp for reliable comparison
                     if isinstance(closed_at, str):
                         closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        closed_ts = closed_dt.timestamp()
                     elif isinstance(closed_at, (int, float)):
-                        closed_dt = datetime.fromtimestamp(closed_at)
+                        closed_ts = float(closed_at)
                     else:
                         continue
                     
-                    if closed_dt >= WALLET_RESET_DATE:
+                    # Only include trades AFTER reset timestamp
+                    if closed_ts >= WALLET_RESET_TS:
                         closed_positions.append(pos)
                 except:
                     pass
             
             print(f"🔍 [DASHBOARD-V2] After reset filter: {len(closed_positions)} positions (from {len(all_closed_positions)} total)", flush=True)
+            
+            if len(closed_positions) == 0:
+                print(f"⚠️  [DASHBOARD-V2] WARNING: No positions found after reset filter! Check reset date.", flush=True)
+                print(f"⚠️  [DASHBOARD-V2] Reset timestamp: {WALLET_RESET_TS} (Dec 18, 2025), Total positions: {len(all_closed_positions)}", flush=True)
+                # Show sample of position dates for debugging
+                if all_closed_positions:
+                    sample_pos = all_closed_positions[-1] if all_closed_positions else {}
+                    sample_date = sample_pos.get("closed_at", "N/A")
+                    print(f"⚠️  [DASHBOARD-V2] Sample position closed_at: {sample_date}", flush=True)
             
             # Limit to most recent 1000 for performance
             if len(closed_positions) > 1000:
@@ -1260,11 +1378,11 @@ def build_daily_summary_tab() -> html.Div:
             
             print("🔍 [DASHBOARD-V2] Computing summaries (optimized)...", flush=True)
             daily_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=1)
-            print("🔍 [DASHBOARD-V2] Daily summary computed", flush=True)
+            print(f"🔍 [DASHBOARD-V2] Daily summary: {daily_summary.get('total_trades', 0)} trades, ${daily_summary.get('net_pnl', 0):.2f} P&L", flush=True)
             weekly_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=7)
-            print("🔍 [DASHBOARD-V2] Weekly summary computed", flush=True)
+            print(f"🔍 [DASHBOARD-V2] Weekly summary: {weekly_summary.get('total_trades', 0)} trades, ${weekly_summary.get('net_pnl', 0):.2f} P&L", flush=True)
             monthly_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=30)
-            print("🔍 [DASHBOARD-V2] Monthly summary computed", flush=True)
+            print(f"🔍 [DASHBOARD-V2] Monthly summary: {monthly_summary.get('total_trades', 0)} trades, ${monthly_summary.get('net_pnl', 0):.2f} P&L", flush=True)
             print("📊 [DASHBOARD-V2] All summaries computed", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error computing summaries: {e}", flush=True)

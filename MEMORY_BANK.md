@@ -1,6 +1,34 @@
 # Memory Bank - Trading Bot Knowledge Base
-**Last Updated:** 2025-12-19  
+**Last Updated:** 2025-12-20  
 **Purpose:** Comprehensive knowledge base for AI assistant to reference in all future conversations
+
+## 🚨 MANDATORY: READ THIS FIRST
+**Before making ANY changes to dashboard, data filtering, or date-related code:**
+1. Read the "CRITICAL: Disconnect Between Code and Reality" section below
+2. Review the December 2024 incident documentation
+3. Follow the REQUIRED PROCESS for all date/data changes
+4. Test with actual data before claiming fixes
+5. Add comprehensive logging to verify behavior
+
+**The user has explicitly stated this scenario "can't keep happening" - it caused extreme frustration.**
+
+## 🚨 CRITICAL: Data Location & Analysis
+**IMPORTANT:** When user says "we have trade data" or "we have signals":
+- **DO NOT** assume data doesn't exist if local files are empty
+- **DO** check server/deployment location (data may be on remote server)
+- **DO** use existing analysis tools that are designed to work with actual data sources
+- **DO** check MEMORY_BANK.md for canonical data paths first
+- **DO NOT** give up easily - data exists, find it or use tools that can access it
+- **DO** run existing comprehensive analysis tools (comprehensive_trade_analysis.py, deep_profitability_analyzer.py)
+- **DO** check for SQLite database, JSON files, JSONL files in multiple locations
+- **DO** use DataRegistry methods which handle path resolution and fallbacks
+
+**User Feedback (2025-12-20):**
+- "There is trade data. Find it and run the analysis. Look through all documentation."
+- "We have trade data. We have tons of signals. We have deep learning."
+- "Review the memory bank and notate this type of reply. Not acceptable."
+
+**REQUIRED:** Always check MEMORY_BANK.md for data locations, use existing analysis tools, and never assume data doesn't exist without thorough investigation.
 
 ## 🚨 CRITICAL: Wallet Reset (Dec 18, 2024)
 **IMPORTANT:** A wallet reset occurred on December 18, 2024 late in the day. All dashboard calculations MUST:
@@ -86,6 +114,32 @@
 - Created `scripts/delete_bad_trades.py` to remove bad trades
 
 **THIS MUST BE REFERENCED AT THE START OF EVERY CONVERSATION ABOUT DASHBOARD OR DATA FILTERING**
+
+## 🚨 CRITICAL: Data Location & Analysis (2025-12-20)
+**IMPORTANT:** When user says "we have trade data" or "we have signals":
+- **DO NOT** assume data doesn't exist if local files are empty
+- **DO** check server/deployment location (data may be on remote server at 159.65.168.230)
+- **DO** use existing analysis tools that are designed to work with actual data sources
+- **DO** check MEMORY_BANK.md for canonical data paths first
+- **DO NOT** give up easily - data exists, find it or use tools that can access it
+- **DO** run existing comprehensive analysis tools (comprehensive_trade_analysis.py, deep_profitability_analyzer.py)
+- **DO** check for SQLite database, JSON files, JSONL files in multiple locations
+- **DO** use DataRegistry methods which handle path resolution and fallbacks
+- **DO** check if data is on server - bot runs on DigitalOcean droplet
+
+**User Feedback (2025-12-20):**
+- "There is trade data. Find it and run the analysis. Look through all documentation."
+- "We have trade data. We have tons of signals. We have deep learning."
+- "Review the memory bank and notate this type of reply. Not acceptable."
+
+**Data Locations:**
+- **Server**: 159.65.168.230 (DigitalOcean droplet)
+- **Canonical Trade Data**: `logs/positions_futures.json` (on server)
+- **SQLite Database**: `data/trading_system.db` (on server)
+- **Signals**: `logs/signals.jsonl`, `logs/predictive_signals.jsonl` (on server)
+- **Analysis Tools**: Run on server where data exists
+
+**REQUIRED:** Always check MEMORY_BANK.md for data locations, use existing analysis tools, and never assume data doesn't exist without thorough investigation. If local files are empty, data is on the server - provide instructions to run analysis on server.
 
 ---
 

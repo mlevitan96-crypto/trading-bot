@@ -142,6 +142,19 @@ class DeepProfitabilityDive:
         print(f"   - Trades: {len(self.trades)}")
         print(f"   - Signals: {len(self.signals)}")
         print(f"   - Blocked signals: {len(self.blocked_signals)}")
+        
+        # If no data found, provide helpful message
+        if len(self.trades) == 0 and len(self.signals) == 0:
+            print("\n[INFO] No data found locally. Data is likely on the server.")
+            print("[INFO] This script should be run on the server where the bot is running.")
+            print("[INFO] Server: 159.65.168.230 (dashboard at http://159.65.168.230:8050)")
+            print("[INFO] Expected data locations on server:")
+            print("   - logs/positions_futures.json (canonical trade data)")
+            print("   - data/trading_system.db (SQLite database)")
+            print("   - logs/signals.jsonl (all signals)")
+            print("   - logs/enriched_decisions.jsonl (enriched decisions)")
+            print("\n[INFO] To run on server:")
+            print("   ssh to server, cd to trading-bot directory, run: python deep_profitability_dive.py")
     
     def analyze_overall_metrics(self):
         """Calculate overall profitability metrics"""

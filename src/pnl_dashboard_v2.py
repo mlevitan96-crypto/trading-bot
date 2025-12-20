@@ -49,6 +49,12 @@ PORT = 8050
 DASHBOARD_PASSWORD = "Echelonlev2007!"
 DASHBOARD_PASSWORD_HASH = hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest()
 
+# WALLET RESET DATE - All trades before this date are excluded
+# Reset happened on December 18, 2025 late in the day
+WALLET_RESET_DATE = datetime(2025, 12, 18, 0, 0, 0)  # Start of Dec 18
+WALLET_RESET_TS = WALLET_RESET_DATE.timestamp()
+STARTING_CAPITAL_AFTER_RESET = 10000.0
+
 # Price cache for dashboard (prevents rate limiting)
 _price_cache: Dict[str, Dict[str, Any]] = {}
 _price_cache_lock = threading.Lock()
@@ -78,33 +84,61 @@ def get_wallet_balance() -> float:
     """
     Get wallet balance from closed positions ONLY (realized P&L).
     
-    CRITICAL: Wallet balance = starting_capital + realized P&L from closed positions.
+    CRITICAL: Wallet balance = starting_capital + realized P&L from closed positions AFTER RESET DATE.
     Does NOT include unrealized P&L (that would be misleading).
     
-    PERFORMANCE: Limits processing to most recent 2000 positions to prevent slow loading.
+    WALLET RESET: Only counts trades closed after Dec 18, 2025 (reset date).
     """
     try:
-        starting_capital = 10000.0
+        starting_capital = STARTING_CAPITAL_AFTER_RESET
         
         # Read positions file once
         positions_data = DR.read_json(DR.POSITIONS_FUTURES)
         if not positions_data:
+            print(f"🔍 [WALLET] No positions data, returning starting capital: ${starting_capital:.2f}", flush=True)
             return starting_capital
         closed_positions = positions_data.get("closed_positions", [])
         
         if not closed_positions:
+            print(f"🔍 [WALLET] No closed positions, returning starting capital: ${starting_capital:.2f}", flush=True)
             return starting_capital
         
-        # PERFORMANCE: Limit to most recent 2000 positions for faster calculation
-        # Wallet balance calculation doesn't need ALL historical data
-        if len(closed_positions) > 2000:
-            closed_positions = closed_positions[-2000:]
-            print(f"🔍 [WALLET] Limited to most recent 2000 positions for performance", flush=True)
+        print(f"🔍 [WALLET] Processing {len(closed_positions)} closed positions (filtering by reset date: {WALLET_RESET_DATE})", flush=True)
         
-        # Calculate realized P&L from closed positions ONLY
-        total_realized_pnl = 0.0
+        # CRITICAL: Filter to only trades AFTER wallet reset date (Dec 18, 2025)
+        post_reset_positions = []
         for pos in closed_positions:
-            # Try pnl field first (most reliable), then fallbacks (matches original)
+            closed_at = pos.get("closed_at", "")
+            if not closed_at:
+                continue
+            
+            try:
+                # Parse timestamp
+                if isinstance(closed_at, str):
+                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                elif isinstance(closed_at, (int, float)):
+                    closed_dt = datetime.fromtimestamp(closed_at)
+                else:
+                    continue
+                
+                # Only include trades closed AFTER reset date
+                if closed_dt >= WALLET_RESET_DATE:
+                    post_reset_positions.append(pos)
+            except Exception as e:
+                print(f"⚠️  [WALLET] Error parsing closed_at for position: {e}", flush=True)
+                continue
+        
+        print(f"🔍 [WALLET] Found {len(post_reset_positions)} positions after reset date (out of {len(closed_positions)} total)", flush=True)
+        
+        if not post_reset_positions:
+            print(f"🔍 [WALLET] No positions after reset date, returning starting capital: ${starting_capital:.2f}", flush=True)
+            return starting_capital
+        
+        # Calculate realized P&L from closed positions AFTER RESET ONLY
+        total_realized_pnl = 0.0
+        valid_pnl_count = 0
+        for pos in post_reset_positions:
+            # Try pnl field first (most reliable), then fallbacks
             val = pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0)))
             if val is None:
                 continue
@@ -112,19 +146,19 @@ def get_wallet_balance() -> float:
                 val = float(val)
                 if not math.isnan(val):
                     total_realized_pnl += val
+                    valid_pnl_count += 1
             except (TypeError, ValueError):
                 continue
         
-        # Wallet balance = starting capital + realized P&L ONLY
-        # Do NOT include unrealized P&L (show separately)
+        # Wallet balance = starting capital + realized P&L ONLY (after reset)
         wallet_balance = starting_capital + total_realized_pnl
-        print(f"🔍 [WALLET] Calculated: ${starting_capital:.2f} + ${total_realized_pnl:.2f} = ${wallet_balance:.2f}", flush=True)
+        print(f"🔍 [WALLET] Calculated: ${starting_capital:.2f} + ${total_realized_pnl:.2f} (from {valid_pnl_count} trades) = ${wallet_balance:.2f}", flush=True)
         return wallet_balance
     except Exception as e:
         print(f"⚠️  [WALLET] Failed to calculate wallet balance: {e}", flush=True)
         import traceback
         traceback.print_exc()
-        return 10000.0
+        return STARTING_CAPITAL_AFTER_RESET
 
 
 def load_open_positions_df() -> pd.DataFrame:
@@ -205,8 +239,9 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
     """
     Load closed positions from positions_futures.json.
     
-    CRITICAL: Limits to most recent N positions to prevent memory issues.
-    For dashboard display, we only need recent trades anyway.
+    CRITICAL: 
+    - Filters by wallet reset date (Dec 18, 2025) - only shows trades after reset
+    - Limits to most recent N positions to prevent memory issues.
     """
     try:
         # Use DataRegistry method which can limit by time (more efficient)
@@ -214,24 +249,47 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
             from src.data_registry import DataRegistry as DR
             # Get last 30 days (720 hours) - reasonable limit for dashboard
             closed_positions = DR.get_closed_positions(hours=720)
-            # Further limit to last N positions for memory efficiency
-            if len(closed_positions) > limit:
-                closed_positions = closed_positions[-limit:]
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Using fallback position loading: {e}", flush=True)
-            # Fallback to direct file read with limit
+            # Fallback to direct file read
             try:
                 from src.data_registry import DataRegistry as DR
                 positions_data = DR.read_json(DR.POSITIONS_FUTURES)
                 if not positions_data:
                     return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
                 closed_positions = positions_data.get("closed_positions", [])
-                # Limit to most recent N positions
-                if len(closed_positions) > limit:
-                    closed_positions = closed_positions[-limit:]
             except Exception as e2:
                 print(f"⚠️  [DASHBOARD-V2] Fallback also failed: {e2}", flush=True)
                 return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+        
+        # CRITICAL: Filter by wallet reset date (Dec 18, 2025)
+        post_reset_positions = []
+        for pos in closed_positions:
+            closed_at = pos.get("closed_at", "")
+            if not closed_at:
+                continue
+            try:
+                if isinstance(closed_at, str):
+                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                elif isinstance(closed_at, (int, float)):
+                    closed_dt = datetime.fromtimestamp(closed_at)
+                else:
+                    continue
+                
+                # Only include trades AFTER reset date
+                if closed_dt >= WALLET_RESET_DATE:
+                    post_reset_positions.append(pos)
+            except:
+                pass
+        
+        print(f"🔍 [DASHBOARD-V2] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
+        
+        # Further limit to last N positions for memory efficiency
+        if len(post_reset_positions) > limit:
+            post_reset_positions = post_reset_positions[-limit:]
+            print(f"🔍 [DASHBOARD-V2] Limited to most recent {limit} positions", flush=True)
+        
+        closed_positions = post_reset_positions
         
         rows = []
         for pos in closed_positions:
@@ -297,15 +355,39 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
 def compute_summary_optimized(wallet_balance: float, closed_positions: list, lookback_days: int = 1) -> dict:
     """
     Optimized version that accepts pre-loaded positions to avoid redundant file reads.
+    
+    CRITICAL: Filters by both wallet reset date AND lookback period.
     """
     try:
-        # Filter to lookback period
+        # CRITICAL: First filter by wallet reset date (Dec 18, 2025)
+        post_reset_positions = []
+        for pos in closed_positions:
+            closed_at = pos.get("closed_at", "")
+            if not closed_at:
+                continue
+            try:
+                if isinstance(closed_at, str):
+                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                elif isinstance(closed_at, (int, float)):
+                    closed_dt = datetime.fromtimestamp(closed_at)
+                else:
+                    continue
+                
+                # Only include trades AFTER reset date
+                if closed_dt >= WALLET_RESET_DATE:
+                    post_reset_positions.append(pos)
+            except:
+                pass
+        
+        print(f"🔍 [SUMMARY] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
+        
+        # Now filter to lookback period
         cutoff = datetime.utcnow() - timedelta(days=lookback_days)
         recent_closed = []
         
         # Limit processing to prevent memory issues
         max_positions_to_process = 1000
-        positions_to_process = closed_positions[-max_positions_to_process:] if len(closed_positions) > max_positions_to_process else closed_positions
+        positions_to_process = post_reset_positions[-max_positions_to_process:] if len(post_reset_positions) > max_positions_to_process else post_reset_positions
         
         for pos in positions_to_process:
             closed_at = pos.get("closed_at", "")
@@ -319,6 +401,8 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
                         recent_closed.append(pos)
                 except:
                     pass
+        
+        print(f"🔍 [SUMMARY] After lookback filter ({lookback_days} days): {len(recent_closed)} positions", flush=True)
         
         # Calculate stats
         wins = []
@@ -348,7 +432,7 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
         avg_loss = sum(losses) / len(losses) if losses else 0.0
         
         # Calculate drawdown based on wallet balance (realized P&L only)
-        starting_capital = 10000.0
+        starting_capital = STARTING_CAPITAL_AFTER_RESET
         drawdown_pct = ((wallet_balance - starting_capital) / starting_capital) * 100.0
         
         return {
@@ -378,7 +462,10 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
 
 
 def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
-    """Compute summary statistics for a given lookback period."""
+    """Compute summary statistics for a given lookback period.
+    
+    CRITICAL: Filters by both wallet reset date AND lookback period.
+    """
     try:
         # Use DataRegistry for efficient closed positions loading (with time limit)
         try:
@@ -401,6 +488,26 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
                 }
             closed_positions = positions_data.get("closed_positions", [])
         
+        # CRITICAL: First filter by wallet reset date (Dec 18, 2025)
+        post_reset_positions = []
+        for pos in closed_positions:
+            closed_at = pos.get("closed_at", "")
+            if not closed_at:
+                continue
+            try:
+                if isinstance(closed_at, str):
+                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                elif isinstance(closed_at, (int, float)):
+                    closed_dt = datetime.fromtimestamp(closed_at)
+                else:
+                    continue
+                
+                # Only include trades AFTER reset date
+                if closed_dt >= WALLET_RESET_DATE:
+                    post_reset_positions.append(pos)
+            except:
+                pass
+        
         # Get open positions (limited count)
         try:
             positions_data = DR.read_json(DR.POSITIONS_FUTURES)
@@ -414,7 +521,7 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
         
         # Limit processing to prevent memory issues
         max_positions_to_process = 1000
-        positions_to_process = closed_positions[-max_positions_to_process:] if len(closed_positions) > max_positions_to_process else closed_positions
+        positions_to_process = post_reset_positions[-max_positions_to_process:] if len(post_reset_positions) > max_positions_to_process else post_reset_positions
         
         for pos in positions_to_process:
             closed_at = pos.get("closed_at", "")
@@ -465,7 +572,7 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
         # But for display purposes, we can show total including unrealized if there are open positions
         
         # Calculate drawdown based on wallet balance (realized P&L only)
-        starting_capital = 10000.0
+        starting_capital = STARTING_CAPITAL_AFTER_RESET
         drawdown_pct = ((wallet_balance - starting_capital) / starting_capital) * 100.0
         
         # CRITICAL: Net P&L = realized P&L from closed trades ONLY in this period
@@ -506,10 +613,14 @@ def create_equity_curve_chart(df: pd.DataFrame) -> go.Figure:
         fig.update_layout(title="Equity Curve", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
         return fig
     
+    # PERFORMANCE: Limit to most recent 500 trades for chart generation
+    if len(df) > 500:
+        df = df.tail(500)
+    
     df_sorted = df.sort_values("exit_time")
     df_sorted = df_sorted.copy()
     df_sorted["cum_pnl"] = df_sorted["net_pnl"].cumsum()
-    starting_capital = 10000.0
+    starting_capital = STARTING_CAPITAL_AFTER_RESET
     df_sorted["equity"] = starting_capital + df_sorted["cum_pnl"]
     
     fig = go.Figure()
@@ -1083,7 +1194,7 @@ def build_app(server: Flask = None) -> Dash:
 def build_daily_summary_tab() -> html.Div:
     """Build Daily Summary tab content with robust error handling."""
     print("🔍 [DASHBOARD-V2] ====== build_daily_summary_tab() STARTED ======", flush=True)
-    wallet_balance = 10000.0
+    wallet_balance = STARTING_CAPITAL_AFTER_RESET
     empty_summary = {
         "wallet_balance": wallet_balance,
         "total_trades": 0,
@@ -1111,7 +1222,7 @@ def build_daily_summary_tab() -> html.Div:
             print(f"⚠️  [DASHBOARD-V2] Error getting wallet balance: {e}", flush=True)
             import traceback
             traceback.print_exc()
-            wallet_balance = 10000.0
+            wallet_balance = STARTING_CAPITAL_AFTER_RESET
         
         # Compute summaries with error handling
         # PERFORMANCE: Load positions once and reuse for all summaries
@@ -1119,10 +1230,33 @@ def build_daily_summary_tab() -> html.Div:
             print("🔍 [DASHBOARD-V2] Step 2: Loading positions for summaries...", flush=True)
             # Load positions once (limited to prevent slow loading)
             positions_data = DR.read_json(DR.POSITIONS_FUTURES)
-            closed_positions = positions_data.get("closed_positions", []) if positions_data else []
+            all_closed_positions = positions_data.get("closed_positions", []) if positions_data else []
+            
+            # CRITICAL: Filter by wallet reset date FIRST
+            closed_positions = []
+            for pos in all_closed_positions:
+                closed_at = pos.get("closed_at", "")
+                if not closed_at:
+                    continue
+                try:
+                    if isinstance(closed_at, str):
+                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    elif isinstance(closed_at, (int, float)):
+                        closed_dt = datetime.fromtimestamp(closed_at)
+                    else:
+                        continue
+                    
+                    if closed_dt >= WALLET_RESET_DATE:
+                        closed_positions.append(pos)
+                except:
+                    pass
+            
+            print(f"🔍 [DASHBOARD-V2] After reset filter: {len(closed_positions)} positions (from {len(all_closed_positions)} total)", flush=True)
+            
             # Limit to most recent 1000 for performance
             if len(closed_positions) > 1000:
                 closed_positions = closed_positions[-1000:]
+                print(f"🔍 [DASHBOARD-V2] Limited to most recent 1000 for performance", flush=True)
             
             print("🔍 [DASHBOARD-V2] Computing summaries (optimized)...", flush=True)
             daily_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=1)

@@ -88,7 +88,12 @@ def get_wallet_balance() -> float:
         
         # Use DataRegistry.get_closed_positions() to get ALL closed positions (like original dashboard)
         # This is more reliable than reading from JSON directly
-        closed_positions = DR.get_closed_positions(hours=None)
+        # When hours is None or not provided, get_closed_positions returns all positions
+        # We need all positions for accurate wallet balance calculation
+        positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+        if not positions_data:
+            return starting_capital
+        closed_positions = positions_data.get("closed_positions", [])
         
         if not closed_positions:
             return starting_capital
@@ -235,13 +240,18 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Using fallback position loading: {e}", flush=True)
             # Fallback to direct file read with limit
-            positions_data = DR.read_json(DR.POSITIONS_FUTURES)
-            if not positions_data:
+            try:
+                from src.data_registry import DataRegistry as DR
+                positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+                if not positions_data:
+                    return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+                closed_positions = positions_data.get("closed_positions", [])
+                # Limit to most recent N positions
+                if len(closed_positions) > limit:
+                    closed_positions = closed_positions[-limit:]
+            except Exception as e2:
+                print(f"⚠️  [DASHBOARD-V2] Fallback also failed: {e2}", flush=True)
                 return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
-            closed_positions = positions_data.get("closed_positions", [])
-            # Limit to most recent N positions
-            if len(closed_positions) > limit:
-                closed_positions = closed_positions[-limit:]
         
         rows = []
         for pos in closed_positions:
@@ -860,11 +870,15 @@ def build_app(server: Flask = None) -> Dash:
     @flask_server.before_request
     def require_auth():
         # Allow login, logout, and Dash internal routes without authentication
+        # Dash uses various internal routes that must be accessible
         if (request.path == '/login' or 
             request.path == '/logout' or
             request.path.startswith('/_dash-') or 
             request.path.startswith('/assets/') or
-            request.path.startswith('/_reload-hash')):
+            request.path.startswith('/_reload-hash') or
+            request.path == '/' or  # Allow root path (Dash will handle it)
+            request.path.startswith('/_') or  # All Dash internal routes
+            request.method == 'OPTIONS'):  # CORS preflight
             return None
         
         # Check authentication for all other routes
@@ -940,7 +954,8 @@ def build_app(server: Flask = None) -> Dash:
     # CRITICAL: Register callback with explicit dependencies
     @app.callback(
         Output("tab-content", "children"),
-        [Input("main-tabs", "value"), Input("refresh-interval", "n_intervals")],
+        Input("main-tabs", "value"),
+        Input("refresh-interval", "n_intervals"),
         prevent_initial_call=False,  # CRITICAL: Allow callback to fire on initial load
     )
     def update_tab_content(tab, n_intervals):

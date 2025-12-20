@@ -417,8 +417,7 @@ Use this checklist for every deployment:
 - [ ] Verified push on GitHub (optional)
 
 ### Droplet Deployment
-- [ ] SSH to droplet: `ssh root@159.65.168.230`
-- [ ] Navigate: `cd /root/trading-bot-current`
+- [ ] Navigate: `cd /root/trading-bot-current` (skip SSH if already on server)
 - [ ] Pull: `git pull origin main` (verify changes pulled)
 - [ ] Restart: `sudo systemctl restart tradingbot`
 - [ ] Wait 30 seconds
@@ -451,7 +450,16 @@ Active Slot: /root/trading-bot-current
 
 ### Common Commands
 
-**Deploy:**
+**Deploy (if already on server):**
+```bash
+cd /root/trading-bot-current
+git pull origin main
+sudo systemctl restart tradingbot
+sleep 30
+curl -I http://localhost:8050/
+```
+
+**Deploy (from local machine):**
 ```bash
 ssh root@159.65.168.230
 cd /root/trading-bot-current

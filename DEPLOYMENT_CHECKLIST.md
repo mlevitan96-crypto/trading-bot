@@ -20,10 +20,7 @@ git push origin main
 
 ### 3. Droplet Deployment
 ```bash
-# SSH to server
-ssh root@159.65.168.230
-
-# Navigate and pull
+# Navigate and pull (if already on server, skip SSH)
 cd /root/trading-bot-current
 git pull origin main
 

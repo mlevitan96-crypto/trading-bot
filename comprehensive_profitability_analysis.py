@@ -168,7 +168,7 @@ class ComprehensiveProfitabilityAnalysis:
                                 except:
                                     pass
                     if self.counterfactual_outcomes:
-                        print(f"   ✓ Loaded {len(self.counterfactual_outcomes)} counterfactual outcomes")
+                        print(f"   [OK] Loaded {len(self.counterfactual_outcomes)} counterfactual outcomes")
                         break
                 except Exception as e:
                     print(f"   ⚠ Error loading {path}: {e}")
@@ -190,7 +190,7 @@ class ComprehensiveProfitabilityAnalysis:
                                 except:
                                     pass
                     if self.enriched_decisions:
-                        print(f"   ✓ Loaded {len(self.enriched_decisions)} enriched decisions")
+                        print(f"   [OK] Loaded {len(self.enriched_decisions)} enriched decisions")
                         break
                 except Exception as e:
                     print(f"   ⚠ Error loading {path}: {e}")
@@ -210,7 +210,7 @@ class ComprehensiveProfitabilityAnalysis:
                 try:
                     with open(path, 'r') as f:
                         self.learning_data[key] = json.load(f)
-                    print(f"   ✓ Loaded {key}")
+                    print(f"   [OK] Loaded {key}")
                 except Exception as e:
                     print(f"   ⚠ Error loading {key}: {e}")
         
@@ -255,15 +255,67 @@ class ComprehensiveProfitabilityAnalysis:
         
         signal_performance = {}
         
+        # Match signals to trades by symbol + timestamp
+        # Build signal index by symbol and timestamp
+        signal_index = defaultdict(list)
+        for sig in self.all_signals:
+            symbol = sig.get('symbol') or sig.get('Symbol')
+            ts = sig.get('ts') or sig.get('timestamp') or sig.get('created_at')
+            if symbol and ts:
+                # Convert timestamp to epoch if needed
+                if isinstance(ts, str):
+                    try:
+                        from datetime import datetime
+                        dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+                        ts = dt.timestamp()
+                    except:
+                        try:
+                            ts = float(ts)
+                        except:
+                            continue
+                signal_index[symbol].append((ts, sig))
+        
+        # Sort signals by timestamp for each symbol
+        for symbol in signal_index:
+            signal_index[symbol].sort(key=lambda x: x[0])
+        
         for trade in self.trades:
             # Extract signal data from trade
-            signals = trade.get('signals', {})
+            signals = trade.get('signals', {}) or trade.get('signal_ctx', {}) or trade.get('intelligence', {})
+            
+            # If no signals in trade, try to match from signal universe by symbol + timestamp
             if not signals:
-                # Try to get from enriched decisions
+                symbol = trade.get('symbol')
+                entry_ts = self._get_timestamp(trade, 'entry')
+                
+                if symbol and entry_ts:
+                    # Find signal within 5 minutes before trade entry
+                    matching_signals = signal_index.get(symbol, [])
+                    for sig_ts, sig in reversed(matching_signals):
+                        time_diff = entry_ts - sig_ts
+                        if 0 <= time_diff <= 300:  # Within 5 minutes
+                            # Extract intelligence data from signal
+                            intel = sig.get('intelligence', {}) or sig.get('signal_ctx', {}) or {}
+                            signals = {
+                                'ofi': intel.get('ofi') or intel.get('ofi_score') or intel.get('ofi_value'),
+                                'ensemble': intel.get('ensemble') or intel.get('ensemble_score') or intel.get('composite'),
+                                'liquidation': intel.get('liquidation_bias') or intel.get('liquidation'),
+                                'funding': intel.get('funding') or intel.get('funding_rate'),
+                                'whale_flow': intel.get('whale_flow') or intel.get('taker_ratio'),
+                                'fear_greed': intel.get('fear_greed'),
+                                'regime': intel.get('regime'),
+                                'volatility': intel.get('volatility')
+                            }
+                            # Remove None values
+                            signals = {k: v for k, v in signals.items() if v is not None}
+                            break
+            
+            # Try enriched decisions as fallback
+            if not signals:
                 trade_id = trade.get('trade_id') or trade.get('id')
                 for ed in self.enriched_decisions:
                     if ed.get('trade_id') == trade_id:
-                        signals = ed.get('signals', {})
+                        signals = ed.get('signals', {}) or ed.get('signal_ctx', {})
                         break
             
             pnl = self._get_pnl(trade)
@@ -354,8 +406,50 @@ class ComprehensiveProfitabilityAnalysis:
             'trades': 0, 'winners': 0, 'total_pnl': 0, 'win_pnl': [], 'loss_pnl': []
         })
         
+        # Match signals to trades (same logic as above)
+        signal_index = defaultdict(list)
+        for sig in self.all_signals:
+            symbol = sig.get('symbol') or sig.get('Symbol')
+            ts = sig.get('ts') or sig.get('timestamp') or sig.get('created_at')
+            if symbol and ts:
+                if isinstance(ts, str):
+                    try:
+                        from datetime import datetime
+                        dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+                        ts = dt.timestamp()
+                    except:
+                        try:
+                            ts = float(ts)
+                        except:
+                            continue
+                signal_index[symbol].append((ts, sig))
+        
+        for symbol in signal_index:
+            signal_index[symbol].sort(key=lambda x: x[0])
+        
         for trade in self.trades:
-            signals = trade.get('signals', {})
+            signals = trade.get('signals', {}) or trade.get('signal_ctx', {}) or trade.get('intelligence', {})
+            
+            # Match from signal universe if not in trade
+            if not signals:
+                symbol = trade.get('symbol')
+                entry_ts = self._get_timestamp(trade, 'entry')
+                if symbol and entry_ts:
+                    matching_signals = signal_index.get(symbol, [])
+                    for sig_ts, sig in reversed(matching_signals):
+                        time_diff = entry_ts - sig_ts
+                        if 0 <= time_diff <= 300:
+                            intel = sig.get('intelligence', {}) or sig.get('signal_ctx', {}) or {}
+                            signals = {
+                                'ofi': intel.get('ofi') or intel.get('ofi_score'),
+                                'ensemble': intel.get('ensemble') or intel.get('ensemble_score'),
+                                'liquidation': intel.get('liquidation_bias'),
+                                'funding': intel.get('funding'),
+                                'whale_flow': intel.get('whale_flow') or intel.get('taker_ratio'),
+                            }
+                            signals = {k: v for k, v in signals.items() if v is not None}
+                            break
+            
             if not signals:
                 continue
             

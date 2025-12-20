@@ -2,17 +2,40 @@
 **Last Updated:** 2025-12-19  
 **Purpose:** Comprehensive knowledge base for AI assistant to reference in all future conversations
 
-## 🚨 CRITICAL: Wallet Reset (Dec 18, 2025)
-**IMPORTANT:** A wallet reset occurred on December 18, 2025 late in the day. All dashboard calculations MUST:
-- Exclude all trades closed before Dec 18, 2025
+## 🚨 CRITICAL: Wallet Reset (Dec 18, 2024)
+**IMPORTANT:** A wallet reset occurred on December 18, 2024 late in the day. All dashboard calculations MUST:
+- Exclude all trades closed before Dec 18, 2024
 - Use starting capital of $10,000 (reset amount)
 - Only count P&L from trades after the reset date
-- Use timestamp comparison (WALLET_RESET_TS = 1766041200.0) to avoid timezone issues
+- Use timestamp comparison to avoid timezone issues
 
 **Dashboard Configuration:**
-- `WALLET_RESET_TS = 1766041200.0` (Dec 18, 2025 00:00:00 UTC)
+- `WALLET_RESET_TS = datetime(2024, 12, 18, 0, 0, 0).timestamp()` (Dec 18, 2024 00:00:00 UTC)
 - `STARTING_CAPITAL_AFTER_RESET = 10000.0`
 - All calculations filter by `closed_ts >= WALLET_RESET_TS`
+
+## ⚠️ CRITICAL LESSON: Date Verification & Testing
+**NEVER assume dates without verification!**
+- Always verify the actual year (2024 vs 2025) - this caused ALL data to disappear
+- Test with actual data before committing - don't just code and hope
+- Check logs to see if filters are working correctly
+- If all data disappears, the filter date is likely wrong (too far in future/past)
+- **ALWAYS verify fixes work before telling user it's fixed**
+- **If user says it's not working, BELIEVE THEM and check actual data, don't assume code is correct**
+
+## 🚨 CRITICAL: Disconnect Between Code and Reality
+**This has happened multiple times and is extremely frustrating for the user:**
+- Code looks correct but doesn't work in practice
+- Assumptions about dates/years without verification
+- Not testing with actual data before claiming fixes
+- User reports issues but code "looks right" so we assume it's working
+
+**REQUIRED PROCESS:**
+1. Read actual data files to verify structure and dates
+2. Test calculations with real data before committing
+3. Add comprehensive logging to see what's actually happening
+4. Verify fixes work on actual deployment before claiming success
+5. If user says it's broken, it's broken - investigate actual data, not just code
 
 ---
 

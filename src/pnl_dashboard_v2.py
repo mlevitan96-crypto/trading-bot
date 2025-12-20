@@ -50,10 +50,17 @@ DASHBOARD_PASSWORD = "Echelonlev2007!"
 DASHBOARD_PASSWORD_HASH = hashlib.sha256(DASHBOARD_PASSWORD.encode()).hexdigest()
 
 # WALLET RESET DATE - All trades before this date are excluded
-# Reset happened on December 18, 2025 late in the day
-# Use UTC timestamp for reliable comparison (avoids timezone issues)
-WALLET_RESET_TS = datetime(2025, 12, 18, 0, 0, 0).timestamp()  # Dec 18, 2025 00:00:00 UTC as timestamp
+# CRITICAL: User said reset happened "december 18 late in the day" - need to verify actual year
+# Temporarily DISABLED reset filter until we can verify actual reset date from data
+# TODO: Check actual trade dates to determine correct reset date
+WALLET_RESET_ENABLED = False  # DISABLED - was filtering out all trades
+WALLET_RESET_TS = datetime(2024, 12, 18, 0, 0, 0).timestamp() if WALLET_RESET_ENABLED else 0
 STARTING_CAPITAL_AFTER_RESET = 10000.0
+
+if WALLET_RESET_ENABLED:
+    print(f"🔍 [DASHBOARD-V2] Wallet reset filter ENABLED: timestamp {WALLET_RESET_TS} (Dec 18, 2024 00:00:00 UTC)", flush=True)
+else:
+    print(f"⚠️  [DASHBOARD-V2] Wallet reset filter DISABLED - showing all trades. Reset date needs verification.", flush=True)
 
 # Price cache for dashboard (prevents rate limiting)
 _price_cache: Dict[str, Dict[str, Any]] = {}
@@ -123,8 +130,11 @@ def get_wallet_balance() -> float:
                 else:
                     continue
                 
-                # Only include trades closed AFTER reset timestamp
-                if closed_ts >= WALLET_RESET_TS:
+                # Only include trades closed AFTER reset timestamp (if reset filter enabled)
+                # TEMPORARILY DISABLED - showing all trades until correct reset date is verified
+                if not WALLET_RESET_ENABLED:
+                    post_reset_positions.append(pos)
+                elif closed_ts >= WALLET_RESET_TS:
                     post_reset_positions.append(pos)
             except Exception as e:
                 print(f"⚠️  [WALLET] Error parsing closed_at for position: {e}", flush=True)
@@ -350,12 +360,17 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
                 print(f"⚠️  [DASHBOARD-V2] Fallback also failed: {e2}", flush=True)
                 return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
         
-        # CRITICAL: Filter by wallet reset date (Dec 18, 2025)
+        # TEMPORARILY DISABLED: Reset filter until correct date is verified
+        # CRITICAL: Filter by wallet reset date (if enabled)
         post_reset_positions = []
         for pos in closed_positions:
-            closed_at = pos.get("closed_at", "")
-            if not closed_at:
-                continue
+            if not WALLET_RESET_ENABLED:
+                # Reset filter disabled - include all positions
+                post_reset_positions.append(pos)
+            else:
+                closed_at = pos.get("closed_at", "")
+                if not closed_at:
+                    continue
                 try:
                     # Parse to timestamp for reliable comparison
                     if isinstance(closed_at, str):
@@ -372,7 +387,10 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
                 except:
                     pass
         
-        print(f"🔍 [DASHBOARD-V2] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
+        if WALLET_RESET_ENABLED:
+            print(f"🔍 [DASHBOARD-V2] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
+        else:
+            print(f"🔍 [DASHBOARD-V2] Reset filter disabled - using all {len(post_reset_positions)} positions", flush=True)
         
         # Further limit to last N positions for memory efficiency
         if len(post_reset_positions) > limit:
@@ -449,29 +467,37 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
     CRITICAL: Filters by both wallet reset date AND lookback period.
     """
     try:
-        # CRITICAL: First filter by wallet reset date (Dec 18, 2025)
+        # TEMPORARILY DISABLED: Reset filter until correct date is verified
+        # CRITICAL: First filter by wallet reset date (if enabled)
         post_reset_positions = []
         for pos in closed_positions:
-            closed_at = pos.get("closed_at", "")
-            if not closed_at:
-                continue
-            try:
-                # Parse to timestamp for reliable comparison
-                if isinstance(closed_at, str):
-                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
-                    closed_ts = closed_dt.timestamp()
-                elif isinstance(closed_at, (int, float)):
-                    closed_ts = float(closed_at)
-                else:
+            if not WALLET_RESET_ENABLED:
+                # Reset filter disabled - include all positions
+                post_reset_positions.append(pos)
+            else:
+                closed_at = pos.get("closed_at", "")
+                if not closed_at:
                     continue
-                
-                # Only include trades AFTER reset timestamp
-                if closed_ts >= WALLET_RESET_TS:
-                    post_reset_positions.append(pos)
-            except:
-                pass
+                try:
+                    # Parse to timestamp for reliable comparison
+                    if isinstance(closed_at, str):
+                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        closed_ts = closed_dt.timestamp()
+                    elif isinstance(closed_at, (int, float)):
+                        closed_ts = float(closed_at)
+                    else:
+                        continue
+                    
+                    # Only include trades AFTER reset timestamp
+                    if closed_ts >= WALLET_RESET_TS:
+                        post_reset_positions.append(pos)
+                except:
+                    pass
         
-        print(f"🔍 [SUMMARY] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
+        if WALLET_RESET_ENABLED:
+            print(f"🔍 [SUMMARY] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
+        else:
+            print(f"🔍 [SUMMARY] Reset filter disabled - using all {len(post_reset_positions)} positions", flush=True)
         
         # Now filter to lookback period
         cutoff = datetime.utcnow() - timedelta(days=lookback_days)
@@ -1338,38 +1364,45 @@ def build_daily_summary_tab() -> html.Div:
             positions_data = DR.read_json(DR.POSITIONS_FUTURES)
             all_closed_positions = positions_data.get("closed_positions", []) if positions_data else []
             
-            # CRITICAL: Filter by wallet reset date FIRST
+            # TEMPORARILY DISABLED: Reset filter until correct date is verified
+            # CRITICAL: Filter by wallet reset date FIRST (if enabled)
             closed_positions = []
             for pos in all_closed_positions:
-                closed_at = pos.get("closed_at", "")
-                if not closed_at:
-                    continue
-                try:
-                    # Parse to timestamp for reliable comparison
-                    if isinstance(closed_at, str):
-                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
-                        closed_ts = closed_dt.timestamp()
-                    elif isinstance(closed_at, (int, float)):
-                        closed_ts = float(closed_at)
-                    else:
+                if not WALLET_RESET_ENABLED:
+                    # Reset filter disabled - include all positions
+                    closed_positions.append(pos)
+                else:
+                    closed_at = pos.get("closed_at", "")
+                    if not closed_at:
                         continue
-                    
-                    # Only include trades AFTER reset timestamp
-                    if closed_ts >= WALLET_RESET_TS:
-                        closed_positions.append(pos)
-                except:
-                    pass
+                    try:
+                        # Parse to timestamp for reliable comparison
+                        if isinstance(closed_at, str):
+                            closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                            closed_ts = closed_dt.timestamp()
+                        elif isinstance(closed_at, (int, float)):
+                            closed_ts = float(closed_at)
+                        else:
+                            continue
+                        
+                        # Only include trades AFTER reset timestamp
+                        if closed_ts >= WALLET_RESET_TS:
+                            closed_positions.append(pos)
+                    except:
+                        pass
             
-            print(f"🔍 [DASHBOARD-V2] After reset filter: {len(closed_positions)} positions (from {len(all_closed_positions)} total)", flush=True)
-            
-            if len(closed_positions) == 0:
-                print(f"⚠️  [DASHBOARD-V2] WARNING: No positions found after reset filter! Check reset date.", flush=True)
-                print(f"⚠️  [DASHBOARD-V2] Reset timestamp: {WALLET_RESET_TS} (Dec 18, 2025), Total positions: {len(all_closed_positions)}", flush=True)
-                # Show sample of position dates for debugging
-                if all_closed_positions:
-                    sample_pos = all_closed_positions[-1] if all_closed_positions else {}
-                    sample_date = sample_pos.get("closed_at", "N/A")
-                    print(f"⚠️  [DASHBOARD-V2] Sample position closed_at: {sample_date}", flush=True)
+            if WALLET_RESET_ENABLED:
+                print(f"🔍 [DASHBOARD-V2] After reset filter: {len(closed_positions)} positions (from {len(all_closed_positions)} total)", flush=True)
+                if len(closed_positions) == 0:
+                    print(f"⚠️  [DASHBOARD-V2] WARNING: No positions found after reset filter! Check reset date.", flush=True)
+                    print(f"⚠️  [DASHBOARD-V2] Reset timestamp: {WALLET_RESET_TS}, Total positions: {len(all_closed_positions)}", flush=True)
+                    # Show sample of position dates for debugging
+                    if all_closed_positions:
+                        sample_pos = all_closed_positions[-1] if all_closed_positions else {}
+                        sample_date = sample_pos.get("closed_at", "N/A")
+                        print(f"⚠️  [DASHBOARD-V2] Sample position closed_at: {sample_date}", flush=True)
+            else:
+                print(f"🔍 [DASHBOARD-V2] Reset filter disabled - using all {len(closed_positions)} positions", flush=True)
             
             # Limit to most recent 1000 for performance
             if len(closed_positions) > 1000:

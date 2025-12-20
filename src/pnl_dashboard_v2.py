@@ -395,7 +395,7 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
         if WALLET_RESET_ENABLED:
             print(f"🔍 [DASHBOARD-V2] After reset filter: {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
         else:
-            print(f"🔍 [DASHBOARD-V2] Reset filter disabled - using all {len(post_reset_positions)} positions", flush=True)
+            print(f"🔍 [DASHBOARD-V2] Reset filter disabled - using all {len(post_reset_positions)} positions (from {len(closed_positions)} total)", flush=True)
         
         # Further limit to last N positions for memory efficiency
         if len(post_reset_positions) > limit:
@@ -403,6 +403,13 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
             print(f"🔍 [DASHBOARD-V2] Limited to most recent {limit} positions", flush=True)
         
         closed_positions = post_reset_positions
+        
+        # DEBUG: Log sample of positions to verify data
+        if len(closed_positions) > 0:
+            sample = closed_positions[-1]
+            print(f"🔍 [DASHBOARD-V2] Sample position: symbol={sample.get('symbol', 'N/A')}, closed_at={sample.get('closed_at', 'N/A')}, pnl={sample.get('pnl', sample.get('net_pnl', 0))}", flush=True)
+        else:
+            print(f"⚠️  [DASHBOARD-V2] WARNING: No closed positions after filtering! Check data file.", flush=True)
         
         rows = []
         for pos in closed_positions:
@@ -506,26 +513,53 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
         
         # Now filter to lookback period
         cutoff = datetime.utcnow() - timedelta(days=lookback_days)
+        cutoff_ts = cutoff.timestamp()
         recent_closed = []
         
         # Limit processing to prevent memory issues
-        max_positions_to_process = 1000
+        max_positions_to_process = 2000  # Increased to capture more trades
         positions_to_process = post_reset_positions[-max_positions_to_process:] if len(post_reset_positions) > max_positions_to_process else post_reset_positions
         
+        print(f"🔍 [SUMMARY] Processing {len(positions_to_process)} positions for {lookback_days}-day lookback (cutoff: {cutoff})", flush=True)
+        
+        date_parse_errors = 0
         for pos in positions_to_process:
             closed_at = pos.get("closed_at", "")
-            if closed_at:
-                try:
-                    if isinstance(closed_at, str):
+            if not closed_at:
+                # Skip positions without closed_at
+                continue
+            try:
+                # Parse to timestamp for reliable comparison
+                if isinstance(closed_at, str):
+                    # Handle timezone-aware and naive strings
+                    if "T" in closed_at:
                         closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
                     else:
-                        closed_dt = datetime.fromtimestamp(closed_at)
-                    if closed_dt >= cutoff:
-                        recent_closed.append(pos)
-                except:
-                    pass
+                        # Try other formats
+                        try:
+                            closed_dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
+                        except:
+                            closed_dt = datetime.fromisoformat(closed_at)
+                    closed_ts = closed_dt.timestamp()
+                elif isinstance(closed_at, (int, float)):
+                    closed_ts = float(closed_at)
+                else:
+                    date_parse_errors += 1
+                    continue
+                
+                # Compare timestamps
+                if closed_ts >= cutoff_ts:
+                    recent_closed.append(pos)
+            except Exception as e:
+                date_parse_errors += 1
+                if date_parse_errors <= 5:  # Only log first few errors
+                    print(f"⚠️  [SUMMARY] Date parse error for closed_at='{closed_at}': {e}", flush=True)
+                continue
         
-        print(f"🔍 [SUMMARY] After lookback filter ({lookback_days} days): {len(recent_closed)} positions", flush=True)
+        if date_parse_errors > 0:
+            print(f"⚠️  [SUMMARY] {date_parse_errors} positions had date parse errors", flush=True)
+        
+        print(f"🔍 [SUMMARY] After lookback filter ({lookback_days} days): {len(recent_closed)} positions (from {len(positions_to_process)} processed)", flush=True)
         
         # Calculate stats
         wins = []
@@ -535,10 +569,22 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
         pnl_values_missing = 0
         
         for pos in recent_closed:
-            # Try multiple field names for P&L
-            net_pnl = pos.get("pnl") or pos.get("net_pnl") or pos.get("realized_pnl") or pos.get("profit_usd")
+            # Try multiple field names for P&L (check all possible fields)
+            net_pnl = (pos.get("pnl") or 
+                      pos.get("net_pnl") or 
+                      pos.get("realized_pnl") or 
+                      pos.get("profit_usd") or
+                      pos.get("profit") or
+                      pos.get("total_pnl") or
+                      pos.get("unrealized_pnl"))  # Last resort, though should be 0 for closed
+            
             if net_pnl is None:
                 pnl_values_missing += 1
+                # DEBUG: Log first few missing P&L values
+                if pnl_values_missing <= 3:
+                    symbol = pos.get("symbol", "N/A")
+                    closed_at = pos.get("closed_at", "N/A")
+                    print(f"⚠️  [SUMMARY] Position missing P&L: symbol={symbol}, closed_at={closed_at}, keys={list(pos.keys())[:10]}", flush=True)
                 continue
             try:
                 net_pnl = float(net_pnl)
@@ -551,8 +597,10 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
                     wins.append(net_pnl)
                 else:
                     losses.append(net_pnl)
-            except (TypeError, ValueError):
+            except (TypeError, ValueError) as e:
                 pnl_values_missing += 1
+                if pnl_values_missing <= 3:
+                    print(f"⚠️  [SUMMARY] P&L conversion error: {e}, value={net_pnl}, type={type(net_pnl)}", flush=True)
                 continue
         
         print(f"🔍 [SUMMARY] P&L stats: {pnl_values_found} valid, {pnl_values_missing} missing/invalid, total_pnl=${total_pnl:.2f}", flush=True)

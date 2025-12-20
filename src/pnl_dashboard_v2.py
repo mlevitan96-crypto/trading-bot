@@ -110,37 +110,42 @@ def get_wallet_balance() -> float:
             print(f"🔍 [WALLET] No closed positions, returning starting capital: ${starting_capital:.2f}", flush=True)
             return starting_capital
         
-        print(f"🔍 [WALLET] Processing {len(closed_positions)} closed positions (filtering by reset timestamp: {WALLET_RESET_TS})", flush=True)
+        print(f"🔍 [WALLET] Processing {len(closed_positions)} closed positions", flush=True)
         
-        # CRITICAL: Filter to only trades AFTER wallet reset date (Dec 18, 2025)
+        # TEMPORARILY DISABLED: Reset filter until correct date is verified
+        # CRITICAL: Filter to only trades AFTER wallet reset date (if enabled)
         # Use timestamp comparison to avoid timezone issues
         post_reset_positions = []
         for pos in closed_positions:
-            closed_at = pos.get("closed_at", "")
-            if not closed_at:
-                continue
-            
-            try:
-                # Parse to timestamp for reliable comparison
-                if isinstance(closed_at, str):
-                    closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
-                    closed_ts = closed_dt.timestamp()
-                elif isinstance(closed_at, (int, float)):
-                    closed_ts = float(closed_at)
-                else:
+            if not WALLET_RESET_ENABLED:
+                # Reset filter disabled - include all positions
+                post_reset_positions.append(pos)
+            else:
+                closed_at = pos.get("closed_at", "")
+                if not closed_at:
                     continue
                 
-                # Only include trades closed AFTER reset timestamp (if reset filter enabled)
-                # TEMPORARILY DISABLED - showing all trades until correct reset date is verified
-                if not WALLET_RESET_ENABLED:
-                    post_reset_positions.append(pos)
-                elif closed_ts >= WALLET_RESET_TS:
-                    post_reset_positions.append(pos)
-            except Exception as e:
-                print(f"⚠️  [WALLET] Error parsing closed_at for position: {e}", flush=True)
-                continue
+                try:
+                    # Parse to timestamp for reliable comparison
+                    if isinstance(closed_at, str):
+                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        closed_ts = closed_dt.timestamp()
+                    elif isinstance(closed_at, (int, float)):
+                        closed_ts = float(closed_at)
+                    else:
+                        continue
+                    
+                    # Only include trades closed AFTER reset timestamp
+                    if closed_ts >= WALLET_RESET_TS:
+                        post_reset_positions.append(pos)
+                except Exception as e:
+                    print(f"⚠️  [WALLET] Error parsing closed_at for position: {e}", flush=True)
+                    continue
         
-        print(f"🔍 [WALLET] Found {len(post_reset_positions)} positions after reset date (out of {len(closed_positions)} total)", flush=True)
+        if WALLET_RESET_ENABLED:
+            print(f"🔍 [WALLET] Found {len(post_reset_positions)} positions after reset date (out of {len(closed_positions)} total)", flush=True)
+        else:
+            print(f"🔍 [WALLET] Reset filter disabled - using all {len(post_reset_positions)} positions", flush=True)
         
         if not post_reset_positions:
             print(f"🔍 [WALLET] No positions after reset date, returning starting capital: ${starting_capital:.2f}", flush=True)

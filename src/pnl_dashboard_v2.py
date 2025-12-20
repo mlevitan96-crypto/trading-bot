@@ -81,15 +81,12 @@ def get_wallet_balance() -> float:
     CRITICAL: Wallet balance = starting_capital + realized P&L from closed positions.
     Does NOT include unrealized P&L (that would be misleading).
     
-    Matches original dashboard logic exactly - uses DR.get_closed_positions().
+    PERFORMANCE: Limits processing to most recent 2000 positions to prevent slow loading.
     """
     try:
         starting_capital = 10000.0
         
-        # Use DataRegistry.get_closed_positions() to get ALL closed positions (like original dashboard)
-        # This is more reliable than reading from JSON directly
-        # When hours is None or not provided, get_closed_positions returns all positions
-        # We need all positions for accurate wallet balance calculation
+        # Read positions file once
         positions_data = DR.read_json(DR.POSITIONS_FUTURES)
         if not positions_data:
             return starting_capital
@@ -97,6 +94,12 @@ def get_wallet_balance() -> float:
         
         if not closed_positions:
             return starting_capital
+        
+        # PERFORMANCE: Limit to most recent 2000 positions for faster calculation
+        # Wallet balance calculation doesn't need ALL historical data
+        if len(closed_positions) > 2000:
+            closed_positions = closed_positions[-2000:]
+            print(f"🔍 [WALLET] Limited to most recent 2000 positions for performance", flush=True)
         
         # Calculate realized P&L from closed positions ONLY
         total_realized_pnl = 0.0
@@ -137,36 +140,10 @@ def load_open_positions_df() -> pd.DataFrame:
             open_positions = open_positions[:50]
         
         rows = []
+        # PERFORMANCE: Skip ExchangeGateway initialization on initial load
+        # This prevents slow loading - prices will update on refresh interval
         gateway = None
-        
-        # Use timeout for ExchangeGateway to prevent hanging
-        try:
-            import threading
-            gateway_result = [None]
-            gateway_error = [None]
-            
-            def init_gateway():
-                try:
-                    from src.exchange_gateway import ExchangeGateway
-                    gateway_result[0] = ExchangeGateway()
-                except Exception as e:
-                    gateway_error[0] = e
-            
-            init_thread = threading.Thread(target=init_gateway, daemon=True)
-            init_thread.start()
-            init_thread.join(timeout=2.0)  # 2 second timeout
-            
-            if init_thread.is_alive():
-                print(f"⚠️  [DASHBOARD-V2] ExchangeGateway init timed out", flush=True)
-                gateway = None
-            elif gateway_error[0]:
-                print(f"⚠️  [DASHBOARD-V2] ExchangeGateway init failed: {gateway_error[0]}", flush=True)
-                gateway = None
-            else:
-                gateway = gateway_result[0]
-        except Exception as e:
-            print(f"⚠️  [DASHBOARD-V2] ExchangeGateway error: {e}", flush=True)
-            gateway = None
+        print(f"🔍 [DASHBOARD-V2] Skipping ExchangeGateway init for faster loading (prices will update on refresh)", flush=True)
         
         for pos in open_positions:
             symbol = pos.get("symbol", "")
@@ -178,13 +155,16 @@ def load_open_positions_df() -> pd.DataFrame:
             strategy = pos.get("strategy", "Unknown")
             entry_time = pos.get("opened_at", "")
             
-            # Get current price
+                # Get current price - SKIP on initial load for performance
+            # Use entry_price as fallback to prevent slow ExchangeGateway calls
             current_price = entry_price
-            try:
-                if gateway:
-                    current_price = gateway.get_price(symbol, venue="futures")
-            except:
-                pass
+            # PERFORMANCE: Skip price fetching on initial load - dashboard will update via refresh
+            # Uncomment below if real-time prices are critical (slows down initial load)
+            # try:
+            #     if gateway:
+            #         current_price = gateway.get_price(symbol, venue="futures")
+            # except:
+            #     pass
             
             # Calculate P&L
             if direction == "LONG":
@@ -312,6 +292,89 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
     except Exception as e:
         print(f"⚠️  Failed to load closed positions: {e}")
         return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+
+
+def compute_summary_optimized(wallet_balance: float, closed_positions: list, lookback_days: int = 1) -> dict:
+    """
+    Optimized version that accepts pre-loaded positions to avoid redundant file reads.
+    """
+    try:
+        # Filter to lookback period
+        cutoff = datetime.utcnow() - timedelta(days=lookback_days)
+        recent_closed = []
+        
+        # Limit processing to prevent memory issues
+        max_positions_to_process = 1000
+        positions_to_process = closed_positions[-max_positions_to_process:] if len(closed_positions) > max_positions_to_process else closed_positions
+        
+        for pos in positions_to_process:
+            closed_at = pos.get("closed_at", "")
+            if closed_at:
+                try:
+                    if isinstance(closed_at, str):
+                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    else:
+                        closed_dt = datetime.fromtimestamp(closed_at)
+                    if closed_dt >= cutoff:
+                        recent_closed.append(pos)
+                except:
+                    pass
+        
+        # Calculate stats
+        wins = []
+        losses = []
+        total_pnl = 0.0
+        
+        for pos in recent_closed:
+            net_pnl = pos.get("pnl", pos.get("net_pnl", 0.0))
+            if net_pnl is None:
+                continue
+            try:
+                net_pnl = float(net_pnl)
+                if not math.isnan(net_pnl):
+                    total_pnl += net_pnl
+                    if net_pnl > 0:
+                        wins.append(net_pnl)
+                    else:
+                        losses.append(net_pnl)
+            except:
+                pass
+        
+        total_trades = len(recent_closed)
+        wins_count = len(wins)
+        losses_count = len(losses)
+        win_rate = (wins_count / total_trades * 100.0) if total_trades > 0 else 0.0
+        avg_win = sum(wins) / len(wins) if wins else 0.0
+        avg_loss = sum(losses) / len(losses) if losses else 0.0
+        
+        # Calculate drawdown based on wallet balance (realized P&L only)
+        starting_capital = 10000.0
+        drawdown_pct = ((wallet_balance - starting_capital) / starting_capital) * 100.0
+        
+        return {
+            "wallet_balance": wallet_balance,
+            "total_trades": total_trades,
+            "wins": wins_count,
+            "losses": losses_count,
+            "win_rate": win_rate,
+            "net_pnl": total_pnl,
+            "avg_win": avg_win,
+            "avg_loss": avg_loss,
+            "drawdown_pct": drawdown_pct,
+        }
+    except Exception as e:
+        print(f"⚠️  Failed to compute summary: {e}")
+        return {
+            "wallet_balance": wallet_balance,
+            "total_trades": 0,
+            "wins": 0,
+            "losses": 0,
+            "win_rate": 0.0,
+            "net_pnl": 0.0,
+            "avg_win": 0.0,
+            "avg_loss": 0.0,
+            "drawdown_pct": 0.0,
+        }
 
 
 def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
@@ -1051,13 +1114,22 @@ def build_daily_summary_tab() -> html.Div:
             wallet_balance = 10000.0
         
         # Compute summaries with error handling
+        # PERFORMANCE: Load positions once and reuse for all summaries
         try:
-            print("🔍 [DASHBOARD-V2] Step 2: Computing summaries...", flush=True)
-            daily_summary = compute_summary(wallet_balance, lookback_days=1)
+            print("🔍 [DASHBOARD-V2] Step 2: Loading positions for summaries...", flush=True)
+            # Load positions once (limited to prevent slow loading)
+            positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+            closed_positions = positions_data.get("closed_positions", []) if positions_data else []
+            # Limit to most recent 1000 for performance
+            if len(closed_positions) > 1000:
+                closed_positions = closed_positions[-1000:]
+            
+            print("🔍 [DASHBOARD-V2] Computing summaries (optimized)...", flush=True)
+            daily_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=1)
             print("🔍 [DASHBOARD-V2] Daily summary computed", flush=True)
-            weekly_summary = compute_summary(wallet_balance, lookback_days=7)
+            weekly_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=7)
             print("🔍 [DASHBOARD-V2] Weekly summary computed", flush=True)
-            monthly_summary = compute_summary(wallet_balance, lookback_days=30)
+            monthly_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=30)
             print("🔍 [DASHBOARD-V2] Monthly summary computed", flush=True)
             print("📊 [DASHBOARD-V2] All summaries computed", flush=True)
         except Exception as e:

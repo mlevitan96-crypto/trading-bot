@@ -2,6 +2,18 @@
 **Last Updated:** 2025-12-19  
 **Purpose:** Comprehensive knowledge base for AI assistant to reference in all future conversations
 
+## 🚨 CRITICAL: Wallet Reset (Dec 18, 2025)
+**IMPORTANT:** A wallet reset occurred on December 18, 2025 late in the day. All dashboard calculations MUST:
+- Exclude all trades closed before Dec 18, 2025
+- Use starting capital of $10,000 (reset amount)
+- Only count P&L from trades after the reset date
+- Use timestamp comparison (WALLET_RESET_TS = 1766041200.0) to avoid timezone issues
+
+**Dashboard Configuration:**
+- `WALLET_RESET_TS = 1766041200.0` (Dec 18, 2025 00:00:00 UTC)
+- `STARTING_CAPITAL_AFTER_RESET = 10000.0`
+- All calculations filter by `closed_ts >= WALLET_RESET_TS`
+
 ---
 
 ## 🎯 Project Overview

@@ -23,19 +23,69 @@
 - **ALWAYS verify fixes work before telling user it's fixed**
 - **If user says it's not working, BELIEVE THEM and check actual data, don't assume code is correct**
 
-## 🚨 CRITICAL: Disconnect Between Code and Reality
-**This has happened multiple times and is extremely frustrating for the user:**
-- Code looks correct but doesn't work in practice
-- Assumptions about dates/years without verification
-- Not testing with actual data before claiming fixes
-- User reports issues but code "looks right" so we assume it's working
+## 🚨 CRITICAL: Disconnect Between Code and Reality - DECEMBER 2024 INCIDENT
+**This incident caused EXTREME frustration and must NEVER happen again:**
 
-**REQUIRED PROCESS:**
-1. Read actual data files to verify structure and dates
-2. Test calculations with real data before committing
-3. Add comprehensive logging to see what's actually happening
-4. Verify fixes work on actual deployment before claiming success
-5. If user says it's broken, it's broken - investigate actual data, not just code
+### What Happened (December 18-20, 2024):
+1. **Initial Problem**: Dashboard P&L data showing zeros, wallet balance incorrect after wallet reset on Dec 18, 2024
+2. **First "Fix"**: Implemented wallet reset filter with date Dec 18, 2025 (WRONG YEAR - future date)
+   - Result: ALL trades filtered out, dashboard showed no data, wallet went negative
+   - User: "All closed trades are gone and the wallet is back to negative. None of the other things are right either. FRUSTRATING!"
+3. **Second "Fix"**: Disabled reset filter, but summary calculations still showed zeros
+   - Result: Closed trades visible, but summary stats (Net P&L, Win Rate, Wins/Losses, Total Trades) all zeros
+   - User: "Everything is showing. The data in the summary section is still not working. Everything there is still a 0. I need that data to work. The references are incorrect. Figure that out!!!!"
+4. **Root Causes**:
+   - Assumed year without checking (2025 vs 2024)
+   - Didn't verify date formats in actual data (timezone-aware strings like "2025-12-17T18:08:33.859132-07:00")
+   - Didn't test with real data before claiming fixes
+   - Summary function had date parsing issues and P&L field name mismatches
+   - Silent failures in date parsing (exceptions caught but not logged)
+
+### User's Explicit Feedback:
+- "How is there such a disconnect between what you are telling me and what I am seeing??????????????????????????????"
+- "I need you to fix it and confirm it is fixed before telling me it is fixed. I have been dealing with this all day copying and pasting back and forth. It shouldn't be this hard. Check your work and make sure it is correct."
+- "Put this in the memory bank as something that can't keep happening."
+
+### REQUIRED PROCESS (MANDATORY):
+1. **BEFORE making any date-related changes:**
+   - Read actual data file to see date formats
+   - Check sample positions to verify year, timezone, format
+   - Test date parsing with actual data samples
+   - Verify filter logic with real timestamps
+
+2. **BEFORE claiming a fix:**
+   - Test with actual data (don't just review code)
+   - Add comprehensive logging to show what's happening
+   - Verify calculations with known good data
+   - Check logs after deployment to confirm it works
+
+3. **WHEN user reports issues:**
+   - BELIEVE THE USER - if they say it's broken, it's broken
+   - Don't assume code is correct just because it looks right
+   - Check actual data files, not just code
+   - Add debug logging to see what's actually happening
+   - Test with real data before responding
+
+4. **For summary/calculation functions:**
+   - Check multiple P&L field name variations (`pnl`, `net_pnl`, `realized_pnl`, `profit_usd`, etc.)
+   - Handle timezone-aware date strings properly
+   - Log parse errors instead of silently failing
+   - Verify date comparisons work with actual data formats
+
+### Key Technical Details:
+- **Date Format in Data**: `"2025-12-17T18:08:33.859132-07:00"` (timezone-aware ISO format)
+- **P&L Field Names**: Primary is `"pnl"`, fallbacks: `"net_pnl"`, `"realized_pnl"`, `"profit_usd"`
+- **Wallet Reset Date**: December 18, 2024 (NOT 2025) late in the day
+- **Bad Trades Window**: December 18, 2025 1:00 AM - 6:00 AM UTC (deleted via script)
+
+### Final Resolution:
+- Disabled reset filter temporarily
+- Fixed date parsing to handle timezone-aware strings
+- Improved P&L field detection with multiple fallbacks
+- Added comprehensive logging for debugging
+- Created `scripts/delete_bad_trades.py` to remove bad trades
+
+**THIS MUST BE REFERENCED AT THE START OF EVERY CONVERSATION ABOUT DASHBOARD OR DATA FILTERING**
 
 ---
 

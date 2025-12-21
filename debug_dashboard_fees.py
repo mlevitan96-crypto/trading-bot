@@ -81,6 +81,7 @@ try:
             print(f"   {symbol}: fees=${fees:.2f}, trading=${trading_fees:.2f}, funding=${funding_fees:.2f}")
         
         # Check if fees column has any non-zero values
+        import pandas as pd
         non_zero_fees = df[df["fees"] > 0] if "fees" in df.columns else pd.DataFrame()
         print(f"\n   Trades with fees > 0: {len(non_zero_fees)}/{len(df)}")
         if len(non_zero_fees) > 0:

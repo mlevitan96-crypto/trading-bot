@@ -409,7 +409,7 @@ def load_closed_positions_df():
         
         if not closed_positions:
             print("ℹ️  [DASHBOARD] No closed positions found in last 7 days")
-            return pd.DataFrame(columns=["symbol","strategy","entry_time","exit_time","entry_price","exit_price","size","hold_duration_h","roi_pct","net_pnl","fees"])
+            return pd.DataFrame(columns=["symbol","strategy","entry_time","exit_time","entry_price","exit_price","size","hold_duration_h","roi_pct","net_pnl","fees","trading_fees","funding_fees"])
         
         df_data = []
         for pos in closed_positions:
@@ -428,8 +428,19 @@ def load_closed_positions_df():
             except:
                 hold_duration_h = 0.0
             
-            # Extract fees
-            fees = float(pos.get("trading_fees", 0) or 0) + float(pos.get("funding_fees", 0) or 0)
+            # Extract fees - handle multiple formats (SQLite: fees_usd, JSON: trading_fees + funding_fees)
+            fees_usd = pos.get("fees_usd", 0)  # SQLite format
+            trading_fees = pos.get("trading_fees", 0)
+            funding_fees = pos.get("funding_fees", 0)
+            legacy_fees = pos.get("fees", 0)
+            
+            # Calculate total fees with proper fallback logic
+            if fees_usd and fees_usd != 0:
+                fees = float(fees_usd)
+            elif (trading_fees and trading_fees != 0) or (funding_fees and funding_fees != 0):
+                fees = float(trading_fees or 0) + float(funding_fees or 0)
+            else:
+                fees = float(legacy_fees or 0.0)
             
             # Get P&L - try multiple field names for compatibility
             pnl_value = pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0.0)))
@@ -462,7 +473,9 @@ def load_closed_positions_df():
                 "hold_duration_h": hold_duration_h,
                 "roi_pct": float(roi_value) * 100.0,
                 "net_pnl": float(pnl_value),
-                "fees": fees
+                "fees": fees,
+                "trading_fees": float(trading_fees or 0),  # Include breakdown for detailed view
+                "funding_fees": float(funding_fees or 0)
             })
         
         df = pd.DataFrame(df_data)
@@ -475,7 +488,7 @@ def load_closed_positions_df():
         print(f"⚠️  Failed to load closed positions: {e}")
         import traceback
         traceback.print_exc()
-        return pd.DataFrame(columns=["symbol","strategy","entry_time","exit_time","entry_price","exit_price","size","hold_duration_h","roi_pct","net_pnl","fees"])
+        return pd.DataFrame(columns=["symbol","strategy","entry_time","exit_time","entry_price","exit_price","size","hold_duration_h","roi_pct","net_pnl","fees","trading_fees","funding_fees"])
 
 def load_open_positions_df():
     """Load open positions from DataRegistry with real-time pricing and auto-remediation."""

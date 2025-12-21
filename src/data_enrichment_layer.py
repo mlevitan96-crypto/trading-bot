@@ -105,6 +105,20 @@ def enrich_recent_decisions(lookback_hours=48):
         ens_val = float(signal.get("composite") or signal.get("ensemble_score") or signal.get("ensemble") or 0.0)
         roi_val = float(signal.get("expected_roi") or signal.get("roi") or signal.get("roi_threshold") or 0.0)
         
+        # FEE TRACKING FIX: Properly extract fees from multiple possible field names
+        fees_usd = trade.get("fees_usd", 0)  # SQLite format
+        trading_fees = trade.get("trading_fees", 0)
+        funding_fees = trade.get("funding_fees", 0)
+        legacy_fees = trade.get("fees", 0)
+        
+        # Calculate total fees: prefer fees_usd, then sum trading_fees + funding_fees, then legacy "fees"
+        if fees_usd and fees_usd != 0:
+            total_fees = float(fees_usd)
+        elif (trading_fees and trading_fees != 0) or (funding_fees and funding_fees != 0):
+            total_fees = float(trading_fees or 0) + float(funding_fees or 0)
+        else:
+            total_fees = float(legacy_fees or 0.0)
+        
         # Create enriched record with BOTH signal context AND outcome
         enriched_record = {
             "ts": trade.get("ts"),
@@ -121,22 +135,8 @@ def enrich_recent_decisions(lookback_hours=48):
                 "_unmatched": signal.get("_unmatched", False)
             },
             
-            # Outcome data (for scoring)
-            # FEE TRACKING FIX: Properly extract fees from multiple possible field names
-            fees_usd = trade.get("fees_usd", 0)  # SQLite format
-            trading_fees = trade.get("trading_fees", 0)
-            funding_fees = trade.get("funding_fees", 0)
-            legacy_fees = trade.get("fees", 0)
-            
-            # Calculate total fees: prefer fees_usd, then sum trading_fees + funding_fees, then legacy "fees"
-            if fees_usd and fees_usd != 0:
-                total_fees = float(fees_usd)
-            elif (trading_fees and trading_fees != 0) or (funding_fees and funding_fees != 0):
-                total_fees = float(trading_fees or 0) + float(funding_fees or 0)
-            else:
-                total_fees = float(legacy_fees or 0.0)
-            
-            enriched_record["outcome"] = {
+            # Outcome data (for scoring) - includes proper fee tracking
+            "outcome": {
                 "pnl_usd": float(trade.get("net_pnl", 0.0) or 0.0),
                 "pnl_pct": float(trade.get("pnl_pct", 0.0) or 0.0),
                 "fees": total_fees,
@@ -145,7 +145,7 @@ def enrich_recent_decisions(lookback_hours=48):
                 "entry_price": float(trade.get("entry_price", 0.0) or 0.0),
                 "exit_price": float(trade.get("exit_price", 0.0) or 0.0),
                 "leverage": float(trade.get("leverage", 1.0) or 1.0)
-            }
+            },
             
             # Metadata
             "venue": trade.get("venue", "futures"),

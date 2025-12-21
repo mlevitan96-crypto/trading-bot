@@ -170,7 +170,19 @@ def get_closed_futures_positions(limit=100):
             
             gross_pnl = pos.get("gross_pnl", 0)
             net_pnl = pos.get("net_pnl", pos.get("realized_pnl", 0))
-            fees = pos.get("trading_fees", pos.get("fees", 0)) + pos.get("funding_fees", 0)
+            
+            # FEE TRACKING FIX: Handle both SQLite format (fees_usd) and JSON format (trading_fees + funding_fees)
+            fees_usd = pos.get("fees_usd", 0)  # SQLite format
+            trading_fees = pos.get("trading_fees", 0)
+            funding_fees = pos.get("funding_fees", 0)
+            
+            # If fees_usd exists (from SQLite), use it; otherwise sum trading_fees + funding_fees
+            if fees_usd and fees_usd != 0:
+                fees = fees_usd
+            else:
+                # Try legacy "fees" field, then sum trading_fees + funding_fees
+                fees = pos.get("fees", 0) or (trading_fees + funding_fees)
+            
             roi_pct = pos.get("final_roi", pos.get("roi_pct", 0))
             
             if isinstance(roi_pct, float) and abs(roi_pct) < 1:
@@ -199,6 +211,8 @@ def get_closed_futures_positions(limit=100):
                 "hold_duration_s": hold_duration_s,
                 "gross_pnl": gross_pnl,
                 "fees": fees,
+                "trading_fees": trading_fees,  # Include separate fields for detailed display
+                "funding_fees": funding_fees,
                 "net_pnl": net_pnl,
                 "roi_pct": roi_pct,
                 "conviction": pos.get("conviction", "UNKNOWN"),

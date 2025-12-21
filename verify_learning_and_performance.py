@@ -186,9 +186,10 @@ if trades_file.exists():
             # Check recent trades
             if closed:
                 recent_trades = closed[-50:]  # Last 50
-                wins = sum(1 for t in recent_trades if float(t.get("profit_usd", 0)) > 0)
+                # Try multiple field names for P&L (pnl, net_pnl, profit_usd)
+                wins = sum(1 for t in recent_trades if float(t.get("pnl", t.get("net_pnl", t.get("profit_usd", 0)))) > 0)
                 wr = (wins / len(recent_trades)) * 100 if recent_trades else 0
-                total_pnl = sum(float(t.get("profit_usd", 0)) for t in recent_trades)
+                total_pnl = sum(float(t.get("pnl", t.get("net_pnl", t.get("profit_usd", 0)))) for t in recent_trades)
                 
                 results["data_collection"]["recent_performance"] = {
                     "trades": len(recent_trades),
@@ -306,9 +307,10 @@ if trades_file.exists():
             last_50 = closed[-50:]
             
             def calc_metrics(trades):
-                wins = sum(1 for t in trades if float(t.get("profit_usd", 0)) > 0)
+                # Try multiple field names for P&L (pnl, net_pnl, profit_usd)
+                wins = sum(1 for t in trades if float(t.get("pnl", t.get("net_pnl", t.get("profit_usd", 0)))) > 0)
                 wr = (wins / len(trades)) * 100 if trades else 0
-                pnl = sum(float(t.get("profit_usd", 0)) for t in trades)
+                pnl = sum(float(t.get("pnl", t.get("net_pnl", t.get("profit_usd", 0)))) for t in trades)
                 avg_pnl = pnl / len(trades) if trades else 0
                 return {"win_rate": wr, "total_pnl": pnl, "avg_pnl": avg_pnl, "trades": len(trades)}
             

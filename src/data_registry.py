@@ -9,7 +9,6 @@ NEVER hardcode paths elsewhere in the codebase.
 - READ MEMORY_BANK.md - Contains critical information about data structure
 - See "CRITICAL: Disconnect Between Code and Reality" section
 - Follow REQUIRED PROCESS for date/data changes
-"""
 
 Usage:
     from src.data_registry import DataRegistry as DR

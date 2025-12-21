@@ -107,14 +107,14 @@ if trades_file.exists():
             # Check last 50 trades
             recent = closed[-50:]
             
-            # Check if profit_usd field exists and has values
-            has_profit_field = all("profit_usd" in t for t in recent)
-            profit_values = [float(t.get("profit_usd", 0)) for t in recent]
+            # Check if P&L field exists (try multiple field names)
+            has_pnl_field = all(("pnl" in t or "net_pnl" in t or "profit_usd" in t) for t in recent)
+            profit_values = [float(t.get("pnl", t.get("net_pnl", t.get("profit_usd", 0)))) for t in recent]
             non_zero_profits = [p for p in profit_values if p != 0]
             
             print(f"   Total closed trades: {len(closed)}")
             print(f"   Recent 50 trades:")
-            print(f"      Has profit_usd field: {has_profit_field}")
+            print(f"      Has P&L field (pnl/net_pnl/profit_usd): {has_pnl_field}")
             print(f"      Non-zero profits: {len(non_zero_profits)}/{len(recent)}")
             
             if len(non_zero_profits) == 0:

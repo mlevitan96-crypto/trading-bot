@@ -679,6 +679,40 @@ journalctl -u tradingbot --since "10 minutes ago" | grep "DASHBOARD-V2"
 
 ---
 
+## Fee Tracking Status (December 2024)
+
+### Fee Data Collection
+✅ **Fees ARE being tracked and recorded:**
+- Trading fees: Recorded in all trades ($0.05-$0.96 per trade, avg $0.25)
+- Funding fees: Recorded when applicable (typically $0.00 for quick closes)
+- Total fees across all trades: ~$545.93
+- Fees are stored in `trading_fees` and `funding_fees` fields in trade records
+- Fees are properly extracted in `data_enrichment_layer.py` for learning engine
+
+### Fee Usage in Calculations
+✅ **Fees ARE being used in all critical calculations:**
+- **Net P&L**: All `net_pnl` values already include fees deducted (gross P&L - fees)
+- **Learning Engine**: Fees are included in enriched decision records (`data_enrichment_layer.py` lines 142-144)
+- **Portfolio Tracking**: Fees are accumulated in portfolio totals (`futures_portfolio_tracker.py`)
+- **Counterfactual Learning**: Fees are used in hypothetical P&L calculations (`decision_attribution.py`)
+- **Signal Evaluation**: Fees are part of outcome data used for signal weight learning
+
+### Dashboard Display Issue
+⚠️ **Known Issue (December 2024):**
+- Fees column in dashboard closed trades table shows $0.00 (display issue only)
+- Fee extraction logic in `pnl_dashboard.py` is correct
+- Summary card "Total Fees" calculation works correctly
+- **User Decision**: Not troubleshooting dashboard display further as long as fees are used in calculations
+- **Root Cause**: Likely browser cache or Dash table rendering issue, but not critical since fees are used in all calculations
+
+### User Preference
+**User explicitly stated (December 2024):**
+- "As long as they are being calculated somewhere and part of the overall signals calculation, then I don't want to proceed with troubleshooting."
+- Do NOT attempt further dashboard fee display fixes unless explicitly requested
+- Focus on ensuring fees are used in learning and profitability calculations (which they are)
+
+---
+
 **Note**: This memory bank should be updated whenever:
 - New components are added
 - Architecture changes are made

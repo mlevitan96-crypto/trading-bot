@@ -43,22 +43,42 @@ if pending_file.exists():
             # and outcomes increased significantly, we're making progress
             
             if pending_count > 0:
-                # Rough estimate: ~10-20 signals per second based on logs
-                signals_per_second = 15  # Conservative estimate
-                seconds_remaining = pending_count / signals_per_second
-                minutes_remaining = seconds_remaining / 60
+                # UPDATED: Batch processing mode (200 signals per cycle, 60s per cycle)
+                # Each signal resolves at 5 horizons, but we process 200 signals per cycle
+                signals_per_cycle = 200  # From resolve_pending_signals(max_signals_per_cycle=200)
+                cycle_interval_seconds = 60  # Healing cycle runs every 60 seconds
                 
-                print(f"\nEstimated Time Remaining:")
-                if minutes_remaining < 1:
-                    print(f"   ~{int(seconds_remaining)} seconds")
-                elif minutes_remaining < 60:
-                    print(f"   ~{int(minutes_remaining)} minutes")
+                # Calculate cycles needed
+                cycles_needed = (pending_count + signals_per_cycle - 1) // signals_per_cycle  # Ceiling division
+                total_seconds = cycles_needed * cycle_interval_seconds
+                minutes_remaining = total_seconds / 60
+                hours_remaining = minutes_remaining / 60
+                
+                print(f"\nEstimated Time Remaining (Batch Processing Mode):")
+                print(f"   Processing: {signals_per_cycle} signals per cycle")
+                print(f"   Cycle interval: {cycle_interval_seconds} seconds")
+                print(f"   Cycles needed: {cycles_needed:,}")
+                
+                if hours_remaining < 1:
+                    print(f"   Time: ~{int(minutes_remaining)} minutes")
                 else:
-                    hours = int(minutes_remaining / 60)
+                    hours = int(hours_remaining)
                     mins = int(minutes_remaining % 60)
-                    print(f"   ~{hours} hours {mins} minutes")
+                    print(f"   Time: ~{hours} hours {mins} minutes")
                 
-                print(f"\nProgress: {((30427 - pending_count) / 30427 * 100):.1f}% complete")
+                # Progress calculation (assuming we started with ~30,427 signals)
+                initial_count = 30427  # Approximate starting point
+                if initial_count > pending_count:
+                    progress_pct = ((initial_count - pending_count) / initial_count) * 100
+                    print(f"\nProgress: {progress_pct:.1f}% complete")
+                else:
+                    # More signals added since start
+                    resolved_estimate = outcomes_count // 5  # Rough: 5 outcomes per signal
+                    if resolved_estimate > 0:
+                        progress_pct = (resolved_estimate / (resolved_estimate + pending_count)) * 100
+                        print(f"\nProgress: ~{progress_pct:.1f}% complete (estimated)")
+                    else:
+                        print(f"\nProgress: Calculating...")
             else:
                 print(f"\n[COMPLETE] All signals resolved!")
         else:

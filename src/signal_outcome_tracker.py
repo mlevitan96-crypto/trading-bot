@@ -258,12 +258,17 @@ class SignalOutcomeTracker:
         print(f"[SignalTracker] Logged signal {signal_id}: {clean_symbol} {signal_name} {direction} conf={confidence:.2f} price={price:.2f}")
         return signal_id
     
-    def resolve_pending_signals(self) -> int:
+    def resolve_pending_signals(self, max_signals_per_cycle: int = 200, throttle_ms: int = 10) -> int:
         """
         Check all pending signals and resolve those that have passed their horizon times.
         Should be called every minute (or more frequently).
         
         All time comparisons use UTC epoch seconds (time.time()) to avoid timezone issues.
+        
+        Args:
+            max_signals_per_cycle: Maximum signals to process per cycle (default: 200)
+                                  Set to None to process all signals (CPU-intensive)
+            throttle_ms: Milliseconds to sleep between batches (default: 10ms)
         
         Returns:
             Number of signals fully resolved
@@ -278,8 +283,23 @@ class SignalOutcomeTracker:
         if total_pending == 0:
             return 0
         
+        # OPTIMIZATION: Process signals in batches to reduce CPU load
+        # Prioritize signals that are ready to resolve (oldest first)
+        signals_list = list(self.pending_signals.items())
+        
+        # Sort by age (oldest first) to resolve ready signals first
+        signals_list.sort(key=lambda x: x[1].ts_epoch)
+        
+        # Limit batch size to prevent CPU overload
+        if max_signals_per_cycle and len(signals_list) > max_signals_per_cycle:
+            signals_list = signals_list[:max_signals_per_cycle]
+            if total_pending > max_signals_per_cycle:
+                # Only log throttling if we're actually limiting
+                if throttle_ms > 0:
+                    time.sleep(throttle_ms / 1000.0)  # Small delay to reduce CPU load
+        
         with self._lock:
-            for signal_id, signal in list(self.pending_signals.items()):
+            for signal_id, signal in signals_list:
                 try:
                     # Ensure ts_epoch is a float (UTC epoch seconds)
                     if not isinstance(signal.ts_epoch, (int, float)):
@@ -309,28 +329,24 @@ class SignalOutcomeTracker:
                         target_time = signal.ts_epoch + HORIZON_SECONDS[horizon]
                         time_until_target = target_time - now
                         
-                        # Debug logging for 1h horizon (the problematic one)
-                        if horizon == '1h':
-                            print(f"[SignalTracker] Checking 1h horizon for {signal_id}: ts_epoch={signal.ts_epoch:.0f}, target_time={target_time:.0f}, now={now:.0f}, time_until={time_until_target:.0f}s, age={signal_age_seconds:.0f}s")
-                        
+                        # Reduced logging for performance - only log errors
                         if now >= target_time:
                             price = self._get_current_price(signal.symbol)
                             if price is not None:
                                 signal.prices[horizon] = price
                                 signal.resolved_horizons.append(horizon)
                                 horizons_resolved_this_cycle += 1
-                                print(f"[SignalTracker] Resolved {signal_id} {horizon}: {price:.2f} (signal: {signal.symbol} {signal.signal_name} {signal.direction}, age={signal_age_seconds:.0f}s)")
-                            else:
-                                print(f"[SignalTracker] Warning: Could not fetch price for {signal.symbol} at {horizon} horizon")
-                        elif horizon == '1h':
-                            # Log why 1h is not resolving
-                            print(f"[SignalTracker] 1h horizon not ready for {signal_id}: need {time_until_target:.0f}s more (target={target_time:.0f}, now={now:.0f})")
+                                # Only log every 50th resolution to reduce I/O overhead
+                                if horizons_resolved_this_cycle % 50 == 0:
+                                    print(f"[SignalTracker] Resolved {horizons_resolved_this_cycle} horizons so far... ({signal.symbol} {horizon})")
                     
                     if signal.is_fully_resolved():
                         self._write_outcome(signal)
                         signals_to_remove.append(signal_id)
                         resolved_count += 1
-                        print(f"[SignalTracker] Fully resolved signal {signal_id}: {signal.symbol} {signal.signal_name} {signal.direction} - wrote to signal_outcomes.jsonl")
+                        # Only log every 10th fully resolved signal to reduce I/O overhead
+                        if resolved_count % 10 == 0:
+                            print(f"[SignalTracker] Fully resolved {resolved_count} signals so far... ({signal.symbol} {signal.signal_name})")
                 
                 except Exception as e:
                     print(f"[SignalTracker] Error resolving signal {signal_id}: {e}")
@@ -346,10 +362,9 @@ class SignalOutcomeTracker:
             
             self._cleanup_stale_signals()
         
-        if resolved_count > 0:
-            print(f"[SignalTracker] Resolved {resolved_count} signal(s) this cycle, {horizons_resolved_this_cycle} horizon(s) resolved, {len(self.pending_signals)} still pending")
-        elif horizons_resolved_this_cycle > 0:
-            print(f"[SignalTracker] Resolved {horizons_resolved_this_cycle} horizon(s) this cycle, {len(self.pending_signals)} signals still pending")
+        # Summary logging (always show progress)
+        if resolved_count > 0 or horizons_resolved_this_cycle > 0:
+            print(f"[SignalTracker] Cycle complete: {resolved_count} fully resolved, {horizons_resolved_this_cycle} horizons resolved, {len(self.pending_signals):,} still pending")
         
         return resolved_count
     

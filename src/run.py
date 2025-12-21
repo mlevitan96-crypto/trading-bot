@@ -1535,9 +1535,10 @@ def _worker_signal_resolver():
                     print(f"   ⏳ [SIGNAL-RESOLVER] ensemble_predictions.jsonl does not exist yet")
             
             # STEP 2: Resolve pending signals at forward horizons
-            print(f"   🔍 [SIGNAL-RESOLVER] Resolving pending signals...")
+            # OPTIMIZATION: Process in batches to reduce CPU load (200 signals per cycle)
+            print(f"   🔍 [SIGNAL-RESOLVER] Resolving pending signals (batch mode: 200 per cycle)...")
             pending_count_before = len(signal_tracker.pending_signals)
-            resolved_count = signal_tracker.resolve_pending_signals()
+            resolved_count = signal_tracker.resolve_pending_signals(max_signals_per_cycle=200, throttle_ms=10)
             pending_count_after = len(signal_tracker.pending_signals)
             
             if resolved_count > 0:

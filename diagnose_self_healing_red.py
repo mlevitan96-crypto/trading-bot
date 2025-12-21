@@ -98,7 +98,8 @@ def check_recent_logs():
     
     try:
         from src.infrastructure.path_registry import resolve_path
-        log_file = resolve_path("logs/bot_out.log")
+        log_file_str = resolve_path("logs/bot_out.log")
+        log_file = Path(log_file_str) if isinstance(log_file_str, str) else log_file_str
     except:
         log_file = Path("logs/bot_out.log")
     

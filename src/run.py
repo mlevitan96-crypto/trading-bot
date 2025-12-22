@@ -1976,6 +1976,8 @@ def run_heavy_initialization():
                 print("✅ Startup health check complete")
     except Exception as e:
         print(f"⚠️  Startup health check failed: {e}")
+        import traceback
+        traceback.print_exc()
         if is_paper_mode:
             print("   ℹ️  PAPER MODE: Continuing despite health check failure - trading engine WILL start")
             health_check_passed = True  # Force pass in paper mode
@@ -1983,19 +1985,37 @@ def run_heavy_initialization():
             print("   ❌ REAL TRADING MODE: Health check error - trading engine will NOT start")
             health_check_passed = False
     
-    # Start all worker processes (predictive engine, feature builder, ensemble predictor, signal resolver)
-    # Always start workers regardless of health check (they're needed for dashboard too)
-    _start_all_worker_processes()
+    # CRITICAL: Start workers EARLY and with error handling
+    # Workers are essential for the system to function
+    print("\n" + "="*60)
+    print("🚀 STARTING WORKER PROCESSES (CRITICAL)")
+    print("="*60)
+    try:
+        # Start all worker processes (predictive engine, feature builder, ensemble predictor, signal resolver)
+        # Always start workers regardless of health check (they're needed for dashboard too)
+        _start_all_worker_processes()
+        print("   ✅ Worker processes startup completed")
+    except Exception as e:
+        print(f"   ❌ CRITICAL: Failed to start worker processes: {e}")
+        import traceback
+        traceback.print_exc()
+        print("   ⚠️  Attempting to continue - workers may not be available")
     
     # Start worker process monitor
-    monitor_thread = threading.Thread(target=_monitor_worker_processes, daemon=True, name="WorkerMonitor")
-    monitor_thread.start()
-    print("   ✅ Worker process monitor started")
+    try:
+        monitor_thread = threading.Thread(target=_monitor_worker_processes, daemon=True, name="WorkerMonitor")
+        monitor_thread.start()
+        print("   ✅ Worker process monitor started")
+    except Exception as e:
+        print(f"   ⚠️  Failed to start worker monitor: {e}")
     
     # Start pipeline health monitor
-    health_monitor_thread = threading.Thread(target=_monitor_pipeline_health, daemon=True, name="PipelineHealthMonitor")
-    health_monitor_thread.start()
-    print("   ✅ Pipeline health monitor started")
+    try:
+        health_monitor_thread = threading.Thread(target=_monitor_pipeline_health, daemon=True, name="PipelineHealthMonitor")
+        health_monitor_thread.start()
+        print("   ✅ Pipeline health monitor started")
+    except Exception as e:
+        print(f"   ⚠️  Failed to start pipeline health monitor: {e}")
     
     # CRITICAL: Start trading engine based on mode, health check, and self-healing
     # Paper mode: ALWAYS start, even if health checks fail or self-healing has issues

@@ -20,6 +20,7 @@ from datetime import datetime, timezone, timedelta
 from collections import defaultdict
 from typing import Dict, List, Any, Tuple, Optional
 from statistics import mean, median, stdev
+import math
 from scipy import stats
 try:
     from scipy.stats import chi2_contingency, mannwhitneyu
@@ -233,7 +234,15 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
     intelligence['entry_price'] = outcome.get('entry_price', trade.get('entry_price', 0))
     intelligence['exit_price'] = outcome.get('exit_price', trade.get('exit_price', 0))
     intelligence['entry_ts'] = trade.get('entry_ts', trade.get('ts', 0))
-    intelligence['exit_ts'] = trade.get('exit_ts', 0)
+    intelligence['exit_ts'] = trade.get('exit_ts', trade.get('closed_at', 0))
+    
+    # Extract fees
+    intelligence['fees'] = outcome.get('fees', outcome.get('trading_fees', trade.get('fees', 0)))
+    
+    # Extract volatility and volume from signal_ctx or trade directly
+    signal_ctx = trade.get('signal_ctx', {})
+    intelligence['volatility'] = signal_ctx.get('volatility', trade.get('volatility', 0))
+    intelligence['volume'] = signal_ctx.get('volume', trade.get('volume', trade.get('volume_24h', 0)))
     
     return intelligence
 
@@ -2524,6 +2533,138 @@ def main():
             print(f"      → ⚠️  Higher fees correlate with lower win rates")
         print()
     
+    # CORRELATION ANALYSIS
+    print("="*80)
+    print("SIGNAL CORRELATION ANALYSIS")
+    print("="*80)
+    print("   Understanding which signals correlate with wins/losses")
+    print()
+    
+    correlations = analyze_correlation_matrix(intelligence_data)
+    
+    if correlations:
+        for signal, corr_data in sorted(correlations.items(), 
+                                       key=lambda x: abs(x[1].get('correlation', 0)), 
+                                       reverse=True):
+            corr = corr_data.get('correlation', 0)
+            interp = corr_data.get('interpretation', 'neutral')
+            icon = '🟢' if abs(corr) > 0.2 else '🟡' if abs(corr) > 0.1 else '⚪'
+            direction = 'positive' if corr > 0 else 'negative'
+            print(f"   {icon} {signal.upper()}: {corr:.3f} correlation ({interp})")
+            if abs(corr) > 0.15:
+                print(f"      → {'Higher' if corr > 0 else 'Lower'} {signal} correlates with wins")
+            print()
+    else:
+        print("   ⚠️  Insufficient data for correlation analysis")
+        print()
+    
+    # FEATURE IMPORTANCE RANKING
+    print("="*80)
+    print("FEATURE IMPORTANCE RANKING")
+    print("="*80)
+    print("   Ranking features by predictive power (information gain)")
+    print()
+    
+    feature_importance = analyze_feature_importance(intelligence_data)
+    
+    if feature_importance:
+        print("   📊 Top Predictive Features:")
+        for i, feat in enumerate(feature_importance[:7], 1):
+            importance = feat.get('importance', 'LOW')
+            icon = '🔴' if importance == 'HIGH' else '🟡' if importance == 'MEDIUM' else '⚪'
+            print(f"   {icon} {i}. {feat['feature'].upper()}: {feat['information_gain']:.4f} information gain")
+            print(f"      ({feat['groups']} distinct values, {importance} importance)")
+            print()
+    else:
+        print("   ⚠️  Could not calculate feature importance")
+        print()
+    
+    # REGIME TRANSITION ANALYSIS
+    print("="*80)
+    print("REGIME TRANSITION ANALYSIS")
+    print("="*80)
+    print("   Understanding what happens when market regime changes")
+    print()
+    
+    regime_transitions = analyze_regime_transitions(intelligence_data)
+    
+    if regime_transitions.get('regime_changes'):
+        num_transitions = len(regime_transitions['regime_changes'])
+        print(f"   📊 Total regime transitions: {num_transitions}")
+        
+        if regime_transitions.get('after_transition', {}).get('win_rate') is not None:
+            after_wr = regime_transitions['after_transition']['win_rate']
+            total_after = len(regime_transitions['after_transition']['winners']) + len(regime_transitions['after_transition']['losers'])
+            print(f"   📊 Win rate after regime change: {after_wr:.1%} ({total_after} trades)")
+            if after_wr > 0.55:
+                print(f"      → ✅ Regime changes create opportunities")
+            elif after_wr < 0.45:
+                print(f"      → ⚠️  Regime changes create risk")
+            print()
+    
+    # RISK/REWARD RATIO ANALYSIS
+    print("="*80)
+    print("RISK/REWARD RATIO ANALYSIS")
+    print("="*80)
+    print("   Understanding risk-adjusted returns by strategy and symbol")
+    print()
+    
+    risk_reward = analyze_risk_reward_ratios(intelligence_data)
+    
+    if risk_reward.get('overall', {}).get('avg_risk_reward', 0) > 0:
+        avg_rr = risk_reward['overall']['avg_risk_reward']
+        median_rr = risk_reward['overall'].get('median_risk_reward', 0)
+        print(f"   📊 Overall avg risk/reward: {avg_rr:.2f} (median: {median_rr:.2f})")
+        if avg_rr > 2.0:
+            print(f"      → ✅ Excellent risk/reward ratio")
+        elif avg_rr > 1.5:
+            print(f"      → 🟡 Good risk/reward ratio")
+        else:
+            print(f"      → ⚠️  Poor risk/reward ratio")
+        print()
+    
+    # Show by strategy
+    if risk_reward.get('by_strategy'):
+        print("   📊 By Strategy:")
+        for strategy, data in sorted(risk_reward['by_strategy'].items(),
+                                   key=lambda x: x[1].get('avg', 0),
+                                   reverse=True)[:5]:
+            avg_rr = data.get('avg', 0)
+            count = data.get('count', 0)
+            if count >= 10:
+                print(f"      {strategy}: {avg_rr:.2f} avg R/R ({count} trades)")
+        print()
+    
+    # LEVERAGE IMPACT ANALYSIS
+    print("="*80)
+    print("LEVERAGE IMPACT ANALYSIS")
+    print("="*80)
+    print("   Understanding optimal leverage for different conditions")
+    print()
+    
+    leverage_analysis = analyze_leverage_impact(intelligence_data)
+    
+    if leverage_analysis.get('optimal_leverage'):
+        optimal = leverage_analysis['optimal_leverage']
+        optimal_data = leverage_analysis['by_leverage'].get(optimal, {})
+        optimal_wr = optimal_data.get('win_rate', 0)
+        print(f"   ✅ Optimal Leverage: {optimal}x")
+        print(f"      Win Rate: {optimal_wr:.1%}, Avg P&L: ${optimal_data.get('avg_pnl', 0):.2f}")
+        print(f"      → Consider using {optimal}x leverage")
+        print()
+    
+    if leverage_analysis.get('by_leverage'):
+        print("   📊 Win Rate by Leverage:")
+        for leverage, data in sorted(leverage_analysis['by_leverage'].items(),
+                                    key=lambda x: x[1].get('win_rate', 0),
+                                    reverse=True):
+            if isinstance(data, dict) and data.get('total', 0) >= 10:
+                wr = data.get('win_rate', 0)
+                total = data.get('total', 0)
+                icon = '🟢' if wr > 0.55 else '🟡' if wr > 0.50 else '🔴'
+                print(f"   {icon} {leverage}x: {wr:.1%} win rate ({total} trades)")
+        print()
+    
     # STATISTICAL SIGNIFICANCE TESTING
     print("="*80)
     print("STATISTICAL SIGNIFICANCE TESTING")
@@ -2586,6 +2727,11 @@ def main():
         'signal_strength': signal_strength_analysis,
         'market_conditions': market_condition_analysis,
         'fee_impact': fee_analysis,
+        'correlations': correlations,
+        'feature_importance': feature_importance,
+        'regime_transitions': regime_transitions,
+        'risk_reward': risk_reward,
+        'leverage': leverage_analysis,
     }
     
     improvements = generate_improvement_plan(all_analyses)
@@ -2662,6 +2808,11 @@ def main():
     print(f"   - Analyzed signal strength (weak vs strong)")
     print(f"   - Analyzed market condition interactions")
     print(f"   - Analyzed fee impact on profitability")
+    print(f"   - Analyzed signal correlations with outcomes")
+    print(f"   - Ranked features by predictive power")
+    print(f"   - Analyzed regime transition impacts")
+    print(f"   - Analyzed risk/reward ratios by strategy/symbol")
+    print(f"   - Analyzed leverage impact on outcomes")
     print(f"   - Calculated risk-adjusted metrics (Sharpe: {risk_metrics.get('sharpe_ratio', 0):.2f}, Profit Factor: {risk_metrics.get('profit_factor', 0):.2f})")
     print(f"   - Generated {len(improvements)} improvement recommendations")
     print()

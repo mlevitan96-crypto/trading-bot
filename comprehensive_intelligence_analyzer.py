@@ -475,7 +475,40 @@ def analyze_winning_patterns(trades: List[Dict]) -> Dict[str, Any]:
         'winning_signatures': [],
         'losing_signatures': [],
         'key_differences': {},
+        'winner_profile': {},
+        'loser_profile': {},
     }
+    
+    # Build profiles: What do winners typically have?
+    winner_ofi_values = [t.get('ofi', 0) for t in winners if t.get('ofi', 0) > 0]
+    loser_ofi_values = [t.get('ofi', 0) for t in losers if t.get('ofi', 0) > 0]
+    
+    if winner_ofi_values and loser_ofi_values:
+        patterns['key_differences']['ofi'] = {
+            'winner_avg': mean(winner_ofi_values),
+            'winner_median': median(winner_ofi_values),
+            'winner_min': min(winner_ofi_values),
+            'loser_avg': mean(loser_ofi_values),
+            'loser_median': median(loser_ofi_values),
+            'loser_max': max(loser_ofi_values),
+            'difference_pct': ((mean(winner_ofi_values) - mean(loser_ofi_values)) / mean(loser_ofi_values) * 100) if mean(loser_ofi_values) > 0 else 0,
+            'is_winning_factor': mean(winner_ofi_values) > mean(loser_ofi_values),
+        }
+    
+    winner_ens_values = [t.get('ensemble', 0) for t in winners if t.get('ensemble', 0) > 0]
+    loser_ens_values = [t.get('ensemble', 0) for t in losers if t.get('ensemble', 0) > 0]
+    
+    if winner_ens_values and loser_ens_values:
+        patterns['key_differences']['ensemble'] = {
+            'winner_avg': mean(winner_ens_values),
+            'winner_median': median(winner_ens_values),
+            'winner_min': min(winner_ens_values),
+            'loser_avg': mean(loser_ens_values),
+            'loser_median': median(loser_ens_values),
+            'loser_max': max(loser_ens_values),
+            'difference_pct': ((mean(winner_ens_values) - mean(loser_ens_values)) / mean(loser_ens_values) * 100) if mean(loser_ens_values) > 0 else 0,
+            'is_winning_factor': mean(winner_ens_values) > mean(loser_ens_values),
+        }
     
     # Compare winners vs losers across ALL intelligence components
     for component in INTELLIGENCE_COMPONENTS:
@@ -507,11 +540,13 @@ def analyze_winning_patterns(trades: List[Dict]) -> Dict[str, Any]:
         ofi = winner.get('ofi', 0)
         ensemble = winner.get('ensemble', 0)
         regime = winner.get('regime', 'unknown')
+        direction = winner.get('direction', 'UNKNOWN')
+        symbol = winner.get('symbol', 'UNKNOWN')
         
-        ofi_bucket = 'high' if ofi >= 0.6 else 'medium' if ofi >= 0.3 else 'low'
-        ensemble_bucket = 'high' if ensemble >= 0.4 else 'medium' if ensemble >= 0.2 else 'low'
+        ofi_bucket = 'high' if ofi >= 0.6 else 'medium' if ofi >= 0.3 else 'low' if ofi > 0 else 'zero'
+        ensemble_bucket = 'high' if ensemble >= 0.4 else 'medium' if ensemble >= 0.2 else 'low' if ensemble > 0 else 'zero'
         
-        sig = f"{ofi_bucket}_ofi|{ensemble_bucket}_ens|{regime}"
+        sig = f"{symbol}|{direction}|{ofi_bucket}_ofi|{ensemble_bucket}_ens|{regime}"
         winner_combos[sig] += 1
     
     # Build losing signatures
@@ -520,16 +555,18 @@ def analyze_winning_patterns(trades: List[Dict]) -> Dict[str, Any]:
         ofi = loser.get('ofi', 0)
         ensemble = loser.get('ensemble', 0)
         regime = loser.get('regime', 'unknown')
+        direction = loser.get('direction', 'UNKNOWN')
+        symbol = loser.get('symbol', 'UNKNOWN')
         
-        ofi_bucket = 'high' if ofi >= 0.6 else 'medium' if ofi >= 0.3 else 'low'
-        ensemble_bucket = 'high' if ensemble >= 0.4 else 'medium' if ensemble >= 0.2 else 'low'
+        ofi_bucket = 'high' if ofi >= 0.6 else 'medium' if ofi >= 0.3 else 'low' if ofi > 0 else 'zero'
+        ensemble_bucket = 'high' if ensemble >= 0.4 else 'medium' if ensemble >= 0.2 else 'low' if ensemble > 0 else 'zero'
         
-        sig = f"{ofi_bucket}_ofi|{ensemble_bucket}_ens|{regime}"
+        sig = f"{symbol}|{direction}|{ofi_bucket}_ofi|{ensemble_bucket}_ens|{regime}"
         loser_combos[sig] += 1
     
     # Find signatures that appear in winners but NOT in losers (pure winning patterns)
     for sig, count in winner_combos.items():
-        if sig not in loser_combos and count >= 5:
+        if sig not in loser_combos and count >= 3:  # Lower threshold to find more patterns
             patterns['winning_signatures'].append({
                 'signature': sig,
                 'count': count,
@@ -538,7 +575,7 @@ def analyze_winning_patterns(trades: List[Dict]) -> Dict[str, Any]:
     
     # Find signatures that appear in losers but NOT in winners (pure losing patterns)
     for sig, count in loser_combos.items():
-        if sig not in winner_combos and count >= 5:
+        if sig not in winner_combos and count >= 3:  # Lower threshold
             patterns['losing_signatures'].append({
                 'signature': sig,
                 'count': count,
@@ -546,6 +583,145 @@ def analyze_winning_patterns(trades: List[Dict]) -> Dict[str, Any]:
             })
     
     return patterns
+
+
+def analyze_symbol_intelligence(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze WHY certain symbols win/lose - symbol-specific patterns."""
+    symbol_data = defaultdict(lambda: {'winners': [], 'losers': []})
+    
+    for trade in trades:
+        symbol = trade.get('symbol', 'UNKNOWN')
+        if symbol != 'UNKNOWN':
+            if trade.get('win', False):
+                symbol_data[symbol]['winners'].append(trade)
+            else:
+                symbol_data[symbol]['losers'].append(trade)
+    
+    symbol_analysis = {}
+    for symbol, data in symbol_data.items():
+        winners = data['winners']
+        losers = data['losers']
+        total = len(winners) + len(losers)
+        
+        if total >= 20:  # Minimum sample per symbol
+            win_rate = len(winners) / total if total > 0 else 0
+            avg_pnl = mean([t.get('pnl', 0) for t in winners + losers])
+            
+            # What makes winners different from losers FOR THIS SYMBOL?
+            key_differences = {}
+            
+            # OFI analysis for this symbol
+            winner_ofi = [t.get('ofi', 0) for t in winners if t.get('ofi', 0) > 0]
+            loser_ofi = [t.get('ofi', 0) for t in losers if t.get('ofi', 0) > 0]
+            
+            if winner_ofi and loser_ofi:
+                winner_ofi_mean = mean(winner_ofi)
+                loser_ofi_mean = mean(loser_ofi)
+                diff_pct = ((winner_ofi_mean - loser_ofi_mean) / loser_ofi_mean * 100) if loser_ofi_mean > 0 else 0
+                if abs(diff_pct) > 10:
+                    key_differences['ofi'] = {
+                        'winner_avg': winner_ofi_mean,
+                        'loser_avg': loser_ofi_mean,
+                        'difference_pct': diff_pct,
+                        'threshold': min(winner_ofi) if diff_pct > 0 else max(loser_ofi),
+                    }
+            
+            # Ensemble analysis for this symbol
+            winner_ens = [t.get('ensemble', 0) for t in winners if t.get('ensemble', 0) > 0]
+            loser_ens = [t.get('ensemble', 0) for t in losers if t.get('ensemble', 0) > 0]
+            
+            if winner_ens and loser_ens:
+                winner_ens_mean = mean(winner_ens)
+                loser_ens_mean = mean(loser_ens)
+                diff_pct = ((winner_ens_mean - loser_ens_mean) / loser_ens_mean * 100) if loser_ens_mean > 0 else 0
+                if abs(diff_pct) > 10:
+                    key_differences['ensemble'] = {
+                        'winner_avg': winner_ens_mean,
+                        'loser_avg': loser_ens_mean,
+                        'difference_pct': diff_pct,
+                        'threshold': min(winner_ens) if diff_pct > 0 else max(loser_ens),
+                    }
+            
+            # Direction analysis for this symbol
+            winner_directions = [t.get('direction', 'UNKNOWN') for t in winners]
+            loser_directions = [t.get('direction', 'UNKNOWN') for t in losers]
+            
+            winner_long_pct = winner_directions.count('LONG') / len(winner_directions) if winner_directions else 0
+            loser_long_pct = loser_directions.count('LONG') / len(loser_directions) if loser_directions else 0
+            
+            if abs(winner_long_pct - loser_long_pct) > 0.15:  # 15% difference
+                key_differences['direction'] = {
+                    'winner_long_pct': winner_long_pct,
+                    'loser_long_pct': loser_long_pct,
+                    'preferred_direction': 'LONG' if winner_long_pct > loser_long_pct else 'SHORT',
+                }
+            
+            symbol_analysis[symbol] = {
+                'win_rate': win_rate,
+                'avg_pnl': avg_pnl,
+                'total_trades': total,
+                'winners': len(winners),
+                'losers': len(losers),
+                'key_differences': key_differences,
+                'importance': 'HIGH' if win_rate > 0.55 or win_rate < 0.45 else 'MEDIUM',
+            }
+    
+    return symbol_analysis
+
+
+def analyze_multi_dimensional_patterns(trades: List[Dict]) -> List[Dict]:
+    """Discover complex multi-dimensional patterns that predict wins/losses."""
+    patterns = []
+    
+    # Group by multiple dimensions
+    pattern_groups = defaultdict(lambda: {'winners': [], 'losers': []})
+    
+    for trade in trades:
+        ofi = trade.get('ofi', 0)
+        ensemble = trade.get('ensemble', 0)
+        regime = trade.get('regime', 'unknown')
+        direction = trade.get('direction', 'UNKNOWN')
+        symbol = trade.get('symbol', 'UNKNOWN')
+        strategy = trade.get('strategy', 'UNKNOWN')
+        
+        # Create multi-dimensional key
+        ofi_tier = 'high' if ofi >= 0.6 else 'medium' if ofi >= 0.3 else 'low'
+        ens_tier = 'high' if ensemble >= 0.3 else 'medium' if ensemble >= 0.1 else 'low'
+        
+        # Try different combinations
+        key1 = f"{symbol}|{direction}|{ofi_tier}_ofi|{ens_tier}_ens"
+        key2 = f"{strategy}|{direction}|{regime}"
+        key3 = f"{symbol}|{strategy}|{ofi_tier}_ofi"
+        
+        for key in [key1, key2, key3]:
+            if trade.get('win', False):
+                pattern_groups[key]['winners'].append(trade)
+            else:
+                pattern_groups[key]['losers'].append(trade)
+    
+    # Analyze each pattern
+    for pattern_key, data in pattern_groups.items():
+        winners = data['winners']
+        losers = data['losers']
+        total = len(winners) + len(losers)
+        
+        if total >= 15:  # Minimum sample
+            win_rate = len(winners) / total if total > 0 else 0
+            avg_pnl = mean([t.get('pnl', 0) for t in winners + losers])
+            
+            # Only include significant patterns
+            if win_rate > 0.55 or win_rate < 0.45:  # Clear winner or loser
+                patterns.append({
+                    'pattern': pattern_key,
+                    'win_rate': win_rate,
+                    'avg_pnl': avg_pnl,
+                    'total_trades': total,
+                    'winners': len(winners),
+                    'losers': len(losers),
+                    'importance': 'HIGH' if abs(win_rate - 0.5) > 0.15 else 'MEDIUM',
+                })
+    
+    return sorted(patterns, key=lambda x: abs(x['win_rate'] - 0.5), reverse=True)
 
 
 def analyze_direction_intelligence(trades: List[Dict]) -> Dict[str, Any]:
@@ -1048,42 +1224,136 @@ def main():
             diff_pct = diff_data.get('difference_pct', 0)
             winner_avg = diff_data.get('winner_avg', 0)
             loser_avg = diff_data.get('loser_avg', 0)
+            winner_min = diff_data.get('winner_min', winner_avg)
+            loser_max = diff_data.get('loser_max', loser_avg)
             
             icon = '✅' if is_winning else '❌'
             direction = 'higher' if is_winning else 'lower'
             print(f"   {icon} {component.upper()}: Winners have {abs(diff_pct):.1f}% {direction} values")
-            print(f"      Winners: {winner_avg:.3f} | Losers: {loser_avg:.3f}")
+            print(f"      Winners: {winner_avg:.3f} (min: {winner_min:.3f}) | Losers: {loser_avg:.3f} (max: {loser_max:.3f})")
             if is_winning:
-                print(f"      → ✅ ENTER when {component} >= {winner_avg * 0.9:.3f}")
+                threshold = winner_min if 'min' in diff_data else winner_avg * 0.9
+                print(f"      → ✅ ENTER when {component} >= {threshold:.3f} (winners minimum)")
             else:
-                print(f"      → ❌ AVOID when {component} >= {loser_avg * 0.9:.3f}")
+                threshold = loser_max if 'max' in diff_data else loser_avg * 0.9
+                print(f"      → ❌ AVOID when {component} >= {threshold:.3f} (losers maximum)")
             print()
+    else:
+        print("   ⚠️  No significant differences found in available data")
+        print("   💡 This may indicate:")
+        print("      - Data quality issues (missing intelligence components)")
+        print("      - Random outcomes (no clear pattern)")
+        print("      - Need more granular analysis (symbol-specific, direction-specific)")
+        print()
     
     # Pure winning signatures (only appear in winners)
     winning_sigs = winning_patterns.get('winning_signatures', [])
     if winning_sigs:
-        print("   ✅ PURE WINNING PATTERNS (Only in winners):")
-        for sig_data in sorted(winning_sigs, key=lambda x: x.get('count', 0), reverse=True)[:5]:
+        print("   ✅ PURE WINNING PATTERNS (Only in winners - 100% win rate):")
+        for sig_data in sorted(winning_sigs, key=lambda x: x.get('count', 0), reverse=True)[:10]:
             sig = sig_data.get('signature', '')
             count = sig_data.get('count', 0)
             print(f"   🟢 {sig}")
-            print(f"      Appeared in {count} winners, 0 losers")
+            print(f"      Appeared in {count} winners, 0 losers (100% win rate)")
             conditions = sig.split('|')
             print(f"      → ✅ ENTER when: {' AND '.join(conditions)}")
             print()
+    else:
+        print("   ⚠️  No pure winning patterns found (patterns that only appear in winners)")
+        print("   💡 This suggests winners and losers share similar conditions")
+        print("      Need to find subtler differences or missing intelligence data")
+        print()
     
     # Pure losing signatures (only appear in losers)
     losing_sigs = winning_patterns.get('losing_signatures', [])
     if losing_sigs:
-        print("   ❌ PURE LOSING PATTERNS (Only in losers):")
-        for sig_data in sorted(losing_sigs, key=lambda x: x.get('count', 0), reverse=True)[:5]:
+        print("   ❌ PURE LOSING PATTERNS (Only in losers - 0% win rate):")
+        for sig_data in sorted(losing_sigs, key=lambda x: x.get('count', 0), reverse=True)[:10]:
             sig = sig_data.get('signature', '')
             count = sig_data.get('count', 0)
             print(f"   🔴 {sig}")
-            print(f"      Appeared in {count} losers, 0 winners")
+            print(f"      Appeared in {count} losers, 0 winners (0% win rate)")
             conditions = sig.split('|')
             print(f"      → ❌ AVOID when: {' AND '.join(conditions)}")
             print()
+    
+    # Multi-dimensional pattern discovery
+    print("="*80)
+    print("MULTI-DIMENSIONAL PATTERN DISCOVERY")
+    print("="*80)
+    print("   Complex patterns across symbol + direction + signals + strategy")
+    print()
+    
+    multi_dim_patterns = analyze_multi_dimensional_patterns(intelligence_data)
+    
+    winning_multi = [p for p in multi_dim_patterns if p.get('win_rate', 0) > 0.55][:10]
+    if winning_multi:
+        print("   ✅ WINNING MULTI-DIMENSIONAL PATTERNS:")
+        for pattern in winning_multi:
+            win_rate = pattern.get('win_rate', 0)
+            total = pattern.get('total_trades', 0)
+            avg_pnl = pattern.get('avg_pnl', 0)
+            print(f"   🟢 {pattern['pattern']}")
+            print(f"      Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+            conditions = pattern['pattern'].split('|')
+            print(f"      → ✅ ENTER when: {' AND '.join(conditions)}")
+            print()
+    
+    losing_multi = [p for p in multi_dim_patterns if p.get('win_rate', 0) < 0.45][:10]
+    if losing_multi:
+        print("   ❌ LOSING MULTI-DIMENSIONAL PATTERNS:")
+        for pattern in losing_multi:
+            win_rate = pattern.get('win_rate', 0)
+            total = pattern.get('total_trades', 0)
+            avg_pnl = pattern.get('avg_pnl', 0)
+            print(f"   🔴 {pattern['pattern']}")
+            print(f"      Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+            conditions = pattern['pattern'].split('|')
+            print(f"      → ❌ AVOID when: {' AND '.join(conditions)}")
+            print()
+    
+    # Symbol-specific analysis
+    print("="*80)
+    print("SYMBOL-SPECIFIC ANALYSIS")
+    print("="*80)
+    print("   Understanding WHY certain symbols win/lose differently")
+    print()
+    
+    symbol_analysis = analyze_symbol_intelligence(intelligence_data)
+    
+    for symbol, data in sorted(symbol_analysis.items(),
+                              key=lambda x: x[1].get('win_rate', 0.5),
+                              reverse=True):
+        win_rate = data.get('win_rate', 0)
+        total = data.get('total_trades', 0)
+        avg_pnl = data.get('avg_pnl', 0)
+        key_diffs = data.get('key_differences', {})
+        
+        icon = '🟢' if win_rate > 0.55 else '🟡' if win_rate > 0.50 else '🔴'
+        print(f"{icon} {symbol}")
+        print(f"   Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+        
+        if key_diffs:
+            print(f"   🔍 WHY {symbol} WINS/LOSES:")
+            for component, diff_data in key_diffs.items():
+                if component == 'direction':
+                    preferred = diff_data.get('preferred_direction')
+                    winner_pct = diff_data.get('winner_long_pct', 0)
+                    loser_pct = diff_data.get('loser_long_pct', 0)
+                    print(f"      • Winners: {winner_pct:.1%} LONG | Losers: {loser_pct:.1%} LONG")
+                    print(f"      → ✅ Prefer {preferred} for {symbol}")
+                else:
+                    diff_pct = diff_data.get('difference_pct', 0)
+                    winner_avg = diff_data.get('winner_avg', 0)
+                    loser_avg = diff_data.get('loser_avg', 0)
+                    threshold = diff_data.get('threshold', 0)
+                    direction_str = 'higher' if diff_pct > 0 else 'lower'
+                    print(f"      • Winners have {abs(diff_pct):.1f}% {direction_str} {component} ({winner_avg:.3f} vs {loser_avg:.3f})")
+                    if diff_pct > 0:
+                        print(f"      → ✅ ENTER {symbol} when {component} >= {threshold:.3f}")
+                    else:
+                        print(f"      → ❌ AVOID {symbol} when {component} >= {threshold:.3f}")
+        print()
     
     # Analyze direction-specific patterns
     print("="*80)
@@ -1166,6 +1436,8 @@ def main():
         'regimes': regime_analysis,
         'winning_patterns': winning_patterns,
         'directions': direction_analysis,
+        'symbols': symbol_analysis,
+        'multi_dimensional': multi_dim_patterns,
     }
     
     improvements = generate_improvement_plan(all_analyses)
@@ -1229,6 +1501,10 @@ def main():
     print(f"   - Analyzed {len(strategy_analyses)} strategies")
     print(f"   - Analyzed {len(combo_analysis)} signal combinations")
     print(f"   - Analyzed {len(regime_analysis)} regimes")
+    print(f"   - Analyzed {len(symbol_analysis)} symbols")
+    print(f"   - Discovered {len(multi_dim_patterns)} multi-dimensional patterns")
+    print(f"   - Found {len(winning_patterns.get('winning_signatures', []))} pure winning signatures")
+    print(f"   - Found {len(winning_patterns.get('losing_signatures', []))} pure losing signatures")
     print(f"   - Generated {len(improvements)} improvement recommendations")
     print()
     print("🎯 Next Steps:")

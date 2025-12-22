@@ -58,7 +58,7 @@ def _parse_timestamp(ts_value):
     return 0
 
 
-def load_enriched_decisions(limit: int = 1500) -> List[Dict]:
+def load_enriched_decisions(limit: int = 3000) -> List[Dict]:
     """Load enriched decisions with complete signal context."""
     enriched_path = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
     trades = []
@@ -328,15 +328,20 @@ def analyze_trade_metrics(trade: Dict, signals_by_symbol: Dict[str, List[Dict]])
         metrics['signal_components'] = {}
         metrics['signal_matched'] = False
     
-    # Check if signal_ctx has any component data
+    # Check if signal_ctx has any component data (from enriched_decisions.jsonl)
     if not metrics['signal_components']:
-        # Try to extract from signal_ctx directly
-        if 'liquidation' in signal_ctx:
-            metrics['signal_components']['liquidation_cascade'] = signal_ctx.get('liquidation')
-        if 'funding_rate' in signal_ctx:
-            metrics['signal_components']['funding_rate'] = signal_ctx.get('funding_rate')
-        if 'whale_flow' in signal_ctx:
-            metrics['signal_components']['whale_flow'] = signal_ctx.get('whale_flow')
+        # Try to extract from signal_ctx.signal_components (from data enrichment)
+        signal_ctx_components = signal_ctx.get('signal_components', {})
+        if signal_ctx_components:
+            metrics['signal_components'] = signal_ctx_components
+        else:
+            # Fallback: Try to extract from signal_ctx directly (legacy format)
+            if 'liquidation' in signal_ctx:
+                metrics['signal_components']['liquidation_cascade'] = signal_ctx.get('liquidation')
+            if 'funding_rate' in signal_ctx:
+                metrics['signal_components']['funding_rate'] = signal_ctx.get('funding_rate')
+            if 'whale_flow' in signal_ctx:
+                metrics['signal_components']['whale_flow'] = signal_ctx.get('whale_flow')
     
     return metrics
 
@@ -744,17 +749,51 @@ def main():
     print("="*80)
     print(f"Analyzed {len(enriched_trades)} trades")
     print(f"Data availability:")
-    print(f"   - Volatility (ATR/Vol): {max(atr_count, volatility_count)}/{total} ({max(atr_count, volatility_count)/total*100:.1f}%)")
-    print(f"   - Signal Components: {signal_matched_count}/{total} ({signal_matched_count/total*100:.1f}%)")
-    print(f"   - Regime: {regime_count}/{total} ({regime_count/total*100:.1f}%)")
+    if total > 0:
+        vol_pct = max(atr_count, volatility_count)/total*100
+        signal_pct = signal_matched_count/total*100
+        regime_pct = regime_count/total*100
+        print(f"   - Volatility (ATR/Vol): {max(atr_count, volatility_count)}/{total} ({vol_pct:.1f}%)")
+        print(f"   - Signal Components: {signal_matched_count}/{total} ({signal_pct:.1f}%)")
+        print(f"   - Regime: {regime_count}/{total} ({regime_pct:.1f}%)")
+    else:
+        print("   - No trades to analyze")
     print()
     print("Recommendations:")
     if signal_matched_count < total * 0.5:
         print("   - Enhance data_enrichment_layer.py to include signal components in enriched_decisions.jsonl")
-    if atr_count < total * 0.3:
+    if atr_count < total * 0.3 and volatility_count < total * 0.3:
         print("   - Add ATR calculation at entry time to position logging")
+        print("   - Ensure volatility is populated in signal_ctx when positions open")
     if regime_count < total * 0.8:
         print("   - Ensure regime is always set in signal_ctx")
+    print()
+    
+    print("="*80)
+    print("HOW TO EXTRACT AND USE THE DATA")
+    print("="*80)
+    print(f"1. Detailed JSON export: {output_path}")
+    print(f"   - Contains {len(enriched_trades)} trades with all metrics")
+    print(f"   - First 500 trades included for detailed review")
+    print()
+    print("2. View the JSON file:")
+    print(f"   cat {output_path} | python3 -m json.tool | less")
+    print()
+    print("3. Extract specific data using Python:")
+    print("   python3 -c \"")
+    print("   import json")
+    print(f"   with open('{output_path}') as f:")
+    print("       data = json.load(f)")
+    print("   # Access detailed trades")
+    print("   trades = data['detailed_trades']")
+    print("   # Access analysis results")
+    print("   vol_analysis = data.get('volatility_analysis', {})")
+    print("   component_analysis = data.get('component_analysis', {})")
+    print("   regime_analysis = data.get('regime_analysis', {})")
+    print("   \"")
+    print()
+    print("4. For more trades, edit analyze_signal_components.py:")
+    print("   Change limit=1500 to limit=3000 (or higher)")
     print()
     
     return 0

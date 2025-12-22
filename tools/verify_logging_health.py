@@ -53,7 +53,7 @@ def read_last_n_lines(file_path, n=10):
             lines = f.readlines()
             return lines[-n:] if len(lines) >= n else lines
     except Exception as e:
-        print(f"⚠️  Error reading {file_path}: {e}")
+        print(f"[WARN] Error reading {file_path}: {e}")
         return []
 
 
@@ -65,7 +65,7 @@ def parse_jsonl_line(line):
             return None
         return json.loads(line)
     except json.JSONDecodeError as e:
-        print(f"⚠️  JSON decode error: {e}")
+        print(f"[WARN] JSON decode error: {e}")
         return None
 
 
@@ -122,18 +122,18 @@ def check_volatility_snapshot(record):
 
 def verify_from_jsonl(jsonl_path):
     """Verify logging health from enriched_decisions.jsonl."""
-    print(f"\n📊 Checking: {jsonl_path}")
+    print(f"\n[CHECK] Checking: {jsonl_path}")
     
     if not os.path.exists(jsonl_path):
-        print(f"❌ File not found: {jsonl_path}")
+        print(f"[FAIL] File not found: {jsonl_path}")
         return False
     
     lines = read_last_n_lines(jsonl_path, n=10)
     if not lines:
-        print("❌ No data found in file")
+        print("[FAIL] No data found in file")
         return False
     
-    print(f"✅ Found {len(lines)} recent records")
+    print(f"[OK] Found {len(lines)} recent records")
     
     passed_checks = {
         "atr": 0,
@@ -166,12 +166,12 @@ def verify_from_jsonl(jsonl_path):
         if i <= 3:
             symbol = record.get("symbol", "UNKNOWN")
             print(f"\n  Record {i} ({symbol}):")
-            print(f"    Has snapshot: {checks['has_snapshot']}")
-            print(f"    ATR > 0: {checks['atr']}")
-            print(f"    Volatility > 0: {checks['volatility']}")
-            print(f"    Liquidation > 0: {checks['liquidation']}")
+            print(f"    Has snapshot: {'YES' if checks['has_snapshot'] else 'NO'}")
+            print(f"    ATR > 0: {'YES' if checks['atr'] else 'NO'}")
+            print(f"    Volatility > 0: {'YES' if checks['volatility'] else 'NO'}")
+            print(f"    Liquidation > 0: {'YES' if checks['liquidation'] else 'NO'}")
     
-    print(f"\n📈 Summary (out of {valid_records} valid records):")
+    print(f"\n[SUMMARY] Out of {valid_records} valid records:")
     print(f"    Records with snapshot: {passed_checks['has_snapshot']}/{valid_records}")
     print(f"    Records with ATR > 0: {passed_checks['atr']}/{valid_records}")
     print(f"    Records with Volatility > 0: {passed_checks['volatility']}/{valid_records}")
@@ -182,10 +182,10 @@ def verify_from_jsonl(jsonl_path):
     if (passed_checks["atr"] > 0 and 
         passed_checks["volatility"] > 0 and 
         passed_checks["liquidation"] > 0):
-        print("\n✅ PASS: Enhanced logging is working correctly!")
+        print("\n[PASS] Enhanced logging is working correctly!")
         return True
     else:
-        print("\n❌ FAIL: Enhanced logging not fully active yet.")
+        print("\n[FAIL] Enhanced logging not fully active yet.")
         print("   This is expected if no trades have occurred since deployment.")
         print("   Wait for golden hour (09:00-16:00 UTC) and check again after trades.")
         return False
@@ -193,10 +193,10 @@ def verify_from_jsonl(jsonl_path):
 
 def verify_from_csv(csv_path):
     """Verify logging health from CSV export (fallback)."""
-    print(f"\n📊 Checking CSV: {csv_path}")
+    print(f"\n[CHECK] Checking CSV: {csv_path}")
     
     if not os.path.exists(csv_path):
-        print(f"⚠️  CSV file not found: {csv_path}")
+        print(f"[WARN] CSV file not found: {csv_path}")
         return None
     
     try:
@@ -206,12 +206,12 @@ def verify_from_csv(csv_path):
             rows = list(reader)
         
         if not rows:
-            print("❌ No data in CSV")
+            print("[FAIL] No data in CSV")
             return False
         
         # Check last 10 rows
         recent_rows = rows[-10:] if len(rows) >= 10 else rows
-        print(f"✅ Found {len(recent_rows)} recent records")
+        print(f"[OK] Found {len(recent_rows)} recent records")
         
         passed_checks = {
             "atr": 0,
@@ -235,7 +235,7 @@ def verify_from_csv(csv_path):
             if liq and float(liq) != 0:
                 passed_checks["liquidation"] += 1
         
-        print(f"\n📈 Summary:")
+        print(f"\n[SUMMARY]:")
         print(f"    Records with ATR > 0: {passed_checks['atr']}/{len(recent_rows)}")
         print(f"    Records with Volatility > 0: {passed_checks['volatility']}/{len(recent_rows)}")
         print(f"    Records with Liquidation > 0: {passed_checks['liquidation']}/{len(recent_rows)}")
@@ -243,14 +243,14 @@ def verify_from_csv(csv_path):
         if (passed_checks["atr"] > 0 and 
             passed_checks["volatility"] > 0 and 
             passed_checks["liquidation"] > 0):
-            print("\n✅ PASS: Enhanced logging is working correctly!")
+            print("\n[PASS] Enhanced logging is working correctly!")
             return True
         else:
-            print("\n❌ FAIL: Enhanced logging not fully active yet.")
+            print("\n[FAIL] Enhanced logging not fully active yet.")
             return False
             
     except Exception as e:
-        print(f"⚠️  Error reading CSV: {e}")
+        print(f"[WARN] Error reading CSV: {e}")
         return None
 
 

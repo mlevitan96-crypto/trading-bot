@@ -498,9 +498,37 @@ def main():
                         continue
             print(f"   ✅ Loaded {len(trades)} enriched records")
         
-        # If enriched_decisions is empty or doesn't exist, fall back to positions_futures.json
+        # If enriched_decisions is empty or doesn't exist, try to populate it first
         if not trades:
-            print(f"   ⚠️  enriched_decisions.jsonl is empty or not found, using positions_futures.json...")
+            print(f"   ⚠️  enriched_decisions.jsonl is empty or not found")
+            print(f"   💡 Attempting to populate enriched_decisions.jsonl from signals and trades...")
+            try:
+                from src.data_enrichment_layer import enrich_recent_decisions, persist_enriched_data
+                # Enrich last 7 days of data
+                enriched = enrich_recent_decisions(168)  # 7 days
+                if enriched:
+                    persist_enriched_data(enriched)
+                    print(f"   ✅ Populated enriched_decisions.jsonl with {len(enriched)} records")
+                    # Reload from enriched_decisions
+                    with open(enriched_path, 'r') as f:
+                        for line in f:
+                            line = line.strip()
+                            if not line:
+                                continue
+                            try:
+                                record = json.loads(line)
+                                if record.get('outcome', {}).get('executed', True) is not False:
+                                    trades.append(record)
+                            except:
+                                continue
+                else:
+                    print(f"   ⚠️  No enriched data generated, falling back to positions_futures.json...")
+            except Exception as e:
+                print(f"   ⚠️  Could not populate enriched_decisions: {e}")
+                print(f"   💡 Falling back to positions_futures.json...")
+        
+        # Fallback to positions_futures.json if still no trades
+        if not trades:
             portfolio_path = PathRegistry.get_path("logs", "positions_futures.json")
             if os.path.exists(portfolio_path):
                 with open(portfolio_path, 'r') as f:
@@ -510,6 +538,8 @@ def main():
                 closed = [t for t in closed if t.get('bot_type', 'alpha') == 'alpha']
                 trades = closed
                 print(f"   ✅ Loaded {len(trades)} trades from positions_futures.json")
+                print(f"   ⚠️  NOTE: positions_futures.json may not have complete intelligence data")
+                print(f"   💡 For complete analysis, run: python3 -c 'from src.data_enrichment_layer import enrich_recent_decisions, persist_enriched_data; persist_enriched_data(enrich_recent_decisions(168))'")
             else:
                 print(f"   ❌ positions_futures.json also not found!")
                 return 1

@@ -459,7 +459,8 @@ def main():
         'recommendations': recommendations,
     }
     
-    output_path = PathRegistry.get_path("feature_store", "causal_pattern_analysis.json")
+    output_path_str = PathRegistry.get_path("feature_store", "causal_pattern_analysis.json")
+    output_path = Path(output_path_str)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_path, 'w') as f:

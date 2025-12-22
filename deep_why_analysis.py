@@ -152,7 +152,7 @@ for trade in long_trades:
     ofi = trade.get("ofi_score") or trade.get("ofi") or 0
     if isinstance(ofi, (int, float)):
         ofi_value = float(ofi)
-        pnl = float(trade.get("net_pnl") or trade.get("realized_pnl") or trade.get("pnl") or 0))
+        pnl = float(trade.get("net_pnl") or trade.get("realized_pnl") or trade.get("pnl") or 0)
         is_win = pnl > 0
         
         # OFI direction analysis
@@ -274,7 +274,7 @@ for trade in short_trades:
     ofi = trade.get("ofi_score") or trade.get("ofi") or 0
     if isinstance(ofi, (int, float)):
         ofi_value = float(ofi)
-        pnl = float(trade.get("net_pnl") or trade.get("realized_pnl") or trade.get("pnl") or 0))
+        pnl = float(trade.get("net_pnl") or trade.get("realized_pnl") or trade.get("pnl") or 0)
         is_win = pnl > 0
         
         if ofi_value > 0.01:
@@ -348,7 +348,7 @@ strategy_analysis = defaultdict(lambda: {"trades": [], "pnl": 0, "wins": 0, "los
 
 for trade in closed_trades:
     strategy = trade.get("strategy", "unknown")
-    pnl = float(trade.get("net_pnl") or trade.get("realized_pnl") or trade.get("pnl") or 0))
+    pnl = float(trade.get("net_pnl") or trade.get("realized_pnl") or trade.get("pnl") or 0)
     strategy_analysis[strategy]["trades"].append(trade)
     strategy_analysis[strategy]["pnl"] += pnl
     if pnl > 0:

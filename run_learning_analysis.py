@@ -41,8 +41,21 @@ from datetime import datetime, timedelta
 sys.path.insert(0, os.path.dirname(__file__))
 
 from src.continuous_learning_controller import ContinuousLearningController
-from src.comprehensive_learning_evaluation import ComprehensiveLearningEvaluation
 from src.data_registry import DataRegistry as DR
+
+# Try to import comprehensive evaluation (may fail if aiosqlite not installed)
+try:
+    from src.comprehensive_learning_evaluation import ComprehensiveLearningEvaluation
+    HAS_COMPREHENSIVE_EVAL = True
+except ImportError as e:
+    if 'aiosqlite' in str(e):
+        HAS_COMPREHENSIVE_EVAL = False
+        print(f"⚠️  Note: Comprehensive evaluation requires aiosqlite")
+        print(f"   Install with: pip install aiosqlite")
+        print(f"   Continuing with learning engine analysis only...")
+        print()
+    else:
+        raise
 
 
 def estimate_hours_for_trades(num_trades: int) -> int:
@@ -218,9 +231,18 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
     print("   (Includes full signal weight matrix analysis)")
     print()
     
-    try:
-        evaluator = ComprehensiveLearningEvaluation()
-        eval_results = evaluator.run_full_analysis()
+    if HAS_COMPREHENSIVE_EVAL:
+        try:
+            evaluator = ComprehensiveLearningEvaluation()
+            eval_results = evaluator.run_full_analysis()
+        except Exception as e:
+            print(f"   ⚠️  Comprehensive evaluation error: {e}")
+            eval_results = {}
+    else:
+        print(f"   ⚠️  Comprehensive evaluation skipped (aiosqlite not installed)")
+        eval_results = {}
+    
+    if eval_results:
         
         signal_matrix = eval_results.get('signal_weight_matrix', {})
         if signal_matrix:

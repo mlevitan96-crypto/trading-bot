@@ -313,14 +313,38 @@ def analyze_signal_component(component_name: str, trades: List[Dict]) -> Dict[st
 
 
 def analyze_signal_combinations(trades: List[Dict]) -> Dict[str, Any]:
-    """Analyze which signal combinations work best."""
+    """Analyze which signal combinations work best - WITH WHY."""
     combinations = defaultdict(lambda: {'winners': [], 'losers': []})
     
     for trade in trades:
-        # Build combination signature
-        ofi_bucket = 'high' if trade.get('ofi', 0) >= 0.5 else 'low'
-        ensemble_bucket = 'high' if trade.get('ensemble', 0) >= 0.3 else 'low'
+        # Build combination signature with more granular buckets
+        ofi = trade.get('ofi', 0)
+        ensemble = trade.get('ensemble', 0)
         regime = trade.get('regime', 'unknown')
+        
+        # More granular OFI buckets
+        if ofi >= 0.7:
+            ofi_bucket = 'very_high'
+        elif ofi >= 0.5:
+            ofi_bucket = 'high'
+        elif ofi >= 0.3:
+            ofi_bucket = 'medium'
+        elif ofi > 0:
+            ofi_bucket = 'low'
+        else:
+            ofi_bucket = 'zero'
+        
+        # More granular ensemble buckets
+        if ensemble >= 0.5:
+            ensemble_bucket = 'very_high'
+        elif ensemble >= 0.3:
+            ensemble_bucket = 'high'
+        elif ensemble >= 0.1:
+            ensemble_bucket = 'medium'
+        elif ensemble > 0:
+            ensemble_bucket = 'low'
+        else:
+            ensemble_bucket = 'zero'
         
         combo_key = f"OFI:{ofi_bucket}|ENS:{ensemble_bucket}|REG:{regime}"
         
@@ -338,11 +362,15 @@ def analyze_signal_combinations(trades: List[Dict]) -> Dict[str, Any]:
         
         if total >= 10:  # Minimum sample
             win_rate = len(winners) / total if total > 0 else 0
+            winner_pnl = mean([t.get('pnl', 0) for t in winners]) if winners else 0
+            loser_pnl = mean([t.get('pnl', 0) for t in losers]) if losers else 0
             avg_pnl = mean([t.get('pnl', 0) for t in winners + losers])
             
             combo_analysis[combo_key] = {
                 'win_rate': win_rate,
                 'avg_pnl': avg_pnl,
+                'winner_avg_pnl': winner_pnl,
+                'loser_avg_pnl': loser_pnl,
                 'total_trades': total,
                 'winners': len(winners),
                 'losers': len(losers),
@@ -353,7 +381,7 @@ def analyze_signal_combinations(trades: List[Dict]) -> Dict[str, Any]:
 
 
 def analyze_strategy_intelligence(strategy_name: str, trades: List[Dict]) -> Dict[str, Any]:
-    """Analyze why a specific strategy works/doesn't work."""
+    """Analyze why a specific strategy works/doesn't work - DEEP CAUSAL ANALYSIS."""
     strategy_trades = [t for t in trades if t.get('strategy', '').lower() == strategy_name.lower()]
     
     if len(strategy_trades) < 20:
@@ -371,33 +399,66 @@ def analyze_strategy_intelligence(strategy_name: str, trades: List[Dict]) -> Dic
         'losing_conditions': {},
         'causal_factors': [],
         'recommendations': [],
+        'why_winning': [],  # NEW: Explain WHY winners win
+        'why_losing': [],   # NEW: Explain WHY losers lose
     }
     
-    # Analyze what conditions lead to wins vs losses
+    # DEEP CAUSAL ANALYSIS: Compare winners vs losers across ALL dimensions
     for component in INTELLIGENCE_COMPONENTS:
-        winner_values = [t.get(component, 0) for t in winners if t.get(component, 0) != 0]
-        loser_values = [t.get(component, 0) for t in losers if t.get(component, 0) != 0]
+        winner_values = [t.get(component) for t in winners if t.get(component) is not None]
+        loser_values = [t.get(component) for t in losers if t.get(component) is not None]
         
-        if winner_values and loser_values:
+        # Filter out zeros for components that should be meaningful
+        if component in ['funding', 'liquidation', 'whale_flow', 'fear_greed', 'hurst', 
+                         'lead_lag', 'volatility_skew', 'oi_velocity', 'oi_divergence']:
+            winner_values = [v for v in winner_values if v != 0]
+            loser_values = [v for v in loser_values if v != 0]
+        
+        if winner_values and loser_values and len(winner_values) >= 5 and len(loser_values) >= 5:
             winner_mean = mean(winner_values)
             loser_mean = mean(loser_values)
+            winner_median = median(winner_values)
+            loser_median = median(loser_values)
             
-            if winner_mean > loser_mean * 1.15:
+            # Calculate difference and significance
+            diff_pct = ((winner_mean - loser_mean) / abs(loser_mean) * 100) if loser_mean != 0 else 0
+            
+            # If winners have significantly higher values (20%+ difference)
+            if winner_mean > loser_mean * 1.20:
+                threshold = min(winner_values)
                 analysis['winning_conditions'][component] = {
                     'winner_avg': winner_mean,
+                    'winner_median': winner_median,
                     'loser_avg': loser_mean,
-                    'threshold': min(winner_values),
+                    'loser_median': loser_median,
+                    'threshold': threshold,
+                    'difference_pct': diff_pct,
                 }
-                analysis['causal_factors'].append(f"{component} >= {min(winner_values):.3f}")
-                analysis['recommendations'].append(f"Use {strategy_name} only when {component} >= {min(winner_values):.3f}")
-            elif loser_mean > winner_mean * 1.15:
+                analysis['why_winning'].append(
+                    f"Winners have {diff_pct:.1f}% higher {component} ({winner_mean:.3f} vs {loser_mean:.3f})"
+                )
+                analysis['causal_factors'].append(f"{component} >= {threshold:.3f}")
+                analysis['recommendations'].append(
+                    f"✅ USE {strategy_name} when {component} >= {threshold:.3f} (winners avg {winner_mean:.3f})"
+                )
+            # If losers have significantly higher values (20%+ difference)
+            elif loser_mean > winner_mean * 1.20:
+                threshold = max(loser_values)
                 analysis['losing_conditions'][component] = {
                     'winner_avg': winner_mean,
+                    'winner_median': winner_median,
                     'loser_avg': loser_mean,
-                    'threshold': max(loser_values),
+                    'loser_median': loser_median,
+                    'threshold': threshold,
+                    'difference_pct': abs(diff_pct),
                 }
-                analysis['causal_factors'].append(f"{component} < {max(loser_values):.3f}")
-                analysis['recommendations'].append(f"Avoid {strategy_name} when {component} >= {max(loser_values):.3f}")
+                analysis['why_losing'].append(
+                    f"Losers have {abs(diff_pct):.1f}% higher {component} ({loser_mean:.3f} vs {winner_mean:.3f})"
+                )
+                analysis['causal_factors'].append(f"{component} < {threshold:.3f}")
+                analysis['recommendations'].append(
+                    f"❌ AVOID {strategy_name} when {component} >= {threshold:.3f} (losers avg {loser_mean:.3f})"
+                )
     
     return analysis
 
@@ -672,11 +733,12 @@ def main():
     print(f"      - Trades with signal components: {trades_with_components} ({trades_with_components/total*100:.1f}%)")
     print()
     
-    # Analyze each signal component
+    # Analyze each signal component - DEEP CAUSAL ANALYSIS
     print("="*80)
     print("ANALYZING INDIVIDUAL SIGNAL COMPONENTS")
     print("="*80)
     print("   Understanding WHY each signal works/doesn't work")
+    print("   Comparing winners vs losers to find causal factors")
     print()
     
     signal_analyses = {}
@@ -685,40 +747,77 @@ def main():
         if analysis and analysis.get('importance') in ['HIGH', 'MEDIUM']:
             signal_analyses[component] = analysis
     
-    # Display signal component findings
-    for component, analysis in sorted(signal_analyses.items(), 
-                                      key=lambda x: {'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x[1].get('importance', 'LOW'), 0),
-                                      reverse=True):
-        importance = analysis.get('importance', 'MEDIUM')
-        insight = analysis.get('causal_insight', '')
-        recommendation = analysis.get('recommendation', '')
-        
-        icon = '🔴' if importance == 'HIGH' else '🟡'
-        print(f"{icon} {component.upper()}")
-        if insight:
-            print(f"   {insight}")
-        if recommendation:
-            print(f"   → {recommendation}")
+    # Display signal component findings with WHY
+    if signal_analyses:
+        for component, analysis in sorted(signal_analyses.items(), 
+                                          key=lambda x: {'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x[1].get('importance', 'LOW'), 0),
+                                          reverse=True):
+            importance = analysis.get('importance', 'MEDIUM')
+            insight = analysis.get('causal_insight', '')
+            recommendation = analysis.get('recommendation', '')
+            winners_stats = analysis.get('winners', {})
+            losers_stats = analysis.get('losers', {})
+            
+            icon = '🔴' if importance == 'HIGH' else '🟡'
+            print(f"{icon} {component.upper()}")
+            if insight:
+                print(f"   {insight}")
+            if winners_stats and losers_stats:
+                winner_mean = winners_stats.get('mean', 0)
+                loser_mean = losers_stats.get('mean', 0)
+                print(f"   📊 Winners avg: {winner_mean:.3f} | Losers avg: {loser_mean:.3f}")
+            if recommendation:
+                print(f"   → {recommendation}")
+            print()
+    else:
+        print("   ⚠️  No signal components with sufficient data for analysis")
+        print("   💡 This means detailed signal components (funding, liquidation, etc.)")
+        print("      are not available in the enriched_decisions data")
+        print("   💡 Consider enhancing data_enrichment_layer.py to include these components")
         print()
     
-    # Analyze signal combinations
+    # Analyze signal combinations - WITH WHY
     print("="*80)
     print("ANALYZING SIGNAL COMBINATIONS")
     print("="*80)
-    print("   Understanding which combinations work best")
+    print("   Understanding which combinations work best and WHY")
     print()
     
     combo_analysis = analyze_signal_combinations(intelligence_data)
     
-    for combo, data in sorted(combo_analysis.items(), 
-                             key=lambda x: x[1].get('win_rate', 0.5), 
-                             reverse=True)[:10]:
-        win_rate = data.get('win_rate', 0)
-        total = data.get('total_trades', 0)
-        icon = '🟢' if win_rate > 0.60 else '🟡' if win_rate > 0.50 else '🔴'
-        print(f"{icon} {combo}")
-        print(f"   Win Rate: {win_rate:.1%}, Trades: {total}")
-        print()
+    # Deep dive into top/bottom combinations to understand WHY
+    sorted_combos = sorted(combo_analysis.items(), 
+                          key=lambda x: x[1].get('win_rate', 0.5), 
+                          reverse=True)
+    
+    # Show top 3 winning combinations
+    winning_combos = [c for c in sorted_combos if c[1].get('win_rate', 0) > 0.50][:3]
+    if winning_combos:
+        print("   ✅ TOP WINNING COMBINATIONS (WHY they work):")
+        for combo, data in winning_combos:
+            win_rate = data.get('win_rate', 0)
+            total = data.get('total_trades', 0)
+            avg_pnl = data.get('avg_pnl', 0)
+            print(f"   🟢 {combo}")
+            print(f"      Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+            # Extract conditions from combo string
+            conditions = combo.split('|')
+            print(f"      → Trade when: {' AND '.join(conditions)}")
+            print()
+    
+    # Show bottom 3 losing combinations
+    losing_combos = [c for c in sorted_combos if c[1].get('win_rate', 0) < 0.50][:3]
+    if losing_combos:
+        print("   ❌ TOP LOSING COMBINATIONS (WHY they fail):")
+        for combo, data in losing_combos:
+            win_rate = data.get('win_rate', 0)
+            total = data.get('total_trades', 0)
+            avg_pnl = data.get('avg_pnl', 0)
+            print(f"   🔴 {combo}")
+            print(f"      Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+            conditions = combo.split('|')
+            print(f"      → AVOID when: {' AND '.join(conditions)}")
+            print()
     
     # Analyze strategies
     print("="*80)
@@ -739,13 +838,31 @@ def main():
                                     key=lambda x: x[1].get('win_rate', 0.5)):
         win_rate = analysis.get('win_rate', 0)
         total = analysis.get('total_trades', 0)
+        avg_pnl = analysis.get('avg_pnl', 0)
         icon = '🟢' if win_rate > 0.60 else '🟡' if win_rate > 0.50 else '🔴'
         print(f"{icon} {strategy.upper()}")
-        print(f"   Win Rate: {win_rate:.1%}, Trades: {total}")
-        if analysis.get('causal_factors'):
-            print(f"   Causal Factors: {', '.join(analysis['causal_factors'][:3])}")
-        if analysis.get('recommendations'):
-            print(f"   → {analysis['recommendations'][0]}")
+        print(f"   Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+        
+        # WHY WINNING - What conditions lead to wins?
+        why_winning = analysis.get('why_winning', [])
+        if why_winning:
+            print(f"   ✅ WHY WINNING:")
+            for reason in why_winning[:3]:  # Top 3 reasons
+                print(f"      • {reason}")
+        
+        # WHY LOSING - What conditions lead to losses?
+        why_losing = analysis.get('why_losing', [])
+        if why_losing:
+            print(f"   ❌ WHY LOSING:")
+            for reason in why_losing[:3]:  # Top 3 reasons
+                print(f"      • {reason}")
+        
+        # ACTIONABLE RECOMMENDATIONS
+        recommendations = analysis.get('recommendations', [])
+        if recommendations:
+            print(f"   🎯 ACTIONABLE RULES:")
+            for rec in recommendations[:3]:  # Top 3 recommendations
+                print(f"      {rec}")
         print()
     
     # Analyze regimes
@@ -774,11 +891,11 @@ def main():
             print(f"   Top Signals: {', '.join(signal_strs)}")
         print()
     
-    # Generate improvement plan
+    # Generate improvement plan - FOCUSED ON WHY
     print("="*80)
-    print("INTELLIGENCE IMPROVEMENT PLAN")
+    print("ACTIONABLE TRADING RULES - Based on WHY We Win/Lose")
     print("="*80)
-    print("   Actionable improvements based on causal understanding")
+    print("   Rules to enter trades based on understanding, not correlation")
     print()
     
     all_analyses = {
@@ -790,15 +907,38 @@ def main():
     
     improvements = generate_improvement_plan(all_analyses)
     
-    for imp in sorted(improvements, 
-                     key=lambda x: {'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x.get('priority', 'LOW'), 0),
-                     reverse=True)[:20]:
-        priority = imp.get('priority', 'MEDIUM')
-        icon = '🔴' if priority == 'HIGH' else '🟡'
-        print(f"{icon} {imp['type']}: {imp.get('component', imp.get('strategy', imp.get('combination', '')))}")
-        print(f"   Action: {imp['action']}")
-        print(f"   Reasoning: {imp['reasoning']}")
-        print()
+    # Group improvements by type and show WHY
+    entry_rules = []
+    avoid_rules = []
+    
+    for imp in improvements:
+        action = imp.get('action', '').lower()
+        if 'avoid' in action or 'don\'t' in action or 'skip' in action:
+            avoid_rules.append(imp)
+        else:
+            entry_rules.append(imp)
+    
+    if entry_rules:
+        print("   ✅ ENTER TRADES WHEN:")
+        for imp in sorted(entry_rules, 
+                         key=lambda x: {'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x.get('priority', 'LOW'), 0),
+                         reverse=True)[:10]:
+            priority = imp.get('priority', 'MEDIUM')
+            icon = '🔴' if priority == 'HIGH' else '🟡'
+            print(f"   {icon} {imp['action']}")
+            print(f"      WHY: {imp['reasoning']}")
+            print()
+    
+    if avoid_rules:
+        print("   ❌ AVOID TRADES WHEN:")
+        for imp in sorted(avoid_rules, 
+                         key=lambda x: {'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x.get('priority', 'LOW'), 0),
+                         reverse=True)[:10]:
+            priority = imp.get('priority', 'MEDIUM')
+            icon = '🔴' if priority == 'HIGH' else '🟡'
+            print(f"   {icon} {imp['action']}")
+            print(f"      WHY: {imp['reasoning']}")
+            print()
     
     # Save results
     output = {

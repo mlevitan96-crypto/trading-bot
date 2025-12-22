@@ -15,32 +15,40 @@ import json
 import sys
 from pathlib import Path
 
-# Add project root to path
-project_root = Path(__file__).parent.parent
+# Add project root to path - use script location to find project root
+script_dir = Path(__file__).parent.absolute()
+project_root = script_dir.parent
 sys.path.insert(0, str(project_root))
 
 try:
     from src.infrastructure.path_registry import PathRegistry
+    USE_PATH_REGISTRY = True
 except ImportError:
     # Fallback if PathRegistry not available
+    USE_PATH_REGISTRY = False
     PathRegistry = None
 
 
 def get_enriched_decisions_path():
     """Get path to enriched_decisions.jsonl using PathRegistry or fallback."""
-    if PathRegistry:
-        return PathRegistry.get_path("logs", "enriched_decisions.jsonl")
-    else:
-        # Fallback to relative path
-        return project_root / "logs" / "enriched_decisions.jsonl"
+    if USE_PATH_REGISTRY and PathRegistry:
+        try:
+            return PathRegistry.get_path("logs", "enriched_decisions.jsonl")
+        except:
+            pass
+    # Fallback to relative path from script location
+    return project_root / "logs" / "enriched_decisions.jsonl"
 
 
 def get_csv_export_path():
     """Get path to CSV export as fallback."""
-    if PathRegistry:
-        return PathRegistry.get_path("feature_store", "signal_analysis_export.csv")
-    else:
-        return project_root / "feature_store" / "signal_analysis_export.csv"
+    if USE_PATH_REGISTRY and PathRegistry:
+        try:
+            return PathRegistry.get_path("feature_store", "signal_analysis_export.csv")
+        except:
+            pass
+    # Fallback to relative path from script location
+    return project_root / "feature_store" / "signal_analysis_export.csv"
 
 
 def read_last_n_lines(file_path, n=10):

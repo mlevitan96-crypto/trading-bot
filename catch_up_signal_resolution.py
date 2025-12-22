@@ -23,7 +23,13 @@ print("This script will AUTOMATICALLY process all pending signals")
 print("It will run continuously until all signals are resolved")
 print("Press Ctrl+C to stop at any time\n")
 
-from src.signal_outcome_tracker import signal_tracker
+# IMPORTANT: Signal tracker uses PathRegistry which resolves to /root/trading-bot-B
+# This script must be run from the active bot directory
+from src.signal_outcome_tracker import signal_tracker, PENDING_SIGNALS_FILE
+from pathlib import Path
+
+print(f"📁 Active directory: {Path(PENDING_SIGNALS_FILE).absolute().parent.parent}")
+print(f"📁 Pending signals file: {Path(PENDING_SIGNALS_FILE).absolute()}\n")
 
 # Check current status
 pending_file = Path("feature_store/pending_signals.json")

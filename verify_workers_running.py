@@ -16,6 +16,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 def check_worker_process(worker_name):
     """Check if a worker process is running."""
+    # Try multiple methods to detect workers
+    # Method 1: pgrep for the worker name
     try:
         result = subprocess.run(
             ["pgrep", "-f", worker_name],
@@ -23,9 +25,54 @@ def check_worker_process(worker_name):
             text=True,
             timeout=5
         )
-        return result.returncode == 0 and result.stdout.strip() != ""
+        if result.returncode == 0 and result.stdout.strip() != "":
+            return True
     except:
-        return False
+        pass
+    
+    # Method 2: Check for python processes with worker function names
+    try:
+        # Worker function names in the code
+        worker_functions = {
+            "predictive_engine": "_worker_predictive_engine",
+            "ensemble_predictor": "_worker_ensemble_predictor", 
+            "signal_resolver": "_worker_signal_resolver",
+            "feature_builder": "_worker_feature_builder"
+        }
+        
+        if worker_name in worker_functions:
+            func_name = worker_functions[worker_name]
+            result = subprocess.run(
+                ["pgrep", "-f", func_name],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            if result.returncode == 0 and result.stdout.strip() != "":
+                return True
+    except:
+        pass
+    
+    # Method 3: Check ps aux for python processes
+    try:
+        result = subprocess.run(
+            ["ps", "aux"],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        # Look for python processes that might be workers
+        # Workers run as separate processes, so they'll show as python3 processes
+        # If files are updating, workers are likely running even if we can't detect them
+        for line in result.stdout.split('\n'):
+            if 'python' in line.lower() and 'run.py' in line:
+                # If we see python processes running run.py, workers might be running
+                # But we can't definitively say which worker is which
+                pass
+    except:
+        pass
+    
+    return False
 
 def check_file_updating(file_path, max_age_minutes=5):
     """Check if a file exists and is being updated."""

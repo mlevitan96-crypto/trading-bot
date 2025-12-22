@@ -1123,6 +1123,354 @@ def calculate_risk_adjusted_metrics(trades: List[Dict]) -> Dict[str, Any]:
     }
 
 
+def analyze_sequence_patterns(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze sequence patterns: streaks, what happens after wins/losses."""
+    # Sort trades by timestamp
+    sorted_trades = sorted(trades, key=lambda t: t.get('ts', t.get('entry_ts', 0)))
+    
+    analysis = {
+        'win_streaks': [],
+        'loss_streaks': [],
+        'after_win': {'next_win_rate': 0, 'next_avg_pnl': 0, 'count': 0},
+        'after_loss': {'next_win_rate': 0, 'next_avg_pnl': 0, 'count': 0},
+        'streak_impact': {},
+    }
+    
+    # Track streaks
+    current_streak = 0
+    current_streak_type = None
+    max_win_streak = 0
+    max_loss_streak = 0
+    
+    for i, trade in enumerate(sorted_trades):
+        is_winner = trade.get('win', False)
+        
+        # Track streaks
+        if is_winner:
+            if current_streak_type == 'win':
+                current_streak += 1
+            else:
+                if current_streak_type == 'loss' and current_streak > 0:
+                    analysis['loss_streaks'].append(current_streak)
+                    max_loss_streak = max(max_loss_streak, current_streak)
+                current_streak = 1
+                current_streak_type = 'win'
+        else:
+            if current_streak_type == 'loss':
+                current_streak += 1
+            else:
+                if current_streak_type == 'win' and current_streak > 0:
+                    analysis['win_streaks'].append(current_streak)
+                    max_win_streak = max(max_win_streak, current_streak)
+                current_streak = 1
+                current_streak_type = 'loss'
+        
+        # Analyze what happens after wins/losses
+        if i < len(sorted_trades) - 1:
+            next_trade = sorted_trades[i + 1]
+            next_is_winner = next_trade.get('win', False)
+            next_pnl = next_trade.get('pnl', 0)
+            
+            if is_winner:
+                analysis['after_win']['count'] += 1
+                if next_is_winner:
+                    analysis['after_win']['next_win_rate'] += 1
+                analysis['after_win']['next_avg_pnl'] += next_pnl
+            else:
+                analysis['after_loss']['count'] += 1
+                if next_is_winner:
+                    analysis['after_loss']['next_win_rate'] += 1
+                analysis['after_loss']['next_avg_pnl'] += next_pnl
+    
+    # Finalize streaks
+    if current_streak > 0:
+        if current_streak_type == 'win':
+            analysis['win_streaks'].append(current_streak)
+            max_win_streak = max(max_win_streak, current_streak)
+        else:
+            analysis['loss_streaks'].append(current_streak)
+            max_loss_streak = max(max_loss_streak, current_streak)
+    
+    # Calculate averages
+    if analysis['after_win']['count'] > 0:
+        analysis['after_win']['next_win_rate'] = analysis['after_win']['next_win_rate'] / analysis['after_win']['count']
+        analysis['after_win']['next_avg_pnl'] = analysis['after_win']['next_avg_pnl'] / analysis['after_win']['count']
+    
+    if analysis['after_loss']['count'] > 0:
+        analysis['after_loss']['next_win_rate'] = analysis['after_loss']['next_win_rate'] / analysis['after_loss']['count']
+        analysis['after_loss']['next_avg_pnl'] = analysis['after_loss']['next_avg_pnl'] / analysis['after_loss']['count']
+    
+    # Streak statistics
+    if analysis['win_streaks']:
+        analysis['streak_impact']['max_win_streak'] = max_win_streak
+        analysis['streak_impact']['avg_win_streak'] = mean(analysis['win_streaks'])
+    
+    if analysis['loss_streaks']:
+        analysis['streak_impact']['max_loss_streak'] = max_loss_streak
+        analysis['streak_impact']['avg_loss_streak'] = mean(analysis['loss_streaks'])
+    
+    return analysis
+
+
+def analyze_exit_timing(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze exit timing: optimal exit points, early vs late exits."""
+    winners = [t for t in trades if t.get('win', False)]
+    losers = [t for t in trades if not t.get('win', False)]
+    
+    analysis = {
+        'winner_exits': {'early': [], 'optimal': [], 'late': []},
+        'loser_exits': {'early': [], 'optimal': [], 'late': []},
+        'optimal_exit_duration': None,
+    }
+    
+    # Analyze exit timing for winners
+    winner_durations = []
+    winner_pnls = []
+    
+    for trade in winners:
+        entry_ts = trade.get('entry_ts', trade.get('ts', 0))
+        exit_ts = trade.get('exit_ts', 0)
+        pnl = trade.get('pnl', 0)
+        
+        if entry_ts and exit_ts:
+            try:
+                if isinstance(entry_ts, str):
+                    entry_dt = datetime.fromisoformat(entry_ts.replace('Z', '+00:00'))
+                    entry_ts = entry_dt.timestamp()
+                elif entry_ts > 1e12:
+                    entry_ts = entry_ts / 1000
+                
+                if isinstance(exit_ts, str):
+                    exit_dt = datetime.fromisoformat(exit_ts.replace('Z', '+00:00'))
+                    exit_ts = exit_dt.timestamp()
+                elif exit_ts > 1e12:
+                    exit_ts = exit_ts / 1000
+                
+                duration_hours = (exit_ts - entry_ts) / 3600
+                if duration_hours > 0 and duration_hours < 720:
+                    winner_durations.append(duration_hours)
+                    winner_pnls.append(pnl)
+            except:
+                pass
+    
+    if winner_durations and winner_pnls:
+        # Find optimal duration (highest P&L per hour)
+        pnl_per_hour = [pnl / dur for pnl, dur in zip(winner_pnls, winner_durations)]
+        optimal_idx = pnl_per_hour.index(max(pnl_per_hour))
+        analysis['optimal_exit_duration'] = winner_durations[optimal_idx]
+        
+        # Categorize exits
+        median_duration = median(winner_durations)
+        for dur, pnl in zip(winner_durations, winner_pnls):
+            if dur < median_duration * 0.5:
+                analysis['winner_exits']['early'].append({'duration': dur, 'pnl': pnl})
+            elif dur > median_duration * 1.5:
+                analysis['winner_exits']['late'].append({'duration': dur, 'pnl': pnl})
+            else:
+                analysis['winner_exits']['optimal'].append({'duration': dur, 'pnl': pnl})
+    
+    return analysis
+
+
+def analyze_drawdown_patterns(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze drawdown patterns: maximum adverse/favorable excursion."""
+    analysis = {
+        'winners': {'max_favorable': [], 'max_adverse': []},
+        'losers': {'max_favorable': [], 'max_adverse': []},
+    }
+    
+    for trade in trades:
+        entry_price = trade.get('entry_price', 0)
+        exit_price = trade.get('exit_price', 0)
+        direction = trade.get('direction', 'UNKNOWN').upper()
+        is_winner = trade.get('win', False)
+        
+        if not entry_price or not exit_price or entry_price <= 0:
+            continue
+        
+        # Calculate price movement
+        if direction == 'LONG':
+            price_change_pct = ((exit_price - entry_price) / entry_price) * 100
+        elif direction == 'SHORT':
+            price_change_pct = ((entry_price - exit_price) / entry_price) * 100
+        else:
+            continue
+        
+        # For winners, track max favorable (how much it went in our favor)
+        # For losers, track max adverse (how much it went against us)
+        if is_winner:
+            analysis['winners']['max_favorable'].append(abs(price_change_pct))
+        else:
+            analysis['losers']['max_adverse'].append(abs(price_change_pct))
+    
+    # Calculate statistics
+    if analysis['winners']['max_favorable']:
+        analysis['winners']['avg_max_favorable'] = mean(analysis['winners']['max_favorable'])
+        analysis['winners']['median_max_favorable'] = median(analysis['winners']['max_favorable'])
+    
+    if analysis['losers']['max_adverse']:
+        analysis['losers']['avg_max_adverse'] = mean(analysis['losers']['max_adverse'])
+        analysis['losers']['median_max_adverse'] = median(analysis['losers']['max_adverse'])
+    
+    return analysis
+
+
+def analyze_signal_strength(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze signal strength: weak vs strong signals, confidence levels."""
+    analysis = {
+        'strong_signals': {'winners': [], 'losers': []},
+        'weak_signals': {'winners': [], 'losers': []},
+        'signal_strength_threshold': None,
+    }
+    
+    # Calculate signal strength (combination of OFI and Ensemble)
+    signal_strengths = []
+    for trade in trades:
+        ofi = trade.get('ofi', 0)
+        ensemble = trade.get('ensemble', 0)
+        
+        # Normalize and combine
+        strength = (ofi * 0.6 + ensemble * 0.4) if (ofi > 0 or ensemble > 0) else 0
+        signal_strengths.append(strength)
+    
+    if signal_strengths:
+        median_strength = median([s for s in signal_strengths if s > 0])
+        analysis['signal_strength_threshold'] = median_strength
+        
+        for trade, strength in zip(trades, signal_strengths):
+            is_winner = trade.get('win', False)
+            
+            if strength >= median_strength:
+                if is_winner:
+                    analysis['strong_signals']['winners'].append(trade)
+                else:
+                    analysis['strong_signals']['losers'].append(trade)
+            else:
+                if is_winner:
+                    analysis['weak_signals']['winners'].append(trade)
+                else:
+                    analysis['weak_signals']['losers'].append(trade)
+    
+    # Calculate win rates
+    strong_total = len(analysis['strong_signals']['winners']) + len(analysis['strong_signals']['losers'])
+    weak_total = len(analysis['weak_signals']['winners']) + len(analysis['weak_signals']['losers'])
+    
+    if strong_total > 0:
+        analysis['strong_signals']['win_rate'] = len(analysis['strong_signals']['winners']) / strong_total
+    if weak_total > 0:
+        analysis['weak_signals']['win_rate'] = len(analysis['weak_signals']['winners']) / weak_total
+    
+    return analysis
+
+
+def analyze_market_condition_interactions(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze how market conditions interact with signals."""
+    analysis = {
+        'high_volatility': {'winners': [], 'losers': []},
+        'low_volatility': {'winners': [], 'losers': []},
+        'high_volume': {'winners': [], 'losers': []},
+        'low_volume': {'winners': [], 'losers': []},
+    }
+    
+    # Get volatility and volume values
+    volatilities = [t.get('volatility', 0) for t in trades if t.get('volatility', 0) > 0]
+    volumes = [t.get('volume', 0) for t in trades if t.get('volume', 0) > 0]
+    
+    vol_threshold = median(volatilities) if volatilities else 0
+    vol_volume_threshold = median(volumes) if volumes else 0
+    
+    for trade in trades:
+        is_winner = trade.get('win', False)
+        volatility = trade.get('volatility', 0)
+        volume = trade.get('volume', 0)
+        
+        if volatility > 0:
+            if volatility >= vol_threshold:
+                if is_winner:
+                    analysis['high_volatility']['winners'].append(trade)
+                else:
+                    analysis['high_volatility']['losers'].append(trade)
+            else:
+                if is_winner:
+                    analysis['low_volatility']['winners'].append(trade)
+                else:
+                    analysis['low_volatility']['losers'].append(trade)
+        
+        if volume > 0:
+            if volume >= vol_volume_threshold:
+                if is_winner:
+                    analysis['high_volume']['winners'].append(trade)
+                else:
+                    analysis['high_volume']['losers'].append(trade)
+            else:
+                if is_winner:
+                    analysis['low_volume']['winners'].append(trade)
+                else:
+                    analysis['low_volume']['losers'].append(trade)
+    
+    # Calculate win rates
+    for condition in ['high_volatility', 'low_volatility', 'high_volume', 'low_volume']:
+        winners = len(analysis[condition]['winners'])
+        losers = len(analysis[condition]['losers'])
+        total = winners + losers
+        if total > 0:
+            analysis[condition]['win_rate'] = winners / total
+            analysis[condition]['total'] = total
+    
+    return analysis
+
+
+def analyze_fee_impact(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze fee impact on profitability."""
+    analysis = {
+        'total_fees': 0,
+        'fees_vs_pnl': 0,
+        'high_fee_trades': {'winners': [], 'losers': []},
+        'low_fee_trades': {'winners': [], 'losers': []},
+    }
+    
+    fees_list = []
+    for trade in trades:
+        outcome = trade.get('outcome', {})
+        fees = outcome.get('fees', outcome.get('trading_fees', 0))
+        pnl = trade.get('pnl', 0)
+        
+        if fees > 0:
+            fees_list.append(fees)
+            analysis['total_fees'] += fees
+    
+    if fees_list:
+        median_fees = median(fees_list)
+        total_pnl = sum([t.get('pnl', 0) for t in trades])
+        analysis['fees_vs_pnl'] = (analysis['total_fees'] / abs(total_pnl) * 100) if total_pnl != 0 else 0
+        
+        for trade in trades:
+            outcome = trade.get('outcome', {})
+            fees = outcome.get('fees', outcome.get('trading_fees', 0))
+            is_winner = trade.get('win', False)
+            
+            if fees >= median_fees:
+                if is_winner:
+                    analysis['high_fee_trades']['winners'].append(trade)
+                else:
+                    analysis['high_fee_trades']['losers'].append(trade)
+            else:
+                if is_winner:
+                    analysis['low_fee_trades']['winners'].append(trade)
+                else:
+                    analysis['low_fee_trades']['losers'].append(trade)
+        
+        high_fee_total = len(analysis['high_fee_trades']['winners']) + len(analysis['high_fee_trades']['losers'])
+        low_fee_total = len(analysis['low_fee_trades']['winners']) + len(analysis['low_fee_trades']['losers'])
+        
+        if high_fee_total > 0:
+            analysis['high_fee_trades']['win_rate'] = len(analysis['high_fee_trades']['winners']) / high_fee_total
+        if low_fee_total > 0:
+            analysis['low_fee_trades']['win_rate'] = len(analysis['low_fee_trades']['winners']) / low_fee_total
+    
+    return analysis
+
+
 def analyze_direction_intelligence(trades: List[Dict]) -> Dict[str, Any]:
     """Analyze WHY LONG vs SHORT trades win/lose differently."""
     direction_data = defaultdict(lambda: {'winners': [], 'losers': []})
@@ -1998,6 +2346,184 @@ def main():
             print(f"   🔴 Profit Factor < 1.0: Losing strategy")
         print()
     
+    # SEQUENCE/STREAK ANALYSIS
+    print("="*80)
+    print("SEQUENCE & STREAK ANALYSIS")
+    print("="*80)
+    print("   Understanding patterns in trade sequences (streaks, what happens after wins/losses)")
+    print()
+    
+    sequence_analysis = analyze_sequence_patterns(intelligence_data)
+    
+    if sequence_analysis.get('after_win', {}).get('count', 0) > 0:
+        after_win_wr = sequence_analysis['after_win']['next_win_rate']
+        after_win_pnl = sequence_analysis['after_win']['next_avg_pnl']
+        print(f"   📊 AFTER A WIN:")
+        print(f"      Next trade win rate: {after_win_wr:.1%}")
+        print(f"      Next trade avg P&L: ${after_win_pnl:.2f}")
+        if after_win_wr < 0.4:
+            print(f"      → ⚠️  Wins are often followed by losses (reversion)")
+        elif after_win_wr > 0.6:
+            print(f"      → ✅ Wins tend to cluster (momentum)")
+        print()
+    
+    if sequence_analysis.get('after_loss', {}).get('count', 0) > 0:
+        after_loss_wr = sequence_analysis['after_loss']['next_win_rate']
+        after_loss_pnl = sequence_analysis['after_loss']['next_avg_pnl']
+        print(f"   📊 AFTER A LOSS:")
+        print(f"      Next trade win rate: {after_loss_wr:.1%}")
+        print(f"      Next trade avg P&L: ${after_loss_pnl:.2f}")
+        if after_loss_wr > 0.6:
+            print(f"      → ✅ Losses are often followed by wins (reversion)")
+        elif after_loss_wr < 0.4:
+            print(f"      → ⚠️  Losses tend to cluster (negative momentum)")
+        print()
+    
+    if sequence_analysis.get('streak_impact'):
+        max_win = sequence_analysis['streak_impact'].get('max_win_streak', 0)
+        max_loss = sequence_analysis['streak_impact'].get('max_loss_streak', 0)
+        if max_win > 0:
+            print(f"   📊 Max win streak: {max_win} trades")
+        if max_loss > 0:
+            print(f"   📊 Max loss streak: {max_loss} trades")
+        print()
+    
+    # EXIT TIMING ANALYSIS
+    print("="*80)
+    print("EXIT TIMING ANALYSIS")
+    print("="*80)
+    print("   Understanding optimal exit timing (when to exit for maximum profit)")
+    print()
+    
+    exit_analysis = analyze_exit_timing(intelligence_data)
+    
+    if exit_analysis.get('optimal_exit_duration'):
+        optimal_hours = exit_analysis['optimal_exit_duration']
+        print(f"   ✅ Optimal exit duration: {optimal_hours:.1f} hours")
+        print(f"      → Consider exiting winners after ~{optimal_hours:.1f} hours for best P&L/hour")
+        print()
+    
+    if exit_analysis.get('winner_exits'):
+        early_count = len(exit_analysis['winner_exits']['early'])
+        optimal_count = len(exit_analysis['winner_exits']['optimal'])
+        late_count = len(exit_analysis['winner_exits']['late'])
+        
+        if early_count + optimal_count + late_count > 0:
+            print(f"   📊 Winner exit timing:")
+            print(f"      Early exits: {early_count}")
+            print(f"      Optimal exits: {optimal_count}")
+            print(f"      Late exits: {late_count}")
+            print()
+    
+    # DRAWDOWN ANALYSIS
+    print("="*80)
+    print("DRAWDOWN & EXCURSION ANALYSIS")
+    print("="*80)
+    print("   Understanding maximum favorable/adverse price movement")
+    print()
+    
+    drawdown_analysis = analyze_drawdown_patterns(intelligence_data)
+    
+    if drawdown_analysis.get('winners', {}).get('avg_max_favorable'):
+        avg_fav = drawdown_analysis['winners']['avg_max_favorable']
+        print(f"   📊 Winners: Avg max favorable movement: {avg_fav:.2f}%")
+        print(f"      → Winners typically see {avg_fav:.2f}% price movement in our favor")
+        print()
+    
+    if drawdown_analysis.get('losers', {}).get('avg_max_adverse'):
+        avg_adv = drawdown_analysis['losers']['avg_max_adverse']
+        print(f"   📊 Losers: Avg max adverse movement: {avg_adv:.2f}%")
+        print(f"      → Losers typically see {avg_adv:.2f}% price movement against us")
+        print()
+    
+    # SIGNAL STRENGTH ANALYSIS
+    print("="*80)
+    print("SIGNAL STRENGTH ANALYSIS")
+    print("="*80)
+    print("   Understanding weak vs strong signals (confidence levels)")
+    print()
+    
+    signal_strength_analysis = analyze_signal_strength(intelligence_data)
+    
+    if signal_strength_analysis.get('strong_signals', {}).get('win_rate') is not None:
+        strong_wr = signal_strength_analysis['strong_signals']['win_rate']
+        strong_total = len(signal_strength_analysis['strong_signals']['winners']) + len(signal_strength_analysis['strong_signals']['losers'])
+        print(f"   📊 Strong Signals (OFI + Ensemble above median):")
+        print(f"      Win Rate: {strong_wr:.1%}, Trades: {strong_total}")
+        if strong_wr > 0.55:
+            print(f"      → ✅ Strong signals are more reliable")
+        elif strong_wr < 0.45:
+            print(f"      → ⚠️  Strong signals are not more reliable")
+        print()
+    
+    if signal_strength_analysis.get('weak_signals', {}).get('win_rate') is not None:
+        weak_wr = signal_strength_analysis['weak_signals']['win_rate']
+        weak_total = len(signal_strength_analysis['weak_signals']['winners']) + len(signal_strength_analysis['weak_signals']['losers'])
+        print(f"   📊 Weak Signals (OFI + Ensemble below median):")
+        print(f"      Win Rate: {weak_wr:.1%}, Trades: {weak_total}")
+        print()
+    
+    if signal_strength_analysis.get('signal_strength_threshold'):
+        threshold = signal_strength_analysis['signal_strength_threshold']
+        print(f"   🎯 Signal Strength Threshold: {threshold:.3f}")
+        print(f"      → Consider requiring signal strength >= {threshold:.3f} for entry")
+        print()
+    
+    # MARKET CONDITION INTERACTIONS
+    print("="*80)
+    print("MARKET CONDITION INTERACTIONS")
+    print("="*80)
+    print("   Understanding how volatility and volume affect trade outcomes")
+    print()
+    
+    market_condition_analysis = analyze_market_condition_interactions(intelligence_data)
+    
+    for condition in ['high_volatility', 'low_volatility', 'high_volume', 'low_volume']:
+        data = market_condition_analysis.get(condition, {})
+        if data.get('win_rate') is not None and data.get('total', 0) >= 10:
+            wr = data['win_rate']
+            total = data['total']
+            icon = '🟢' if wr > 0.55 else '🟡' if wr > 0.50 else '🔴'
+            print(f"   {icon} {condition.replace('_', ' ').title()}:")
+            print(f"      Win Rate: {wr:.1%}, Trades: {total}")
+            if wr > 0.55:
+                print(f"      → ✅ Prefer trading in {condition.replace('_', ' ')} conditions")
+            elif wr < 0.45:
+                print(f"      → ❌ Avoid trading in {condition.replace('_', ' ')} conditions")
+            print()
+    
+    # FEE IMPACT ANALYSIS
+    print("="*80)
+    print("FEE IMPACT ANALYSIS")
+    print("="*80)
+    print("   Understanding how fees affect profitability")
+    print()
+    
+    fee_analysis = analyze_fee_impact(intelligence_data)
+    
+    if fee_analysis.get('total_fees', 0) > 0:
+        total_fees = fee_analysis['total_fees']
+        fees_vs_pnl = fee_analysis.get('fees_vs_pnl', 0)
+        print(f"   📊 Total fees paid: ${total_fees:.2f}")
+        print(f"   📊 Fees as % of total P&L: {fees_vs_pnl:.1f}%")
+        
+        if fees_vs_pnl > 50:
+            print(f"      → ⚠️  Fees are eating >50% of profits - consider reducing trade frequency")
+        elif fees_vs_pnl > 25:
+            print(f"      → 🟡 Fees are significant - monitor trade frequency")
+        else:
+            print(f"      → ✅ Fees are reasonable")
+        print()
+    
+    if fee_analysis.get('high_fee_trades', {}).get('win_rate') is not None:
+        high_fee_wr = fee_analysis['high_fee_trades']['win_rate']
+        low_fee_wr = fee_analysis.get('low_fee_trades', {}).get('win_rate', 0)
+        print(f"   📊 High fee trades: {high_fee_wr:.1%} win rate")
+        print(f"   📊 Low fee trades: {low_fee_wr:.1%} win rate")
+        if high_fee_wr < low_fee_wr:
+            print(f"      → ⚠️  Higher fees correlate with lower win rates")
+        print()
+    
     # STATISTICAL SIGNIFICANCE TESTING
     print("="*80)
     print("STATISTICAL SIGNIFICANCE TESTING")
@@ -2054,6 +2580,12 @@ def main():
         'duration': duration_analysis,
         'price_positioning': price_analysis,
         'risk_metrics': risk_metrics,
+        'sequences': sequence_analysis,
+        'exit_timing': exit_analysis,
+        'drawdowns': drawdown_analysis,
+        'signal_strength': signal_strength_analysis,
+        'market_conditions': market_condition_analysis,
+        'fee_impact': fee_analysis,
     }
     
     improvements = generate_improvement_plan(all_analyses)
@@ -2124,6 +2656,12 @@ def main():
     print(f"   - Analyzed temporal patterns (hours, sessions, days)")
     print(f"   - Analyzed trade duration patterns")
     print(f"   - Analyzed entry price positioning")
+    print(f"   - Analyzed sequence/streak patterns")
+    print(f"   - Analyzed exit timing optimization")
+    print(f"   - Analyzed drawdown patterns")
+    print(f"   - Analyzed signal strength (weak vs strong)")
+    print(f"   - Analyzed market condition interactions")
+    print(f"   - Analyzed fee impact on profitability")
     print(f"   - Calculated risk-adjusted metrics (Sharpe: {risk_metrics.get('sharpe_ratio', 0):.2f}, Profit Factor: {risk_metrics.get('profit_factor', 0):.2f})")
     print(f"   - Generated {len(improvements)} improvement recommendations")
     print()

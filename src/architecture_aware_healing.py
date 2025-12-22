@@ -315,17 +315,13 @@ class ArchitectureAwareHealing:
                                     print(f"      ✅ Dependency OK: {dep_file} ({dep_age:.1f} min old)")
                     
                     if deps_ok:
-                        # Try to restart by restarting bot service
-                        print(f"      🔄 Attempting to restart {worker_name}...")
-                        restart_success = self._restart_worker(worker_name)
-                        
-                        if restart_success:
-                            results["healed"].append(f"Restarted {worker_name} worker")
-                            results["restarted"] += 1
-                            print(f"      ✅ {worker_name} restarted successfully")
-                        else:
-                            results["failed"].append(f"Failed to restart {worker_name} worker")
-                            print(f"      ❌ Failed to restart {worker_name}")
+                        # NOTE: We don't restart workers automatically - that causes restart loops
+                        # Instead, we report the issue and let the existing worker monitor handle it
+                        # or require manual intervention
+                        print(f"      ⚠️  {worker_name} needs restart (not auto-restarting to avoid loops)")
+                        results["warnings"].append(f"{worker_name} worker not running - manual restart may be needed")
+                        print(f"      💡 Recommendation: Check bot logs for {worker_name} startup errors")
+                        print(f"      💡 Or restart bot service manually: sudo systemctl restart tradingbot")
                     else:
                         results["warnings"].append(f"{worker_name} has missing/stale dependencies")
                         print(f"      ⚠️  Cannot restart {worker_name} - dependencies not ready")
@@ -582,8 +578,13 @@ def main():
     healer = ArchitectureAwareHealing()
     results = healer.run_healing_cycle()
     
-    # Save results
-    results_path = Path("feature_store/healing_results.json")
+    # Save results (use PathRegistry for proper path resolution)
+    try:
+        from src.infrastructure.path_registry import PathRegistry
+        path_registry = PathRegistry()
+        results_path = Path(path_registry.get_path("feature_store", "healing_results.json"))
+    except:
+        results_path = Path("feature_store/healing_results.json")
     results_path.parent.mkdir(parents=True, exist_ok=True)
     with open(results_path, 'w') as f:
         json.dump(results, f, indent=2)

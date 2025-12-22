@@ -417,7 +417,11 @@ def analyze_signal_component_hypothesis(trades: List[Dict]) -> Dict[str, Any]:
     
     for trade in trades:
         is_winner = trade.get('win', False)
+        # Components can be in signal_components or signal_ctx.signal_components
         components = trade.get('signal_components', {})
+        if not components:
+            signal_ctx = trade.get('signal_ctx', {})
+            components = signal_ctx.get('signal_components', {})
         
         # Liquidation Cascade
         liq = components.get('liquidation_cascade', {})
@@ -704,7 +708,8 @@ def main():
     print("="*80)
     
     output_file = PathRegistry.get_path("feature_store", "signal_component_analysis.json")
-    output_file.parent.mkdir(parents=True, exist_ok=True)
+    output_path = Path(output_file)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     
     export_data = {
         'generated_at': datetime.now().isoformat(),
@@ -725,10 +730,10 @@ def main():
         'detailed_trades': enriched_trades[:500],  # Export first 500 for review
     }
     
-    with open(output_file, 'w') as f:
+    with open(output_path, 'w') as f:
         json.dump(export_data, f, indent=2)
     
-    print(f"Detailed data exported to: {output_file}")
+    print(f"Detailed data exported to: {output_path}")
     print(f"   - {len(enriched_trades)} trades with metrics")
     print(f"   - First 500 trades included in export for detailed review")
     print()

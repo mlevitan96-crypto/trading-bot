@@ -31,7 +31,7 @@ import json
 import os
 import time
 import threading
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
@@ -173,7 +173,11 @@ class CaptureLayer:
         self.missed_cache = []
     
     def load_executed_trades(self, hours: int = 168) -> List[dict]:
-        """Load executed trades from canonical positions file."""
+        """Load executed trades from canonical positions file.
+        
+        Excludes bad trades from December 18, 2025 1:00 AM - 6:00 AM UTC
+        (per MEMORY_BANK.md - bad trades window that should be ignored).
+        """
         try:
             data = DR.read_json(DR.POSITIONS_FUTURES)
             if not data:
@@ -182,7 +186,14 @@ class CaptureLayer:
             closed = data.get('closed_positions', [])
             cutoff = (datetime.utcnow() - timedelta(hours=hours)).timestamp()
             
+            # Bad trades window: Dec 18, 2025 1:00 AM - 6:00 AM UTC
+            # These trades should be excluded from all analysis
+            bad_trades_start = datetime(2025, 12, 18, 1, 0, 0, tzinfo=timezone.utc).timestamp()
+            bad_trades_end = datetime(2025, 12, 18, 6, 0, 0, tzinfo=timezone.utc).timestamp()
+            
             executed = []
+            excluded_bad = 0
+            
             for pos in closed:
                 ts_str = pos.get('closed_at') or pos.get('opened_at', '')
                 try:
@@ -192,6 +203,11 @@ class CaptureLayer:
                         ts = float(ts_str) if ts_str else 0
                 except:
                     ts = 0
+                
+                # Exclude bad trades window (Dec 18, 2025 1:00 AM - 6:00 AM UTC)
+                if bad_trades_start <= ts <= bad_trades_end:
+                    excluded_bad += 1
+                    continue
                 
                 if ts >= cutoff:
                     pnl = pos.get('net_pnl', pos.get('pnl', 0))
@@ -214,6 +230,9 @@ class CaptureLayer:
                         'bot_type': pos.get('bot_type', 'alpha'),
                         'ts': ts
                     })
+            
+            if excluded_bad > 0:
+                print(f"⚠️ [CLC] Excluded {excluded_bad} bad trades from Dec 18, 2025 1:00-6:00 AM UTC window")
             
             self.executed_cache = executed
             return executed

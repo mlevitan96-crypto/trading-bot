@@ -20,7 +20,7 @@ Outputs:
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 from typing import Dict, List, Any, Optional, Tuple
 from itertools import combinations
@@ -200,11 +200,22 @@ class ComprehensiveLearningEvaluation:
             self.data['signal_outcomes'] = DR.get_signals_from_db(limit=10000) if hasattr(DR, 'get_signals_from_db') else []
     
     def _filter_by_time(self, records: List[Dict], ts_fields: List[str] = None) -> List[Dict]:
-        """Filter records to the analysis time window."""
+        """Filter records to the analysis time window.
+        
+        Also excludes bad trades from December 18, 2025 1:00 AM - 6:00 AM UTC
+        (per MEMORY_BANK.md - bad trades window that should be ignored).
+        """
         if ts_fields is None:
             ts_fields = ['closed_at', 'close_timestamp', 'exit_timestamp', 'ts', 'timestamp', 'entry_timestamp', 'opened_at']
         
+        # Bad trades window: Dec 18, 2025 1:00 AM - 6:00 AM UTC
+        # These trades should be excluded from all analysis
+        bad_trades_start = datetime(2025, 12, 18, 1, 0, 0, tzinfo=timezone.utc).timestamp()
+        bad_trades_end = datetime(2025, 12, 18, 6, 0, 0, tzinfo=timezone.utc).timestamp()
+        
         filtered = []
+        excluded_bad = 0
+        
         for r in records:
             ts = None
             for field in ts_fields:
@@ -234,12 +245,20 @@ class ComprehensiveLearningEvaluation:
                 else:
                     continue
                 
+                # Exclude bad trades window (Dec 18, 2025 1:00 AM - 6:00 AM UTC)
+                if bad_trades_start <= ts <= bad_trades_end:
+                    excluded_bad += 1
+                    continue
+                
                 if ts > self.cutoff_ts:
                     filtered.append(r)
             else:
                 # If no timestamp found, include it (might be recent)
                 # This is a fallback for records without timestamps
                 filtered.append(r)
+        
+        if excluded_bad > 0:
+            print(f"   ⚠️  Excluded {excluded_bad} bad trades from Dec 18, 2025 1:00-6:00 AM UTC window")
         
         return filtered
     

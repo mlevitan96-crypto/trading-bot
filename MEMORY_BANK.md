@@ -201,14 +201,20 @@
 ```
 trading-bot/
 ├── src/                    # Main source code (474 Python files)
+│   └── enhanced_trade_logging.py  # NEW: Enhanced logging module
 ├── config/                 # Configuration files (asset_universe.json, etc.)
 ├── configs/               # Strategy configs (38 JSON files)
 ├── logs/                   # Runtime logs and state
-│   ├── positions_futures.json  # AUTHORITATIVE position data
+│   ├── positions_futures.json  # AUTHORITATIVE position data (includes volatility_snapshot)
 │   ├── signals.jsonl           # All signals (executed + blocked)
-│   └── enriched_decisions.jsonl
+│   ├── enriched_decisions.jsonl # Enriched trades with volatility_snapshot
+│   ├── executed_trades.jsonl   # Trade records (includes volatility_snapshot)
+│   └── predictive_signals.jsonl # Detailed signal components
 ├── data/                   # SQLite database (trading_system.db)
-├── feature_store/          # Signal weights, learning data
+├── feature_store/          # Signal weights, learning data, analysis exports
+│   ├── signal_component_analysis.json  # Analysis results
+│   ├── signal_analysis_export.csv      # CSV export
+│   └── signal_analysis_summary.json    # JSON summary
 ├── state/                  # System state snapshots
 └── reports/                # Daily reports and analysis
 ```
@@ -219,6 +225,8 @@ trading-bot/
 - **Path Registry**: `src/infrastructure/path_registry.py` (slot-based deployments)
 - **Main Entry**: `src/run.py` (orchestrates everything)
 - **Dashboard**: `src/pnl_dashboard_v2.py` (main dashboard, port 8050)
+- **Enhanced Logging**: `src/enhanced_trade_logging.py` (volatility snapshots, trading restrictions)
+- **Analysis Tools**: `analyze_signal_components.py`, `export_signal_analysis.py`, `display_export_data.py`
 
 ---
 
@@ -416,7 +424,17 @@ journalctl -u tradingbot --since "5 minutes ago" | grep -E "ERROR|Traceback|SIGK
       "margin_collateral": 450.0,
       "opened_at": "2025-12-19T10:00:00Z",
       "strategy": "Alpha",
-      "bot_type": "alpha"
+      "bot_type": "alpha",
+      "volatility_snapshot": {
+        "atr_14": 123.45,
+        "volume_24h": 1000000.0,
+        "regime_at_entry": "Trending",
+        "signal_components": {
+          "liquidation": 0.75,
+          "funding": 0.0001,
+          "whale": 500000.0
+        }
+      }
     }
   ],
   "closed_positions": [
@@ -428,7 +446,17 @@ journalctl -u tradingbot --since "5 minutes ago" | grep -E "ERROR|Traceback|SIGK
       "pnl": 50.0,
       "net_pnl": 45.0,
       "opened_at": "2025-12-19T08:00:00Z",
-      "closed_at": "2025-12-19T09:00:00Z"
+      "closed_at": "2025-12-19T09:00:00Z",
+      "volatility_snapshot": {
+        "atr_14": 50.25,
+        "volume_24h": 500000.0,
+        "regime_at_entry": "Volatile",
+        "signal_components": {
+          "liquidation": 0.50,
+          "funding": 0.0002,
+          "whale": 250000.0
+        }
+      }
     }
   ]
 }
@@ -445,6 +473,7 @@ journalctl -u tradingbot --since "5 minutes ago" | grep -E "ERROR|Traceback|SIGK
 - `opened_at`, `closed_at`: ISO 8601 timestamps
 - `strategy`: Strategy name
 - `bot_type`: "alpha" or "beta"
+- `volatility_snapshot`: Dict with ATR, volume, regime, signal_components (NEW - December 2025)
 
 ### Data Access Patterns
 **ALWAYS USE:**
@@ -677,7 +706,179 @@ journalctl -u tradingbot --since "10 minutes ago" | grep "DASHBOARD-V2"
 
 ---
 
+## 📊 Enhanced Logging & Analysis Workstreams (December 2025)
+
+### Enhanced Trade Logging Module
+**File**: `src/enhanced_trade_logging.py` (NEW - December 2025)
+- **Purpose**: Capture comprehensive market data and signal components at trade entry
+- **Key Functions**:
+  - `is_golden_hour()` - Check if within 09:00-16:00 UTC trading window
+  - `get_market_data_snapshot()` - Fetch ATR_14, volume_24h, regime_at_entry
+  - `extract_signal_components()` - Extract liquidation/funding/whale flow scores
+  - `create_volatility_snapshot()` - Complete snapshot with all metrics
+  - `check_stable_regime_block()` - Block trades in Stable regime (35.2% win rate)
+  - `check_golden_hours_block()` - Block trades outside golden hours
+
+### Volatility Snapshot Data Structure
+**Location**: Stored in `position["volatility_snapshot"]` and `trade["volatility_snapshot"]`
+```json
+{
+  "atr_14": 123.45,
+  "volume_24h": 1000000.0,
+  "regime_at_entry": "Trending",
+  "signal_components": {
+    "liquidation": 0.75,
+    "funding": 0.0001,
+    "whale": 500000.0
+  }
+}
+```
+
+### Data File Locations
+**Position Data**: `logs/positions_futures.json`
+- Open positions: `positions["open_positions"][i]["volatility_snapshot"]`
+- Closed positions: `positions["closed_positions"][i]["volatility_snapshot"]`
+
+**Trade Records**: `logs/executed_trades.jsonl` (via `data_sync_module.py`)
+- Each trade record includes `"volatility_snapshot"` field
+
+**Enriched Decisions**: `logs/enriched_decisions.jsonl` (via `data_enrichment_layer.py`)
+- Extracted to `signal_ctx["volatility_snapshot"]` for analysis
+
+### Trading Restrictions (December 2025)
+1. **Stable Regime Block**:
+   - **Location**: `src/unified_recovery_learning_fix.py`, `src/full_integration_blofin_micro_live_and_paper.py`
+   - **Function**: `pre_entry_check()` - checks before every entry
+   - **Logic**: Hard blocks when `regime == "Stable"` (35.2% win rate)
+   - **Impact**: Expected to boost win rate by removing ~44.5% of worst-performing trades
+
+2. **Golden Hour Trading Window**:
+   - **Location**: Same files as above
+   - **Window**: 09:00-16:00 UTC (London Open to NY Close)
+   - **Behavior**: Blocks NEW entries outside window, allows existing positions to close
+   - **Implementation**: Fails open (doesn't break trading if check fails)
+
+### Analysis Workstreams (December 2025)
+
+#### 1. Signal Component Analysis
+**File**: `analyze_signal_components.py`
+- **Purpose**: Analyze trades with volatility and signal component breakdown
+- **Input**: `logs/enriched_decisions.jsonl`, `logs/predictive_signals.jsonl`
+- **Output**: `feature_store/signal_component_analysis.json`
+- **Key Features**:
+  - Tests volatility hypothesis (losses correlate with low/extreme volatility)
+  - Tests signal component hypothesis (liquidation cascade vs funding vs whale flow)
+  - Tests regime accuracy hypothesis
+  - Exports detailed trade metrics for external review
+
+**Usage**:
+```bash
+python3 analyze_signal_components.py
+```
+
+#### 2. Export Signal Analysis
+**File**: `export_signal_analysis.py`
+- **Purpose**: Export analysis results in CSV and JSON formats
+- **Input**: `feature_store/signal_component_analysis.json`
+- **Output**: 
+  - `feature_store/signal_analysis_export.csv` (all trades with metrics)
+  - `feature_store/signal_analysis_summary.json` (high-level summary)
+- **Key Features**:
+  - CSV export for spreadsheet analysis
+  - JSON summary for quick review
+  - Includes all volatility snapshot data
+
+**Usage**:
+```bash
+python3 export_signal_analysis.py
+```
+
+#### 3. Display Export Data
+**File**: `display_export_data.py`
+- **Purpose**: Display exported data in terminal for copy/paste
+- **Input**: `feature_store/signal_analysis_export.csv`, `feature_store/signal_analysis_summary.json`
+- **Output**: Formatted terminal output
+- **Key Features**:
+  - Shows first 20 trades in readable format
+  - Shows JSON summary in copy-pasteable format
+  - Designed for easy data extraction from server
+
+**Usage**:
+```bash
+python3 display_export_data.py
+```
+
+### Data Enrichment Pipeline
+**File**: `src/data_enrichment_layer.py`
+- **Purpose**: Enrich trade records with signal context and volatility snapshots
+- **Process**:
+  1. Loads trades from `logs/executed_trades.jsonl`
+  2. Matches with signals from `logs/predictive_signals.jsonl`
+  3. Extracts volatility snapshot from trade records
+  4. Creates enriched records in `logs/enriched_decisions.jsonl`
+- **Key Fields Extracted**:
+  - `signal_ctx.volatility_snapshot` - Complete volatility data
+  - `signal_ctx.signal_components` - Individual signal scores
+  - `signal_ctx.volatility` - Volatility metric
+  - `signal_ctx.volume` - Volume metric
+
+### Best Practices for Enhanced Logging
+
+1. **Always Check Volatility Snapshot**:
+   - When analyzing trades, check `trade.get("volatility_snapshot", {})`
+   - If empty, trade was opened before December 2025 implementation
+   - New trades (after deployment) will have complete data
+
+2. **Signal Component Extraction**:
+   - Components stored in `volatility_snapshot["signal_components"]`
+   - Format: `{"liquidation": float, "funding": float, "whale": float}`
+   - If missing, check `signal_ctx.signal_components` in enriched records
+
+3. **Regime Data**:
+   - Always use `regime_at_entry` from volatility snapshot (captured at entry time)
+   - Don't use current regime for historical analysis
+   - Regime values: "Stable", "Trending", "Volatile", "Ranging", "unknown"
+
+4. **Analysis Workflow**:
+   ```bash
+   # Step 1: Run analysis
+   python3 analyze_signal_components.py
+   
+   # Step 2: Export results
+   python3 export_signal_analysis.py
+   
+   # Step 3: Display for review
+   python3 display_export_data.py
+   ```
+
+5. **Data Quality Checks**:
+   - Verify `atr_14 > 0` for new trades (indicates successful capture)
+   - Verify `signal_components` not empty for new trades
+   - Check `regime_at_entry` matches expected values
+
+### Files Modified for Enhanced Logging
+1. `src/enhanced_trade_logging.py` - NEW module (December 2025)
+2. `src/position_manager.py` - Captures volatility snapshot at entry
+3. `src/futures_portfolio_tracker.py` - Stores volatility snapshot in trade records
+4. `src/unified_recovery_learning_fix.py` - Added golden hour + stable regime checks
+5. `src/full_integration_blofin_micro_live_and_paper.py` - Added golden hour + stable regime checks
+6. `src/bot_cycle.py` - Enhanced signal_context to include signals
+7. `src/data_enrichment_layer.py` - Extracts volatility_snapshot for analysis
+
+---
+
 ## 🔄 Update Log
+
+**2025-12-22**: Enhanced Logging & Trading Restrictions Implementation
+- **NEW**: `src/enhanced_trade_logging.py` module for comprehensive trade logging
+- **NEW**: Volatility snapshot capture (ATR, volume, regime, signal components) at entry
+- **NEW**: Stable regime block (hard blocks trades in Stable regime - 35.2% win rate)
+- **NEW**: Golden hour trading window (09:00-16:00 UTC, blocks new entries outside window)
+- **NEW**: Analysis workstreams (`analyze_signal_components.py`, `export_signal_analysis.py`, `display_export_data.py`)
+- **ENHANCED**: `data_enrichment_layer.py` to extract volatility snapshots
+- **ENHANCED**: Trade records now include `volatility_snapshot` field
+- **Data Locations**: Volatility snapshots stored in positions and trades, accessible via enriched_decisions.jsonl
+- **Expected Impact**: Immediate win rate boost from stable regime block, complete data for analysis after 3-5 days
 
 **2025-12-22**: Active Directory Confirmation
 - **CONFIRMED**: Bot's active directory is `/root/trading-bot-B` (not `/root/trading-bot-current`)

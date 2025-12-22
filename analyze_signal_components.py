@@ -732,7 +732,7 @@ def main():
         'volatility_analysis': vol_analysis,
         'component_analysis': component_analysis,
         'regime_analysis': regime_analysis,
-        'detailed_trades': enriched_trades[:500],  # Export first 500 for review
+        'detailed_trades': enriched_trades,  # Export all trades
     }
     
     with open(output_path, 'w') as f:

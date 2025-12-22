@@ -51,6 +51,13 @@ def enrich_recent_decisions(lookback_hours=48):
     signals = _read_jsonl(SIGNALS_LOG, 500000)
     signals = [s for s in signals if int(s.get("ts", 0)) >= cutoff]
     
+    # Load predictive signals (has detailed component breakdown: liquidation, funding, whale_flow)
+    predictive_signals_path = PathRegistry.get_path("logs", "predictive_signals.jsonl")
+    predictive_signals = []
+    if os.path.exists(predictive_signals_path):
+        predictive_signals = _read_jsonl(str(predictive_signals_path), 500000)
+        predictive_signals = [s for s in predictive_signals if int(s.get("ts", 0)) >= cutoff]
+    
     # Load trades (has outcomes: P&L, fees, etc)
     trades = _read_jsonl(TRADES_LOG, 500000)
     trades = [t for t in trades if int(t.get("ts", 0)) >= cutoff]
@@ -63,9 +70,18 @@ def enrich_recent_decisions(lookback_hours=48):
         key = sig.get("symbol")
         signal_index[key].append(sig)
     
+    # Index predictive signals by symbol for component matching
+    predictive_index = defaultdict(list)
+    for psig in predictive_signals:
+        key = psig.get("symbol")
+        if key:
+            predictive_index[key].append(psig)
+    
     # Sort signals by timestamp for efficient matching
     for key in signal_index:
         signal_index[key].sort(key=lambda s: s.get("ts", 0))
+    for key in predictive_index:
+        predictive_index[key].sort(key=lambda s: s.get("ts", 0))
     
     # Match trades with signals
     enriched = []
@@ -89,6 +105,17 @@ def enrich_recent_decisions(lookback_hours=48):
                     signal = sig
                     break
         
+        # Try to match with predictive signal for detailed component breakdown
+        predictive_signal = None
+        pred_signals = predictive_index.get(symbol, [])
+        if pred_signals:
+            for psig in reversed(pred_signals):
+                psig_ts = int(psig.get("ts", 0))
+                time_diff = trade_ts - psig_ts
+                if 0 <= time_diff <= 300:  # Within 5 minutes
+                    predictive_signal = psig
+                    break
+        
         # If no match found, create stub context
         if not signal:
             signal = {
@@ -104,6 +131,50 @@ def enrich_recent_decisions(lookback_hours=48):
         ofi_val = float(signal.get("ofi_score") or signal.get("ofi") or signal.get("ofi_value") or 0.0)
         ens_val = float(signal.get("composite") or signal.get("ensemble_score") or signal.get("ensemble") or 0.0)
         roi_val = float(signal.get("expected_roi") or signal.get("roi") or signal.get("roi_threshold") or 0.0)
+        
+        # Extract signal components from predictive signal if available
+        signal_components = {}
+        if predictive_signal and predictive_signal.get("signals"):
+            pred_signals_dict = predictive_signal.get("signals", {})
+            # Extract individual components
+            if pred_signals_dict.get("liquidation"):
+                liq = pred_signals_dict["liquidation"]
+                signal_components["liquidation_cascade"] = {
+                    "cascade_active": liq.get("cascade_active", False),
+                    "confidence": liq.get("confidence", 0),
+                    "direction": liq.get("direction", "NEUTRAL"),
+                    "total_1h": liq.get("total_1h", 0),
+                }
+            if pred_signals_dict.get("funding"):
+                funding = pred_signals_dict["funding"]
+                signal_components["funding_rate"] = {
+                    "rate": funding.get("funding_rate", 0),
+                    "confidence": funding.get("confidence", 0),
+                    "direction": funding.get("direction", "NEUTRAL"),
+                }
+            if pred_signals_dict.get("whale_flow"):
+                whale = pred_signals_dict["whale_flow"]
+                signal_components["whale_flow"] = {
+                    "net_flow_usd": whale.get("net_flow_usd", 0),
+                    "confidence": whale.get("confidence", 0),
+                    "direction": whale.get("direction", "NEUTRAL"),
+                }
+            if pred_signals_dict.get("oi_velocity"):
+                oi_vel = pred_signals_dict["oi_velocity"]
+                signal_components["oi_velocity"] = {
+                    "change_1h_pct": oi_vel.get("oi_velocity", 0) * 100,
+                    "confidence": oi_vel.get("confidence", 0),
+                }
+            if pred_signals_dict.get("fear_greed"):
+                fg = pred_signals_dict["fear_greed"]
+                signal_components["fear_greed"] = {
+                    "index": fg.get("index", 50),
+                    "confidence": fg.get("confidence", 0),
+                }
+        
+        # Fallback: Extract from trade's signal_components if available
+        if not signal_components and trade.get("signal_components"):
+            signal_components = trade.get("signal_components", {})
         
         # FEE TRACKING FIX: Properly extract fees from multiple possible field names
         fees_usd = trade.get("fees_usd", 0)  # SQLite format
@@ -132,7 +203,12 @@ def enrich_recent_decisions(lookback_hours=48):
                 "roi": roi_val,
                 "regime": signal.get("regime", "unknown"),
                 "side": signal.get("side", trade.get("direction", "UNKNOWN")),
-                "_unmatched": signal.get("_unmatched", False)
+                "_unmatched": signal.get("_unmatched", False),
+                # Signal component breakdown (from predictive signals)
+                "signal_components": signal_components,
+                # Extract volatility/volume if available
+                "volatility": trade.get("volatility", signal.get("volatility", 0)),
+                "volume": trade.get("volume", trade.get("volume_24h", signal.get("volume", 0))),
             },
             
             # Outcome data (for scoring) - includes proper fee tracking

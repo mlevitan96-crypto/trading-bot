@@ -233,10 +233,12 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
     
     if HAS_COMPREHENSIVE_EVAL:
         try:
-            evaluator = ComprehensiveLearningEvaluation()
-            eval_results = evaluator.run_full_analysis()
+            evaluator = ComprehensiveLearningEvaluation(hours=lookback_hours)
+            eval_results = evaluator.run_full_evaluation()
         except Exception as e:
             print(f"   ⚠️  Comprehensive evaluation error: {e}")
+            import traceback
+            traceback.print_exc()
             eval_results = {}
     else:
         print(f"   ⚠️  Comprehensive evaluation skipped (aiosqlite not installed)")
@@ -282,11 +284,29 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
         print("GENERATED ADJUSTMENTS")
         print("="*80)
         print(f"   {len(adjustments)} adjustments generated")
-        for adj in adjustments[:10]:  # Show first 10
-            print(f"      - {adj.get('type', 'unknown')}: {adj.get('action', 'N/A')}")
-        if len(adjustments) > 10:
-            print(f"      ... and {len(adjustments) - 10} more")
         print()
+        
+        # Group by type
+        by_type = {}
+        for adj in adjustments:
+            adj_type = adj.get('type', adj.get('category', 'unknown'))
+            if adj_type not in by_type:
+                by_type[adj_type] = []
+            by_type[adj_type].append(adj)
+        
+        for adj_type, adj_list in by_type.items():
+            print(f"   📋 {adj_type.upper()} ({len(adj_list)} adjustments):")
+            for adj in adj_list[:5]:  # Show first 5 of each type
+                action = adj.get('action', adj.get('recommendation', adj.get('change', 'N/A')))
+                reason = adj.get('reason', adj.get('rationale', ''))
+                if reason:
+                    print(f"      - {action}")
+                    print(f"        Reason: {reason}")
+                else:
+                    print(f"      - {action}")
+            if len(adj_list) > 5:
+                print(f"      ... and {len(adj_list) - 5} more {adj_type} adjustments")
+            print()
     
     # Apply adjustments if requested
     if apply and adjustments:

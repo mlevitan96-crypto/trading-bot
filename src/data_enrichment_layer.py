@@ -13,6 +13,7 @@
 
 import os, json, time
 from collections import defaultdict
+from datetime import datetime
 from src.infrastructure.path_registry import PathRegistry
 
 # Use PathRegistry for absolute path resolution (critical for slot-based deployments)
@@ -21,6 +22,39 @@ TRADES_LOG = PathRegistry.get_path("logs", "executed_trades.jsonl")
 ENRICHED_LOG = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
 
 def _now(): return int(time.time())
+
+def _parse_timestamp(ts_value):
+    """
+    Convert various timestamp formats to Unix timestamp (int).
+    Handles:
+    - ISO format strings (e.g., '2025-12-16T01:42:55.492612')
+    - Unix timestamps (int or float)
+    - Unix milliseconds (if > 1e12)
+    """
+    if ts_value is None:
+        return 0
+    if isinstance(ts_value, (int, float)):
+        # If it's milliseconds (large number), convert to seconds
+        if ts_value > 1e12:
+            return int(ts_value / 1000)
+        return int(ts_value)
+    if isinstance(ts_value, str):
+        try:
+            # Try ISO format (handles with/without timezone)
+            dt = datetime.fromisoformat(ts_value.replace('Z', '+00:00'))
+            return int(dt.timestamp())
+        except:
+            try:
+                # Try common formats
+                for fmt in ["%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S"]:
+                    try:
+                        dt = datetime.strptime(ts_value.replace('Z', '').replace('+00:00', ''), fmt)
+                        return int(dt.timestamp())
+                    except:
+                        continue
+            except:
+                pass
+    return 0
 
 def _read_jsonl(path, limit=500000):
     rows=[]
@@ -49,18 +83,18 @@ def enrich_recent_decisions(lookback_hours=48):
     
     # Load signals (has context: OFI, ensemble, ROI, regime, etc)
     signals = _read_jsonl(SIGNALS_LOG, 500000)
-    signals = [s for s in signals if int(s.get("ts", 0)) >= cutoff]
+    signals = [s for s in signals if _parse_timestamp(s.get("ts", 0)) >= cutoff]
     
     # Load predictive signals (has detailed component breakdown: liquidation, funding, whale_flow)
     predictive_signals_path = PathRegistry.get_path("logs", "predictive_signals.jsonl")
     predictive_signals = []
     if os.path.exists(predictive_signals_path):
         predictive_signals = _read_jsonl(str(predictive_signals_path), 500000)
-        predictive_signals = [s for s in predictive_signals if int(s.get("ts", 0)) >= cutoff]
+        predictive_signals = [s for s in predictive_signals if _parse_timestamp(s.get("ts", 0)) >= cutoff]
     
     # Load trades (has outcomes: P&L, fees, etc)
     trades = _read_jsonl(TRADES_LOG, 500000)
-    trades = [t for t in trades if int(t.get("ts", 0)) >= cutoff]
+    trades = [t for t in trades if _parse_timestamp(t.get("ts", 0)) >= cutoff]
     
     # Index signals by SYMBOL ONLY (not strategy)
     # CRITICAL: OFI signals are shadow (not executed), EMA-Futures executes trades
@@ -79,14 +113,14 @@ def enrich_recent_decisions(lookback_hours=48):
     
     # Sort signals by timestamp for efficient matching
     for key in signal_index:
-        signal_index[key].sort(key=lambda s: s.get("ts", 0))
+        signal_index[key].sort(key=lambda s: _parse_timestamp(s.get("ts", 0)))
     for key in predictive_index:
-        predictive_index[key].sort(key=lambda s: s.get("ts", 0))
+        predictive_index[key].sort(key=lambda s: _parse_timestamp(s.get("ts", 0)))
     
     # Match trades with signals
     enriched = []
     for trade in trades:
-        trade_ts = int(trade.get("entry_ts") or trade.get("ts", 0))
+        trade_ts = _parse_timestamp(trade.get("entry_ts") or trade.get("ts", 0))
         symbol = trade.get("symbol")
         
         # Find signal that occurred just before this trade (within 5 minutes)
@@ -97,7 +131,7 @@ def enrich_recent_decisions(lookback_hours=48):
         if matching_signals:
             # Find most recent signal before trade (within 5min window)
             for sig in reversed(matching_signals):
-                sig_ts = int(sig.get("ts", 0))
+                sig_ts = _parse_timestamp(sig.get("ts", 0))
                 time_diff = trade_ts - sig_ts
                 
                 # Signal must be before trade, within 5 minutes
@@ -110,7 +144,7 @@ def enrich_recent_decisions(lookback_hours=48):
         pred_signals = predictive_index.get(symbol, [])
         if pred_signals:
             for psig in reversed(pred_signals):
-                psig_ts = int(psig.get("ts", 0))
+                psig_ts = _parse_timestamp(psig.get("ts", 0))
                 time_diff = trade_ts - psig_ts
                 if 0 <= time_diff <= 300:  # Within 5 minutes
                     predictive_signal = psig

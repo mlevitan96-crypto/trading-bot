@@ -83,30 +83,63 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
     # This is the canonical format with complete intelligence data
     signal_ctx = trade.get('signal_ctx', {})
     if signal_ctx:
-        intelligence['ofi'] = abs(signal_ctx.get('ofi', signal_ctx.get('ofi_score', 0)) or 0)
-        intelligence['ensemble'] = abs(signal_ctx.get('ensemble', signal_ctx.get('ensemble_score', signal_ctx.get('composite', 0))) or 0)
-        intelligence['mtf'] = signal_ctx.get('mtf', signal_ctx.get('mtf_confidence', 0)) or 0
-        intelligence['regime'] = signal_ctx.get('regime', signal_ctx.get('market_regime', 'unknown'))
-        intelligence['volatility'] = signal_ctx.get('volatility', signal_ctx.get('vol_regime', 0)) or 0
-        intelligence['volume'] = signal_ctx.get('volume', signal_ctx.get('volume_24h', 0)) or 0
-        intelligence['funding_rate'] = signal_ctx.get('funding_rate', 0) or 0
-        intelligence['liquidation_pressure'] = signal_ctx.get('liquidation_pressure', 0) or 0
-        intelligence['whale_flow'] = signal_ctx.get('whale_flow', 0) or 0
-        intelligence['fear_greed'] = signal_ctx.get('fear_greed', signal_ctx.get('fg_index', 50)) or 50
-        intelligence['taker_ratio'] = signal_ctx.get('taker_buy_ratio', 0.5) or 0.5
+        # Extract from signal_ctx (enriched_decisions format)
+        ofi_val = signal_ctx.get('ofi') or signal_ctx.get('ofi_score')
+        if ofi_val is not None:
+            intelligence['ofi'] = abs(float(ofi_val))
+        
+        ens_val = signal_ctx.get('ensemble') or signal_ctx.get('ensemble_score') or signal_ctx.get('composite')
+        if ens_val is not None:
+            intelligence['ensemble'] = abs(float(ens_val))
+        
+        mtf_val = signal_ctx.get('mtf') or signal_ctx.get('mtf_confidence')
+        if mtf_val is not None:
+            intelligence['mtf'] = float(mtf_val)
+        
+        if signal_ctx.get('regime'):
+            intelligence['regime'] = signal_ctx.get('regime', 'unknown')
+        if signal_ctx.get('volatility'):
+            intelligence['volatility'] = float(signal_ctx.get('volatility', 0))
+        if signal_ctx.get('volume'):
+            intelligence['volume'] = float(signal_ctx.get('volume', signal_ctx.get('volume_24h', 0)))
+        if signal_ctx.get('funding_rate'):
+            intelligence['funding_rate'] = float(signal_ctx.get('funding_rate', 0))
+        if signal_ctx.get('liquidation_pressure'):
+            intelligence['liquidation_pressure'] = float(signal_ctx.get('liquidation_pressure', 0))
+        if signal_ctx.get('whale_flow'):
+            intelligence['whale_flow'] = float(signal_ctx.get('whale_flow', 0))
+        if signal_ctx.get('fear_greed') or signal_ctx.get('fg_index'):
+            intelligence['fear_greed'] = float(signal_ctx.get('fear_greed', signal_ctx.get('fg_index', 50)))
+        if signal_ctx.get('taker_buy_ratio'):
+            intelligence['taker_ratio'] = float(signal_ctx.get('taker_buy_ratio', 0.5))
     
     # Fallback to position record directly (for positions_futures.json format)
     # These fields are stored directly in the position when opened (see position_manager.py)
-    if not signal_ctx or intelligence['ofi'] == 0:
-        intelligence['ofi'] = abs(trade.get('ofi_score', trade.get('ofi', trade.get('entry_ofi', 0))) or 0)
-    if not signal_ctx or intelligence['ensemble'] == 0:
-        intelligence['ensemble'] = abs(trade.get('ensemble_score', trade.get('ensemble', trade.get('composite', 0))) or 0)
-    if not signal_ctx or intelligence['mtf'] == 0:
-        intelligence['mtf'] = trade.get('mtf_confidence', trade.get('mtf', 0)) or 0
-    if not signal_ctx or intelligence['regime'] == 'unknown':
-        intelligence['regime'] = trade.get('regime', trade.get('market_regime', 'unknown'))
-    if not signal_ctx or intelligence['volatility'] == 0:
-        intelligence['volatility'] = trade.get('volatility', trade.get('vol_regime', 0)) or 0
+    # Check if value exists and is not None/0 before using
+    if intelligence['ofi'] == 0:
+        ofi_val = trade.get('ofi_score') or trade.get('ofi') or trade.get('entry_ofi')
+        if ofi_val is not None and ofi_val != 0:
+            intelligence['ofi'] = abs(float(ofi_val))
+    
+    if intelligence['ensemble'] == 0:
+        ens_val = trade.get('ensemble_score') or trade.get('ensemble') or trade.get('composite')
+        if ens_val is not None and ens_val != 0:
+            intelligence['ensemble'] = abs(float(ens_val))
+    
+    if intelligence['mtf'] == 0:
+        mtf_val = trade.get('mtf_confidence') or trade.get('mtf')
+        if mtf_val is not None and mtf_val != 0:
+            intelligence['mtf'] = float(mtf_val)
+    
+    if intelligence['regime'] == 'unknown':
+        regime_val = trade.get('regime') or trade.get('market_regime')
+        if regime_val:
+            intelligence['regime'] = regime_val
+    
+    if intelligence['volatility'] == 0:
+        vol_val = trade.get('volatility') or trade.get('vol_regime')
+        if vol_val is not None and vol_val != 0:
+            intelligence['volatility'] = float(vol_val)
     
     # Extract from ml_features (if available)
     ml_features = trade.get('ml_features', {})

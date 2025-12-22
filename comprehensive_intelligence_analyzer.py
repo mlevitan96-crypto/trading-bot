@@ -113,6 +113,32 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
         if signal_ctx.get('taker_buy_ratio'):
             intelligence['taker_ratio'] = float(signal_ctx.get('taker_buy_ratio', 0.5))
     
+    # Extract from intelligence dict (if available in original signal record)
+    # Some signals store detailed intelligence in an 'intelligence' field
+    intelligence_dict = trade.get('intelligence', {})
+    if intelligence_dict:
+        # Extract from intelligence.market_intel or intelligence directly
+        market_intel = intelligence_dict.get('market_intel', {})
+        if market_intel:
+            if market_intel.get('funding_rate'):
+                intelligence['funding_rate'] = float(market_intel.get('funding_rate', 0))
+            if market_intel.get('liquidation_pressure'):
+                intelligence['liquidation_pressure'] = float(market_intel.get('liquidation_pressure', 0))
+            if market_intel.get('whale_flow'):
+                intelligence['whale_flow'] = float(market_intel.get('whale_flow', 0))
+            if market_intel.get('fear_greed'):
+                intelligence['fear_greed'] = float(market_intel.get('fear_greed', 50))
+            if market_intel.get('taker_ratio'):
+                intelligence['taker_ratio'] = float(market_intel.get('taker_ratio', 0.5))
+        
+        # Direct intelligence fields
+        if intelligence_dict.get('fear_greed'):
+            intelligence['fear_greed'] = float(intelligence_dict.get('fear_greed', 50))
+        if intelligence_dict.get('taker_ratio'):
+            intelligence['taker_ratio'] = float(intelligence_dict.get('taker_ratio', 0.5))
+        if intelligence_dict.get('liquidation_bias'):
+            intelligence['liquidation'] = float(intelligence_dict.get('liquidation_bias', 0))
+    
     # Fallback to position record directly (for positions_futures.json format)
     # These fields are stored directly in the position when opened (see position_manager.py)
     # Check if value exists and is not None/0 before using
@@ -217,10 +243,21 @@ def analyze_signal_component(component_name: str, trades: List[Dict]) -> Dict[st
     if not winners or not losers:
         return {}
     
-    winner_values = [t.get(component_name, 0) for t in winners if t.get(component_name, 0) != 0]
-    loser_values = [t.get(component_name, 0) for t in losers if t.get(component_name, 0) != 0]
+    # Get values, including 0 values if they're meaningful (e.g., for boolean flags)
+    # But filter out None/missing values
+    winner_values = [t.get(component_name) for t in winners if t.get(component_name) is not None]
+    loser_values = [t.get(component_name) for t in losers if t.get(component_name) is not None]
     
-    if not winner_values or not loser_values:
+    # For components that might be 0, include them if we have enough data
+    # For components that should be non-zero, filter out zeros
+    if component_name in ['funding', 'liquidation', 'whale_flow', 'fear_greed', 'hurst', 
+                          'lead_lag', 'volatility_skew', 'oi_velocity', 'oi_divergence']:
+        # These should have meaningful non-zero values
+        winner_values = [v for v in winner_values if v != 0]
+        loser_values = [v for v in loser_values if v != 0]
+    
+    # Need at least 10 samples in each group for meaningful analysis
+    if len(winner_values) < 10 or len(loser_values) < 10:
         return {}
     
     analysis = {

@@ -181,8 +181,9 @@ def enrich_record(record: Dict, source: str) -> Optional[Dict]:
     if not direction:
         direction = "UNKNOWN"
     
-    ofi_raw = ctx.get('ofi', 0)
-    ofi = abs(ofi_raw)
+    # Portfolio trades use 'ofi_score', enriched records use 'ofi'
+    ofi_raw = ctx.get('ofi', ctx.get('ofi_score', 0))
+    ofi = abs(ofi_raw) if ofi_raw else 0
     ensemble = ctx.get('ensemble', ctx.get('ensemble_score', 0))
     regime = ctx.get('regime', 'unknown')
     volatility = ctx.get('volatility', record.get('volatility', 0))

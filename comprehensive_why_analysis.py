@@ -198,9 +198,13 @@ print(f"   Counterfactual: {len(counterfactual_long)}")
 # Analyze OFI in executed LONG
 executed_long_ofi = []
 for trade in executed_long:
-    ofi = trade.get("ofi", trade.get("ofi_raw", trade.get("signal_ctx", {}).get("ofi", 0)))
+    # Check multiple OFI field names (portfolio trades use ofi_score, enriched uses ofi/ofi_raw)
+    ofi = (trade.get("ofi") or trade.get("ofi_raw") or 
+           trade.get("_raw", {}).get("ofi_score") or 
+           trade.get("_raw", {}).get("ofi") or
+           trade.get("signal_ctx", {}).get("ofi", 0))
     pnl = trade.get("pnl", trade.get("outcome", {}).get("pnl_usd", trade.get("outcome", {}).get("pnl", 0)))
-    if isinstance(ofi, (int, float)):
+    if isinstance(ofi, (int, float)) and ofi != 0:
         executed_long_ofi.append({
             "ofi": float(ofi),
             "ofi_abs": abs(float(ofi)),
@@ -266,9 +270,13 @@ print(f"   Counterfactual: {len(counterfactual_short)}")
 # Analyze OFI in executed SHORT
 executed_short_ofi = []
 for trade in executed_short:
-    ofi = trade.get("ofi", trade.get("ofi_raw", trade.get("signal_ctx", {}).get("ofi", 0)))
+    # Check multiple OFI field names (portfolio trades use ofi_score, enriched uses ofi/ofi_raw)
+    ofi = (trade.get("ofi") or trade.get("ofi_raw") or 
+           trade.get("_raw", {}).get("ofi_score") or 
+           trade.get("_raw", {}).get("ofi") or
+           trade.get("signal_ctx", {}).get("ofi", 0))
     pnl = trade.get("pnl", trade.get("outcome", {}).get("pnl_usd", trade.get("outcome", {}).get("pnl", 0)))
-    if isinstance(ofi, (int, float)):
+    if isinstance(ofi, (int, float)) and ofi != 0:
         executed_short_ofi.append({
             "ofi": float(ofi),
             "ofi_abs": abs(float(ofi)),

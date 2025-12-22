@@ -115,6 +115,24 @@ class HealingOperator:
         # MISSION: Silent autonomous operation - only log if issues found
         # Don't print every cycle, only log to file for debugging
         
+        # 0. Architecture-Aware Healing (comprehensive, uses ARCHITECTURE_MAP.md knowledge)
+        try:
+            from src.architecture_aware_healing import ArchitectureAwareHealing
+            arch_healer = ArchitectureAwareHealing()
+            arch_results = arch_healer.run_healing_cycle()
+            # Merge architecture-aware results
+            healed.extend([f"arch_{item}" for item in arch_results.get("healed", [])])
+            failed.extend([f"arch_{item}" for item in arch_results.get("failed", [])])
+        except Exception as e:
+            # Don't fail entire cycle if architecture healing has issues
+            if alert_operator:
+                try:
+                    alert_operator(ALERT_HIGH, "HEALING_OPERATOR", f"Architecture-aware healing error: {e}", {
+                        "error": str(e)
+                    })
+                except:
+                    pass
+        
         # 1. Signal Engine
         try:
             result = self._heal_signal_engine()

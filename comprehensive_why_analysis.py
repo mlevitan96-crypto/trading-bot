@@ -17,7 +17,7 @@ import os
 import sys
 import json
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 from typing import Dict, List, Any, Tuple
 from statistics import mean, median
@@ -47,7 +47,27 @@ print("=" * 80)
 
 from src.data_registry import DataRegistry as DR
 from src.comprehensive_intelligence_analysis import load_all_data, enrich_record
-from src.file_locks import read_json_log
+
+def load_jsonl(path, max_age_hours=None):
+    """Load JSONL file."""
+    if isinstance(path, Path):
+        path = str(path)
+    if not os.path.exists(path):
+        return []
+    records = []
+    cutoff_ts = None
+    if max_age_hours:
+        cutoff_ts = (datetime.now(timezone.utc) - timedelta(hours=max_age_hours)).timestamp()
+    with open(path, 'r') as f:
+        for line in f:
+            try:
+                rec = json.loads(line.strip())
+                if cutoff_ts and rec.get('ts', 0) < cutoff_ts:
+                    continue
+                records.append(rec)
+            except:
+                pass
+    return records
 
 # Load all data using comprehensive loader
 print("   Loading comprehensive data (executed, blocked, missed, counterfactual)...")

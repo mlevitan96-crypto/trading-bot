@@ -78,20 +78,34 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
     intelligence['pnl'] = pnl
     intelligence['win'] = pnl > 0
     
-    # Extract from signal_ctx (primary source)
+    # Extract from position record directly (primary source - positions_futures.json stores data here)
+    # These fields are stored directly in the position when opened (see position_manager.py)
+    intelligence['ofi'] = abs(trade.get('ofi_score', trade.get('ofi', trade.get('entry_ofi', 0))) or 0)
+    intelligence['ensemble'] = abs(trade.get('ensemble_score', trade.get('ensemble', trade.get('composite', 0))) or 0)
+    intelligence['mtf'] = trade.get('mtf_confidence', trade.get('mtf', 0)) or 0
+    intelligence['regime'] = trade.get('regime', trade.get('market_regime', 'unknown'))
+    intelligence['volatility'] = trade.get('volatility', trade.get('vol_regime', 0)) or 0
+    
+    # Extract from signal_ctx (if available - for enriched records)
     signal_ctx = trade.get('signal_ctx', {})
     if signal_ctx:
-        intelligence['ofi'] = abs(signal_ctx.get('ofi', signal_ctx.get('ofi_score', 0)) or 0)
-        intelligence['ensemble'] = abs(signal_ctx.get('ensemble', signal_ctx.get('ensemble_score', 0)) or 0)
-        intelligence['mtf'] = signal_ctx.get('mtf', signal_ctx.get('mtf_confidence', 0)) or 0
-        intelligence['regime'] = signal_ctx.get('regime', signal_ctx.get('market_regime', 'unknown'))
-        intelligence['volatility'] = signal_ctx.get('volatility', signal_ctx.get('vol_regime', 0)) or 0
-        intelligence['volume'] = signal_ctx.get('volume', signal_ctx.get('volume_24h', 0)) or 0
-        intelligence['funding_rate'] = signal_ctx.get('funding_rate', 0) or 0
-        intelligence['liquidation_pressure'] = signal_ctx.get('liquidation_pressure', 0) or 0
-        intelligence['whale_flow'] = signal_ctx.get('whale_flow', 0) or 0
-        intelligence['fear_greed'] = signal_ctx.get('fear_greed', signal_ctx.get('fg_index', 50)) or 50
-        intelligence['taker_ratio'] = signal_ctx.get('taker_buy_ratio', 0.5) or 0.5
+        # Only override if signal_ctx has values
+        if signal_ctx.get('ofi') or signal_ctx.get('ofi_score'):
+            intelligence['ofi'] = abs(signal_ctx.get('ofi', signal_ctx.get('ofi_score', 0)) or 0)
+        if signal_ctx.get('ensemble') or signal_ctx.get('ensemble_score'):
+            intelligence['ensemble'] = abs(signal_ctx.get('ensemble', signal_ctx.get('ensemble_score', 0)) or 0)
+        if signal_ctx.get('mtf') or signal_ctx.get('mtf_confidence'):
+            intelligence['mtf'] = signal_ctx.get('mtf', signal_ctx.get('mtf_confidence', intelligence['mtf'])) or 0
+        if signal_ctx.get('regime'):
+            intelligence['regime'] = signal_ctx.get('regime', intelligence['regime'])
+        if signal_ctx.get('volatility'):
+            intelligence['volatility'] = signal_ctx.get('volatility', intelligence['volatility'])
+        intelligence['volume'] = signal_ctx.get('volume', signal_ctx.get('volume_24h', intelligence['volume'])) or 0
+        intelligence['funding_rate'] = signal_ctx.get('funding_rate', intelligence['funding_rate']) or 0
+        intelligence['liquidation_pressure'] = signal_ctx.get('liquidation_pressure', intelligence['liquidation_pressure']) or 0
+        intelligence['whale_flow'] = signal_ctx.get('whale_flow', intelligence['whale_flow']) or 0
+        intelligence['fear_greed'] = signal_ctx.get('fear_greed', signal_ctx.get('fg_index', intelligence['fear_greed'])) or 50
+        intelligence['taker_ratio'] = signal_ctx.get('taker_buy_ratio', intelligence['taker_ratio']) or 0.5
     
     # Extract from ml_features (if available)
     ml_features = trade.get('ml_features', {})
@@ -102,18 +116,20 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
         intelligence['oi_velocity'] = ml_features.get('oi_velocity', 0) or 0
         intelligence['oi_divergence'] = ml_features.get('oi_divergence', 0) or 0
     
-    # Extract from signal_components (if available)
+    # Extract from signal_components (if available - stored in position when opened)
     signal_components = trade.get('signal_components', {})
     if signal_components:
-        intelligence['funding'] = signal_components.get('funding', 0) or 0
-        intelligence['liquidation'] = signal_components.get('liquidation', 0) or 0
+        intelligence['funding'] = signal_components.get('funding', signal_components.get('funding_rate', 0)) or 0
+        intelligence['liquidation'] = signal_components.get('liquidation', signal_components.get('liquidation_pressure', 0)) or 0
         intelligence['whale_flow'] = signal_components.get('whale_flow', intelligence['whale_flow']) or 0
-        intelligence['fear_greed'] = signal_components.get('fear_greed', intelligence['fear_greed']) or 50
+        intelligence['fear_greed'] = signal_components.get('fear_greed', signal_components.get('fg_index', intelligence['fear_greed'])) or 50
         intelligence['hurst'] = signal_components.get('hurst', intelligence['hurst']) or 0.5
         intelligence['lead_lag'] = signal_components.get('lead_lag', intelligence['lead_lag']) or 0
         intelligence['volatility_skew'] = signal_components.get('volatility_skew', intelligence['volatility_skew']) or 0
         intelligence['oi_velocity'] = signal_components.get('oi_velocity', intelligence['oi_velocity']) or 0
         intelligence['oi_divergence'] = signal_components.get('oi_divergence', intelligence['oi_divergence']) or 0
+        intelligence['funding_rate'] = signal_components.get('funding_rate', signal_components.get('funding', intelligence['funding_rate'])) or 0
+        intelligence['liquidation_pressure'] = signal_components.get('liquidation_pressure', signal_components.get('liquidation', intelligence['liquidation_pressure'])) or 0
     
     # Extract from _raw fields (fallback)
     _raw = trade.get('_raw', {})

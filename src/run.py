@@ -1449,8 +1449,15 @@ def _worker_signal_resolver():
             print(f"   🔄 [SIGNAL-RESOLVER] Starting resolution cycle #{cycle_count}")
             
             # STEP 1: Read new ensemble predictions and log them to pending_signals.json
+            # SKIP if trading is frozen (no new signals should be logged during learning session)
+            from src.full_bot_cycle import is_trading_frozen
+            trading_frozen = is_trading_frozen()
+            
             predictions_logged = 0
-            if ensemble_predictions_path.exists():
+            if trading_frozen:
+                if cycle_count % 10 == 1:  # Log every 10 cycles
+                    print(f"   ⏸️  [SIGNAL-RESOLVER] Trading is frozen - skipping new signal logging (focusing on resolution)")
+            elif ensemble_predictions_path.exists():
                 try:
                     # Read all predictions
                     predictions = []

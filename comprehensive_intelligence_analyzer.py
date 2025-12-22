@@ -584,7 +584,8 @@ def main():
             top_signals = sorted(winning_signals.items(), 
                                key=lambda x: x[1].get('mean', 0), 
                                reverse=True)[:3]
-            print(f"   Top Signals: {', '.join([f'{k}={v[\"mean\"]:.3f}' for k, v in top_signals])}")
+            signal_strs = [f"{k}={v.get('mean', 0):.3f}" for k, v in top_signals]
+            print(f"   Top Signals: {', '.join(signal_strs)}")
         print()
     
     # Generate improvement plan

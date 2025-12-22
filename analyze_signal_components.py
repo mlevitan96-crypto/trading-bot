@@ -82,7 +82,7 @@ def load_enriched_decisions(limit: int = 1500) -> List[Dict]:
                 continue
     
     # Sort by timestamp, take most recent
-    trades.sort(key=lambda t: t.get('ts', t.get('entry_ts', 0)), reverse=True)
+    trades.sort(key=lambda t: _parse_timestamp(t.get('ts', t.get('entry_ts', 0))), reverse=True)
     return trades[:limit]
 
 
@@ -111,7 +111,7 @@ def load_predictive_signals() -> Dict[str, List[Dict]]:
     
     # Sort by timestamp
     for symbol in signals_by_symbol:
-        signals_by_symbol[symbol].sort(key=lambda s: s.get('ts', 0), reverse=True)
+        signals_by_symbol[symbol].sort(key=lambda s: _parse_timestamp(s.get('ts', 0)), reverse=True)
     
     return signals_by_symbol
 
@@ -254,7 +254,8 @@ def extract_signal_components(signal_data: Dict) -> Dict[str, Any]:
 def match_trade_with_signals(trade: Dict, signals_by_symbol: Dict[str, List[Dict]]) -> Optional[Dict]:
     """Match trade with predictive signals to get component breakdown."""
     symbol = trade.get('symbol', 'UNKNOWN')
-    entry_ts = trade.get('entry_ts', trade.get('ts', 0))
+    entry_ts_raw = trade.get('entry_ts', trade.get('ts', 0))
+    entry_ts = _parse_timestamp(entry_ts_raw)
     
     if symbol == 'UNKNOWN' or not entry_ts:
         return None
@@ -266,7 +267,8 @@ def match_trade_with_signals(trade: Dict, signals_by_symbol: Dict[str, List[Dict
     best_diff = float('inf')
     
     for signal in signals:
-        signal_ts = signal.get('ts', 0)
+        signal_ts_raw = signal.get('ts', 0)
+        signal_ts = _parse_timestamp(signal_ts_raw)
         diff = abs(signal_ts - entry_ts)
         
         if diff < 300 and diff < best_diff:  # Within 5 minutes
@@ -283,7 +285,7 @@ def analyze_trade_metrics(trade: Dict, signals_by_symbol: Dict[str, List[Dict]])
         'symbol': trade.get('symbol', 'UNKNOWN'),
         'strategy': trade.get('strategy', 'UNKNOWN'),
         'direction': trade.get('signal_ctx', {}).get('side', 'UNKNOWN'),
-        'entry_ts': trade.get('entry_ts', trade.get('ts', 0)),
+        'entry_ts': _parse_timestamp(trade.get('entry_ts', trade.get('ts', 0))),
         'entry_price': trade.get('outcome', {}).get('entry_price', 0),
         'exit_price': trade.get('outcome', {}).get('exit_price', 0),
         'pnl': trade.get('outcome', {}).get('pnl_usd', 0),
@@ -321,7 +323,7 @@ def analyze_trade_metrics(trade: Dict, signals_by_symbol: Dict[str, List[Dict]])
         components = extract_signal_components(matched_signal)
         metrics['signal_components'] = components
         metrics['signal_matched'] = True
-        metrics['signal_ts'] = matched_signal.get('ts', 0)
+        metrics['signal_ts'] = _parse_timestamp(matched_signal.get('ts', 0))
     else:
         metrics['signal_components'] = {}
         metrics['signal_matched'] = False

@@ -243,35 +243,35 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
         eval_results = {}
     
     if eval_results and HAS_COMPREHENSIVE_EVAL:
-        
-        signal_matrix = eval_results.get('signal_weight_matrix', {})
-        if signal_matrix:
-            signal_perf = signal_matrix.get('signal_performance', {})
-            if signal_perf:
-                print(f"   Signal Performance Summary:")
-                for signal, data in sorted(signal_perf.items(), 
-                                         key=lambda x: x[1].get('ev', 0), reverse=True):
-                    ev = data.get('ev', 0)
-                    win_rate = data.get('win_rate', 0)
-                    total = data.get('total_signals', 0)
-                    if total > 0:
-                        status = "✅" if ev > 0 else "❌"
-                        print(f"      {status} {signal}: EV={ev:.4f}, WR={win_rate:.1f}%, N={total}")
-                
-                # Check for Sentiment-Fusion specifically
-                if 'Sentiment-Fusion' in signal_perf or 'sentiment_fusion' in signal_perf:
-                    sent_data = signal_perf.get('Sentiment-Fusion') or signal_perf.get('sentiment_fusion')
-                    if sent_data:
-                        print()
-                        print(f"   🔍 Sentiment-Fusion Analysis:")
-                        print(f"      EV: {sent_data.get('ev', 0):.4f}")
-                        print(f"      Win Rate: {sent_data.get('win_rate', 0):.1f}%")
-                        print(f"      Total Signals: {sent_data.get('total_signals', 0)}")
-                        print(f"      Total P&L: ${sent_data.get('total_pnl', 0):.2f}")
-    except Exception as e:
-        print(f"   ⚠️  Could not run comprehensive evaluation: {e}")
-        import traceback
-        traceback.print_exc()
+        try:
+            signal_matrix = eval_results.get('signal_weight_matrix', {})
+            if signal_matrix:
+                signal_perf = signal_matrix.get('signal_performance', {})
+                if signal_perf:
+                    print(f"   Signal Performance Summary:")
+                    for signal, data in sorted(signal_perf.items(), 
+                                             key=lambda x: x[1].get('ev', 0), reverse=True):
+                        ev = data.get('ev', 0)
+                        win_rate = data.get('win_rate', 0)
+                        total = data.get('total_signals', 0)
+                        if total > 0:
+                            status = "✅" if ev > 0 else "❌"
+                            print(f"      {status} {signal}: EV={ev:.4f}, WR={win_rate:.1f}%, N={total}")
+                    
+                    # Check for Sentiment-Fusion specifically
+                    if 'Sentiment-Fusion' in signal_perf or 'sentiment_fusion' in signal_perf:
+                        sent_data = signal_perf.get('Sentiment-Fusion') or signal_perf.get('sentiment_fusion')
+                        if sent_data:
+                            print()
+                            print(f"   🔍 Sentiment-Fusion Analysis:")
+                            print(f"      EV: {sent_data.get('ev', 0):.4f}")
+                            print(f"      Win Rate: {sent_data.get('win_rate', 0):.1f}%")
+                            print(f"      Total Signals: {sent_data.get('total_signals', 0)}")
+                            print(f"      Total P&L: ${sent_data.get('total_pnl', 0):.2f}")
+        except Exception as e:
+            print(f"   ⚠️  Could not process comprehensive evaluation results: {e}")
+            import traceback
+            traceback.print_exc()
     
     print()
     

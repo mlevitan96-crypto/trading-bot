@@ -197,12 +197,21 @@ print(f"   Counterfactual: {len(counterfactual_long)}")
 
 # Analyze OFI in executed LONG
 executed_long_ofi = []
-for trade in executed_long:
+ofi_debug_sample = []
+for i, trade in enumerate(executed_long[:10]):  # Sample first 10 for debug
     # Check multiple OFI field names (portfolio trades use ofi_score, enriched uses ofi/ofi_raw)
     ofi = (trade.get("ofi") or trade.get("ofi_raw") or 
            trade.get("_raw", {}).get("ofi_score") or 
            trade.get("_raw", {}).get("ofi") or
            trade.get("signal_ctx", {}).get("ofi", 0))
+    ofi_debug_sample.append({
+        "trade": i,
+        "ofi": trade.get("ofi"),
+        "ofi_raw": trade.get("ofi_raw"),
+        "_raw_ofi_score": trade.get("_raw", {}).get("ofi_score"),
+        "_raw_ofi": trade.get("_raw", {}).get("ofi"),
+        "final_ofi": ofi
+    })
     pnl = trade.get("pnl", trade.get("outcome", {}).get("pnl_usd", trade.get("outcome", {}).get("pnl", 0)))
     if isinstance(ofi, (int, float)) and ofi != 0:
         executed_long_ofi.append({
@@ -210,6 +219,13 @@ for trade in executed_long:
             "ofi_abs": abs(float(ofi)),
             "pnl": float(pnl) if pnl else 0
         })
+
+# Debug output for OFI extraction
+if not executed_long_ofi and executed_long:
+    print(f"\n   ⚠️  DEBUG: No OFI values found in LONG trades (all are 0)")
+    print(f"   Sample OFI extraction (first 3 trades):")
+    for sample in ofi_debug_sample[:3]:
+        print(f"      Trade {sample['trade']}: ofi={sample['ofi']}, ofi_raw={sample['ofi_raw']}, _raw.ofi_score={sample['_raw_ofi_score']}, _raw.ofi={sample['_raw_ofi']}, final={sample['final_ofi']}")
 
 if executed_long_ofi:
     avg_ofi = mean([e["ofi_abs"] for e in executed_long_ofi])

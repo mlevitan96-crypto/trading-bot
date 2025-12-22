@@ -51,21 +51,41 @@ if signal_policy_path.exists():
         # Current values
         current_ofi_threshold = alpha_trading.get("ofi_threshold", 0.54)
         current_min_ofi = alpha_trading.get("min_ofi_confidence", 0.5)
+        has_long_req = "long_ofi_requirement" in alpha_trading
+        has_short_req = "short_ofi_requirement" in alpha_trading
         
         print(f"   Current OFI threshold: {current_ofi_threshold}")
         print(f"   Current min OFI confidence: {current_min_ofi}")
+        print(f"   Has explicit LONG requirement: {has_long_req}")
+        print(f"   Has explicit SHORT requirement: {has_short_req}")
         
-        # Update to require stronger OFI for LONG
-        # Recommendation: OFI ≥ 0.5 for LONG (match SHORT requirements)
+        # Always add explicit direction-specific requirements (for conviction_gate.py)
+        # Recommendation: OFI ≥ 0.5 for both LONG and SHORT (based on analysis)
         new_ofi_threshold = 0.5
         new_min_ofi = 0.5
+        updated = False
         
-        if current_ofi_threshold < new_ofi_threshold or current_min_ofi < new_min_ofi:
+        if not has_long_req or alpha_trading.get("long_ofi_requirement", 0) < 0.5:
+            alpha_trading["long_ofi_requirement"] = 0.5
+            updated = True
+            print(f"   ✅ Added/Updated LONG OFI requirement: 0.5")
+        
+        if not has_short_req or alpha_trading.get("short_ofi_requirement", 0) < 0.5:
+            alpha_trading["short_ofi_requirement"] = 0.5
+            updated = True
+            print(f"   ✅ Added/Updated SHORT OFI requirement: 0.5")
+        
+        if current_ofi_threshold < new_ofi_threshold:
             alpha_trading["ofi_threshold"] = new_ofi_threshold
+            updated = True
+            print(f"   ✅ Updated OFI threshold to: {new_ofi_threshold}")
+        
+        if current_min_ofi < new_min_ofi:
             alpha_trading["min_ofi_confidence"] = new_min_ofi
-            alpha_trading["long_ofi_requirement"] = 0.5  # Explicit LONG requirement
-            alpha_trading["short_ofi_requirement"] = 0.5  # Explicit SHORT requirement
-            
+            updated = True
+            print(f"   ✅ Updated min OFI confidence to: {new_min_ofi}")
+        
+        if updated:
             policy["alpha_trading"] = alpha_trading
             
             # Backup original
@@ -78,9 +98,7 @@ if signal_policy_path.exists():
             with open(signal_policy_path, 'w') as f:
                 json.dump(policy, f, indent=2)
             
-            print(f"   ✅ Updated OFI threshold to: {new_ofi_threshold}")
-            print(f"   ✅ Updated min OFI confidence to: {new_min_ofi}")
-            print(f"   ✅ Added explicit LONG/SHORT OFI requirements")
+            print(f"   ✅ Signal policies updated successfully")
         else:
             print(f"   ✅ OFI thresholds already meet requirements")
             

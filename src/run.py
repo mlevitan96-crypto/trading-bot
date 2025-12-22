@@ -1815,6 +1815,20 @@ def run_heavy_initialization():
     print(f"[ENGINE] Trading mode: {trading_mode}", flush=True)
     print(f"[ENGINE] Is paper mode: {is_paper_mode}", flush=True)
     
+    # CRITICAL: Start workers FIRST, before anything else that might fail
+    # Workers are essential and must start even if other initialization fails
+    print("\n" + "="*60)
+    print("🚀 STARTING WORKER PROCESSES (CRITICAL - FIRST THING)")
+    print("="*60)
+    print("[ENGINE] Starting workers FIRST before other initialization", flush=True)
+    try:
+        _start_all_worker_processes()
+        print("[ENGINE] Workers started successfully", flush=True)
+    except Exception as e:
+        print(f"[ENGINE] CRITICAL: Worker startup failed: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+    
     # CRITICAL: Start engine EARLY, before any heavy initialization that might fail
     # In paper mode, engine MUST start regardless of other initialization failures
     print("\n[ENGINE] Starting trading engine (early in initialization)...", flush=True)
@@ -1985,25 +1999,8 @@ def run_heavy_initialization():
             print("   ❌ REAL TRADING MODE: Health check error - trading engine will NOT start")
             health_check_passed = False
     
-    # CRITICAL: Start workers EARLY and with error handling
-    # Workers are essential for the system to function
-    print("\n" + "="*60)
-    print("🚀 STARTING WORKER PROCESSES (CRITICAL)")
-    print("="*60)
-    print("[ENGINE] About to call _start_all_worker_processes()", flush=True)
-    try:
-        # Start all worker processes (predictive engine, feature builder, ensemble predictor, signal resolver)
-        # Always start workers regardless of health check (they're needed for dashboard too)
-        print("[ENGINE] Calling _start_all_worker_processes() now...", flush=True)
-        _start_all_worker_processes()
-        print("[ENGINE] _start_all_worker_processes() completed", flush=True)
-        print("   ✅ Worker processes startup completed")
-    except Exception as e:
-        print(f"[ENGINE] CRITICAL ERROR in _start_all_worker_processes(): {e}", flush=True)
-        import traceback
-        traceback.print_exc()
-        print(f"   ❌ CRITICAL: Failed to start worker processes: {e}")
-        print("   ⚠️  Attempting to continue - workers may not be available")
+    # NOTE: Workers are now started at the VERY BEGINNING of run_heavy_initialization()
+    # This ensures they start even if other initialization fails
     
     # Start worker process monitor
     try:

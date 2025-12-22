@@ -202,6 +202,20 @@ class SignalOutcomeTracker:
         signal_data: Optional[Dict[str, Any]] = None
     ) -> str:
         """
+        Log a signal for outcome tracking.
+        
+        SKIPS logging if trading is frozen (learning session mode).
+        """
+        # Check if trading is frozen - skip logging new signals during learning session
+        try:
+            from src.full_bot_cycle import is_trading_frozen
+            if is_trading_frozen():
+                # Return empty string to indicate signal was skipped (not logged)
+                return ""
+        except Exception:
+            # If check fails, proceed with logging (fail open)
+            pass
+        """
         Log a new signal for outcome tracking.
         
         Args:

@@ -464,16 +464,22 @@ def main():
                     except:
                         continue
             print(f"   ✅ Loaded {len(trades)} enriched records")
-        else:
-            print(f"   ⚠️  enriched_decisions.jsonl not found, using positions_futures.json...")
-            # Fallback to positions_futures.json
+        
+        # If enriched_decisions is empty or doesn't exist, fall back to positions_futures.json
+        if not trades:
+            print(f"   ⚠️  enriched_decisions.jsonl is empty or not found, using positions_futures.json...")
             portfolio_path = PathRegistry.get_path("logs", "positions_futures.json")
-            with open(portfolio_path, 'r') as f:
-                portfolio = json.load(f)
-            
-            closed = portfolio.get('closed_positions', [])
-            closed = [t for t in closed if t.get('bot_type', 'alpha') == 'alpha']
-            trades = closed
+            if os.path.exists(portfolio_path):
+                with open(portfolio_path, 'r') as f:
+                    portfolio = json.load(f)
+                
+                closed = portfolio.get('closed_positions', [])
+                closed = [t for t in closed if t.get('bot_type', 'alpha') == 'alpha']
+                trades = closed
+                print(f"   ✅ Loaded {len(trades)} trades from positions_futures.json")
+            else:
+                print(f"   ❌ positions_futures.json also not found!")
+                return 1
         
         # Exclude bad trades window (Dec 18, 2025 1:00-6:00 AM UTC)
         bad_start = datetime(2025, 12, 18, 1, 0, 0, tzinfo=timezone.utc).timestamp()
@@ -546,17 +552,24 @@ def main():
         intelligence_data.append(intel)
     
     # Diagnostic: Check extraction results
+    if not intelligence_data:
+        print(f"   ⚠️  No trades loaded - cannot perform analysis")
+        print(f"   💡 Try running data enrichment first:")
+        print(f"      python3 -c 'from src.data_enrichment_layer import enrich_recent_decisions; enrich_recent_decisions(168)'")
+        return 1
+    
     trades_with_ofi = sum(1 for t in intelligence_data if t.get('ofi', 0) > 0)
     trades_with_ensemble = sum(1 for t in intelligence_data if t.get('ensemble', 0) > 0)
     trades_with_regime = sum(1 for t in intelligence_data if t.get('regime', 'unknown') != 'unknown')
     trades_with_components = sum(1 for t in intelligence_data if t.get('signal_components') or any(t.get(c, 0) != 0 for c in ['funding', 'liquidation', 'whale_flow']))
     
-    print(f"   ✅ Extracted intelligence from {len(intelligence_data)} trades")
+    total = len(intelligence_data)
+    print(f"   ✅ Extracted intelligence from {total} trades")
     print(f"   📊 Extraction stats:")
-    print(f"      - Trades with OFI data: {trades_with_ofi} ({trades_with_ofi/len(intelligence_data)*100:.1f}%)")
-    print(f"      - Trades with Ensemble data: {trades_with_ensemble} ({trades_with_ensemble/len(intelligence_data)*100:.1f}%)")
-    print(f"      - Trades with Regime data: {trades_with_regime} ({trades_with_regime/len(intelligence_data)*100:.1f}%)")
-    print(f"      - Trades with signal components: {trades_with_components} ({trades_with_components/len(intelligence_data)*100:.1f}%)")
+    print(f"      - Trades with OFI data: {trades_with_ofi} ({trades_with_ofi/total*100:.1f}%)")
+    print(f"      - Trades with Ensemble data: {trades_with_ensemble} ({trades_with_ensemble/total*100:.1f}%)")
+    print(f"      - Trades with Regime data: {trades_with_regime} ({trades_with_regime/total*100:.1f}%)")
+    print(f"      - Trades with signal components: {trades_with_components} ({trades_with_components/total*100:.1f}%)")
     print()
     
     # Analyze each signal component

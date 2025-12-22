@@ -554,12 +554,52 @@ class ConvictionGate:
         
         size_multiplier = max(0.4, min(2.5, base_size_mult))
         
+        # ====================================================================
+        # OFI THRESHOLD ENFORCEMENT (Based on Learning Analysis)
+        # ====================================================================
+        # Key Finding: LONG trades with OFI < 0.5 are losing money
+        # Solution: Require OFI ≥ 0.5 for LONG trades (match SHORT requirements)
+        # ====================================================================
+        should_trade = True
+        block_reason = None
+        
+        # Get OFI threshold from signal policies
+        try:
+            from pathlib import Path
+            import json as json_mod
+            signal_policy_path = Path("configs/signal_policies.json")
+            if signal_policy_path.exists():
+                with open(signal_policy_path, 'r') as f:
+                    policy_data = json_mod.load(f)
+                    alpha_policy = policy_data.get("alpha_trading", {})
+                    
+                    # Get direction-specific OFI requirement
+                    long_ofi_req = alpha_policy.get("long_ofi_requirement", alpha_policy.get("ofi_threshold", 0.5))
+                    short_ofi_req = alpha_policy.get("short_ofi_requirement", alpha_policy.get("ofi_threshold", 0.5))
+                    min_ofi = alpha_policy.get("min_ofi_confidence", 0.5)
+                    
+                    # Use direction-specific threshold
+                    required_ofi = long_ofi_req if direction.upper() == "LONG" else short_ofi_req
+                    ofi_abs = abs(current_ofi)
+                    
+                    # Enforce OFI threshold
+                    if ofi_abs < required_ofi:
+                        should_trade = False
+                        block_reason = f"OFI {ofi_abs:.3f} below required {required_ofi:.3f} for {direction}"
+                        score_breakdown['ofi_block'] = f"OFI {ofi_abs:.3f} < {required_ofi:.3f}"
+        except Exception as e:
+            # If policy load fails, use default threshold
+            ofi_abs = abs(current_ofi)
+            if ofi_abs < 0.5:
+                should_trade = False
+                block_reason = f"OFI {ofi_abs:.3f} below minimum 0.5 (policy load failed, using default)"
+        
         self.trade_count += 1
         
         result = self._build_result(
-            True,
+            should_trade,
             direction, conviction, size_multiplier,
-            expected_edge, None, prediction, prediction['reasons'],
+            expected_edge, block_reason, prediction, prediction['reasons'],
             weighted_score, score_breakdown
         )
         self._log_decision(symbol, result)

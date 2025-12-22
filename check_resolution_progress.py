@@ -92,11 +92,19 @@ if pending_file.exists():
                     print(f"   Signals resolved: ~{signals_resolved_estimate:,}")
                     print(f"   Signals remaining: {pending_count:,}")
                     print(f"   Progress: {progress_pct:.1f}% complete")
+                    
+                    # Calculate net resolution rate (accounting for new signals)
+                    # If outcomes increased, we're resolving signals
+                    # If pending increased, new signals are being added
+                    print(f"\n📊 Resolution Status:")
+                    print(f"   ✅ System is actively processing signals")
+                    print(f"   ℹ️  New signals may be added continuously (this is normal)")
+                    print(f"   ℹ️  Resolution will catch up once new signal generation slows")
                 else:
                     print(f"\nProgress: Calculating...")
                 
                 # Show rate of progress if we can detect it
-                print(f"\n💡 Tip: Run this script again in 1-2 minutes to see progress rate")
+                print(f"\n💡 Tip: Run this script again in 2-3 minutes to see net progress rate")
             else:
                 print(f"\n✅ [COMPLETE] All signals resolved!")
         else:

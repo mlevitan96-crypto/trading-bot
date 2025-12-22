@@ -220,6 +220,22 @@ class ComprehensiveLearningEvaluation:
         return filtered
     
     def _get_pnl(self, trade: Dict) -> float:
+        """Extract P&L from trade record, trying multiple field names."""
+        # Try multiple possible field names for P&L
+        pnl = (trade.get('net_pnl') or trade.get('pnl') or 
+               trade.get('profit') or trade.get('profit_usd') or
+               trade.get('net_profit') or trade.get('realized_pnl') or
+               trade.get('final_pnl') or 0.0)
+        
+        # Handle None values
+        if pnl is None:
+            return 0.0
+        
+        # Convert to float
+        try:
+            return float(pnl)
+        except (ValueError, TypeError):
+            return 0.0
         """Extract P&L from trade record."""
         for field in ['realized_pnl', 'pnl_usd', 'pnl', 'net_pnl']:
             if field in trade and trade[field] is not None:

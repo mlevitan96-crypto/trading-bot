@@ -312,12 +312,20 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
         for adj_type, adj_list in by_type.items():
             print(f"   📋 {adj_type.replace('_', ' ').title()} ({len(adj_list)} adjustments):")
             for adj in adj_list[:5]:  # Show first 5 of each type
-                # Format the action/recommendation
-                action = adj.get('action', '')
-                gate = adj.get('gate', adj.get('component', ''))
-                delta = adj.get('delta', adj.get('change', ''))
+                # Handle nested change dict (from gate adjustments)
+                change = adj.get('change', {})
+                if isinstance(change, dict):
+                    action = change.get('action', adj.get('action', ''))
+                    gate = change.get('gate', adj.get('gate', adj.get('component', '')))
+                    delta = change.get('delta', adj.get('delta', adj.get('change', '')))
+                else:
+                    action = adj.get('action', '')
+                    gate = adj.get('gate', adj.get('component', ''))
+                    delta = adj.get('delta', adj.get('change', ''))
+                
                 reason = adj.get('reason', adj.get('rationale', ''))
                 
+                # Format the output
                 if action and gate:
                     if delta:
                         print(f"      - {action} {gate} by {delta}")
@@ -327,14 +335,24 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
                     print(f"      - {action}")
                 elif gate:
                     print(f"      - Gate: {gate}")
-                else:
-                    # Fallback: show key fields
-                    key_fields = {k: v for k, v in adj.items() 
-                                if k not in ['type', 'category'] and v}
-                    if key_fields:
-                        print(f"      - {key_fields}")
+                elif adj.get('component'):
+                    # Signal weight adjustment
+                    old_w = adj.get('old_weight', '')
+                    new_w = adj.get('new_weight', '')
+                    change_w = adj.get('change', '')
+                    if old_w and new_w:
+                        print(f"      - Adjust {adj.get('component')}: {old_w:.4f} → {new_w:.4f} ({change_w:+.4f})")
                     else:
-                        print(f"      - {adj}")
+                        print(f"      - Adjust {adj.get('component')}")
+                else:
+                    # Fallback: show key non-dict fields
+                    key_fields = {k: v for k, v in adj.items() 
+                                if k not in ['type', 'category', 'change'] and 
+                                   not isinstance(v, dict) and v}
+                    if key_fields:
+                        print(f"      - {', '.join(f'{k}={v}' for k, v in key_fields.items())}")
+                    else:
+                        print(f"      - {adj.get('target', 'Adjustment')}")
                 
                 if reason:
                     print(f"        Reason: {reason}")

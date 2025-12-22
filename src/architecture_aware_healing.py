@@ -388,8 +388,29 @@ class ArchitectureAwareHealing:
             "repaired": 0
         }
         
+        # Use PathRegistry for proper path resolution
+        try:
+            from src.infrastructure.path_registry import PathRegistry
+            path_registry = PathRegistry()
+        except:
+            path_registry = None
+        
         for file_name, file_info in self.architecture_map["files"].items():
-            file_path = Path(file_info["path"])
+            # Resolve path properly
+            if path_registry:
+                try:
+                    if "logs/" in file_info["path"]:
+                        file_path = Path(path_registry.get_path("logs", file_info["path"].replace("logs/", "")))
+                    elif "feature_store/" in file_info["path"]:
+                        file_path = Path(path_registry.get_path("feature_store", file_info["path"].replace("feature_store/", "")))
+                    elif "configs/" in file_info["path"]:
+                        file_path = Path(path_registry.get_path("configs", file_info["path"].replace("configs/", "")))
+                    else:
+                        file_path = Path(file_info["path"])
+                except:
+                    file_path = Path(file_info["path"])
+            else:
+                file_path = Path(file_info["path"])
             
             if not file_path.exists():
                 if file_info["critical"]:
@@ -433,8 +454,14 @@ class ArchitectureAwareHealing:
             "fixed": 0
         }
         
-        # Check signal_policies.json
-        policies_path = Path("configs/signal_policies.json")
+        # Use PathRegistry for proper path resolution
+        try:
+            from src.infrastructure.path_registry import PathRegistry
+            path_registry = PathRegistry()
+            policies_path = Path(path_registry.get_path("configs", "signal_policies.json"))
+        except:
+            policies_path = Path("configs/signal_policies.json")
+        
         if policies_path.exists():
             try:
                 with open(policies_path, 'r') as f:

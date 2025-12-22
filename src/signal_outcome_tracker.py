@@ -293,10 +293,9 @@ class SignalOutcomeTracker:
         # Limit batch size to prevent CPU overload
         if max_signals_per_cycle and len(signals_list) > max_signals_per_cycle:
             signals_list = signals_list[:max_signals_per_cycle]
-            if total_pending > max_signals_per_cycle:
-                # Only log throttling if we're actually limiting
-                if throttle_ms > 0:
-                    time.sleep(throttle_ms / 1000.0)  # Small delay to reduce CPU load
+            # Throttle removed for faster processing when CPU is maxed (throttle doesn't help if CPU is already 100%)
+            # if throttle_ms > 0:
+            #     time.sleep(throttle_ms / 1000.0)  # Small delay to reduce CPU load
         
         with self._lock:
             for signal_id, signal in signals_list:

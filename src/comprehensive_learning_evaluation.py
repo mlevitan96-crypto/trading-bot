@@ -191,11 +191,31 @@ class ComprehensiveLearningEvaluation:
             if ts is not None:
                 if isinstance(ts, str):
                     try:
-                        ts = datetime.fromisoformat(ts.replace('Z', '')).timestamp()
+                        # Handle ISO format with or without timezone
+                        ts_str = ts.replace('Z', '+00:00') if 'Z' in ts else ts
+                        if '+' in ts_str or ts_str.endswith('UTC'):
+                            ts = datetime.fromisoformat(ts_str.replace('UTC', '+00:00')).timestamp()
+                        else:
+                            ts = datetime.fromisoformat(ts_str).timestamp()
                     except:
-                        continue
+                        # Try alternative parsing
+                        try:
+                            from dateutil import parser
+                            ts = parser.parse(ts).timestamp()
+                        except:
+                            continue
+                elif isinstance(ts, (int, float)):
+                    # Already a timestamp
+                    pass
+                else:
+                    continue
+                
                 if ts > self.cutoff_ts:
                     filtered.append(r)
+            else:
+                # If no timestamp found, include it (might be recent)
+                # This is a fallback for records without timestamps
+                filtered.append(r)
         
         return filtered
     

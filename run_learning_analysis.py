@@ -286,26 +286,60 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
         print(f"   {len(adjustments)} adjustments generated")
         print()
         
-        # Group by type
+        # Group by type/category
         by_type = {}
         for adj in adjustments:
-            adj_type = adj.get('type', adj.get('category', 'unknown'))
+            # Try multiple fields to find the type
+            adj_type = (adj.get('type') or adj.get('category') or 
+                       adj.get('gate_type') or 'gate_adjustment')
+            
+            # Normalize type names
+            if 'gate' in str(adj_type).lower() or 'hour' in str(adj.get('gate', '')):
+                adj_type = 'gate_threshold'
+            elif 'weight' in str(adj_type).lower() or 'component' in str(adj_type).lower():
+                adj_type = 'signal_weight'
+            elif 'combo' in str(adj_type).lower() or 'kill' in str(adj_type).lower():
+                adj_type = 'combo_blocking'
+            elif 'sizing' in str(adj_type).lower():
+                adj_type = 'position_sizing'
+            else:
+                adj_type = 'other'
+            
             if adj_type not in by_type:
                 by_type[adj_type] = []
             by_type[adj_type].append(adj)
         
         for adj_type, adj_list in by_type.items():
-            print(f"   📋 {adj_type.upper()} ({len(adj_list)} adjustments):")
+            print(f"   📋 {adj_type.replace('_', ' ').title()} ({len(adj_list)} adjustments):")
             for adj in adj_list[:5]:  # Show first 5 of each type
-                action = adj.get('action', adj.get('recommendation', adj.get('change', 'N/A')))
+                # Format the action/recommendation
+                action = adj.get('action', '')
+                gate = adj.get('gate', adj.get('component', ''))
+                delta = adj.get('delta', adj.get('change', ''))
                 reason = adj.get('reason', adj.get('rationale', ''))
-                if reason:
+                
+                if action and gate:
+                    if delta:
+                        print(f"      - {action} {gate} by {delta}")
+                    else:
+                        print(f"      - {action} {gate}")
+                elif action:
                     print(f"      - {action}")
-                    print(f"        Reason: {reason}")
+                elif gate:
+                    print(f"      - Gate: {gate}")
                 else:
-                    print(f"      - {action}")
+                    # Fallback: show key fields
+                    key_fields = {k: v for k, v in adj.items() 
+                                if k not in ['type', 'category'] and v}
+                    if key_fields:
+                        print(f"      - {key_fields}")
+                    else:
+                        print(f"      - {adj}")
+                
+                if reason:
+                    print(f"        Reason: {reason}")
             if len(adj_list) > 5:
-                print(f"      ... and {len(adj_list) - 5} more {adj_type} adjustments")
+                print(f"      ... and {len(adj_list) - 5} more {adj_type.replace('_', ' ')} adjustments")
             print()
     
     # Apply adjustments if requested

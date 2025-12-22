@@ -1905,8 +1905,8 @@ def run_heavy_initialization():
             register_exchange_health_monitor(register_periodic_task)
         except Exception as e:
             print(f"⚠️  [EXCHANGE-HEALTH] Failed to register health monitor: {e}")
-        else:
-            print(f"ℹ️  [VALIDATION] Skipping (not using Kraken, current exchange: {exchange})")
+    else:
+        print(f"ℹ️  [VALIDATION] Skipping (not using Kraken, current exchange: {exchange})")
     except Exception as e:
         print(f"⚠️  [VALIDATION] Symbol validation error (non-blocking): {e}")
         if is_paper_mode:
@@ -1990,15 +1990,19 @@ def run_heavy_initialization():
     print("\n" + "="*60)
     print("🚀 STARTING WORKER PROCESSES (CRITICAL)")
     print("="*60)
+    print("[ENGINE] About to call _start_all_worker_processes()", flush=True)
     try:
         # Start all worker processes (predictive engine, feature builder, ensemble predictor, signal resolver)
         # Always start workers regardless of health check (they're needed for dashboard too)
+        print("[ENGINE] Calling _start_all_worker_processes() now...", flush=True)
         _start_all_worker_processes()
+        print("[ENGINE] _start_all_worker_processes() completed", flush=True)
         print("   ✅ Worker processes startup completed")
     except Exception as e:
-        print(f"   ❌ CRITICAL: Failed to start worker processes: {e}")
+        print(f"[ENGINE] CRITICAL ERROR in _start_all_worker_processes(): {e}", flush=True)
         import traceback
         traceback.print_exc()
+        print(f"   ❌ CRITICAL: Failed to start worker processes: {e}")
         print("   ⚠️  Attempting to continue - workers may not be available")
     
     # Start worker process monitor

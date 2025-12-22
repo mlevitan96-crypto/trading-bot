@@ -204,21 +204,19 @@ try:
     analyzer = DeepProfitabilityAnalyzer()
     analyzer.load_all_data()
     
-    # Run all analyses
-    closed_analysis = analyzer.analyze_closed_trades()
-    signal_analysis = analyzer.analyze_signal_performance()
-    pattern_analysis = analyzer.analyze_profitable_patterns()
-    recommendations = analyzer.generate_recommendations()
+    # Run full analysis (includes all sub-analyses)
+    full_results = analyzer.run_full_analysis()
     
     print(f"   ✅ Deep analysis complete")
-    print(f"      Recommendations: {len(recommendations)}")
+    print(f"      Recommendations: {len(full_results.get('recommendations', []))}")
     
     results["components"]["deep_profitability"] = {
         "status": "success",
-        "closed_trades_analysis": closed_analysis,
-        "signal_analysis": signal_analysis,
-        "pattern_analysis": pattern_analysis,
-        "recommendations": recommendations
+        "trade_analysis": full_results.get('trade_analysis', {}),
+        "enriched_analysis": full_results.get('enriched_analysis', {}),
+        "pattern_analysis": full_results.get('pattern_analysis', {}),
+        "duration_analysis": full_results.get('duration_analysis', {}),
+        "recommendations": full_results.get('recommendations', [])
     }
     
 except Exception as e:
@@ -337,15 +335,17 @@ try:
                 "data": adj
             })
     
-    # From deep profitability
+    # From deep profitability (recommendations are strings, not dicts)
     if 'deep_profitability' in results["components"] and 'recommendations' in results["components"]["deep_profitability"]:
         for rec in results["components"]["deep_profitability"]["recommendations"]:
+            # Recommendations are strings, extract priority from content
+            priority = "HIGH" if any(word in rec.lower() for word in ["block", "avoid", "restrict", "critical"]) else "MEDIUM"
             all_recommendations.append({
-                "priority": rec.get('priority', 'MEDIUM'),
+                "priority": priority,
                 "category": "Profitability Optimization",
-                "action": rec.get('action', rec.get('recommendation', 'Unknown')),
-                "impact": rec.get('expected_impact', rec.get('impact', 'Unknown')),
-                "data": rec
+                "action": rec if isinstance(rec, str) else str(rec),
+                "impact": "Improve profitability by following pattern-based insights",
+                "data": {"recommendation": rec}
             })
     
     # From strategic advisor

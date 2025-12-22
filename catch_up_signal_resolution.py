@@ -56,13 +56,24 @@ if pending_file.exists():
             cycles += 1
             start_time = time.time()
             
-            # Suppress verbose output from signal tracker
+            # Capture output to check if signals are being removed
             f = io.StringIO()
             with redirect_stdout(f), redirect_stderr(f):
                 resolved = signal_tracker.resolve_pending_signals(
                     max_signals_per_cycle=batch_size, 
                     throttle_ms=0
                 )
+            
+            # Check output for save messages
+            output = f.getvalue()
+            if "Saved pending_signals.json" in output:
+                # Extract how many were removed
+                import re
+                match = re.search(r'removed (\d+) resolved signals', output)
+                if match:
+                    removed_count = int(match.group(1))
+                    if removed_count > 0:
+                        print(f"   ✅ Removed {removed_count} fully resolved signals from pending list")
             
             elapsed = time.time() - start_time
             total_resolved += resolved

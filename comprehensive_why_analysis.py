@@ -138,35 +138,56 @@ print("=" * 80)
 # Helper function to get direction from enriched record
 def get_direction(record):
     """Extract direction from enriched record (checks multiple possible locations)."""
-    # Check enriched record direction field first
+    # Check enriched record direction field first (from enrich_record)
     direction = record.get("direction", "")
     if direction:
-        return direction.upper()
+        return str(direction).upper()
+    
     # Check signal_ctx
-    direction = record.get("signal_ctx", {}).get("side", record.get("signal_ctx", {}).get("direction", ""))
-    if direction:
-        return direction.upper()
-    # Check raw record if available
+    signal_ctx = record.get("signal_ctx", {})
+    if signal_ctx:
+        direction = signal_ctx.get("side", signal_ctx.get("direction", ""))
+        if direction:
+            return str(direction).upper()
+    
+    # Check raw record if available (portfolio trades)
     raw = record.get("_raw", {})
-    direction = raw.get("side", raw.get("direction", ""))
+    if raw:
+        direction = raw.get("side", raw.get("direction", ""))
+        if direction:
+            return str(direction).upper()
+    
+    # Check record directly (portfolio trades might not have _raw)
+    direction = record.get("side", record.get("direction", ""))
     if direction:
-        return direction.upper()
+        return str(direction).upper()
+    
     # Check position_type (for futures positions)
     pos_type = record.get("position_type", raw.get("position_type", ""))
     if pos_type:
-        return pos_type.upper()
+        return str(pos_type).upper()
+    
     return ""
 
-# Analyze executed LONG trades
-executed_long = [t for t in executed if get_direction(t) in ["LONG"]]
+# Debug: Check first few executed trades to see their structure
+if executed:
+    print(f"\n🔍 DEBUG: Sample executed trade structure:")
+    sample = executed[0]
+    print(f"   Keys: {list(sample.keys())[:10]}")
+    print(f"   direction field: {sample.get('direction', 'NOT FOUND')}")
+    print(f"   _raw direction: {sample.get('_raw', {}).get('direction', 'NOT FOUND')}")
+    print(f"   get_direction result: {get_direction(sample)}")
+
+# Analyze executed LONG trades (handle both "LONG" and "long")
+executed_long = [t for t in executed if get_direction(t) in ["LONG", "long"]]
 executed_short = [t for t in executed if get_direction(t) == "SHORT"]
 
 # Analyze blocked LONG trades
-blocked_long = [t for t in blocked if get_direction(t) in ["LONG"]]
+blocked_long = [t for t in blocked if get_direction(t) in ["LONG", "long"]]
 blocked_short = [t for t in blocked if get_direction(t) == "SHORT"]
 
 # Analyze counterfactual LONG (what blocked LONG trades would have done)
-counterfactual_long = [t for t in counterfactual if get_direction(t) in ["LONG"]]
+counterfactual_long = [t for t in counterfactual if get_direction(t) in ["LONG", "long"]]
 counterfactual_short = [t for t in counterfactual if get_direction(t) == "SHORT"]
 
 print(f"\n📊 LONG Trade Analysis:")

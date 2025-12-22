@@ -1897,16 +1897,16 @@ def run_heavy_initialization():
                 register_exchange_health_monitor(register_periodic_task)
             except Exception as e:
                 print(f"⚠️  [VALIDATION] Failed to register daily validation scheduler: {e}")
+        else:
+            print(f"ℹ️  [VALIDATION] Skipping (not using Kraken, current exchange: {exchange})")
         
-        # Register exchange health monitor for all exchanges
+        # Register exchange health monitor for all exchanges (regardless of exchange type)
         try:
             from src.phase10_profit_engine import register_periodic_task
             from src.venue_validation_scheduler import register_exchange_health_monitor
             register_exchange_health_monitor(register_periodic_task)
         except Exception as e:
             print(f"⚠️  [EXCHANGE-HEALTH] Failed to register health monitor: {e}")
-    else:
-        print(f"ℹ️  [VALIDATION] Skipping (not using Kraken, current exchange: {exchange})")
     except Exception as e:
         print(f"⚠️  [VALIDATION] Symbol validation error (non-blocking): {e}")
         if is_paper_mode:

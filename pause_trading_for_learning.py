@@ -111,11 +111,7 @@ def check_status():
     
     # Check signal resolution progress
     print(f"\n📊 Signal Resolution Status:")
-    try:
-        from check_resolution_progress import *
-        # This will run the progress check
-    except:
-        print("   Run: python3 check_resolution_progress.py")
+    print("   Run: python3 check_resolution_progress.py for detailed progress")
     
     print("=" * 80)
 

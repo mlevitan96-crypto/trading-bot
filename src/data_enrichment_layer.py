@@ -243,6 +243,8 @@ def enrich_recent_decisions(lookback_hours=48):
                 # Extract volatility/volume if available
                 "volatility": trade.get("volatility", signal.get("volatility", 0)),
                 "volume": trade.get("volume", trade.get("volume_24h", signal.get("volume", 0))),
+                # [ENHANCED LOGGING] Extract volatility snapshot from trade
+                "volatility_snapshot": trade.get("volatility_snapshot", {}),
             },
             
             # Outcome data (for scoring) - includes proper fee tracking

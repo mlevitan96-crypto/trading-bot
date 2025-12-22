@@ -668,6 +668,9 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             "regime": regime_state,
             "expected_roi": expected_edge,
             "volatility": params.get("volatility", 0.0),
+            # [ENHANCED LOGGING] Include signal components if available
+            "signal_components": params.get("signal_components", {}),
+            "signals": params.get("signals", {}),  # Full predictive signals dict
             # Gate attribution for sizing multiplier learning
             "gate_attribution": {
                 "intel_reason": params.get("intel_reason"),  # From intelligence_gate

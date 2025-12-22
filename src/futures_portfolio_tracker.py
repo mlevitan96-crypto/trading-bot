@@ -193,7 +193,7 @@ def allocate_margin_from_spot(amount):
 
 def record_futures_trade(symbol, direction, entry_price, exit_price, margin_collateral, leverage, 
                          strategy_name, funding_fees=0.0, trading_fees_usd=None, order_type="taker", 
-                         duration_seconds=None, was_inverted=False):
+                         duration_seconds=None, was_inverted=False, volatility_snapshot=None):
     """
     Record a closed futures trade with leverage-adjusted P&L.
     
@@ -296,7 +296,9 @@ def record_futures_trade(symbol, direction, entry_price, exit_price, margin_coll
         "pnl": net_pnl,  # Dashboard compatibility (USD P&L)
         "pnl_pct": net_roi * 100,  # Dashboard compatibility (% P&L)
         "duration_seconds": duration_seconds if duration_seconds is not None else 0,  # V6.6/V7.1 FIX: Grace window validation
-        "venue": "futures"  # Mark as futures trade
+        "venue": "futures",  # Mark as futures trade
+        # [ENHANCED LOGGING] Volatility snapshot at entry (for analysis)
+        "volatility_snapshot": volatility_snapshot or {}
     }
     
     # Ensure trades_data has all required fields (migration safety)

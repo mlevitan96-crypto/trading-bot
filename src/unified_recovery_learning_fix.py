@@ -139,6 +139,30 @@ def pre_entry_check(
         "portfolio_value": portfolio_value
     }
     
+    # 0. [GOLDEN HOUR CHECK] Block entries outside trading hours
+    try:
+        from src.enhanced_trade_logging import check_golden_hours_block
+        should_block, reason = check_golden_hours_block()
+        if should_block:
+            _bus("entry_rejected", {"symbol": symbol, "reason": reason})
+            _kg(symbol, "entry_rejected_golden_hours", reason)
+            print(f"❌ Entry blocked: {reason}")
+            return False, ctx
+    except Exception as e:
+        pass  # Fail open if check fails
+    
+    # 0.5. [STABLE REGIME BLOCK] Hard block on Stable regime (35.2% win rate)
+    try:
+        from src.enhanced_trade_logging import check_stable_regime_block
+        should_block, reason = check_stable_regime_block(symbol, strategy_id)
+        if should_block:
+            _bus("entry_rejected", {"symbol": symbol, "reason": reason})
+            _kg(symbol, "entry_rejected_stable_regime", reason)
+            print(f"❌ Entry blocked: {reason}")
+            return False, ctx
+    except Exception as e:
+        pass  # Fail open if check fails
+    
     # 0. Check symbol quarantine (high fees)
     live = _read_json(LIVE_CFG, default={}) or {}
     quarantined = (live.get("runtime", {}) or {}).get("quarantined_symbols", [])

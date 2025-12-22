@@ -340,6 +340,17 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         position["regime"] = signal_context.get("regime", "unknown")
         position["expected_roi"] = signal_context.get("expected_roi", 0.0)
         position["volatility"] = signal_context.get("volatility", 0.0)
+        
+        # [ENHANCED LOGGING] Capture volatility snapshot at entry
+        try:
+            from src.enhanced_trade_logging import create_volatility_snapshot
+            # Get signals from signal_context if available
+            signals = signal_context.get("signals") or signal_context.get("signal_components") or {}
+            volatility_snapshot = create_volatility_snapshot(symbol, signals)
+            position["volatility_snapshot"] = volatility_snapshot
+        except Exception as e:
+            # Fail silently - don't break position opening
+            position["volatility_snapshot"] = {}
         # [DUAL-BOT] Track which bot opened this position (alpha or beta)
         position["bot_type"] = signal_context.get("bot_type", "alpha")
         # [COUNTER-SIGNAL] Track if this was an inverted signal (at open time)
@@ -762,6 +773,8 @@ def close_futures_position(symbol, strategy, direction, exit_price, reason="manu
             # Skip recording for test strategies to prevent contaminating production metrics
             if not is_test_strategy:
                 from src.futures_portfolio_tracker import record_futures_trade
+                # [ENHANCED LOGGING] Extract volatility snapshot from position
+                volatility_snapshot = closed_pos.get("volatility_snapshot", {})
                 trade_record = record_futures_trade(
                     symbol=symbol,
                     direction=direction,
@@ -774,7 +787,8 @@ def close_futures_position(symbol, strategy, direction, exit_price, reason="manu
                     trading_fees_usd=trading_fees_usd,
                     order_type="taker",  # Market orders = taker fees
                     duration_seconds=trade_duration_seconds,  # V6.6/V7.1 FIX: Grace window validation
-                    was_inverted=closed_pos.get("was_inverted", False)  # Counter-signal flag from open time
+                    was_inverted=closed_pos.get("was_inverted", False),  # Counter-signal flag from open time
+                    volatility_snapshot=volatility_snapshot
                 )
             else:
                 print(f"   🧪 [TEST-TRADE-EXCLUDED] Skipping futures portfolio update for test strategy: {strategy}")

@@ -701,6 +701,26 @@ def _should_block_entry(exposure_pct, cap, runtime):
 
 def pre_entry_check(symbol: str, strategy_id: str, final_notional: float, portfolio_value_snapshot: float,
                     runtime_limits: Dict[str,Any], regime_state: str, verdict_status: str, expected_edge_hint: float) -> Tuple[bool, Dict[str,Any]]:
+    # [GOLDEN HOUR CHECK] Block entries outside trading hours
+    try:
+        from src.enhanced_trade_logging import check_golden_hours_block
+        should_block, reason = check_golden_hours_block()
+        if should_block:
+            print(f"❌ Entry blocked: {reason}")
+            return False, {"symbol": symbol, "strategy_id": strategy_id, "reason": reason}
+    except Exception as e:
+        pass  # Fail open if check fails
+    
+    # [STABLE REGIME BLOCK] Hard block on Stable regime (35.2% win rate)
+    try:
+        from src.enhanced_trade_logging import check_stable_regime_block
+        should_block, reason = check_stable_regime_block(symbol, strategy_id)
+        if should_block:
+            print(f"❌ Entry blocked: {reason}")
+            return False, {"symbol": symbol, "strategy_id": strategy_id, "reason": reason}
+    except Exception as e:
+        pass  # Fail open if check fails
+    
     edge_after_cost = _expected_edge_after_cost(symbol, expected_edge_hint)
     fee_gate_ok = edge_after_cost >= 0.0
     exposure_pct, cap, diag = _audit_exposure(symbol, final_notional, portfolio_value_snapshot, runtime_limits)

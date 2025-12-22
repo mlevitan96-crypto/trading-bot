@@ -24,6 +24,40 @@ sys.path.insert(0, os.path.dirname(__file__))
 from src.infrastructure.path_registry import PathRegistry
 
 
+def _parse_timestamp(ts_value):
+    """
+    Convert various timestamp formats to Unix timestamp (int).
+    Handles:
+    - ISO format strings (e.g., '2025-12-16T01:42:55.492612')
+    - Unix timestamps (int or float)
+    - Unix milliseconds (if > 1e12)
+    """
+    if ts_value is None:
+        return 0
+    if isinstance(ts_value, (int, float)):
+        # If it's milliseconds (large number), convert to seconds
+        if ts_value > 1e12:
+            return int(ts_value / 1000)
+        return int(ts_value)
+    if isinstance(ts_value, str):
+        try:
+            # Try ISO format (handles with/without timezone)
+            dt = datetime.fromisoformat(ts_value.replace('Z', '+00:00'))
+            return int(dt.timestamp())
+        except:
+            try:
+                # Try common formats
+                for fmt in ["%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S"]:
+                    try:
+                        dt = datetime.strptime(ts_value.replace('Z', '').replace('+00:00', ''), fmt)
+                        return int(dt.timestamp())
+                    except:
+                        continue
+            except:
+                pass
+    return 0
+
+
 def load_enriched_decisions(limit: int = 1500) -> List[Dict]:
     """Load enriched decisions with complete signal context."""
     enriched_path = PathRegistry.get_path("logs", "enriched_decisions.jsonl")

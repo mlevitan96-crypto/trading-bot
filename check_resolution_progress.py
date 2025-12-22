@@ -57,8 +57,8 @@ if pending_file.exists():
                 print(f"   ⚠️  File last updated {int(outcomes_age_seconds/60)} minutes ago")
             
             if pending_count > 0:
-                # UPDATED: Batch processing mode (200 signals per cycle, 60s per cycle)
-                signals_per_cycle = 200  # From resolve_pending_signals(max_signals_per_cycle=200)
+                # UPDATED: Optimized batch processing mode (500 signals per cycle, 60s per cycle, no throttle)
+                signals_per_cycle = 500  # From resolve_pending_signals(max_signals_per_cycle=500)
                 cycle_interval_seconds = 60  # Healing cycle runs every 60 seconds
                 
                 # Calculate cycles needed

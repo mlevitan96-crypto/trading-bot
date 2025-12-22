@@ -245,8 +245,19 @@ class ArchitectureAwareHealing:
                 # Check if worker process is running
                 is_running = self._check_worker_running(worker_name)
                 
-                # Check if output file is stale
-                output_path = Path(worker_info["output"])
+                # Check if output file is stale (use PathRegistry for proper resolution)
+                try:
+                    from src.infrastructure.path_registry import PathRegistry
+                    path_registry = PathRegistry()
+                    if "logs/" in worker_info["output"]:
+                        output_path = Path(path_registry.get_path("logs", worker_info["output"].replace("logs/", "")))
+                    elif "feature_store/" in worker_info["output"]:
+                        output_path = Path(path_registry.get_path("feature_store", worker_info["output"].replace("feature_store/", "")))
+                    else:
+                        output_path = Path(worker_info["output"])
+                except:
+                    output_path = Path(worker_info["output"])
+                
                 file_stale = False
                 if output_path.exists():
                     mtime = output_path.stat().st_mtime
@@ -265,21 +276,43 @@ class ArchitectureAwareHealing:
                     if file_stale:
                         print(f"      ⚠️  Output file stale or missing: {worker_info['output']}")
                     
-                    # Check dependencies first
+                    # Check dependencies first (use PathRegistry for proper resolution)
                     deps_ok = True
+                    try:
+                        from src.infrastructure.path_registry import PathRegistry
+                        path_registry = PathRegistry()
+                    except:
+                        path_registry = None
+                    
                     for dep in worker_info.get("depends_on", []):
                         dep_file = self.architecture_map["workers"].get(dep, {}).get("output")
                         if dep_file:
-                            dep_path = Path(dep_file)
+                            # Resolve path properly
+                            if path_registry:
+                                try:
+                                    if "logs/" in dep_file:
+                                        dep_path = Path(path_registry.get_path("logs", dep_file.replace("logs/", "")))
+                                    elif "feature_store/" in dep_file:
+                                        dep_path = Path(path_registry.get_path("feature_store", dep_file.replace("feature_store/", "")))
+                                    else:
+                                        dep_path = Path(dep_file)
+                                except:
+                                    dep_path = Path(dep_file)
+                            else:
+                                dep_path = Path(dep_file)
+                            
                             if not dep_path.exists():
-                                print(f"      ⚠️  Dependency missing: {dep_file}")
+                                print(f"      ⚠️  Dependency missing: {dep_file} (checked: {dep_path})")
                                 deps_ok = False
                             else:
                                 dep_mtime = dep_path.stat().st_mtime
                                 dep_age = (time.time() - dep_mtime) / 60
-                                if dep_age > 60:  # Dependency stale
-                                    print(f"      ⚠️  Dependency stale: {dep_file} ({dep_age:.1f} min old)")
+                                dep_max_age = self.architecture_map["workers"].get(dep, {}).get("max_age_minutes", 60)
+                                if dep_age > dep_max_age:  # Dependency stale
+                                    print(f"      ⚠️  Dependency stale: {dep_file} ({dep_age:.1f} min old, max: {dep_max_age} min)")
                                     deps_ok = False
+                                else:
+                                    print(f"      ✅ Dependency OK: {dep_file} ({dep_age:.1f} min old)")
                     
                     if deps_ok:
                         # Try to restart by restarting bot service
@@ -463,20 +496,56 @@ class ArchitectureAwareHealing:
             "warnings": []
         }
         
+        # Use PathRegistry for proper path resolution
+        try:
+            from src.infrastructure.path_registry import PathRegistry
+            path_registry = PathRegistry()
+        except:
+            path_registry = None
+        
         # Check each dependency chain
         for component, deps in self.architecture_map["dependencies"].items():
             for dep_file in deps:
-                dep_path = Path(dep_file)
+                # Resolve path properly
+                if path_registry:
+                    # Try to resolve using PathRegistry
+                    try:
+                        if "logs/" in dep_file:
+                            dep_path = Path(path_registry.get_path("logs", dep_file.replace("logs/", "")))
+                        elif "feature_store/" in dep_file:
+                            dep_path = Path(path_registry.get_path("feature_store", dep_file.replace("feature_store/", "")))
+                        elif "configs/" in dep_file:
+                            dep_path = Path(path_registry.get_path("configs", dep_file.replace("configs/", "")))
+                        else:
+                            dep_path = Path(dep_file)
+                    except:
+                        dep_path = Path(dep_file)
+                else:
+                    dep_path = Path(dep_file)
+                
                 if not dep_path.exists():
-                    results["warnings"].append(f"{component} missing dependency: {dep_file}")
-                    print(f"   ⚠️  {component} missing dependency: {dep_file}")
+                    # Check if it's actually in the files map (might be non-critical)
+                    file_info = self.architecture_map["files"].get(dep_file.split("/")[-1], {})
+                    if file_info.get("critical", False):
+                        results["warnings"].append(f"{component} missing critical dependency: {dep_file}")
+                        print(f"   ⚠️  {component} missing critical dependency: {dep_file}")
+                    else:
+                        # Non-critical, just note it
+                        pass
                 else:
                     # Check if dependency is stale
                     mtime = dep_path.stat().st_mtime
                     age_minutes = (time.time() - mtime) / 60
-                    if age_minutes > 60:
-                        results["warnings"].append(f"{component} has stale dependency: {dep_file} ({age_minutes:.1f} min old)")
-                        print(f"   ⚠️  {component} has stale dependency: {dep_file} ({age_minutes:.1f} min old)")
+                    file_info = self.architecture_map["files"].get(dep_file.split("/")[-1], {})
+                    max_age = file_info.get("max_age_minutes", 60)
+                    
+                    if age_minutes > max_age:
+                        if file_info.get("critical", False):
+                            results["warnings"].append(f"{component} has stale critical dependency: {dep_file} ({age_minutes:.1f} min old)")
+                            print(f"   ⚠️  {component} has stale critical dependency: {dep_file} ({age_minutes:.1f} min old)")
+                        else:
+                            # Non-critical stale dependency, just note it
+                            pass
         
         return results
 

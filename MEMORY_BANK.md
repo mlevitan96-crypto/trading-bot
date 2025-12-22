@@ -309,6 +309,14 @@ trading-bot/
 - **Active Slot**: `/root/trading-bot-current` (symlink to A or B slot)
 - **Dashboard URL**: `http://159.65.168.230:8050/`
 
+### Active Directory Confirmation (December 2024)
+**CRITICAL**: The bot's active directory is `/root/trading-bot-B`, NOT `/root/trading-bot-current`
+- PathRegistry resolves PROJECT_ROOT to `/root/trading-bot-B` based on where `path_registry.py` is located
+- Signal tracker and all components use `/root/trading-bot-B/` as the base path
+- User may SSH into `/root/trading-bot-current`, but must be aware bot runs from `trading-bot-B`
+- To check active directory: `python3 -c "from src.infrastructure.path_registry import PathRegistry; print(PathRegistry.get_root())"`
+- Multiple directories exist: `trading-bot-A` (old, 694 signals), `trading-bot-B` (active, 1 signal), `trading-bot-current` (symlink or copy)
+
 ### A/B Slot Deployment System
 - `/root/trading-bot-A` - Slot A
 - `/root/trading-bot-B` - Slot B
@@ -670,6 +678,13 @@ journalctl -u tradingbot --since "10 minutes ago" | grep "DASHBOARD-V2"
 ---
 
 ## 🔄 Update Log
+
+**2025-12-22**: Active Directory Confirmation
+- **CONFIRMED**: Bot's active directory is `/root/trading-bot-B` (not `/root/trading-bot-current`)
+- PathRegistry PROJECT_ROOT resolves to `/root/trading-bot-B` based on `path_registry.py` location
+- Signal tracker uses `/root/trading-bot-B/feature_store/pending_signals.json`
+- Multiple directories exist: `trading-bot-A` (old, 694 signals), `trading-bot-B` (active), `trading-bot-current` (user SSH location)
+- Use `check_all_pending_signals.py` to verify which directory has signals
 
 **2025-12-19**: Initial memory bank created
 - Captured system architecture

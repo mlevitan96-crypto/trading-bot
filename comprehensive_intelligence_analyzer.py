@@ -494,12 +494,36 @@ def main():
     print("               OI Velocity, OI Divergence, Regime, Volatility, Volume...")
     print()
     
+    # Diagnostic: Check what fields are available in trades
+    if trades:
+        sample_trade = trades[0]
+        available_fields = set(sample_trade.keys())
+        intelligence_fields = {'ofi_score', 'ensemble_score', 'mtf_confidence', 'regime', 
+                             'signal_components', 'ml_features', 'signal_ctx', 'volatility'}
+        found_fields = available_fields.intersection(intelligence_fields)
+        print(f"   📊 Sample trade fields: {len(available_fields)} total")
+        print(f"   ✅ Intelligence fields found: {', '.join(sorted(found_fields))}")
+        if 'signal_components' in sample_trade and sample_trade['signal_components']:
+            print(f"   ✅ signal_components keys: {', '.join(sample_trade['signal_components'].keys())}")
+        print()
+    
     intelligence_data = []
     for trade in trades:
         intel = extract_all_intelligence(trade)
         intelligence_data.append(intel)
     
+    # Diagnostic: Check extraction results
+    trades_with_ofi = sum(1 for t in intelligence_data if t.get('ofi', 0) > 0)
+    trades_with_ensemble = sum(1 for t in intelligence_data if t.get('ensemble', 0) > 0)
+    trades_with_regime = sum(1 for t in intelligence_data if t.get('regime', 'unknown') != 'unknown')
+    trades_with_components = sum(1 for t in intelligence_data if t.get('signal_components') or any(t.get(c, 0) != 0 for c in ['funding', 'liquidation', 'whale_flow']))
+    
     print(f"   ✅ Extracted intelligence from {len(intelligence_data)} trades")
+    print(f"   📊 Extraction stats:")
+    print(f"      - Trades with OFI data: {trades_with_ofi} ({trades_with_ofi/len(intelligence_data)*100:.1f}%)")
+    print(f"      - Trades with Ensemble data: {trades_with_ensemble} ({trades_with_ensemble/len(intelligence_data)*100:.1f}%)")
+    print(f"      - Trades with Regime data: {trades_with_regime} ({trades_with_regime/len(intelligence_data)*100:.1f}%)")
+    print(f"      - Trades with signal components: {trades_with_components} ({trades_with_components/len(intelligence_data)*100:.1f}%)")
     print()
     
     # Analyze each signal component

@@ -20,6 +20,12 @@ from datetime import datetime, timezone, timedelta
 from collections import defaultdict
 from typing import Dict, List, Any, Tuple, Optional
 from statistics import mean, median, stdev
+from scipy import stats
+try:
+    from scipy.stats import chi2_contingency, mannwhitneyu
+    HAS_SCIPY = True
+except ImportError:
+    HAS_SCIPY = False
 
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -199,13 +205,20 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
         intelligence['regime'] = _raw.get('regime', intelligence['regime'])
     
     # Extract timing
-    entry_time = trade.get('opened_at', trade.get('entry_timestamp', trade.get('timestamp', '')))
+    entry_time = trade.get('opened_at', trade.get('entry_timestamp', trade.get('timestamp', trade.get('ts', ''))))
     if entry_time:
         try:
             if isinstance(entry_time, str):
                 dt = datetime.fromisoformat(entry_time.replace('Z', '+00:00'))
+            elif isinstance(entry_time, (int, float)):
+                # Handle both seconds and milliseconds
+                ts_val = float(entry_time)
+                if ts_val > 1e12:
+                    dt = datetime.fromtimestamp(ts_val / 1000, tz=timezone.utc)
+                else:
+                    dt = datetime.fromtimestamp(ts_val, tz=timezone.utc)
             else:
-                dt = datetime.fromtimestamp(entry_time)
+                dt = datetime.fromtimestamp(entry_time, tz=timezone.utc)
             intelligence['hour'] = dt.hour
             intelligence['session'] = get_session(dt)
         except:
@@ -214,6 +227,13 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
     else:
         intelligence['hour'] = 12
         intelligence['session'] = 'unknown'
+    
+    # Extract entry/exit prices and timestamps for duration analysis
+    outcome = trade.get('outcome', {})
+    intelligence['entry_price'] = outcome.get('entry_price', trade.get('entry_price', 0))
+    intelligence['exit_price'] = outcome.get('exit_price', trade.get('exit_price', 0))
+    intelligence['entry_ts'] = trade.get('entry_ts', trade.get('ts', 0))
+    intelligence['exit_ts'] = trade.get('exit_ts', 0)
     
     return intelligence
 
@@ -722,6 +742,385 @@ def analyze_multi_dimensional_patterns(trades: List[Dict]) -> List[Dict]:
                 })
     
     return sorted(patterns, key=lambda x: abs(x['win_rate'] - 0.5), reverse=True)
+
+
+def analyze_temporal_patterns(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze temporal patterns: hour of day, day of week, trading session."""
+    temporal_data = {
+        'by_hour': defaultdict(lambda: {'winners': [], 'losers': []}),
+        'by_session': defaultdict(lambda: {'winners': [], 'losers': []}),
+        'by_day_of_week': defaultdict(lambda: {'winners': [], 'losers': []}),
+    }
+    
+    for trade in trades:
+        hour = trade.get('hour', 12)
+        session = trade.get('session', 'unknown')
+        
+        # Get day of week from timestamp
+        ts = trade.get('ts', trade.get('entry_ts', 0))
+        if ts:
+            try:
+                if isinstance(ts, str):
+                    dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+                else:
+                    dt = datetime.fromtimestamp(ts if ts < 1e12 else ts / 1000)
+                day_of_week = dt.strftime('%A')
+            except:
+                day_of_week = 'Unknown'
+        else:
+            day_of_week = 'Unknown'
+        
+        if trade.get('win', False):
+            temporal_data['by_hour'][hour]['winners'].append(trade)
+            temporal_data['by_session'][session]['winners'].append(trade)
+            temporal_data['by_day_of_week'][day_of_week]['winners'].append(trade)
+        else:
+            temporal_data['by_hour'][hour]['losers'].append(trade)
+            temporal_data['by_session'][session]['losers'].append(trade)
+            temporal_data['by_day_of_week'][day_of_week]['losers'].append(trade)
+    
+    analysis = {
+        'best_hours': [],
+        'worst_hours': [],
+        'best_sessions': [],
+        'worst_sessions': [],
+        'best_days': [],
+        'worst_days': [],
+    }
+    
+    # Analyze hours
+    for hour in range(24):
+        data = temporal_data['by_hour'][hour]
+        total = len(data['winners']) + len(data['losers'])
+        if total >= 10:
+            win_rate = len(data['winners']) / total if total > 0 else 0
+            avg_pnl = mean([t.get('pnl', 0) for t in data['winners'] + data['losers']])
+            analysis['best_hours'].append({
+                'hour': hour,
+                'win_rate': win_rate,
+                'avg_pnl': avg_pnl,
+                'total': total,
+            })
+            analysis['worst_hours'].append({
+                'hour': hour,
+                'win_rate': win_rate,
+                'avg_pnl': avg_pnl,
+                'total': total,
+            })
+    
+    analysis['best_hours'] = sorted([h for h in analysis['best_hours'] if h['win_rate'] > 0.5],
+                                   key=lambda x: x['win_rate'], reverse=True)[:5]
+    analysis['worst_hours'] = sorted([h for h in analysis['worst_hours'] if h['win_rate'] < 0.5],
+                                     key=lambda x: x['win_rate'])[:5]
+    
+    # Analyze sessions
+    for session, data in temporal_data['by_session'].items():
+        total = len(data['winners']) + len(data['losers'])
+        if total >= 15:
+            win_rate = len(data['winners']) / total if total > 0 else 0
+            avg_pnl = mean([t.get('pnl', 0) for t in data['winners'] + data['losers']])
+            if win_rate > 0.5:
+                analysis['best_sessions'].append({
+                    'session': session,
+                    'win_rate': win_rate,
+                    'avg_pnl': avg_pnl,
+                    'total': total,
+                })
+            else:
+                analysis['worst_sessions'].append({
+                    'session': session,
+                    'win_rate': win_rate,
+                    'avg_pnl': avg_pnl,
+                    'total': total,
+                })
+    
+    analysis['best_sessions'] = sorted(analysis['best_sessions'],
+                                       key=lambda x: x['win_rate'], reverse=True)
+    analysis['worst_sessions'] = sorted(analysis['worst_sessions'],
+                                       key=lambda x: x['win_rate'])
+    
+    # Analyze days of week
+    for day, data in temporal_data['by_day_of_week'].items():
+        total = len(data['winners']) + len(data['losers'])
+        if total >= 20:
+            win_rate = len(data['winners']) / total if total > 0 else 0
+            avg_pnl = mean([t.get('pnl', 0) for t in data['winners'] + data['losers']])
+            if win_rate > 0.5:
+                analysis['best_days'].append({
+                    'day': day,
+                    'win_rate': win_rate,
+                    'avg_pnl': avg_pnl,
+                    'total': total,
+                })
+            else:
+                analysis['worst_days'].append({
+                    'day': day,
+                    'win_rate': win_rate,
+                    'avg_pnl': avg_pnl,
+                    'total': total,
+                })
+    
+    analysis['best_days'] = sorted(analysis['best_days'],
+                                  key=lambda x: x['win_rate'], reverse=True)
+    analysis['worst_days'] = sorted(analysis['worst_days'],
+                                   key=lambda x: x['win_rate'])
+    
+    return analysis
+
+
+def analyze_trade_duration(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze trade duration: how long winners hold vs losers."""
+    winners = [t for t in trades if t.get('win', False)]
+    losers = [t for t in trades if not t.get('win', False)]
+    
+    winner_durations = []
+    loser_durations = []
+    
+    for trade in winners:
+        entry_ts = trade.get('entry_ts', trade.get('ts', 0))
+        exit_ts = trade.get('exit_ts', 0)
+        
+        if entry_ts and exit_ts:
+            try:
+                if isinstance(entry_ts, str):
+                    entry_dt = datetime.fromisoformat(entry_ts.replace('Z', '+00:00'))
+                    entry_ts = entry_dt.timestamp()
+                elif entry_ts > 1e12:
+                    entry_ts = entry_ts / 1000
+                
+                if isinstance(exit_ts, str):
+                    exit_dt = datetime.fromisoformat(exit_ts.replace('Z', '+00:00'))
+                    exit_ts = exit_dt.timestamp()
+                elif exit_ts > 1e12:
+                    exit_ts = exit_ts / 1000
+                
+                duration_hours = (exit_ts - entry_ts) / 3600
+                if duration_hours > 0 and duration_hours < 720:  # Reasonable range (0-30 days)
+                    winner_durations.append(duration_hours)
+            except:
+                pass
+    
+    for trade in losers:
+        entry_ts = trade.get('entry_ts', trade.get('ts', 0))
+        exit_ts = trade.get('exit_ts', 0)
+        
+        if entry_ts and exit_ts:
+            try:
+                if isinstance(entry_ts, str):
+                    entry_dt = datetime.fromisoformat(entry_ts.replace('Z', '+00:00'))
+                    entry_ts = entry_dt.timestamp()
+                elif entry_ts > 1e12:
+                    entry_ts = entry_ts / 1000
+                
+                if isinstance(exit_ts, str):
+                    exit_dt = datetime.fromisoformat(exit_ts.replace('Z', '+00:00'))
+                    exit_ts = exit_dt.timestamp()
+                elif exit_ts > 1e12:
+                    exit_ts = exit_ts / 1000
+                
+                duration_hours = (exit_ts - entry_ts) / 3600
+                if duration_hours > 0 and duration_hours < 720:  # Reasonable range
+                    loser_durations.append(duration_hours)
+            except:
+                pass
+    
+    analysis = {}
+    
+    if winner_durations and loser_durations:
+        analysis = {
+            'winners': {
+                'mean_hours': mean(winner_durations),
+                'median_hours': median(winner_durations),
+                'min_hours': min(winner_durations),
+                'max_hours': max(winner_durations),
+                'count': len(winner_durations),
+            },
+            'losers': {
+                'mean_hours': mean(loser_durations),
+                'median_hours': median(loser_durations),
+                'min_hours': min(loser_durations),
+                'max_hours': max(loser_durations),
+                'count': len(loser_durations),
+            },
+        }
+        
+        winner_mean = analysis['winners']['mean_hours']
+        loser_mean = analysis['losers']['mean_hours']
+        diff_pct = ((winner_mean - loser_mean) / loser_mean * 100) if loser_mean > 0 else 0
+        
+        analysis['difference_pct'] = diff_pct
+        analysis['optimal_duration'] = analysis['winners']['median_hours'] if diff_pct > 0 else None
+    
+    return analysis
+
+
+def analyze_entry_price_positioning(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze entry price positioning relative to recent price action."""
+    # Group trades by symbol to analyze price positioning
+    symbol_trades = defaultdict(list)
+    for trade in trades:
+        symbol = trade.get('symbol', 'UNKNOWN')
+        if symbol != 'UNKNOWN':
+            symbol_trades[symbol].append(trade)
+    
+    analysis = {}
+    
+    for symbol, symbol_trade_list in symbol_trades.items():
+        if len(symbol_trade_list) < 20:
+            continue
+        
+        # Get entry prices
+        entry_prices = []
+        for trade in symbol_trade_list:
+            entry_price = trade.get('entry_price', 0)
+            if entry_price and entry_price > 0:
+                entry_prices.append(entry_price)
+        
+        if len(entry_prices) < 10:
+            continue
+        
+        # Calculate price percentiles
+        entry_prices_sorted = sorted(entry_prices)
+        p25 = entry_prices_sorted[len(entry_prices_sorted) // 4]
+        p50 = entry_prices_sorted[len(entry_prices_sorted) // 2]
+        p75 = entry_prices_sorted[3 * len(entry_prices_sorted) // 4]
+        
+        # Analyze winners vs losers by price position
+        winners_low = []  # Entry price < p25
+        winners_mid = []  # p25 <= Entry price < p75
+        winners_high = []  # Entry price >= p75
+        losers_low = []
+        losers_mid = []
+        losers_high = []
+        
+        for trade in symbol_trade_list:
+            entry_price = trade.get('entry_price', 0)
+            if not entry_price or entry_price <= 0:
+                continue
+            
+            is_winner = trade.get('win', False)
+            
+            if entry_price < p25:
+                if is_winner:
+                    winners_low.append(trade)
+                else:
+                    losers_low.append(trade)
+            elif entry_price < p75:
+                if is_winner:
+                    winners_mid.append(trade)
+                else:
+                    losers_mid.append(trade)
+            else:
+                if is_winner:
+                    winners_high.append(trade)
+                else:
+                    losers_high.append(trade)
+        
+        # Calculate win rates by price position
+        low_total = len(winners_low) + len(losers_low)
+        mid_total = len(winners_mid) + len(losers_mid)
+        high_total = len(winners_high) + len(losers_high)
+        
+        if low_total >= 5 and mid_total >= 5 and high_total >= 5:
+            low_wr = len(winners_low) / low_total if low_total > 0 else 0
+            mid_wr = len(winners_mid) / mid_total if mid_total > 0 else 0
+            high_wr = len(winners_high) / high_total if high_total > 0 else 0
+            
+            analysis[symbol] = {
+                'low_price_wr': low_wr,
+                'mid_price_wr': mid_wr,
+                'high_price_wr': high_wr,
+                'best_position': 'low' if low_wr > max(mid_wr, high_wr) else 'mid' if mid_wr > high_wr else 'high',
+                'p25_price': p25,
+                'p50_price': p50,
+                'p75_price': p75,
+            }
+    
+    return analysis
+
+
+def calculate_statistical_significance(trades: List[Dict], pattern_name: str, 
+                                      pattern_trades: List[Dict], 
+                                      all_trades: List[Dict]) -> Dict[str, Any]:
+    """Calculate statistical significance of a pattern."""
+    if not HAS_SCIPY or len(pattern_trades) < 10:
+        return {'significant': False, 'p_value': 1.0, 'method': 'insufficient_data'}
+    
+    pattern_winners = len([t for t in pattern_trades if t.get('win', False)])
+    pattern_total = len(pattern_trades)
+    pattern_wr = pattern_winners / pattern_total if pattern_total > 0 else 0
+    
+    all_winners = len([t for t in all_trades if t.get('win', False)])
+    all_total = len(all_trades)
+    all_wr = all_winners / all_total if all_total > 0 else 0
+    
+    # Chi-square test for independence
+    contingency = [
+        [pattern_winners, pattern_total - pattern_winners],
+        [all_winners - pattern_winners, (all_total - pattern_total) - (all_winners - pattern_winners)]
+    ]
+    
+    try:
+        chi2, p_value, dof, expected = chi2_contingency(contingency)
+        significant = p_value < 0.05
+        
+        return {
+            'significant': significant,
+            'p_value': p_value,
+            'chi2': chi2,
+            'method': 'chi2',
+            'pattern_wr': pattern_wr,
+            'baseline_wr': all_wr,
+        }
+    except:
+        return {'significant': False, 'p_value': 1.0, 'method': 'error'}
+
+
+def calculate_risk_adjusted_metrics(trades: List[Dict]) -> Dict[str, Any]:
+    """Calculate risk-adjusted performance metrics."""
+    pnls = [t.get('pnl', 0) for t in trades if t.get('pnl') is not None]
+    
+    if not pnls or len(pnls) < 10:
+        return {}
+    
+    mean_pnl = mean(pnls)
+    std_pnl = stdev(pnls) if len(pnls) > 1 else 0
+    
+    # Sharpe ratio (annualized, assuming daily trades)
+    sharpe = (mean_pnl / std_pnl * (365 ** 0.5)) if std_pnl > 0 else 0
+    
+    # Sortino ratio (only downside deviation)
+    downside_pnls = [p for p in pnls if p < 0]
+    downside_std = stdev(downside_pnls) if len(downside_pnls) > 1 else 0
+    sortino = (mean_pnl / downside_std * (365 ** 0.5)) if downside_std > 0 else 0
+    
+    # Win rate
+    winners = [p for p in pnls if p > 0]
+    win_rate = len(winners) / len(pnls) if pnls else 0
+    
+    # Average win vs average loss
+    avg_win = mean(winners) if winners else 0
+    losses = [p for p in pnls if p < 0]
+    avg_loss = mean(losses) if losses else 0
+    win_loss_ratio = abs(avg_win / avg_loss) if avg_loss != 0 else 0
+    
+    # Profit factor
+    total_wins = sum(winners) if winners else 0
+    total_losses = abs(sum(losses)) if losses else 0
+    profit_factor = total_wins / total_losses if total_losses > 0 else 0
+    
+    return {
+        'sharpe_ratio': sharpe,
+        'sortino_ratio': sortino,
+        'win_rate': win_rate,
+        'avg_win': avg_win,
+        'avg_loss': avg_loss,
+        'win_loss_ratio': win_loss_ratio,
+        'profit_factor': profit_factor,
+        'total_trades': len(pnls),
+        'mean_pnl': mean_pnl,
+        'std_pnl': std_pnl,
+    }
 
 
 def analyze_direction_intelligence(trades: List[Dict]) -> Dict[str, Any]:
@@ -1362,6 +1761,63 @@ def main():
     print("   Understanding WHY LONG and SHORT trades win/lose differently")
     print()
     
+    # Analyze LONG vs SHORT
+    long_trades = [t for t in intelligence_data if t.get('direction', '').upper() == 'LONG']
+    short_trades = [t for t in intelligence_data if t.get('direction', '').upper() == 'SHORT']
+    
+    if long_trades and short_trades:
+        long_winners = [t for t in long_trades if t.get('win', False)]
+        short_winners = [t for t in short_trades if t.get('win', False)]
+        
+        long_wr = len(long_winners) / len(long_trades) if long_trades else 0
+        short_wr = len(short_winners) / len(short_trades) if short_trades else 0
+        
+        long_avg_pnl = mean([t.get('pnl', 0) for t in long_trades])
+        short_avg_pnl = mean([t.get('pnl', 0) for t in short_trades])
+        
+        print(f"   📊 LONG: {len(long_trades)} trades, {long_wr:.1%} win rate, ${long_avg_pnl:.2f} avg P&L")
+        print(f"   📊 SHORT: {len(short_trades)} trades, {short_wr:.1%} win rate, ${short_avg_pnl:.2f} avg P&L")
+        print()
+        
+        # What makes LONG winners different from LONG losers?
+        if len(long_winners) >= 10 and len(long_trades) - len(long_winners) >= 10:
+            long_winner_ofi = [t.get('ofi', 0) for t in long_winners if t.get('ofi', 0) > 0]
+            long_loser_ofi = [t.get('ofi', 0) for t in long_trades if not t.get('win', False) and t.get('ofi', 0) > 0]
+            
+            if long_winner_ofi and long_loser_ofi:
+                long_winner_ofi_mean = mean(long_winner_ofi)
+                long_loser_ofi_mean = mean(long_loser_ofi)
+                diff_pct = ((long_winner_ofi_mean - long_loser_ofi_mean) / long_loser_ofi_mean * 100) if long_loser_ofi_mean > 0 else 0
+                if abs(diff_pct) > 10:
+                    print(f"   🔍 LONG TRADES: Winners have {abs(diff_pct):.1f}% {'higher' if diff_pct > 0 else 'lower'} OFI")
+                    print(f"      Winners avg OFI: {long_winner_ofi_mean:.3f} | Losers avg OFI: {long_loser_ofi_mean:.3f}")
+                    if diff_pct > 0:
+                        print(f"      → ✅ ENTER LONG when OFI >= {min(long_winner_ofi):.3f}")
+                    else:
+                        print(f"      → ❌ AVOID LONG when OFI >= {max(long_loser_ofi):.3f}")
+                    print()
+        
+        # What makes SHORT winners different from SHORT losers?
+        if len(short_winners) >= 10 and len(short_trades) - len(short_winners) >= 10:
+            short_winner_ofi = [t.get('ofi', 0) for t in short_winners if t.get('ofi', 0) > 0]
+            short_loser_ofi = [t.get('ofi', 0) for t in short_trades if not t.get('win', False) and t.get('ofi', 0) > 0]
+            
+            if short_winner_ofi and short_loser_ofi:
+                short_winner_ofi_mean = mean(short_winner_ofi)
+                short_loser_ofi_mean = mean(short_loser_ofi)
+                diff_pct = ((short_winner_ofi_mean - short_loser_ofi_mean) / short_loser_ofi_mean * 100) if short_loser_ofi_mean > 0 else 0
+                if abs(diff_pct) > 10:
+                    print(f"   🔍 SHORT TRADES: Winners have {abs(diff_pct):.1f}% {'higher' if diff_pct > 0 else 'lower'} OFI")
+                    print(f"      Winners avg OFI: {short_winner_ofi_mean:.3f} | Losers avg OFI: {short_loser_ofi_mean:.3f}")
+                    if diff_pct > 0:
+                        print(f"      → ✅ ENTER SHORT when OFI >= {min(short_winner_ofi):.3f}")
+                    else:
+                        print(f"      → ❌ AVOID SHORT when OFI >= {max(short_loser_ofi):.3f}")
+                    print()
+    else:
+        print("   ⚠️  Insufficient data for direction-specific analysis")
+        print()
+    
     direction_analysis = analyze_direction_intelligence(intelligence_data)
     
     for direction, data in sorted(direction_analysis.items(),
@@ -1422,6 +1878,162 @@ def main():
             print(f"   Top Signals: {', '.join(signal_strs)}")
         print()
     
+    # TEMPORAL ANALYSIS
+    print("="*80)
+    print("TEMPORAL PATTERN ANALYSIS")
+    print("="*80)
+    print("   Understanding WHEN trades win/lose (hour, session, day of week)")
+    print()
+    
+    temporal_analysis = analyze_temporal_patterns(intelligence_data)
+    
+    if temporal_analysis.get('best_hours'):
+        print("   ✅ BEST HOURS TO TRADE:")
+        for hour_data in temporal_analysis['best_hours'][:5]:
+            print(f"   🟢 Hour {hour_data['hour']:02d}:00 - {hour_data['win_rate']:.1%} win rate, ${hour_data['avg_pnl']:.2f} avg P&L ({hour_data['total']} trades)")
+            print(f"      → ✅ Prefer trading at {hour_data['hour']:02d}:00")
+        print()
+    
+    if temporal_analysis.get('worst_hours'):
+        print("   ❌ WORST HOURS TO TRADE:")
+        for hour_data in temporal_analysis['worst_hours'][:5]:
+            print(f"   🔴 Hour {hour_data['hour']:02d}:00 - {hour_data['win_rate']:.1%} win rate, ${hour_data['avg_pnl']:.2f} avg P&L ({hour_data['total']} trades)")
+            print(f"      → ❌ Avoid trading at {hour_data['hour']:02d}:00")
+        print()
+    
+    if temporal_analysis.get('best_sessions'):
+        print("   ✅ BEST TRADING SESSIONS:")
+        for session_data in temporal_analysis['best_sessions'][:3]:
+            print(f"   🟢 {session_data['session']} - {session_data['win_rate']:.1%} win rate, ${session_data['avg_pnl']:.2f} avg P&L ({session_data['total']} trades)")
+            print(f"      → ✅ Prefer {session_data['session']} session")
+        print()
+    
+    if temporal_analysis.get('worst_sessions'):
+        print("   ❌ WORST TRADING SESSIONS:")
+        for session_data in temporal_analysis['worst_sessions'][:3]:
+            print(f"   🔴 {session_data['session']} - {session_data['win_rate']:.1%} win rate, ${session_data['avg_pnl']:.2f} avg P&L ({session_data['total']} trades)")
+            print(f"      → ❌ Avoid {session_data['session']} session")
+        print()
+    
+    # TRADE DURATION ANALYSIS
+    print("="*80)
+    print("TRADE DURATION ANALYSIS")
+    print("="*80)
+    print("   Understanding optimal holding time (how long winners hold vs losers)")
+    print()
+    
+    duration_analysis = analyze_trade_duration(intelligence_data)
+    
+    if duration_analysis:
+        winner_mean = duration_analysis['winners'].get('mean_hours', 0)
+        loser_mean = duration_analysis['losers'].get('mean_hours', 0)
+        diff_pct = duration_analysis.get('difference_pct', 0)
+        optimal = duration_analysis.get('optimal_duration')
+        
+        print(f"   📊 Winners hold: {winner_mean:.1f} hours (median: {duration_analysis['winners'].get('median_hours', 0):.1f}h)")
+        print(f"   📊 Losers hold: {loser_mean:.1f} hours (median: {duration_analysis['losers'].get('median_hours', 0):.1f}h)")
+        
+        if abs(diff_pct) > 10:
+            direction = 'longer' if diff_pct > 0 else 'shorter'
+            print(f"   🔍 Winners hold {abs(diff_pct):.1f}% {direction} than losers")
+            if optimal:
+                print(f"   → ✅ Consider exiting after {optimal:.1f} hours (winners' median duration)")
+        print()
+    
+    # ENTRY PRICE POSITIONING ANALYSIS
+    print("="*80)
+    print("ENTRY PRICE POSITIONING ANALYSIS")
+    print("="*80)
+    print("   Understanding optimal entry price position (low/mid/high relative to recent range)")
+    print()
+    
+    price_analysis = analyze_entry_price_positioning(intelligence_data)
+    
+    for symbol, data in sorted(price_analysis.items())[:5]:
+        low_wr = data.get('low_price_wr', 0)
+        mid_wr = data.get('mid_price_wr', 0)
+        high_wr = data.get('high_price_wr', 0)
+        best = data.get('best_position', 'mid')
+        
+        print(f"   📊 {symbol}:")
+        print(f"      Low price (bottom 25%): {low_wr:.1%} win rate")
+        print(f"      Mid price (25-75%): {mid_wr:.1%} win rate")
+        print(f"      High price (top 25%): {high_wr:.1%} win rate")
+        print(f"      → ✅ Best entry position: {best} (relative to recent price range)")
+        print()
+    
+    # RISK-ADJUSTED METRICS
+    print("="*80)
+    print("RISK-ADJUSTED PERFORMANCE METRICS")
+    print("="*80)
+    print("   Understanding risk-adjusted returns (Sharpe, Sortino, Profit Factor)")
+    print()
+    
+    risk_metrics = calculate_risk_adjusted_metrics(intelligence_data)
+    
+    if risk_metrics:
+        print(f"   📊 Sharpe Ratio: {risk_metrics.get('sharpe_ratio', 0):.2f} (annualized)")
+        print(f"   📊 Sortino Ratio: {risk_metrics.get('sortino_ratio', 0):.2f} (annualized)")
+        print(f"   📊 Profit Factor: {risk_metrics.get('profit_factor', 0):.2f}")
+        print(f"   📊 Win/Loss Ratio: {risk_metrics.get('win_loss_ratio', 0):.2f}")
+        print(f"   📊 Avg Win: ${risk_metrics.get('avg_win', 0):.2f} | Avg Loss: ${risk_metrics.get('avg_loss', 0):.2f}")
+        print()
+        
+        # Interpretation
+        sharpe = risk_metrics.get('sharpe_ratio', 0)
+        profit_factor = risk_metrics.get('profit_factor', 0)
+        
+        if sharpe > 1.0:
+            print(f"   ✅ Sharpe > 1.0: Good risk-adjusted returns")
+        elif sharpe > 0:
+            print(f"   🟡 Sharpe 0-1.0: Acceptable but could improve")
+        else:
+            print(f"   🔴 Sharpe < 0: Poor risk-adjusted returns")
+        
+        if profit_factor > 1.5:
+            print(f"   ✅ Profit Factor > 1.5: Profitable strategy")
+        elif profit_factor > 1.0:
+            print(f"   🟡 Profit Factor 1.0-1.5: Marginally profitable")
+        else:
+            print(f"   🔴 Profit Factor < 1.0: Losing strategy")
+        print()
+    
+    # STATISTICAL SIGNIFICANCE TESTING
+    print("="*80)
+    print("STATISTICAL SIGNIFICANCE TESTING")
+    print("="*80)
+    print("   Verifying which patterns are statistically significant (not random)")
+    print()
+    
+    if HAS_SCIPY:
+        # Test top multi-dimensional patterns
+        significant_patterns = []
+        for pattern in multi_dim_patterns[:10]:
+            pattern_trades = [t for t in intelligence_data 
+                            if any(pattern['pattern'] in str(t.get(k, '')) for k in ['symbol', 'strategy', 'direction'])]
+            if len(pattern_trades) >= 10:
+                sig_test = calculate_statistical_significance(
+                    intelligence_data, pattern['pattern'], pattern_trades, intelligence_data
+                )
+                if sig_test.get('significant', False):
+                    significant_patterns.append((pattern, sig_test))
+        
+        if significant_patterns:
+            print(f"   ✅ Found {len(significant_patterns)} statistically significant patterns (p < 0.05):")
+            for pattern, sig_test in significant_patterns[:5]:
+                print(f"   🟢 {pattern['pattern']}")
+                print(f"      Win Rate: {pattern['win_rate']:.1%} vs Baseline: {sig_test.get('baseline_wr', 0):.1%}")
+                print(f"      p-value: {sig_test.get('p_value', 1.0):.4f} (statistically significant)")
+                print()
+        else:
+            print("   ⚠️  No patterns found with statistical significance (p < 0.05)")
+            print("   💡 This may indicate patterns are due to random variation")
+            print()
+    else:
+        print("   ⚠️  scipy not available - skipping statistical significance testing")
+        print("   💡 Install scipy for statistical validation: pip install scipy")
+        print()
+    
     # Generate improvement plan - FOCUSED ON WHY
     print("="*80)
     print("ACTIONABLE TRADING RULES - Based on WHY We Win/Lose")
@@ -1438,6 +2050,10 @@ def main():
         'directions': direction_analysis,
         'symbols': symbol_analysis,
         'multi_dimensional': multi_dim_patterns,
+        'temporal': temporal_analysis,
+        'duration': duration_analysis,
+        'price_positioning': price_analysis,
+        'risk_metrics': risk_metrics,
     }
     
     improvements = generate_improvement_plan(all_analyses)
@@ -1505,6 +2121,10 @@ def main():
     print(f"   - Discovered {len(multi_dim_patterns)} multi-dimensional patterns")
     print(f"   - Found {len(winning_patterns.get('winning_signatures', []))} pure winning signatures")
     print(f"   - Found {len(winning_patterns.get('losing_signatures', []))} pure losing signatures")
+    print(f"   - Analyzed temporal patterns (hours, sessions, days)")
+    print(f"   - Analyzed trade duration patterns")
+    print(f"   - Analyzed entry price positioning")
+    print(f"   - Calculated risk-adjusted metrics (Sharpe: {risk_metrics.get('sharpe_ratio', 0):.2f}, Profit Factor: {risk_metrics.get('profit_factor', 0):.2f})")
     print(f"   - Generated {len(improvements)} improvement recommendations")
     print()
     print("🎯 Next Steps:")

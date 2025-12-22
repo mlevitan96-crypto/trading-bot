@@ -242,7 +242,7 @@ def run_learning_analysis(hours: int = None, days: int = None, trades: int = Non
         print(f"   ⚠️  Comprehensive evaluation skipped (aiosqlite not installed)")
         eval_results = {}
     
-    if eval_results:
+    if eval_results and HAS_COMPREHENSIVE_EVAL:
         
         signal_matrix = eval_results.get('signal_weight_matrix', {})
         if signal_matrix:

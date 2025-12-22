@@ -161,8 +161,9 @@ class ComprehensiveLearningEvaluation:
     def _load_all_data(self):
         """Load all data sources.
         
-        Phase 4 Migration: Uses SQLite for closed trades and signals via DataRegistry.
-        JSONL is used for blocked_signals, counterfactual, enriched_decisions etc.
+        Uses the SAME data source as ContinuousLearningController for consistency.
+        Primary: positions_futures.json (canonical source)
+        Fallback: Database if JSON not available
         """
         for name, path in DATA_PATHS.items():
             if path.endswith('.jsonl'):
@@ -170,10 +171,33 @@ class ComprehensiveLearningEvaluation:
             else:
                 self.data[name] = load_json(path)
         
-        self.data['closed_trades'] = DR.get_closed_trades_from_db()
-        self.data['open_positions'] = DR.get_open_positions()
+        # Use SAME source as learning engine: positions_futures.json
+        try:
+            portfolio_data = DR.read_json(DR.POSITIONS_FUTURES)
+            if portfolio_data:
+                self.data['closed_trades'] = portfolio_data.get('closed_positions', [])
+                self.data['open_positions'] = portfolio_data.get('open_positions', [])
+            else:
+                # Fallback to database
+                self.data['closed_trades'] = DR.get_closed_trades_from_db()
+                self.data['open_positions'] = DR.get_open_positions()
+        except Exception as e:
+            print(f"⚠️ [CLE] Error loading from positions_futures.json: {e}")
+            # Fallback to database
+            self.data['closed_trades'] = DR.get_closed_trades_from_db()
+            self.data['open_positions'] = DR.get_open_positions()
         
-        self.data['signal_outcomes'] = DR.get_signals_from_db(limit=10000)
+        # Load signal outcomes from JSONL (more reliable than DB for signal names)
+        try:
+            signal_outcomes_path = Path(DR.SIGNAL_OUTCOMES)
+            if signal_outcomes_path.exists():
+                self.data['signal_outcomes'] = load_jsonl(str(signal_outcomes_path))
+            else:
+                # Fallback to database
+                self.data['signal_outcomes'] = DR.get_signals_from_db(limit=10000)
+        except Exception as e:
+            print(f"⚠️ [CLE] Error loading signal outcomes: {e}")
+            self.data['signal_outcomes'] = DR.get_signals_from_db(limit=10000) if hasattr(DR, 'get_signals_from_db') else []
     
     def _filter_by_time(self, records: List[Dict], ts_fields: List[str] = None) -> List[Dict]:
         """Filter records to the analysis time window."""
@@ -546,7 +570,9 @@ class ComprehensiveLearningEvaluation:
         print("⚖️ SECTION 5: SIGNAL WEIGHT MATRIX")
         print("-" * 50)
         
-        signal_outcomes = self.data.get('signal_outcomes', [])
+        # Use TRADES (not signal_outcomes) - trades have strategy field with signal names
+        closed_trades = self._filter_by_time(self.data.get('closed_trades', []))
+        
         current_weights = self.data.get('signal_weights', {})
         gate_weights = self.data.get('signal_weights_gate', {}).get('weights', {})
         
@@ -558,21 +584,46 @@ class ComprehensiveLearningEvaluation:
             'by_conviction': defaultdict(lambda: {'n': 0, 'wins': 0, 'pnl': 0.0}),
         })
         
-        for outcome in signal_outcomes:
-            signal_type = outcome.get('signal_type', outcome.get('signal', 'unknown'))
-            direction = outcome.get('direction', 'UNKNOWN')
+        # Analyze trades by strategy (which contains signal names like "Sentiment-Fusion")
+        for trade in closed_trades:
+            # Extract strategy/signal name - this is where "Sentiment-Fusion" etc. are stored
+            strategy = trade.get('strategy', '')
+            if not strategy:
+                # Try alternative fields
+                strategy = (trade.get('strategy_name') or 
+                           trade.get('signal_name') or 
+                           trade.get('signal_type') or 
+                           'unknown')
             
-            pnl_5m = outcome.get('pnl_5m', 0)
-            is_win = pnl_5m > 0 if pnl_5m else False
+            # Normalize strategy name
+            if strategy:
+                strategy = strategy.strip()
+                # Handle variations like "Sentiment-Fusion", "sentiment_fusion", "SentimentFusion"
+                if 'sentiment' in strategy.lower() and 'fusion' in strategy.lower():
+                    strategy = 'Sentiment-Fusion'
+                elif 'trend' in strategy.lower() and 'conservative' in strategy.lower():
+                    strategy = 'Trend-Conservative'
+                elif 'breakout' in strategy.lower() and 'aggressive' in strategy.lower():
+                    strategy = 'Breakout-Aggressive'
+                elif 'ema' in strategy.lower() and 'futures' in strategy.lower():
+                    strategy = 'EMA-Futures'
             
-            signal_performance[signal_type]['total'] += 1
-            signal_performance[signal_type]['wins'] += 1 if is_win else 0
-            signal_performance[signal_type]['pnl'] += pnl_5m if pnl_5m else 0
+            if not strategy or strategy == 'unknown':
+                continue
+            
+            pnl = self._get_pnl(trade)
+            is_win = pnl > 0
+            
+            direction = trade.get('direction', trade.get('side', 'UNKNOWN')).upper()
+            
+            signal_performance[strategy]['total'] += 1
+            signal_performance[strategy]['wins'] += 1 if is_win else 0
+            signal_performance[strategy]['pnl'] += pnl
             
             if direction in ['LONG', 'SHORT']:
-                signal_performance[signal_type]['by_direction'][direction]['n'] += 1
-                signal_performance[signal_type]['by_direction'][direction]['wins'] += 1 if is_win else 0
-                signal_performance[signal_type]['by_direction'][direction]['pnl'] += pnl_5m if pnl_5m else 0
+                signal_performance[strategy]['by_direction'][direction]['n'] += 1
+                signal_performance[strategy]['by_direction'][direction]['wins'] += 1 if is_win else 0
+                signal_performance[strategy]['by_direction'][direction]['pnl'] += pnl
         
         signal_matrix = {}
         for sig, data in signal_performance.items():

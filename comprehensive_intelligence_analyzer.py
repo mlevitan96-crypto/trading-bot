@@ -1480,6 +1480,327 @@ def analyze_fee_impact(trades: List[Dict]) -> Dict[str, Any]:
     return analysis
 
 
+def analyze_correlation_matrix(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze correlations between signals and outcomes."""
+    # Extract all signal values
+    signals = ['ofi', 'ensemble', 'volatility', 'volume']
+    signal_data = {sig: [] for sig in signals}
+    
+    for trade in trades:
+        for sig in signals:
+            val = trade.get(sig, 0)
+            if val is not None and val != 0:
+                signal_data[sig].append((val, trade.get('win', False)))
+    
+    correlations = {}
+    
+    # Calculate correlation between each signal and win rate
+    for sig in signals:
+        if len(signal_data[sig]) >= 20:
+            values = [v[0] for v in signal_data[sig]]
+            wins = [1 if v[1] else 0 for v in signal_data[sig]]
+            
+            # Simple correlation: do higher values correlate with wins?
+            if len(values) > 1:
+                mean_val = mean(values)
+                mean_win = mean(wins)
+                
+                # Calculate correlation coefficient
+                numerator = sum((values[i] - mean_val) * (wins[i] - mean_win) for i in range(len(values)))
+                denom_val = math.sqrt(sum((v - mean_val) ** 2 for v in values))
+                denom_win = math.sqrt(sum((w - mean_win) ** 2 for w in wins))
+                
+                if denom_val > 0 and denom_win > 0:
+                    corr = numerator / (denom_val * denom_win)
+                    correlations[sig] = {
+                        'correlation': corr,
+                        'interpretation': 'positive' if corr > 0.1 else 'negative' if corr < -0.1 else 'neutral',
+                        'sample_size': len(values),
+                    }
+    
+    return correlations
+
+
+def analyze_feature_importance(trades: List[Dict]) -> List[Dict]:
+    """Rank features by their predictive power for wins/losses."""
+    features = []
+    
+    # Test each feature
+    test_features = [
+        ('ofi', lambda t: t.get('ofi', 0)),
+        ('ensemble', lambda t: t.get('ensemble', 0)),
+        ('regime', lambda t: t.get('regime', 'unknown')),
+        ('symbol', lambda t: t.get('symbol', 'UNKNOWN')),
+        ('strategy', lambda t: t.get('strategy', 'UNKNOWN')),
+        ('hour', lambda t: t.get('hour', 12)),
+        ('direction', lambda t: t.get('direction', 'UNKNOWN')),
+    ]
+    
+    for feat_name, extractor in test_features:
+        # Group by feature value
+        groups = defaultdict(lambda: {'winners': [], 'losers': []})
+        
+        for trade in trades:
+            feat_val = extractor(trade)
+            if feat_val is not None:
+                if trade.get('win', False):
+                    groups[feat_val]['winners'].append(trade)
+                else:
+                    groups[feat_val]['losers'].append(trade)
+        
+        # Calculate information gain (how well this feature separates winners from losers)
+        total_winners = sum(len(g['winners']) for g in groups.values())
+        total_losers = sum(len(g['losers']) for g in groups.values())
+        total = total_winners + total_losers
+        
+        if total > 0:
+            baseline_entropy = -((total_winners/total) * math.log2(total_winners/total) if total_winners > 0 else 0) - \
+                              ((total_losers/total) * math.log2(total_losers/total) if total_losers > 0 else 0)
+            
+            weighted_entropy = 0
+            for feat_val, group in groups.items():
+                group_total = len(group['winners']) + len(group['losers'])
+                if group_total > 0:
+                    group_wr = len(group['winners']) / group_total
+                    group_entropy = -((group_wr * math.log2(group_wr) if group_wr > 0 else 0) + 
+                                    ((1-group_wr) * math.log2(1-group_wr) if group_wr < 1 else 0))
+                    weighted_entropy += (group_total / total) * group_entropy
+            
+            information_gain = baseline_entropy - weighted_entropy
+            
+            features.append({
+                'feature': feat_name,
+                'information_gain': information_gain,
+                'groups': len(groups),
+                'importance': 'HIGH' if information_gain > 0.1 else 'MEDIUM' if information_gain > 0.05 else 'LOW',
+            })
+    
+    return sorted(features, key=lambda x: x['information_gain'], reverse=True)
+
+
+def analyze_regime_transitions(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze what happens when market regime changes."""
+    # Sort trades by timestamp
+    sorted_trades = sorted(trades, key=lambda t: t.get('ts', t.get('entry_ts', 0)))
+    
+    transitions = {
+        'regime_changes': [],
+        'after_transition': {'winners': [], 'losers': []},
+    }
+    
+    prev_regime = None
+    for i, trade in enumerate(sorted_trades):
+        current_regime = trade.get('regime', 'unknown')
+        
+        if prev_regime and prev_regime != current_regime:
+            transitions['regime_changes'].append({
+                'from': prev_regime,
+                'to': current_regime,
+                'trade': trade,
+            })
+            
+            # Track outcome after transition
+            if i < len(sorted_trades) - 1:
+                next_trade = sorted_trades[i + 1]
+                if next_trade.get('win', False):
+                    transitions['after_transition']['winners'].append(next_trade)
+                else:
+                    transitions['after_transition']['losers'].append(next_trade)
+        
+        prev_regime = current_regime
+    
+    # Calculate win rate after transitions
+    total_after = len(transitions['after_transition']['winners']) + len(transitions['after_transition']['losers'])
+    if total_after > 0:
+        transitions['after_transition']['win_rate'] = len(transitions['after_transition']['winners']) / total_after
+    
+    return transitions
+
+
+def analyze_risk_reward_ratios(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze risk/reward ratios for different conditions."""
+    analysis = {
+        'overall': {'avg_risk_reward': 0, 'count': 0},
+        'by_strategy': {},
+        'by_symbol': {},
+    }
+    
+    risk_rewards = []
+    
+    for trade in trades:
+        pnl = trade.get('pnl', 0)
+        entry_price = trade.get('entry_price', 0)
+        exit_price = trade.get('exit_price', 0)
+        
+        if entry_price > 0 and exit_price > 0:
+            # Calculate risk/reward: how much we risked vs gained
+            price_change_pct = abs((exit_price - entry_price) / entry_price) * 100
+            
+            if pnl > 0:
+                # Winner: reward is pnl, risk is what we could have lost
+                risk_reward = pnl / abs(price_change_pct) if price_change_pct > 0 else 0
+            else:
+                # Loser: risk is loss, reward is what we could have gained
+                risk_reward = abs(pnl) / price_change_pct if price_change_pct > 0 else 0
+            
+            if risk_reward > 0:
+                risk_rewards.append(risk_reward)
+                analysis['overall']['count'] += 1
+                
+                # By strategy
+                strategy = trade.get('strategy', 'UNKNOWN')
+                if strategy not in analysis['by_strategy']:
+                    analysis['by_strategy'][strategy] = []
+                analysis['by_strategy'][strategy].append(risk_reward)
+                
+                # By symbol
+                symbol = trade.get('symbol', 'UNKNOWN')
+                if symbol not in analysis['by_symbol']:
+                    analysis['by_symbol'][symbol] = []
+                analysis['by_symbol'][symbol].append(risk_reward)
+    
+    if risk_rewards:
+        analysis['overall']['avg_risk_reward'] = mean(risk_rewards)
+        analysis['overall']['median_risk_reward'] = median(risk_rewards)
+    
+    # Calculate averages for each group
+    for strategy, rrs in analysis['by_strategy'].items():
+        if rrs:
+            analysis['by_strategy'][strategy] = {
+                'avg': mean(rrs),
+                'median': median(rrs),
+                'count': len(rrs),
+            }
+    
+    for symbol, rrs in analysis['by_symbol'].items():
+        if rrs:
+            analysis['by_symbol'][symbol] = {
+                'avg': mean(rrs),
+                'median': median(rrs),
+                'count': len(rrs),
+            }
+    
+    return analysis
+
+
+def analyze_leverage_impact(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze how leverage affects trade outcomes."""
+    analysis = {
+        'by_leverage': {},
+        'optimal_leverage': None,
+    }
+    
+    for trade in trades:
+        outcome = trade.get('outcome', {})
+        leverage = outcome.get('leverage', trade.get('leverage', 1))
+        is_winner = trade.get('win', False)
+        
+        if leverage > 0:
+            if leverage not in analysis['by_leverage']:
+                analysis['by_leverage'][leverage] = {'winners': [], 'losers': []}
+            
+            if is_winner:
+                analysis['by_leverage'][leverage]['winners'].append(trade)
+            else:
+                analysis['by_leverage'][leverage]['losers'].append(trade)
+    
+    # Calculate win rates by leverage
+    best_leverage = None
+    best_wr = 0
+    
+    for leverage, data in analysis['by_leverage'].items():
+        winners = len(data['winners'])
+        losers = len(data['losers'])
+        total = winners + losers
+        
+        if total >= 10:
+            wr = winners / total if total > 0 else 0
+            avg_pnl = mean([t.get('pnl', 0) for t in data['winners'] + data['losers']])
+            
+            analysis['by_leverage'][leverage] = {
+                'win_rate': wr,
+                'avg_pnl': avg_pnl,
+                'total': total,
+            }
+            
+            if wr > best_wr:
+                best_wr = wr
+                best_leverage = leverage
+    
+    analysis['optimal_leverage'] = best_leverage
+    
+    return analysis
+
+
+def synthesize_key_insights(all_analyses: Dict[str, Any]) -> Dict[str, Any]:
+    """Synthesize all analyses into key actionable insights."""
+    insights = {
+        'critical_findings': [],
+        'top_opportunities': [],
+        'major_risks': [],
+        'data_quality_issues': [],
+        'recommended_actions': [],
+    }
+    
+    # Critical findings
+    risk_metrics = all_analyses.get('risk_metrics', {})
+    if risk_metrics.get('profit_factor', 1) < 1.0:
+        insights['critical_findings'].append({
+            'finding': f"Strategy is losing money (Profit Factor: {risk_metrics.get('profit_factor', 0):.2f})",
+            'severity': 'CRITICAL',
+            'impact': 'Strategy needs fundamental changes',
+        })
+    
+    # Top opportunities
+    multi_dim = all_analyses.get('multi_dimensional', [])
+    winning_patterns = [p for p in multi_dim if p.get('win_rate', 0) > 0.55]
+    if winning_patterns:
+        best = max(winning_patterns, key=lambda x: x.get('win_rate', 0))
+        insights['top_opportunities'].append({
+            'opportunity': f"Pattern: {best.get('pattern', '')} has {best.get('win_rate', 0):.1%} win rate",
+            'action': f"Focus on trades matching: {best.get('pattern', '')}",
+            'confidence': 'HIGH' if best.get('total_trades', 0) >= 20 else 'MEDIUM',
+        })
+    
+    # Major risks
+    temporal = all_analyses.get('temporal', {})
+    worst_hours = temporal.get('worst_hours', [])
+    if worst_hours:
+        worst = worst_hours[0] if worst_hours else None
+        if worst and worst.get('win_rate', 0.5) < 0.3:
+            insights['major_risks'].append({
+                'risk': f"Hour {worst.get('hour', 0):02d}:00 has {worst.get('win_rate', 0):.1%} win rate",
+                'action': f"Avoid trading at hour {worst.get('hour', 0):02d}:00",
+                'severity': 'HIGH',
+            })
+    
+    # Data quality issues
+    signal_analyses = all_analyses.get('signal_components', {})
+    if not signal_analyses:
+        insights['data_quality_issues'].append({
+            'issue': 'No signal component data available',
+            'impact': 'Cannot analyze individual signal components',
+            'fix': 'Enhance data_enrichment_layer.py to include signal components',
+        })
+    
+    # Recommended actions
+    if insights['critical_findings']:
+        insights['recommended_actions'].append({
+            'priority': 'URGENT',
+            'action': 'Review and fix fundamental strategy issues',
+            'reason': 'Strategy is losing money',
+        })
+    
+    if insights['top_opportunities']:
+        insights['recommended_actions'].append({
+            'priority': 'HIGH',
+            'action': insights['top_opportunities'][0]['action'],
+            'reason': f"High win rate pattern identified ({insights['top_opportunities'][0]['opportunity']})",
+        })
+    
+    return insights
+
+
 def analyze_direction_intelligence(trades: List[Dict]) -> Dict[str, Any]:
     """Analyze WHY LONG vs SHORT trades win/lose differently."""
     direction_data = defaultdict(lambda: {'winners': [], 'losers': []})
@@ -2735,6 +3056,54 @@ def main():
     }
     
     improvements = generate_improvement_plan(all_analyses)
+    
+    # SYNTHESIZE KEY INSIGHTS
+    print("="*80)
+    print("KEY INSIGHTS SYNTHESIS - What We're Actually Learning")
+    print("="*80)
+    print("   Synthesizing all analyses into actionable insights")
+    print()
+    
+    key_insights = synthesize_key_insights(all_analyses)
+    
+    if key_insights.get('critical_findings'):
+        print("   🔴 CRITICAL FINDINGS:")
+        for finding in key_insights['critical_findings']:
+            print(f"   🔴 {finding['finding']}")
+            print(f"      Impact: {finding.get('impact', 'Unknown')}")
+            print()
+    
+    if key_insights.get('top_opportunities'):
+        print("   ✅ TOP OPPORTUNITIES:")
+        for opp in key_insights['top_opportunities'][:3]:
+            print(f"   🟢 {opp['opportunity']}")
+            print(f"      Action: {opp['action']}")
+            print(f"      Confidence: {opp.get('confidence', 'UNKNOWN')}")
+            print()
+    
+    if key_insights.get('major_risks'):
+        print("   ⚠️  MAJOR RISKS:")
+        for risk in key_insights['major_risks'][:3]:
+            print(f"   🔴 {risk['risk']}")
+            print(f"      Action: {risk['action']}")
+            print()
+    
+    if key_insights.get('data_quality_issues'):
+        print("   📊 DATA QUALITY ISSUES:")
+        for issue in key_insights['data_quality_issues']:
+            print(f"   ⚠️  {issue['issue']}")
+            print(f"      Impact: {issue.get('impact', 'Unknown')}")
+            print(f"      Fix: {issue.get('fix', 'Unknown')}")
+            print()
+    
+    if key_insights.get('recommended_actions'):
+        print("   🎯 RECOMMENDED ACTIONS (Priority Order):")
+        for action in key_insights['recommended_actions']:
+            priority = action.get('priority', 'MEDIUM')
+            icon = '🔴' if priority == 'URGENT' else '🟡' if priority == 'HIGH' else '🟢'
+            print(f"   {icon} [{priority}] {action['action']}")
+            print(f"      Why: {action.get('reason', 'Unknown')}")
+            print()
     
     # Group improvements by type and show WHY
     entry_rules = []

@@ -311,7 +311,7 @@ def load_all_data() -> Dict[str, List[Dict]]:
         portfolio_path = DR.PORTFOLIO_MASTER
         portfolio = load_json(portfolio_path, {})
         # Handle both old format (completed_trades) and new format (closed_positions)
-        trades = portfolio.get('completed_trades', portfolio.get('closed_positions', portfolio.get('closed', [])))
+        trades = portfolio.get('completed_trades', portfolio.get('closed_positions', []))
         print(f"   Portfolio completed trades: {len(trades)} records")
         for trade in trades:
             if trade not in [e.get('_raw') for e in data["executed"]]:

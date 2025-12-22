@@ -73,39 +73,40 @@ def extract_all_intelligence(trade: Dict) -> Dict[str, Any]:
         'win': False,
     }
     
-    # Extract P&L
-    pnl = trade.get('net_pnl', trade.get('pnl', 0)) or 0
+    # Extract P&L - check outcome dict first (enriched_decisions format), then direct fields
+    outcome = trade.get('outcome', {})
+    pnl = outcome.get('pnl_usd', outcome.get('pnl', 0)) or trade.get('net_pnl', trade.get('pnl', 0)) or 0
     intelligence['pnl'] = pnl
     intelligence['win'] = pnl > 0
     
-    # Extract from position record directly (primary source - positions_futures.json stores data here)
-    # These fields are stored directly in the position when opened (see position_manager.py)
-    intelligence['ofi'] = abs(trade.get('ofi_score', trade.get('ofi', trade.get('entry_ofi', 0))) or 0)
-    intelligence['ensemble'] = abs(trade.get('ensemble_score', trade.get('ensemble', trade.get('composite', 0))) or 0)
-    intelligence['mtf'] = trade.get('mtf_confidence', trade.get('mtf', 0)) or 0
-    intelligence['regime'] = trade.get('regime', trade.get('market_regime', 'unknown'))
-    intelligence['volatility'] = trade.get('volatility', trade.get('vol_regime', 0)) or 0
-    
-    # Extract from signal_ctx (if available - for enriched records)
+    # Extract from signal_ctx FIRST (primary source for enriched_decisions.jsonl)
+    # This is the canonical format with complete intelligence data
     signal_ctx = trade.get('signal_ctx', {})
     if signal_ctx:
-        # Only override if signal_ctx has values
-        if signal_ctx.get('ofi') or signal_ctx.get('ofi_score'):
-            intelligence['ofi'] = abs(signal_ctx.get('ofi', signal_ctx.get('ofi_score', 0)) or 0)
-        if signal_ctx.get('ensemble') or signal_ctx.get('ensemble_score'):
-            intelligence['ensemble'] = abs(signal_ctx.get('ensemble', signal_ctx.get('ensemble_score', 0)) or 0)
-        if signal_ctx.get('mtf') or signal_ctx.get('mtf_confidence'):
-            intelligence['mtf'] = signal_ctx.get('mtf', signal_ctx.get('mtf_confidence', intelligence['mtf'])) or 0
-        if signal_ctx.get('regime'):
-            intelligence['regime'] = signal_ctx.get('regime', intelligence['regime'])
-        if signal_ctx.get('volatility'):
-            intelligence['volatility'] = signal_ctx.get('volatility', intelligence['volatility'])
-        intelligence['volume'] = signal_ctx.get('volume', signal_ctx.get('volume_24h', intelligence['volume'])) or 0
-        intelligence['funding_rate'] = signal_ctx.get('funding_rate', intelligence['funding_rate']) or 0
-        intelligence['liquidation_pressure'] = signal_ctx.get('liquidation_pressure', intelligence['liquidation_pressure']) or 0
-        intelligence['whale_flow'] = signal_ctx.get('whale_flow', intelligence['whale_flow']) or 0
-        intelligence['fear_greed'] = signal_ctx.get('fear_greed', signal_ctx.get('fg_index', intelligence['fear_greed'])) or 50
-        intelligence['taker_ratio'] = signal_ctx.get('taker_buy_ratio', intelligence['taker_ratio']) or 0.5
+        intelligence['ofi'] = abs(signal_ctx.get('ofi', signal_ctx.get('ofi_score', 0)) or 0)
+        intelligence['ensemble'] = abs(signal_ctx.get('ensemble', signal_ctx.get('ensemble_score', signal_ctx.get('composite', 0))) or 0)
+        intelligence['mtf'] = signal_ctx.get('mtf', signal_ctx.get('mtf_confidence', 0)) or 0
+        intelligence['regime'] = signal_ctx.get('regime', signal_ctx.get('market_regime', 'unknown'))
+        intelligence['volatility'] = signal_ctx.get('volatility', signal_ctx.get('vol_regime', 0)) or 0
+        intelligence['volume'] = signal_ctx.get('volume', signal_ctx.get('volume_24h', 0)) or 0
+        intelligence['funding_rate'] = signal_ctx.get('funding_rate', 0) or 0
+        intelligence['liquidation_pressure'] = signal_ctx.get('liquidation_pressure', 0) or 0
+        intelligence['whale_flow'] = signal_ctx.get('whale_flow', 0) or 0
+        intelligence['fear_greed'] = signal_ctx.get('fear_greed', signal_ctx.get('fg_index', 50)) or 50
+        intelligence['taker_ratio'] = signal_ctx.get('taker_buy_ratio', 0.5) or 0.5
+    
+    # Fallback to position record directly (for positions_futures.json format)
+    # These fields are stored directly in the position when opened (see position_manager.py)
+    if not signal_ctx or intelligence['ofi'] == 0:
+        intelligence['ofi'] = abs(trade.get('ofi_score', trade.get('ofi', trade.get('entry_ofi', 0))) or 0)
+    if not signal_ctx or intelligence['ensemble'] == 0:
+        intelligence['ensemble'] = abs(trade.get('ensemble_score', trade.get('ensemble', trade.get('composite', 0))) or 0)
+    if not signal_ctx or intelligence['mtf'] == 0:
+        intelligence['mtf'] = trade.get('mtf_confidence', trade.get('mtf', 0)) or 0
+    if not signal_ctx or intelligence['regime'] == 'unknown':
+        intelligence['regime'] = trade.get('regime', trade.get('market_regime', 'unknown'))
+    if not signal_ctx or intelligence['volatility'] == 0:
+        intelligence['volatility'] = trade.get('volatility', trade.get('vol_regime', 0)) or 0
     
     # Extract from ml_features (if available)
     ml_features = trade.get('ml_features', {})
@@ -440,41 +441,73 @@ def main():
     print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print()
     
-    # Load trades
+    # Load trades - use enriched_decisions.jsonl as primary source (has complete intelligence data)
+    # Per Memory Bank and other analysis tools, this is the canonical source
     print("Loading trades...")
     try:
-        portfolio_path = PathRegistry.get_path("logs", "positions_futures.json")
-        with open(portfolio_path, 'r') as f:
-            portfolio = json.load(f)
+        # Try enriched_decisions.jsonl first (has complete signal_ctx with OFI, ensemble, etc.)
+        enriched_path = PathRegistry.get_path("logs", "enriched_decisions.jsonl")
+        trades = []
         
-        closed = portfolio.get('closed_positions', [])
-        closed = [t for t in closed if t.get('bot_type', 'alpha') == 'alpha']
+        if os.path.exists(enriched_path):
+            print(f"   📊 Loading from enriched_decisions.jsonl (complete intelligence data)...")
+            with open(enriched_path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        record = json.loads(line)
+                        # Only include executed trades (not blocked)
+                        if record.get('outcome', {}).get('executed', True) is not False:
+                            trades.append(record)
+                    except:
+                        continue
+            print(f"   ✅ Loaded {len(trades)} enriched records")
+        else:
+            print(f"   ⚠️  enriched_decisions.jsonl not found, using positions_futures.json...")
+            # Fallback to positions_futures.json
+            portfolio_path = PathRegistry.get_path("logs", "positions_futures.json")
+            with open(portfolio_path, 'r') as f:
+                portfolio = json.load(f)
+            
+            closed = portfolio.get('closed_positions', [])
+            closed = [t for t in closed if t.get('bot_type', 'alpha') == 'alpha']
+            trades = closed
         
         # Exclude bad trades window (Dec 18, 2025 1:00-6:00 AM UTC)
         bad_start = datetime(2025, 12, 18, 1, 0, 0, tzinfo=timezone.utc).timestamp()
         bad_end = datetime(2025, 12, 18, 6, 0, 0, tzinfo=timezone.utc).timestamp()
         
         filtered = []
-        for trade in closed:
-            closed_at = trade.get('closed_at', '')
-            if closed_at:
-                try:
-                    if isinstance(closed_at, str):
-                        ts = datetime.fromisoformat(closed_at.replace('Z', '+00:00')).timestamp()
-                    else:
-                        ts = float(closed_at)
-                    
-                    if bad_start <= ts <= bad_end:
-                        continue
-                except:
-                    pass
+        for trade in trades:
+            # Get timestamp from various possible fields
+            ts = None
+            for field in ['closed_at', 'exit_ts', 'ts', 'timestamp']:
+                if field in trade:
+                    ts_val = trade[field]
+                    if ts_val:
+                        try:
+                            if isinstance(ts_val, str):
+                                ts = datetime.fromisoformat(ts_val.replace('Z', '+00:00')).timestamp()
+                            else:
+                                ts = float(ts_val)
+                            break
+                        except:
+                            continue
+            
+            if ts and bad_start <= ts <= bad_end:
+                continue
             filtered.append(trade)
         
         # Take last 500 for comprehensive analysis
-        filtered.sort(key=lambda t: (
-            datetime.fromisoformat(t.get('closed_at', '2000-01-01').replace('Z', '+00:00')).timestamp()
-            if isinstance(t.get('closed_at'), str) else 0
-        ), reverse=True)
+        if filtered:
+            # Sort by timestamp (most recent first)
+            filtered.sort(key=lambda t: (
+                datetime.fromisoformat(t.get('closed_at', t.get('exit_ts', t.get('ts', '2000-01-01'))).replace('Z', '+00:00')).timestamp()
+                if isinstance(t.get('closed_at', t.get('exit_ts', t.get('ts', ''))), str) else 
+                float(t.get('exit_ts', t.get('ts', 0)) or 0)
+            ), reverse=True)
         trades = filtered[:500]
         
         print(f"   ✅ Loaded {len(trades)} trades (after excluding bad trades window)")

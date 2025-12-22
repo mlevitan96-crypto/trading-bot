@@ -463,6 +463,157 @@ def analyze_strategy_intelligence(strategy_name: str, trades: List[Dict]) -> Dic
     return analysis
 
 
+def analyze_winning_patterns(trades: List[Dict]) -> Dict[str, Any]:
+    """DEEP ANALYSIS: What makes winners different from losers across ALL dimensions."""
+    winners = [t for t in trades if t.get('win', False)]
+    losers = [t for t in trades if not t.get('win', False)]
+    
+    if not winners or not losers:
+        return {}
+    
+    patterns = {
+        'winning_signatures': [],
+        'losing_signatures': [],
+        'key_differences': {},
+    }
+    
+    # Compare winners vs losers across ALL intelligence components
+    for component in INTELLIGENCE_COMPONENTS:
+        winner_values = [t.get(component) for t in winners if t.get(component) is not None]
+        loser_values = [t.get(component) for t in losers if t.get(component) is not None]
+        
+        # Filter zeros for meaningful components
+        if component in ['funding', 'liquidation', 'whale_flow', 'fear_greed', 'hurst', 
+                         'lead_lag', 'volatility_skew', 'oi_velocity', 'oi_divergence']:
+            winner_values = [v for v in winner_values if v != 0]
+            loser_values = [v for v in loser_values if v != 0]
+        
+        if winner_values and loser_values and len(winner_values) >= 10 and len(loser_values) >= 10:
+            winner_mean = mean(winner_values)
+            loser_mean = mean(loser_values)
+            diff_pct = ((winner_mean - loser_mean) / abs(loser_mean) * 100) if loser_mean != 0 else 0
+            
+            if abs(diff_pct) > 15:  # Significant difference
+                patterns['key_differences'][component] = {
+                    'winner_avg': winner_mean,
+                    'loser_avg': loser_mean,
+                    'difference_pct': diff_pct,
+                    'is_winning_factor': diff_pct > 0,
+                }
+    
+    # Build winning signatures (combinations that lead to wins)
+    winner_combos = defaultdict(int)
+    for winner in winners:
+        ofi = winner.get('ofi', 0)
+        ensemble = winner.get('ensemble', 0)
+        regime = winner.get('regime', 'unknown')
+        
+        ofi_bucket = 'high' if ofi >= 0.6 else 'medium' if ofi >= 0.3 else 'low'
+        ensemble_bucket = 'high' if ensemble >= 0.4 else 'medium' if ensemble >= 0.2 else 'low'
+        
+        sig = f"{ofi_bucket}_ofi|{ensemble_bucket}_ens|{regime}"
+        winner_combos[sig] += 1
+    
+    # Build losing signatures
+    loser_combos = defaultdict(int)
+    for loser in losers:
+        ofi = loser.get('ofi', 0)
+        ensemble = loser.get('ensemble', 0)
+        regime = loser.get('regime', 'unknown')
+        
+        ofi_bucket = 'high' if ofi >= 0.6 else 'medium' if ofi >= 0.3 else 'low'
+        ensemble_bucket = 'high' if ensemble >= 0.4 else 'medium' if ensemble >= 0.2 else 'low'
+        
+        sig = f"{ofi_bucket}_ofi|{ensemble_bucket}_ens|{regime}"
+        loser_combos[sig] += 1
+    
+    # Find signatures that appear in winners but NOT in losers (pure winning patterns)
+    for sig, count in winner_combos.items():
+        if sig not in loser_combos and count >= 5:
+            patterns['winning_signatures'].append({
+                'signature': sig,
+                'count': count,
+                'win_rate': 1.0,  # Only appears in winners
+            })
+    
+    # Find signatures that appear in losers but NOT in winners (pure losing patterns)
+    for sig, count in loser_combos.items():
+        if sig not in winner_combos and count >= 5:
+            patterns['losing_signatures'].append({
+                'signature': sig,
+                'count': count,
+                'win_rate': 0.0,  # Only appears in losers
+            })
+    
+    return patterns
+
+
+def analyze_direction_intelligence(trades: List[Dict]) -> Dict[str, Any]:
+    """Analyze WHY LONG vs SHORT trades win/lose differently."""
+    direction_data = defaultdict(lambda: {'winners': [], 'losers': []})
+    
+    for trade in trades:
+        direction = trade.get('direction', 'UNKNOWN').upper()
+        if direction in ['LONG', 'SHORT']:
+            if trade.get('win', False):
+                direction_data[direction]['winners'].append(trade)
+            else:
+                direction_data[direction]['losers'].append(trade)
+    
+    direction_analysis = {}
+    for direction, data in direction_data.items():
+        winners = data['winners']
+        losers = data['losers']
+        total = len(winners) + len(losers)
+        
+        if total >= 30:  # Minimum sample
+            win_rate = len(winners) / total if total > 0 else 0
+            avg_pnl = mean([t.get('pnl', 0) for t in winners + losers])
+            
+            # What makes winners different from losers in this direction?
+            key_differences = {}
+            for component in ['ofi', 'ensemble', 'mtf', 'regime']:
+                winner_values = [t.get(component) for t in winners if t.get(component) is not None]
+                loser_values = [t.get(component) for t in losers if t.get(component) is not None]
+                
+                if component == 'regime':
+                    # For regime, compare most common
+                    if winner_values and loser_values:
+                        winner_mode = max(set(winner_values), key=winner_values.count) if winner_values else None
+                        loser_mode = max(set(loser_values), key=loser_values.count) if loser_values else None
+                        if winner_mode and winner_mode != loser_mode:
+                            key_differences[component] = {
+                                'winner_mode': winner_mode,
+                                'loser_mode': loser_mode,
+                            }
+                else:
+                    # For numeric, compare means
+                    winner_values = [v for v in winner_values if v != 0]
+                    loser_values = [v for v in loser_values if v != 0]
+                    if winner_values and loser_values and len(winner_values) >= 5 and len(loser_values) >= 5:
+                        winner_mean = mean(winner_values)
+                        loser_mean = mean(loser_values)
+                        diff_pct = ((winner_mean - loser_mean) / abs(loser_mean) * 100) if loser_mean != 0 else 0
+                        if abs(diff_pct) > 15:
+                            key_differences[component] = {
+                                'winner_avg': winner_mean,
+                                'loser_avg': loser_mean,
+                                'difference_pct': diff_pct,
+                            }
+            
+            direction_analysis[direction] = {
+                'win_rate': win_rate,
+                'avg_pnl': avg_pnl,
+                'total_trades': total,
+                'winners': len(winners),
+                'losers': len(losers),
+                'key_differences': key_differences,
+                'importance': 'HIGH' if win_rate > 0.60 or win_rate < 0.40 else 'MEDIUM',
+            }
+    
+    return direction_analysis
+
+
 def analyze_regime_intelligence(trades: List[Dict]) -> Dict[str, Any]:
     """Analyze why certain regimes work/don't work."""
     regime_data = defaultdict(lambda: {'winners': [], 'losers': []})
@@ -790,33 +941,45 @@ def main():
                           key=lambda x: x[1].get('win_rate', 0.5), 
                           reverse=True)
     
-    # Show top 3 winning combinations
-    winning_combos = [c for c in sorted_combos if c[1].get('win_rate', 0) > 0.50][:3]
+    # Show top 5 winning combinations (if any exist)
+    winning_combos = [c for c in sorted_combos if c[1].get('win_rate', 0) > 0.50 and c[1].get('total_trades', 0) >= 20][:5]
     if winning_combos:
         print("   ✅ TOP WINNING COMBINATIONS (WHY they work):")
         for combo, data in winning_combos:
             win_rate = data.get('win_rate', 0)
             total = data.get('total_trades', 0)
             avg_pnl = data.get('avg_pnl', 0)
+            winner_pnl = data.get('winner_avg_pnl', 0)
+            loser_pnl = data.get('loser_avg_pnl', 0)
             print(f"   🟢 {combo}")
             print(f"      Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+            if winner_pnl and loser_pnl:
+                print(f"      Winners avg: ${winner_pnl:.2f} | Losers avg: ${loser_pnl:.2f}")
             # Extract conditions from combo string
             conditions = combo.split('|')
-            print(f"      → Trade when: {' AND '.join(conditions)}")
+            print(f"      → ✅ ENTER when: {' AND '.join(conditions)}")
             print()
+    else:
+        print("   ⚠️  No clearly winning combinations found (all < 50% win rate)")
+        print("   💡 This suggests we need to find what makes winners different")
+        print()
     
-    # Show bottom 3 losing combinations
-    losing_combos = [c for c in sorted_combos if c[1].get('win_rate', 0) < 0.50][:3]
+    # Show bottom 5 losing combinations
+    losing_combos = [c for c in sorted_combos if c[1].get('win_rate', 0) < 0.50 and c[1].get('total_trades', 0) >= 20][:5]
     if losing_combos:
         print("   ❌ TOP LOSING COMBINATIONS (WHY they fail):")
         for combo, data in losing_combos:
             win_rate = data.get('win_rate', 0)
             total = data.get('total_trades', 0)
             avg_pnl = data.get('avg_pnl', 0)
+            winner_pnl = data.get('winner_avg_pnl', 0)
+            loser_pnl = data.get('loser_avg_pnl', 0)
             print(f"   🔴 {combo}")
             print(f"      Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+            if winner_pnl and loser_pnl:
+                print(f"      Winners avg: ${winner_pnl:.2f} | Losers avg: ${loser_pnl:.2f}")
             conditions = combo.split('|')
-            print(f"      → AVOID when: {' AND '.join(conditions)}")
+            print(f"      → ❌ AVOID when: {' AND '.join(conditions)}")
             print()
     
     # Analyze strategies
@@ -865,6 +1028,104 @@ def main():
                 print(f"      {rec}")
         print()
     
+    # DEEP ANALYSIS: What makes winners different from losers
+    print("="*80)
+    print("DEEP WINNING PATTERN ANALYSIS")
+    print("="*80)
+    print("   What makes winners fundamentally different from losers?")
+    print()
+    
+    winning_patterns = analyze_winning_patterns(intelligence_data)
+    
+    # Key differences between winners and losers
+    key_differences = winning_patterns.get('key_differences', {})
+    if key_differences:
+        print("   🔍 KEY DIFFERENCES (Winners vs Losers):")
+        for component, diff_data in sorted(key_differences.items(),
+                                          key=lambda x: abs(x[1].get('difference_pct', 0)),
+                                          reverse=True)[:10]:
+            is_winning = diff_data.get('is_winning_factor', False)
+            diff_pct = diff_data.get('difference_pct', 0)
+            winner_avg = diff_data.get('winner_avg', 0)
+            loser_avg = diff_data.get('loser_avg', 0)
+            
+            icon = '✅' if is_winning else '❌'
+            direction = 'higher' if is_winning else 'lower'
+            print(f"   {icon} {component.upper()}: Winners have {abs(diff_pct):.1f}% {direction} values")
+            print(f"      Winners: {winner_avg:.3f} | Losers: {loser_avg:.3f}")
+            if is_winning:
+                print(f"      → ✅ ENTER when {component} >= {winner_avg * 0.9:.3f}")
+            else:
+                print(f"      → ❌ AVOID when {component} >= {loser_avg * 0.9:.3f}")
+            print()
+    
+    # Pure winning signatures (only appear in winners)
+    winning_sigs = winning_patterns.get('winning_signatures', [])
+    if winning_sigs:
+        print("   ✅ PURE WINNING PATTERNS (Only in winners):")
+        for sig_data in sorted(winning_sigs, key=lambda x: x.get('count', 0), reverse=True)[:5]:
+            sig = sig_data.get('signature', '')
+            count = sig_data.get('count', 0)
+            print(f"   🟢 {sig}")
+            print(f"      Appeared in {count} winners, 0 losers")
+            conditions = sig.split('|')
+            print(f"      → ✅ ENTER when: {' AND '.join(conditions)}")
+            print()
+    
+    # Pure losing signatures (only appear in losers)
+    losing_sigs = winning_patterns.get('losing_signatures', [])
+    if losing_sigs:
+        print("   ❌ PURE LOSING PATTERNS (Only in losers):")
+        for sig_data in sorted(losing_sigs, key=lambda x: x.get('count', 0), reverse=True)[:5]:
+            sig = sig_data.get('signature', '')
+            count = sig_data.get('count', 0)
+            print(f"   🔴 {sig}")
+            print(f"      Appeared in {count} losers, 0 winners")
+            conditions = sig.split('|')
+            print(f"      → ❌ AVOID when: {' AND '.join(conditions)}")
+            print()
+    
+    # Analyze direction-specific patterns
+    print("="*80)
+    print("DIRECTION-SPECIFIC ANALYSIS (LONG vs SHORT)")
+    print("="*80)
+    print("   Understanding WHY LONG and SHORT trades win/lose differently")
+    print()
+    
+    direction_analysis = analyze_direction_intelligence(intelligence_data)
+    
+    for direction, data in sorted(direction_analysis.items(),
+                                 key=lambda x: x[1].get('win_rate', 0.5),
+                                 reverse=True):
+        win_rate = data.get('win_rate', 0)
+        total = data.get('total_trades', 0)
+        avg_pnl = data.get('avg_pnl', 0)
+        key_diffs = data.get('key_differences', {})
+        
+        icon = '🟢' if win_rate > 0.60 else '🟡' if win_rate > 0.50 else '🔴'
+        print(f"{icon} {direction}")
+        print(f"   Win Rate: {win_rate:.1%}, Trades: {total}, Avg P&L: ${avg_pnl:.2f}")
+        
+        if key_diffs:
+            print(f"   🔍 WHY {direction} WINS/LOSES:")
+            for component, diff_data in key_diffs.items():
+                if component == 'regime':
+                    winner_mode = diff_data.get('winner_mode')
+                    loser_mode = diff_data.get('loser_mode')
+                    print(f"      • Winners in {winner_mode}, losers in {loser_mode}")
+                    print(f"      → ✅ Use {direction} in {winner_mode} regime")
+                else:
+                    diff_pct = diff_data.get('difference_pct', 0)
+                    winner_avg = diff_data.get('winner_avg', 0)
+                    loser_avg = diff_data.get('loser_avg', 0)
+                    direction_str = 'higher' if diff_pct > 0 else 'lower'
+                    print(f"      • Winners have {abs(diff_pct):.1f}% {direction_str} {component} ({winner_avg:.3f} vs {loser_avg:.3f})")
+                    if diff_pct > 0:
+                        print(f"      → ✅ ENTER {direction} when {component} >= {winner_avg * 0.9:.3f}")
+                    else:
+                        print(f"      → ❌ AVOID {direction} when {component} >= {loser_avg * 0.9:.3f}")
+        print()
+    
     # Analyze regimes
     print("="*80)
     print("ANALYZING REGIME INTELLIGENCE")
@@ -903,6 +1164,8 @@ def main():
         'strategies': strategy_analyses,
         'combinations': combo_analysis,
         'regimes': regime_analysis,
+        'winning_patterns': winning_patterns,
+        'directions': direction_analysis,
     }
     
     improvements = generate_improvement_plan(all_analyses)

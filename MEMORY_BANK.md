@@ -867,7 +867,67 @@ python3 display_export_data.py
 
 ---
 
+## 🔄 Automated Report Generation & Analysis Workflow (December 2025)
+
+### Best Practice: Generate → Push → Analyze
+
+**CRITICAL WORKFLOW FOR DATA ANALYSIS AND BUG FIXING:**
+
+Instead of manually copying/pasting console output, use automated report generation:
+
+1. **On Droplet**: Generate reports and push to GitHub
+   ```bash
+   cd /root/trading-bot-B
+   git pull origin main  # Always pull first
+   python3 generate_and_push_reports.py  # Generate and push reports
+   ```
+
+2. **Reports Pushed to GitHub**:
+   - `performance_summary_report.json` - Structured data for programmatic analysis
+   - `performance_summary_report.md` - Human-readable summary
+   - `EXTERNAL_REVIEW_SUMMARY.md` - Professional summary for external review
+
+3. **AI Analyzes Full Datasets**: AI can read complete JSON files from repository instead of partial console output
+
+**Benefits:**
+- ✅ Full data analysis (complete datasets, not snippets)
+- ✅ Structured formats (JSON for programmatic analysis)
+- ✅ No manual copy/paste needed
+- ✅ Better insights (complete data = better analysis)
+- ✅ Easy sharing (download from GitHub or analyze directly)
+- ✅ Version history (reports tracked in git)
+
+**Scripts:**
+- `generate_and_push_reports.py` - One command to generate and push all reports
+- `generate_performance_summary.py` - Generates performance summary reports
+- `check_logging_status.py` - Detailed enhanced logging diagnostics
+- `analyze_today_performance.py` - Today's performance analysis
+
+**When to Use:**
+- Daily performance reviews
+- Major data analysis requests
+- Bug investigation (especially data-related bugs)
+- External review preparation
+- Before asking AI for deep analysis
+
+**Workflow Pattern:**
+1. Pull latest code: `git pull origin main`
+2. Generate reports: `python3 generate_and_push_reports.py`
+3. AI analyzes: Reads full JSON/MD files from repository
+4. Results: Comprehensive analysis with complete data
+
+**This workflow should be used for ALL major reviews and bug fixes going forward.**
+
+---
+
 ## 🔄 Update Log
+
+**2025-12-23**: Automated Report Generation Workflow Established
+- **NEW**: `generate_and_push_reports.py` - Automated report generation and GitHub push
+- **NEW**: Best practice workflow: Generate → Push → Analyze (replaces manual copy/paste)
+- **NEW**: Full dataset analysis capability (AI reads complete JSON files)
+- **ENHANCED**: Error logging for enhanced trade logging (ATR calculation diagnostics)
+- **WORKFLOW**: Pull → Generate → Push → Analyze pattern for all major reviews
 
 **2025-12-22**: Enhanced Logging & Trading Restrictions Implementation
 - **NEW**: `src/enhanced_trade_logging.py` module for comprehensive trade logging

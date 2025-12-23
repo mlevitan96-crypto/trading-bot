@@ -52,9 +52,15 @@ def get_market_data_snapshot(symbol: str) -> Dict[str, Any]:
         # Fetch OHLCV data for ATR calculation
         df = gateway.fetch_ohlcv(symbol, timeframe="1m", limit=50, venue=venue)
         if df is not None and len(df) >= 14:
-            # Calculate ATR
-            atr_val = calculate_atr(df["high"], df["low"], df["close"], period=14)
-            snapshot["atr_14"] = float(atr_val) if atr_val else 0.0
+            try:
+                # Calculate ATR
+                atr_val = calculate_atr(df["high"], df["low"], df["close"], period=14)
+                snapshot["atr_14"] = float(atr_val) if atr_val and not (isinstance(atr_val, float) and (atr_val != atr_val or atr_val == float('inf'))) else 0.0
+                if snapshot["atr_14"] == 0.0:
+                    print(f"⚠️  [ENHANCED-LOGGING] ATR calculation returned 0 for {symbol} - check calculate_atr() function", flush=True)
+            except Exception as e:
+                print(f"⚠️  [ENHANCED-LOGGING] ATR calculation failed for {symbol}: {e}", flush=True)
+                snapshot["atr_14"] = 0.0
             
             # Get volume (24h if available, otherwise recent average)
             if "volume" in df.columns:

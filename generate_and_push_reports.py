@@ -30,13 +30,46 @@ def git_push_files(files_to_push, commit_message):
             else:
                 print(f"⚠️  File not found: {file}")
         
-        # Commit
-        subprocess.run(
+        # Commit (may fail if nothing to commit - that's ok)
+        commit_result = subprocess.run(
             ["git", "commit", "-m", commit_message],
-            check=True,
-            capture_output=True
+            capture_output=True,
+            text=True
         )
-        print(f"✅ Committed: {commit_message}")
+        
+        if commit_result.returncode == 0:
+            print(f"✅ Committed: {commit_message}")
+        elif "nothing to commit" in commit_result.stdout or "nothing to commit" in commit_result.stderr:
+            print(f"ℹ️  No changes to commit (files already up to date)")
+            # Check if we still need to push
+            status_result = subprocess.run(
+                ["git", "status", "--porcelain"],
+                capture_output=True,
+                text=True
+            )
+            if not status_result.stdout.strip():
+                print("ℹ️  Everything already pushed to GitHub")
+                return True  # Success - nothing to do
+        else:
+            print(f"⚠️  Commit warning: {commit_result.stderr}")
+        
+        # Check if there's anything to push
+        status_result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True,
+            text=True
+        )
+        
+        if not status_result.stdout.strip():
+            # Check if we're ahead of remote
+            ahead_result = subprocess.run(
+                ["git", "rev-list", "--count", "HEAD...origin/main"],
+                capture_output=True,
+                text=True
+            )
+            if ahead_result.returncode == 0 and ahead_result.stdout.strip() == "0":
+                print("ℹ️  Everything already up to date on GitHub")
+                return True
         
         # Push
         result = subprocess.run(
@@ -48,13 +81,13 @@ def git_push_files(files_to_push, commit_message):
         if result.returncode == 0:
             print("✅ Pushed to GitHub successfully")
             return True
+        elif "Everything up-to-date" in result.stdout or "Everything up-to-date" in result.stderr:
+            print("✅ Everything already up to date on GitHub")
+            return True
         else:
             print(f"⚠️  Git push output: {result.stdout}")
             print(f"⚠️  Git push errors: {result.stderr}")
             print("⚠️  Push failed - you may need to authenticate")
-            print("   Run: git push origin main")
-            print("   Username: mlevitan96")
-            print("   Password: (use your GitHub token)")
             return False
             
     except subprocess.CalledProcessError as e:

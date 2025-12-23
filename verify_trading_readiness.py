@@ -38,11 +38,14 @@ def main():
     # 1. Check Enhanced Logging Status
     print("1. ENHANCED LOGGING STATUS")
     print("-" * 80)
-    registry = DataRegistry()
-    positions_file = registry.get_path("positions_futures")
+    positions_file = DataRegistry.POSITIONS_FUTURES
     
-    if not os.path.exists(positions_file):
-        print(f"❌ Positions file not found: {positions_file}")
+    # Resolve to absolute path for slot-based deployments
+    from src.infrastructure.path_registry import resolve_path
+    abs_positions_file = resolve_path(positions_file)
+    
+    if not os.path.exists(abs_positions_file):
+        print(f"❌ Positions file not found: {abs_positions_file}")
         return
     
     positions = load_futures_positions()

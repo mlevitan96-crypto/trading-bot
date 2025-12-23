@@ -348,8 +348,14 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
             signals = signal_context.get("signals") or signal_context.get("signal_components") or {}
             volatility_snapshot = create_volatility_snapshot(symbol, signals)
             position["volatility_snapshot"] = volatility_snapshot
+            # Log successful capture (only if we got meaningful data)
+            if volatility_snapshot.get("atr_14", 0) > 0 or volatility_snapshot.get("regime_at_entry") != "unknown":
+                print(f"✅ [ENHANCED-LOGGING] Captured volatility snapshot for {symbol}: ATR={volatility_snapshot.get('atr_14', 0):.2f}, Regime={volatility_snapshot.get('regime_at_entry', 'unknown')}", flush=True)
         except Exception as e:
-            # Fail silently - don't break position opening
+            # Log the error so we can diagnose issues
+            print(f"⚠️  [ENHANCED-LOGGING] Failed to capture volatility snapshot for {symbol}: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
             position["volatility_snapshot"] = {}
         # [DUAL-BOT] Track which bot opened this position (alpha or beta)
         position["bot_type"] = signal_context.get("bot_type", "alpha")

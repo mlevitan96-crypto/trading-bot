@@ -2,12 +2,12 @@
 
 ## The Problem
 
-You entered `mlevitan96@gmail.com` as the username, but GitHub requires your **GitHub username** (`mlevitan96`), not your email.
+You entered `mlevitan96@gmail.com` as the username, but GitHub requires your **GitHub username** (`mlevitan96-crypto`), not your email.
 
 ## The Solution
 
 When prompted for credentials:
-- **Username:** `mlevitan96` (NOT the email)
+- **Username:** `mlevitan96-crypto` (NOT the email)
 - **Password:** (paste your GitHub Personal Access Token)
 
 ## Quick Fix: Use URL with Token (Easier)
@@ -18,7 +18,7 @@ Instead of entering credentials each time, embed the token in the URL:
 cd /root/trading-bot-B
 
 # Set remote URL with token embedded
-git remote set-url origin https://mlevitan96:YOUR_TOKEN@github.com/mlevitan96-crypto/trading-bot.git
+git remote set-url origin https://mlevitan96-crypto:YOUR_TOKEN@github.com/mlevitan96-crypto/trading-bot.git
 # Replace YOUR_TOKEN with your actual GitHub Personal Access Token
 
 # Now push (won't ask for credentials)
@@ -58,7 +58,7 @@ git push origin main
 ## Current Issue
 
 The error happened because:
-1. Username was entered as email (`mlevitan96@gmail.com`) instead of GitHub username (`mlevitan96`)
+1. Username was entered as email (`mlevitan96@gmail.com`) instead of GitHub username (`mlevitan96-crypto`)
 2. GitHub doesn't accept passwords anymore - only Personal Access Tokens
 3. The token needs to be entered as the "password" field, not the username field
 

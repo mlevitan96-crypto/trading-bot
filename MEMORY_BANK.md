@@ -299,6 +299,38 @@ trading-bot/
 3. **Use descriptive commit messages** - Follow format in DEPLOYMENT_AND_BEST_PRACTICES.md
 4. **Monitor after deployment** - Check logs immediately after restart
 
+### Data Analysis & Review Workflow (CRITICAL BEST PRACTICE)
+**Pattern: Pull → Generate → Push → Analyze**
+
+For ALL major reviews, bug fixes, and data analysis:
+1. **Pull latest code**: `git pull origin main` (ALWAYS pull first)
+2. **Generate reports**: `python3 generate_and_push_reports.py`
+   - Generates: `performance_summary_report.json`, `.md`, `EXTERNAL_REVIEW_SUMMARY.md`
+   - Automatically pushes to GitHub
+3. **AI analyzes**: Reads full JSON/MD files from repository (complete datasets, not console snippets)
+
+**Why This Workflow:**
+- ✅ Full data analysis (complete datasets, not partial console output)
+- ✅ Structured formats (JSON for programmatic analysis)
+- ✅ No manual copy/paste needed
+- ✅ Better insights (complete data = better analysis)
+- ✅ Easy sharing and version tracking in git
+
+**Scripts Available:**
+- `generate_and_push_reports.py` - One command to generate and push all reports
+- `generate_performance_summary.py` - Generates performance summary reports
+- `check_logging_status.py` - Enhanced logging diagnostics
+- `analyze_today_performance.py` - Today's performance analysis
+
+**When to Use:**
+- Daily performance reviews
+- Major data analysis requests
+- Bug investigation (especially data-related bugs)
+- External review preparation
+- Before asking AI for deep analysis
+
+**This workflow should be used for ALL major reviews and bug fixes going forward.**
+
 ### Code Quality Standards
 - **Error Handling**: Always use try/except with meaningful messages
 - **Memory Management**: Limit data loading (500-1000 records max)

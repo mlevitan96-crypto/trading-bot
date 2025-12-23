@@ -360,6 +360,7 @@ def main():
     print(f"Coverage: {reports['json']['enhanced_logging_status']['coverage_pct']:.1f}%")
     print("=" * 80)
     print(f"\nReports saved. Share {md_file} or {json_file} for external review.")
+    print("\n💡 To push to GitHub automatically, run: python3 generate_and_push_reports.py")
 
 
 if __name__ == "__main__":

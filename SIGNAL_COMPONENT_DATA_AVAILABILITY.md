@@ -297,3 +297,4 @@ If you want to extract data manually:
 - `logs/enriched_decisions.jsonl` - After re-enrichment
 - `logs/predictive_signals.jsonl` - Source of component data
 - `feature_store/signal_component_analysis.json` - Analysis results
+

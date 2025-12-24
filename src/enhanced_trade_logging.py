@@ -28,17 +28,23 @@ def is_golden_hour() -> bool:
     return 9 <= current_hour < 16
 
 
-def get_market_data_snapshot(symbol: str) -> Dict[str, Any]:
+def get_market_data_snapshot(symbol: str, signal_price: Optional[float] = None) -> Dict[str, Any]:
     """
     Get market data snapshot at entry time.
     
+    Args:
+        symbol: Trading symbol
+        signal_price: Price at which signal was generated (for slippage calculation)
+    
     Returns:
-        Dict with ATR, volume, and other market metrics
+        Dict with ATR, volume, bid-ask spread, and other market metrics
     """
     snapshot = {
         "atr_14": 0.0,
         "volume_24h": 0.0,
         "regime_at_entry": "unknown",
+        "bid_ask_spread_bps": 0.0,
+        "signal_price": signal_price,
     }
     
     try:
@@ -48,6 +54,19 @@ def get_market_data_snapshot(symbol: str) -> Dict[str, Any]:
         
         gateway = ExchangeGateway()
         venue = get_venue(symbol) if hasattr(__import__('src.venue_config', fromlist=['get_venue']), 'get_venue') else "futures"
+        
+        # Get current bid-ask spread
+        try:
+            ticker = gateway.get_ticker(symbol, venue=venue)
+            if ticker and "bid" in ticker and "ask" in ticker:
+                bid = float(ticker.get("bid", 0))
+                ask = float(ticker.get("ask", 0))
+                mid = (bid + ask) / 2 if (bid > 0 and ask > 0) else 0
+                if mid > 0:
+                    spread_bps = ((ask - bid) / mid) * 10000  # Convert to basis points
+                    snapshot["bid_ask_spread_bps"] = spread_bps
+        except Exception as e:
+            pass  # Non-critical, continue
         
         # Fetch OHLCV data for ATR calculation
         df = gateway.fetch_ohlcv(symbol, timeframe="1m", limit=50, venue=venue)
@@ -157,23 +176,29 @@ def extract_signal_components(signals: Dict[str, Any]) -> Dict[str, Any]:
     return components
 
 
-def create_volatility_snapshot(symbol: str, signals: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def create_volatility_snapshot(symbol: str, signals: Optional[Dict[str, Any]] = None, signal_price: Optional[float] = None) -> Dict[str, Any]:
     """
     Create complete volatility snapshot for trade logging.
     
     Args:
         symbol: Trading symbol
         signals: Signal dict from predictive_flow_engine (optional)
+        signal_price: Price at which signal was generated (for slippage calculation)
         
     Returns:
-        Dict with all volatility and signal component data
+        Dict with all volatility and signal component data, including MFE/MAE placeholders
     """
-    market_data = get_market_data_snapshot(symbol)
+    market_data = get_market_data_snapshot(symbol, signal_price=signal_price)
     signal_components = extract_signal_components(signals) if signals else {}
     
     snapshot = {
         **market_data,
         "signal_components": signal_components,
+        # MFE/MAE will be updated during position lifetime
+        "mfe_pct": 0.0,  # Max Favorable Excursion (best price move in favor)
+        "mae_pct": 0.0,  # Max Adverse Excursion (worst price move against)
+        "mfe_price": None,
+        "mae_price": None,
     }
     
     return snapshot

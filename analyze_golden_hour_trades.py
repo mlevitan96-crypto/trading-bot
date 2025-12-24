@@ -99,6 +99,8 @@ def analyze_golden_hour_trades():
                     "losses": 0,
                     "win_rate": 0.0,
                     "avg_pnl": 0.0,
+                    "profit_factor": 0.0,
+                    "avg_hold_time_seconds": 0.0,
                     "with_snapshots": 0,
                     "snapshot_rate": 0.0,
                 }
@@ -107,21 +109,47 @@ def analyze_golden_hour_trades():
             wins = 0
             losses = 0
             with_snapshots = 0
+            total_gross_profit = 0.0
+            total_gross_loss = 0.0
+            hold_times = []
             
             for pos in positions:
                 pnl = float(pos.get("pnl", 0) or 0)
                 total_pnl += pnl
                 if pnl > 0:
                     wins += 1
+                    total_gross_profit += pnl
                 elif pnl < 0:
                     losses += 1
+                    total_gross_loss += abs(pnl)
                 
                 if pos.get("volatility_snapshot"):
                     with_snapshots += 1
+                
+                # Calculate hold time
+                try:
+                    opened_at = parse_timestamp(pos.get("opened_at") or pos.get("open_ts"))
+                    closed_at = parse_timestamp(pos.get("closed_at"))
+                    if opened_at and closed_at:
+                        hold_time = (closed_at - opened_at).total_seconds()
+                        if hold_time > 0:
+                            hold_times.append(hold_time)
+                except:
+                    pass
             
             count = len(positions)
             win_rate = (wins / count * 100) if count > 0 else 0.0
             snapshot_rate = (with_snapshots / count * 100) if count > 0 else 0.0
+            
+            # Calculate profit factor (gross profit / gross loss)
+            profit_factor = 0.0
+            if total_gross_loss > 0:
+                profit_factor = total_gross_profit / total_gross_loss
+            elif total_gross_profit > 0:
+                profit_factor = float('inf')  # All wins, no losses
+            
+            # Calculate average hold time
+            avg_hold_time = sum(hold_times) / len(hold_times) if hold_times else 0.0
             
             return {
                 "count": count,
@@ -130,6 +158,8 @@ def analyze_golden_hour_trades():
                 "losses": losses,
                 "win_rate": win_rate,
                 "avg_pnl": total_pnl / count if count > 0 else 0.0,
+                "profit_factor": profit_factor,
+                "avg_hold_time_seconds": avg_hold_time,
                 "with_snapshots": with_snapshots,
                 "snapshot_rate": snapshot_rate,
             }
@@ -138,8 +168,11 @@ def analyze_golden_hour_trades():
         non_golden_closed_stats = calc_stats(non_golden_closed)
         golden_open_stats = calc_stats(golden_hour_open)
         
-        # Group by symbol
-        symbol_stats = defaultdict(lambda: {"count": 0, "pnl": 0.0, "wins": 0, "losses": 0})
+        # Group by symbol with profit factor and hold time
+        symbol_stats = defaultdict(lambda: {
+            "count": 0, "pnl": 0.0, "wins": 0, "losses": 0,
+            "gross_profit": 0.0, "gross_loss": 0.0, "hold_times": []
+        })
         
         for pos in golden_hour_closed:
             symbol = pos.get("symbol", "unknown")
@@ -148,8 +181,38 @@ def analyze_golden_hour_trades():
             symbol_stats[symbol]["pnl"] += pnl
             if pnl > 0:
                 symbol_stats[symbol]["wins"] += 1
+                symbol_stats[symbol]["gross_profit"] += pnl
             elif pnl < 0:
                 symbol_stats[symbol]["losses"] += 1
+                symbol_stats[symbol]["gross_loss"] += abs(pnl)
+            
+            # Track hold time
+            try:
+                opened_at = parse_timestamp(pos.get("opened_at") or pos.get("open_ts"))
+                closed_at = parse_timestamp(pos.get("closed_at"))
+                if opened_at and closed_at:
+                    hold_time = (closed_at - opened_at).total_seconds()
+                    if hold_time > 0:
+                        symbol_stats[symbol]["hold_times"].append(hold_time)
+            except:
+                pass
+        
+        # Calculate profit factor and avg hold time per symbol
+        for symbol, stats in symbol_stats.items():
+            if stats["gross_loss"] > 0:
+                stats["profit_factor"] = stats["gross_profit"] / stats["gross_loss"]
+            elif stats["gross_profit"] > 0:
+                stats["profit_factor"] = float('inf')
+            else:
+                stats["profit_factor"] = 0.0
+            
+            if stats["hold_times"]:
+                stats["avg_hold_time_seconds"] = sum(stats["hold_times"]) / len(stats["hold_times"])
+            else:
+                stats["avg_hold_time_seconds"] = 0.0
+            
+            # Clean up hold_times list (don't need it in final output)
+            del stats["hold_times"]
         
         # Group by strategy
         strategy_stats = defaultdict(lambda: {"count": 0, "pnl": 0.0, "wins": 0, "losses": 0})
@@ -225,8 +288,11 @@ def generate_report(analysis):
     report.append(f"- **Wins:** {gh['wins']}")
     report.append(f"- **Losses:** {gh['losses']}")
     report.append(f"- **Win Rate:** {gh['win_rate']:.1f}%")
+    report.append(f"- **Profit Factor:** {gh['profit_factor']:.2f}" if gh['profit_factor'] != float('inf') else "- **Profit Factor:** ∞")
     report.append(f"- **Total P&L:** ${gh['total_pnl']:.2f}")
     report.append(f"- **Average P&L:** ${gh['avg_pnl']:.2f}")
+    avg_hold_hours = gh['avg_hold_time_seconds'] / 3600 if gh['avg_hold_time_seconds'] > 0 else 0
+    report.append(f"- **Average Hold Time:** {avg_hold_hours:.2f} hours ({gh['avg_hold_time_seconds']:.0f} seconds)")
     report.append(f"- **Enhanced Logging Coverage:** {gh['with_snapshots']}/{gh['count']} ({gh['snapshot_rate']:.1f}%)")
     report.append("")
     
@@ -255,17 +321,22 @@ def generate_report(analysis):
     if analysis['symbol_stats']:
         report.append("## Performance by Symbol (Golden Hour)")
         report.append("")
-        report.append("| Symbol | Trades | Wins | Losses | Win Rate | Total P&L | Avg P&L |")
-        report.append("|--------|--------|------|--------|----------|-----------|---------|")
+        report.append("| Symbol | Trades | Wins | Losses | Win Rate | Profit Factor | Total P&L | Avg P&L | Avg Hold Time |")
+        report.append("|--------|--------|------|--------|----------|---------------|-----------|---------|---------------|")
         
         for symbol, stats in sorted(analysis['symbol_stats'].items(), key=lambda x: x[1]['count'], reverse=True):
             count = stats['count']
             wins = stats['wins']
             losses = stats['losses']
             win_rate = (wins / count * 100) if count > 0 else 0.0
+            profit_factor = stats.get('profit_factor', 0.0)
+            profit_factor_str = f"{profit_factor:.2f}" if profit_factor != float('inf') else "∞"
             total_pnl = stats['pnl']
             avg_pnl = total_pnl / count if count > 0 else 0.0
-            report.append(f"| {symbol} | {count} | {wins} | {losses} | {win_rate:.1f}% | ${total_pnl:.2f} | ${avg_pnl:.2f} |")
+            avg_hold_seconds = stats.get('avg_hold_time_seconds', 0)
+            avg_hold_hours = avg_hold_seconds / 3600 if avg_hold_seconds > 0 else 0
+            avg_hold_str = f"{avg_hold_hours:.2f}h" if avg_hold_hours > 0 else "N/A"
+            report.append(f"| {symbol} | {count} | {wins} | {losses} | {win_rate:.1f}% | {profit_factor_str} | ${total_pnl:.2f} | ${avg_pnl:.2f} | {avg_hold_str} |")
         
         report.append("")
     

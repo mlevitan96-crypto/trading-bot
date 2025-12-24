@@ -312,6 +312,15 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         print(f"⚠️ [GHOST-POSITION-BLOCKED] {symbol} {direction} size=${size:.2f} margin=${margin_collateral:.2f} - REJECTED")
         return False
     
+    # Capture execution timing for latency calculation
+    execution_timestamp = time.time()
+    execution_time_iso = get_arizona_time().isoformat()
+    
+    # Get signal price from signal_context if available (for slippage calculation)
+    signal_price = None
+    if signal_context:
+        signal_price = signal_context.get("signal_price") or signal_context.get("expected_price")
+    
     position = {
         "symbol": symbol,
         "direction": direction,
@@ -324,7 +333,10 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         "peak_price": entry_price if direction == "LONG" else None,
         "trough_price": entry_price if direction == "SHORT" else None,
         "scaled": 0,
-        "opened_at": get_arizona_time().isoformat(),
+        "opened_at": execution_time_iso,
+        "execution_timestamp": execution_timestamp,  # For latency calculation
+        "signal_price": signal_price,  # For slippage calculation
+        "signal_timestamp": signal_context.get("signal_timestamp") if signal_context else None,  # When signal was generated
         "venue": "futures"
     }
     
@@ -346,7 +358,7 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
             from src.enhanced_trade_logging import create_volatility_snapshot
             # Get signals from signal_context if available
             signals = signal_context.get("signals") or signal_context.get("signal_components") or {}
-            volatility_snapshot = create_volatility_snapshot(symbol, signals)
+            volatility_snapshot = create_volatility_snapshot(symbol, signals, signal_price=signal_price)
             position["volatility_snapshot"] = volatility_snapshot
             # Log successful capture (only if we got meaningful data)
             if volatility_snapshot.get("atr_14", 0) > 0 or volatility_snapshot.get("regime_at_entry") != "unknown":
@@ -641,6 +653,63 @@ def close_futures_position(symbol, strategy, direction, exit_price, reason="manu
             closed_pos["closed_at"] = get_arizona_time().isoformat()
             closed_pos["close_reason"] = reason
             closed_pos["funding_fees"] = funding_fees * (partial_qty / pos["size"]) if partial_qty else funding_fees
+            
+            # [FORENSIC EXECUTION DATA] Calculate slippage and execution latency
+            try:
+                signal_price = closed_pos.get("signal_price")
+                fill_price = closed_pos.get("entry_price")  # Actual fill price
+                
+                if signal_price and fill_price and signal_price > 0:
+                    # Calculate slippage in BPS (basis points)
+                    slippage_bps = abs((fill_price - signal_price) / signal_price) * 10000
+                    closed_pos["slippage_bps"] = slippage_bps
+                    closed_pos["signal_price"] = signal_price
+                else:
+                    closed_pos["slippage_bps"] = None
+                
+                # Calculate execution latency (signal generation to order fill)
+                signal_ts = closed_pos.get("signal_timestamp")
+                execution_ts = closed_pos.get("execution_timestamp")
+                
+                if signal_ts and execution_ts:
+                    latency_ms = (execution_ts - signal_ts) * 1000  # Convert to milliseconds
+                    closed_pos["execution_latency_ms"] = latency_ms
+                else:
+                    closed_pos["execution_latency_ms"] = None
+            except Exception as e:
+                closed_pos["slippage_bps"] = None
+                closed_pos["execution_latency_ms"] = None
+            
+            # [MFE/MAE] Calculate Max Favorable and Adverse Excursion from peak/trough
+            try:
+                entry_price_pos = closed_pos.get("entry_price", 0)
+                peak_price = closed_pos.get("peak_price")
+                trough_price = closed_pos.get("trough_price")
+                direction = closed_pos.get("direction", "LONG")
+                
+                if entry_price_pos > 0:
+                    if direction == "LONG":
+                        # For LONG: MFE is peak above entry, MAE is trough below entry
+                        if peak_price and peak_price > entry_price_pos:
+                            mfe_pct = ((peak_price - entry_price_pos) / entry_price_pos) * 100
+                            closed_pos.setdefault("volatility_snapshot", {})["mfe_pct"] = mfe_pct
+                            closed_pos.setdefault("volatility_snapshot", {})["mfe_price"] = peak_price
+                        if trough_price and trough_price < entry_price_pos:
+                            mae_pct = ((entry_price_pos - trough_price) / entry_price_pos) * 100
+                            closed_pos.setdefault("volatility_snapshot", {})["mae_pct"] = mae_pct
+                            closed_pos.setdefault("volatility_snapshot", {})["mae_price"] = trough_price
+                    else:  # SHORT
+                        # For SHORT: MFE is trough below entry, MAE is peak above entry
+                        if trough_price and trough_price < entry_price_pos:
+                            mfe_pct = ((entry_price_pos - trough_price) / entry_price_pos) * 100
+                            closed_pos.setdefault("volatility_snapshot", {})["mfe_pct"] = mfe_pct
+                            closed_pos.setdefault("volatility_snapshot", {})["mfe_price"] = trough_price
+                        if peak_price and peak_price > entry_price_pos:
+                            mae_pct = ((peak_price - entry_price_pos) / entry_price_pos) * 100
+                            closed_pos.setdefault("volatility_snapshot", {})["mae_pct"] = mae_pct
+                            closed_pos.setdefault("volatility_snapshot", {})["mae_price"] = peak_price
+            except Exception as e:
+                pass  # Non-critical, continue
             
             if direction == "LONG":
                 price_roi = (exit_price - closed_pos["entry_price"]) / closed_pos["entry_price"]

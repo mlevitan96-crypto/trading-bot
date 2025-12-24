@@ -197,9 +197,43 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         
         sizing_mult = min(sizing_mult, 1.5)  # Cap at 1.5x
         
-        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}) [LEARNED]")
+        # Get OFI ratio and bid-ask spread for logging
+        ofi_ratio = None
+        bid_ask_spread_bps = None
+        try:
+            from src.exchange_gateway import ExchangeGateway
+            from src.venue_config import get_venue
+            gateway = ExchangeGateway()
+            venue = get_venue(symbol) if hasattr(__import__('src.venue_config', fromlist=['get_venue']), 'get_venue') else "futures"
+            
+            # Get OFI ratio from signal if available
+            if signal and isinstance(signal, dict):
+                ofi_ratio = signal.get("ofi_ratio") or signal.get("ofi_score") or signal.get("ofi")
+            
+            # Get bid-ask spread
+            try:
+                ticker = gateway.get_ticker(symbol, venue=venue)
+                if ticker and "bid" in ticker and "ask" in ticker:
+                    bid = float(ticker.get("bid", 0))
+                    ask = float(ticker.get("ask", 0))
+                    mid = (bid + ask) / 2 if (bid > 0 and ask > 0) else 0
+                    if mid > 0:
+                        bid_ask_spread_bps = ((ask - bid) / mid) * 10000  # Convert to basis points
+            except:
+                pass
+        except:
+            pass
+        
+        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps) [LEARNED]")
         log_gate_decision("intelligence_gate", symbol, action, True, f"intel_confirmed_{intel_direction.lower()}",
-                          {"intel_direction": intel_direction, "confidence": intel_confidence, "composite": composite_score, "sizing_mult": sizing_mult})
+                          {
+                              "intel_direction": intel_direction, 
+                              "confidence": intel_confidence, 
+                              "composite": composite_score, 
+                              "sizing_mult": sizing_mult,
+                              "ofi_ratio": ofi_ratio,
+                              "bid_ask_spread_bps": bid_ask_spread_bps
+                          })
         return True, f"intel_confirmed_{intel_direction.lower()}", sizing_mult
     
     if (signal_is_long and intel_is_short) or (signal_is_short and intel_is_long):
@@ -215,9 +249,43 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
             sizing_mult = multipliers.get("weak_conflict", 0.8)
             reason = f"intel_conflict_{intel_direction.lower()}_weak"
         
-        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}) [LEARNED]")
+        # Get OFI ratio and bid-ask spread for logging
+        ofi_ratio = None
+        bid_ask_spread_bps = None
+        try:
+            from src.exchange_gateway import ExchangeGateway
+            from src.venue_config import get_venue
+            gateway = ExchangeGateway()
+            venue = get_venue(symbol) if hasattr(__import__('src.venue_config', fromlist=['get_venue']), 'get_venue') else "futures"
+            
+            # Get OFI ratio from signal if available
+            if signal and isinstance(signal, dict):
+                ofi_ratio = signal.get("ofi_ratio") or signal.get("ofi_score") or signal.get("ofi")
+            
+            # Get bid-ask spread
+            try:
+                ticker = gateway.get_ticker(symbol, venue=venue)
+                if ticker and "bid" in ticker and "ask" in ticker:
+                    bid = float(ticker.get("bid", 0))
+                    ask = float(ticker.get("ask", 0))
+                    mid = (bid + ask) / 2 if (bid > 0 and ask > 0) else 0
+                    if mid > 0:
+                        bid_ask_spread_bps = ((ask - bid) / mid) * 10000  # Convert to basis points
+            except:
+                pass
+        except:
+            pass
+        
+        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps) [LEARNED]")
         log_gate_decision("intelligence_gate", symbol, action, True, reason,
-                          {"intel_direction": intel_direction, "confidence": intel_confidence, "sizing_mult": sizing_mult, "composite": composite_score})
+                          {
+                              "intel_direction": intel_direction, 
+                              "confidence": intel_confidence, 
+                              "sizing_mult": sizing_mult, 
+                              "composite": composite_score,
+                              "ofi_ratio": ofi_ratio,
+                              "bid_ask_spread_bps": bid_ask_spread_bps
+                          })
         return True, reason, sizing_mult
     
     return True, "no_action_match", 1.0

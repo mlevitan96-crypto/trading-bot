@@ -9,6 +9,7 @@ for easy download and AI analysis.
 import subprocess
 import sys
 import os
+import json
 from pathlib import Path
 
 # Import the report generators
@@ -118,12 +119,39 @@ def main():
         traceback.print_exc()
         sys.exit(1)
     
+    # Generate golden hour analysis
+    print("Generating golden hour analysis...")
+    try:
+        from analyze_golden_hour_trades import analyze_golden_hour_trades, generate_report
+        analysis = analyze_golden_hour_trades()
+        if analysis:
+            report = generate_report(analysis)
+            Path("GOLDEN_HOUR_ANALYSIS.md").write_text(report)
+            Path("GOLDEN_HOUR_ANALYSIS.json").write_text(
+                json.dumps(analysis, indent=2, default=str)
+            )
+            print("✅ Golden hour analysis complete")
+        else:
+            print("⚠️  Golden hour analysis returned no data")
+    except ImportError:
+        print("⚠️  analyze_golden_hour_trades.py not found, skipping golden hour analysis")
+    except Exception as e:
+        print(f"⚠️  Error generating golden hour analysis: {e}")
+        import traceback
+        traceback.print_exc()
+    
     # Files to push
     files_to_push = [
         "performance_summary_report.json",
         "performance_summary_report.md",
         "EXTERNAL_REVIEW_SUMMARY.md"
     ]
+    
+    # Add golden hour files if they exist
+    if os.path.exists("GOLDEN_HOUR_ANALYSIS.md"):
+        files_to_push.append("GOLDEN_HOUR_ANALYSIS.md")
+    if os.path.exists("GOLDEN_HOUR_ANALYSIS.json"):
+        files_to_push.append("GOLDEN_HOUR_ANALYSIS.json")
     
     # Check which files exist
     existing_files = [f for f in files_to_push if os.path.exists(f)]

@@ -1,0 +1,462 @@
+{
+  "timestamp": "2025-12-20T23:39:00.439755",
+  "data_summary": {
+    "trades": 1697,
+    "all_signals": 11956,
+    "blocked_signals": 0,
+    "missed_opportunities": 0,
+    "counterfactual_outcomes": 0,
+    "enriched_decisions": 0,
+    "learning_files": 1
+  },
+  "signal_analysis": {
+    "component_performance": {
+      "liquidation": {
+        "total_trades": 1314,
+        "win_rate": 38.51,
+        "total_pnl": -221.73,
+        "avg_win": 0.9,
+        "avg_loss": 0.84,
+        "risk_reward": 1.07,
+        "expectancy": -0.17,
+        "avg_signal_value": -0.168,
+        "profitability_score": -221.73
+      },
+      "whale_flow": {
+        "total_trades": 1363,
+        "win_rate": 38.96,
+        "total_pnl": -198.16,
+        "avg_win": 0.95,
+        "avg_loss": 0.84,
+        "risk_reward": 1.12,
+        "expectancy": -0.15,
+        "avg_signal_value": 0.976,
+        "profitability_score": -198.16
+      },
+      "fear_greed": {
+        "total_trades": 1363,
+        "win_rate": 38.96,
+        "total_pnl": -198.16,
+        "avg_win": 0.95,
+        "avg_loss": 0.84,
+        "risk_reward": 1.12,
+        "expectancy": -0.15,
+        "avg_signal_value": 30.484,
+        "profitability_score": -198.16
+      }
+    },
+    "sorted_by_profitability": [
+      {
+        "component": "whale_flow",
+        "total_trades": 1363,
+        "win_rate": 38.96,
+        "total_pnl": -198.16,
+        "avg_win": 0.95,
+        "avg_loss": 0.84,
+        "risk_reward": 1.12,
+        "expectancy": -0.15,
+        "avg_signal_value": 0.976,
+        "profitability_score": -198.16
+      },
+      {
+        "component": "fear_greed",
+        "total_trades": 1363,
+        "win_rate": 38.96,
+        "total_pnl": -198.16,
+        "avg_win": 0.95,
+        "avg_loss": 0.84,
+        "risk_reward": 1.12,
+        "expectancy": -0.15,
+        "avg_signal_value": 30.484,
+        "profitability_score": -198.16
+      },
+      {
+        "component": "liquidation",
+        "total_trades": 1314,
+        "win_rate": 38.51,
+        "total_pnl": -221.73,
+        "avg_win": 0.9,
+        "avg_loss": 0.84,
+        "risk_reward": 1.07,
+        "expectancy": -0.17,
+        "avg_signal_value": -0.168,
+        "profitability_score": -221.73
+      }
+    ],
+    "combinations": [
+      {
+        "combination": "ensemble+ofi+whale_flow",
+        "trades": 49,
+        "win_rate": 51.02,
+        "total_pnl": 23.57,
+        "avg_win": 1.94,
+        "avg_loss": 1.04,
+        "expectancy": 0.48,
+        "profitability_score": 23.57
+      },
+      {
+        "combination": "ensemble+ofi",
+        "trades": 85,
+        "win_rate": 38.82,
+        "total_pnl": -17.49,
+        "avg_win": 1.23,
+        "avg_loss": 1.11,
+        "expectancy": -0.21,
+        "profitability_score": -17.49
+      },
+      {
+        "combination": "ensemble+liquidation+ofi+whale_flow",
+        "trades": 1314,
+        "win_rate": 38.51,
+        "total_pnl": -221.73,
+        "avg_win": 0.9,
+        "avg_loss": 0.84,
+        "expectancy": -0.17,
+        "profitability_score": -221.73
+      }
+    ]
+  },
+  "timing_analysis": {
+    "entry_by_hour": [
+      {
+        "hour": 0,
+        "trades": 40,
+        "win_rate": 50.0,
+        "total_pnl": -0.69
+      },
+      {
+        "hour": 1,
+        "trades": 51,
+        "win_rate": 39.22,
+        "total_pnl": -3.99
+      },
+      {
+        "hour": 2,
+        "trades": 83,
+        "win_rate": 18.07,
+        "total_pnl": -85.39
+      },
+      {
+        "hour": 3,
+        "trades": 60,
+        "win_rate": 50.0,
+        "total_pnl": 15.68
+      },
+      {
+        "hour": 4,
+        "trades": 41,
+        "win_rate": 41.46,
+        "total_pnl": -3.44
+      },
+      {
+        "hour": 5,
+        "trades": 53,
+        "win_rate": 35.85,
+        "total_pnl": -8.47
+      },
+      {
+        "hour": 6,
+        "trades": 71,
+        "win_rate": 28.17,
+        "total_pnl": -62.61
+      },
+      {
+        "hour": 7,
+        "trades": 71,
+        "win_rate": 35.21,
+        "total_pnl": -15.42
+      },
+      {
+        "hour": 8,
+        "trades": 71,
+        "win_rate": 40.85,
+        "total_pnl": -8.12
+      },
+      {
+        "hour": 9,
+        "trades": 74,
+        "win_rate": 25.68,
+        "total_pnl": -24.86
+      },
+      {
+        "hour": 10,
+        "trades": 72,
+        "win_rate": 36.11,
+        "total_pnl": -15.3
+      },
+      {
+        "hour": 11,
+        "trades": 70,
+        "win_rate": 28.57,
+        "total_pnl": -19.75
+      },
+      {
+        "hour": 12,
+        "trades": 69,
+        "win_rate": 23.19,
+        "total_pnl": -36.95
+      },
+      {
+        "hour": 13,
+        "trades": 66,
+        "win_rate": 30.3,
+        "total_pnl": -62.6
+      },
+      {
+        "hour": 14,
+        "trades": 70,
+        "win_rate": 37.14,
+        "total_pnl": -16.71
+      },
+      {
+        "hour": 15,
+        "trades": 72,
+        "win_rate": 43.06,
+        "total_pnl": -0.82
+      },
+      {
+        "hour": 16,
+        "trades": 74,
+        "win_rate": 44.59,
+        "total_pnl": 42.57
+      },
+      {
+        "hour": 17,
+        "trades": 81,
+        "win_rate": 54.32,
+        "total_pnl": 81.72
+      },
+      {
+        "hour": 18,
+        "trades": 87,
+        "win_rate": 56.32,
+        "total_pnl": 61.65
+      },
+      {
+        "hour": 19,
+        "trades": 89,
+        "win_rate": 23.6,
+        "total_pnl": -51.42
+      },
+      {
+        "hour": 20,
+        "trades": 89,
+        "win_rate": 34.83,
+        "total_pnl": -30.36
+      },
+      {
+        "hour": 21,
+        "trades": 85,
+        "win_rate": 43.53,
+        "total_pnl": -23.34
+      },
+      {
+        "hour": 22,
+        "trades": 91,
+        "win_rate": 45.05,
+        "total_pnl": -5.79
+      },
+      {
+        "hour": 23,
+        "trades": 67,
+        "win_rate": 55.22,
+        "total_pnl": -8.93
+      }
+    ],
+    "exit_by_hour": [
+      {
+        "hour": 0,
+        "trades": 58,
+        "win_rate": 51.72,
+        "total_pnl": -10.42
+      },
+      {
+        "hour": 1,
+        "trades": 34,
+        "win_rate": 32.35,
+        "total_pnl": -2.29
+      },
+      {
+        "hour": 2,
+        "trades": 84,
+        "win_rate": 23.81,
+        "total_pnl": -55.16
+      },
+      {
+        "hour": 3,
+        "trades": 59,
+        "win_rate": 27.12,
+        "total_pnl": -70.72
+      },
+      {
+        "hour": 4,
+        "trades": 42,
+        "win_rate": 42.86,
+        "total_pnl": -7.99
+      },
+      {
+        "hour": 5,
+        "trades": 46,
+        "win_rate": 45.65,
+        "total_pnl": 1.03
+      },
+      {
+        "hour": 6,
+        "trades": 67,
+        "win_rate": 28.36,
+        "total_pnl": -18.46
+      },
+      {
+        "hour": 7,
+        "trades": 71,
+        "win_rate": 32.39,
+        "total_pnl": -57.45
+      },
+      {
+        "hour": 8,
+        "trades": 71,
+        "win_rate": 32.39,
+        "total_pnl": -19.22
+      },
+      {
+        "hour": 9,
+        "trades": 74,
+        "win_rate": 32.43,
+        "total_pnl": -14.25
+      },
+      {
+        "hour": 10,
+        "trades": 68,
+        "win_rate": 41.18,
+        "total_pnl": -12.44
+      },
+      {
+        "hour": 11,
+        "trades": 77,
+        "win_rate": 25.97,
+        "total_pnl": -26.26
+      },
+      {
+        "hour": 12,
+        "trades": 65,
+        "win_rate": 29.23,
+        "total_pnl": -23.62
+      },
+      {
+        "hour": 13,
+        "trades": 65,
+        "win_rate": 18.46,
+        "total_pnl": -53.06
+      },
+      {
+        "hour": 14,
+        "trades": 75,
+        "win_rate": 40.0,
+        "total_pnl": -28.55
+      },
+      {
+        "hour": 15,
+        "trades": 65,
+        "win_rate": 44.62,
+        "total_pnl": -16.76
+      },
+      {
+        "hour": 16,
+        "trades": 80,
+        "win_rate": 51.25,
+        "total_pnl": 49.91
+      },
+      {
+        "hour": 17,
+        "trades": 84,
+        "win_rate": 55.95,
+        "total_pnl": 103.97
+      },
+      {
+        "hour": 18,
+        "trades": 80,
+        "win_rate": 41.25,
+        "total_pnl": 52.75
+      },
+      {
+        "hour": 19,
+        "trades": 94,
+        "win_rate": 44.68,
+        "total_pnl": 7.95
+      },
+      {
+        "hour": 20,
+        "trades": 85,
+        "win_rate": 24.71,
+        "total_pnl": -48.8
+      },
+      {
+        "hour": 21,
+        "trades": 86,
+        "win_rate": 44.19,
+        "total_pnl": -16.3
+      },
+      {
+        "hour": 22,
+        "trades": 89,
+        "win_rate": 35.96,
+        "total_pnl": -31.19
+      },
+      {
+        "hour": 23,
+        "trades": 78,
+        "win_rate": 62.82,
+        "total_pnl": 13.99
+      }
+    ],
+    "hold_duration": {
+      "winners_avg_minutes": 48.4,
+      "losers_avg_minutes": 39.3
+    }
+  },
+  "volume_analysis": {
+    "winners_avg_volume": null,
+    "losers_avg_volume": null
+  },
+  "weight_optimization": {
+    "current_weights": {
+      "weights": {
+        "ofi": 0.25,
+        "ensemble": 0.2,
+        "mtf_alignment": 0.15,
+        "regime": 0.1,
+        "market_intel": 0.1,
+        "volume": 0.08,
+        "momentum": 0.07,
+        "session": 0.05
+      },
+      "updated_at": "2025-12-17T02:17:29.368269",
+      "metadata": {
+        "initialized": true,
+        "source": "healing_operator",
+        "note": "Initialized with default weights - learning will update these"
+      }
+    },
+    "recommendations": []
+  },
+  "winner_loser_patterns": {
+    "winner_count": 646,
+    "loser_count": 1051,
+    "signal_differences": []
+  },
+  "learning_insights": {},
+  "recommendations": [
+    {
+      "priority": "MEDIUM",
+      "category": "Entry Timing",
+      "action": "Focus entries around 17:00 UTC",
+      "reason": "Best performing hour: 54.3% WR, $81.72 P&L"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Signal Combinations",
+      "action": "Prioritize trades with signal combination: ensemble+ofi+whale_flow",
+      "reason": "Expectancy: $0.48, 51.0% WR"
+    }
+  ]
+}

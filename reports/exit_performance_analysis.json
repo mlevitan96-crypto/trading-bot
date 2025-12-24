@@ -1,0 +1,120 @@
+{
+  "total_trades": 760,
+  "by_exit_reason": {
+    "unknown": {
+      "count": 760,
+      "total_pnl": -15568.909213256413,
+      "avg_pnl": -20.48540685954791,
+      "profitable": 334,
+      "losing": 426,
+      "win_rate": 43.94736842105263
+    }
+  },
+  "profit_target_exits": [],
+  "time_stop_exits": [],
+  "trailing_stop_exits": [],
+  "stop_loss_exits": [],
+  "early_exits": [],
+  "late_exits": [
+    {
+      "symbol": "ETHUSDT",
+      "entry": 2947.38,
+      "exit": 2939.81,
+      "peak": 2965.01,
+      "final_roi": -0.2568382767067756,
+      "peak_roi": 0.598158364377858,
+      "gave_back_pct": 0.8549966410846335,
+      "reason": "unknown",
+      "closed_at": "2025-12-16T19:17:40.837437-07:00"
+    },
+    {
+      "symbol": "SOLUSDT",
+      "entry": 124.22,
+      "exit": 124.2,
+      "peak": 124.92,
+      "final_roi": -0.016100466913537288,
+      "peak_roi": 0.5635163419739195,
+      "gave_back_pct": 0.5796168088874568,
+      "reason": "unknown",
+      "closed_at": "2025-12-17T10:26:30.275849-07:00"
+    },
+    {
+      "symbol": "SOLUSDT",
+      "entry": 122.7,
+      "exit": 121.78,
+      "peak": 123.13,
+      "final_roi": -0.7497962510187463,
+      "peak_roi": 0.35044824775875516,
+      "gave_back_pct": 1.1002444987775015,
+      "reason": "unknown",
+      "closed_at": "2025-12-17T11:57:57.746042-07:00"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "entry": 86395.8,
+      "exit": 85568.1,
+      "peak": 86424.3,
+      "final_roi": -0.9580326821442674,
+      "peak_roi": 0.03298771468057475,
+      "gave_back_pct": 0.9910203968248422,
+      "reason": "unknown",
+      "closed_at": "2025-12-17T12:07:32.440442-07:00"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "entry": 2947.69,
+      "exit": 2938.08848152123,
+      "peak": 2957.66299597032,
+      "final_roi": -0.3257302660310355,
+      "peak_roi": 0.3383325916334476,
+      "gave_back_pct": 0.664062857664483,
+      "reason": "unknown",
+      "closed_at": "2025-12-18T08:18:34.305421-07:00"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "entry": 85262.8,
+      "exit": 84731.66250335304,
+      "peak": 85604.52273049507,
+      "final_roi": -0.6229416540941176,
+      "peak_roi": 0.40078760080019044,
+      "gave_back_pct": 1.023729254894308,
+      "reason": "unknown",
+      "closed_at": "2025-12-18T12:50:42.916895-07:00"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "entry": 2819.54,
+      "exit": 2786.65927532139,
+      "peak": 2824.15409618004,
+      "final_roi": -1.1661733714935778,
+      "peak_roi": 0.1636471261283819,
+      "gave_back_pct": 1.3298204976219596,
+      "reason": "unknown",
+      "closed_at": "2025-12-18T12:55:37.822147-07:00"
+    }
+  ],
+  "optimal_exits": [],
+  "mfe_analysis": {
+    "high_mfe_low_capture": [],
+    "low_mfe_high_capture": []
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "issue": "Found 7 trades that gave back avg 0.93% profit",
+      "recommendation": "Tighten trailing stops or lower profit targets to lock in gains sooner",
+      "action": "Reduce profit targets by 0.1-0.2% to exit earlier and protect gains"
+    }
+  ],
+  "profit_target_stats": {
+    "count": 115,
+    "avg_pnl": 11.13399737458787,
+    "win_rate": 100.0
+  },
+  "time_stop_stats": {
+    "count": 457,
+    "avg_pnl": -0.31287602113603813,
+    "win_rate": 37.199124726477024
+  }
+}

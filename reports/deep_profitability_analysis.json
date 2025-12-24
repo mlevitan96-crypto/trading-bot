@@ -1,0 +1,494 @@
+{
+  "timestamp": "2025-12-22T05:00:48.862188",
+  "trade_analysis": {
+    "alpha": {
+      "total_pnl": -370.70645685677067,
+      "win_rate": 36.96599825632084,
+      "avg_pnl": -0.16159828110582855,
+      "avg_win": 0.836378172563797,
+      "avg_loss": -0.7468569482647791,
+      "by_symbol": {
+        "TRXUSDT": {
+          "total_pnl": 3.145567751736938,
+          "win_rate": 50.0,
+          "ev": 1.572783875868469,
+          "n": 2
+        },
+        "AVAXUSDT": {
+          "total_pnl": 2.1772567782920325,
+          "win_rate": 38.333333333333336,
+          "ev": 0.012095870990511291,
+          "n": 180
+        },
+        "MATICUSDT": {
+          "total_pnl": -0.84,
+          "win_rate": 0.0,
+          "ev": -0.42,
+          "n": 2
+        },
+        "BNBUSDT": {
+          "total_pnl": -0.8693835010774873,
+          "win_rate": 29.72972972972973,
+          "ev": -0.023496851380472628,
+          "n": 37
+        },
+        "ARBUSDT": {
+          "total_pnl": -1.8672727685816128,
+          "win_rate": 30.76923076923077,
+          "ev": -0.1436363668139702,
+          "n": 13
+        },
+        "OPUSDT": {
+          "total_pnl": -5.498119651089336,
+          "win_rate": 35.294117647058826,
+          "ev": -0.32341880300525505,
+          "n": 17
+        },
+        "LINKUSDT": {
+          "total_pnl": -5.961951187084215,
+          "win_rate": 34.48275862068966,
+          "ev": -0.20558452369255914,
+          "n": 29
+        },
+        "DOGEUSDT": {
+          "total_pnl": -16.919029955168128,
+          "win_rate": 44.73684210526316,
+          "ev": -0.22261881519958063,
+          "n": 76
+        },
+        "DOTUSDT": {
+          "total_pnl": -22.104180406675535,
+          "win_rate": 36.84210526315789,
+          "ev": -0.19389631935680293,
+          "n": 114
+        },
+        "ADAUSDT": {
+          "total_pnl": -37.62827129486773,
+          "win_rate": 36.84210526315789,
+          "ev": -0.49510883282720697,
+          "n": 76
+        },
+        "XRPUSDT": {
+          "total_pnl": -43.288491294427224,
+          "win_rate": 33.75796178343949,
+          "ev": -0.2757228744867976,
+          "n": 157
+        },
+        "ETHUSDT": {
+          "total_pnl": -58.64441945685766,
+          "win_rate": 35.10436432637571,
+          "ev": -0.11127973331472042,
+          "n": 527
+        },
+        "SOLUSDT": {
+          "total_pnl": -73.7019943144846,
+          "win_rate": 42.79749478079332,
+          "ev": -0.15386637643942505,
+          "n": 479
+        },
+        "BTCUSDT": {
+          "total_pnl": -108.70616755648611,
+          "win_rate": 34.18803418803419,
+          "ev": -0.185822508643566,
+          "n": 585
+        }
+      },
+      "by_direction": {
+        "SHORT": {
+          "total_pnl": 8.703165977154832,
+          "win_rate": 43.39622641509434,
+          "ev": 0.16421067881424212,
+          "n": 53
+        },
+        "LONG": {
+          "total_pnl": -10.08169174430778,
+          "win_rate": 35.099337748344375,
+          "ev": -0.0667661704921045,
+          "n": 151
+        },
+        "long": {
+          "total_pnl": -369.3279310896177,
+          "win_rate": 36.9377990430622,
+          "ev": -0.17671192875101327,
+          "n": 2090
+        }
+      },
+      "by_strategy": {
+        "Alpha-OFI": {
+          "total_pnl": 10.03735143909988,
+          "win_rate": 44.230769230769226,
+          "ev": 0.1930259892134592,
+          "n": 52
+        },
+        "EMA-Futures": {
+          "total_pnl": 3.145567751736938,
+          "win_rate": 50.0,
+          "ev": 1.572783875868469,
+          "n": 2
+        },
+        "Reentry-Module": {
+          "total_pnl": -14.561444957989766,
+          "win_rate": 34.66666666666667,
+          "ev": -0.09707629971993177,
+          "n": 150
+        },
+        "Breakout-Aggressive": {
+          "total_pnl": -59.22431753255733,
+          "win_rate": 38.724373576309794,
+          "ev": -0.13490732923133789,
+          "n": 439
+        },
+        "Trend-Conservative": {
+          "total_pnl": -95.942895183441,
+          "win_rate": 34.06374501992032,
+          "ev": -0.1911213051462968,
+          "n": 502
+        },
+        "Sentiment-Fusion": {
+          "total_pnl": -214.1607183736194,
+          "win_rate": 37.51087902523934,
+          "ev": -0.18638878883691853,
+          "n": 1149
+        }
+      },
+      "by_dow": {},
+      "by_hour": {}
+    },
+    "beta": {},
+    "combined": {
+      "total_pnl": -370.70645685677067,
+      "win_rate": 36.96599825632084,
+      "avg_pnl": -0.16159828110582855,
+      "avg_win": 0.836378172563797,
+      "avg_loss": -0.7468569482647791,
+      "by_symbol": {
+        "TRXUSDT": {
+          "total_pnl": 3.145567751736938,
+          "win_rate": 50.0,
+          "ev": 1.572783875868469,
+          "n": 2
+        },
+        "AVAXUSDT": {
+          "total_pnl": 2.1772567782920325,
+          "win_rate": 38.333333333333336,
+          "ev": 0.012095870990511291,
+          "n": 180
+        },
+        "MATICUSDT": {
+          "total_pnl": -0.84,
+          "win_rate": 0.0,
+          "ev": -0.42,
+          "n": 2
+        },
+        "BNBUSDT": {
+          "total_pnl": -0.8693835010774873,
+          "win_rate": 29.72972972972973,
+          "ev": -0.023496851380472628,
+          "n": 37
+        },
+        "ARBUSDT": {
+          "total_pnl": -1.8672727685816128,
+          "win_rate": 30.76923076923077,
+          "ev": -0.1436363668139702,
+          "n": 13
+        },
+        "OPUSDT": {
+          "total_pnl": -5.498119651089336,
+          "win_rate": 35.294117647058826,
+          "ev": -0.32341880300525505,
+          "n": 17
+        },
+        "LINKUSDT": {
+          "total_pnl": -5.961951187084215,
+          "win_rate": 34.48275862068966,
+          "ev": -0.20558452369255914,
+          "n": 29
+        },
+        "DOGEUSDT": {
+          "total_pnl": -16.919029955168128,
+          "win_rate": 44.73684210526316,
+          "ev": -0.22261881519958063,
+          "n": 76
+        },
+        "DOTUSDT": {
+          "total_pnl": -22.104180406675535,
+          "win_rate": 36.84210526315789,
+          "ev": -0.19389631935680293,
+          "n": 114
+        },
+        "ADAUSDT": {
+          "total_pnl": -37.62827129486773,
+          "win_rate": 36.84210526315789,
+          "ev": -0.49510883282720697,
+          "n": 76
+        },
+        "XRPUSDT": {
+          "total_pnl": -43.288491294427224,
+          "win_rate": 33.75796178343949,
+          "ev": -0.2757228744867976,
+          "n": 157
+        },
+        "ETHUSDT": {
+          "total_pnl": -58.64441945685766,
+          "win_rate": 35.10436432637571,
+          "ev": -0.11127973331472042,
+          "n": 527
+        },
+        "SOLUSDT": {
+          "total_pnl": -73.7019943144846,
+          "win_rate": 42.79749478079332,
+          "ev": -0.15386637643942505,
+          "n": 479
+        },
+        "BTCUSDT": {
+          "total_pnl": -108.70616755648611,
+          "win_rate": 34.18803418803419,
+          "ev": -0.185822508643566,
+          "n": 585
+        }
+      },
+      "by_direction": {
+        "SHORT": {
+          "total_pnl": 8.703165977154832,
+          "win_rate": 43.39622641509434,
+          "ev": 0.16421067881424212,
+          "n": 53
+        },
+        "LONG": {
+          "total_pnl": -10.08169174430778,
+          "win_rate": 35.099337748344375,
+          "ev": -0.0667661704921045,
+          "n": 151
+        },
+        "long": {
+          "total_pnl": -369.3279310896177,
+          "win_rate": 36.9377990430622,
+          "ev": -0.17671192875101327,
+          "n": 2090
+        }
+      },
+      "by_strategy": {
+        "Alpha-OFI": {
+          "total_pnl": 10.03735143909988,
+          "win_rate": 44.230769230769226,
+          "ev": 0.1930259892134592,
+          "n": 52
+        },
+        "EMA-Futures": {
+          "total_pnl": 3.145567751736938,
+          "win_rate": 50.0,
+          "ev": 1.572783875868469,
+          "n": 2
+        },
+        "Reentry-Module": {
+          "total_pnl": -14.561444957989766,
+          "win_rate": 34.66666666666667,
+          "ev": -0.09707629971993177,
+          "n": 150
+        },
+        "Breakout-Aggressive": {
+          "total_pnl": -59.22431753255733,
+          "win_rate": 38.724373576309794,
+          "ev": -0.13490732923133789,
+          "n": 439
+        },
+        "Trend-Conservative": {
+          "total_pnl": -95.942895183441,
+          "win_rate": 34.06374501992032,
+          "ev": -0.1911213051462968,
+          "n": 502
+        },
+        "Sentiment-Fusion": {
+          "total_pnl": -214.1607183736194,
+          "win_rate": 37.51087902523934,
+          "ev": -0.18638878883691853,
+          "n": 1149
+        }
+      },
+      "by_dow": {},
+      "by_hour": {}
+    }
+  },
+  "enriched_analysis": {},
+  "pattern_analysis": {
+    "profitable": [
+      {
+        "pattern": "SOLUSDT|SHORT|weak",
+        "total_pnl": 12.571566451448518,
+        "win_rate": 77.77777777777779,
+        "ev": 1.3968407168276131,
+        "n": 9
+      },
+      {
+        "pattern": "ETHUSDT|SHORT|weak",
+        "total_pnl": 7.919845034379789,
+        "win_rate": 53.84615384615385,
+        "ev": 0.6092188487984453,
+        "n": 13
+      },
+      {
+        "pattern": "XRPUSDT|SHORT|weak",
+        "total_pnl": 4.223691882668787,
+        "win_rate": 60.0,
+        "ev": 0.8447383765337573,
+        "n": 5
+      },
+      {
+        "pattern": "AVAXUSDT|long|weak",
+        "total_pnl": 3.5033271208313828,
+        "win_rate": 38.4180790960452,
+        "ev": 0.0197928085922677,
+        "n": 177
+      },
+      {
+        "pattern": "BNBUSDT|long|weak",
+        "total_pnl": 0.20283349179768992,
+        "win_rate": 30.555555555555557,
+        "ev": 0.0056342636610469425,
+        "n": 36
+      }
+    ],
+    "losing": [
+      {
+        "pattern": "BTCUSDT|long|weak",
+        "total_pnl": -92.06372368857883,
+        "win_rate": 34.552845528455286,
+        "ev": -0.18712138961093258,
+        "n": 492
+      },
+      {
+        "pattern": "SOLUSDT|long|weak",
+        "total_pnl": -85.14370566485259,
+        "win_rate": 42.02247191011236,
+        "ev": -0.1913341700333766,
+        "n": 445
+      },
+      {
+        "pattern": "ETHUSDT|long|weak",
+        "total_pnl": -62.60842514404963,
+        "win_rate": 34.90364025695932,
+        "ev": -0.13406515020139106,
+        "n": 467
+      },
+      {
+        "pattern": "XRPUSDT|long|weak",
+        "total_pnl": -47.51218317709601,
+        "win_rate": 32.89473684210527,
+        "ev": -0.3125801524808948,
+        "n": 152
+      },
+      {
+        "pattern": "ADAUSDT|long|weak",
+        "total_pnl": -34.58052093647981,
+        "win_rate": 36.986301369863014,
+        "ev": -0.47370576625314803,
+        "n": 73
+      },
+      {
+        "pattern": "DOTUSDT|long|weak",
+        "total_pnl": -22.104180406675535,
+        "win_rate": 36.84210526315789,
+        "ev": -0.19389631935680293,
+        "n": 114
+      },
+      {
+        "pattern": "DOGEUSDT|long|weak",
+        "total_pnl": -14.854009077759232,
+        "win_rate": 46.57534246575342,
+        "ev": -0.2034795764076607,
+        "n": 73
+      },
+      {
+        "pattern": "BTCUSDT|LONG|weak",
+        "total_pnl": -9.475750509721413,
+        "win_rate": 33.33333333333333,
+        "ev": -0.12148398089386427,
+        "n": 78
+      },
+      {
+        "pattern": "BTCUSDT|SHORT|weak",
+        "total_pnl": -7.1666933581858645,
+        "win_rate": 26.666666666666668,
+        "ev": -0.47777955721239096,
+        "n": 15
+      },
+      {
+        "pattern": "LINKUSDT|long|weak",
+        "total_pnl": -5.961951187084215,
+        "win_rate": 34.48275862068966,
+        "ev": -0.20558452369255914,
+        "n": 29
+      },
+      {
+        "pattern": "OPUSDT|long|weak",
+        "total_pnl": -5.498119651089336,
+        "win_rate": 35.294117647058826,
+        "ev": -0.32341880300525505,
+        "n": 17
+      },
+      {
+        "pattern": "ETHUSDT|LONG|weak",
+        "total_pnl": -3.9558393471878173,
+        "win_rate": 31.914893617021278,
+        "ev": -0.0841667946210174,
+        "n": 47
+      },
+      {
+        "pattern": "ADAUSDT|SHORT|weak",
+        "total_pnl": -3.047750358387926,
+        "win_rate": 33.33333333333333,
+        "ev": -1.0159167861293088,
+        "n": 3
+      },
+      {
+        "pattern": "DOGEUSDT|SHORT|weak",
+        "total_pnl": -2.065020877408896,
+        "win_rate": 0.0,
+        "ev": -0.6883402924696319,
+        "n": 3
+      },
+      {
+        "pattern": "ARBUSDT|long|weak",
+        "total_pnl": -1.8672727685816128,
+        "win_rate": 30.76923076923077,
+        "ev": -0.1436363668139702,
+        "n": 13
+      },
+      {
+        "pattern": "AVAXUSDT|SHORT|weak",
+        "total_pnl": -1.3260703425393503,
+        "win_rate": 33.33333333333333,
+        "ev": -0.4420234475131168,
+        "n": 3
+      },
+      {
+        "pattern": "SOLUSDT|LONG|weak",
+        "total_pnl": -1.1298551010805356,
+        "win_rate": 44.0,
+        "ev": -0.04519420404322142,
+        "n": 25
+      }
+    ]
+  },
+  "duration_analysis": {},
+  "recommendations": [
+    "Prioritize SOLUSDT SHORT with weak OFI",
+    "Prioritize ETHUSDT SHORT with weak OFI",
+    "Prioritize XRPUSDT SHORT with weak OFI",
+    "Prioritize AVAXUSDT long with weak OFI",
+    "Prioritize BNBUSDT long with weak OFI",
+    "Block BTCUSDT long with weak OFI",
+    "Block SOLUSDT long with weak OFI",
+    "Block ETHUSDT long with weak OFI",
+    "Block XRPUSDT long with weak OFI",
+    "Block ADAUSDT long with weak OFI",
+    "Raise OFI threshold to \u22650.7",
+    "Require Ensemble \u22650.08",
+    "Block Sunday trading",
+    "Block Asia-night session (00:00-06:00 UTC)",
+    "Increase R:R target to 2.5",
+    "Restrict Beta to DOT/BNB symbols",
+    "Reduce Beta position sizes by 50%",
+    "Require strong intel alignment for Beta"
+  ]
+}

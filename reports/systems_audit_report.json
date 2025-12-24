@@ -1,0 +1,454 @@
+{
+  "timestamp": "2025-12-20T23:25:02.511108",
+  "total_issues": 55,
+  "issues": {
+    "file_mismatches": [],
+    "missing_integrations": [
+      {
+        "type": "missing_signal_tracking",
+        "file": "bot_cycle.py",
+        "expected": "signal_tracker or signal_universe_tracker",
+        "severity": "HIGH"
+      },
+      {
+        "type": "missing_post_trade_learning",
+        "file": "futures_portfolio_tracker.py",
+        "expected": "unified_on_trade_close or learning updates",
+        "severity": "HIGH"
+      }
+    ],
+    "missing_logging": [
+      {
+        "type": "empty_enriched_decisions",
+        "file": "logs/enriched_decisions.jsonl",
+        "expected": "Enriched decisions being created",
+        "severity": "HIGH"
+      },
+      {
+        "type": "missing_learning_audit",
+        "file": "logs/learning_audit.jsonl",
+        "expected": "Learning audit log",
+        "severity": "HIGH"
+      }
+    ],
+    "hardcoded_values": [
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 580,
+        "value": "win_rate >= 0.55",
+        "description": "Win rate threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 582,
+        "value": "win_rate >= 0.45",
+        "description": "Win rate threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 19,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 20,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 21,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 61,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 108,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 109,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 110,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 117,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 118,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 119,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 124,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 125,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 126,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 260,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 295,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 296,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 297,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 580,
+        "value": "0.55",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 582,
+        "value": "0.45",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 584,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/conviction_gate.py",
+        "line": 586,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/fee_aware_gate.py",
+        "line": 21,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/fee_aware_gate.py",
+        "line": 21,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/fee_aware_gate.py",
+        "line": 409,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase10_profit_engine.py",
+        "line": 745,
+        "value": "min_symbol_win_rate_pct}%, Strategy WR",
+        "description": "Win rate constant",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase10_profit_engine.py",
+        "line": 57,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase10_profit_engine.py",
+        "line": 74,
+        "value": "0.15",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 14,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 15,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 16,
+        "value": "0.15",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 17,
+        "value": "0.20",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 20,
+        "value": "0.35",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 20,
+        "value": "0.60",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 131,
+        "value": "0.45",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 131,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 131,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 132,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/strategy_runner.py",
+        "line": 132,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase92_profit_discipline.py",
+        "line": 31,
+        "value": "0.30",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase92_profit_discipline.py",
+        "line": 32,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase92_profit_discipline.py",
+        "line": 36,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase92_profit_discipline.py",
+        "line": 37,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase92_profit_discipline.py",
+        "line": 179,
+        "value": "0.50",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_threshold",
+        "file": "src/phase92_profit_discipline.py",
+        "line": 181,
+        "value": "0.25",
+        "description": "Common threshold",
+        "severity": "MEDIUM"
+      },
+      {
+        "type": "hardcoded_signal_weight",
+        "file": "src/predictive_flow_engine.py",
+        "line": 611,
+        "value": "'liquidation': 0.22",
+        "description": "Signal weight should be learned",
+        "severity": "HIGH"
+      },
+      {
+        "type": "hardcoded_signal_weight",
+        "file": "src/predictive_flow_engine.py",
+        "line": 612,
+        "value": "'funding': 0.16",
+        "description": "Signal weight should be learned",
+        "severity": "HIGH"
+      },
+      {
+        "type": "hardcoded_signal_weight",
+        "file": "src/conviction_gate.py",
+        "line": 58,
+        "value": "'liquidation': 0.22",
+        "description": "Signal weight should be learned",
+        "severity": "HIGH"
+      },
+      {
+        "type": "hardcoded_signal_weight",
+        "file": "src/conviction_gate.py",
+        "line": 59,
+        "value": "'funding': 0.16",
+        "description": "Signal weight should be learned",
+        "severity": "HIGH"
+      }
+    ],
+    "profitability_gaps": [],
+    "bugs": [
+      {
+        "type": "import_error",
+        "module": "data_registry",
+        "error": "unterminated triple-quoted string literal (detected at line 1048) (data_registry.py, line 976)",
+        "severity": "HIGH"
+      }
+    ]
+  },
+  "summary": {
+    "file_mismatches": 0,
+    "missing_integrations": 2,
+    "missing_logging": 2,
+    "hardcoded_values": 50,
+    "profitability_gaps": 0,
+    "bugs": 1
+  }
+}

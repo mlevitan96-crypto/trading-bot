@@ -1,0 +1,105 @@
+{
+  "timestamp": "2025-12-21T15:52:43.743467",
+  "results": {
+    "learning_systems": {
+      "continuous_learning": {
+        "status": "NO_STATE"
+      },
+      "audit_log": {
+        "status": "NO_CYCLES"
+      }
+    },
+    "data_collection": {
+      "signal_outcomes": {
+        "status": "ACTIVE",
+        "total": 8754,
+        "recent": 100
+      },
+      "enriched_decisions": {
+        "status": "EMPTY",
+        "total": 0
+      },
+      "trades": {
+        "status": "ACTIVE",
+        "closed": 2040,
+        "open": 10
+      },
+      "recent_performance": {
+        "trades": 50,
+        "win_rate": 56.0,
+        "total_pnl": 13.82
+      }
+    },
+    "adjustments": {
+      "signal_weights": {
+        "status": "UPDATED",
+        "weights": {
+          "liquidation": 0.1013,
+          "funding": 0.1007,
+          "oi_velocity": 0.0995,
+          "whale_flow": 0.1011,
+          "ofi_momentum": 0.0996,
+          "fear_greed": 0.0996,
+          "hurst": 0.0998,
+          "lead_lag": 0.0998,
+          "volatility_skew": 0.0995,
+          "oi_divergence": 0.0993
+        },
+        "changes": {
+          "liquidation": {
+            "default": 0.22,
+            "current": 0.1013,
+            "change": -54.0
+          },
+          "funding": {
+            "default": 0.16,
+            "current": 0.1007,
+            "change": -37.1
+          },
+          "whale_flow": {
+            "default": 0.2,
+            "current": 0.1011,
+            "change": -49.5
+          },
+          "ofi_momentum": {
+            "default": 0.06,
+            "current": 0.0996,
+            "change": 66.0
+          },
+          "fear_greed": {
+            "default": 0.06,
+            "current": 0.0996,
+            "change": 66.0
+          }
+        }
+      }
+    },
+    "performance": {
+      "trend": {
+        "first_50": {
+          "win_rate": 28.000000000000004,
+          "total_pnl": -33.0093881197455,
+          "avg_pnl": -0.6601877623949101,
+          "trades": 50
+        },
+        "last_50": {
+          "win_rate": 56.00000000000001,
+          "total_pnl": 13.820963054458455,
+          "avg_pnl": 0.2764192610891691,
+          "trades": 50
+        },
+        "wr_improvement": 28.0,
+        "pnl_improvement": 46.83
+      }
+    },
+    "issues": [
+      "Continuous Learning Controller has no state",
+      "Learning audit log exists but no cycles recorded",
+      "Enriched decisions file is empty"
+    ],
+    "recommendations": [
+      "Run fix_audit_issues.py to populate enriched decisions"
+    ]
+  },
+  "overall_status": "NEEDS_ATTENTION"
+}

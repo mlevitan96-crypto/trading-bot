@@ -346,6 +346,58 @@ class SelfHealingLearningLoop:
         """Generate recommendations based on guard effectiveness"""
         recommendations = []
         
+        # [BIG ALPHA PHASE 3] Analyze Max Pain Magnet target hits
+        try:
+            from src.position_manager import load_futures_positions
+            positions_data = load_futures_positions()
+            closed_trades = positions_data.get("closed_positions", [])
+            
+            # Analyze TRUE TREND trades with Max Pain targets
+            max_pain_hits = 0
+            max_pain_total = 0
+            max_pain_aligned_pnl = 0.0
+            max_pain_missed_pnl = 0.0
+            
+            for trade in closed_trades[-100:]:  # Last 100 trades
+                max_pain_at_entry = trade.get("max_pain_at_entry", 0)
+                entry_price = trade.get("entry_price", 0)
+                exit_price = trade.get("exit_price", trade.get("close_price", 0))
+                pnl = trade.get("pnl", trade.get("net_pnl", 0)) or 0
+                is_true_trend = trade.get("is_true_trend", False)
+                
+                if max_pain_at_entry > 0 and entry_price > 0 and exit_price > 0 and is_true_trend:
+                    max_pain_total += 1
+                    # Check if price hit Max Pain (within 0.5% tolerance)
+                    direction = trade.get("direction", "LONG")
+                    if direction == "LONG":
+                        hit_max_pain = exit_price >= max_pain_at_entry * 0.995  # Within 0.5% below
+                    else:
+                        hit_max_pain = exit_price <= max_pain_at_entry * 1.005  # Within 0.5% above
+                    
+                    if hit_max_pain:
+                        max_pain_hits += 1
+                        max_pain_aligned_pnl += pnl
+                    else:
+                        max_pain_missed_pnl += pnl
+            
+            if max_pain_total > 0:
+                hit_rate = max_pain_hits / max_pain_total
+                if hit_rate > 0.6:  # 60%+ hit rate = increase conviction
+                    recommendations.append({
+                        "type": "increase_conviction",
+                        "feature": "max_pain_magnet",
+                        "reason": f"Max Pain target hit rate {hit_rate:.1%} ({max_pain_hits}/{max_pain_total}) - Magnet effect confirmed",
+                        "suggestion": "Increase conviction multiplier for Magnet-aligned trades",
+                        "severity": "low",
+                        "stats": {
+                            "hit_rate": hit_rate,
+                            "aligned_pnl": max_pain_aligned_pnl,
+                            "missed_pnl": max_pain_missed_pnl
+                        }
+                    })
+        except Exception as e:
+            print(f"⚠️ [SELF-HEALING] Error analyzing Max Pain targets: {e}")
+        
         for guard_name, stats in guard_effectiveness.items():
             # If guard has negative net benefit, suggest review
             if stats.net_benefit < -10.0:  # Threshold: -$10

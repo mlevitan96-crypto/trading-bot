@@ -197,6 +197,17 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
                 except Exception as e:
                     _log(f"⚠️ Failed to log WHALE_CONFLICT to signal_bus: {e}")
                 return False, "WHALE_CONFLICT", 0.0
+        
+        # Store whale CVD data for ULTRA conviction check
+        whale_cvd_direction = whale_cvd_data.get("cvd_direction", "NEUTRAL")
+        whale_intensity = whale_cvd_data.get("whale_intensity", 0.0)
+    except Exception as e:
+        _log(f"⚠️ Whale CVD check failed for {symbol}: {e}")
+        whale_cvd_direction = "UNKNOWN"
+        whale_intensity = 0.0
+        whale_aligned = True
+        whale_reason = "CHECK_FAILED"
+        whale_cvd_data = {}
     
     # [BIG ALPHA PHASE 2] MACRO INSTITUTIONAL GUARDS
     # 1. Liquidation Guard - Block LONG signals within 0.5% of Short liquidation clusters

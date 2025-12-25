@@ -288,10 +288,6 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
             return False, "LONG_TRAP_DETECTED", 0.0
     except Exception as e:
         _log(f"⚠️ Trap Detection check failed for {symbol}: {e}")
-        whale_cvd_direction = "UNKNOWN"
-        whale_intensity = 0.0
-        whale_aligned = True
-        whale_reason = "CHECK_FAILED"
     
     # Load learned multipliers
     multipliers = _load_learned_intel_multipliers()

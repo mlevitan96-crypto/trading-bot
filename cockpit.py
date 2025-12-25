@@ -221,6 +221,79 @@ with tab2:
             st.warning(f"Macro guard indicators unavailable: {e}")
         
         st.markdown("---")
+        
+        # [BIG ALPHA PHASE 3] Institutional Precision Guards
+        st.subheader("🎯 Institutional Precision (Magnet Targets)")
+        try:
+            # Get current price (reuse from above)
+            if current_price <= 0:
+                try:
+                    from src.exchange_gateway import ExchangeGateway
+                    gateway = ExchangeGateway()
+                    current_price = gateway.get_price(symbol_selector, venue="futures")
+                except:
+                    pass
+            
+            # Option Max Pain
+            max_pain_price = 0.0
+            max_pain_gap_pct = 0.0
+            try:
+                from src.institutional_precision_guards import get_max_pain_price, check_price_distance_from_max_pain
+                max_pain_price = get_max_pain_price(symbol_selector)
+                if max_pain_price > 0 and current_price > 0:
+                    distance_pct, is_far = check_price_distance_from_max_pain(current_price, max_pain_price)
+                    max_pain_gap_pct = distance_pct
+            except Exception as e:
+                st.warning(f"Max Pain unavailable: {e}")
+            
+            # Orderbook Walls
+            ask_walls_info = []
+            try:
+                from src.institutional_precision_guards import get_orderbook_walls
+                if current_price > 0:
+                    walls_data = get_orderbook_walls(symbol_selector, current_price)
+                    ask_walls = walls_data.get("ask_walls", [])
+                    institutional_walls = walls_data.get("institutional_ask_walls", [])
+                    
+                    for wall in ask_walls[:3]:  # Top 3
+                        ask_walls_info.append({
+                            "price": wall.get("price", 0),
+                            "size_usd_m": wall.get("size_usd", 0) / 1e6,
+                            "distance_pct": wall.get("distance_pct", 0),
+                            "institutional": wall.get("size_usd", 0) > 25000000
+                        })
+            except Exception as e:
+                st.warning(f"Orderbook walls unavailable: {e}")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                max_pain_status = f"${max_pain_price:.2f}" if max_pain_price > 0 else "N/A"
+                gap_display = f"{max_pain_gap_pct:.2f}%" if max_pain_gap_pct > 0 else "N/A"
+                st.metric("📌 Option Max Pain", max_pain_status, f"Gap: {gap_display}")
+                if max_pain_price > 0:
+                    st.caption("🎯 Magnet Target: Price tends to move toward Max Pain")
+            
+            with col2:
+                if ask_walls_info:
+                    wall_count = len([w for w in ask_walls_info if w.get("institutional")])
+                    st.metric("🏛️ Ask Walls", f"{len(ask_walls_info)} detected", f"{wall_count} Institutional (>$25M)" if wall_count > 0 else "")
+                    # Show top wall
+                    if ask_walls_info:
+                        top_wall = ask_walls_info[0]
+                        st.caption(f"Top: ${top_wall['price']:.2f} (${top_wall['size_usd_m']:.1f}M, {top_wall['distance_pct']:.2f}% away)")
+                else:
+                    st.metric("🏛️ Ask Walls", "N/A", "No data")
+            
+            # Magnet Target Visualization
+            if max_pain_price > 0 and current_price > 0:
+                st.markdown("**🎯 Magnet Target Visualization:**")
+                gap_direction = "ABOVE" if current_price > max_pain_price else "BELOW"
+                st.info(f"Current: ${current_price:.2f} | Max Pain: ${max_pain_price:.2f} | Gap: {gap_direction} {max_pain_gap_pct:.2f}%")
+                
+        except Exception as e:
+            st.warning(f"Institutional precision indicators unavailable: {e}")
+        
+        st.markdown("---")
     except Exception as e:
         st.warning(f"Indicator loading error: {e}")
     

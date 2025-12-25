@@ -392,15 +392,39 @@ def evaluate_exit_triggers(plan: LadderPlan, prices: pd.Series, high: pd.Series,
             hurst_value = position_data.get("hurst_value_at_entry", 0.5)
             is_true_trend = (hurst_regime == "trending" and hurst_value > 0.55)
     
+    # [BIG ALPHA PHASE 3] Check for Institutional Ask Walls below Tier 4 target
+    tier_4_target_pct = 2.0 / 100.0  # Tier 4 = +2.0%
+    tier_4_target_price = plan.entry_price * (1 + tier_4_target_pct) if plan.side == "LONG" else plan.entry_price * (1 - tier_4_target_pct)
+    adjusted_tier_4_target = tier_4_target_price
+    
+    if plan.side == "LONG" and tier_4_target_pct in [t / 100.0 for t in rr_targets]:
+        try:
+            from src.institutional_precision_guards import get_institutional_ask_wall_below_target
+            ask_wall = get_institutional_ask_wall_below_target(plan.symbol, tier_4_target_price, current_price)
+            if ask_wall and ask_wall.get('size_usd', 0) > 25000000:  # > $25M
+                # Move TP target to 0.1% below the wall
+                wall_price = ask_wall.get('price', tier_4_target_price)
+                adjusted_tier_4_target = wall_price * 0.999  # 0.1% below wall
+                print(f"   🏛️ [WALL-RESISTANCE] {plan.symbol}: Institutional Ask Wall ${wall_price:.2f} (${ask_wall.get('size_usd', 0)/1e6:.1f}M) below Tier 4 - Adjusted TP to ${adjusted_tier_4_target:.2f}")
+        except Exception as e:
+            print(f"   ⚠️ [WALL-RESISTANCE] Failed to check Ask Walls for {plan.symbol}: {e}")
+    
     # R/R targets - but respect timing intelligence, learned rules, AND minimum hold time
     for target in rr_targets:
         target_pct = target / 100.0
-        hit_target = False
         
-        if plan.side == "LONG" and current_price >= plan.entry_price * (1 + target_pct):
-            hit_target = True
-        elif plan.side == "SHORT" and current_price <= plan.entry_price * (1 - target_pct):
-            hit_target = True
+        # [BIG ALPHA PHASE 3] Use adjusted Tier 4 target if Ask Wall detected
+        if plan.side == "LONG" and target == 2.0 and adjusted_tier_4_target < tier_4_target_price:
+            effective_target_price = adjusted_tier_4_target
+            hit_target = current_price >= effective_target_price
+        else:
+            effective_target_price = plan.entry_price * (1 + target_pct) if plan.side == "LONG" else plan.entry_price * (1 - target_pct)
+            hit_target = False
+            
+            if plan.side == "LONG" and current_price >= effective_target_price:
+                hit_target = True
+            elif plan.side == "SHORT" and current_price <= effective_target_price:
+                hit_target = True
         
         if hit_target:
             # [BIG ALPHA] Block Tier 1 (0.5%) exits for TRUE TREND positions - target Tier 4 (+2.0%)

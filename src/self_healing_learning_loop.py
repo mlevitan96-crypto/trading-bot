@@ -259,11 +259,13 @@ class SelfHealingLearningLoop:
             if blocker == "APPROVED":
                 continue  # Skip approved shadow trades
             
-            # [BIG ALPHA PHASE 2] Map Macro Guard events to guard names
+            # [BIG ALPHA PHASE 2 & 3] Map Macro Guard events to guard names
             guard_name_map = {
                 "LIQ_WALL_CONFLICT": "Liquidation Wall Guard",
                 "LONG_TRAP_DETECTED": "Long Trap Guard",
-                "WHALE_CONFLICT": "Whale CVD Guard"
+                "WHALE_CONFLICT": "Whale CVD Guard",
+                "TAKER_AGGRESSION_BLOCK": "Taker Aggression Guard",
+                "WALL_RESISTANCE_BLOCK": "Orderbook Wall Guard"
             }
             
             guard_name = guard_name_map.get(blocker, blocker.replace("BLOCKED_", "").replace("_", " ").title())

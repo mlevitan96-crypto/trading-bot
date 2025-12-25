@@ -289,6 +289,41 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     except Exception as e:
         _log(f"⚠️ Trap Detection check failed for {symbol}: {e}")
     
+    # [BIG ALPHA PHASE 3] INSTITUTIONAL PRECISION GUARDS
+    # 3. Taker Aggression Guard - Require 5m Ratio > 1.10 for LONG entries
+    try:
+        from src.institutional_precision_guards import check_taker_aggression_for_long
+        is_aggressive, taker_ratio = check_taker_aggression_for_long(symbol)
+        if signal_direction == "LONG" and not is_aggressive:
+            _log(f"❌ TAKER-AGGRESSION-BLOCK {symbol}: 5m Taker Ratio={taker_ratio:.3f} <= 1.10 (insufficient buying aggression for LONG)")
+            try:
+                from src.health_to_learning_bridge import log_gate_decision
+                log_gate_decision("intelligence_gate", symbol, action, False, "TAKER_AGGRESSION_BLOCK", {
+                    "taker_ratio_5m": taker_ratio,
+                    "required_ratio": 1.10
+                })
+            except:
+                pass
+            # Log to signal_bus
+            try:
+                from src.signal_bus import get_signal_bus
+                signal_bus = get_signal_bus()
+                signal_bus.emit_signal({
+                    "symbol": symbol,
+                    "direction": signal_direction,
+                    "action": action,
+                    "event": "TAKER_AGGRESSION_BLOCK",
+                    "taker_ratio_5m": taker_ratio,
+                    "required_ratio": 1.10,
+                    "blocked": True,
+                    "reason": "TAKER_AGGRESSION_BLOCK"
+                }, source="intelligence_gate")
+            except Exception as e:
+                _log(f"⚠️ Failed to log TAKER_AGGRESSION_BLOCK to signal_bus: {e}")
+            return False, "TAKER_AGGRESSION_BLOCK", 0.0
+    except Exception as e:
+        _log(f"⚠️ Taker Aggression Guard check failed for {symbol}: {e}")
+    
     # Load learned multipliers
     multipliers = _load_learned_intel_multipliers()
     

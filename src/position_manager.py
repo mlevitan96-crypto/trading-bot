@@ -389,6 +389,19 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
             # TRUE TREND = Hurst trending (H > 0.55) AND new money entering (positive OI delta)
             position["is_true_trend"] = is_hurst_trend and oi_positive
             
+            # [BIG ALPHA PHASE 3] Store Option Max Pain at entry (Magnet Target)
+            max_pain_at_entry = 0.0
+            try:
+                from src.institutional_precision_guards import get_max_pain_price
+                max_pain_at_entry = get_max_pain_price(symbol)
+                position["max_pain_at_entry"] = max_pain_at_entry
+                if max_pain_at_entry > 0:
+                    price_gap_pct = abs(entry_price - max_pain_at_entry) / max_pain_at_entry * 100 if max_pain_at_entry > 0 else 0
+                    print(f"📌 [BIG-ALPHA-P3] Max Pain Magnet Target for {symbol}: ${max_pain_at_entry:.2f} (gap={price_gap_pct:.2f}%)", flush=True)
+            except Exception as e:
+                print(f"⚠️ [BIG-ALPHA-P3] Failed to get Max Pain for {symbol}: {e}", flush=True)
+                position["max_pain_at_entry"] = 0.0
+            
             if position["is_true_trend"]:
                 print(f"✅ [BIG-ALPHA-P2] TRUE TREND detected for {symbol} (H={hurst_value:.3f}, OI_Δ={oi_delta_5m:.0f}) - Force-hold enabled (45min min, Tier 4 target)", flush=True)
             elif is_hurst_trend and not oi_positive:
@@ -400,6 +413,7 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
             position["hurst_value_at_entry"] = 0.5
             position["is_true_trend"] = False
             position["oi_delta_5m_at_entry"] = 0.0
+            position["max_pain_at_entry"] = 0.0
         
         # [ENHANCED LOGGING] Capture volatility snapshot at entry
         try:

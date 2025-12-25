@@ -332,10 +332,23 @@ class HoldTimeEnforcer:
                 hurst_value = position_data.get("hurst_value_at_entry", 0.5)
                 is_true_trend = (hurst_regime == "trending" and hurst_value > 0.55)
         
-        # [BIG ALPHA] Force 45-minute minimum hold for TRUE TREND positions
+        # [BIG ALPHA PHASE 3] Force hold for TRUE TREND positions - extend to 75min if >2% away from Max Pain
         if is_true_trend:
-            min_hold = 45 * 60  # 45 minutes = 2700 seconds
-            _log(f"🔒 [TRUE-TREND] Force-hold enabled for {symbol} {side}: 45min minimum (Hurst regime detected)")
+            entry_price = position_data.get("entry_price", 0) if position_data else 0
+            max_pain_at_entry = position_data.get("max_pain_at_entry", 0) if position_data else 0
+            
+            # Check if entry price > 2% away from Max Pain (price magnetization)
+            if entry_price > 0 and max_pain_at_entry > 0:
+                distance_pct = abs(entry_price - max_pain_at_entry) / max_pain_at_entry * 100
+                if distance_pct > 2.0:
+                    min_hold = 75 * 60  # 75 minutes = 4500 seconds (extended for price magnetization)
+                    _log(f"🔒 [TRUE-TREND-MAGNET] Force-hold extended for {symbol} {side}: 75min minimum (price {distance_pct:.2f}% away from Max Pain ${max_pain_at_entry:.2f})")
+                else:
+                    min_hold = 45 * 60  # 45 minutes = 2700 seconds (standard TRUE TREND)
+                    _log(f"🔒 [TRUE-TREND] Force-hold enabled for {symbol} {side}: 45min minimum (Hurst regime detected, near Max Pain)")
+            else:
+                min_hold = 45 * 60  # 45 minutes = 2700 seconds (default if Max Pain unavailable)
+                _log(f"🔒 [TRUE-TREND] Force-hold enabled for {symbol} {side}: 45min minimum (Hurst regime detected)")
         else:
             min_hold = self.get_minimum_hold(symbol, side)
         

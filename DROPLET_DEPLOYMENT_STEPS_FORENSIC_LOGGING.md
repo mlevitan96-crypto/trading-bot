@@ -17,7 +17,7 @@ This deployment adds comprehensive forensic execution data tracking:
 ### Step 1: SSH into Droplet
 
 ```bash
-ssh root@YOUR_DROPLET_IP
+ssh kraken
 ```
 
 ### Step 2: Navigate to Active Bot Directory

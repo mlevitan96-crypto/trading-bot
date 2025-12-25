@@ -28,7 +28,7 @@ git push origin main
 
 ### Step 2: Deploy to Droplet
 
-SSH into your droplet and run:
+SSH into your droplet using `ssh kraken` and run:
 
 ```bash
 /root/trading-bot-tools/deploy.sh

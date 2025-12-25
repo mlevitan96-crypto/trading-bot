@@ -31,7 +31,7 @@ python3 tools/droplet_client.py status
 
 **Step 3:** Connect to your droplet:
 ```bash
-ssh root@159.65.168.230
+ssh kraken
 ```
 
 **What you should see:**
@@ -273,7 +273,7 @@ python3 tools/droplet_client.py pull
 
 1. **Test SSH manually:**
    ```bash
-   ssh root@159.65.168.230
+   ssh kraken
    ```
 
 2. **If SSH asks for password:**
@@ -287,12 +287,12 @@ python3 tools/droplet_client.py pull
    # Press Enter to accept default location
    # Press Enter twice for no passphrase (or set one)
    
-   # Copy key to droplet
+   # Copy key to droplet (use actual IP for ssh-copy-id)
    ssh-copy-id root@159.65.168.230
    # Enter password when prompted
    
    # Test connection (should not ask for password)
-   ssh root@159.65.168.230
+   ssh kraken
    ```
 
 ### Issue 2: Git Push Fails
@@ -329,7 +329,7 @@ python3 tools/droplet_client.py pull
 
 1. **Check if service is running:**
    ```bash
-   ssh root@159.65.168.230
+   ssh kraken
    systemctl status droplet-git-sync
    ```
 

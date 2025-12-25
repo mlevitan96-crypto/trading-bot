@@ -160,7 +160,7 @@ Feedback Loop ← Improves next signals
 
 1. **SSH into droplet:**
    ```bash
-   ssh root@YOUR_DROPLET_IP
+   ssh kraken
    ```
 
 2. **Pull latest code:**

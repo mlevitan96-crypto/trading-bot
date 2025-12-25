@@ -39,7 +39,7 @@ Before deploying, ensure:
 ### Step 1: SSH into Droplet
 
 ```bash
-ssh root@YOUR_DROPLET_IP
+ssh kraken
 ```
 
 ### Step 2: Navigate to Trading Bot Directory

@@ -28,7 +28,7 @@ This guide sets up automatic git syncing between your droplet and GitHub, allowi
 SSH into your droplet and run:
 
 ```bash
-ssh root@159.65.168.230
+ssh kraken
 cd /root/trading-bot-B
 
 # Configure git (if not already done)
@@ -256,7 +256,7 @@ The following files are automatically committed and pushed:
 
 1. **Check SSH access**:
    ```bash
-   ssh root@159.65.168.230
+   ssh kraken
    ```
 
 2. **Check SSH key**:
@@ -266,14 +266,14 @@ The following files are automatically committed and pushed:
 
 3. **Test SSH manually**:
    ```bash
-   ssh -i ~/.ssh/id_rsa root@159.65.168.230 "echo 'Connection works'"
+   ssh -i ~/.ssh/id_rsa kraken "echo 'Connection works'"
    ```
 
 ### Git Push Fails on Droplet
 
 1. **Check git credentials**:
    ```bash
-   ssh root@159.65.168.230
+   ssh kraken
    cd /root/trading-bot-B
    git remote -v
    ```

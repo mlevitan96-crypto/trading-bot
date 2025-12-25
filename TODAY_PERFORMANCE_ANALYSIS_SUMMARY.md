@@ -35,7 +35,7 @@ The script `analyze_today_performance.py` needs to be run on the server where th
 
 ```bash
 # SSH into server
-ssh root@159.65.168.230
+ssh kraken
 
 # Navigate to bot directory (check which slot is active)
 cd /root/trading-bot-B  # or trading-bot-current

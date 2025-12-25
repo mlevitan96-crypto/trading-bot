@@ -120,7 +120,7 @@ All 9 BIG ALPHA components have been successfully:
    - Pushed to `origin/main`
 
 2. ✅ **Droplet Deployment**
-   - SSH to droplet: `ssh root@159.65.168.230`
+   - SSH to droplet: `ssh kraken`
    - Pulled latest code: `git pull origin main`
    - Installed dependencies (numpy, pandas in venv)
 

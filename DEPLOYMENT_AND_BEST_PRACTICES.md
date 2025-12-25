@@ -2,6 +2,7 @@
 ## Complete SDLC and Deployment Workflow
 
 **Server IP:** `159.65.168.230`  
+**SSH Access:** `ssh kraken` (configured SSH alias)  
 **Dashboard URL:** `http://159.65.168.230:8050/`
 
 ---
@@ -129,7 +130,7 @@ git status
 
 ### Server Information
 - **IP Address:** `159.65.168.230`
-- **SSH Command:** `ssh root@159.65.168.230`
+- **SSH Command:** `ssh kraken` (configured SSH alias)
 - **Dashboard URL:** `http://159.65.168.230:8050/`
 - **Service Name:** `tradingbot.service`
 
@@ -443,7 +444,7 @@ Use this checklist for every deployment:
 ```
 IP: 159.65.168.230
 Dashboard: http://159.65.168.230:8050/
-SSH: ssh root@159.65.168.230
+SSH: ssh kraken (configured SSH alias)
 Service: tradingbot.service
 Active Slot: /root/trading-bot-current
 ```
@@ -461,7 +462,7 @@ curl -I http://localhost:8050/
 
 **Deploy (from local machine):**
 ```bash
-ssh root@159.65.168.230
+ssh kraken
 cd /root/trading-bot-current
 git pull origin main
 sudo systemctl restart tradingbot

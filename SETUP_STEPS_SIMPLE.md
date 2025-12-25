@@ -26,7 +26,7 @@ python3 tools/droplet_client.py status
 ### STEP 2: Connect to Droplet
 **On your computer**, run:
 ```bash
-ssh root@159.65.168.230
+ssh kraken
 ```
 
 Enter password if asked. You should see: `root@your-droplet:~#`
@@ -244,7 +244,7 @@ Now:
 
 **Try this:**
 ```bash
-ssh root@159.65.168.230
+ssh kraken
 ```
 
 **If that works but the Python script doesn't:**

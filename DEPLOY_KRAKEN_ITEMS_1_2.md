@@ -39,7 +39,7 @@ dd7db76d Add venue symbol validation status to executive summary...
 ### Step 1: SSH to Droplet
 
 ```bash
-ssh root@YOUR_DROPLET_IP
+ssh kraken
 ```
 
 ### Step 2: Run Deployment Script

@@ -11,7 +11,7 @@ All the Kraken integration code is complete and tested. Everything is ready to d
 
 ### Step 1: Connect to Your Droplet
 ```bash
-ssh root@YOUR_DROPLET_IP
+ssh kraken
 ```
 
 ### Step 2: Deploy the New Code

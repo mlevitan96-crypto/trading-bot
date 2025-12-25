@@ -10,7 +10,7 @@
 
 ```bash
 # 1. Connect to droplet
-ssh root@159.65.168.230
+ssh kraken
 
 # 2. Navigate to correct directory
 cd /root/trading-bot-current

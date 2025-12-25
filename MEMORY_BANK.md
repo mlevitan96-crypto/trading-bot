@@ -344,7 +344,7 @@ For ALL major reviews, bug fixes, and data analysis:
 
 ### Server Information
 - **IP**: `159.65.168.230`
-- **SSH**: `ssh root@159.65.168.230`
+- **SSH**: `ssh kraken` (configured SSH alias)
 - **Service**: `tradingbot.service` (systemd)
 - **Active Slot**: `/root/trading-bot-current` (symlink to A or B slot)
 - **Dashboard URL**: `http://159.65.168.230:8050/`
@@ -353,7 +353,7 @@ For ALL major reviews, bug fixes, and data analysis:
 **CRITICAL**: The bot's active directory is `/root/trading-bot-B`, NOT `/root/trading-bot-current`
 - PathRegistry resolves PROJECT_ROOT to `/root/trading-bot-B` based on where `path_registry.py` is located
 - Signal tracker and all components use `/root/trading-bot-B/` as the base path
-- User may SSH into `/root/trading-bot-current`, but must be aware bot runs from `trading-bot-B`
+- User may SSH into droplet using `ssh kraken`, then navigate to `/root/trading-bot-current`, but must be aware bot runs from `trading-bot-B`
 - To check active directory: `python3 -c "from src.infrastructure.path_registry import PathRegistry; print(PathRegistry.get_root())"`
 - Multiple directories exist: `trading-bot-A` (old, 694 signals), `trading-bot-B` (active, 1 signal), `trading-bot-current` (symlink or copy)
 

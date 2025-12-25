@@ -10,7 +10,7 @@
 
 ### 1. Connect to Droplet
 ```bash
-ssh root@159.65.168.230
+ssh kraken
 ```
 
 ### 2. Navigate to Correct Directory
@@ -76,7 +76,7 @@ ls -lt reports/ | head -5
 ## Quick One-Liner (All Steps Combined)
 
 ```bash
-ssh root@159.65.168.230 "cd /opt/trading-bot && python comprehensive_profitability_analysis.py"
+ssh kraken "cd /opt/trading-bot && python comprehensive_profitability_analysis.py"
 ```
 
 ---

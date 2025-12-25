@@ -50,7 +50,7 @@
 
 1. **Pull code:**
    ```bash
-   ssh root@YOUR_DROPLET_IP
+   ssh kraken
    cd /root/trading-bot-current
    git pull origin main
    ```

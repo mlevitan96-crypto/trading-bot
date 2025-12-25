@@ -250,7 +250,7 @@ The infrastructure exists:
 **YES** - You should run analysis on the droplet where the data exists:
 ```bash
 # SSH to droplet
-ssh root@159.65.168.230
+ssh kraken
 
 # Navigate to bot directory
 cd /opt/trading-bot
@@ -388,7 +388,7 @@ grep -i "signal.*outcome" logs/bot_out.log | tail -20
 
 ```bash
 # SSH to droplet
-ssh root@159.65.168.230
+ssh kraken
 
 # Navigate to bot
 cd /opt/trading-bot

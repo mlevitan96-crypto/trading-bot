@@ -105,7 +105,7 @@ python src/kraken_futures_client.py
 ### SSH into Your Droplet
 
 ```bash
-ssh root@your-droplet-ip
+ssh kraken
 # Replace with your actual droplet IP
 ```
 

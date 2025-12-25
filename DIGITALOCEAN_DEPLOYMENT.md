@@ -10,7 +10,10 @@
 ### 1. Upload Files
 Upload the `migration_package/` folder to your droplet:
 ```bash
-scp -r migration_package/ root@your-droplet-ip:/opt/trading-bot/
+# Using SSH alias (if configured)
+scp -r migration_package/ kraken:/opt/trading-bot/
+# Or using direct IP
+scp -r migration_package/ root@159.65.168.230:/opt/trading-bot/
 ```
 
 ### 2. Install Dependencies

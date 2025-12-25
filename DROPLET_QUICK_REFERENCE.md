@@ -68,7 +68,7 @@ python3 tools/droplet_quick_commands.py run analyze_today_performance.py
 
 1. **On droplet**, configure git:
    ```bash
-   ssh root@159.65.168.230
+   ssh kraken
    cd /root/trading-bot-B
    # Follow DROPLET_GIT_SYNC_SETUP.md
    ```

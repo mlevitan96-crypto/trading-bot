@@ -6,7 +6,7 @@
 
 ```bash
 # SSH into your droplet
-ssh root@YOUR_DROPLET_IP
+ssh kraken
 
 # Navigate to trading bot directory
 cd /root/trading-bot-current

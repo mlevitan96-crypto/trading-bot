@@ -569,6 +569,7 @@ def callback_function(input_value, n_intervals):
 - **BIG ALPHA Phase 1**: Whale CVD Engine, Hurst Exponent, Force-Hold Logic, Self-Healing Loop, Symbol Probation (December 2025)
 - **BIG ALPHA Phase 2**: Macro-Institutional Guards - Liquidation Heatmap, OI Velocity Check, Trap Detection (December 2025)
 - **BIG ALPHA Phase 3**: Institutional Precision - Taker Aggression Guard, Max Pain Magnet Targets, Orderbook Wall TP Adjustment (December 2025)
+- **BIG ALPHA Phase 4**: Intent Intelligence - Whale Intent Filter (>$100k), Liquidation Magnet 2.0 (90min), Fear & Greed Regime Multiplier, Hyperparameter Optimizer (December 2025)
 - **Phase 7.x**: Predictive Intelligence (self-tuning execution, adaptive parameters)
 - **Phase 8.x**: Full Autonomy (self-healing watchdogs, edge compounding)
 - **Phase 9.x**: Autonomy Controller (health scoring, capital scaling)

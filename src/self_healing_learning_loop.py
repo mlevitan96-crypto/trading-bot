@@ -34,6 +34,10 @@ LEARNING_LOOP_LOG = LOGS / "self_healing_learning_loop.jsonl"
 ANALYSIS_WINDOW_HOURS = 4
 ANALYSIS_INTERVAL_SECONDS = 4 * 60 * 60  # Run every 4 hours
 
+# Hyperparameter optimization: Run every 12 hours
+HYPERPARAM_OPTIMIZATION_INTERVAL_SECONDS = 12 * 60 * 60  # Run every 12 hours
+HYPERPARAM_TRADE_COUNT = 50  # Analyze last 50 trades for threshold tuning
+
 
 @dataclass
 class GuardEffectiveness:
@@ -71,6 +75,7 @@ class SelfHealingLearningLoop:
         self.running = False
         self.thread = None
         self.last_analysis_ts = 0
+        self.last_hyperparam_optimization_ts = 0
         self._lock = threading.RLock()
         
         # Ensure directories exist
@@ -115,10 +120,25 @@ class SelfHealingLearningLoop:
                         probation_machine.evaluate_all_symbols()
                     except Exception as e:
                         print(f"⚠️ [PROBATION] Error during evaluation: {e}")
-                else:
-                    # Sleep until next interval
-                    sleep_time = ANALYSIS_INTERVAL_SECONDS - time_since_last
-                    time.sleep(min(sleep_time, 300))  # Check every 5 minutes max
+                
+                # [BIG ALPHA PHASE 4] Hyperparameter Optimization (every 12 hours)
+                time_since_last_hyperparam = now - self.last_hyperparam_optimization_ts
+                if time_since_last_hyperparam >= HYPERPARAM_OPTIMIZATION_INTERVAL_SECONDS:
+                    print(f"🔄 [HYPERPARAM-OPT] Starting Whale CVD threshold optimization...")
+                    try:
+                        self._optimize_whale_cvd_threshold()
+                        self.last_hyperparam_optimization_ts = now
+                    except Exception as e:
+                        print(f"⚠️ [HYPERPARAM-OPT] Error during threshold optimization: {e}")
+                        import traceback
+                        traceback.print_exc()
+                
+                # Sleep until next interval (use the shorter of the two intervals)
+                next_analysis = ANALYSIS_INTERVAL_SECONDS - time_since_last
+                next_hyperparam = HYPERPARAM_OPTIMIZATION_INTERVAL_SECONDS - time_since_last_hyperparam
+                sleep_time = min(next_analysis, next_hyperparam, 300)  # Check every 5 minutes max
+                if sleep_time > 0:
+                    time.sleep(sleep_time)
             except Exception as e:
                 print(f"⚠️ [SELF-HEALING] Error in learning loop: {e}")
                 import traceback
@@ -458,6 +478,121 @@ class SelfHealingLearningLoop:
         
         except Exception as e:
             print(f"⚠️ [SELF-HEALING] Error saving results: {e}")
+    
+    def _optimize_whale_cvd_threshold(self):
+        """
+        [BIG ALPHA PHASE 4] Hyperparameter Optimizer for Whale CVD Threshold.
+        
+        Analyzes last 50 trades and simulates what-if P&L if threshold was tightened or loosened.
+        Automatically adjusts WHALE_INTENT_FILTER threshold based on Shadow P&L.
+        """
+        try:
+            from src.intent_intelligence_guards import get_whale_cvd_intent, save_whale_cvd_threshold, load_whale_cvd_threshold
+            from src.position_manager import load_futures_positions
+            
+            # Get last N closed trades
+            positions_data = load_futures_positions()
+            closed_trades = positions_data.get("closed_positions", [])
+            recent_trades = closed_trades[-HYPERPARAM_TRADE_COUNT:]
+            
+            if len(recent_trades) < 10:  # Need at least 10 trades for meaningful optimization
+                print(f"⚠️ [HYPERPARAM-OPT] Insufficient trades ({len(recent_trades)} < 10) for threshold optimization")
+                return
+            
+            # Current threshold
+            current_threshold = load_whale_cvd_threshold()
+            
+            # Test different thresholds: -20%, -10%, 0%, +10%, +20%
+            test_thresholds = [
+                current_threshold * 0.8,  # -20% (tighter - blocks more)
+                current_threshold * 0.9,  # -10%
+                current_threshold,        # Current
+                current_threshold * 1.1,  # +10% (looser - blocks less)
+                current_threshold * 1.2   # +20%
+            ]
+            
+            best_threshold = current_threshold
+            best_pnl = float('-inf')
+            threshold_results = []
+            
+            print(f"🔍 [HYPERPARAM-OPT] Testing {len(test_thresholds)} threshold values on {len(recent_trades)} trades...")
+            
+            for test_threshold in test_thresholds:
+                simulated_pnl = 0.0
+                blocked_count = 0
+                allowed_count = 0
+                
+                # Simulate what-if for each trade
+                for trade in recent_trades:
+                    symbol = trade.get("symbol", "")
+                    direction = trade.get("direction", trade.get("side", ""))
+                    pnl = trade.get("pnl", trade.get("net_pnl", 0)) or 0
+                    
+                    if not symbol or not direction:
+                        continue
+                    
+                    # Check if trade would have been blocked with this threshold
+                    try:
+                        whale_data = get_whale_cvd_intent(symbol, test_threshold)
+                        whale_direction = whale_data.get("whale_cvd_direction", "NEUTRAL")
+                        
+                        # Check divergence
+                        would_block = False
+                        if direction == "LONG" and whale_direction == "SHORT":
+                            would_block = True
+                        elif direction == "SHORT" and whale_direction == "LONG":
+                            would_block = True
+                        
+                        if would_block:
+                            blocked_count += 1
+                            # Use shadow P&L if available, otherwise use actual P&L (conservative)
+                            simulated_pnl += 0  # Blocked = no P&L (could use shadow P&L here)
+                        else:
+                            allowed_count += 1
+                            simulated_pnl += pnl
+                    except Exception:
+                        # If we can't check, assume trade would be allowed (conservative)
+                        allowed_count += 1
+                        simulated_pnl += pnl
+                
+                threshold_results.append({
+                    "threshold": test_threshold,
+                    "simulated_pnl": simulated_pnl,
+                    "blocked_count": blocked_count,
+                    "allowed_count": allowed_count
+                })
+                
+                if simulated_pnl > best_pnl:
+                    best_pnl = simulated_pnl
+                    best_threshold = test_threshold
+            
+            # Only update if improvement is significant (>$50)
+            improvement = best_pnl - threshold_results[2]["simulated_pnl"]  # Compare to current threshold result
+            
+            if improvement > 50.0 and best_threshold != current_threshold:
+                print(f"✅ [HYPERPARAM-OPT] Optimal threshold: ${best_threshold:,.0f} (improvement: ${improvement:.2f})")
+                save_whale_cvd_threshold(best_threshold)
+            else:
+                print(f"ℹ️ [HYPERPARAM-OPT] Current threshold optimal (${current_threshold:,.0f}, improvement: ${improvement:.2f})")
+            
+            # Log optimization results
+            opt_log = {
+                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "trades_analyzed": len(recent_trades),
+                "current_threshold": current_threshold,
+                "best_threshold": best_threshold,
+                "improvement": improvement,
+                "threshold_results": threshold_results
+            }
+            
+            opt_log_path = LOGS / "whale_cvd_threshold_optimization.jsonl"
+            with open(opt_log_path, "a") as f:
+                f.write(json.dumps(opt_log) + "\n")
+                
+        except Exception as e:
+            print(f"⚠️ [HYPERPARAM-OPT] Error optimizing Whale CVD threshold: {e}")
+            import traceback
+            traceback.print_exc()
 
 
 # Singleton instance

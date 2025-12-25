@@ -289,6 +289,28 @@ with tab2:
                 st.markdown("**🎯 Magnet Target Visualization:**")
                 gap_direction = "ABOVE" if current_price > max_pain_price else "BELOW"
                 st.info(f"Current: ${current_price:.2f} | Max Pain: ${max_pain_price:.2f} | Gap: {gap_direction} {max_pain_gap_pct:.2f}%")
+            
+            # [BIG ALPHA PHASE 4] Liquidation Magnet Distance
+            liq_magnet_distance = "N/A"
+            liq_cluster_direction = "N/A"
+            try:
+                from src.intent_intelligence_guards import get_liquidation_heatmap_clusters
+                if current_price > 0:
+                    clusters_data = get_liquidation_heatmap_clusters(symbol_selector, current_price, limit=2)
+                    top_clusters = clusters_data.get("top_clusters", [])
+                    if top_clusters:
+                        # Find closest cluster
+                        closest_cluster = min(top_clusters, key=lambda c: abs(c.get("price", current_price) - current_price))
+                        cluster_price = closest_cluster.get("price", current_price)
+                        distance_pct = abs(current_price - cluster_price) / current_price * 100 if current_price > 0 else 0
+                        liq_magnet_distance = f"{distance_pct:.2f}%"
+                        liq_cluster_direction = closest_cluster.get("direction", "UNKNOWN")
+            except Exception as e:
+                pass
+            
+            # Display Liquidation Magnet Distance
+            st.markdown("**🧲 Liquidation Magnet Distance:**")
+            st.metric("Distance to Nearest Cluster", liq_magnet_distance, liq_cluster_direction)
                 
         except Exception as e:
             st.warning(f"Institutional precision indicators unavailable: {e}")
@@ -348,6 +370,56 @@ with tab2:
         col2.metric("Would Win", blocked.get("profitable_blocked", 0))
         col3.metric("Would Lose", blocked.get("losing_blocked", 0))
         col4.metric("Net Cost", f"${blocked.get('net_opportunity_cost', 0):,.2f}")
+        
+        st.markdown("---")
+        
+        # [BIG ALPHA PHASE 4] Whale CVD vs Retail CVD Divergence Chart
+        st.subheader("🐋 Whale CVD vs Retail CVD Divergence")
+        try:
+            from src.intent_intelligence_guards import get_whale_cvd_intent, load_whale_cvd_threshold
+            
+            whale_cvd_data = get_whale_cvd_intent(symbol_selector)
+            threshold = load_whale_cvd_threshold()
+            
+            if not whale_cvd_data.get("error"):
+                whale_buy = whale_cvd_data.get("whale_buy_vol", 0)
+                whale_sell = whale_cvd_data.get("whale_sell_vol", 0)
+                whale_net = whale_cvd_data.get("whale_net_cvd", 0)
+                whale_dir = whale_cvd_data.get("whale_cvd_direction", "NEUTRAL")
+                
+                retail_buy = whale_cvd_data.get("retail_buy_vol", 0)
+                retail_sell = whale_cvd_data.get("retail_sell_vol", 0)
+                retail_net = whale_cvd_data.get("retail_net_cvd", 0)
+                retail_dir = whale_cvd_data.get("retail_cvd_direction", "NEUTRAL")
+                
+                # Calculate divergence
+                divergence = "ALIGNED" if whale_dir == retail_dir else "DIVERGENT"
+                
+                col1, col2, col3, col4 = st.columns(4)
+                col1.metric("Whale CVD", whale_dir, f"${whale_net/1e6:.2f}M")
+                col2.metric("Retail CVD", retail_dir, f"${retail_net/1e6:.2f}M")
+                col3.metric("Divergence", divergence, "⚠️" if divergence == "DIVERGENT" else "✅")
+                col4.metric("Threshold", f"${threshold/1e3:.0f}K", "Auto-tuned")
+                
+                # Create divergence chart data
+                chart_data = pd.DataFrame({
+                    "Type": ["Whale Buy", "Whale Sell", "Retail Buy", "Retail Sell"],
+                    "Volume (M)": [
+                        whale_buy / 1e6,
+                        whale_sell / 1e6,
+                        retail_buy / 1e6,
+                        retail_sell / 1e6
+                    ]
+                })
+                
+                st.bar_chart(chart_data.set_index("Type"))
+                
+                if divergence == "DIVERGENT":
+                    st.warning(f"⚠️ Whale and Retail CVD are diverging! Whale={whale_dir}, Retail={retail_dir}")
+            else:
+                st.info("Whale CVD data unavailable")
+        except Exception as e:
+            st.warning(f"Whale CVD divergence chart unavailable: {e}")
         
         st.markdown("---")
         

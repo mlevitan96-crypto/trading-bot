@@ -957,6 +957,19 @@ class PredictiveFlowEngine:
         should_trade = conviction in ['HIGH', 'MEDIUM'] and final_direction != 'NEUTRAL'
         size_multiplier = self.CONVICTION_THRESHOLDS[conviction]['size_multiplier']
         
+        # [BIG ALPHA PHASE 4] Apply Fear & Greed Regime Multiplier
+        # If F&G > 80 (Extreme Greed), reduce all base sizes by 40%
+        try:
+            from src.intent_intelligence_guards import get_fear_greed_multiplier
+            fg_multiplier = get_fear_greed_multiplier()
+            size_multiplier = size_multiplier * fg_multiplier
+            
+            if fg_multiplier < 1.0:
+                all_reasons.append(f"fear_greed_reduced_{fg_multiplier:.2f}x")
+        except Exception as e:
+            # Fail open - if we can't get F&G data, use original multiplier
+            pass
+        
         result = {
             'symbol': symbol,
             'direction': final_direction,

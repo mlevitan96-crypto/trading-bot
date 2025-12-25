@@ -324,6 +324,46 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     except Exception as e:
         _log(f"⚠️ Taker Aggression Guard check failed for {symbol}: {e}")
     
+    # [BIG ALPHA PHASE 4] INTENT INTELLIGENCE GUARDS
+    # 4. Whale Intent Filter - Block signals where Whale CVD (>$100k) diverges from signal direction
+    try:
+        from src.intent_intelligence_guards import check_whale_cvd_divergence
+        should_block, divergence_reason, whale_intent_data = check_whale_cvd_divergence(symbol, signal_direction)
+        if should_block and divergence_reason == "WHALE_INTENT_DIVERGENCE":
+            whale_threshold = whale_intent_data.get("threshold_usd", 100000)
+            whale_direction = whale_intent_data.get("whale_cvd_direction", "UNKNOWN")
+            _log(f"❌ WHALE-INTENT-FILTER {symbol}: Signal={signal_direction} diverges from Whale CVD={whale_direction} (threshold=${whale_threshold:,.0f})")
+            try:
+                from src.health_to_learning_bridge import log_gate_decision
+                log_gate_decision("intelligence_gate", symbol, action, False, "WHALE_INTENT_FILTER", {
+                    "whale_cvd_direction": whale_direction,
+                    "signal_direction": signal_direction,
+                    "threshold_usd": whale_threshold,
+                    "whale_net_cvd": whale_intent_data.get("whale_net_cvd", 0)
+                })
+            except:
+                pass
+            # Log to signal_bus
+            try:
+                from src.signal_bus import get_signal_bus
+                signal_bus = get_signal_bus()
+                signal_bus.emit_signal({
+                    "symbol": symbol,
+                    "direction": signal_direction,
+                    "action": action,
+                    "event": "WHALE_INTENT_FILTER",
+                    "whale_cvd_direction": whale_direction,
+                    "threshold_usd": whale_threshold,
+                    "whale_net_cvd": whale_intent_data.get("whale_net_cvd", 0),
+                    "blocked": True,
+                    "reason": "WHALE_INTENT_FILTER"
+                }, source="intelligence_gate")
+            except Exception as e:
+                _log(f"⚠️ Failed to log WHALE_INTENT_FILTER to signal_bus: {e}")
+            return False, "WHALE_INTENT_FILTER", 0.0
+    except Exception as e:
+        _log(f"⚠️ Whale Intent Filter check failed for {symbol}: {e}")
+    
     # Load learned multipliers
     multipliers = _load_learned_intel_multipliers()
     

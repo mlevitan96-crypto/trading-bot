@@ -196,6 +196,86 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
                 except Exception as e:
                     _log(f"⚠️ Failed to log WHALE_CONFLICT to signal_bus: {e}")
                 return False, "WHALE_CONFLICT", 0.0
+    
+    # [BIG ALPHA PHASE 2] MACRO INSTITUTIONAL GUARDS
+    # 1. Liquidation Guard - Block LONG signals within 0.5% of Short liquidation clusters
+    try:
+        from src.macro_institutional_guards import check_liquidation_wall_conflict
+        # Get current price from signal or exchange
+        current_price = signal.get('price') or signal.get('entry_price') or signal.get('expected_price')
+        if not current_price:
+            # Try to get from exchange gateway
+            try:
+                from src.exchange_gateway import ExchangeGateway
+                gateway = ExchangeGateway()
+                ticker = gateway.get_ticker(symbol, venue="futures")
+                if ticker:
+                    current_price = float(ticker.get('last', ticker.get('close', 0)))
+            except:
+                pass
+        
+        if current_price and current_price > 0:
+            should_block_liq, liq_reason, liq_data = check_liquidation_wall_conflict(symbol, signal_direction, current_price)
+            if should_block_liq and liq_reason == "LIQ_WALL_CONFLICT":
+                _log(f"❌ LIQ-WALL-CONFLICT {symbol}: LONG signal blocked within 0.5% of Short liquidation cluster (price={current_price:.2f}, cluster={liq_data.get('cluster_price', 0):.2f})")
+                try:
+                    from src.health_to_learning_bridge import log_gate_decision
+                    log_gate_decision("intelligence_gate", symbol, action, False, "LIQ_WALL_CONFLICT", liq_data)
+                except:
+                    pass
+                # Log to signal_bus
+                try:
+                    from src.signal_bus import get_signal_bus
+                    signal_bus = get_signal_bus()
+                    signal_bus.emit_signal({
+                        "symbol": symbol,
+                        "direction": signal_direction,
+                        "action": action,
+                        "event": "LIQ_WALL_CONFLICT",
+                        "current_price": current_price,
+                        "cluster_price": liq_data.get('cluster_price'),
+                        "distance_pct": liq_data.get('distance_pct'),
+                        "short_liq_amount": liq_data.get('short_liq_amount'),
+                        "blocked": True,
+                        "reason": "LIQ_WALL_CONFLICT"
+                    }, source="intelligence_gate")
+                except Exception as e:
+                    _log(f"⚠️ Failed to log LIQ_WALL_CONFLICT to signal_bus: {e}")
+                return False, "LIQ_WALL_CONFLICT", 0.0
+    except Exception as e:
+        _log(f"⚠️ Liquidation Guard check failed for {symbol}: {e}")
+    
+    # 2. Trap Detection - Block LONG entries if Retail Long/Short Ratio > 2.0
+    try:
+        from src.macro_institutional_guards import check_long_trap
+        is_trap, trap_ratio = check_long_trap(symbol)
+        if is_trap and signal_direction == "LONG":
+            _log(f"❌ LONG-TRAP-DETECTED {symbol}: Retail Long/Short Ratio={trap_ratio:.2f} > 2.0 (retail very long = potential trap)")
+            try:
+                from src.health_to_learning_bridge import log_gate_decision
+                log_gate_decision("intelligence_gate", symbol, action, False, "LONG_TRAP_DETECTED", {
+                    "retail_ratio": trap_ratio
+                })
+            except:
+                pass
+            # Log to signal_bus
+            try:
+                from src.signal_bus import get_signal_bus
+                signal_bus = get_signal_bus()
+                signal_bus.emit_signal({
+                    "symbol": symbol,
+                    "direction": signal_direction,
+                    "action": action,
+                    "event": "LONG_TRAP_DETECTED",
+                    "retail_ratio": trap_ratio,
+                    "blocked": True,
+                    "reason": "LONG_TRAP_DETECTED"
+                }, source="intelligence_gate")
+            except Exception as e:
+                _log(f"⚠️ Failed to log LONG_TRAP_DETECTED to signal_bus: {e}")
+            return False, "LONG_TRAP_DETECTED", 0.0
+    except Exception as e:
+        _log(f"⚠️ Trap Detection check failed for {symbol}: {e}")
         
         # Store whale CVD data for ULTRA conviction check
         whale_cvd_direction = whale_cvd_data.get("cvd_direction", "NEUTRAL")

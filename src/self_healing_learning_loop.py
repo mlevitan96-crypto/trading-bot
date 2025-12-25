@@ -255,11 +255,18 @@ class SelfHealingLearningLoop:
         
         # Process shadow trades (blocked trades)
         for shadow_trade in shadow_trades:
-            blocker = shadow_trade.get("blocker_component") or shadow_trade.get("original_decision", "unknown")
+            blocker = shadow_trade.get("blocker_component") or shadow_trade.get("original_decision") or shadow_trade.get("reason") or shadow_trade.get("event", "unknown")
             if blocker == "APPROVED":
                 continue  # Skip approved shadow trades
             
-            guard_name = blocker.replace("BLOCKED_", "").replace("_", " ").title()
+            # [BIG ALPHA PHASE 2] Map Macro Guard events to guard names
+            guard_name_map = {
+                "LIQ_WALL_CONFLICT": "Liquidation Wall Guard",
+                "LONG_TRAP_DETECTED": "Long Trap Guard",
+                "WHALE_CONFLICT": "Whale CVD Guard"
+            }
+            
+            guard_name = guard_name_map.get(blocker, blocker.replace("BLOCKED_", "").replace("_", " ").title())
             if not guard_stats[guard_name].guard_name:
                 guard_stats[guard_name].guard_name = guard_name
             

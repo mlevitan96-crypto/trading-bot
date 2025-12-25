@@ -353,7 +353,7 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         position["expected_roi"] = signal_context.get("expected_roi", 0.0)
         position["volatility"] = signal_context.get("volatility", 0.0)
         
-        # [BIG ALPHA] Store Hurst regime for force-hold logic (TRUE TREND detection)
+        # [BIG ALPHA PHASE 2] Store Hurst regime + OI Velocity for TRUE TREND detection
         try:
             # Get Hurst signal from signal_context if available (from predictive_flow_engine)
             signals = signal_context.get("signals", {})
@@ -370,16 +370,36 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
             hurst_value = hurst_signal.get("hurst_value", 0.5)
             position["hurst_regime_at_entry"] = hurst_regime
             position["hurst_value_at_entry"] = hurst_value
-            position["is_true_trend"] = (hurst_regime == "trending" and hurst_value > 0.55)
+            
+            # [BIG ALPHA PHASE 2] TRUE TREND requires: H > 0.55 AND positive 5m OI Delta
+            is_hurst_trend = (hurst_regime == "trending" and hurst_value > 0.55)
+            oi_positive = False
+            oi_delta_5m = 0.0
+            
+            try:
+                from src.macro_institutional_guards import check_oi_velocity_positive
+                oi_positive, oi_delta_5m = check_oi_velocity_positive(symbol)
+                position["oi_delta_5m_at_entry"] = oi_delta_5m
+            except Exception as e:
+                print(f"⚠️ [BIG-ALPHA-P2] Failed to check OI velocity for {symbol}: {e}", flush=True)
+                # Fail open - if we can't get OI data, still allow TRUE TREND if Hurst is good
+                oi_positive = True
+                position["oi_delta_5m_at_entry"] = 0.0
+            
+            # TRUE TREND = Hurst trending (H > 0.55) AND new money entering (positive OI delta)
+            position["is_true_trend"] = is_hurst_trend and oi_positive
             
             if position["is_true_trend"]:
-                print(f"✅ [BIG-ALPHA] TRUE TREND detected for {symbol} (H={hurst_value:.3f}) - Force-hold enabled (45min min, Tier 4 target)", flush=True)
+                print(f"✅ [BIG-ALPHA-P2] TRUE TREND detected for {symbol} (H={hurst_value:.3f}, OI_Δ={oi_delta_5m:.0f}) - Force-hold enabled (45min min, Tier 4 target)", flush=True)
+            elif is_hurst_trend and not oi_positive:
+                print(f"⚠️ [BIG-ALPHA-P2] Hurst trending (H={hurst_value:.3f}) but OI delta negative ({oi_delta_5m:.0f}) - NOT TRUE TREND", flush=True)
         except Exception as e:
             # Fail open - don't break position opening
             print(f"⚠️ [BIG-ALPHA] Failed to capture Hurst regime for {symbol}: {e}", flush=True)
             position["hurst_regime_at_entry"] = "unknown"
             position["hurst_value_at_entry"] = 0.5
             position["is_true_trend"] = False
+            position["oi_delta_5m_at_entry"] = 0.0
         
         # [ENHANCED LOGGING] Capture volatility snapshot at entry
         try:

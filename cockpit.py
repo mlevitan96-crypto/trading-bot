@@ -168,6 +168,59 @@ with tab2:
         col4.metric("🎯 Status", "TRUE TREND" if is_true_trend else "NORMAL", "45min hold" if is_true_trend else "")
         
         st.markdown("---")
+        
+        # [BIG ALPHA PHASE 2] Liquidation Wall Proximity and OI Velocity
+        st.subheader("🏛️ Macro Institutional Guards")
+        try:
+            # Get current price
+            current_price = 0.0
+            try:
+                from src.exchange_gateway import ExchangeGateway
+                gateway = ExchangeGateway()
+                current_price = gateway.get_price(symbol_selector, venue="futures")
+            except:
+                pass
+            
+            # Liquidation Wall Proximity
+            has_nearby_short_liq = False
+            liq_distance_pct = 999.0
+            try:
+                from src.macro_institutional_guards import get_liquidation_heatmap
+                if current_price > 0:
+                    heatmap = get_liquidation_heatmap(symbol_selector, current_price)
+                    has_nearby_short_liq = heatmap.get("has_nearby_short_liq", False)
+                    nearby_short = heatmap.get("short_liq_clusters_nearby", [])
+                    if nearby_short:
+                        liq_distance_pct = min(c.get("distance_pct", 999) for c in nearby_short)
+            except Exception as e:
+                st.warning(f"Liquidation heatmap unavailable: {e}")
+            
+            # OI Velocity
+            oi_delta_5m = 0.0
+            oi_positive = False
+            try:
+                from src.macro_institutional_guards import get_oi_velocity
+                oi_data = get_oi_velocity(symbol_selector)
+                oi_delta_5m = oi_data.get("oi_delta_5m", 0.0)
+                oi_positive = oi_data.get("is_positive", False)
+            except Exception as e:
+                st.warning(f"OI velocity unavailable: {e}")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                liq_status = "⚠️ NEARBY" if has_nearby_short_liq else "✅ CLEAR"
+                liq_delta = f"{liq_distance_pct:.3f}%" if liq_distance_pct < 999 else "N/A"
+                st.metric("🏛️ Liquidation Wall", liq_status, f"Distance: {liq_delta}")
+            
+            with col2:
+                oi_status = "📈 POSITIVE" if oi_positive else "📉 NEGATIVE"
+                oi_delta_display = f"${oi_delta_5m:,.0f}" if oi_delta_5m != 0 else "N/A"
+                st.metric("💹 OI Velocity (5m)", oi_status, f"Δ: {oi_delta_display}")
+            
+        except Exception as e:
+            st.warning(f"Macro guard indicators unavailable: {e}")
+        
+        st.markdown("---")
     except Exception as e:
         st.warning(f"Indicator loading error: {e}")
     

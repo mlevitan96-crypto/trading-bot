@@ -69,6 +69,10 @@ The bot operates on a 60-second main loop, processing all enabled symbols. It fe
     -   **Phase 8.x (Full Autonomy)**: Implements self-healing watchdogs, edge compounding, and drift detection.
     -   **Phase 9.x (Autonomy Controller)**: Governs health scoring, capital scaling, and adaptive governance.
     -   **Phase 10.x (Profit Engine)**: Manages expectancy gates, attribution-weighted allocation, and adaptive risk.
+    -   **BIG ALPHA (December 2025)**: Advanced institutional-grade trading enhancements:
+        -   **Phase 1**: Whale CVD Engine (whale/retail flow bucketing), Hurst Exponent (TRUE TREND detection), Force-Hold Logic (45min minimum for TRUE TREND), Self-Healing Learning Loop (guard effectiveness analysis), Symbol Probation (underperforming symbol blocking)
+        -   **Phase 2**: Macro-Institutional Guards - Liquidation Heatmap (blocks LONG near short liquidation clusters), OI Velocity Check (requires positive 5m OI Delta for TRUE TREND), Trap Detection (blocks LONG if retail long/short ratio > 2.0)
+        -   **Phase 3**: Institutional Precision - Taker Aggression Guard (requires 5m ratio > 1.10 for LONG), Max Pain Magnet Targets (price magnetization tracking), Orderbook Wall TP Adjustment (moves TP to 0.1% below >$25M walls)
 -   **Learning System**: Features a Continuous Learning Controller (12-hour cycle) for adjusting signal weights and conviction thresholds, and a Daily Intelligence Learner for pattern discovery and validation. It incorporates feedback loops to track signal outcomes and automatically disable underperforming symbols.
 -   **Self-Healing & Reliability**: Utilizes a supervisor script (`start_bot.sh`) for external watchdog functionality and auto-restarts. Health monitors track process heartbeats, memory usage, and data integrity. A Governance Sentinel monitors kill switches, heartbeats, and venue integrity.
 

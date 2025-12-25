@@ -1,15 +1,15 @@
 {
   "golden_hour_closed": {
-    "count": 1015,
-    "total_pnl": 31.464614415738485,
-    "wins": 441,
-    "losses": 574,
-    "win_rate": 43.44827586206896,
-    "avg_pnl": 0.030999620114028063,
-    "profit_factor": 1.0730231592120114,
-    "avg_hold_time_seconds": 1895.4355050876848,
-    "with_snapshots": 99,
-    "snapshot_rate": 9.753694581280788
+    "count": 1025,
+    "total_pnl": 28.78208455485024,
+    "wins": 444,
+    "losses": 581,
+    "win_rate": 43.31707317073171,
+    "avg_pnl": 0.02808008249253682,
+    "profit_factor": 1.066293749633347,
+    "avg_hold_time_seconds": 1895.052924742439,
+    "with_snapshots": 109,
+    "snapshot_rate": 10.634146341463415
   },
   "non_golden_closed": {
     "count": 2496,
@@ -24,7 +24,7 @@
     "snapshot_rate": 14.262820512820513
   },
   "golden_hour_open": {
-    "count": 7,
+    "count": 0,
     "total_pnl": 0.0,
     "wins": 0,
     "losses": 0,
@@ -32,29 +32,29 @@
     "avg_pnl": 0.0,
     "profit_factor": 0.0,
     "avg_hold_time_seconds": 0.0,
-    "with_snapshots": 7,
-    "snapshot_rate": 100.0
+    "with_snapshots": 0,
+    "snapshot_rate": 0.0
   },
   "symbol_stats": {
     "ADAUSDT": {
-      "count": 30,
-      "pnl": -11.134231875693818,
+      "count": 31,
+      "pnl": -12.098875826006743,
       "wins": 9,
-      "losses": 21,
+      "losses": 22,
       "gross_profit": 17.4536312590081,
-      "gross_loss": 28.58786313470192,
-      "profit_factor": 0.6105259136287693,
-      "avg_hold_time_seconds": 1384.3584194333334
+      "gross_loss": 29.552507085014845,
+      "profit_factor": 0.5905973123971703,
+      "avg_hold_time_seconds": 1398.2867390645163
     },
     "SOLUSDT": {
-      "count": 225,
-      "pnl": 7.0025718891673545,
-      "wins": 108,
-      "losses": 117,
-      "gross_profit": 103.5648122195879,
-      "gross_loss": 96.56224033042056,
-      "profit_factor": 1.0725187388487016,
-      "avg_hold_time_seconds": 1863.0097446533334
+      "count": 228,
+      "pnl": 6.321909660179714,
+      "wins": 109,
+      "losses": 119,
+      "gross_profit": 103.66757472445312,
+      "gross_loss": 97.3456650642734,
+      "profit_factor": 1.0649428986489087,
+      "avg_hold_time_seconds": 1861.3109533991228
     },
     "XRPUSDT": {
       "count": 43,
@@ -87,24 +87,24 @@
       "avg_hold_time_seconds": 1469.08326625
     },
     "ETHUSDT": {
-      "count": 246,
-      "pnl": -2.8953388084910148,
+      "count": 249,
+      "pnl": -4.187113634948051,
       "wins": 107,
-      "losses": 139,
+      "losses": 142,
       "gross_profit": 99.91846824143438,
-      "gross_loss": 102.81380704992539,
-      "profit_factor": 0.9718390078962347,
-      "avg_hold_time_seconds": 2006.2357567682927
+      "gross_loss": 104.10558187638243,
+      "profit_factor": 0.959780123606437,
+      "avg_hold_time_seconds": 2005.2700374859437
     },
     "BTCUSDT": {
-      "count": 277,
-      "pnl": -20.325859847074113,
-      "wins": 109,
-      "losses": 168,
-      "gross_profit": 80.81269367596238,
-      "gross_loss": 101.13855352303656,
-      "profit_factor": 0.7990295575816742,
-      "avg_hold_time_seconds": 2032.0143998483752
+      "count": 280,
+      "pnl": -20.071308702204753,
+      "wins": 111,
+      "losses": 169,
+      "gross_profit": 81.30183658529042,
+      "gross_loss": 101.37314528749523,
+      "profit_factor": 0.8020056628875193,
+      "avg_hold_time_seconds": 2030.8361236785713
     },
     "AVAXUSDT": {
       "count": 98,
@@ -159,10 +159,10 @@
   },
   "strategy_stats": {
     "Sentiment-Fusion": {
-      "count": 462,
-      "pnl": 32.79091699661611,
-      "wins": 199,
-      "losses": 263
+      "count": 465,
+      "pnl": 32.54896457903215,
+      "wins": 201,
+      "losses": 264
     },
     "Alpha-OFI": {
       "count": 33,
@@ -177,109 +177,19 @@
       "losses": 40
     },
     "Trend-Conservative": {
-      "count": 236,
-      "pnl": 7.797233143775254,
-      "wins": 98,
-      "losses": 138
+      "count": 240,
+      "pnl": 6.2705598884701885,
+      "wins": 99,
+      "losses": 141
     },
     "Breakout-Aggressive": {
-      "count": 217,
-      "pnl": 8.59628493779355,
+      "count": 220,
+      "pnl": 7.68238074979434,
       "wins": 104,
-      "losses": 113
+      "losses": 116
     }
   },
   "sample_trades": [
-    {
-      "symbol": "ETHUSDT",
-      "strategy": "Reentry-Module",
-      "opened_at": "2025-12-23T15:32:32.792307-07:00",
-      "pnl": -0.36866295959521633,
-      "atr_14": 0.9428571428571298,
-      "regime": "NOISE",
-      "volume_24h": 53.0
-    },
-    {
-      "symbol": "SOLUSDT",
-      "strategy": "Sentiment-Fusion",
-      "opened_at": "2025-12-23T15:45:52.518763-07:00",
-      "pnl": 0.20032258064516542,
-      "atr_14": 0.018571428571426907,
-      "regime": "NOISE",
-      "volume_24h": 115.91999999999997
-    },
-    {
-      "symbol": "BTCUSDT",
-      "strategy": "Sentiment-Fusion",
-      "opened_at": "2025-12-23T15:39:29.179862-07:00",
-      "pnl": 0.29485645504818364,
-      "atr_14": 18.392857142857142,
-      "regime": "NOISE",
-      "volume_24h": 24.0
-    },
-    {
-      "symbol": "SOLUSDT",
-      "strategy": "Sentiment-Fusion",
-      "opened_at": "2025-12-23T15:45:52.518763-07:00",
-      "pnl": 0.3871849153741898,
-      "atr_14": 0.018571428571426907,
-      "regime": "NOISE",
-      "volume_24h": 115.91999999999997
-    },
-    {
-      "symbol": "ETHUSDT",
-      "strategy": "Sentiment-Fusion",
-      "opened_at": "2025-12-23T15:45:29.673468-07:00",
-      "pnl": 0.28739465681176046,
-      "atr_14": 0.0,
-      "regime": "NOISE",
-      "volume_24h": 5.0
-    },
-    {
-      "symbol": "SOLUSDT",
-      "strategy": "Breakout-Aggressive",
-      "opened_at": "2025-12-23T15:45:57.042673-07:00",
-      "pnl": 0.7745949869301944,
-      "atr_14": 0.018571428571426907,
-      "regime": "NOISE",
-      "volume_24h": 115.91999999999997
-    },
-    {
-      "symbol": "BTCUSDT",
-      "strategy": "Trend-Conservative",
-      "opened_at": "2025-12-23T15:51:28.765278-07:00",
-      "pnl": 0.5701951676112874,
-      "atr_14": 0.0,
-      "regime": "NOISE",
-      "volume_24h": 20.0
-    },
-    {
-      "symbol": "ETHUSDT",
-      "strategy": "Trend-Conservative",
-      "opened_at": "2025-12-23T15:51:56.652069-07:00",
-      "pnl": 0.13888220612038413,
-      "atr_14": 0.0,
-      "regime": "NOISE",
-      "volume_24h": 5.0
-    },
-    {
-      "symbol": "BTCUSDT",
-      "strategy": "Breakout-Aggressive",
-      "opened_at": "2025-12-23T15:51:32.299146-07:00",
-      "pnl": -0.18471082099053598,
-      "atr_14": 0.0,
-      "regime": "NOISE",
-      "volume_24h": 20.0
-    },
-    {
-      "symbol": "SOLUSDT",
-      "strategy": "Breakout-Aggressive",
-      "opened_at": "2025-12-24T09:03:50.304563-07:00",
-      "pnl": 0.5506481638706694,
-      "atr_14": 0.11642857142857414,
-      "regime": "NOISE",
-      "volume_24h": 547.9700000000001
-    },
     {
       "symbol": "BTCUSDT",
       "strategy": "Sentiment-Fusion",
@@ -369,7 +279,97 @@
       "atr_14": 0.0,
       "regime": "NOISE",
       "volume_24h": 14222.0
+    },
+    {
+      "symbol": "ADAUSDT",
+      "strategy": "Trend-Conservative",
+      "opened_at": "2025-12-24T09:31:38.452297-07:00",
+      "pnl": -0.964643950312926,
+      "atr_14": 0.0,
+      "regime": "NOISE",
+      "volume_24h": 14222.0
+    },
+    {
+      "symbol": "BTCUSDT",
+      "strategy": "Sentiment-Fusion",
+      "opened_at": "2025-12-24T09:36:20.787053-07:00",
+      "pnl": 0.1425346562078409,
+      "atr_14": 0.0,
+      "regime": "NOISE",
+      "volume_24h": 41.0
+    },
+    {
+      "symbol": "BTCUSDT",
+      "strategy": "Trend-Conservative",
+      "opened_at": "2025-12-24T09:42:57.090262-07:00",
+      "pnl": 0.34660825312019433,
+      "atr_14": 0.0,
+      "regime": "NOISE",
+      "volume_24h": 41.0
+    },
+    {
+      "symbol": "ETHUSDT",
+      "strategy": "Breakout-Aggressive",
+      "opened_at": "2025-12-24T09:43:37.041560-07:00",
+      "pnl": -0.18299880520758388,
+      "atr_14": 0.0,
+      "regime": "NOISE",
+      "volume_24h": 44.0
+    },
+    {
+      "symbol": "SOLUSDT",
+      "strategy": "Sentiment-Fusion",
+      "opened_at": "2025-12-24T09:50:18.882064-07:00",
+      "pnl": 0.10276250486520483,
+      "atr_14": 0.07142857142857041,
+      "regime": "NOISE",
+      "volume_24h": 522.7299999999999
+    },
+    {
+      "symbol": "BTCUSDT",
+      "strategy": "Breakout-Aggressive",
+      "opened_at": "2025-12-24T09:49:29.888416-07:00",
+      "pnl": -0.2345917644586732,
+      "atr_14": 0.0,
+      "regime": "NOISE",
+      "volume_24h": 41.0
+    },
+    {
+      "symbol": "ETHUSDT",
+      "strategy": "Sentiment-Fusion",
+      "opened_at": "2025-12-24T09:49:50.663296-07:00",
+      "pnl": -0.4872495786570085,
+      "atr_14": 0.0,
+      "regime": "NOISE",
+      "volume_24h": 44.0
+    },
+    {
+      "symbol": "SOLUSDT",
+      "strategy": "Trend-Conservative",
+      "opened_at": "2025-12-24T09:56:36.998267-07:00",
+      "pnl": -0.28711111551989044,
+      "atr_14": 0.06428571428571266,
+      "regime": "NOISE",
+      "volume_24h": 332.82000000000005
+    },
+    {
+      "symbol": "ETHUSDT",
+      "strategy": "Trend-Conservative",
+      "opened_at": "2025-12-24T09:56:15.586769-07:00",
+      "pnl": -0.621526442592444,
+      "atr_14": 0.0,
+      "regime": "NOISE",
+      "volume_24h": 44.0
+    },
+    {
+      "symbol": "SOLUSDT",
+      "strategy": "Breakout-Aggressive",
+      "opened_at": "2025-12-24T09:56:41.890377-07:00",
+      "pnl": -0.4963136183329548,
+      "atr_14": 0.06428571428571266,
+      "regime": "NOISE",
+      "volume_24h": 332.82000000000005
     }
   ],
-  "total_golden_hour_trades": 1022
+  "total_golden_hour_trades": 1025
 }

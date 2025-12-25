@@ -153,13 +153,14 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     symbol = signal.get('symbol', '')
     action = signal.get('action', signal.get('direction', ''))
     
+    # Extract signal direction (used by both Whale CVD and Macro Guards)
+    signal_direction = 'LONG' if action.upper() in ['OPEN_LONG', 'BUY', 'LONG'] else 'SHORT'
+    if signal_direction == 'SHORT' and action.upper() not in ['OPEN_SHORT', 'SELL', 'SHORT']:
+        signal_direction = 'LONG'  # Default fallback
+    
     # [WHALE CVD FILTER] Check whale flow alignment
     try:
         from src.whale_cvd_engine import check_whale_cvd_alignment, get_whale_cvd
-        
-        signal_direction = 'LONG' if action.upper() in ['OPEN_LONG', 'BUY', 'LONG'] else 'SHORT'
-        if signal_direction == 'SHORT' and action.upper() not in ['OPEN_SHORT', 'SELL', 'SHORT']:
-            signal_direction = 'LONG'  # Default fallback
         
         whale_aligned, whale_reason, whale_cvd_data = check_whale_cvd_alignment(symbol, signal_direction)
         

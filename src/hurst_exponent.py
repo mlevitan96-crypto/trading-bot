@@ -49,7 +49,7 @@ def _save_cache():
         pass
 
 
-def calculate_hurst_exponent(prices, min_window: int = 10, max_window: int = 100) -> float:
+def calculate_hurst_exponent(prices, min_window: int = 10, max_window: int = 100, strict_period: int = None) -> float:
     """
     Calculate Hurst Exponent using R/S (Rescaled Range) method.
     
@@ -57,6 +57,7 @@ def calculate_hurst_exponent(prices, min_window: int = 10, max_window: int = 100
         prices: List or array of price values (at least 100 for reliable estimate)
         min_window: Minimum window size for R/S calculation
         max_window: Maximum window size
+        strict_period: If provided, use exactly this many periods (for 100-period rolling window)
     
     Returns:
         Hurst exponent (0 to 1)
@@ -64,6 +65,14 @@ def calculate_hurst_exponent(prices, min_window: int = 10, max_window: int = 100
         - H = 0.5: Random walk
         - H < 0.5: Mean-reverting
     """
+    # [BIG ALPHA] Use strict 100-period window if specified
+    if strict_period is not None:
+        if len(prices) < strict_period:
+            return 0.5  # Insufficient data
+        prices = list(prices[-strict_period:])  # Use exactly last N periods
+        min_window = max(10, strict_period // 10)  # Adjust min_window proportionally
+        max_window = strict_period // 2  # Adjust max_window proportionally
+    
     if len(prices) < min_window * 2:
         return 0.5
     
@@ -193,27 +202,29 @@ def get_hurst_signal(symbol: str, use_cache: bool = True) -> Dict[str, Any]:
         if not prices or len(prices) < 50:
             return _empty_signal()
         
-        hurst = calculate_hurst_exponent(prices)
+        # [BIG ALPHA] Use strict 100-period rolling window for TRUE TREND detection
+        hurst = calculate_hurst_exponent(prices, strict_period=100)
         
         trend_dir, trend_strength = get_price_trend_direction(prices)
         
+        # [BIG ALPHA] TRUE TREND detection: H > 0.55 = TRUE TREND (Momentum)
         if hurst > 0.55:
-            regime = 'trending'
+            regime = 'trending'  # TRUE TREND - Momentum
             direction = trend_dir
             confidence = min(1.0, (hurst - 0.5) * 4) * trend_strength
-            interpretation = f"Market trending ({hurst:.2f}), favor {direction} momentum"
+            interpretation = f"TRUE TREND detected (H={hurst:.2f}), favor {direction} momentum - FORCE-HOLD"
             active = True
         elif hurst < 0.45:
-            regime = 'mean_reverting'
+            regime = 'mean_reverting'  # NOISE - Mean Reversion
             direction = 'SHORT' if trend_dir == 'LONG' else 'LONG'
             confidence = min(1.0, (0.5 - hurst) * 4) * trend_strength
-            interpretation = f"Market mean-reverting ({hurst:.2f}), fade to {direction}"
+            interpretation = f"NOISE detected (H={hurst:.2f}), mean-reverting - standard exits"
             active = True
         else:
-            regime = 'random'
+            regime = 'random'  # Random walk
             direction = trend_dir
             confidence = 0.3
-            interpretation = f"Market random walk ({hurst:.2f}), low confidence"
+            interpretation = f"Random walk (H={hurst:.2f}), low confidence"
             active = False
         
         signal = {

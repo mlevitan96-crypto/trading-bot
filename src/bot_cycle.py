@@ -2592,6 +2592,7 @@ def run_bot_cycle():
                 # Get position_id for timing intelligence (if tracked)
                 timing_id = pos.get("timing_id") or pos.get("order_id")
                 
+                # [BIG ALPHA] Pass position data for TRUE TREND force-hold logic
                 triggers = evaluate_exit_triggers(
                     plan=plan,
                     prices=df["close"],
@@ -2599,7 +2600,8 @@ def run_bot_cycle():
                     low=df["low"],
                     signal_reverse=signal_reversed,
                     protective_mode=protective_mode,
-                    position_id=timing_id
+                    position_id=timing_id,
+                    position_data=pos  # Pass full position dict for TRUE TREND detection
                 )
                 
                 if triggers:

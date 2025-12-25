@@ -353,6 +353,34 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         position["expected_roi"] = signal_context.get("expected_roi", 0.0)
         position["volatility"] = signal_context.get("volatility", 0.0)
         
+        # [BIG ALPHA] Store Hurst regime for force-hold logic (TRUE TREND detection)
+        try:
+            # Get Hurst signal from signal_context if available (from predictive_flow_engine)
+            signals = signal_context.get("signals", {})
+            hurst_signal = signals.get("hurst", {})
+            if not hurst_signal:
+                # Try to get Hurst signal directly
+                from src.hurst_exponent import get_hurst_signal
+                clean_symbol = symbol.upper().replace('-', '').replace('USDT', '')
+                if not clean_symbol.endswith('USDT'):
+                    clean_symbol = f"{clean_symbol}USDT"
+                hurst_signal = get_hurst_signal(clean_symbol)
+            
+            hurst_regime = hurst_signal.get("regime", "unknown")
+            hurst_value = hurst_signal.get("hurst_value", 0.5)
+            position["hurst_regime_at_entry"] = hurst_regime
+            position["hurst_value_at_entry"] = hurst_value
+            position["is_true_trend"] = (hurst_regime == "trending" and hurst_value > 0.55)
+            
+            if position["is_true_trend"]:
+                print(f"✅ [BIG-ALPHA] TRUE TREND detected for {symbol} (H={hurst_value:.3f}) - Force-hold enabled (45min min, Tier 4 target)", flush=True)
+        except Exception as e:
+            # Fail open - don't break position opening
+            print(f"⚠️ [BIG-ALPHA] Failed to capture Hurst regime for {symbol}: {e}", flush=True)
+            position["hurst_regime_at_entry"] = "unknown"
+            position["hurst_value_at_entry"] = 0.5
+            position["is_true_trend"] = False
+        
         # [ENHANCED LOGGING] Capture volatility snapshot at entry
         try:
             from src.enhanced_trade_logging import create_volatility_snapshot
@@ -485,6 +513,16 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         save_futures_positions(positions)
     except Exception as e:
         print(f"⚠️ [TIMING] Tracking error (non-blocking): {e}")
+    
+    # [BIG ALPHA] Record entry in hold_time_enforcer with position data for TRUE TREND force-hold
+    try:
+        from src.hold_time_enforcer import get_hold_time_enforcer
+        enforcer = get_hold_time_enforcer()
+        # Create position_id from symbol+strategy+direction+timestamp
+        position_id = f"{symbol}_{strategy}_{direction}_{int(execution_timestamp)}"
+        enforcer.record_entry(position_id, symbol, direction, execution_timestamp, position_data=position)
+    except Exception as e:
+        print(f"⚠️ [HOLD-TIME] Failed to record entry (non-blocking): {e}", flush=True)
     
     print(f"📊 Opened futures {direction} position: {symbol} @ ${entry_price:.2f} | Size: ${size:.2f} | Leverage: {leverage}x | {strategy}")
     if liquidation_price:

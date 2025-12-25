@@ -280,13 +280,14 @@ def get_timing_intelligence(symbol: str, side: str, entry_price: float,
 
 def evaluate_exit_triggers(plan: LadderPlan, prices: pd.Series, high: pd.Series, low: pd.Series,
                            signal_reverse: bool = False, protective_mode: str = "OFF",
-                           position_id: str = None) -> List[Tuple[int, str]]:
+                           position_id: str = None, position_data: Optional[Dict[str, Any]] = None) -> List[Tuple[int, str]]:
     """
     Evaluate which ladder tiers should be executed this cycle.
     
     Uses intelligence-driven timing:
     - HOLD_EXTENDED: Strong MTF alignment + momentum = suppress exit triggers
     - EXIT_NOW/TAKE_PROFIT: MTF degraded = accelerate exits
+    - [BIG ALPHA] TRUE TREND force-hold: Block Tier 1 (0.5%) exits, target Tier 4 (+2.0%)
     
     Args:
         plan: Ladder exit plan
@@ -296,6 +297,7 @@ def evaluate_exit_triggers(plan: LadderPlan, prices: pd.Series, high: pd.Series,
         signal_reverse: Whether signal reversed (EMA crossover flip)
         protective_mode: Current protective mode
         position_id: Optional position tracking ID for timing intelligence
+        position_data: Optional position dict for TRUE TREND detection (is_true_trend, hurst_regime_at_entry)
     
     Returns:
         List of (tier_index, reason) tuples
@@ -380,6 +382,16 @@ def evaluate_exit_triggers(plan: LadderPlan, prices: pd.Series, high: pd.Series,
         plan.symbol, plan.side, hold_duration_sec, ofi
     )
     
+    # [BIG ALPHA] Check if this is a TRUE TREND position (force-hold logic)
+    is_true_trend = False
+    if position_data:
+        is_true_trend = position_data.get("is_true_trend", False)
+        if not is_true_trend:
+            # Check hurst_regime_at_entry directly
+            hurst_regime = position_data.get("hurst_regime_at_entry", "unknown")
+            hurst_value = position_data.get("hurst_value_at_entry", 0.5)
+            is_true_trend = (hurst_regime == "trending" and hurst_value > 0.55)
+    
     # R/R targets - but respect timing intelligence, learned rules, AND minimum hold time
     for target in rr_targets:
         target_pct = target / 100.0
@@ -391,6 +403,11 @@ def evaluate_exit_triggers(plan: LadderPlan, prices: pd.Series, high: pd.Series,
             hit_target = True
         
         if hit_target:
+            # [BIG ALPHA] Block Tier 1 (0.5%) exits for TRUE TREND positions - target Tier 4 (+2.0%)
+            if is_true_trend and target <= 0.5:
+                print(f"   🔒 [TRUE-TREND] {plan.symbol}: Blocking Tier 1 ({target}%) exit - TRUE TREND detected, targeting Tier 4 (+2.0%)")
+                continue
+            
             # CRITICAL: Enforce minimum hold time for ALL R/R exits
             if not min_hold_reached:
                 remaining_hold = min_hold_seconds - hold_duration_sec_current

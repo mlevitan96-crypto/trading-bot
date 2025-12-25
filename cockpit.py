@@ -132,6 +132,45 @@ with tab2:
     st.header("🔮 Analytics & Learning")
     st.markdown("Real-time insights from Shadow Execution Engine and Decision Tracker")
     
+    # [BIG ALPHA] Whale Intensity and Hurst Regime Indicators (Component 7)
+    st.subheader("🐋 Whale Intensity & Regime Indicators")
+    try:
+        symbol_selector = st.selectbox("Select Symbol", ["BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT", "DOTUSDT"], index=0)
+        
+        # Get Whale Intensity
+        whale_intensity = 0.0
+        whale_direction = "NEUTRAL"
+        try:
+            from src.whale_cvd_engine import get_whale_cvd
+            whale_cvd_data = get_whale_cvd(symbol_selector)
+            whale_intensity = whale_cvd_data.get("whale_intensity", 0.0)
+            whale_direction = whale_cvd_data.get("cvd_direction", "NEUTRAL")
+        except Exception as e:
+            st.warning(f"Whale CVD unavailable: {e}")
+        
+        # Get Hurst Regime
+        hurst_regime = "unknown"
+        hurst_value = 0.5
+        is_true_trend = False
+        try:
+            from src.hurst_exponent import get_hurst_signal
+            hurst_signal = get_hurst_signal(symbol_selector)
+            hurst_regime = hurst_signal.get("regime", "unknown")
+            hurst_value = hurst_signal.get("hurst_value", 0.5)
+            is_true_trend = (hurst_regime == "trending" and hurst_value > 0.55)
+        except Exception as e:
+            st.warning(f"Hurst signal unavailable: {e}")
+        
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric("🐋 Whale Intensity", f"{whale_intensity:.1f}", f"{whale_direction}")
+        col2.metric("📈 Hurst Value", f"{hurst_value:.3f}", "TRUE TREND" if is_true_trend else "")
+        col3.metric("🔄 Regime", hurst_regime.upper(), "FORCE-HOLD" if is_true_trend else "")
+        col4.metric("🎯 Status", "TRUE TREND" if is_true_trend else "NORMAL", "45min hold" if is_true_trend else "")
+        
+        st.markdown("---")
+    except Exception as e:
+        st.warning(f"Indicator loading error: {e}")
+    
     # Signal Pipeline Health
     st.subheader("📊 Signal Pipeline Health")
     try:

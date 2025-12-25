@@ -306,7 +306,7 @@ class HoldTimeEnforcer:
         
         _write_json(HOLD_TIME_POLICY_PATH, self.policy)
     
-    def record_entry(self, position_id: str, symbol: str, side: str, entry_ts) -> Dict:
+    def record_entry(self, position_id: str, symbol: str, side: str, entry_ts, position_data: Dict = None) -> Dict:
         """
         Record when a position is opened for hold time tracking.
         
@@ -315,12 +315,30 @@ class HoldTimeEnforcer:
             symbol: Trading pair (e.g., BTCUSDT)
             side: LONG or SHORT
             entry_ts: Entry timestamp (epoch or ISO string)
+            position_data: Optional position dict to check for TRUE TREND regime
         
         Returns:
             Dict with entry record details
         """
         entry_epoch = _parse_timestamp(entry_ts) or _now_ts()
-        min_hold = self.get_minimum_hold(symbol, side)
+        
+        # [BIG ALPHA] Check if this is a TRUE TREND position (H > 0.55)
+        is_true_trend = False
+        if position_data:
+            is_true_trend = position_data.get("is_true_trend", False)
+            if not is_true_trend:
+                # Check hurst_regime_at_entry directly
+                hurst_regime = position_data.get("hurst_regime_at_entry", "unknown")
+                hurst_value = position_data.get("hurst_value_at_entry", 0.5)
+                is_true_trend = (hurst_regime == "trending" and hurst_value > 0.55)
+        
+        # [BIG ALPHA] Force 45-minute minimum hold for TRUE TREND positions
+        if is_true_trend:
+            min_hold = 45 * 60  # 45 minutes = 2700 seconds
+            _log(f"🔒 [TRUE-TREND] Force-hold enabled for {symbol} {side}: 45min minimum (Hurst regime detected)")
+        else:
+            min_hold = self.get_minimum_hold(symbol, side)
+        
         min_exit_ts = entry_epoch + min_hold
         
         record = {
@@ -333,12 +351,14 @@ class HoldTimeEnforcer:
             "min_exit_ts": min_exit_ts,
             "min_exit_iso": datetime.utcfromtimestamp(min_exit_ts).isoformat() + "Z",
             "recorded_at": _now(),
+            "is_true_trend": is_true_trend,  # [BIG ALPHA] Track TRUE TREND status
         }
         
         self.active_positions[position_id] = record
         self.save_policy()
         
-        _log(f"Recorded entry: {symbol} {side} (min hold: {min_hold}s until {record['min_exit_iso']})")
+        hold_minutes = min_hold / 60
+        _log(f"Recorded entry: {symbol} {side} (min hold: {hold_minutes:.1f}min until {record['min_exit_iso']})")
         
         return record
     

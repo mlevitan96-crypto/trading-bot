@@ -773,6 +773,34 @@ def bot_worker():
         import traceback
         traceback.print_exc()
     
+    # [BIG ALPHA] Start Self-Healing Learning Loop (Component 5)
+    print("🔄 [SELF-HEALING] Starting Self-Healing Learning Loop...")
+    try:
+        from src.self_healing_learning_loop import start_learning_loop
+        start_learning_loop()
+        print("✅ [SELF-HEALING] Learning Loop started (4-hour intervals)")
+        print("   📊 Compares shadow vs live trades every 4 hours")
+        print("   💡 Analyzes guard effectiveness and generates recommendations")
+    except Exception as e:
+        print(f"⚠️ [SELF-HEALING] Failed to start Learning Loop: {e}")
+        import traceback
+        traceback.print_exc()
+    
+    # [BIG ALPHA] Initialize Symbol Probation State Machine (Component 6)
+    print("🚫 [PROBATION] Initializing Symbol Probation State Machine...")
+    try:
+        from src.symbol_probation_state_machine import get_probation_machine
+        probation_machine = get_probation_machine()
+        # Run initial evaluation
+        probation_machine.evaluate_all_symbols()
+        print("✅ [PROBATION] Symbol Probation initialized")
+        print("   📊 Evaluates symbol performance and places underperformers on probation")
+        print("   🔄 Re-evaluates symbols periodically to allow recovery")
+    except Exception as e:
+        print(f"⚠️ [PROBATION] Failed to initialize Symbol Probation: {e}")
+        import traceback
+        traceback.print_exc()
+    
     # Start Comprehensive Self-Healing Operator
     print("🔧 [HEALING] Starting Comprehensive Self-Healing Operator...")
     try:

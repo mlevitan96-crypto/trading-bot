@@ -151,6 +151,18 @@ def pre_entry_check(
     except Exception as e:
         pass  # Fail open if check fails
     
+    # 0.3. [SYMBOL PROBATION] Check if symbol is on probation (Component 6)
+    try:
+        from src.symbol_probation_state_machine import check_symbol_probation
+        should_block, reason = check_symbol_probation(symbol)
+        if should_block:
+            _bus("entry_rejected", {"symbol": symbol, "reason": reason})
+            _kg(symbol, "entry_rejected_probation", reason)
+            print(f"❌ Entry blocked: {reason}")
+            return False, ctx
+    except Exception as e:
+        pass  # Fail open if check fails
+    
     # 0.5. [STABLE REGIME BLOCK] Hard block on Stable regime (35.2% win rate)
     try:
         from src.enhanced_trade_logging import check_stable_regime_block

@@ -142,15 +142,70 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     Check if signal aligns with market intelligence (enhanced with funding + OI).
     
     Uses LEARNED sizing multipliers from historical performance data.
+    Includes Whale CVD filter - blocks trades where whale flow diverges from signal.
     
     Returns:
         Tuple of (allowed: bool, reason: str, sizing_multiplier: float)
-        - allowed: True if signal passes gate (always True now)
-        - reason: Explanation for decision
-        - sizing_multiplier: Learned multiplier based on intel alignment
+        - allowed: False if blocked by Whale CVD divergence, True otherwise
+        - reason: Explanation for decision (including "WHALE_CONFLICT" if blocked)
+        - sizing_multiplier: Learned multiplier based on intel alignment (2.5x for ULTRA conviction)
     """
     symbol = signal.get('symbol', '')
     action = signal.get('action', signal.get('direction', ''))
+    
+    # [WHALE CVD FILTER] Check whale flow alignment
+    try:
+        from src.whale_cvd_engine import check_whale_cvd_alignment, get_whale_cvd
+        
+        signal_direction = 'LONG' if action.upper() in ['OPEN_LONG', 'BUY', 'LONG'] else 'SHORT'
+        if signal_direction == 'SHORT' and action.upper() not in ['OPEN_SHORT', 'SELL', 'SHORT']:
+            signal_direction = 'LONG'  # Default fallback
+        
+        whale_aligned, whale_reason, whale_cvd_data = check_whale_cvd_alignment(symbol, signal_direction)
+        
+        # Block if whale CVD diverges from signal direction
+        if not whale_aligned and whale_reason == "DIVERGING":
+            whale_intensity = whale_cvd_data.get("whale_intensity", 0.0)
+            if whale_intensity >= 30.0:  # Only block if significant whale activity
+                _log(f"❌ WHALE-CONFLICT {symbol}: Signal={signal_direction} conflicts with Whale CVD={whale_cvd_data.get('cvd_direction', 'UNKNOWN')} (intensity={whale_intensity:.1f})")
+                try:
+                    from src.health_to_learning_bridge import log_gate_decision
+                    log_gate_decision("intelligence_gate", symbol, action, False, "WHALE_CONFLICT", {
+                        "whale_cvd_direction": whale_cvd_data.get('cvd_direction'),
+                        "signal_direction": signal_direction,
+                        "whale_intensity": whale_intensity,
+                        "cvd_total": whale_cvd_data.get('cvd_total', 0)
+                    })
+                except:
+                    pass
+                # [BIG ALPHA] Log to signal_bus for guard effectiveness tracking (Component 8)
+                try:
+                    from src.signal_bus import get_signal_bus
+                    signal_bus = get_signal_bus()
+                    signal_bus.emit_signal({
+                        "symbol": symbol,
+                        "direction": signal_direction,
+                        "action": action,
+                        "event": "WHALE_CONFLICT",
+                        "whale_cvd_direction": whale_cvd_data.get('cvd_direction'),
+                        "whale_intensity": whale_intensity,
+                        "cvd_total": whale_cvd_data.get('cvd_total', 0),
+                        "blocked": True,
+                        "reason": "WHALE_CONFLICT"
+                    }, source="intelligence_gate")
+                except Exception as e:
+                    _log(f"⚠️ Failed to log WHALE_CONFLICT to signal_bus: {e}")
+                return False, "WHALE_CONFLICT", 0.0
+        
+        # Store whale CVD data for ULTRA conviction check
+        whale_cvd_direction = whale_cvd_data.get("cvd_direction", "NEUTRAL")
+        whale_intensity = whale_cvd_data.get("whale_intensity", 0.0)
+    except Exception as e:
+        _log(f"⚠️ Whale CVD check failed for {symbol}: {e}")
+        whale_cvd_direction = "UNKNOWN"
+        whale_intensity = 0.0
+        whale_aligned = True
+        whale_reason = "CHECK_FAILED"
     
     # Load learned multipliers
     multipliers = _load_learned_intel_multipliers()
@@ -188,14 +243,26 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     if (signal_is_long and intel_is_long) or (signal_is_short and intel_is_short):
         # Intel aligns with signal - use learned aligned multiplier
         base_mult = multipliers.get("aligned", 1.0)
-        # Apply boost for high confidence (learned boost multiplier)
-        if intel_confidence >= 0.7:
-            boost_mult = multipliers.get("aligned_boost", 1.3)
-            sizing_mult = min(boost_mult, base_mult * (1 + (intel_confidence * 0.3)))
-        else:
-            sizing_mult = base_mult * (1 + (intel_confidence * 0.2))  # Reduced from 0.3
         
-        sizing_mult = min(sizing_mult, 1.5)  # Cap at 1.5x
+        # [ULTRA CONVICTION] If Whale CVD and Retail OFI both align, assign 2.5x sizing
+        ultra_conviction = False
+        if whale_aligned and whale_reason == "ALIGNED" and whale_intensity >= 50.0:
+            # Check if we have OFI data (retail flow proxy)
+            # OFI alignment is indicated by signal direction matching intel direction
+            # Both whale CVD and retail (OFI via intel) align = ULTRA conviction
+            if (signal_is_long and whale_cvd_direction == "LONG") or (signal_is_short and whale_cvd_direction == "SHORT"):
+                ultra_conviction = True
+                sizing_mult = 2.5  # ULTRA conviction multiplier
+                _log(f"🚀 ULTRA-CONVICTION {symbol}: Whale CVD + Retail OFI aligned → 2.5x sizing")
+        else:
+            # Apply boost for high confidence (learned boost multiplier)
+            if intel_confidence >= 0.7:
+                boost_mult = multipliers.get("aligned_boost", 1.3)
+                sizing_mult = min(boost_mult, base_mult * (1 + (intel_confidence * 0.3)))
+            else:
+                sizing_mult = base_mult * (1 + (intel_confidence * 0.2))  # Reduced from 0.3
+            
+            sizing_mult = min(sizing_mult, 1.5)  # Cap at 1.5x (unless ULTRA conviction)
         
         # Get OFI ratio and bid-ask spread for logging
         ofi_ratio = None
@@ -224,17 +291,21 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         except:
             pass
         
-        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps) [LEARNED]")
-        log_gate_decision("intelligence_gate", symbol, action, True, f"intel_confirmed_{intel_direction.lower()}",
+        reason_code = "ultra_conviction" if ultra_conviction else f"intel_confirmed_{intel_direction.lower()}"
+        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps, Whale={whale_cvd_direction}) [LEARNED]")
+        log_gate_decision("intelligence_gate", symbol, action, True, reason_code,
                           {
                               "intel_direction": intel_direction, 
                               "confidence": intel_confidence, 
                               "composite": composite_score, 
                               "sizing_mult": sizing_mult,
                               "ofi_ratio": ofi_ratio,
-                              "bid_ask_spread_bps": bid_ask_spread_bps
+                              "bid_ask_spread_bps": bid_ask_spread_bps,
+                              "whale_cvd_direction": whale_cvd_direction,
+                              "whale_intensity": whale_intensity,
+                              "ultra_conviction": ultra_conviction
                           })
-        return True, f"intel_confirmed_{intel_direction.lower()}", sizing_mult
+        return True, reason_code, sizing_mult
     
     if (signal_is_long and intel_is_short) or (signal_is_short and intel_is_long):
         # CONVERTED TO SIZING ADJUSTMENT: Never block, only reduce sizing

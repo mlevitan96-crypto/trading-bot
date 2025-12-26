@@ -1822,6 +1822,7 @@ def build_daily_summary_tab() -> html.Div:
                         avg_loss = -(gross_loss / losses) if losses > 0 else 0.0
                         
                         golden_hour_summary = {
+                            "wallet_balance": wallet_balance,  # Required by summary_card
                             "total_trades": len(golden_hour_positions),
                             "wins": wins,
                             "losses": losses,

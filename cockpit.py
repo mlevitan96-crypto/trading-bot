@@ -6,6 +6,9 @@ import requests
 import time
 import plotly.graph_objects as go
 import plotly.express as px
+from pathlib import Path
+import numpy as np
+from datetime import datetime, timedelta, timezone
 
 # --- CONFIG ---
 st.set_page_config(page_title="AlphaOps Pro", layout="wide", page_icon="🦅")
@@ -40,6 +43,197 @@ def get_kraken_prices(symbols):
         r = requests.get(url, timeout=1).json()
         return {k: float(v['c'][0]) for k,v in r['result'].items()}
     except: return {}
+
+# Chart Functions (from pnl_dashboard_v2.py)
+def create_equity_curve_chart(df: pd.DataFrame) -> go.Figure:
+    """Create equity curve chart."""
+    if df.empty:
+        fig = go.Figure()
+        fig.update_layout(title="Equity Curve", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
+        return fig
+    
+    # Limit to most recent 500 trades for performance
+    if len(df) > 500:
+        df = df.tail(500)
+    
+    df_sorted = df.sort_values("exit_time") if 'exit_time' in df.columns else df.sort_index()
+    df_sorted = df_sorted.copy()
+    if 'net_pnl' in df_sorted.columns:
+        df_sorted["cum_pnl"] = df_sorted["net_pnl"].cumsum()
+    else:
+        df_sorted["cum_pnl"] = 0.0
+    starting_capital = STARTING_BALANCE
+    df_sorted["equity"] = starting_capital + df_sorted["cum_pnl"]
+    
+    fig = go.Figure()
+    x_axis = df_sorted["exit_time"] if 'exit_time' in df_sorted.columns else df_sorted.index
+    fig.add_trace(go.Scatter(
+        x=x_axis,
+        y=df_sorted["equity"],
+        mode="lines+markers",
+        name="Equity",
+        line=dict(color="#34a853", width=2),
+    ))
+    fig.update_layout(
+        title="Equity Curve",
+        xaxis_title="Time",
+        yaxis_title="Portfolio Value ($)",
+        plot_bgcolor="#0f1217",
+        paper_bgcolor="#0f1217",
+        font={"color": "#e8eaed"},
+        hovermode="x unified",
+    )
+    return fig
+
+def create_pnl_by_symbol_chart(df: pd.DataFrame) -> go.Figure:
+    """Create P&L by symbol bar chart."""
+    if df.empty or 'symbol' not in df.columns or 'net_pnl' not in df.columns:
+        fig = go.Figure()
+        fig.update_layout(title="P&L by Symbol", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
+        return fig
+    
+    agg = df.groupby("symbol", as_index=False)["net_pnl"].sum().sort_values("net_pnl", ascending=False)
+    
+    colors = ["#34a853" if x >= 0 else "#ea4335" for x in agg["net_pnl"]]
+    
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=agg["symbol"],
+        y=agg["net_pnl"],
+        marker_color=colors,
+        text=[f"${x:.2f}" for x in agg["net_pnl"]],
+        textposition="outside",
+    ))
+    fig.update_layout(
+        title="Net P&L by Symbol",
+        xaxis_title="Symbol",
+        yaxis_title="Net P&L ($)",
+        plot_bgcolor="#0f1217",
+        paper_bgcolor="#0f1217",
+        font={"color": "#e8eaed"},
+        showlegend=False,
+    )
+    return fig
+
+def create_pnl_by_strategy_chart(df: pd.DataFrame) -> go.Figure:
+    """Create P&L by strategy bar chart."""
+    if df.empty or 'strategy' not in df.columns or 'net_pnl' not in df.columns:
+        fig = go.Figure()
+        fig.update_layout(title="P&L by Strategy", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
+        return fig
+    
+    agg = df.groupby("strategy", as_index=False)["net_pnl"].sum().sort_values("net_pnl", ascending=False)
+    
+    colors = ["#34a853" if x >= 0 else "#ea4335" for x in agg["net_pnl"]]
+    
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=agg["strategy"],
+        y=agg["net_pnl"],
+        marker_color=colors,
+        text=[f"${x:.2f}" for x in agg["net_pnl"]],
+        textposition="outside",
+    ))
+    fig.update_layout(
+        title="Net P&L by Strategy",
+        xaxis_title="Strategy",
+        yaxis_title="Net P&L ($)",
+        plot_bgcolor="#0f1217",
+        paper_bgcolor="#0f1217",
+        font={"color": "#e8eaed"},
+        showlegend=False,
+    )
+    return fig
+
+def create_win_rate_heatmap(df: pd.DataFrame) -> go.Figure:
+    """Create win rate heatmap by symbol and date."""
+    if df.empty or 'symbol' not in df.columns or 'net_pnl' not in df.columns:
+        fig = go.Figure()
+        fig.update_layout(title="Win Rate Heatmap", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
+        return fig
+    
+    df_copy = df.copy()
+    df_copy["win"] = (df_copy["net_pnl"] > 0).astype(int)
+    
+    # Extract date from exit_time
+    try:
+        if 'exit_time' in df_copy.columns:
+            df_copy["date"] = pd.to_datetime(df_copy["exit_time"]).dt.date
+        else:
+            return go.Figure()
+    except:
+        return go.Figure()
+    
+    pivot = df_copy.groupby(["symbol", "date"])["win"].mean().unstack(fill_value=0.0)
+    
+    fig = go.Figure(data=go.Heatmap(
+        z=pivot.values,
+        x=pivot.columns.astype(str),
+        y=pivot.index,
+        colorscale="RdYlGn",
+        zmid=0.5,
+        text=[[f"{val*100:.1f}%" for val in row] for row in pivot.values],
+        texttemplate="%{text}",
+        textfont={"size": 10},
+    ))
+    fig.update_layout(
+        title="Win Rate Heatmap (Symbol × Date)",
+        xaxis_title="Date",
+        yaxis_title="Symbol",
+        plot_bgcolor="#0f1217",
+        paper_bgcolor="#0f1217",
+        font={"color": "#e8eaed"},
+    )
+    return fig
+
+def create_wallet_balance_trend() -> go.Figure:
+    """Create wallet balance trend chart from snapshots."""
+    try:
+        from src.infrastructure.path_registry import PathRegistry
+        wallet_snapshots_file = Path(PathRegistry.get_path("logs", "wallet_snapshots.jsonl"))
+        if not os.path.exists(wallet_snapshots_file):
+            fig = go.Figure()
+            fig.update_layout(title="Wallet Balance Trend", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
+            return fig
+        
+        snapshots = []
+        with open(wallet_snapshots_file, 'r') as f:
+            for line in f:
+                try:
+                    snapshots.append(json.loads(line))
+                except:
+                    pass
+        
+        if not snapshots:
+            fig = go.Figure()
+            fig.update_layout(title="Wallet Balance Trend", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
+            return fig
+        
+        df = pd.DataFrame(snapshots)
+        df = df.sort_values("timestamp")
+        
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=df["timestamp"],
+            y=df["balance"],
+            mode="lines+markers",
+            name="Wallet Balance",
+            line=dict(color="#1a73e8", width=2),
+        ))
+        fig.update_layout(
+            title="Wallet Balance Trend",
+            xaxis_title="Time",
+            yaxis_title="Balance ($)",
+            plot_bgcolor="#0f1217",
+            paper_bgcolor="#0f1217",
+            font={"color": "#e8eaed"},
+            hovermode="x unified",
+        )
+        return fig
+    except Exception as e:
+        fig = go.Figure()
+        fig.update_layout(title="Wallet Balance Trend", plot_bgcolor="#0f1217", paper_bgcolor="#0f1217", font={"color": "#e8eaed"})
+        return fig
 
 # --- LOAD DATA ---
 open_trades = load_data(POS_FILE)
@@ -570,6 +764,30 @@ with tab3:
     
     # [FINAL ALPHA PHASE 7] Portfolio Health Metrics
     st.subheader("🏥 Portfolio Health (Phase 7)")
+    
+    # Performance Charts Section
+    st.markdown("---")
+    st.subheader("📊 Performance Charts")
+    
+    # Create charts if we have closed trades data
+    if not df_closed.empty:
+        chart_col1, chart_col2 = st.columns(2)
+        
+        with chart_col1:
+            st.plotly_chart(create_equity_curve_chart(df_closed), use_container_width=True)
+            st.plotly_chart(create_pnl_by_symbol_chart(df_closed), use_container_width=True)
+        
+        with chart_col2:
+            st.plotly_chart(create_wallet_balance_trend(), use_container_width=True)
+            if 'strategy' in df_closed.columns:
+                st.plotly_chart(create_pnl_by_strategy_chart(df_closed), use_container_width=True)
+        
+        # Win Rate Heatmap (full width)
+        st.plotly_chart(create_win_rate_heatmap(df_closed), use_container_width=True)
+    else:
+        st.info("No closed trades data available yet. Charts will appear once trades are executed.")
+    
+    st.markdown("---")
     
     try:
         from src.data_registry import DataRegistry as DR

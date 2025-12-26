@@ -4,6 +4,8 @@ import json
 import os
 import requests
 import time
+import plotly.graph_objects as go
+import plotly.express as px
 
 # --- CONFIG ---
 st.set_page_config(page_title="AlphaOps Pro", layout="wide", page_icon="🦅")
@@ -723,11 +725,9 @@ with tab4:
             
             st.markdown("---")
             
-            # Daily comparison
-            st.subheader("📅 Daily Comparison (Last 7 Days)")
+            # Cumulative P&L Chart
+            st.subheader("📊 Cumulative P&L Over Time")
             try:
-                from datetime import datetime, timedelta, timezone
-                
                 def _parse_timestamp_for_comparison(ts):
                     """Parse timestamp for comparison purposes."""
                     if not ts:

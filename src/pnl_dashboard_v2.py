@@ -2026,8 +2026,8 @@ def build_daily_summary_tab() -> html.Div:
             # [FINAL ALPHA PHASE 7] Portfolio Health Card
             portfolio_health_card(portfolio_health),
             
-            # Golden Hour Summary Card
-            summary_card(golden_hour_summary, "🕘 Golden Hour Trading (09:00-16:00 UTC, Last 24 Hours)"),
+            # Golden Hour Summary Card (All-Time Comprehensive Data from GOLDEN_HOUR_ANALYSIS.json)
+            summary_card(golden_hour_summary, "🕘 Golden Hour Trading (09:00-16:00 UTC, All-Time Analysis)"),
             
             # Summary Cards (Daily, Weekly, Monthly)
             summary_card(daily_summary, "📅 Daily Summary (Last 24 Hours - All Trades)"),

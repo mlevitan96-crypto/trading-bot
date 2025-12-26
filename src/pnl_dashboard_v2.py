@@ -1423,7 +1423,7 @@ def build_app(server: Flask = None) -> Dash:
         
         # Refresh intervals
         dcc.Interval(id="refresh-interval", interval=5*60*1000, n_intervals=0),  # 5 minutes
-    ], style={"backgroundColor": "#0b0e13", "fontFamily": "Inter, Segoe UI, Arial", "padding": "20px", "minHeight": "100vh", "maxWidth": "100%", "margin": "0 auto"})
+    ], style={"backgroundColor": "#0b0e13", "fontFamily": "Inter, Segoe UI, Arial", "padding": "20px", "minHeight": "100vh", "width": "100%", "maxWidth": "100%", "margin": "0", "boxSizing": "border-box"})
     
     # Callbacks - MUST be registered after layout is set
     @app.callback(

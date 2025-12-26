@@ -2295,91 +2295,10 @@ def build_24_7_trading_tab() -> html.Div:
                     
                     html.Hr(style={"borderColor": "#2d3139", "margin": "30px 0"}),
                     
+                    html.Hr(style={"borderColor": "#2d3139", "margin": "30px 0"}),
+                    
                     # Summary Cards for Golden Hour and 24/7 Trading (Last 24 Hours)
                     html.H4("📈 Trading Summaries (Last 24 Hours)", style={"color": "#fff", "marginBottom": "20px", "marginTop": "30px"}),
-                    
-                    # Get wallet balance for summary cards
-                    wallet_balance_24_7 = 10000.0  # Default
-                    try:
-                        wallet_snapshots = DR.read_json(DR.WALLET_SNAPSHOTS)
-                        if wallet_snapshots and wallet_snapshots.get("snapshots"):
-                            latest_snapshot = wallet_snapshots["snapshots"][-1] if wallet_snapshots["snapshots"] else {}
-                            wallet_balance_24_7 = float(latest_snapshot.get("balance", 10000.0))
-                    except:
-                        pass
-                    
-                    # Filter to last 24 hours only for summary cards
-                    cutoff_24h = datetime.now(timezone.utc) - timedelta(hours=24)
-                    cutoff_24h_ts = cutoff_24h.timestamp()
-                    
-                    gh_24h_trades = []
-                    trades_24_7_24h = []
-                    
-                    for t in closed_positions:
-                        closed_at = t.get("closed_at", "")
-                        if not closed_at:
-                            continue
-                        try:
-                            if isinstance(closed_at, str):
-                                if "T" in closed_at:
-                                    dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
-                                else:
-                                    try:
-                                        dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
-                                    except:
-                                        dt = None
-                            else:
-                                dt = None
-                            
-                            if dt:
-                                closed_ts = dt.timestamp()
-                                if closed_ts >= cutoff_24h_ts:
-                                    hour = dt.hour
-                                    if 9 <= hour < 16:
-                                        gh_24h_trades.append(t)
-                                    else:
-                                        trades_24_7_24h.append(t)
-                        except:
-                            pass
-                    
-                    # Calculate summaries for last 24h
-                    def calc_summary_24h(trades_list, wallet_bal):
-                        if not trades_list:
-                            return {
-                                "wallet_balance": wallet_bal,
-                                "total_trades": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
-                                "net_pnl": 0.0, "avg_win": 0.0, "avg_loss": 0.0
-                            }
-                        
-                        pnls = []
-                        for t in trades_list:
-                            pnl = t.get("net_pnl", t.get("pnl", t.get("realized_pnl", 0)))
-                            try:
-                                pnls.append(float(pnl) if pnl is not None else 0.0)
-                            except:
-                                pnls.append(0.0)
-                        
-                        wins = [p for p in pnls if p > 0]
-                        losses = [p for p in pnls if p < 0]
-                        total_pnl = sum(pnls)
-                        avg_win = sum(wins) / len(wins) if wins else 0.0
-                        avg_loss = sum(losses) / len(losses) if losses else 0.0
-                        win_rate = (len(wins) / len(pnls) * 100.0) if pnls else 0.0
-                        
-                        return {
-                            "wallet_balance": wallet_bal,
-                            "total_trades": len(trades_list),
-                            "wins": len(wins),
-                            "losses": len(losses),
-                            "win_rate": win_rate,
-                            "net_pnl": total_pnl,
-                            "avg_win": avg_win,
-                            "avg_loss": avg_loss
-                        }
-                    
-                    gh_summary_24h = calc_summary_24h(gh_24h_trades, wallet_balance_24_7)
-                    all_24_7_summary_24h = calc_summary_24h(trades_24_7_24h, wallet_balance_24_7)
-                    
                     dbc.Row([
                         dbc.Col([
                             summary_card(gh_summary_24h, "🕘 Golden Hour Trading (09:00-16:00 UTC, Last 24 Hours)")

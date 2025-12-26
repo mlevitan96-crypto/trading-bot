@@ -568,12 +568,16 @@ with tab3:
     st.info("Performance metrics coming soon...")
 
 with tab4:
-    st.header("⏰ 24/7 Trading Comparison")
-    st.markdown("Compare Golden Hour (09:00-16:00 UTC) vs 24/7 trading performance")
+    st.header("⏰ Golden Hour vs 24/7 Trading Comparison")
+    st.markdown("Compare Golden Hour (09:00-16:00 UTC) vs 24/7 trading performance with detailed analytics")
     
     # Load closed trades with trading_window field
     try:
         from src.data_registry import DataRegistry as DR
+        from datetime import datetime, timedelta, timezone
+        import plotly.graph_objects as go
+        import plotly.express as px
+        
         closed_positions = DR.get_closed_positions(hours=None)  # Get all closed positions
         
         if not closed_positions:
@@ -591,15 +595,19 @@ with tab4:
                 if not trades:
                     return {
                         "count": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
-                        "total_pnl": 0.0, "avg_pnl": 0.0, "profit_factor": 0.0
+                        "total_pnl": 0.0, "avg_pnl": 0.0, "profit_factor": 0.0,
+                        "gross_profit": 0.0, "gross_loss": 0.0, "max_win": 0.0, "max_loss": 0.0
                     }
                 
-                wins = sum(1 for t in trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) > 0)
+                pnls = [t.get("net_pnl", t.get("pnl", 0)) or 0 for t in trades]
+                wins = sum(1 for pnl in pnls if pnl > 0)
                 losses = len(trades) - wins
-                total_pnl = sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in trades)
-                gross_profit = sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) > 0)
-                gross_loss = abs(sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) < 0))
-                profit_factor = gross_profit / gross_loss if gross_loss > 0 else 0.0
+                total_pnl = sum(pnls)
+                gross_profit = sum(pnl for pnl in pnls if pnl > 0)
+                gross_loss = abs(sum(pnl for pnl in pnls if pnl < 0))
+                profit_factor = gross_profit / gross_loss if gross_loss > 0 else (gross_profit if gross_profit > 0 else 0.0)
+                max_win = max(pnls) if pnls else 0.0
+                max_loss = min(pnls) if pnls else 0.0
                 
                 return {
                     "count": len(trades),
@@ -608,41 +616,110 @@ with tab4:
                     "win_rate": (wins / len(trades) * 100) if trades else 0.0,
                     "total_pnl": total_pnl,
                     "avg_pnl": total_pnl / len(trades) if trades else 0.0,
-                    "profit_factor": profit_factor
+                    "profit_factor": profit_factor,
+                    "gross_profit": gross_profit,
+                    "gross_loss": gross_loss,
+                    "max_win": max_win,
+                    "max_loss": max_loss
                 }
             
             gh_metrics = calculate_metrics(golden_hour_trades)
             all_24_7_metrics = calculate_metrics(trades_24_7)
             
-            # Display comparison metrics
-            st.subheader("📊 Performance Comparison")
+            # Calculate differences (both absolute and percent)
+            pnl_diff_dollars = gh_metrics["total_pnl"] - all_24_7_metrics["total_pnl"]
+            pnl_total_combined = abs(gh_metrics["total_pnl"]) + abs(all_24_7_metrics["total_pnl"])
+            pnl_diff_percent = (pnl_diff_dollars / pnl_total_combined * 100) if pnl_total_combined > 0 else 0.0
+            wr_diff = gh_metrics["win_rate"] - all_24_7_metrics["win_rate"]
+            pf_diff = gh_metrics["profit_factor"] - all_24_7_metrics["profit_factor"]
+            
+            # Display comparison metrics with enhanced visualization
+            st.subheader("📊 Performance Overview")
             col1, col2, col3 = st.columns(3)
             
             with col1:
                 st.markdown("### 🕘 Golden Hour (09:00-16:00 UTC)")
                 st.metric("Total Trades", gh_metrics["count"])
                 st.metric("Win Rate", f"{gh_metrics['win_rate']:.1f}%")
-                st.metric("Total P&L", f"${gh_metrics['total_pnl']:,.2f}")
-                st.metric("Avg P&L", f"${gh_metrics['avg_pnl']:,.2f}")
+                st.metric("Total P&L", f"${gh_metrics['total_pnl']:,.2f}", 
+                         f"Avg: ${gh_metrics['avg_pnl']:,.2f}")
                 st.metric("Profit Factor", f"{gh_metrics['profit_factor']:.2f}")
+                st.metric("Gross Profit", f"${gh_metrics['gross_profit']:,.2f}")
+                st.metric("Gross Loss", f"${gh_metrics['gross_loss']:,.2f}")
             
             with col2:
                 st.markdown("### 🌐 24/7 Trading")
                 st.metric("Total Trades", all_24_7_metrics["count"])
                 st.metric("Win Rate", f"{all_24_7_metrics['win_rate']:,.1f}%")
-                st.metric("Total P&L", f"${all_24_7_metrics['total_pnl']:,.2f}")
-                st.metric("Avg P&L", f"${all_24_7_metrics['avg_pnl']:,.2f}")
+                st.metric("Total P&L", f"${all_24_7_metrics['total_pnl']:,.2f}",
+                         f"Avg: ${all_24_7_metrics['avg_pnl']:,.2f}")
                 st.metric("Profit Factor", f"{all_24_7_metrics['profit_factor']:.2f}")
+                st.metric("Gross Profit", f"${all_24_7_metrics['gross_profit']:,.2f}")
+                st.metric("Gross Loss", f"${all_24_7_metrics['gross_loss']:,.2f}")
             
             with col3:
-                st.markdown("### 📈 Difference")
-                wr_diff = gh_metrics["win_rate"] - all_24_7_metrics["win_rate"]
-                pnl_diff = gh_metrics["total_pnl"] - all_24_7_metrics["total_pnl"]
-                pf_diff = gh_metrics["profit_factor"] - all_24_7_metrics["profit_factor"]
-                
-                st.metric("Win Rate Δ", f"{wr_diff:+.1f}%", "✅ Better" if wr_diff > 0 else "⚠️ Worse")
-                st.metric("P&L Δ", f"${pnl_diff:+,.2f}", "✅ Better" if pnl_diff > 0 else "⚠️ Worse")
-                st.metric("PF Δ", f"{pf_diff:+.2f}", "✅ Better" if pf_diff > 0 else "⚠️ Worse")
+                st.markdown("### 📈 Difference (GH - 24/7)")
+                st.metric("Trade Count Δ", f"{gh_metrics['count'] - all_24_7_metrics['count']:+d}")
+                st.metric("Win Rate Δ", f"{wr_diff:+.1f}%", 
+                         "✅ GH Better" if wr_diff > 0 else "⚠️ 24/7 Better")
+                st.metric("P&L Δ (Dollars)", f"${pnl_diff_dollars:+,.2f}",
+                         "✅ GH Better" if pnl_diff_dollars > 0 else "⚠️ 24/7 Better")
+                st.metric("P&L Δ (Percent)", f"{pnl_diff_percent:+.1f}%",
+                         "✅ GH Better" if pnl_diff_dollars > 0 else "⚠️ 24/7 Better")
+                st.metric("Profit Factor Δ", f"{pf_diff:+.2f}",
+                         "✅ GH Better" if pf_diff > 0 else "⚠️ 24/7 Better")
+            
+            st.markdown("---")
+            
+            # P&L Comparison Chart
+            st.subheader("📈 P&L Comparison Charts")
+            chart_col1, chart_col2 = st.columns(2)
+            
+            with chart_col1:
+                # Bar chart comparing metrics
+                fig_bar = go.Figure()
+                fig_bar.add_trace(go.Bar(
+                    name='Golden Hour',
+                    x=['Total P&L', 'Avg P&L', 'Win Rate', 'Profit Factor'],
+                    y=[gh_metrics['total_pnl'], gh_metrics['avg_pnl'], 
+                       gh_metrics['win_rate'], gh_metrics['profit_factor']],
+                    marker_color='#FFA500'
+                ))
+                fig_bar.add_trace(go.Bar(
+                    name='24/7 Trading',
+                    x=['Total P&L', 'Avg P&L', 'Win Rate', 'Profit Factor'],
+                    y=[all_24_7_metrics['total_pnl'], all_24_7_metrics['avg_pnl'],
+                       all_24_7_metrics['win_rate'], all_24_7_metrics['profit_factor']],
+                    marker_color='#00D4FF'
+                ))
+                fig_bar.update_layout(
+                    title='Performance Metrics Comparison',
+                    barmode='group',
+                    template='plotly_dark',
+                    height=400
+                )
+                st.plotly_chart(fig_bar, use_container_width=True)
+            
+            with chart_col2:
+                # P&L difference visualization
+                fig_diff = go.Figure()
+                colors = ['#00FF88' if pnl_diff_dollars > 0 else '#FF4444']
+                fig_diff.add_trace(go.Bar(
+                    x=['P&L Difference'],
+                    y=[pnl_diff_dollars],
+                    marker_color=colors[0],
+                    text=[f"${pnl_diff_dollars:+,.2f}<br>({pnl_diff_percent:+.1f}%)"],
+                    textposition='auto'
+                ))
+                fig_diff.add_hline(y=0, line_dash="dash", line_color="white", opacity=0.5)
+                fig_diff.update_layout(
+                    title=f'P&L Difference: Golden Hour vs 24/7',
+                    yaxis_title='P&L Difference (USD)',
+                    template='plotly_dark',
+                    height=400,
+                    showlegend=False
+                )
+                st.plotly_chart(fig_diff, use_container_width=True)
             
             st.markdown("---")
             
@@ -687,19 +764,62 @@ with tab4:
                 
                 daily_data = []
                 for day, metrics in sorted(daily_comparison.items(), reverse=True):
+                    gh_pnl = metrics["golden_hour"]["total_pnl"]
+                    t24_7_pnl = metrics["24_7"]["total_pnl"]
+                    daily_pnl_diff = gh_pnl - t24_7_pnl
                     daily_data.append({
                         "Date": day,
                         "GH Trades": metrics["golden_hour"]["count"],
-                        "GH P&L": f"${metrics['golden_hour']['total_pnl']:,.2f}",
+                        "GH P&L": metrics["golden_hour"]["total_pnl"],
                         "GH WR": f"{metrics['golden_hour']['win_rate']:.1f}%",
                         "24/7 Trades": metrics["24_7"]["count"],
-                        "24/7 P&L": f"${metrics['24_7']['total_pnl']:,.2f}",
-                        "24/7 WR": f"{metrics['24_7']['win_rate']:.1f}%"
+                        "24/7 P&L": metrics["24_7"]["total_pnl"],
+                        "24/7 WR": f"{metrics['24_7']['win_rate']:.1f}%",
+                        "P&L Diff": daily_pnl_diff
                     })
                 
                 if daily_data:
                     df_daily = pd.DataFrame(daily_data)
-                    st.dataframe(df_daily, use_container_width=True)
+                    
+                    # Display as styled dataframe with color coding
+                    st.dataframe(
+                        df_daily.style.format({
+                            "GH P&L": "${:,.2f}",
+                            "24/7 P&L": "${:,.2f}",
+                            "P&L Diff": "${:+,.2f}"
+                        }).applymap(
+                            lambda x: 'background-color: #0f2d0f' if isinstance(x, (int, float)) and x > 0 else 
+                            ('background-color: #2d0f0f' if isinstance(x, (int, float)) and x < 0 else ''),
+                            subset=["GH P&L", "24/7 P&L", "P&L Diff"]
+                        ),
+                        use_container_width=True,
+                        hide_index=True
+                    )
+                    
+                    # Daily P&L comparison chart
+                    fig_daily = go.Figure()
+                    fig_daily.add_trace(go.Bar(
+                        name='Golden Hour',
+                        x=df_daily['Date'],
+                        y=df_daily['GH P&L'],
+                        marker_color='#FFA500'
+                    ))
+                    fig_daily.add_trace(go.Bar(
+                        name='24/7 Trading',
+                        x=df_daily['Date'],
+                        y=df_daily['24/7 P&L'],
+                        marker_color='#00D4FF'
+                    ))
+                    fig_daily.update_layout(
+                        title='Daily P&L Comparison (Last 7 Days)',
+                        xaxis_title='Date',
+                        yaxis_title='P&L (USD)',
+                        barmode='group',
+                        template='plotly_dark',
+                        height=400
+                    )
+                    fig_daily.add_hline(y=0, line_dash="dash", line_color="white", opacity=0.3)
+                    st.plotly_chart(fig_daily, use_container_width=True)
                 else:
                     st.info("No daily comparison data available yet")
                     

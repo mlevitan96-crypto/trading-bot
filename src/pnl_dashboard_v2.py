@@ -1621,6 +1621,9 @@ def build_daily_summary_tab() -> html.Div:
         print(f"❌ [DASHBOARD-V2] Full traceback:\n{error_tb}", flush=True)
         # Continue with default empty data
     
+    # [FINAL ALPHA PHASE 7] Get Portfolio Health Metrics
+    portfolio_health = get_portfolio_health_metrics()
+    
     # [FINAL ALPHA PHASE 7] Portfolio Health Card
     def portfolio_health_card(health: dict) -> dbc.Card:
         max_dd = health.get("max_drawdown_24h_pct", 0.0)

@@ -756,7 +756,8 @@ def compute_summary(wallet_balance: float, lookback_days: int = 1) -> dict:
             open_positions = []
         
         # Filter to lookback period
-        cutoff = datetime.utcnow() - timedelta(days=lookback_days)
+        from datetime import timezone
+        cutoff = datetime.now(timezone.utc) - timedelta(days=lookback_days)
         recent_closed = []
         
         # Limit processing to prevent memory issues

@@ -78,7 +78,7 @@ if not df_open.empty:
 st.title("🦅 AlphaOps Pro")
 
 # Add tabs
-tab1, tab2, tab3 = st.tabs(["📊 Trading", "🔮 Analytics", "📈 Performance"])
+tab1, tab2, tab3, tab4 = st.tabs(["📊 Trading", "🔮 Analytics", "📈 Performance", "⏰ 24/7 Trading"])
 
 with tab1:
     c1, c2, c3, c4 = st.columns(4)
@@ -504,3 +504,170 @@ with tab2:
 with tab3:
     st.header("📈 Performance Metrics")
     st.info("Performance metrics coming soon...")
+
+with tab4:
+    st.header("⏰ 24/7 Trading Comparison")
+    st.markdown("Compare Golden Hour (09:00-16:00 UTC) vs 24/7 trading performance")
+    
+    # Load closed trades with trading_window field
+    try:
+        from src.data_registry import DataRegistry as DR
+        closed_positions = DR.get_closed_positions(hours=None)  # Get all closed positions
+        
+        if not closed_positions:
+            st.info("No closed trades found. Waiting for trading data...")
+        else:
+            # Filter trades by trading_window
+            golden_hour_trades = [t for t in closed_positions if t.get("trading_window") == "golden_hour"]
+            trades_24_7 = [t for t in closed_positions if t.get("trading_window") == "24_7"]
+            unknown_trades = [t for t in closed_positions if t.get("trading_window") not in ["golden_hour", "24_7"]]
+            
+            st.markdown(f"**Total Trades:** {len(closed_positions)} | **Golden Hour:** {len(golden_hour_trades)} | **24/7:** {len(trades_24_7)} | **Unknown:** {len(unknown_trades)}")
+            
+            # Calculate metrics for each group
+            def calculate_metrics(trades):
+                if not trades:
+                    return {
+                        "count": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
+                        "total_pnl": 0.0, "avg_pnl": 0.0, "profit_factor": 0.0
+                    }
+                
+                wins = sum(1 for t in trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) > 0)
+                losses = len(trades) - wins
+                total_pnl = sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in trades)
+                gross_profit = sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) > 0)
+                gross_loss = abs(sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) < 0))
+                profit_factor = gross_profit / gross_loss if gross_loss > 0 else 0.0
+                
+                return {
+                    "count": len(trades),
+                    "wins": wins,
+                    "losses": losses,
+                    "win_rate": (wins / len(trades) * 100) if trades else 0.0,
+                    "total_pnl": total_pnl,
+                    "avg_pnl": total_pnl / len(trades) if trades else 0.0,
+                    "profit_factor": profit_factor
+                }
+            
+            gh_metrics = calculate_metrics(golden_hour_trades)
+            all_24_7_metrics = calculate_metrics(trades_24_7)
+            
+            # Display comparison metrics
+            st.subheader("📊 Performance Comparison")
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.markdown("### 🕘 Golden Hour (09:00-16:00 UTC)")
+                st.metric("Total Trades", gh_metrics["count"])
+                st.metric("Win Rate", f"{gh_metrics['win_rate']:.1f}%")
+                st.metric("Total P&L", f"${gh_metrics['total_pnl']:,.2f}")
+                st.metric("Avg P&L", f"${gh_metrics['avg_pnl']:,.2f}")
+                st.metric("Profit Factor", f"{gh_metrics['profit_factor']:.2f}")
+            
+            with col2:
+                st.markdown("### 🌐 24/7 Trading")
+                st.metric("Total Trades", all_24_7_metrics["count"])
+                st.metric("Win Rate", f"{all_24_7_metrics['win_rate']:,.1f}%")
+                st.metric("Total P&L", f"${all_24_7_metrics['total_pnl']:,.2f}")
+                st.metric("Avg P&L", f"${all_24_7_metrics['avg_pnl']:,.2f}")
+                st.metric("Profit Factor", f"{all_24_7_metrics['profit_factor']:.2f}")
+            
+            with col3:
+                st.markdown("### 📈 Difference")
+                wr_diff = gh_metrics["win_rate"] - all_24_7_metrics["win_rate"]
+                pnl_diff = gh_metrics["total_pnl"] - all_24_7_metrics["total_pnl"]
+                pf_diff = gh_metrics["profit_factor"] - all_24_7_metrics["profit_factor"]
+                
+                st.metric("Win Rate Δ", f"{wr_diff:+.1f}%", "✅ Better" if wr_diff > 0 else "⚠️ Worse")
+                st.metric("P&L Δ", f"${pnl_diff:+,.2f}", "✅ Better" if pnl_diff > 0 else "⚠️ Worse")
+                st.metric("PF Δ", f"{pf_diff:+.2f}", "✅ Better" if pf_diff > 0 else "⚠️ Worse")
+            
+            st.markdown("---")
+            
+            # Daily comparison
+            st.subheader("📅 Daily Comparison (Last 7 Days)")
+            try:
+                from datetime import datetime, timedelta, timezone
+                
+                def _parse_timestamp_for_comparison(ts):
+                    """Parse timestamp for comparison purposes."""
+                    if not ts:
+                        return 0.0
+                    try:
+                        if isinstance(ts, (int, float)):
+                            return float(ts)
+                        if isinstance(ts, str):
+                            ts_clean = ts.replace('Z', '+00:00')
+                            if 'T' in ts_clean:
+                                dt = datetime.fromisoformat(ts_clean)
+                                if dt.tzinfo is None:
+                                    dt = dt.replace(tzinfo=timezone.utc)
+                                return dt.timestamp()
+                        return 0.0
+                    except:
+                        return 0.0
+                
+                daily_comparison = {}
+                for i in range(7):
+                    day = (datetime.now(timezone.utc) - timedelta(days=i)).date()
+                    day_start = datetime.combine(day, datetime.min.time()).replace(tzinfo=timezone.utc)
+                    day_end = day_start + timedelta(days=1)
+                    
+                    day_gh = [t for t in golden_hour_trades 
+                             if day_start.timestamp() <= _parse_timestamp_for_comparison(t.get("closed_at", t.get("opened_at", 0))) < day_end.timestamp()]
+                    day_24_7 = [t for t in trades_24_7 
+                               if day_start.timestamp() <= _parse_timestamp_for_comparison(t.get("closed_at", t.get("opened_at", 0))) < day_end.timestamp()]
+                    
+                    daily_comparison[day.isoformat()] = {
+                        "golden_hour": calculate_metrics(day_gh),
+                        "24_7": calculate_metrics(day_24_7)
+                    }
+                
+                daily_data = []
+                for day, metrics in sorted(daily_comparison.items(), reverse=True):
+                    daily_data.append({
+                        "Date": day,
+                        "GH Trades": metrics["golden_hour"]["count"],
+                        "GH P&L": f"${metrics['golden_hour']['total_pnl']:,.2f}",
+                        "GH WR": f"{metrics['golden_hour']['win_rate']:.1f}%",
+                        "24/7 Trades": metrics["24_7"]["count"],
+                        "24/7 P&L": f"${metrics['24_7']['total_pnl']:,.2f}",
+                        "24/7 WR": f"{metrics['24_7']['win_rate']:.1f}%"
+                    })
+                
+                if daily_data:
+                    df_daily = pd.DataFrame(daily_data)
+                    st.dataframe(df_daily, use_container_width=True)
+                else:
+                    st.info("No daily comparison data available yet")
+                    
+            except Exception as e:
+                st.warning(f"Daily comparison unavailable: {e}")
+            
+            st.markdown("---")
+            
+            # Configuration status
+            st.subheader("⚙️ Configuration")
+            try:
+                from pathlib import Path
+                from src.infrastructure.path_registry import PathRegistry
+                
+                config_file = Path(PathRegistry.get_path("feature_store", "golden_hour_config.json"))
+                if config_file.exists():
+                    import json
+                    with open(config_file, 'r') as f:
+                        config = json.load(f)
+                    
+                    restrict_enabled = config.get("restrict_to_golden_hour", True)
+                    status = "🟢 ENABLED (24/7 trading allowed)" if not restrict_enabled else "🔴 DISABLED (Golden Hour only)"
+                    st.info(f"**Golden Hour Restriction:** {status}")
+                    st.caption(f"Config: `restrict_to_golden_hour = {restrict_enabled}`")
+                else:
+                    st.warning("Configuration file not found. Using default (restricted to golden hour).")
+            except Exception as e:
+                st.warning(f"Configuration status unavailable: {e}")
+            
+    except Exception as e:
+        st.error(f"Error loading 24/7 trading data: {e}")
+        import traceback
+        st.code(traceback.format_exc())

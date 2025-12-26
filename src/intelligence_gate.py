@@ -226,26 +226,107 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         signal_direction = 'LONG'  # Default fallback
     
     # [BIG ALPHA PHASE 6] Symbol-Specific Alpha Floor - Check 7-day performance
+    # [FINAL ALPHA] Enhanced with Symbol-Strategy Power Ranking
     symbol_perf = get_symbol_7day_performance(symbol)
     symbol_win_rate = symbol_perf.get("win_rate", 0.5)
     symbol_profit_factor = symbol_perf.get("profit_factor", 1.0)
     symbol_trade_count = symbol_perf.get("trade_count", 0)
     
-    # Adaptive sizing multiplier (will be applied at the end)
+    # Adaptive sizing multiplier and Whale CVD threshold adjustment
     adaptive_size_multiplier = 1.0
     adaptive_reason = ""
+    whale_cvd_threshold_override = None  # Will override default if set
     
-    # If WR < 35% (like ADA/BTC), auto-shrink position size by 50%
-    if symbol_trade_count >= 5 and symbol_win_rate < 0.35:
-        adaptive_size_multiplier = 0.5  # 50% reduction
-        adaptive_reason = f"SYMBOL_ALPHA_FLOOR: WR={symbol_win_rate*100:.1f}% < 35% (shrink 50%)"
-        _log(f"⚠️ [ALPHA-FLOOR] {symbol}: Win rate {symbol_win_rate*100:.1f}% < 35% - Auto-shrinking position size by 50%")
+    # [FINAL ALPHA] Top Tier: WR > 50% and PF > 2.0 (e.g., AVAX, LINK)
+    # Get 1.5x Size Multiplier and eased Whale CVD requirement (Intensity 15.0 instead of 30.0)
+    if symbol_trade_count >= 5 and symbol_win_rate > 0.50 and symbol_profit_factor > 2.0:
+        adaptive_size_multiplier = 1.5  # 50% expansion for top tier
+        whale_cvd_threshold_override = 15.0  # Eased from default 30.0
+        adaptive_reason = f"POWER-RANKING-TOP: WR={symbol_win_rate*100:.1f}% > 50%, PF={symbol_profit_factor:.2f} > 2.0 (expand 50%, Whale CVD=15.0)"
+        _log(f"⭐ [POWER-RANKING-TOP] {symbol}: Win rate {symbol_win_rate*100:.1f}%, PF {symbol_profit_factor:.2f} - Top tier: 1.5x size, eased Whale CVD")
     
-    # If PF > 1.8 (like AVAX/LINK), auto-expand position size by 20%
+    # [FINAL ALPHA] Bottom Tier: Symbols on probation (WR < 35% or already on probation)
+    # Must stay at 0.1x Size until Shadow Win Rate exceeds 45% for 48 consecutive hours
+    elif symbol_trade_count >= 5 and symbol_win_rate < 0.35:
+        # Check if symbol is on probation
+        try:
+            from src.symbol_probation_state_machine import get_probation_machine
+            probation_machine = get_probation_machine()
+            is_on_probation = probation_machine.get_symbol_state(symbol).value == "probation"
+            
+            if is_on_probation:
+                # Check shadow win rate (48-hour window)
+                shadow_wr = _get_symbol_shadow_win_rate_48h(symbol)
+                if shadow_wr < 0.45:
+                    adaptive_size_multiplier = 0.1  # 0.1x size (90% reduction)
+                    adaptive_reason = f"POWER-RANKING-BOTTOM: On probation, Shadow WR={shadow_wr*100:.1f}% < 45% (shrink to 0.1x)"
+                    _log(f"🔻 [POWER-RANKING-BOTTOM] {symbol}: On probation, Shadow WR {shadow_wr*100:.1f}% < 45% - Reducing to 0.1x size")
+                else:
+                    # Shadow WR improved, use standard floor
+                    adaptive_size_multiplier = 0.5  # 50% reduction (standard floor)
+                    adaptive_reason = f"POWER-RANKING-RECOVERING: On probation but Shadow WR={shadow_wr*100:.1f}% >= 45% (shrink 50%)"
+            else:
+                # Not on probation yet, use standard floor
+                adaptive_size_multiplier = 0.5  # 50% reduction
+                adaptive_reason = f"SYMBOL_ALPHA_FLOOR: WR={symbol_win_rate*100:.1f}% < 35% (shrink 50%)"
+                _log(f"⚠️ [ALPHA-FLOOR] {symbol}: Win rate {symbol_win_rate*100:.1f}% < 35% - Auto-shrinking position size by 50%")
+        except Exception as e:
+            # Fallback to standard floor if probation check fails
+            adaptive_size_multiplier = 0.5
+            adaptive_reason = f"SYMBOL_ALPHA_FLOOR: WR={symbol_win_rate*100:.1f}% < 35% (shrink 50%)"
+            _log(f"⚠️ [ALPHA-FLOOR] {symbol}: Win rate {symbol_win_rate*100:.1f}% < 35% - Auto-shrinking position size by 50% (probation check failed: {e})")
+    
+    # If PF > 1.8 (but not top tier), auto-expand position size by 20%
     elif symbol_trade_count >= 5 and symbol_profit_factor > 1.8:
         adaptive_size_multiplier = 1.2  # 20% expansion
         adaptive_reason = f"SYMBOL_ALPHA_BOOST: PF={symbol_profit_factor:.2f} > 1.8 (expand 20%)"
         _log(f"✅ [ALPHA-BOOST] {symbol}: Profit factor {symbol_profit_factor:.2f} > 1.8 - Auto-expanding position size by 20%")
+
+
+def _get_symbol_shadow_win_rate_48h(symbol: str) -> float:
+    """
+    [FINAL ALPHA] Get shadow win rate for symbol over last 48 hours.
+    Used for probation recovery check.
+    """
+    try:
+        from src.infrastructure.path_registry import PathRegistry
+        shadow_log_path = Path(PathRegistry.get_path("logs", "shadow_trade_outcomes.jsonl"))
+        
+        if not shadow_log_path.exists():
+            return 0.0
+        
+        cutoff_ts = time.time() - (48 * 3600)  # 48 hours
+        shadow_trades = []
+        
+        with open(shadow_log_path, 'r') as f:
+            for line in f:
+                try:
+                    entry = json.loads(line.strip())
+                    if entry.get("symbol", "").upper() != symbol.upper():
+                        continue
+                    
+                    entry_ts = entry.get("ts") or entry.get("timestamp")
+                    if isinstance(entry_ts, str):
+                        ts_clean = entry_ts.replace('Z', '+00:00')
+                        dt = datetime.fromisoformat(ts_clean)
+                        if dt.tzinfo is None:
+                            dt = dt.replace(tzinfo=timezone.utc)
+                        entry_ts = dt.timestamp()
+                    
+                    if entry_ts and entry_ts >= cutoff_ts:
+                        pnl = entry.get("hypothetical_pnl", entry.get("pnl", entry.get("pnl_usd", 0))) or 0
+                        shadow_trades.append(float(pnl) if pnl else 0.0)
+                except:
+                    continue
+        
+        if not shadow_trades:
+            return 0.0
+        
+        wins = sum(1 for pnl in shadow_trades if pnl > 0)
+        return wins / len(shadow_trades) if shadow_trades else 0.0
+    except Exception as e:
+        _log(f"⚠️ Error getting shadow win rate for {symbol}: {e}")
+        return 0.0
     
     # [WHALE CVD FILTER] Check whale flow alignment
     try:
@@ -254,9 +335,11 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         whale_aligned, whale_reason, whale_cvd_data = check_whale_cvd_alignment(symbol, signal_direction)
         
         # Block if whale CVD diverges from signal direction
+        # [FINAL ALPHA] Use override threshold if set by Power Ranking (Top tier: 15.0, Default: 30.0)
+        whale_threshold = whale_cvd_threshold_override if whale_cvd_threshold_override is not None else 30.0
         if not whale_aligned and whale_reason == "DIVERGING":
             whale_intensity = whale_cvd_data.get("whale_intensity", 0.0)
-            if whale_intensity >= 30.0:  # Only block if significant whale activity
+            if whale_intensity >= whale_threshold:  # Use threshold (30.0 default, 15.0 for top tier)
                 _log(f"❌ WHALE-CONFLICT {symbol}: Signal={signal_direction} conflicts with Whale CVD={whale_cvd_data.get('cvd_direction', 'UNKNOWN')} (intensity={whale_intensity:.1f})")
                 try:
                     from src.health_to_learning_bridge import log_gate_decision

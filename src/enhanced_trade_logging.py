@@ -21,11 +21,49 @@ def is_golden_hour() -> bool:
     Check if current time is within golden trading hours.
     Trading Window: 09:00 UTC (London Open) to 16:00 UTC (NY Close)
     
+    [FINAL ALPHA] Also checks dynamically learned windows from Time-Regime Optimizer.
+    
     Returns:
-        True if within golden hours, False otherwise
+        True if within golden hours or any allowed learned window, False otherwise
     """
     current_hour = datetime.now(timezone.utc).hour
-    return 9 <= current_hour < 16
+    current_time = datetime.now(timezone.utc).time()
+    
+    # Check base golden hour (09:00-16:00 UTC)
+    if 9 <= current_hour < 16:
+        return True
+    
+    # Check dynamically learned windows from Time-Regime Optimizer
+    try:
+        from src.time_regime_optimizer import get_time_regime_optimizer
+        optimizer = get_time_regime_optimizer()
+        config = optimizer._load_golden_hour_config()
+        allowed_windows = config.get("allowed_windows", [])
+        
+        # Check if current time is in any allowed window
+        for window_str in allowed_windows:
+            # Parse window string like "01:00-03:00"
+            try:
+                start_str, end_str = window_str.split("-")
+                start_hour = int(start_str.split(":")[0])
+                end_hour = int(end_str.split(":")[0])
+                
+                # Handle wraparound (e.g., 22:00-02:00)
+                if end_hour < start_hour:
+                    # Wraps around midnight
+                    if current_hour >= start_hour or current_hour < end_hour:
+                        return True
+                else:
+                    # Normal range
+                    if start_hour <= current_hour < end_hour:
+                        return True
+            except (ValueError, IndexError):
+                continue  # Skip invalid window format
+    except Exception as e:
+        # Fail safely - if optimizer fails, just use base golden hour
+        pass
+    
+    return False
 
 
 def get_market_data_snapshot(symbol: str, signal_price: Optional[float] = None) -> Dict[str, Any]:
@@ -275,6 +313,8 @@ def check_golden_hours_block() -> Tuple[bool, str, str]:
     """
     Check if trade should be blocked due to being outside golden hours.
     
+    [FINAL ALPHA] Now supports dynamically learned windows from Time-Regime Optimizer.
+    
     Returns:
         (should_block, reason, trading_window)
         - should_block: True if entry should be blocked
@@ -284,6 +324,7 @@ def check_golden_hours_block() -> Tuple[bool, str, str]:
     config = get_golden_hour_config()
     restrict = config.get("restrict_to_golden_hour", True)
     
+    # Check if current time is in any allowed window (base + learned)
     is_gh = is_golden_hour()
     trading_window = "golden_hour" if is_gh else "24_7"
     
@@ -291,9 +332,17 @@ def check_golden_hours_block() -> Tuple[bool, str, str]:
     if not restrict:
         return False, "", trading_window
     
-    # If restriction is enabled and we're outside golden hour, block
+    # If restriction is enabled and we're outside all allowed windows, block
     if not is_gh:
-        reason = "BLOCK: Outside golden trading hours (09:00-16:00 UTC)."
+        # Get allowed windows for the reason message
+        try:
+            from src.time_regime_optimizer import get_time_regime_optimizer
+            optimizer = get_time_regime_optimizer()
+            allowed_windows = optimizer.get_allowed_windows()
+            windows_str = ", ".join(allowed_windows) if allowed_windows else "09:00-16:00 UTC"
+            reason = f"BLOCK: Outside allowed trading windows ({windows_str})."
+        except:
+            reason = "BLOCK: Outside golden trading hours (09:00-16:00 UTC)."
         return True, reason, trading_window
     
     return False, "", trading_window

@@ -122,6 +122,71 @@ class SelfHealingLearningLoop:
                         import traceback
                         traceback.print_exc()
                     
+                    # [FINAL ALPHA] Time-Regime Optimizer - Analyze shadow trades and optimize golden hours
+                    try:
+                        print(f"🔄 [SELF-HEALING] Running Time-Regime Optimization...")
+                        from src.time_regime_optimizer import get_time_regime_optimizer
+                        optimizer = get_time_regime_optimizer()
+                        opt_result = optimizer.optimize_golden_hours()
+                        if opt_result.get("success") and opt_result.get("new_windows"):
+                            print(f"✅ [TIME-REGIME] Optimized golden hours: Added {len(opt_result['new_windows'])} windows")
+                    except Exception as e:
+                        print(f"⚠️ [TIME-REGIME] Error during time-regime optimization: {e}")
+                        import traceback
+                        traceback.print_exc()
+                    
+                    # [FINAL ALPHA] Execution Post-Mortem Tuning - Adjust marketable limit offset based on fill failure rate
+                    try:
+                        print(f"🔄 [SELF-HEALING] Analyzing fill failure rate for execution tuning...")
+                        from src.trade_execution import analyze_fill_failure_rate, get_marketable_limit_offset_bps, MARKETABLE_LIMIT_OFFSET_BPS, MARKETABLE_LIMIT_OFFSET_BPS_MAX
+                        from pathlib import Path
+                        from src.infrastructure.path_registry import PathRegistry
+                        import json
+                        
+                        fill_analysis = analyze_fill_failure_rate(hours=24)
+                        if not fill_analysis.get("error") and fill_analysis.get("should_increase_offset"):
+                            current_offset = get_marketable_limit_offset_bps()
+                            if current_offset < MARKETABLE_LIMIT_OFFSET_BPS_MAX:
+                                # Increase offset to 0.12% (12 bps)
+                                config_path = Path(PathRegistry.get_path("feature_store", "trade_execution_config.json"))
+                                config_path.parent.mkdir(parents=True, exist_ok=True)
+                                
+                                config = {}
+                                if config_path.exists():
+                                    with open(config_path, 'r') as f:
+                                        config = json.load(f)
+                                
+                                config["marketable_limit_offset_bps"] = MARKETABLE_LIMIT_OFFSET_BPS_MAX
+                                config["last_updated"] = datetime.utcnow().isoformat() + "Z"
+                                config["reason"] = f"Fill failure rate {fill_analysis.get('estimated_failure_rate_pct', 0):.1f}% > 20% during TRUE TREND"
+                                
+                                with open(config_path, 'w') as f:
+                                    json.dump(config, f, indent=2)
+                                
+                                print(f"✅ [EXECUTION-TUNING] Increased marketable limit offset to {MARKETABLE_LIMIT_OFFSET_BPS_MAX} bps (0.12%) due to high fill failure rate")
+                        elif not fill_analysis.get("error") and fill_analysis.get("estimated_failure_rate_pct", 0) < 10.0:
+                            # If failure rate is low, consider reducing offset back to default
+                            current_offset = get_marketable_limit_offset_bps()
+                            if current_offset > MARKETABLE_LIMIT_OFFSET_BPS:
+                                config_path = Path(PathRegistry.get_path("feature_store", "trade_execution_config.json"))
+                                if config_path.exists():
+                                    # Only reduce if it's been increased before
+                                    with open(config_path, 'r') as f:
+                                        config = json.load(f)
+                                    if config.get("marketable_limit_offset_bps", MARKETABLE_LIMIT_OFFSET_BPS) > MARKETABLE_LIMIT_OFFSET_BPS:
+                                        config["marketable_limit_offset_bps"] = MARKETABLE_LIMIT_OFFSET_BPS
+                                        config["last_updated"] = datetime.utcnow().isoformat() + "Z"
+                                        config["reason"] = f"Fill failure rate {fill_analysis.get('estimated_failure_rate_pct', 0):.1f}% < 10% - reducing to default"
+                                        
+                                        with open(config_path, 'w') as f:
+                                            json.dump(config, f, indent=2)
+                                        
+                                        print(f"✅ [EXECUTION-TUNING] Reduced marketable limit offset back to {MARKETABLE_LIMIT_OFFSET_BPS} bps (0.05%) - fill failure rate improved")
+                    except Exception as e:
+                        print(f"⚠️ [EXECUTION-TUNING] Error during fill failure analysis: {e}")
+                        import traceback
+                        traceback.print_exc()
+                    
                     # [BIG ALPHA] Also evaluate symbol probation (Component 6)
                     try:
                         from src.symbol_probation_state_machine import get_probation_machine

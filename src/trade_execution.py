@@ -20,12 +20,36 @@ EXECUTED_TRADES_LOG = Path(PathRegistry.get_path("logs", "executed_trades.jsonl"
 EXECUTED_TRADES_LOG.parent.mkdir(parents=True, exist_ok=True)
 
 # Marketable Limit Order offset: 0.05% (5 basis points)
-MARKETABLE_LIMIT_OFFSET_BPS = 5.0  # 0.05% = 5 bps
+# [FINAL ALPHA] This is dynamically adjusted based on fill failure rate
+MARKETABLE_LIMIT_OFFSET_BPS = 5.0  # 0.05% = 5 bps (default)
+MARKETABLE_LIMIT_OFFSET_BPS_MAX = 12.0  # 0.12% = 12 bps (max, used if fills failing > 20%)
+
+def get_marketable_limit_offset_bps() -> float:
+    """
+    [FINAL ALPHA] Get current marketable limit offset, which may be dynamically adjusted
+    based on fill failure rate analysis.
+    """
+    try:
+        from pathlib import Path
+        from src.infrastructure.path_registry import PathRegistry
+        config_path = Path(PathRegistry.get_path("feature_store", "trade_execution_config.json"))
+        
+        if config_path.exists():
+            import json
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+                return config.get("marketable_limit_offset_bps", MARKETABLE_LIMIT_OFFSET_BPS)
+    except:
+        pass
+    
+    return MARKETABLE_LIMIT_OFFSET_BPS
 
 
 def calculate_marketable_limit_price(signal_price: float, side: str, is_true_trend: bool = False) -> float:
     """
     Calculate marketable limit price for immediate fill.
+    
+    [FINAL ALPHA] Uses dynamically adjusted offset based on fill failure rate.
     
     Args:
         signal_price: Price at which signal was generated
@@ -33,13 +57,15 @@ def calculate_marketable_limit_price(signal_price: float, side: str, is_true_tre
         is_true_trend: If True, use tighter offset for faster fills
     
     Returns:
-        Limit price that should fill immediately (within 0.05% of signal price)
+        Limit price that should fill immediately (within 0.05-0.12% of signal price)
     """
-    offset_pct = MARKETABLE_LIMIT_OFFSET_BPS / 10000.0  # Convert bps to decimal
+    # [FINAL ALPHA] Get dynamically adjusted offset
+    offset_bps = get_marketable_limit_offset_bps()
+    offset_pct = offset_bps / 10000.0  # Convert bps to decimal
     
     if is_true_trend:
-        # Tighter offset for TRUE TREND (faster fills)
-        offset_pct = offset_pct * 0.8  # 0.04% instead of 0.05%
+        # Tighter offset for TRUE TREND (faster fills) - but respect minimum
+        offset_pct = max(offset_pct * 0.8, MARKETABLE_LIMIT_OFFSET_BPS / 10000.0 * 0.8)  # At least 0.04%
     
     if side.upper() in ["LONG", "BUY"]:
         # For LONG: Place limit order slightly above signal price (willing to pay more)

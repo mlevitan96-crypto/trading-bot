@@ -527,8 +527,9 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
         else:
             print(f"🔍 [SUMMARY] Reset filter disabled - using all {len(post_reset_positions)} positions", flush=True)
         
-        # Now filter to lookback period
-        cutoff = datetime.utcnow() - timedelta(days=lookback_days)
+        # Now filter to lookback period (use timezone-aware datetime)
+        from datetime import timezone
+        cutoff = datetime.now(timezone.utc) - timedelta(days=lookback_days)
         cutoff_ts = cutoff.timestamp()
         recent_closed = []
         

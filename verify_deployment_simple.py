@@ -28,23 +28,28 @@ def test(name, func):
 
 # Test 1: Time-Regime Optimizer
 test("Time-Regime Optimizer import", lambda: __import__('src.time_regime_optimizer'))
-test("Time-Regime Optimizer instantiation", lambda: __import__('src.time_regime_optimizer').get_time_regime_optimizer() is not None)
+from src.time_regime_optimizer import get_time_regime_optimizer
+test("Time-Regime Optimizer instantiation", lambda: get_time_regime_optimizer() is not None)
 
 # Test 2: Enhanced Trade Logging
 test("Enhanced Trade Logging import", lambda: __import__('src.enhanced_trade_logging'))
-test("is_golden_hour function", lambda: isinstance(__import__('src.enhanced_trade_logging').is_golden_hour(), bool))
+from src.enhanced_trade_logging import is_golden_hour
+test("is_golden_hour function", lambda: isinstance(is_golden_hour(), bool))
 
 # Test 3: Intelligence Gate
 test("Intelligence Gate import", lambda: __import__('src.intelligence_gate'))
-test("intelligence_gate function exists", lambda: hasattr(__import__('src.intelligence_gate'), 'intelligence_gate'))
+from src.intelligence_gate import intelligence_gate
+test("intelligence_gate function exists", lambda: callable(intelligence_gate))
 
 # Test 4: Trade Execution
 test("Trade Execution import", lambda: __import__('src.trade_execution'))
-test("get_marketable_limit_offset_bps exists", lambda: hasattr(__import__('src.trade_execution'), 'get_marketable_limit_offset_bps'))
+from src.trade_execution import get_marketable_limit_offset_bps
+test("get_marketable_limit_offset_bps exists", lambda: callable(get_marketable_limit_offset_bps))
 
 # Test 5: Self-Healing Loop
 test("Self-Healing Loop import", lambda: __import__('src.self_healing_learning_loop'))
-test("SelfHealingLearningLoop class", lambda: hasattr(__import__('src.self_healing_learning_loop'), 'SelfHealingLearningLoop'))
+from src.self_healing_learning_loop import SelfHealingLearningLoop
+test("SelfHealingLearningLoop class", lambda: SelfHealingLearningLoop is not None)
 
 print()
 print("=" * 80)

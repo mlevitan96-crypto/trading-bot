@@ -1723,6 +1723,12 @@ def build_daily_summary_tab() -> html.Div:
             
             print(f"🕘 [DASHBOARD-V2] Found {len(golden_hour_positions)} Golden Hour trades in last 24h (09:00-16:00 UTC by timestamp)", flush=True)
             
+            # Debug: Verify filtering is correct
+            now_utc = datetime.now(timezone.utc)
+            current_hour = now_utc.hour
+            is_gh_now = 9 <= current_hour < 16
+            print(f"🕘 [DASHBOARD-V2] Current time: {now_utc.strftime('%H:%M:%S UTC')}, Hour: {current_hour}, Is Golden Hour now: {is_gh_now}", flush=True)
+            
             # golden_hour_positions is already filtered to last 24h, so compute summary directly from positions
             # Extract P&L values
             pnls = []
@@ -2238,8 +2244,10 @@ def build_24_7_trading_tab() -> html.Div:
             pass
         
         # Filter to last 24 hours only for summary cards
+        # IMPORTANT: Golden Hour = ONLY trades that closed during 09:00-16:00 UTC in last 24h
+        # IMPORTANT: 24/7 = ALL trades in last 24h (including Golden Hour trades)
         gh_24h_trades = []
-        trades_24_7_24h = []
+        all_trades_24h = []  # ALL trades in last 24h (for 24/7 section)
         
         for t in closed_positions:
             closed_at = t.get("closed_at", "")
@@ -2260,12 +2268,15 @@ def build_24_7_trading_tab() -> html.Div:
                 if dt:
                     closed_ts = dt.timestamp()
                     if closed_ts >= cutoff_24h_ts:
+                        # ALL trades in last 24h go to 24/7 section
+                        all_trades_24h.append(t)
+                        
+                        # ONLY trades during Golden Hour (09:00-16:00 UTC) go to Golden Hour section
                         hour = dt.hour
                         if 9 <= hour < 16:  # Golden Hour: 09:00-16:00 UTC
                             gh_24h_trades.append(t)
-                        else:
-                            trades_24_7_24h.append(t)
-            except:
+            except Exception as e:
+                # Skip trades with parsing errors
                 pass
         
         # Calculate summaries for last 24h
@@ -2304,7 +2315,11 @@ def build_24_7_trading_tab() -> html.Div:
             }
         
         gh_summary_24h = calc_summary_24h(gh_24h_trades, wallet_balance_24_7)
-        all_24_7_summary_24h = calc_summary_24h(trades_24_7_24h, wallet_balance_24_7)
+        # 24/7 section shows ALL trades in last 24h (including Golden Hour trades)
+        all_24_7_summary_24h = calc_summary_24h(all_trades_24h, wallet_balance_24_7)
+        
+        # Debug logging
+        print(f"🔍 [DASHBOARD-V2] 24/7 tab filtering: Total last 24h={len(all_trades_24h)}, Golden Hour={len(gh_24h_trades)}, 24/7 only={len(all_trades_24h) - len(gh_24h_trades)}", flush=True)
         
         # Calculate differences
         pnl_diff_dollars = gh_metrics["total_pnl"] - all_24_7_metrics["total_pnl"]

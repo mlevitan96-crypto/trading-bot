@@ -16,6 +16,12 @@ from typing import Dict, List, Optional, Any, Tuple
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 
+try:
+    import numpy as np
+except ImportError:
+    # Fallback if numpy not available
+    np = None
+
 from src.infrastructure.path_registry import PathRegistry
 
 
@@ -115,16 +121,58 @@ class TimeRegimeOptimizer:
             total_pnl = sum(pnls)
             avg_pnl = total_pnl / len(trades) if trades else 0.0
             
+            # [FINAL ALPHA PHASE 7] Calculate Sharpe Ratio for risk-adjusted performance
+            sharpe_ratio = 0.0
+            if len(trades) >= 10 and np is not None:  # Need at least 10 trades for meaningful Sharpe calculation
+                try:
+                    # Extract returns from P&L (normalize by starting capital)
+                    returns = [t["pnl"] / 10000.0 for t in trades]  # Normalize by $10k starting capital
+                    
+                    if len(returns) > 1:
+                        mean_return = np.mean(returns)
+                        std_return = np.std(returns)
+                        
+                        # Sharpe Ratio = (mean return - risk_free_rate) / std_return
+                        # Risk-free rate = 0 (crypto trading)
+                        if std_return > 1e-9:
+                            sharpe_ratio = mean_return / std_return
+                        else:
+                            sharpe_ratio = 0.0
+                except Exception as e:
+                    print(f"⚠️ [TIME-REGIME] Error calculating Sharpe for {window_key}: {e}")
+                    sharpe_ratio = 0.0
+            elif len(trades) >= 10 and np is None:
+                # Fallback calculation without numpy
+                try:
+                    returns = [t["pnl"] / 10000.0 for t in trades]
+                    if len(returns) > 1:
+                        mean_return = sum(returns) / len(returns)
+                        variance = sum((r - mean_return) ** 2 for r in returns) / len(returns)
+                        std_return = variance ** 0.5
+                        sharpe_ratio = mean_return / std_return if std_return > 1e-9 else 0.0
+                except Exception as e:
+                    print(f"⚠️ [TIME-REGIME] Error calculating Sharpe (fallback) for {window_key}: {e}")
+                    sharpe_ratio = 0.0
+            
+            # [FINAL ALPHA PHASE 7] Require Sharpe Ratio > 1.5 AND Profit Factor > 1.5 for qualification
+            min_sharpe_ratio = 1.5
+            qualifies_pf = profit_factor >= self.min_profit_factor
+            qualifies_sharpe = sharpe_ratio >= min_sharpe_ratio
+            qualifies = qualifies_pf and qualifies_sharpe
+            
             window_metrics[window_key] = {
                 "window": window_key,
                 "trades": len(trades),
                 "win_rate": win_rate,
                 "profit_factor": profit_factor,
+                "sharpe_ratio": sharpe_ratio,
                 "total_pnl": total_pnl,
                 "avg_pnl": avg_pnl,
                 "gross_profit": gross_profit,
                 "gross_loss": gross_loss,
-                "qualifies": profit_factor >= self.min_profit_factor
+                "qualifies": qualifies,
+                "qualifies_pf": qualifies_pf,
+                "qualifies_sharpe": qualifies_sharpe
             }
         
         return window_metrics
@@ -148,11 +196,19 @@ class TimeRegimeOptimizer:
                 "qualified_windows": []
             }
         
-        # Find windows that qualify (PF > 1.5)
+        # [FINAL ALPHA PHASE 7] Find windows that qualify (PF > 1.5 AND Sharpe > 1.5)
         qualified_windows = [
             window_key for window_key, metrics in window_metrics.items()
             if metrics.get("qualifies", False)
         ]
+        
+        # Log qualification details
+        for window_key, metrics in window_metrics.items():
+            pf = metrics.get("profit_factor", 0.0)
+            sharpe = metrics.get("sharpe_ratio", 0.0)
+            qualifies = metrics.get("qualifies", False)
+            status = "✅ QUALIFIED" if qualifies else "❌ REJECTED"
+            print(f"   {status} {window_key}: PF={pf:.2f}, Sharpe={sharpe:.2f} (requires PF>={self.min_profit_factor}, Sharpe>=1.5)")
         
         # Load current golden hour config
         current_config = self._load_golden_hour_config()

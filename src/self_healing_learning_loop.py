@@ -194,6 +194,16 @@ class SelfHealingLearningLoop:
                         probation_machine.evaluate_all_symbols()
                     except Exception as e:
                         print(f"⚠️ [PROBATION] Error during evaluation: {e}")
+                    
+                    # [FINAL ALPHA PHASE 7] Hard Max Drawdown Guard (Kill-Switch)
+                    # If portfolio loses >5% in 24h, force-close all positions and hard-block entries for 12h
+                    try:
+                        print(f"🔄 [SELF-HEALING] Checking portfolio Max Drawdown...")
+                        self._check_max_drawdown_kill_switch()
+                    except Exception as e:
+                        print(f"⚠️ [MAX-DRAWDOWN-GUARD] Error during drawdown check: {e}")
+                        import traceback
+                        traceback.print_exc()
                 
                 # [BIG ALPHA PHASE 4] Hyperparameter Optimization (every 12 hours)
                 time_since_last_hyperparam = now - self.last_hyperparam_optimization_ts
@@ -782,6 +792,225 @@ class SelfHealingLearningLoop:
             print(f"   ⚠️ [SLIPPAGE-AUDIT] Error in slippage analysis: {e}")
             import traceback
             traceback.print_exc()
+    
+    def _check_max_drawdown_kill_switch(self):
+        """
+        [FINAL ALPHA PHASE 7] Hard Max Drawdown Guard (Kill-Switch)
+        Monitor Portfolio-Level Drawdown (MDD). If portfolio loses >5% in 24h,
+        Force-Close all positions and Hard-Block all new entries for 12 hours.
+        """
+        MAX_DRAWDOWN_THRESHOLD = 0.05  # 5% drawdown threshold
+        BLOCK_DURATION_HOURS = 12  # Block new entries for 12 hours
+        
+        try:
+            from src.data_registry import DataRegistry as DR
+            
+            # Calculate 24-hour portfolio drawdown
+            positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+            if not positions_data:
+                return
+            
+            closed_positions = positions_data.get("closed_positions", [])
+            if not closed_positions:
+                return
+            
+            # Calculate starting capital (from wallet balance calculation)
+            STARTING_CAPITAL = 10000.0
+            
+            # Get portfolio value 24 hours ago and now
+            cutoff_time = datetime.utcnow() - timedelta(hours=24)
+            
+            # Calculate cumulative P&L from all closed positions
+            total_pnl_now = 0.0
+            total_pnl_24h_ago = 0.0
+            
+            for pos in closed_positions:
+                pnl = float(pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0))) or 0)
+                total_pnl_now += pnl
+                
+                # Check if closed before 24h ago
+                closed_at = pos.get("closed_at")
+                if closed_at:
+                    try:
+                        if isinstance(closed_at, str):
+                            closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        else:
+                            closed_dt = datetime.fromtimestamp(closed_at)
+                        
+                        if closed_dt < cutoff_time:
+                            total_pnl_24h_ago += pnl
+                    except:
+                        pass
+            
+            # Calculate portfolio values
+            portfolio_value_now = STARTING_CAPITAL + total_pnl_now
+            portfolio_value_24h_ago = STARTING_CAPITAL + total_pnl_24h_ago
+            
+            # Calculate drawdown over 24h
+            if portfolio_value_24h_ago > 0:
+                drawdown_pct = (portfolio_value_24h_ago - portfolio_value_now) / portfolio_value_24h_ago
+            else:
+                drawdown_pct = 0.0
+            
+            # Check if drawdown exceeds threshold
+            if drawdown_pct > MAX_DRAWDOWN_THRESHOLD:
+                print(f"🚨 [MAX-DRAWDOWN-GUARD] CRITICAL: Portfolio drawdown {drawdown_pct*100:.2f}% > {MAX_DRAWDOWN_THRESHOLD*100:.2f}% threshold")
+                print(f"   Portfolio 24h ago: ${portfolio_value_24h_ago:,.2f}, Now: ${portfolio_value_now:,.2f}")
+                
+                # Check if kill switch was already triggered recently (within block duration)
+                kill_switch_state_path = FEATURE_STORE / "max_drawdown_kill_switch_state.json"
+                kill_switch_state = {}
+                
+                if kill_switch_state_path.exists():
+                    try:
+                        with open(kill_switch_state_path, 'r') as f:
+                            kill_switch_state = json.load(f)
+                    except:
+                        pass
+                
+                last_trigger_time = kill_switch_state.get("last_triggered")
+                if last_trigger_time:
+                    try:
+                        last_trigger_dt = datetime.fromisoformat(last_trigger_time.replace("Z", "+00:00"))
+                        hours_since_trigger = (datetime.utcnow() - last_trigger_dt).total_seconds() / 3600
+                        
+                        if hours_since_trigger < BLOCK_DURATION_HOURS:
+                            # Still in block period
+                            remaining_hours = BLOCK_DURATION_HOURS - hours_since_trigger
+                            print(f"   ℹ️  Kill switch already active (triggered {hours_since_trigger:.1f}h ago, {remaining_hours:.1f}h remaining)")
+                            return
+                    except:
+                        pass
+                
+                # Trigger kill switch: Force-close all positions
+                print(f"🛑 [MAX-DRAWDOWN-GUARD] Triggering KILL SWITCH: Force-closing all positions...")
+                
+                try:
+                    from src.position_manager import get_open_futures_positions, close_futures_position
+                    from src.blofin_futures_client import BlofinFuturesClient
+                    
+                    open_positions = get_open_futures_positions()
+                    if open_positions:
+                        client = BlofinFuturesClient()
+                        closed_count = 0
+                        
+                        for pos in open_positions:
+                            symbol = pos.get("symbol")
+                            strategy = pos.get("strategy", "unknown")
+                            direction = pos.get("direction", "LONG")
+                            
+                            try:
+                                # Get current market price
+                                mark_price = client.get_mark_price(symbol)
+                                
+                                # Force close (bypass hold time)
+                                success = close_futures_position(
+                                    symbol=symbol,
+                                    strategy=strategy,
+                                    direction=direction,
+                                    exit_price=mark_price,
+                                    reason="MAX_DRAWDOWN_KILL_SWITCH",
+                                    funding_fees=0,
+                                    force_close=True
+                                )
+                                
+                                if success:
+                                    closed_count += 1
+                                    print(f"   ✅ Force-closed {symbol} {direction} @ ${mark_price:.2f}")
+                            except Exception as e:
+                                print(f"   ❌ Failed to close {symbol}: {e}")
+                        
+                        print(f"   ✅ [KILL-SWITCH] Force-closed {closed_count}/{len(open_positions)} positions")
+                    else:
+                        print(f"   ℹ️  No open positions to close")
+                except Exception as e:
+                    print(f"   ❌ [KILL-SWITCH] Error force-closing positions: {e}")
+                    import traceback
+                    traceback.print_exc()
+                
+                # Save kill switch state (block new entries for 12 hours)
+                kill_switch_state = {
+                    "last_triggered": datetime.utcnow().isoformat() + "Z",
+                    "drawdown_pct": drawdown_pct,
+                    "portfolio_value_before": portfolio_value_24h_ago,
+                    "portfolio_value_now": portfolio_value_now,
+                    "blocked_until": (datetime.utcnow() + timedelta(hours=BLOCK_DURATION_HOURS)).isoformat() + "Z",
+                    "positions_closed": len(open_positions) if 'open_positions' in locals() else 0
+                }
+                
+                kill_switch_state_path.parent.mkdir(parents=True, exist_ok=True)
+                with open(kill_switch_state_path, 'w') as f:
+                    json.dump(kill_switch_state, f, indent=2)
+                
+                print(f"   🚫 [KILL-SWITCH] New entries BLOCKED for {BLOCK_DURATION_HOURS} hours (until {kill_switch_state['blocked_until']})")
+                
+                # Log to signal_bus
+                try:
+                    from src.signal_bus import get_signal_bus
+                    signal_bus = get_signal_bus()
+                    signal_bus.emit_signal({
+                        "event": "MAX_DRAWDOWN_KILL_SWITCH",
+                        "drawdown_pct": drawdown_pct,
+                        "portfolio_value_before": portfolio_value_24h_ago,
+                        "portfolio_value_now": portfolio_value_now,
+                        "blocked_until": kill_switch_state["blocked_until"],
+                        "positions_closed": kill_switch_state["positions_closed"]
+                    }, source="self_healing_learning_loop")
+                except Exception as e:
+                    print(f"   ⚠️ Failed to log kill switch to signal_bus: {e}")
+            else:
+                # Drawdown is acceptable, check if we can clear any existing block
+                kill_switch_state_path = FEATURE_STORE / "max_drawdown_kill_switch_state.json"
+                if kill_switch_state_path.exists():
+                    try:
+                        with open(kill_switch_state_path, 'r') as f:
+                            kill_switch_state = json.load(f)
+                        
+                        blocked_until = kill_switch_state.get("blocked_until")
+                        if blocked_until:
+                            blocked_until_dt = datetime.fromisoformat(blocked_until.replace("Z", "+00:00"))
+                            if datetime.utcnow() > blocked_until_dt:
+                                # Block period expired, clear it
+                                kill_switch_state["blocked_until"] = None
+                                kill_switch_state["block_cleared_at"] = datetime.utcnow().isoformat() + "Z"
+                                with open(kill_switch_state_path, 'w') as f:
+                                    json.dump(kill_switch_state, f, indent=2)
+                                print(f"   ✅ [MAX-DRAWDOWN-GUARD] Block period expired - entries are now allowed again")
+                    except:
+                        pass
+                
+                # Log current drawdown (for dashboard)
+                print(f"   ℹ️  [MAX-DRAWDOWN-GUARD] Portfolio drawdown: {drawdown_pct*100:.2f}% (threshold: {MAX_DRAWDOWN_THRESHOLD*100:.2f}%)")
+                
+        except Exception as e:
+            print(f"   ⚠️ [MAX-DRAWDOWN-GUARD] Error in drawdown check: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def is_kill_switch_active(self) -> bool:
+        """
+        Check if kill switch is currently active (blocking new entries).
+        
+        Returns:
+            True if entries are blocked, False otherwise
+        """
+        try:
+            kill_switch_state_path = FEATURE_STORE / "max_drawdown_kill_switch_state.json"
+            if not kill_switch_state_path.exists():
+                return False
+            
+            with open(kill_switch_state_path, 'r') as f:
+                kill_switch_state = json.load(f)
+            
+            blocked_until = kill_switch_state.get("blocked_until")
+            if not blocked_until:
+                return False
+            
+            blocked_until_dt = datetime.fromisoformat(blocked_until.replace("Z", "+00:00"))
+            return datetime.utcnow() < blocked_until_dt
+            
+        except:
+            return False
 
 
 # Singleton instance

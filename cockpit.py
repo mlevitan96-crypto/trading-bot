@@ -567,7 +567,196 @@ with tab2:
 
 with tab3:
     st.header("📈 Performance Metrics")
-    st.info("Performance metrics coming soon...")
+    
+    # [FINAL ALPHA PHASE 7] Portfolio Health Metrics
+    st.subheader("🏥 Portfolio Health (Phase 7)")
+    
+    try:
+        from src.data_registry import DataRegistry as DR
+        from src.position_manager import get_open_futures_positions
+        from datetime import datetime, timedelta, timezone
+        import numpy as np
+        
+        # Calculate 24-hour Portfolio Max Drawdown
+        closed_positions = DR.get_closed_positions(hours=24)
+        starting_capital = 10000.0
+        
+        if closed_positions:
+            # Calculate portfolio value at different points in the last 24h
+            cutoff_time = datetime.utcnow() - timedelta(hours=24)
+            
+            # Group by hour to calculate drawdown
+            portfolio_values_by_hour = {}
+            total_pnl = 0.0
+            
+            for pos in closed_positions:
+                pnl = float(pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0))) or 0)
+                total_pnl += pnl
+                
+                closed_at = pos.get("closed_at")
+                if closed_at:
+                    try:
+                        if isinstance(closed_at, str):
+                            closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        else:
+                            closed_dt = datetime.fromtimestamp(closed_at)
+                        
+                        hour_key = closed_dt.replace(minute=0, second=0, microsecond=0)
+                        if hour_key not in portfolio_values_by_hour:
+                            portfolio_values_by_hour[hour_key] = 0.0
+                        portfolio_values_by_hour[hour_key] += pnl
+                    except:
+                        pass
+            
+            # Calculate max drawdown
+            portfolio_value_now = starting_capital + total_pnl
+            sorted_hours = sorted(portfolio_values_by_hour.keys())
+            
+            if sorted_hours:
+                cumulative_values = []
+                cumulative_pnl = 0.0
+                for hour in sorted_hours:
+                    cumulative_pnl += portfolio_values_by_hour[hour]
+                    cumulative_values.append(starting_capital + cumulative_pnl)
+                
+                if cumulative_values:
+                    peak = max(cumulative_values)
+                    trough = min(cumulative_values[cumulative_values.index(peak):] if peak in cumulative_values else cumulative_values)
+                    max_drawdown_pct = ((peak - trough) / peak * 100.0) if peak > 0 else 0.0
+                else:
+                    max_drawdown_pct = 0.0
+            else:
+                max_drawdown_pct = 0.0
+        else:
+            max_drawdown_pct = 0.0
+        
+        # Calculate System-Wide Sharpe Ratio (from recent closed trades)
+        sharpe_ratio = 0.0
+        try:
+            recent_trades = DR.get_closed_positions(hours=168)  # Last 7 days
+            if len(recent_trades) >= 10:
+                returns = []
+                for pos in recent_trades:
+                    pnl = float(pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0))) or 0)
+                    # Normalize by starting capital to get returns
+                    returns.append(pnl / starting_capital)
+                
+                if len(returns) > 1:
+                    mean_return = np.mean(returns)
+                    std_return = np.std(returns)
+                    sharpe_ratio = mean_return / std_return if std_return > 1e-9 else 0.0
+        except Exception as e:
+            st.warning(f"Sharpe calculation error: {e}")
+        
+        # Calculate Active Concentration Risk (strategy overlap count)
+        open_positions = get_open_futures_positions()
+        strategy_overlap_count = 0
+        strategy_symbol_map = {}  # symbol -> list of strategies
+        
+        for pos in open_positions:
+            symbol = pos.get("symbol", "")
+            strategy = pos.get("strategy", "")
+            direction = pos.get("direction", "")
+            
+            if symbol and strategy:
+                key = f"{symbol}_{direction}"
+                if key not in strategy_symbol_map:
+                    strategy_symbol_map[key] = []
+                strategy_symbol_map[key].append(strategy)
+        
+        # Count overlaps (multiple strategies on same symbol/direction)
+        for symbol_direction, strategies in strategy_symbol_map.items():
+            if len(strategies) > 1:
+                strategy_overlap_count += len(strategies) - 1  # Count extra strategies
+        
+        # Display metrics
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            # Max Drawdown Gauge
+            drawdown_color = "normal" if max_drawdown_pct < 5.0 else "inverse"
+            st.metric(
+                "📉 Portfolio Max Drawdown (24h)",
+                f"{max_drawdown_pct:.2f}%",
+                delta="< 5% ✅" if max_drawdown_pct < 5.0 else "⚠️ > 5%",
+                delta_color=drawdown_color
+            )
+            if max_drawdown_pct >= 5.0:
+                st.warning("🚨 Kill Switch Threshold: >5% drawdown triggers emergency close")
+        
+        with col2:
+            # Sharpe Ratio Display
+            sharpe_color = "normal" if sharpe_ratio >= 1.5 else "off"
+            st.metric(
+                "📊 System-Wide Sharpe Ratio",
+                f"{sharpe_ratio:.2f}",
+                delta="≥ 1.5 ✅" if sharpe_ratio >= 1.5 else "< 1.5",
+                delta_color=sharpe_color
+            )
+            st.caption("Target: > 1.5 for stable risk-adjusted returns")
+        
+        with col3:
+            # Concentration Risk
+            concentration_status = "✅ LOW" if strategy_overlap_count == 0 else f"⚠️ {strategy_overlap_count} overlaps"
+            st.metric(
+                "🎯 Active Concentration Risk",
+                f"{strategy_overlap_count} overlaps",
+                delta="None ✅" if strategy_overlap_count == 0 else "Multiple strategies",
+                delta_color="normal" if strategy_overlap_count == 0 else "inverse"
+            )
+            st.caption("Strategy overlap on same symbol/direction")
+        
+        # Show detailed strategy overlap breakdown
+        if strategy_overlap_count > 0:
+            st.markdown("---")
+            st.subheader("⚠️ Strategy Overlap Details")
+            overlap_data = []
+            for symbol_direction, strategies in strategy_symbol_map.items():
+                if len(strategies) > 1:
+                    symbol, direction = symbol_direction.split("_", 1)
+                    overlap_data.append({
+                        "Symbol": symbol,
+                        "Direction": direction,
+                        "Strategies": ", ".join(strategies),
+                        "Overlap Count": len(strategies)
+                    })
+            
+            if overlap_data:
+                df_overlap = pd.DataFrame(overlap_data)
+                st.dataframe(df_overlap, use_container_width=True)
+        
+        # Check Kill Switch Status
+        st.markdown("---")
+        st.subheader("🛑 Kill Switch Status")
+        try:
+            from src.self_healing_learning_loop import get_learning_loop
+            learning_loop = get_learning_loop()
+            kill_switch_active = learning_loop.is_kill_switch_active()
+            
+            if kill_switch_active:
+                st.error("🚨 KILL SWITCH ACTIVE - All new entries blocked")
+                # Load kill switch state for details
+                try:
+                    from pathlib import Path
+                    kill_switch_state_path = Path("feature_store/max_drawdown_kill_switch_state.json")
+                    if kill_switch_state_path.exists():
+                        import json
+                        with open(kill_switch_state_path, 'r') as f:
+                            kill_switch_state = json.load(f)
+                        blocked_until = kill_switch_state.get("blocked_until", "N/A")
+                        st.info(f"**Blocked until:** {blocked_until}")
+                except:
+                    pass
+            else:
+                st.success("✅ Kill Switch INACTIVE - Trading allowed")
+                st.caption(f"Max Drawdown: {max_drawdown_pct:.2f}% (threshold: 5%)")
+        except Exception as e:
+            st.warning(f"Could not check kill switch status: {e}")
+            
+    except Exception as e:
+        st.error(f"Error loading Portfolio Health metrics: {e}")
+        import traceback
+        st.code(traceback.format_exc())
 
 with tab4:
     st.header("⏰ Golden Hour vs 24/7 Trading Comparison")

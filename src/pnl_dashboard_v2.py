@@ -1017,6 +1017,114 @@ except (ImportError, Exception) as e:
     def generate_executive_summary() -> Dict[str, str]:
         return _get_basic_executive_summary()
 
+# [FINAL ALPHA PHASE 7] Portfolio Health Metrics
+def get_portfolio_health_metrics() -> dict:
+    """
+    Calculate Phase 7 Portfolio Health Metrics:
+    - Portfolio Max Drawdown (24h)
+    - System-Wide Sharpe Ratio
+    - Active Concentration Risk (strategy overlap count)
+    """
+    try:
+        from src.position_manager import get_open_futures_positions
+        from datetime import datetime, timedelta
+        import numpy as np
+        
+        STARTING_CAPITAL = STARTING_CAPITAL_AFTER_RESET
+        
+        # Calculate 24-hour Portfolio Max Drawdown
+        closed_positions = DR.get_closed_positions(hours=24)
+        max_drawdown_pct = 0.0
+        
+        if closed_positions:
+            cutoff_time = datetime.utcnow() - timedelta(hours=24)
+            total_pnl = 0.0
+            
+            # Simple approach: Calculate portfolio value now vs 24h ago
+            for pos in closed_positions:
+                pnl = float(pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0))) or 0)
+                total_pnl += pnl
+            
+            # For simplicity, use total P&L change over 24h as proxy for drawdown
+            # More accurate would be peak-to-trough calculation, but this is a reasonable approximation
+            portfolio_value_now = STARTING_CAPITAL + total_pnl
+            # Estimate 24h ago value (conservative: assume it was higher if now is lower)
+            # This is a simplified calculation - for precise MDD, need hourly snapshots
+            if portfolio_value_now < STARTING_CAPITAL:
+                max_drawdown_pct = ((STARTING_CAPITAL - portfolio_value_now) / STARTING_CAPITAL) * 100.0
+            else:
+                max_drawdown_pct = 0.0
+        
+        # Calculate System-Wide Sharpe Ratio
+        sharpe_ratio = 0.0
+        try:
+            recent_trades = DR.get_closed_positions(hours=168)  # Last 7 days
+            if len(recent_trades) >= 10:
+                returns = []
+                for pos in recent_trades:
+                    pnl = float(pos.get("pnl", pos.get("net_pnl", pos.get("realized_pnl", 0))) or 0)
+                    # Normalize by starting capital to get returns
+                    returns.append(pnl / STARTING_CAPITAL)
+                
+                if len(returns) > 1:
+                    mean_return = np.mean(returns)
+                    std_return = np.std(returns)
+                    sharpe_ratio = mean_return / std_return if std_return > 1e-9 else 0.0
+        except Exception as e:
+            print(f"⚠️  [PORTFOLIO-HEALTH] Sharpe calculation error: {e}", flush=True)
+        
+        # Calculate Active Concentration Risk (strategy overlap count)
+        open_positions = get_open_futures_positions()
+        strategy_overlap_count = 0
+        strategy_symbol_map = {}  # (symbol, direction) -> list of strategies
+        
+        for pos in open_positions:
+            symbol = pos.get("symbol", "")
+            strategy = pos.get("strategy", "")
+            direction = pos.get("direction", "")
+            
+            if symbol and strategy:
+                key = (symbol, direction)
+                if key not in strategy_symbol_map:
+                    strategy_symbol_map[key] = []
+                strategy_symbol_map[key].append(strategy)
+        
+        # Count overlaps (multiple strategies on same symbol/direction)
+        for key, strategies in strategy_symbol_map.items():
+            if len(strategies) > 1:
+                strategy_overlap_count += len(strategies) - 1  # Count extra strategies
+        
+        # Check Kill Switch Status
+        kill_switch_active = False
+        try:
+            from src.self_healing_learning_loop import get_learning_loop
+            learning_loop = get_learning_loop()
+            kill_switch_active = learning_loop.is_kill_switch_active()
+        except:
+            pass
+        
+        return {
+            "max_drawdown_24h_pct": round(max_drawdown_pct, 2),
+            "sharpe_ratio": round(sharpe_ratio, 2),
+            "concentration_risk_overlaps": strategy_overlap_count,
+            "kill_switch_active": kill_switch_active,
+            "kill_switch_threshold_pct": 5.0,
+            "sharpe_target": 1.5
+        }
+    except Exception as e:
+        print(f"⚠️  [PORTFOLIO-HEALTH] Error calculating metrics: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        return {
+            "max_drawdown_24h_pct": 0.0,
+            "sharpe_ratio": 0.0,
+            "concentration_risk_overlaps": 0,
+            "kill_switch_active": False,
+            "kill_switch_threshold_pct": 5.0,
+            "sharpe_target": 1.5
+        }
+
+
 # System Health Check
 def get_system_health() -> dict:
     """Get system health status by checking actual component files and logs."""
@@ -1513,6 +1621,47 @@ def build_daily_summary_tab() -> html.Div:
         print(f"❌ [DASHBOARD-V2] Full traceback:\n{error_tb}", flush=True)
         # Continue with default empty data
     
+    # [FINAL ALPHA PHASE 7] Portfolio Health Card
+    def portfolio_health_card(health: dict) -> dbc.Card:
+        max_dd = health.get("max_drawdown_24h_pct", 0.0)
+        sharpe = health.get("sharpe_ratio", 0.0)
+        overlaps = health.get("concentration_risk_overlaps", 0)
+        kill_switch = health.get("kill_switch_active", False)
+        
+        dd_color = "#34a853" if max_dd < 5.0 else "#ea4335"
+        sharpe_color = "#34a853" if sharpe >= 1.5 else "#ea4335"
+        overlap_color = "#34a853" if overlaps == 0 else "#ea4335"
+        
+        return dbc.Card([
+            dbc.CardHeader(html.H4("🏥 Portfolio Health (Phase 7)", style={"color": "#fff", "margin": 0})),
+            dbc.CardBody([
+                dbc.Row([
+                    dbc.Col([
+                        html.Div(f"{max_dd:.2f}%", style={"fontSize": "24px", "fontWeight": "bold", "color": dd_color}),
+                        html.Div("Max Drawdown (24h)", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        html.Div(f"Threshold: {health.get('kill_switch_threshold_pct', 5.0)}%", style={"fontSize": "10px", "color": "#9aa0a6"}),
+                    ]),
+                    dbc.Col([
+                        html.Div(f"{sharpe:.2f}", style={"fontSize": "24px", "fontWeight": "bold", "color": sharpe_color}),
+                        html.Div("Sharpe Ratio", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        html.Div(f"Target: ≥ {health.get('sharpe_target', 1.5)}", style={"fontSize": "10px", "color": "#9aa0a6"}),
+                    ]),
+                    dbc.Col([
+                        html.Div(f"{overlaps}", style={"fontSize": "24px", "fontWeight": "bold", "color": overlap_color}),
+                        html.Div("Strategy Overlaps", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        html.Div("Concentration Risk", style={"fontSize": "10px", "color": "#9aa0a6"}),
+                    ]),
+                    dbc.Col([
+                        html.Div("🚨 ACTIVE" if kill_switch else "✅ INACTIVE", 
+                               style={"fontSize": "20px", "fontWeight": "bold", 
+                                     "color": "#ea4335" if kill_switch else "#34a853"}),
+                        html.Div("Kill Switch", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        html.Div("Entry Blocker", style={"fontSize": "10px", "color": "#9aa0a6"}),
+                    ]),
+                ]),
+            ]),
+        ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"})
+    
     def summary_card(summary: dict, label: str) -> dbc.Card:
         pnl_color = "#34a853" if summary["net_pnl"] >= 0 else "#ea4335"
         wr_color = "#34a853" if summary["win_rate"] >= 50 else "#ea4335"
@@ -1624,6 +1773,9 @@ def build_daily_summary_tab() -> html.Div:
     
     try:
         content = html.Div([
+            # [FINAL ALPHA PHASE 7] Portfolio Health Card
+            portfolio_health_card(portfolio_health),
+            
             # Summary Cards (Daily, Weekly, Monthly)
             summary_card(daily_summary, "📅 Daily Summary (Last 24 Hours)"),
             summary_card(weekly_summary, "📊 Weekly Summary (Last 7 Days)"),

@@ -544,6 +544,80 @@ def _get_symbol_shadow_win_rate_48h(symbol: str) -> float:
     except Exception as e:
         _log(f"⚠️ Whale Intent Filter check failed for {symbol}: {e}")
     
+    # [FINAL ALPHA PHASE 7] Hard Max Drawdown Guard (Kill-Switch Check)
+    # Check if kill switch is active (portfolio lost >5% in 24h, entries blocked for 12h)
+    try:
+        from src.self_healing_learning_loop import get_learning_loop
+        learning_loop = get_learning_loop()
+        if learning_loop.is_kill_switch_active():
+            _log(f"❌ MAX-DRAWDOWN-KILL-SWITCH {symbol}: Entries blocked - Portfolio drawdown exceeded 5% threshold, 12h block active")
+            try:
+                from src.health_to_learning_bridge import log_gate_decision
+                log_gate_decision("intelligence_gate", symbol, action, False, "MAX_DRAWDOWN_KILL_SWITCH", {})
+            except:
+                pass
+            # Log to signal_bus
+            try:
+                from src.signal_bus import get_signal_bus
+                signal_bus = get_signal_bus()
+                signal_bus.emit_signal({
+                    "symbol": symbol,
+                    "direction": signal_direction,
+                    "action": action,
+                    "event": "MAX_DRAWDOWN_KILL_SWITCH_BLOCK",
+                    "blocked": True,
+                    "reason": "MAX_DRAWDOWN_KILL_SWITCH"
+                }, source="intelligence_gate")
+            except Exception as e:
+                _log(f"⚠️ Failed to log MAX_DRAWDOWN_KILL_SWITCH_BLOCK to signal_bus: {e}")
+            return False, "MAX_DRAWDOWN_KILL_SWITCH", 0.0
+    except Exception as e:
+        _log(f"⚠️ Max Drawdown Kill Switch check failed for {symbol}: {e}")
+    
+    # [FINAL ALPHA PHASE 7] Strategy Correlation Filter (Anti-Clustering)
+    # If one strategy is already in a LONG position for a symbol, block any other strategy from opening a NEW LONG on the same symbol
+    try:
+        from src.position_manager import get_open_futures_positions
+        open_positions = get_open_futures_positions()
+        
+        # Extract strategy from signal (may be in different fields)
+        signal_strategy = signal.get('strategy') or signal.get('strategy_id') or signal.get('strategy_name') or ""
+        
+        # Check if any other strategy already has a position in the same direction for this symbol
+        for pos in open_positions:
+            if pos.get("symbol") == symbol and pos.get("direction") == signal_direction:
+                existing_strategy = pos.get("strategy", "")
+                if existing_strategy and existing_strategy != signal_strategy:
+                    _log(f"❌ STRATEGY-OVERLAP {symbol}: Strategy '{signal_strategy}' blocked - '{existing_strategy}' already has {signal_direction} position")
+                    try:
+                        from src.health_to_learning_bridge import log_gate_decision
+                        log_gate_decision("intelligence_gate", symbol, action, False, "STRATEGY_OVERLAP", {
+                            "existing_strategy": existing_strategy,
+                            "blocked_strategy": signal_strategy,
+                            "direction": signal_direction
+                        })
+                    except:
+                        pass
+                    # Log to signal_bus
+                    try:
+                        from src.signal_bus import get_signal_bus
+                        signal_bus = get_signal_bus()
+                        signal_bus.emit_signal({
+                            "symbol": symbol,
+                            "direction": signal_direction,
+                            "action": action,
+                            "event": "STRATEGY_OVERLAP",
+                            "existing_strategy": existing_strategy,
+                            "blocked_strategy": signal_strategy,
+                            "blocked": True,
+                            "reason": "STRATEGY_OVERLAP"
+                        }, source="intelligence_gate")
+                    except Exception as e:
+                        _log(f"⚠️ Failed to log STRATEGY_OVERLAP to signal_bus: {e}")
+                    return False, "STRATEGY_OVERLAP", 0.0
+    except Exception as e:
+        _log(f"⚠️ Strategy Correlation Filter check failed for {symbol}: {e}")
+    
     # Load learned multipliers
     multipliers = _load_learned_intel_multipliers()
     

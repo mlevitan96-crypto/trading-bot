@@ -374,11 +374,11 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
                 from src.data_registry import DataRegistry as DR
                 positions_data = DR.read_json(DR.POSITIONS_FUTURES)
                 if not positions_data:
-                    return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+                    return pd.DataFrame(columns=["symbol", "strategy", "trading_window", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
                 closed_positions = positions_data.get("closed_positions", [])
             except Exception as e2:
                 print(f"⚠️  [DASHBOARD-V2] Fallback also failed: {e2}", flush=True)
-                return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+                return pd.DataFrame(columns=["symbol", "strategy", "trading_window", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
         
         # TEMPORARILY DISABLED: Reset filter until correct date is verified
         # CRITICAL: Filter by wallet reset date (if enabled)
@@ -462,6 +462,7 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
             rows.append({
                 "symbol": symbol,
                 "strategy": strategy,
+                "trading_window": pos.get("trading_window", "unknown"),
                 "entry_time": entry_time,
                 "exit_time": exit_time,
                 "entry_price": entry_price,
@@ -1642,11 +1643,17 @@ def build_daily_summary_tab() -> html.Div:
             monthly_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=30)
             print(f"🔍 [DASHBOARD-V2] Monthly summary: {monthly_summary.get('total_trades', 0)} trades, ${monthly_summary.get('net_pnl', 0):.2f} P&L", flush=True)
             print("📊 [DASHBOARD-V2] All summaries computed", flush=True)
+            
+            # Compute Golden Hour summary (filter to golden_hour trades only)
+            golden_hour_positions = [p for p in closed_positions if p.get("trading_window") == "golden_hour"]
+            golden_hour_summary = compute_summary_optimized(wallet_balance, golden_hour_positions, lookback_days=1)
+            print(f"🕘 [DASHBOARD-V2] Golden Hour summary: {golden_hour_summary.get('total_trades', 0)} trades, ${golden_hour_summary.get('net_pnl', 0):.2f} P&L", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error computing summaries: {e}", flush=True)
             import traceback
             traceback.print_exc()
             # Use default empty summaries
+            golden_hour_summary = empty_summary
         
         # Load positions with error handling and limits for memory efficiency
         try:
@@ -1828,8 +1835,11 @@ def build_daily_summary_tab() -> html.Div:
             # [FINAL ALPHA PHASE 7] Portfolio Health Card
             portfolio_health_card(portfolio_health),
             
+            # Golden Hour Summary Card
+            summary_card(golden_hour_summary, "🕘 Golden Hour Trading (09:00-16:00 UTC, Last 24 Hours)"),
+            
             # Summary Cards (Daily, Weekly, Monthly)
-            summary_card(daily_summary, "📅 Daily Summary (Last 24 Hours)"),
+            summary_card(daily_summary, "📅 Daily Summary (Last 24 Hours - All Trades)"),
             summary_card(weekly_summary, "📊 Weekly Summary (Last 7 Days)"),
             summary_card(monthly_summary, "📈 Monthly Summary (Last 30 Days)"),
             
@@ -2033,6 +2043,22 @@ def build_24_7_trading_tab() -> html.Div:
             font={"color": "#e8eaed"}
         )
         
+        # Load open positions for tables
+        open_positions = []
+        try:
+            positions_data = DR.read_json(DR.POSITIONS_FUTURES)
+            open_positions = positions_data.get("open_positions", []) if positions_data else []
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Error loading open positions for 24/7 tab: {e}", flush=True)
+        
+        # Create DataFrames for open and closed positions tables
+        open_df_24_7 = load_open_positions_df()
+        closed_df_24_7 = load_closed_positions_df(limit=500)
+        
+        # Filter closed positions by trading_window for display
+        # Note: We show ALL positions in tables, but metrics are filtered by trading_window
+        closed_df_filtered = closed_df_24_7.copy()  # Show all closed positions in table
+        
         return html.Div([
             dbc.Card([
                 dbc.CardHeader(html.H3("⏰ Golden Hour vs 24/7 Trading Comparison", style={"color": "#fff", "margin": 0})),
@@ -2087,6 +2113,78 @@ def build_24_7_trading_tab() -> html.Div:
                     
                     html.H4("📊 Performance Comparison Chart", style={"color": "#fff", "marginBottom": "20px"}),
                     dcc.Graph(figure=fig_bar, config={"displayModeBar": True}),
+                    
+                    html.Hr(style={"borderColor": "#2d3139", "margin": "30px 0"}),
+                    
+                    # Open Positions Table
+                    html.H4("📈 Open Positions", style={"color": "#fff", "marginBottom": "20px", "marginTop": "30px"}),
+                    html.P(f"Currently {len(open_df_24_7)} open position(s)", style={"color": "#9aa0a6", "marginBottom": "10px"}),
+                    dash_table.DataTable(
+                        id="open-positions-24-7-table",
+                        columns=[
+                            {"name": "Symbol", "id": "symbol"},
+                            {"name": "Strategy", "id": "strategy"},
+                            {"name": "Side", "id": "side"},
+                            {"name": "Entry Price", "id": "entry_price", "type": "numeric", "format": {"specifier": ".4f"}},
+                            {"name": "Current Price", "id": "current_price", "type": "numeric", "format": {"specifier": ".4f"}},
+                            {"name": "Margin", "id": "margin_collateral", "type": "numeric", "format": {"specifier": ".2f"}},
+                            {"name": "Leverage", "id": "leverage"},
+                            {"name": "P&L ($)", "id": "pnl_usd", "type": "numeric", "format": {"specifier": ".2f"}},
+                            {"name": "P&L (%)", "id": "pnl_pct", "type": "numeric", "format": {"specifier": ".2f"}},
+                        ],
+                        data=open_df_24_7.to_dict("records") if not open_df_24_7.empty else [],
+                        style_table={"backgroundColor": "#0f1217", "color": "#e8eaed"},
+                        style_cell={"backgroundColor": "#0f1217", "color": "#e8eaed", "textAlign": "left", "padding": "10px"},
+                        style_header={"backgroundColor": "#1b1f2a", "fontWeight": "bold"},
+                        style_data_conditional=[
+                            {
+                                "if": {"filter_query": "{pnl_usd} >= 0"},
+                                "backgroundColor": "#1a4d2e",
+                            },
+                            {
+                                "if": {"filter_query": "{pnl_usd} < 0"},
+                                "backgroundColor": "#4d1a1a",
+                            },
+                        ],
+                    ),
+                    
+                    html.Hr(style={"borderColor": "#2d3139", "margin": "30px 0"}),
+                    
+                    # Closed Positions Table
+                    html.H4("📉 Recent Closed Positions", style={"color": "#fff", "marginBottom": "20px", "marginTop": "30px"}),
+                    html.P(f"Showing most recent {min(100, len(closed_df_filtered))} of {len(closed_positions)} closed positions", 
+                           style={"color": "#9aa0a6", "marginBottom": "10px"}),
+                    dash_table.DataTable(
+                        id="closed-positions-24-7-table",
+                        columns=[
+                            {"name": "Symbol", "id": "symbol"},
+                            {"name": "Strategy", "id": "strategy"},
+                            {"name": "Trading Window", "id": "trading_window"},
+                            {"name": "Entry Time", "id": "entry_time"},
+                            {"name": "Exit Time", "id": "exit_time"},
+                            {"name": "Entry Price", "id": "entry_price", "type": "numeric", "format": {"specifier": ".4f"}},
+                            {"name": "Exit Price", "id": "exit_price", "type": "numeric", "format": {"specifier": ".4f"}},
+                            {"name": "Hold (h)", "id": "hold_duration_h", "type": "numeric", "format": {"specifier": ".1f"}},
+                            {"name": "ROI (%)", "id": "roi_pct", "type": "numeric", "format": {"specifier": ".2f"}},
+                            {"name": "Net P&L", "id": "net_pnl", "type": "numeric", "format": {"specifier": ".2f"}},
+                            {"name": "Fees", "id": "fees", "type": "numeric", "format": {"specifier": ".2f"}},
+                        ],
+                        data=closed_df_filtered.head(100).to_dict("records") if not closed_df_filtered.empty else [],
+                        page_size=20,
+                        style_table={"backgroundColor": "#0f1217", "color": "#e8eaed"},
+                        style_cell={"backgroundColor": "#0f1217", "color": "#e8eaed", "textAlign": "left", "padding": "10px"},
+                        style_header={"backgroundColor": "#1b1f2a", "fontWeight": "bold"},
+                        style_data_conditional=[
+                            {
+                                "if": {"filter_query": "{net_pnl} >= 0"},
+                                "backgroundColor": "#1a4d2e",
+                            },
+                            {
+                                "if": {"filter_query": "{net_pnl} < 0"},
+                                "backgroundColor": "#4d1a1a",
+                            },
+                        ],
+                    ),
                 ]),
             ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"}),
         ])

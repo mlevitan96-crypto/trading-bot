@@ -319,22 +319,43 @@ journalctl -u tradingbot --since "5 minutes ago" | grep -E "Traceback|UnboundLoc
 
 ### Deployment Practices
 
-1. **Always Deploy to Git First**
+1. **ALWAYS Use Systemd Service Management** ⚠️ **MANDATORY**
+   - The bot **MUST always run under systemd** (`tradingbot.service`)
+   - **NEVER run the bot manually** in production:
+     - ❌ Don't run: `python3 run.py`
+     - ❌ Don't run: `nohup python3 run.py &`
+     - ❌ Don't use screen/tmux for production
+     - ✅ Always use: `systemctl restart tradingbot`
+   - **Why systemd is mandatory:**
+     - ✅ Automatic restart on crash (Restart=always, RestartSec=5)
+     - ✅ Automatic startup on server boot (enabled)
+     - ✅ Proper process management and isolation
+     - ✅ Logging via journalctl
+     - ✅ Service health monitoring
+     - ✅ Environment variable management
+     - ✅ Resource limits and control
+   - **Service management commands:**
+     - `systemctl status tradingbot` - Check status
+     - `journalctl -u tradingbot -f` - View logs (real-time)
+     - `systemctl restart tradingbot` - Restart after deployment
+     - `systemctl stop/start tradingbot` - Stop/start service
+
+2. **Always Deploy to Git First**
    - Never make direct changes on droplet
    - All changes go through git
    - Use descriptive commit messages
 
-2. **Verify Before Restarting**
+3. **Verify Before Restarting**
    - Check git pull shows expected changes
    - Verify files were updated correctly
    - Check for merge conflicts
 
-3. **Gradual Rollout**
+4. **Gradual Rollout**
    - Deploy during low-traffic periods when possible
    - Monitor logs immediately after restart
    - Have rollback plan ready
 
-4. **Documentation**
+5. **Documentation**
    - Document what changed and why
    - Update this guide if process changes
    - Keep deployment notes

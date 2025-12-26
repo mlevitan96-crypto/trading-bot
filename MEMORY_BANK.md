@@ -354,6 +354,52 @@ For ALL major reviews, bug fixes, and data analysis:
 - PathRegistry resolves PROJECT_ROOT to `/root/trading-bot-B` based on where `path_registry.py` is located
 - Signal tracker and all components use `/root/trading-bot-B/` as the base path
 - User may SSH into droplet using `ssh kraken`, then navigate to `/root/trading-bot-current`, but must be aware bot runs from `trading-bot-B`
+
+### Systemd Service Management (MANDATORY)
+**CRITICAL**: The trading bot MUST always run under systemd service management.
+
+**Service Name**: `tradingbot.service` (NOT `trading-bot.service`)
+
+**Why Systemd is Mandatory**:
+- ✅ Automatic restart on crash (Restart=always, RestartSec=5)
+- ✅ Automatic startup on server boot (enabled)
+- ✅ Proper process management and isolation
+- ✅ Logging via journalctl
+- ✅ Service health monitoring
+- ✅ Environment variable management
+- ✅ Resource limits and control
+
+**Service File Location**: `/etc/systemd/system/tradingbot.service`
+
+**Service Management Commands**:
+```bash
+# Check status
+systemctl status tradingbot
+
+# View logs
+journalctl -u tradingbot -f
+journalctl -u tradingbot -n 100
+
+# Restart service (after code updates)
+systemctl restart tradingbot
+
+# Stop service
+systemctl stop tradingbot
+
+# Start service
+systemctl start tradingbot
+
+# Enable/disable auto-start on boot
+systemctl enable tradingbot
+systemctl disable tradingbot
+```
+
+**NEVER run the bot manually** (e.g., `python3 run.py` or `nohup python3 run.py &`) in production. Always use systemd.
+
+**When deploying updates**:
+1. Pull code changes: `cd /root/trading-bot-B && git pull origin main`
+2. Restart service: `systemctl restart tradingbot`
+3. Verify: `systemctl status tradingbot`
 - To check active directory: `python3 -c "from src.infrastructure.path_registry import PathRegistry; print(PathRegistry.get_root())"`
 - Multiple directories exist: `trading-bot-A` (old, 694 signals), `trading-bot-B` (active, 1 signal), `trading-bot-current` (symlink or copy)
 

@@ -4,6 +4,8 @@
 
 This project uses **A/B slot-based deployment** for zero-downtime updates with easy rollback capability.
 
+**IMPORTANT**: The bot **MUST always run under systemd** (`tradingbot.service`). Never run the bot manually in production.
+
 ## Architecture
 
 - **`/root/trading-bot-A`** - Slot A
@@ -47,19 +49,22 @@ SSH into your droplet using `ssh kraken` and run:
 ### Step 3: Verify Deployment
 
 ```bash
-# Check service status
+# Check service status (MANDATORY - bot MUST run via systemd)
 systemctl status tradingbot
 
 # Check which slot is active
 ls -la /root/trading-bot-current
 
-# Check recent logs
-tail -f /root/trading-bot-current/logs/bot_out.log
+# Check recent logs via systemd journal
+journalctl -u tradingbot -f
+journalctl -u tradingbot -n 100
 
 # Verify code version
 cd /root/trading-bot-current
 git log --oneline -1
 ```
+
+**⚠️ CRITICAL**: Always use `systemctl status tradingbot` and `journalctl -u tradingbot` to check bot status. The bot MUST run under systemd service management, never manually.
 
 ## Rollback Procedure
 

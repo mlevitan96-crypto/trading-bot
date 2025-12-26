@@ -113,6 +113,15 @@ class SelfHealingLearningLoop:
                     self.last_analysis_ts = now
                     print(f"✅ [SELF-HEALING] Analysis complete: {results.total_net_benefit:.2f} net benefit")
                     
+                    # [BIG ALPHA PHASE 5] Analyze Slippage Audit and auto-update FeeAwareGate thresholds
+                    try:
+                        print(f"🔄 [SELF-HEALING] Analyzing Slippage Audit...")
+                        self._analyze_slippage_and_update_fee_gates()
+                    except Exception as e:
+                        print(f"⚠️ [SLIPPAGE-AUDIT] Error during slippage analysis: {e}")
+                        import traceback
+                        traceback.print_exc()
+                    
                     # [BIG ALPHA] Also evaluate symbol probation (Component 6)
                     try:
                         from src.symbol_probation_state_machine import get_probation_machine
@@ -591,6 +600,121 @@ class SelfHealingLearningLoop:
                 
         except Exception as e:
             print(f"⚠️ [HYPERPARAM-OPT] Error optimizing Whale CVD threshold: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def _analyze_slippage_and_update_fee_gates(self):
+        """
+        [BIG ALPHA PHASE 5] Analyze Slippage Audit and auto-update FeeAwareGate thresholds.
+        
+        Every 4 hours, analyze slippage from executed_trades.jsonl.
+        If slippage on a symbol exceeds 5bps, automatically update FeeAwareGate threshold
+        in configs/trading_config.json for that symbol to prevent "negative dollar wins".
+        """
+        try:
+            from src.trade_execution import EXECUTED_TRADES_LOG
+            import json
+            from pathlib import Path
+            
+            # Load all recent executions and group by symbol
+            cutoff_ts = time.time() - (24 * 3600)  # Last 24 hours
+            symbol_slippages = defaultdict(list)
+            
+            if not EXECUTED_TRADES_LOG.exists():
+                print(f"   [SLIPPAGE-AUDIT] No execution log found: {EXECUTED_TRADES_LOG}")
+                return
+            
+            # Read all executions and group by symbol
+            with open(EXECUTED_TRADES_LOG, "r") as f:
+                for line in f:
+                    try:
+                        entry = json.loads(line.strip())
+                        if entry.get("ts", 0) >= cutoff_ts:
+                            symbol = entry.get("symbol")
+                            slippage_bps = entry.get("slippage_bps")
+                            if symbol and slippage_bps is not None:
+                                symbol_slippages[symbol].append(abs(slippage_bps))  # Use absolute slippage
+                    except:
+                        continue
+            
+            if not symbol_slippages:
+                print(f"   [SLIPPAGE-AUDIT] No recent execution data found")
+                return
+            
+            # Load trading_config.json
+            config_path = Path("configs/trading_config.json")
+            if not config_path.exists():
+                print(f"   [SLIPPAGE-AUDIT] Config file not found: {config_path}")
+                return
+            
+            with open(config_path, 'r') as f:
+                trading_config = json.load(f)
+            
+            # Ensure per_symbol_fee_gates exists
+            if "per_symbol_fee_gates" not in trading_config:
+                trading_config["per_symbol_fee_gates"] = {}
+            
+            # Check each symbol's slippage and update thresholds
+            updates_made = False
+            for symbol, slippages in symbol_slippages.items():
+                if not slippages:
+                    continue
+                
+                avg_slippage = sum(slippages) / len(slippages)
+                exceeding_5bps_count = sum(1 for s in slippages if s > 5.0)
+                exceeding_5bps_pct = (exceeding_5bps_count / len(slippages)) * 100
+                
+                # If average slippage > 5bps OR >20% of trades exceed 5bps, tighten threshold
+                if avg_slippage > 5.0 or exceeding_5bps_pct > 20.0:
+                    # Get current threshold for this symbol (default: 1.2 = MIN_BUFFER_MULTIPLIER)
+                    symbol_config = trading_config["per_symbol_fee_gates"].get(symbol, {})
+                    current_multiplier = symbol_config.get("min_buffer_multiplier", 1.2)
+                    
+                    # Increase multiplier by 0.1 (tightens threshold by ~8%)
+                    new_multiplier = min(2.0, current_multiplier + 0.1)  # Cap at 2.0
+                    
+                    if new_multiplier != current_multiplier:
+                        trading_config["per_symbol_fee_gates"][symbol] = {
+                            "min_buffer_multiplier": new_multiplier,
+                            "last_updated": datetime.utcnow().isoformat(),
+                            "update_reason": f"Slippage audit: avg={avg_slippage:.2f}bps, exceeding_5bps={exceeding_5bps_pct:.1f}%",
+                            "avg_slippage_bps": avg_slippage,
+                            "trade_count": len(slippages)
+                        }
+                        updates_made = True
+                        print(f"   ⚠️ [SLIPPAGE-AUDIT] {symbol}: Avg slippage {avg_slippage:.2f}bps > 5bps - Tightening threshold: {current_multiplier:.2f} → {new_multiplier:.2f}")
+                else:
+                    # If slippage is good, we can gradually relax (but not below 1.2)
+                    symbol_config = trading_config["per_symbol_fee_gates"].get(symbol, {})
+                    current_multiplier = symbol_config.get("min_buffer_multiplier", 1.2)
+                    
+                    # Only relax if it was previously tightened (above 1.2)
+                    if current_multiplier > 1.2 and avg_slippage < 3.0 and exceeding_5bps_pct < 10.0:
+                        new_multiplier = max(1.2, current_multiplier - 0.05)  # Gradually relax
+                        if new_multiplier != current_multiplier:
+                            trading_config["per_symbol_fee_gates"][symbol] = {
+                                "min_buffer_multiplier": new_multiplier,
+                                "last_updated": datetime.utcnow().isoformat(),
+                                "update_reason": f"Slippage improved: avg={avg_slippage:.2f}bps < 3bps - Relaxing threshold",
+                                "avg_slippage_bps": avg_slippage,
+                                "trade_count": len(slippages)
+                            }
+                            updates_made = True
+                            print(f"   ✅ [SLIPPAGE-AUDIT] {symbol}: Slippage improved ({avg_slippage:.2f}bps) - Relaxing threshold: {current_multiplier:.2f} → {new_multiplier:.2f}")
+            
+            # Save updated config if changes were made
+            if updates_made:
+                # Atomic write
+                tmp_path = config_path.with_suffix('.tmp')
+                with open(tmp_path, 'w') as f:
+                    json.dump(trading_config, f, indent=2)
+                tmp_path.replace(config_path)
+                print(f"   ✅ [SLIPPAGE-AUDIT] Updated FeeAwareGate thresholds for {len([s for s in symbol_slippages.keys() if s in trading_config['per_symbol_fee_gates']])} symbol(s)")
+            else:
+                print(f"   ✅ [SLIPPAGE-AUDIT] All symbols within acceptable slippage range (no updates needed)")
+                
+        except Exception as e:
+            print(f"   ⚠️ [SLIPPAGE-AUDIT] Error in slippage analysis: {e}")
             import traceback
             traceback.print_exc()
 

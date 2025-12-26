@@ -316,6 +316,68 @@ with tab2:
             st.warning(f"Institutional precision indicators unavailable: {e}")
         
         st.markdown("---")
+        
+        # [BIG ALPHA PHASE 5] Execution Quality (BPS) Gauge
+        st.subheader("⚡ Execution Quality (Slippage Audit)")
+        try:
+            from src.trade_execution import get_recent_slippage_stats
+            
+            slippage_stats = get_recent_slippage_stats(symbol=symbol_selector, hours=24)
+            
+            if not slippage_stats.get("error"):
+                avg_slippage = slippage_stats.get("avg_slippage_bps", 0.0)
+                max_slippage = slippage_stats.get("max_slippage_bps", 0.0)
+                exceeding_5bps_pct = slippage_stats.get("exceeding_5bps_pct", 0.0)
+                total_executions = slippage_stats.get("total_executions", 0)
+                
+                # Determine quality status
+                if abs(avg_slippage) < 3.0:
+                    quality_status = "EXCELLENT"
+                    quality_color = "🟢"
+                elif abs(avg_slippage) < 5.0:
+                    quality_status = "GOOD"
+                    quality_color = "🟡"
+                elif abs(avg_slippage) < 10.0:
+                    quality_status = "FAIR"
+                    quality_color = "🟠"
+                else:
+                    quality_status = "POOR"
+                    quality_color = "🔴"
+                
+                col1, col2, col3, col4 = st.columns(4)
+                col1.metric("Avg Slippage (BPS)", f"{avg_slippage:.2f}", quality_status, delta_color="inverse")
+                col2.metric("Max Slippage (BPS)", f"{max_slippage:.2f}", f"{quality_color} {quality_status}")
+                col3.metric("Exceeding 5bps", f"{exceeding_5bps_pct:.1f}%", f"{total_executions} trades")
+                col4.metric("Execution Quality", quality_status, quality_color)
+                
+                # Visual gauge using progress bar
+                st.markdown("**Slippage Distribution:**")
+                slippage_pct_normalized = min(100, max(0, (abs(avg_slippage) / 10.0) * 100))  # Normalize to 0-100% (10bps = 100%)
+                st.progress(slippage_pct_normalized / 100.0)
+                st.caption(f"Target: < 5bps | Current: {avg_slippage:.2f}bps | {'✅ Within target' if abs(avg_slippage) < 5.0 else '⚠️ Above target'}")
+                
+                # Show if FeeAwareGate threshold was auto-adjusted
+                try:
+                    import json
+                    from pathlib import Path
+                    config_path = Path("configs/trading_config.json")
+                    if config_path.exists():
+                        with open(config_path, 'r') as f:
+                            trading_config = json.load(f)
+                            per_symbol = trading_config.get("per_symbol_fee_gates", {})
+                            symbol_config = per_symbol.get(symbol_selector, {})
+                            if symbol_config:
+                                multiplier = symbol_config.get("min_buffer_multiplier", 1.2)
+                                if multiplier != 1.2:
+                                    st.info(f"🔧 Auto-adjusted: FeeAwareGate threshold multiplier = {multiplier:.2f} (default: 1.2) due to slippage")
+                except:
+                    pass
+            else:
+                st.info(f"Execution quality data unavailable: {slippage_stats.get('error', 'No data')}")
+        except Exception as e:
+            st.warning(f"Execution quality gauge unavailable: {e}")
+        
+        st.markdown("---")
     except Exception as e:
         st.warning(f"Indicator loading error: {e}")
     

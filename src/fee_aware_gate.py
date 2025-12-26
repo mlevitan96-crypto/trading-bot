@@ -201,7 +201,9 @@ class FeeAwareGate:
         
         edge_ratio = expected_move_pct / breakeven_pct if breakeven_pct > 0 else 999
         
-        min_required_pct = breakeven_pct * MIN_BUFFER_MULTIPLIER
+        # [BIG ALPHA PHASE 5] Load symbol-specific buffer multiplier from config
+        buffer_multiplier = self._get_symbol_buffer_multiplier(symbol)
+        min_required_pct = breakeven_pct * buffer_multiplier
         
         net_expected_pct = expected_move_pct - breakeven_pct
         net_expected_usd = (net_expected_pct / 100) * order_size_usd
@@ -236,6 +238,28 @@ class FeeAwareGate:
                 max_buffer = multipliers.get("good_edge", 1.0) - 0.2  # Slightly below good_edge
                 sizing_mult = min_buffer + ((max_buffer - min_buffer) * min(1.0, max(0.0, buffer_ratio)))
                 reason = f"insufficient_buffer_edge_{edge_ratio:.2f}x_reduced_to_{sizing_mult:.2f}x"
+    
+    def _get_symbol_buffer_multiplier(self, symbol: str) -> float:
+        """
+        [BIG ALPHA PHASE 5] Get symbol-specific buffer multiplier from config.
+        Falls back to MIN_BUFFER_MULTIPLIER if not configured.
+        """
+        try:
+            import json
+            from pathlib import Path
+            config_path = Path("configs/trading_config.json")
+            if config_path.exists():
+                with open(config_path, 'r') as f:
+                    trading_config = json.load(f)
+                    per_symbol = trading_config.get("per_symbol_fee_gates", {})
+                    symbol_config = per_symbol.get(symbol, {})
+                    multiplier = symbol_config.get("min_buffer_multiplier")
+                    if multiplier is not None:
+                        return float(multiplier)
+        except Exception as e:
+            _log(f"Error loading symbol buffer multiplier for {symbol}: {e}")
+        
+        return MIN_BUFFER_MULTIPLIER  # Default fallback
     
     def _load_learned_fee_multipliers(self) -> Dict[str, float]:
         """Load learned fee gate sizing multipliers from feature_store."""

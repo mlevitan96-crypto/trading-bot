@@ -137,12 +137,79 @@ def _load_learned_intel_multipliers() -> Dict[str, float]:
     return _INTEL_SIZING_CACHE
 
 
+def get_symbol_7day_performance(symbol: str) -> Dict[str, float]:
+    """
+    [BIG ALPHA PHASE 6] Get symbol-specific 7-day performance metrics.
+    
+    Calculates:
+    - Win rate (7-day rolling)
+    - Profit factor (gross profit / gross loss)
+    
+    Returns:
+        Dict with 'win_rate' (0-1), 'profit_factor' (float), 'trade_count' (int)
+    """
+    try:
+        from src.data_registry import DataRegistry as DR
+        from datetime import datetime, timedelta
+        
+        # Get closed positions from last 7 days
+        cutoff = datetime.utcnow() - timedelta(days=7)
+        cutoff_ts = cutoff.timestamp()
+        
+        closed_positions = DR.get_closed_positions(hours=None)
+        symbol_trades = [
+            t for t in closed_positions
+            if t.get("symbol") == symbol and t.get("closed_at")
+        ]
+        
+        # Filter by timestamp (last 7 days)
+        recent_trades = []
+        for trade in symbol_trades:
+            closed_at = trade.get("closed_at")
+            if closed_at:
+                try:
+                    if isinstance(closed_at, (int, float)):
+                        trade_ts = float(closed_at)
+                    else:
+                        # Parse ISO timestamp
+                        closed_at_clean = closed_at.replace('Z', '+00:00')
+                        dt = datetime.fromisoformat(closed_at_clean)
+                        trade_ts = dt.timestamp()
+                    
+                    if trade_ts >= cutoff_ts:
+                        recent_trades.append(trade)
+                except:
+                    continue
+        
+        if not recent_trades:
+            return {"win_rate": 0.5, "profit_factor": 1.0, "trade_count": 0}  # Default neutral
+        
+        # Calculate win rate
+        wins = sum(1 for t in recent_trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) > 0)
+        win_rate = wins / len(recent_trades) if recent_trades else 0.5
+        
+        # Calculate profit factor
+        gross_profit = sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in recent_trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) > 0)
+        gross_loss = abs(sum(t.get("net_pnl", t.get("pnl", 0)) or 0 for t in recent_trades if (t.get("net_pnl", t.get("pnl", 0)) or 0) < 0))
+        profit_factor = gross_profit / gross_loss if gross_loss > 0 else (gross_profit if gross_profit > 0 else 1.0)
+        
+        return {
+            "win_rate": win_rate,
+            "profit_factor": profit_factor,
+            "trade_count": len(recent_trades)
+        }
+    except Exception as e:
+        _log(f"⚠️ Error calculating 7-day performance for {symbol}: {e}")
+        return {"win_rate": 0.5, "profit_factor": 1.0, "trade_count": 0}
+
+
 def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     """
     Check if signal aligns with market intelligence (enhanced with funding + OI).
     
     Uses LEARNED sizing multipliers from historical performance data.
     Includes Whale CVD filter - blocks trades where whale flow diverges from signal.
+    [BIG ALPHA PHASE 6] Includes Symbol-Specific Alpha Floor for adaptive sizing.
     
     Returns:
         Tuple of (allowed: bool, reason: str, sizing_multiplier: float)
@@ -157,6 +224,28 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     signal_direction = 'LONG' if action.upper() in ['OPEN_LONG', 'BUY', 'LONG'] else 'SHORT'
     if signal_direction == 'SHORT' and action.upper() not in ['OPEN_SHORT', 'SELL', 'SHORT']:
         signal_direction = 'LONG'  # Default fallback
+    
+    # [BIG ALPHA PHASE 6] Symbol-Specific Alpha Floor - Check 7-day performance
+    symbol_perf = get_symbol_7day_performance(symbol)
+    symbol_win_rate = symbol_perf.get("win_rate", 0.5)
+    symbol_profit_factor = symbol_perf.get("profit_factor", 1.0)
+    symbol_trade_count = symbol_perf.get("trade_count", 0)
+    
+    # Adaptive sizing multiplier (will be applied at the end)
+    adaptive_size_multiplier = 1.0
+    adaptive_reason = ""
+    
+    # If WR < 35% (like ADA/BTC), auto-shrink position size by 50%
+    if symbol_trade_count >= 5 and symbol_win_rate < 0.35:
+        adaptive_size_multiplier = 0.5  # 50% reduction
+        adaptive_reason = f"SYMBOL_ALPHA_FLOOR: WR={symbol_win_rate*100:.1f}% < 35% (shrink 50%)"
+        _log(f"⚠️ [ALPHA-FLOOR] {symbol}: Win rate {symbol_win_rate*100:.1f}% < 35% - Auto-shrinking position size by 50%")
+    
+    # If PF > 1.8 (like AVAX/LINK), auto-expand position size by 20%
+    elif symbol_trade_count >= 5 and symbol_profit_factor > 1.8:
+        adaptive_size_multiplier = 1.2  # 20% expansion
+        adaptive_reason = f"SYMBOL_ALPHA_BOOST: PF={symbol_profit_factor:.2f} > 1.8 (expand 20%)"
+        _log(f"✅ [ALPHA-BOOST] {symbol}: Profit factor {symbol_profit_factor:.2f} > 1.8 - Auto-expanding position size by 20%")
     
     # [WHALE CVD FILTER] Check whale flow alignment
     try:
@@ -448,21 +537,35 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         except:
             pass
         
+        # [BIG ALPHA PHASE 6] Apply Symbol-Specific Alpha Floor multiplier
+        final_sizing_mult = sizing_mult * adaptive_size_multiplier
+        if adaptive_reason:
+            _log(f"📊 [ALPHA-FLOOR] {symbol}: Applied adaptive multiplier {adaptive_size_multiplier:.2f}x (base={sizing_mult:.2f}, final={final_sizing_mult:.2f}) - {adaptive_reason}")
+        
         reason_code = "ultra_conviction" if ultra_conviction else f"intel_confirmed_{intel_direction.lower()}"
-        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps, Whale={whale_cvd_direction}) [LEARNED]")
+        if adaptive_reason:
+            reason_code = f"{reason_code}_{adaptive_reason.split(':')[0].lower()}"
+        
+        _log(f"✅ INTEL-CONFIRM {symbol}: Signal={action} aligns with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={final_sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps, Whale={whale_cvd_direction}) [LEARNED]")
         log_gate_decision("intelligence_gate", symbol, action, True, reason_code,
                           {
                               "intel_direction": intel_direction, 
                               "confidence": intel_confidence, 
                               "composite": composite_score, 
-                              "sizing_mult": sizing_mult,
+                              "sizing_mult": final_sizing_mult,
+                              "adaptive_multiplier": adaptive_size_multiplier,
+                              "base_sizing_mult": sizing_mult,
+                              "symbol_win_rate": symbol_win_rate,
+                              "symbol_profit_factor": symbol_profit_factor,
                               "ofi_ratio": ofi_ratio,
                               "bid_ask_spread_bps": bid_ask_spread_bps,
                               "whale_cvd_direction": whale_cvd_direction,
                               "whale_intensity": whale_intensity,
                               "ultra_conviction": ultra_conviction
                           })
-        return True, reason_code, sizing_mult
+        # [BIG ALPHA PHASE 6] Apply Symbol-Specific Alpha Floor multiplier
+        final_sizing_mult = sizing_mult * adaptive_size_multiplier
+        return True, reason_code, final_sizing_mult
     
     if (signal_is_long and intel_is_short) or (signal_is_short and intel_is_long):
         # CONVERTED TO SIZING ADJUSTMENT: Never block, only reduce sizing
@@ -504,19 +607,28 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         except:
             pass
         
-        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps) [LEARNED]")
+        # [BIG ALPHA PHASE 6] Apply Symbol-Specific Alpha Floor multiplier
+        final_sizing_mult = sizing_mult * adaptive_size_multiplier
+        
+        _log(f"⚠️ INTEL-REDUCE {symbol}: Signal={action} conflicts with Intel={intel_direction} (conf={intel_confidence:.2f}, mult={final_sizing_mult:.2f}, OFI={ofi_ratio}, Spread={bid_ask_spread_bps:.1f}bps) [LEARNED]")
         log_gate_decision("intelligence_gate", symbol, action, True, reason,
                           {
                               "intel_direction": intel_direction, 
                               "confidence": intel_confidence, 
-                              "sizing_mult": sizing_mult, 
+                              "sizing_mult": final_sizing_mult,
+                              "adaptive_multiplier": adaptive_size_multiplier,
+                              "base_sizing_mult": sizing_mult,
+                              "symbol_win_rate": symbol_win_rate,
+                              "symbol_profit_factor": symbol_profit_factor,
                               "composite": composite_score,
                               "ofi_ratio": ofi_ratio,
                               "bid_ask_spread_bps": bid_ask_spread_bps
                           })
-        return True, reason, sizing_mult
+        return True, reason, final_sizing_mult
     
-    return True, "no_action_match", 1.0
+    # [BIG ALPHA PHASE 6] Apply Symbol-Specific Alpha Floor multiplier even for no-action match
+    final_mult = 1.0 * adaptive_size_multiplier
+    return True, "no_action_match", final_mult
 
 
 def get_fear_greed() -> int:

@@ -828,6 +828,130 @@ with tab4:
             
             st.markdown("---")
             
+            # [FINAL ALPHA] Shadow vs Live Efficiency Chart
+            st.subheader("🔮 Shadow vs Live Efficiency")
+            try:
+                from src.infrastructure.path_registry import PathRegistry
+                shadow_log_path = Path(PathRegistry.get_path("logs", "shadow_trade_outcomes.jsonl"))
+                
+                if shadow_log_path.exists():
+                    # Load shadow trades
+                    shadow_trades = []
+                    try:
+                        with open(shadow_log_path, 'r') as f:
+                            for line in f:
+                                try:
+                                    entry = json.loads(line.strip())
+                                    shadow_trades.append(entry)
+                                except:
+                                    continue
+                    except Exception as e:
+                        st.warning(f"Error loading shadow trades: {e}")
+                        shadow_trades = []
+                    
+                    if shadow_trades:
+                        # Separate shadow trades by trading window
+                        shadow_gh = [t for t in shadow_trades if t.get("trading_window") == "golden_hour" or 
+                                    (_parse_timestamp_for_comparison(t.get("timestamp", t.get("ts", 0))) > 0 and
+                                     datetime.fromtimestamp(_parse_timestamp_for_comparison(t.get("timestamp", t.get("ts", 0))), tz=timezone.utc).hour >= 9 and
+                                     datetime.fromtimestamp(_parse_timestamp_for_comparison(t.get("timestamp", t.get("ts", 0))), tz=timezone.utc).hour < 16)]
+                        shadow_24_7 = [t for t in shadow_trades if t not in shadow_gh]
+                        
+                        # Calculate P&L for each
+                        shadow_gh_pnl = sum(t.get("hypothetical_pnl", t.get("pnl", t.get("pnl_usd", 0))) or 0 for t in shadow_gh)
+                        shadow_24_7_pnl = sum(t.get("hypothetical_pnl", t.get("pnl", t.get("pnl_usd", 0))) or 0 for t in shadow_24_7)
+                        
+                        # Calculate live P&L
+                        live_gh_pnl = gh_metrics["total_pnl"]
+                        live_24_7_pnl = all_24_7_metrics["total_pnl"]
+                        
+                        # Create efficiency comparison chart
+                        eff_col1, eff_col2 = st.columns(2)
+                        
+                        with eff_col1:
+                            # Shadow vs Live comparison
+                            fig_efficiency = go.Figure()
+                            fig_efficiency.add_trace(go.Bar(
+                                name='Live (Restricted)',
+                                x=['Golden Hour', '24/7'],
+                                y=[live_gh_pnl, live_24_7_pnl],
+                                marker_color=['#FFA500', '#00D4FF'],
+                                text=[f"${live_gh_pnl:,.0f}", f"${live_24_7_pnl:,.0f}"],
+                                textposition='auto'
+                            ))
+                            fig_efficiency.add_trace(go.Bar(
+                                name='Shadow (What-If)',
+                                x=['Golden Hour', '24/7'],
+                                y=[shadow_gh_pnl, shadow_24_7_pnl],
+                                marker_color=['#FFD700', '#87CEEB'],
+                                text=[f"${shadow_gh_pnl:,.0f}", f"${shadow_24_7_pnl:,.0f}"],
+                                textposition='auto',
+                                opacity=0.7
+                            ))
+                            fig_efficiency.update_layout(
+                                title='Shadow vs Live P&L Comparison',
+                                barmode='group',
+                                template='plotly_dark',
+                                height=400,
+                                yaxis_title='P&L (USD)'
+                            )
+                            st.plotly_chart(fig_efficiency, use_container_width=True)
+                        
+                        with eff_col2:
+                            # Efficiency metrics
+                            st.markdown("### Efficiency Metrics")
+                            opportunity_cost = shadow_24_7_pnl - live_24_7_pnl
+                            st.metric("Live GH P&L", f"${live_gh_pnl:,.2f}", 
+                                     f"Trades: {gh_metrics['count']}")
+                            st.metric("Live 24/7 P&L", f"${live_24_7_pnl:,.2f}",
+                                     f"Trades: {all_24_7_metrics['count']}")
+                            st.metric("Shadow GH P&L", f"${shadow_gh_pnl:,.2f}",
+                                     f"What-if: {len(shadow_gh)} trades")
+                            st.metric("Shadow 24/7 P&L", f"${shadow_24_7_pnl:,.2f}",
+                                     f"What-if: {len(shadow_24_7)} trades")
+                            st.metric("Opportunity Cost (24/7)", f"${opportunity_cost:,.2f}",
+                                     "Shadow - Live" if opportunity_cost > 0 else "Money saved")
+                    else:
+                        st.info("No shadow trade data available yet. Shadow execution engine needs to collect data.")
+                else:
+                    st.info("Shadow trade outcomes log not found. Shadow execution engine may not be running.")
+            except Exception as e:
+                st.warning(f"Shadow vs Live efficiency chart unavailable: {e}")
+                import traceback
+                st.caption(f"Error: {traceback.format_exc()}")
+            
+            st.markdown("---")
+            
+            # [FINAL ALPHA] Active Golden Windows Display
+            st.subheader("⏰ Active Golden Windows")
+            try:
+                from src.time_regime_optimizer import get_time_regime_optimizer
+                optimizer = get_time_regime_optimizer()
+                allowed_windows = optimizer.get_allowed_windows()
+                
+                if allowed_windows:
+                    st.success(f"**{len(allowed_windows)} Active Trading Windows**")
+                    windows_text = ", ".join(allowed_windows)
+                    st.info(f"**Allowed Windows:** {windows_text} (UTC)")
+                    
+                    # Show optimization history
+                    config = optimizer._load_golden_hour_config()
+                    optimization_history = config.get("optimization_history", [])
+                    if optimization_history:
+                        st.markdown("#### Optimization History")
+                        latest_opt = optimization_history[-1] if optimization_history else None
+                        if latest_opt:
+                            st.caption(f"Last optimized: {latest_opt.get('timestamp', 'Unknown')}")
+                            if latest_opt.get("new_windows"):
+                                st.success(f"✅ Added {len(latest_opt['new_windows'])} new windows: {', '.join(latest_opt['new_windows'])}")
+                else:
+                    st.info("**Base Golden Hour:** 09:00-16:00 UTC (No additional windows learned yet)")
+            except Exception as e:
+                st.warning(f"Active Golden Windows display unavailable: {e}")
+                st.caption("Using default: 09:00-16:00 UTC")
+            
+            st.markdown("---")
+            
             # Configuration status
             st.subheader("⚙️ Configuration")
             try:

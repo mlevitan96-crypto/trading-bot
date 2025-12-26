@@ -1763,7 +1763,30 @@ def build_daily_summary_tab() -> html.Div:
                                 "gross_loss": gross_loss,
                                 "profit_factor": profit_factor
                             }
-                            print(f"🕘 [DASHBOARD-V2] Loaded Golden Hour summary from analysis file: {count} trades, ${total_pnl:.2f} P&L, {win_rate:.1f}% WR", flush=True)
+                            print(f"🕘 [DASHBOARD-V2] Loaded Golden Hour ALL-TIME summary from analysis file: {count} trades, ${total_pnl:.2f} P&L, {win_rate:.1f}% WR (comprehensive accumulated data)", flush=True)
+                            
+                            # Also calculate 24h rolling window for reference (will update when next Golden Hour trades occur)
+                            cutoff_24h_rolling = datetime.now(timezone.utc) - timedelta(hours=24)
+                            cutoff_24h_rolling_ts = cutoff_24h_rolling.timestamp()
+                            gh_24h_count = 0
+                            gh_24h_pnl = 0.0
+                            for pos in closed_positions:
+                                closed_at = pos.get("closed_at", "")
+                                if closed_at:
+                                    try:
+                                        if isinstance(closed_at, str) and "T" in closed_at:
+                                            dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                                            ts = dt.timestamp()
+                                            if ts >= cutoff_24h_rolling_ts:
+                                                hour = dt.hour
+                                                if 9 <= hour < 16:  # Golden Hour: 09:00-16:00 UTC
+                                                    gh_24h_count += 1
+                                                    pnl_val = pos.get("net_pnl", pos.get("pnl", 0))
+                                                    pnl_val = float(pnl_val) if pnl_val is not None else 0.0
+                                                    gh_24h_pnl += pnl_val
+                                    except:
+                                        pass
+                            print(f"🕘 [DASHBOARD-V2] 24h rolling window: {gh_24h_count} trades, ${gh_24h_pnl:.2f} P&L (will update automatically when next Golden Hour trades occur)", flush=True)
                         else:
                             print(f"⚠️  [DASHBOARD-V2] Golden Hour analysis data has 0 trades", flush=True)
                     else:

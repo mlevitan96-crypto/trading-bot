@@ -1271,14 +1271,18 @@ def get_system_health() -> dict:
                             health["self_healing"] = "warning"
             else:
                 # No log file - check heartbeat as fallback
-                heartbeat_file = Path(PathRegistry.get_path("state", "heartbeats", "bot_cycle.json"))
-                if heartbeat_file.exists():
-                    age_seconds = time.time() - heartbeat_file.stat().st_mtime
-                    if age_seconds < 300:
-                        health["self_healing"] = "healthy"
+                try:
+                    heartbeat_file = Path(PathRegistry.get_path("state", "heartbeats", "bot_cycle.json"))
+                    if heartbeat_file.exists():
+                        age_seconds = time.time() - heartbeat_file.stat().st_mtime
+                        if age_seconds < 300:
+                            health["self_healing"] = "healthy"
+                        else:
+                            health["self_healing"] = "warning"
                     else:
                         health["self_healing"] = "warning"
-                else:
+                except Exception as e:
+                    print(f"⚠️  [HEALTH] Error checking heartbeat (no log): {e}", flush=True)
                     health["self_healing"] = "warning"
         except Exception as e:
             print(f"⚠️  [HEALTH] Error checking self-healing: {e}", flush=True)

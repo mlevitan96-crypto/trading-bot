@@ -576,7 +576,17 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
                 if isinstance(closed_at, str):
                     # Handle timezone-aware and naive strings
                     if "T" in closed_at:
-                        closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        # Handle ISO format with timezone (e.g., "2025-12-24T10:29:04.402151-07:00")
+                        try:
+                            # Try parsing with timezone first
+                            closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        except ValueError:
+                            # If that fails, try without microseconds
+                            try:
+                                closed_dt = datetime.fromisoformat(closed_at.split('.')[0].replace("Z", "+00:00"))
+                            except:
+                                # Last resort: try parsing as naive and assume UTC
+                                closed_dt = datetime.strptime(closed_at.split('T')[0] + " " + closed_at.split('T')[1].split('.')[0], "%Y-%m-%d %H:%M:%S")
                     else:
                         # Try other formats
                         try:

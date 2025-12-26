@@ -1687,6 +1687,7 @@ def build_daily_summary_tab() -> html.Div:
             # Compute Golden Hour summary from GOLDEN_HOUR_ANALYSIS.json (all-time comprehensive data)
             # This uses the comprehensive analysis data, not just last 24h filtering
             golden_hour_summary = {
+                "wallet_balance": wallet_balance,  # Required by summary_card
                 "total_trades": 0,
                 "wins": 0,
                 "losses": 0,
@@ -1749,6 +1750,7 @@ def build_daily_summary_tab() -> html.Div:
                             avg_loss = -(gross_loss / losses) if losses > 0 else 0.0
                             
                             golden_hour_summary = {
+                                "wallet_balance": wallet_balance,  # Required by summary_card
                                 "total_trades": count,
                                 "wins": wins,
                                 "losses": losses,

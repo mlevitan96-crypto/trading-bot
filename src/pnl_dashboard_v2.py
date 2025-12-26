@@ -1078,7 +1078,8 @@ def get_portfolio_health_metrics() -> dict:
         max_drawdown_pct = 0.0
         
         if closed_positions:
-            cutoff_time = datetime.utcnow() - timedelta(hours=24)
+            from datetime import timezone
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
             total_pnl = 0.0
             
             # Simple approach: Calculate portfolio value now vs 24h ago
@@ -1646,10 +1647,41 @@ def build_daily_summary_tab() -> html.Div:
             print(f"🔍 [DASHBOARD-V2] Monthly summary: {monthly_summary.get('total_trades', 0)} trades, ${monthly_summary.get('net_pnl', 0):.2f} P&L", flush=True)
             print("📊 [DASHBOARD-V2] All summaries computed", flush=True)
             
-            # Compute Golden Hour summary (filter to golden_hour trades only)
-            golden_hour_positions = [p for p in closed_positions if p.get("trading_window") == "golden_hour"]
+            # Compute Golden Hour summary (filter to golden_hour trades only, last 24 hours)
+            # Filter by trading_window first, then by time window (09:00-16:00 UTC) as fallback
+            golden_hour_positions = []
+            for pos in closed_positions:
+                tw = pos.get("trading_window")
+                if tw == "golden_hour":
+                    golden_hour_positions.append(pos)
+                elif tw is None or tw not in ["24_7", "golden_hour"]:
+                    # Fallback: Check if trade occurred during Golden Hour (09:00-16:00 UTC)
+                    # by examining opened_at or closed_at timestamp
+                    opened_at = pos.get("opened_at", "")
+                    closed_at = pos.get("closed_at", "")
+                    ts_str = opened_at or closed_at
+                    if ts_str:
+                        try:
+                            if isinstance(ts_str, str):
+                                if "T" in ts_str:
+                                    dt = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
+                                else:
+                                    try:
+                                        dt = datetime.strptime(ts_str, "%Y-%m-%d %H:%M:%S")
+                                    except:
+                                        dt = None
+                                if dt:
+                                    # Check if trade opened/closed during Golden Hour (09:00-16:00 UTC)
+                                    hour = dt.hour
+                                    if 9 <= hour < 16:
+                                        golden_hour_positions.append(pos)
+                        except:
+                            pass
+            
+            print(f"🕘 [DASHBOARD-V2] Found {len(golden_hour_positions)} total Golden Hour trades (by trading_window or time window)", flush=True)
+            # Then filter by date (last 24 hours) and compute summary
             golden_hour_summary = compute_summary_optimized(wallet_balance, golden_hour_positions, lookback_days=1)
-            print(f"🕘 [DASHBOARD-V2] Golden Hour summary: {golden_hour_summary.get('total_trades', 0)} trades, ${golden_hour_summary.get('net_pnl', 0):.2f} P&L", flush=True)
+            print(f"🕘 [DASHBOARD-V2] Golden Hour summary (last 24h): {golden_hour_summary.get('total_trades', 0)} trades, ${golden_hour_summary.get('net_pnl', 0):.2f} P&L", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error computing summaries: {e}", flush=True)
             import traceback

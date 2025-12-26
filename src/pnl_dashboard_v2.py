@@ -2189,6 +2189,123 @@ def build_24_7_trading_tab() -> html.Div:
         gh_metrics = calculate_metrics(golden_hour_trades)
         all_24_7_metrics = calculate_metrics(trades_24_7)
         
+        # Helper function for summary cards (local to this function)
+        def summary_card_24_7(summary: dict, label: str) -> dbc.Card:
+            pnl_color = "#34a853" if summary["net_pnl"] >= 0 else "#ea4335"
+            wr_color = "#34a853" if summary["win_rate"] >= 50 else "#ea4335"
+            
+            return dbc.Card([
+                dbc.CardHeader(html.H4(label, style={"color": "#fff", "margin": 0})),
+                dbc.CardBody([
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div(f"${summary['wallet_balance']:.2f}", style={"fontSize": "28px", "fontWeight": "bold", "color": "#1a73e8"}),
+                            html.Div("Wallet Balance", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        ]),
+                        dbc.Col([
+                            html.Div(f"{summary['total_trades']}", style={"fontSize": "28px", "fontWeight": "bold", "color": "#fff"}),
+                            html.Div("Total Trades", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        ]),
+                        dbc.Col([
+                            html.Div(f"${summary['net_pnl']:.2f}", style={"fontSize": "28px", "fontWeight": "bold", "color": pnl_color}),
+                            html.Div("Net P&L", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        ]),
+                        dbc.Col([
+                            html.Div(f"{summary['win_rate']:.1f}%", style={"fontSize": "28px", "fontWeight": "bold", "color": wr_color}),
+                            html.Div("Win Rate", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        ]),
+                        dbc.Col([
+                            html.Div(f"{summary['wins']}/{summary['losses']}", style={"fontSize": "28px", "fontWeight": "bold", "color": "#fff"}),
+                            html.Div("Wins/Losses", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        ]),
+                        dbc.Col([
+                            html.Div(f"${summary['avg_win']:.2f}", style={"fontSize": "20px", "fontWeight": "bold", "color": "#34a853"}),
+                            html.Div(f"${summary['avg_loss']:.2f}", style={"fontSize": "20px", "fontWeight": "bold", "color": "#ea4335"}),
+                            html.Div("Avg Win/Loss", style={"fontSize": "12px", "color": "#9aa0a6"}),
+                        ]),
+                    ]),
+                ]),
+            ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"})
+        
+        # Get wallet balance and filter to last 24 hours for summary cards
+        wallet_balance_24_7 = 10000.0  # Default
+        try:
+            wallet_snapshots = DR.read_json(DR.WALLET_SNAPSHOTS)
+            if wallet_snapshots and wallet_snapshots.get("snapshots"):
+                latest_snapshot = wallet_snapshots["snapshots"][-1] if wallet_snapshots["snapshots"] else {}
+                wallet_balance_24_7 = float(latest_snapshot.get("balance", 10000.0))
+        except:
+            pass
+        
+        # Filter to last 24 hours only for summary cards
+        gh_24h_trades = []
+        trades_24_7_24h = []
+        
+        for t in closed_positions:
+            closed_at = t.get("closed_at", "")
+            if not closed_at:
+                continue
+            try:
+                if isinstance(closed_at, str):
+                    if "T" in closed_at:
+                        dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    else:
+                        try:
+                            dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
+                        except:
+                            dt = None
+                else:
+                    dt = None
+                
+                if dt:
+                    closed_ts = dt.timestamp()
+                    if closed_ts >= cutoff_24h_ts:
+                        hour = dt.hour
+                        if 9 <= hour < 16:  # Golden Hour: 09:00-16:00 UTC
+                            gh_24h_trades.append(t)
+                        else:
+                            trades_24_7_24h.append(t)
+            except:
+                pass
+        
+        # Calculate summaries for last 24h
+        def calc_summary_24h(trades_list, wallet_bal):
+            if not trades_list:
+                return {
+                    "wallet_balance": wallet_bal,
+                    "total_trades": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
+                    "net_pnl": 0.0, "avg_win": 0.0, "avg_loss": 0.0
+                }
+            
+            pnls = []
+            for t in trades_list:
+                pnl = t.get("net_pnl", t.get("pnl", t.get("realized_pnl", 0)))
+                try:
+                    pnls.append(float(pnl) if pnl is not None else 0.0)
+                except:
+                    pnls.append(0.0)
+            
+            wins = [p for p in pnls if p > 0]
+            losses = [p for p in pnls if p < 0]
+            total_pnl = sum(pnls)
+            avg_win = sum(wins) / len(wins) if wins else 0.0
+            avg_loss = sum(losses) / len(losses) if losses else 0.0
+            win_rate = (len(wins) / len(pnls) * 100.0) if pnls else 0.0
+            
+            return {
+                "wallet_balance": wallet_bal,
+                "total_trades": len(trades_list),
+                "wins": len(wins),
+                "losses": len(losses),
+                "win_rate": win_rate,
+                "net_pnl": total_pnl,
+                "avg_win": avg_win,
+                "avg_loss": avg_loss
+            }
+        
+        gh_summary_24h = calc_summary_24h(gh_24h_trades, wallet_balance_24_7)
+        all_24_7_summary_24h = calc_summary_24h(trades_24_7_24h, wallet_balance_24_7)
+        
         # Calculate differences
         pnl_diff_dollars = gh_metrics["total_pnl"] - all_24_7_metrics["total_pnl"]
         pnl_total_combined = abs(gh_metrics["total_pnl"]) + abs(all_24_7_metrics["total_pnl"])
@@ -2301,10 +2418,10 @@ def build_24_7_trading_tab() -> html.Div:
                     html.H4("📈 Trading Summaries (Last 24 Hours)", style={"color": "#fff", "marginBottom": "20px", "marginTop": "30px"}),
                     dbc.Row([
                         dbc.Col([
-                            summary_card(gh_summary_24h, "🕘 Golden Hour Trading (09:00-16:00 UTC, Last 24 Hours)")
+                            summary_card_24_7(gh_summary_24h, "🕘 Golden Hour Trading (09:00-16:00 UTC, Last 24 Hours)")
                         ], width=6),
                         dbc.Col([
-                            summary_card(all_24_7_summary_24h, "🌐 24/7 Trading (Last 24 Hours)")
+                            summary_card_24_7(all_24_7_summary_24h, "🌐 24/7 Trading (Last 24 Hours)")
                         ], width=6),
                     ]),
                     

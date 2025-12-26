@@ -313,7 +313,7 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         return False
     
     # Capture execution timing for latency calculation
-    execution_timestamp = time.time()
+    execution_timestamp = __pm_time.time()
     execution_time_iso = get_arizona_time().isoformat()
     
     # Get signal price from signal_context if available (for slippage calculation)

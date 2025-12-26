@@ -1685,39 +1685,82 @@ def build_daily_summary_tab() -> html.Div:
             print("📊 [DASHBOARD-V2] All summaries computed", flush=True)
             
             # Compute Golden Hour summary (filter to golden_hour trades only, last 24 hours)
-            # Filter by trading_window first, then by time window (09:00-16:00 UTC) as fallback
+            # IMPORTANT: Check ALL trades by timestamp first (09:00-16:00 UTC), then apply 24h filter
+            cutoff_24h = datetime.now(timezone.utc) - timedelta(hours=24)
+            cutoff_24h_ts = cutoff_24h.timestamp()
+            
             golden_hour_positions = []
             for pos in closed_positions:
-                tw = pos.get("trading_window")
-                if tw == "golden_hour":
-                    golden_hour_positions.append(pos)
-                elif tw is None or tw not in ["24_7", "golden_hour"]:
-                    # Fallback: Check if trade occurred during Golden Hour (09:00-16:00 UTC)
-                    # by examining opened_at or closed_at timestamp
-                    opened_at = pos.get("opened_at", "")
-                    closed_at = pos.get("closed_at", "")
-                    ts_str = opened_at or closed_at
-                    if ts_str:
-                        try:
-                            if isinstance(ts_str, str):
-                                if "T" in ts_str:
-                                    dt = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
-                                else:
-                                    try:
-                                        dt = datetime.strptime(ts_str, "%Y-%m-%d %H:%M:%S")
-                                    except:
-                                        dt = None
-                                if dt:
-                                    # Check if trade opened/closed during Golden Hour (09:00-16:00 UTC)
-                                    hour = dt.hour
-                                    if 9 <= hour < 16:
-                                        golden_hour_positions.append(pos)
-                        except:
-                            pass
+                # Get closed_at timestamp for filtering
+                closed_at = pos.get("closed_at", "")
+                if not closed_at:
+                    continue
+                
+                try:
+                    # Parse timestamp
+                    if isinstance(closed_at, str):
+                        if "T" in closed_at:
+                            dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        else:
+                            try:
+                                dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
+                            except:
+                                dt = None
+                    else:
+                        dt = None
+                    
+                    if dt:
+                        # First check if trade is in last 24 hours
+                        closed_ts = dt.timestamp()
+                        if closed_ts >= cutoff_24h_ts:
+                            # Then check if it's during Golden Hour (09:00-16:00 UTC)
+                            hour = dt.hour
+                            if 9 <= hour < 16:
+                                golden_hour_positions.append(pos)
+                except Exception as e:
+                    # Skip positions with unparseable timestamps
+                    continue
             
-            print(f"🕘 [DASHBOARD-V2] Found {len(golden_hour_positions)} total Golden Hour trades (by trading_window or time window)", flush=True)
-            # Then filter by date (last 24 hours) and compute summary
-            golden_hour_summary = compute_summary_optimized(wallet_balance, golden_hour_positions, lookback_days=1)
+            print(f"🕘 [DASHBOARD-V2] Found {len(golden_hour_positions)} Golden Hour trades in last 24h (09:00-16:00 UTC by timestamp)", flush=True)
+            
+            # golden_hour_positions is already filtered to last 24h, so compute summary directly from positions
+            # Extract P&L values
+            pnls = []
+            for pos in golden_hour_positions:
+                pnl = pos.get("net_pnl", pos.get("pnl", pos.get("realized_pnl", 0)))
+                try:
+                    pnls.append(float(pnl) if pnl is not None else 0.0)
+                except:
+                    pnls.append(0.0)
+            
+            if pnls:
+                wins = sum(1 for pnl in pnls if pnl > 0)
+                losses = len(pnls) - wins
+                total_pnl = sum(pnls)
+                gross_profit = sum(pnl for pnl in pnls if pnl > 0)
+                gross_loss = abs(sum(pnl for pnl in pnls if pnl < 0))
+                profit_factor = gross_profit / gross_loss if gross_loss > 0 else (gross_profit if gross_profit > 0 else 0.0)
+                win_rate = (wins / len(pnls) * 100) if pnls else 0.0
+                avg_pnl = total_pnl / len(pnls) if pnls else 0.0
+                avg_win = gross_profit / wins if wins > 0 else 0.0
+                avg_loss = -(gross_loss / losses) if losses > 0 else 0.0
+            else:
+                wins = losses = 0
+                total_pnl = gross_profit = gross_loss = profit_factor = win_rate = avg_pnl = avg_win = avg_loss = 0.0
+            
+            golden_hour_summary = {
+                "total_trades": len(golden_hour_positions),
+                "wins": wins,
+                "losses": losses,
+                "win_rate": win_rate,
+                "net_pnl": total_pnl,
+                "avg_pnl": avg_pnl,
+                "avg_win": avg_win,
+                "avg_loss": avg_loss,
+                "gross_profit": gross_profit,
+                "gross_loss": gross_loss,
+                "profit_factor": profit_factor
+            }
             print(f"🕘 [DASHBOARD-V2] Golden Hour summary (last 24h): {golden_hour_summary.get('total_trades', 0)} trades, ${golden_hour_summary.get('net_pnl', 0):.2f} P&L", flush=True)
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error computing summaries: {e}", flush=True)
@@ -2040,10 +2083,75 @@ def build_24_7_trading_tab() -> html.Div:
                 ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139"}),
             ])
         
-        # Filter trades by trading_window
-        golden_hour_trades = [t for t in closed_positions if t.get("trading_window") == "golden_hour"]
-        trades_24_7 = [t for t in closed_positions if t.get("trading_window") == "24_7"]
-        unknown_trades = [t for t in closed_positions if t.get("trading_window") not in ["golden_hour", "24_7"]]
+        # Filter trades by timestamp (09:00-16:00 UTC = Golden Hour) for ALL trades
+        # This ensures we capture all trades correctly, not just those with trading_window field set
+        cutoff_24h = datetime.now(timezone.utc) - timedelta(hours=24)
+        cutoff_24h_ts = cutoff_24h.timestamp()
+        
+        golden_hour_trades = []
+        trades_24_7 = []
+        unknown_trades = []
+        
+        for t in closed_positions:
+            closed_at = t.get("closed_at", "")
+            if not closed_at:
+                unknown_trades.append(t)
+                continue
+            
+            try:
+                # Parse timestamp
+                if isinstance(closed_at, str):
+                    if "T" in closed_at:
+                        dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                    else:
+                        try:
+                            dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
+                        except:
+                            dt = None
+                else:
+                    dt = None
+                
+                if dt:
+                    # Check if in last 24 hours
+                    closed_ts = dt.timestamp()
+                    if closed_ts >= cutoff_24h_ts:
+                        # Classify by hour (09:00-16:00 UTC = Golden Hour)
+                        hour = dt.hour
+                        if 9 <= hour < 16:
+                            golden_hour_trades.append(t)
+                        else:
+                            trades_24_7.append(t)
+                    else:
+                        # Older than 24h - classify by trading_window if available, otherwise by timestamp
+                        tw = t.get("trading_window")
+                        if tw == "golden_hour":
+                            golden_hour_trades.append(t)
+                        elif tw == "24_7":
+                            trades_24_7.append(t)
+                        else:
+                            # Fallback to timestamp classification for historical trades
+                            if 9 <= hour < 16:
+                                golden_hour_trades.append(t)
+                            else:
+                                trades_24_7.append(t)
+                else:
+                    # Can't parse timestamp - use trading_window if available
+                    tw = t.get("trading_window")
+                    if tw == "golden_hour":
+                        golden_hour_trades.append(t)
+                    elif tw == "24_7":
+                        trades_24_7.append(t)
+                    else:
+                        unknown_trades.append(t)
+            except Exception as e:
+                # Error parsing - use trading_window if available
+                tw = t.get("trading_window")
+                if tw == "golden_hour":
+                    golden_hour_trades.append(t)
+                elif tw == "24_7":
+                    trades_24_7.append(t)
+                else:
+                    unknown_trades.append(t)
         
         # Calculate metrics for each group
         def calculate_metrics(trades):
@@ -2184,6 +2292,102 @@ def build_24_7_trading_tab() -> html.Div:
                     
                     html.H4("📊 Performance Comparison Chart", style={"color": "#fff", "marginBottom": "20px"}),
                     dcc.Graph(figure=fig_bar, config={"displayModeBar": True}),
+                    
+                    html.Hr(style={"borderColor": "#2d3139", "margin": "30px 0"}),
+                    
+                    # Summary Cards for Golden Hour and 24/7 Trading (Last 24 Hours)
+                    html.H4("📈 Trading Summaries (Last 24 Hours)", style={"color": "#fff", "marginBottom": "20px", "marginTop": "30px"}),
+                    
+                    # Get wallet balance for summary cards
+                    wallet_balance_24_7 = wallet_balance = 10000.0  # Default
+                    try:
+                        wallet_snapshots = DR.read_json(DR.WALLET_SNAPSHOTS)
+                        if wallet_snapshots and wallet_snapshots.get("snapshots"):
+                            latest_snapshot = wallet_snapshots["snapshots"][-1] if wallet_snapshots["snapshots"] else {}
+                            wallet_balance_24_7 = float(latest_snapshot.get("balance", 10000.0))
+                    except:
+                        pass
+                    
+                    # Filter to last 24 hours only for summary cards
+                    cutoff_24h = datetime.now(timezone.utc) - timedelta(hours=24)
+                    cutoff_24h_ts = cutoff_24h.timestamp()
+                    
+                    gh_24h_trades = []
+                    trades_24_7_24h = []
+                    
+                    for t in closed_positions:
+                        closed_at = t.get("closed_at", "")
+                        if not closed_at:
+                            continue
+                        try:
+                            if isinstance(closed_at, str):
+                                if "T" in closed_at:
+                                    dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                                else:
+                                    try:
+                                        dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
+                                    except:
+                                        dt = None
+                            else:
+                                dt = None
+                            
+                            if dt:
+                                closed_ts = dt.timestamp()
+                                if closed_ts >= cutoff_24h_ts:
+                                    hour = dt.hour
+                                    if 9 <= hour < 16:
+                                        gh_24h_trades.append(t)
+                                    else:
+                                        trades_24_7_24h.append(t)
+                        except:
+                            pass
+                    
+                    # Calculate summaries for last 24h
+                    def calc_summary_24h(trades_list, wallet_bal):
+                        if not trades_list:
+                            return {
+                                "wallet_balance": wallet_bal,
+                                "total_trades": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
+                                "net_pnl": 0.0, "avg_win": 0.0, "avg_loss": 0.0
+                            }
+                        
+                        pnls = []
+                        for t in trades_list:
+                            pnl = t.get("net_pnl", t.get("pnl", t.get("realized_pnl", 0)))
+                            try:
+                                pnls.append(float(pnl) if pnl is not None else 0.0)
+                            except:
+                                pnls.append(0.0)
+                        
+                        wins = [p for p in pnls if p > 0]
+                        losses = [p for p in pnls if p < 0]
+                        total_pnl = sum(pnls)
+                        avg_win = sum(wins) / len(wins) if wins else 0.0
+                        avg_loss = sum(losses) / len(losses) if losses else 0.0
+                        win_rate = (len(wins) / len(pnls) * 100.0) if pnls else 0.0
+                        
+                        return {
+                            "wallet_balance": wallet_bal,
+                            "total_trades": len(trades_list),
+                            "wins": len(wins),
+                            "losses": len(losses),
+                            "win_rate": win_rate,
+                            "net_pnl": total_pnl,
+                            "avg_win": avg_win,
+                            "avg_loss": avg_loss
+                        }
+                    
+                    gh_summary_24h = calc_summary_24h(gh_24h_trades, wallet_balance_24_7)
+                    all_24_7_summary_24h = calc_summary_24h(trades_24_7_24h, wallet_balance_24_7)
+                    
+                    dbc.Row([
+                        dbc.Col([
+                            summary_card(gh_summary_24h, "🕘 Golden Hour Trading (09:00-16:00 UTC, Last 24 Hours)")
+                        ], width=6),
+                        dbc.Col([
+                            summary_card(all_24_7_summary_24h, "🌐 24/7 Trading (Last 24 Hours)")
+                        ], width=6),
+                    ]),
                     
                     html.Hr(style={"borderColor": "#2d3139", "margin": "30px 0"}),
                     

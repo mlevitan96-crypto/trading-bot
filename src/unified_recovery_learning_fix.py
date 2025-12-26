@@ -139,16 +139,24 @@ def pre_entry_check(
         "portfolio_value": portfolio_value
     }
     
-    # 0. [GOLDEN HOUR CHECK] Block entries outside trading hours
+    # 0. [GOLDEN HOUR CHECK] Block entries outside trading hours (configurable)
     try:
         from src.enhanced_trade_logging import check_golden_hours_block
-        should_block, reason = check_golden_hours_block()
+        should_block, reason, trading_window = check_golden_hours_block()
+        # Store trading_window in signal context for position tracking
+        ctx["trading_window"] = trading_window
         if should_block:
-            _bus("entry_rejected", {"symbol": symbol, "reason": reason})
+            _bus("entry_rejected", {"symbol": symbol, "reason": reason, "trading_window": trading_window})
             _kg(symbol, "entry_rejected_golden_hours", reason)
             print(f"❌ Entry blocked: {reason}")
             return False, ctx
     except Exception as e:
+        # Fail open if check fails, but try to still set trading_window
+        try:
+            from src.enhanced_trade_logging import is_golden_hour
+            ctx["trading_window"] = "golden_hour" if is_golden_hour() else "24_7"
+        except:
+            ctx["trading_window"] = "unknown"
         pass  # Fail open if check fails
     
     # 0.3. [SYMBOL PROBATION] Check if symbol is on probation (Component 6)

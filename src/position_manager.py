@@ -438,6 +438,8 @@ def open_futures_position(symbol, direction, entry_price, size, leverage, strate
         # [CONVICTION GATE] Track conviction level and aligned signals for learning
         position["conviction"] = signal_context.get("conviction", "UNKNOWN")
         position["aligned_signals"] = signal_context.get("aligned_signals", 0)
+        # [TRADING WINDOW] Track whether trade was during golden hour or 24/7
+        position["trading_window"] = signal_context.get("trading_window", "unknown")
         position["signal_components"] = signal_context.get("signal_components", {})
         
         # [SIZING MULTIPLIER LEARNING] Store gate attribution for learning optimal multipliers

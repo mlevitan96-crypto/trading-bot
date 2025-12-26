@@ -1,0 +1,6 @@
+{
+  "restrict_to_golden_hour": false,
+  "updated_at": null,
+  "description": "Set restrict_to_golden_hour to false to enable 24/7 trading while still tracking which trades are golden_hour vs 24_7"
+}
+

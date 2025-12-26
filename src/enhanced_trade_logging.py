@@ -241,15 +241,59 @@ def check_stable_regime_block(symbol: str, strategy: str) -> Tuple[bool, str]:
     return False, ""
 
 
-def check_golden_hours_block() -> Tuple[bool, str]:
+def get_golden_hour_config() -> Dict[str, Any]:
+    """
+    Load golden hour configuration from feature_store.
+    
+    Returns:
+        Dict with 'restrict_to_golden_hour' (bool) flag
+    """
+    try:
+        from pathlib import Path
+        from src.infrastructure.path_registry import PathRegistry
+        
+        config_file = Path(PathRegistry.get_path("feature_store", "golden_hour_config.json"))
+        
+        if config_file.exists():
+            import json
+            with open(config_file, 'r') as f:
+                config = json.load(f)
+                return config
+        
+        # Default: restrict to golden hour (current behavior)
+        default_config = {
+            "restrict_to_golden_hour": True,
+            "updated_at": None
+        }
+        return default_config
+    except Exception:
+        # Fail-safe: default to restrictive mode
+        return {"restrict_to_golden_hour": True}
+
+
+def check_golden_hours_block() -> Tuple[bool, str, str]:
     """
     Check if trade should be blocked due to being outside golden hours.
     
     Returns:
-        (should_block, reason)
+        (should_block, reason, trading_window)
+        - should_block: True if entry should be blocked
+        - reason: Explanation string
+        - trading_window: "golden_hour" or "24_7" (always tracked, even if not blocking)
     """
-    if not is_golden_hour():
-        reason = "BLOCK: Outside golden trading hours (09:00-16:00 UTC)."
-        return True, reason
+    config = get_golden_hour_config()
+    restrict = config.get("restrict_to_golden_hour", True)
     
-    return False, ""
+    is_gh = is_golden_hour()
+    trading_window = "golden_hour" if is_gh else "24_7"
+    
+    # If restriction is disabled, never block, but still return the window type
+    if not restrict:
+        return False, "", trading_window
+    
+    # If restriction is enabled and we're outside golden hour, block
+    if not is_gh:
+        reason = "BLOCK: Outside golden trading hours (09:00-16:00 UTC)."
+        return True, reason, trading_window
+    
+    return False, "", trading_window

@@ -701,14 +701,22 @@ def _should_block_entry(exposure_pct, cap, runtime):
 
 def pre_entry_check(symbol: str, strategy_id: str, final_notional: float, portfolio_value_snapshot: float,
                     runtime_limits: Dict[str,Any], regime_state: str, verdict_status: str, expected_edge_hint: float) -> Tuple[bool, Dict[str,Any]]:
-    # [GOLDEN HOUR CHECK] Block entries outside trading hours
+    # [GOLDEN HOUR CHECK] Block entries outside trading hours (configurable)
+    trading_window_info = {"trading_window": "unknown"}
     try:
         from src.enhanced_trade_logging import check_golden_hours_block
-        should_block, reason = check_golden_hours_block()
+        should_block, reason, trading_window = check_golden_hours_block()
+        trading_window_info["trading_window"] = trading_window
         if should_block:
             print(f"❌ Entry blocked: {reason}")
-            return False, {"symbol": symbol, "strategy_id": strategy_id, "reason": reason}
+            return False, {"symbol": symbol, "strategy_id": strategy_id, "reason": reason, **trading_window_info}
     except Exception as e:
+        # Fail open if check fails, but try to still set trading_window
+        try:
+            from src.enhanced_trade_logging import is_golden_hour
+            trading_window_info["trading_window"] = "golden_hour" if is_golden_hour() else "24_7"
+        except:
+            pass
         pass  # Fail open if check fails
     
     # [STABLE REGIME BLOCK] Hard block on Stable regime (35.2% win rate)
@@ -1712,6 +1720,16 @@ def alpha_entry_wrapper(symbol: str,
             # Get gate attribution from attribution dict (contains gate decisions)
             gate_attribution_alpha = attribution.get("gate_attribution", {}) if isinstance(attribution, dict) else {}
             
+            # Get trading_window from pre_entry_check ctx (if available)
+            trading_window = ctx.get("trading_window") if "trading_window" in ctx else "unknown"
+            if trading_window == "unknown":
+                # Fallback: determine from current time
+                try:
+                    from src.enhanced_trade_logging import is_golden_hour
+                    trading_window = "golden_hour" if is_golden_hour() else "24_7"
+                except:
+                    trading_window = "unknown"
+            
             signal_context = {
                 "ofi": ofi_confidence,
                 "ensemble": ensemble_score,
@@ -1721,6 +1739,7 @@ def alpha_entry_wrapper(symbol: str,
                 "volatility": 0.0,
                 "bot_type": bot_type_for_context,
                 "was_inverted": False,
+                "trading_window": trading_window,  # [TRADING WINDOW] Track golden_hour vs 24_7
                 # [SIZING MULTIPLIER LEARNING] Store gate attribution for learning
                 "gate_attribution": gate_attribution_alpha,
             }

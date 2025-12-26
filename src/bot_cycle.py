@@ -660,6 +660,16 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
         leverage = params.get("leverage", 1)
         qty = compute_futures_qty(symbol, mark_price, leverage, final_notional)
         
+        # Get trading_window from params (set by unified_recovery_learning_fix if available)
+        trading_window = params.get("trading_window", "unknown")
+        if trading_window == "unknown":
+            # Fallback: determine from current time
+            try:
+                from src.enhanced_trade_logging import is_golden_hour
+                trading_window = "golden_hour" if is_golden_hour() else "24_7"
+            except:
+                trading_window = "unknown"
+        
         # Build signal context for learning (including gate states for sizing multiplier learning)
         signal_context = {
             "ofi": params.get("ofi_score", 0.0),
@@ -668,6 +678,7 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
             "regime": regime_state,
             "expected_roi": expected_edge,
             "volatility": params.get("volatility", 0.0),
+            "trading_window": trading_window,  # [TRADING WINDOW] Track golden_hour vs 24_7
             # [ENHANCED LOGGING] Include signal components if available
             "signal_components": params.get("signal_components", {}),
             "signals": params.get("signals", {}),  # Full predictive signals dict

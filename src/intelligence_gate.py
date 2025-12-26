@@ -210,6 +210,7 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
     Uses LEARNED sizing multipliers from historical performance data.
     Includes Whale CVD filter - blocks trades where whale flow diverges from signal.
     [BIG ALPHA PHASE 6] Includes Symbol-Specific Alpha Floor for adaptive sizing.
+    [FINAL ALPHA] Enhanced with Symbol-Strategy Power Ranking.
     
     Returns:
         Tuple of (allowed: bool, reason: str, sizing_multiplier: float)
@@ -217,8 +218,15 @@ def intelligence_gate(signal: Dict) -> Tuple[bool, str, float]:
         - reason: Explanation for decision (including "WHALE_CONFLICT" if blocked)
         - sizing_multiplier: Learned multiplier based on intel alignment (2.5x for ULTRA conviction)
     """
+    # Input validation
+    if not signal or not isinstance(signal, dict):
+        return True, "invalid_signal", 1.0
+    
     symbol = signal.get('symbol', '')
     action = signal.get('action', signal.get('direction', ''))
+    
+    if not symbol:
+        return True, "no_symbol", 1.0
     
     # Extract signal direction (used by both Whale CVD and Macro Guards)
     signal_direction = 'LONG' if action.upper() in ['OPEN_LONG', 'BUY', 'LONG'] else 'SHORT'

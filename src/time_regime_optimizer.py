@@ -204,22 +204,31 @@ class TimeRegimeOptimizer:
     
     def _load_golden_hour_config(self) -> Dict[str, Any]:
         """Load golden hour configuration"""
-        try:
-            if self.golden_hour_config_path.exists():
-                with open(self.golden_hour_config_path, 'r') as f:
-                    config = json.load(f)
-                    return config
-        except Exception as e:
-            print(f"⚠️ [TIME-REGIME] Error loading config: {e}")
-        
-        # Default config
-        return {
+        default_config = {
             "restrict_to_golden_hour": True,
             "allowed_windows": [],  # Will be populated by optimizer
             "base_window": f"{self.base_golden_hour_start:02d}:00-{self.base_golden_hour_end:02d}:00",
             "last_optimization": None,
             "optimization_history": []
         }
+        
+        try:
+            if self.golden_hour_config_path.exists():
+                with open(self.golden_hour_config_path, 'r') as f:
+                    config = json.load(f)
+                    # Ensure all required keys exist
+                    if "allowed_windows" not in config:
+                        config["allowed_windows"] = []
+                    if "base_window" not in config:
+                        config["base_window"] = default_config["base_window"]
+                    if "optimization_history" not in config:
+                        config["optimization_history"] = []
+                    return config
+        except Exception as e:
+            print(f"⚠️ [TIME-REGIME] Error loading config: {e}")
+        
+        # Default config
+        return default_config
     
     def _save_golden_hour_config(self, config: Dict[str, Any]):
         """Save golden hour configuration"""

@@ -295,3 +295,58 @@ def get_recent_slippage_stats(symbol: Optional[str] = None, hours: int = 24) -> 
     except Exception as e:
         return {"error": str(e)}
 
+
+def analyze_fill_failure_rate(hours: int = 24) -> Dict[str, Any]:
+    """
+    [FINAL ALPHA] Analyze fill failure rate for marketable limit orders.
+    
+    If fills are failing (not executing) > 20% of the time during "TRUE TREND",
+    the offset should be increased from 0.05% to 0.12%.
+    
+    Returns:
+        Dict with fill failure rate and recommendation
+    """
+    try:
+        cutoff_ts = time.time() - (hours * 3600)
+        
+        if not EXECUTED_TRADES_LOG.exists():
+            return {"error": "No execution log found"}
+        
+        true_trend_executions = []
+        total_true_trend_attempts = 0
+        
+        # We need to track both successful fills and failed attempts
+        # For now, we'll infer failures from orders that were placed but didn't fill
+        # This is a simplified version - in a real system, we'd track order status
+        
+        with open(EXECUTED_TRADES_LOG, "r") as f:
+            for line in f:
+                try:
+                    entry = json.loads(line.strip())
+                    if entry.get("ts", 0) >= cutoff_ts:
+                        if entry.get("is_true_trend", False):
+                            true_trend_executions.append(entry)
+                            total_true_trend_attempts += 1
+                except:
+                    continue
+        
+        # Calculate fill failure rate (simplified - assumes all logged entries are successful fills)
+        # In a real system, we'd compare placed orders vs filled orders
+        successful_fills = len(true_trend_executions)
+        
+        # For now, we'll use a heuristic: if slippage is very high, it suggests fills might be failing
+        # A more accurate implementation would track order status separately
+        high_slippage_count = sum(1 for e in true_trend_executions if abs(e.get("slippage_bps", 0)) > 10.0)
+        estimated_failure_rate = (high_slippage_count / total_true_trend_attempts * 100) if total_true_trend_attempts > 0 else 0.0
+        
+        return {
+            "total_true_trend_attempts": total_true_trend_attempts,
+            "successful_fills": successful_fills,
+            "estimated_failure_rate_pct": estimated_failure_rate,
+            "should_increase_offset": estimated_failure_rate > 20.0,
+            "current_offset_bps": get_marketable_limit_offset_bps(),
+            "recommended_offset_bps": MARKETABLE_LIMIT_OFFSET_BPS_MAX if estimated_failure_rate > 20.0 else MARKETABLE_LIMIT_OFFSET_BPS
+        }
+    except Exception as e:
+        return {"error": str(e)}
+

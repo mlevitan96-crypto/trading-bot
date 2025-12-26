@@ -1684,90 +1684,158 @@ def build_daily_summary_tab() -> html.Div:
             print(f"🔍 [DASHBOARD-V2] Monthly summary: {monthly_summary.get('total_trades', 0)} trades, ${monthly_summary.get('net_pnl', 0):.2f} P&L", flush=True)
             print("📊 [DASHBOARD-V2] All summaries computed", flush=True)
             
-            # Compute Golden Hour summary (filter to golden_hour trades only, last 24 hours)
-            # IMPORTANT: Check ALL trades by timestamp first (09:00-16:00 UTC), then apply 24h filter
-            cutoff_24h = datetime.now(timezone.utc) - timedelta(hours=24)
-            cutoff_24h_ts = cutoff_24h.timestamp()
-            
-            golden_hour_positions = []
-            for pos in closed_positions:
-                # Get closed_at timestamp for filtering
-                closed_at = pos.get("closed_at", "")
-                if not closed_at:
-                    continue
-                
-                try:
-                    # Parse timestamp
-                    if isinstance(closed_at, str):
-                        if "T" in closed_at:
-                            dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
-                        else:
-                            try:
-                                dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
-                            except:
-                                dt = None
-                    else:
-                        dt = None
-                    
-                    if dt:
-                        # First check if trade is in last 24 hours
-                        closed_ts = dt.timestamp()
-                        if closed_ts >= cutoff_24h_ts:
-                            # Then check if it's during Golden Hour (09:00-16:00 UTC)
-                            hour = dt.hour
-                            if 9 <= hour < 16:
-                                golden_hour_positions.append(pos)
-                except Exception as e:
-                    # Skip positions with unparseable timestamps
-                    continue
-            
-            print(f"🕘 [DASHBOARD-V2] Found {len(golden_hour_positions)} Golden Hour trades in last 24h (09:00-16:00 UTC by timestamp)", flush=True)
-            
-            # Debug: Verify filtering is correct
-            now_utc = datetime.now(timezone.utc)
-            current_hour = now_utc.hour
-            is_gh_now = 9 <= current_hour < 16
-            print(f"🕘 [DASHBOARD-V2] Current time: {now_utc.strftime('%H:%M:%S UTC')}, Hour: {current_hour}, Is Golden Hour now: {is_gh_now}", flush=True)
-            
-            # golden_hour_positions is already filtered to last 24h, so compute summary directly from positions
-            # Extract P&L values
-            pnls = []
-            for pos in golden_hour_positions:
-                pnl = pos.get("net_pnl", pos.get("pnl", pos.get("realized_pnl", 0)))
-                try:
-                    pnls.append(float(pnl) if pnl is not None else 0.0)
-                except:
-                    pnls.append(0.0)
-            
-            if pnls:
-                wins = sum(1 for pnl in pnls if pnl > 0)
-                losses = len(pnls) - wins
-                total_pnl = sum(pnls)
-                gross_profit = sum(pnl for pnl in pnls if pnl > 0)
-                gross_loss = abs(sum(pnl for pnl in pnls if pnl < 0))
-                profit_factor = gross_profit / gross_loss if gross_loss > 0 else (gross_profit if gross_profit > 0 else 0.0)
-                win_rate = (wins / len(pnls) * 100) if pnls else 0.0
-                avg_pnl = total_pnl / len(pnls) if pnls else 0.0
-                avg_win = gross_profit / wins if wins > 0 else 0.0
-                avg_loss = -(gross_loss / losses) if losses > 0 else 0.0
-            else:
-                wins = losses = 0
-                total_pnl = gross_profit = gross_loss = profit_factor = win_rate = avg_pnl = avg_win = avg_loss = 0.0
-            
+            # Compute Golden Hour summary from GOLDEN_HOUR_ANALYSIS.json (all-time comprehensive data)
+            # This uses the comprehensive analysis data, not just last 24h filtering
             golden_hour_summary = {
-                "total_trades": len(golden_hour_positions),
-                "wins": wins,
-                "losses": losses,
-                "win_rate": win_rate,
-                "net_pnl": total_pnl,
-                "avg_pnl": avg_pnl,
-                "avg_win": avg_win,
-                "avg_loss": avg_loss,
-                "gross_profit": gross_profit,
-                "gross_loss": gross_loss,
-                "profit_factor": profit_factor
+                "total_trades": 0,
+                "wins": 0,
+                "losses": 0,
+                "win_rate": 0.0,
+                "net_pnl": 0.0,
+                "avg_pnl": 0.0,
+                "avg_win": 0.0,
+                "avg_loss": 0.0,
+                "gross_profit": 0.0,
+                "gross_loss": 0.0,
+                "profit_factor": 0.0
             }
-            print(f"🕘 [DASHBOARD-V2] Golden Hour summary (last 24h): {golden_hour_summary.get('total_trades', 0)} trades, ${golden_hour_summary.get('net_pnl', 0):.2f} P&L", flush=True)
+            
+            try:
+                # Load Golden Hour analysis data (all-time comprehensive stats)
+                analysis_file = Path("GOLDEN_HOUR_ANALYSIS.json")
+                if not analysis_file.exists():
+                    # Try alternative location
+                    analysis_file = Path("GOLDEN_HOUR_ANALYSIS_DROPLET.json")
+                
+                if analysis_file.exists():
+                    with open(analysis_file, 'r') as f:
+                        analysis_data = json.load(f)
+                    
+                    gh_data = analysis_data.get("golden_hour_closed", {})
+                    if gh_data:
+                        total_pnl = float(gh_data.get("total_pnl", 0))
+                        wins = int(gh_data.get("wins", 0))
+                        losses = int(gh_data.get("losses", 0))
+                        count = int(gh_data.get("count", 0))
+                        win_rate = float(gh_data.get("win_rate", 0))
+                        profit_factor = float(gh_data.get("profit_factor", 0))
+                        avg_pnl = float(gh_data.get("avg_pnl", 0))
+                        
+                        # Calculate gross profit/loss from P&L distribution
+                        # We need to estimate these if not directly available
+                        # Use average win/loss estimates based on win rate and avg P&L
+                        if count > 0:
+                            estimated_total_wins_pnl = avg_pnl * count * (win_rate / 100) if win_rate > 0 else 0
+                            estimated_total_losses_pnl = avg_pnl * count * ((100 - win_rate) / 100) if win_rate < 100 else 0
+                            
+                            # Try to get from symbol stats if available
+                            symbol_stats = analysis_data.get("symbol_stats", {})
+                            gross_profit = 0.0
+                            gross_loss = 0.0
+                            for symbol_data in symbol_stats.values():
+                                gross_profit += float(symbol_data.get("gross_profit", 0))
+                                gross_loss += float(symbol_data.get("gross_loss", 0))
+                            
+                            # If no symbol stats, estimate from profit factor and total P&L
+                            if gross_profit == 0 and gross_loss == 0 and profit_factor > 0:
+                                # profit_factor = gross_profit / gross_loss
+                                # total_pnl = gross_profit - gross_loss
+                                # Solving: gross_loss = total_pnl / (profit_factor - 1)
+                                if profit_factor != 1:
+                                    gross_loss = abs(total_pnl / (profit_factor - 1)) if profit_factor > 1 else abs(total_pnl / (1 - profit_factor))
+                                    gross_profit = total_pnl + gross_loss
+                            
+                            avg_win = gross_profit / wins if wins > 0 else 0.0
+                            avg_loss = -(gross_loss / losses) if losses > 0 else 0.0
+                            
+                            golden_hour_summary = {
+                                "total_trades": count,
+                                "wins": wins,
+                                "losses": losses,
+                                "win_rate": win_rate,
+                                "net_pnl": total_pnl,
+                                "avg_pnl": avg_pnl,
+                                "avg_win": avg_win,
+                                "avg_loss": avg_loss,
+                                "gross_profit": gross_profit,
+                                "gross_loss": gross_loss,
+                                "profit_factor": profit_factor
+                            }
+                            print(f"🕘 [DASHBOARD-V2] Loaded Golden Hour summary from analysis file: {count} trades, ${total_pnl:.2f} P&L, {win_rate:.1f}% WR", flush=True)
+                        else:
+                            print(f"⚠️  [DASHBOARD-V2] Golden Hour analysis data has 0 trades", flush=True)
+                    else:
+                        print(f"⚠️  [DASHBOARD-V2] No golden_hour_closed data in analysis file", flush=True)
+                else:
+                    print(f"⚠️  [DASHBOARD-V2] Golden Hour analysis file not found, using fallback filtering", flush=True)
+                    # Fallback to filtering from positions (last 24h only)
+                    cutoff_24h = datetime.now(timezone.utc) - timedelta(hours=24)
+                    cutoff_24h_ts = cutoff_24h.timestamp()
+                    
+                    golden_hour_positions = []
+                    for pos in closed_positions:
+                        closed_at = pos.get("closed_at", "")
+                        if not closed_at:
+                            continue
+                        try:
+                            if isinstance(closed_at, str):
+                                if "T" in closed_at:
+                                    dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                                else:
+                                    try:
+                                        dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
+                                    except:
+                                        dt = None
+                            else:
+                                dt = None
+                            
+                            if dt:
+                                closed_ts = dt.timestamp()
+                                if closed_ts >= cutoff_24h_ts:
+                                    hour = dt.hour
+                                    if 9 <= hour < 16:
+                                        golden_hour_positions.append(pos)
+                        except:
+                            continue
+                    
+                    # Calculate from filtered positions
+                    pnls = []
+                    for pos in golden_hour_positions:
+                        pnl = pos.get("net_pnl", pos.get("pnl", pos.get("realized_pnl", 0)))
+                        try:
+                            pnls.append(float(pnl) if pnl is not None else 0.0)
+                        except:
+                            pnls.append(0.0)
+                    
+                    if pnls:
+                        wins = sum(1 for pnl in pnls if pnl > 0)
+                        losses = len(pnls) - wins
+                        total_pnl = sum(pnls)
+                        gross_profit = sum(pnl for pnl in pnls if pnl > 0)
+                        gross_loss = abs(sum(pnl for pnl in pnls if pnl < 0))
+                        profit_factor = gross_profit / gross_loss if gross_loss > 0 else (gross_profit if gross_profit > 0 else 0.0)
+                        win_rate = (wins / len(pnls) * 100) if pnls else 0.0
+                        avg_pnl = total_pnl / len(pnls) if pnls else 0.0
+                        avg_win = gross_profit / wins if wins > 0 else 0.0
+                        avg_loss = -(gross_loss / losses) if losses > 0 else 0.0
+                        
+                        golden_hour_summary = {
+                            "total_trades": len(golden_hour_positions),
+                            "wins": wins,
+                            "losses": losses,
+                            "win_rate": win_rate,
+                            "net_pnl": total_pnl,
+                            "avg_pnl": avg_pnl,
+                            "avg_win": avg_win,
+                            "avg_loss": avg_loss,
+                            "gross_profit": gross_profit,
+                            "gross_loss": gross_loss,
+                            "profit_factor": profit_factor
+                        }
+            except Exception as e:
+                print(f"⚠️  [DASHBOARD-V2] Error loading Golden Hour analysis: {e}", flush=True)
+                import traceback
+                traceback.print_exc()
         except Exception as e:
             print(f"⚠️  [DASHBOARD-V2] Error computing summaries: {e}", flush=True)
             import traceback

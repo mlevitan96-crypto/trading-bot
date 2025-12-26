@@ -531,9 +531,37 @@ def compute_summary_optimized(wallet_balance: float, closed_positions: list, loo
         cutoff_ts = cutoff.timestamp()
         recent_closed = []
         
-        # Limit processing to prevent memory issues
-        max_positions_to_process = 2000  # Increased to capture more trades
-        positions_to_process = post_reset_positions[-max_positions_to_process:] if len(post_reset_positions) > max_positions_to_process else post_reset_positions
+        # Sort by closed_at timestamp (most recent first) for proper lookback filtering
+        # This ensures we process the most recent trades first
+        try:
+            def get_timestamp(pos):
+                closed_at = pos.get("closed_at", "")
+                if not closed_at:
+                    return 0.0
+                try:
+                    if isinstance(closed_at, str):
+                        if "T" in closed_at:
+                            closed_dt = datetime.fromisoformat(closed_at.replace("Z", "+00:00"))
+                        else:
+                            try:
+                                closed_dt = datetime.strptime(closed_at, "%Y-%m-%d %H:%M:%S")
+                            except:
+                                return 0.0
+                        return closed_dt.timestamp()
+                    elif isinstance(closed_at, (int, float)):
+                        return float(closed_at)
+                except:
+                    return 0.0
+                return 0.0
+            
+            # Sort by timestamp descending (newest first)
+            post_reset_positions = sorted(post_reset_positions, key=get_timestamp, reverse=True)
+        except Exception as e:
+            print(f"⚠️  [SUMMARY] Error sorting positions: {e}", flush=True)
+        
+        # Limit processing to prevent memory issues (after sorting, so we get most recent)
+        max_positions_to_process = 3000  # Increased to capture more trades
+        positions_to_process = post_reset_positions[:max_positions_to_process] if len(post_reset_positions) > max_positions_to_process else post_reset_positions
         
         print(f"🔍 [SUMMARY] Processing {len(positions_to_process)} positions for {lookback_days}-day lookback (cutoff: {cutoff})", flush=True)
         
@@ -1593,12 +1621,10 @@ def build_daily_summary_tab() -> html.Div:
             else:
                 print(f"🔍 [DASHBOARD-V2] Reset filter disabled - using all {len(closed_positions)} positions", flush=True)
             
-            # Limit to most recent 1000 for performance
-            if len(closed_positions) > 1000:
-                closed_positions = closed_positions[-1000:]
-                print(f"🔍 [DASHBOARD-V2] Limited to most recent 1000 for performance", flush=True)
+            print(f"🔍 [DASHBOARD-V2] Loaded {len(closed_positions)} total closed positions", flush=True)
             
             print("🔍 [DASHBOARD-V2] Computing summaries (optimized)...", flush=True)
+            # Don't limit positions here - let compute_summary_optimized handle the lookback period filtering
             daily_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=1)
             print(f"🔍 [DASHBOARD-V2] Daily summary: {daily_summary.get('total_trades', 0)} trades, ${daily_summary.get('net_pnl', 0):.2f} P&L", flush=True)
             weekly_summary = compute_summary_optimized(wallet_balance, closed_positions, lookback_days=7)

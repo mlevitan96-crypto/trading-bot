@@ -2299,7 +2299,7 @@ def build_24_7_trading_tab() -> html.Div:
                     html.H4("📈 Trading Summaries (Last 24 Hours)", style={"color": "#fff", "marginBottom": "20px", "marginTop": "30px"}),
                     
                     # Get wallet balance for summary cards
-                    wallet_balance_24_7 = wallet_balance = 10000.0  # Default
+                    wallet_balance_24_7 = 10000.0  # Default
                     try:
                         wallet_snapshots = DR.read_json(DR.WALLET_SNAPSHOTS)
                         if wallet_snapshots and wallet_snapshots.get("snapshots"):

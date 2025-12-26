@@ -1390,7 +1390,7 @@ def build_app(server: Flask = None) -> Dash:
         html.Div(id="system-health-container"),
         dcc.Interval(id="system-health-interval", interval=5*60*1000, n_intervals=0),
         
-        # Tabs: Daily Summary and Executive Summary
+        # Tabs: Daily Summary, Executive Summary, and 24/7 Trading
         dcc.Tabs(id="main-tabs", value="daily", children=[
             dcc.Tab(
                 label="📅 Daily Summary",
@@ -1401,6 +1401,12 @@ def build_app(server: Flask = None) -> Dash:
             dcc.Tab(
                 label="📋 Executive Summary",
                 value="executive",
+                style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"},
+                selected_style={"backgroundColor": "#1a73e8", "color": "#fff"},
+            ),
+            dcc.Tab(
+                label="⏰ 24/7 Trading",
+                value="24_7",
                 style={"backgroundColor": "#1b1f2a", "color": "#9aa0a6"},
                 selected_style={"backgroundColor": "#1a73e8", "color": "#fff"},
             ),
@@ -1417,7 +1423,7 @@ def build_app(server: Flask = None) -> Dash:
         
         # Refresh intervals
         dcc.Interval(id="refresh-interval", interval=5*60*1000, n_intervals=0),  # 5 minutes
-    ], style={"backgroundColor": "#0b0e13", "fontFamily": "Inter, Segoe UI, Arial", "padding": "20px", "minHeight": "100vh"})
+    ], style={"backgroundColor": "#0b0e13", "fontFamily": "Inter, Segoe UI, Arial", "padding": "20px", "minHeight": "100vh", "maxWidth": "100%", "margin": "0 auto"})
     
     # Callbacks - MUST be registered after layout is set
     @app.callback(
@@ -1465,11 +1471,18 @@ def build_app(server: Flask = None) -> Dash:
                     raise ValueError("build_executive_summary_tab() returned None")
                 print(f"✅ [DASHBOARD-V2] Executive summary tab built successfully (type: {type(content)})", flush=True)
                 return content
+            elif tab == "24_7":
+                print("🔍 [DASHBOARD-V2] Building 24/7 trading tab...", flush=True)
+                content = build_24_7_trading_tab()
+                if content is None:
+                    raise ValueError("build_24_7_trading_tab() returned None")
+                print(f"✅ [DASHBOARD-V2] 24/7 trading tab built successfully (type: {type(content)})", flush=True)
+                return content
             else:
                 print(f"⚠️  [DASHBOARD-V2] Unknown tab value: {tab}", flush=True)
                 return html.Div([
                     html.H4(f"Unknown tab: {tab}", style={"color": "#ea4335"}),
-                    html.P("Please select Daily Summary or Executive Summary.", style={"color": "#9aa0a6"}),
+                    html.P("Please select Daily Summary, Executive Summary, or 24/7 Trading.", style={"color": "#9aa0a6"}),
                 ])
         except Exception as e:
             print(f"❌ [DASHBOARD-V2] CRITICAL ERROR updating tab content: {e}", flush=True)
@@ -1888,6 +1901,171 @@ def build_executive_summary_tab() -> html.Div:
             ]),
         ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139"}),
     ])
+
+
+def build_24_7_trading_tab() -> html.Div:
+    """Build 24/7 Trading tab content with Golden Hour vs 24/7 comparison."""
+    print("🔍 [DASHBOARD-V2] Building 24/7 trading tab...", flush=True)
+    try:
+        from src.data_registry import DataRegistry as DR
+        from datetime import datetime, timedelta, timezone
+        import plotly.graph_objects as go
+        
+        closed_positions = DR.get_closed_positions(hours=None)  # Get all closed positions
+        
+        if not closed_positions:
+            return html.Div([
+                dbc.Card([
+                    dbc.CardHeader(html.H3("⏰ Golden Hour vs 24/7 Trading Comparison", style={"color": "#fff", "margin": 0})),
+                    dbc.CardBody([
+                        html.P("No closed trades found. Waiting for trading data...", style={"color": "#9aa0a6"}),
+                    ]),
+                ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139"}),
+            ])
+        
+        # Filter trades by trading_window
+        golden_hour_trades = [t for t in closed_positions if t.get("trading_window") == "golden_hour"]
+        trades_24_7 = [t for t in closed_positions if t.get("trading_window") == "24_7"]
+        unknown_trades = [t for t in closed_positions if t.get("trading_window") not in ["golden_hour", "24_7"]]
+        
+        # Calculate metrics for each group
+        def calculate_metrics(trades):
+            if not trades:
+                return {
+                    "count": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
+                    "total_pnl": 0.0, "avg_pnl": 0.0, "profit_factor": 0.0,
+                    "gross_profit": 0.0, "gross_loss": 0.0, "max_win": 0.0, "max_loss": 0.0
+                }
+            
+            pnls = [float(t.get("net_pnl", t.get("pnl", t.get("realized_pnl", 0))) or 0) for t in trades]
+            wins = sum(1 for pnl in pnls if pnl > 0)
+            losses = len(trades) - wins
+            total_pnl = sum(pnls)
+            gross_profit = sum(pnl for pnl in pnls if pnl > 0)
+            gross_loss = abs(sum(pnl for pnl in pnls if pnl < 0))
+            profit_factor = gross_profit / gross_loss if gross_loss > 0 else (gross_profit if gross_profit > 0 else 0.0)
+            max_win = max(pnls) if pnls else 0.0
+            max_loss = min(pnls) if pnls else 0.0
+            
+            return {
+                "count": len(trades),
+                "wins": wins,
+                "losses": losses,
+                "win_rate": (wins / len(trades) * 100) if trades else 0.0,
+                "total_pnl": total_pnl,
+                "avg_pnl": total_pnl / len(trades) if trades else 0.0,
+                "profit_factor": profit_factor,
+                "gross_profit": gross_profit,
+                "gross_loss": gross_loss,
+                "max_win": max_win,
+                "max_loss": max_loss
+            }
+        
+        gh_metrics = calculate_metrics(golden_hour_trades)
+        all_24_7_metrics = calculate_metrics(trades_24_7)
+        
+        # Calculate differences
+        pnl_diff_dollars = gh_metrics["total_pnl"] - all_24_7_metrics["total_pnl"]
+        pnl_total_combined = abs(gh_metrics["total_pnl"]) + abs(all_24_7_metrics["total_pnl"])
+        pnl_diff_percent = (pnl_diff_dollars / pnl_total_combined * 100) if pnl_total_combined > 0 else 0.0
+        wr_diff = gh_metrics["win_rate"] - all_24_7_metrics["win_rate"]
+        pf_diff = gh_metrics["profit_factor"] - all_24_7_metrics["profit_factor"]
+        
+        # Create comparison chart
+        fig_bar = go.Figure()
+        fig_bar.add_trace(go.Bar(
+            name='Golden Hour',
+            x=['Total P&L', 'Avg P&L', 'Win Rate', 'Profit Factor'],
+            y=[gh_metrics['total_pnl'], gh_metrics['avg_pnl'], 
+               gh_metrics['win_rate'], gh_metrics['profit_factor']],
+            marker_color='#FFA500'
+        ))
+        fig_bar.add_trace(go.Bar(
+            name='24/7 Trading',
+            x=['Total P&L', 'Avg P&L', 'Win Rate', 'Profit Factor'],
+            y=[all_24_7_metrics['total_pnl'], all_24_7_metrics['avg_pnl'],
+               all_24_7_metrics['win_rate'], all_24_7_metrics['profit_factor']],
+            marker_color='#00D4FF'
+        ))
+        fig_bar.update_layout(
+            title='Performance Metrics Comparison',
+            barmode='group',
+            template='plotly_dark',
+            height=400,
+            plot_bgcolor="#0f1217",
+            paper_bgcolor="#0f1217",
+            font={"color": "#e8eaed"}
+        )
+        
+        return html.Div([
+            dbc.Card([
+                dbc.CardHeader(html.H3("⏰ Golden Hour vs 24/7 Trading Comparison", style={"color": "#fff", "margin": 0})),
+                dbc.CardBody([
+                    html.P(f"Total Trades: {len(closed_positions)} | Golden Hour: {len(golden_hour_trades)} | 24/7: {len(trades_24_7)} | Unknown: {len(unknown_trades)}", 
+                           style={"color": "#9aa0a6", "marginBottom": "20px"}),
+                    
+                    dbc.Row([
+                        dbc.Col([
+                            html.H4("🕘 Golden Hour (09:00-16:00 UTC)", style={"color": "#FFA500", "marginTop": "10px"}),
+                            html.Div([
+                                html.P(f"Total Trades: {gh_metrics['count']}", style={"color": "#e8eaed"}),
+                                html.P(f"Win Rate: {gh_metrics['win_rate']:.1f}%", style={"color": "#e8eaed"}),
+                                html.P(f"Total P&L: ${gh_metrics['total_pnl']:,.2f}", 
+                                      style={"color": "#34a853" if gh_metrics['total_pnl'] >= 0 else "#ea4335"}),
+                                html.P(f"Avg P&L: ${gh_metrics['avg_pnl']:,.2f}", style={"color": "#e8eaed"}),
+                                html.P(f"Profit Factor: {gh_metrics['profit_factor']:.2f}", style={"color": "#e8eaed"}),
+                                html.P(f"Gross Profit: ${gh_metrics['gross_profit']:,.2f}", style={"color": "#34a853"}),
+                                html.P(f"Gross Loss: ${gh_metrics['gross_loss']:,.2f}", style={"color": "#ea4335"}),
+                            ]),
+                        ], width=4),
+                        dbc.Col([
+                            html.H4("🌐 24/7 Trading", style={"color": "#00D4FF", "marginTop": "10px"}),
+                            html.Div([
+                                html.P(f"Total Trades: {all_24_7_metrics['count']}", style={"color": "#e8eaed"}),
+                                html.P(f"Win Rate: {all_24_7_metrics['win_rate']:.1f}%", style={"color": "#e8eaed"}),
+                                html.P(f"Total P&L: ${all_24_7_metrics['total_pnl']:,.2f}",
+                                      style={"color": "#34a853" if all_24_7_metrics['total_pnl'] >= 0 else "#ea4335"}),
+                                html.P(f"Avg P&L: ${all_24_7_metrics['avg_pnl']:,.2f}", style={"color": "#e8eaed"}),
+                                html.P(f"Profit Factor: {all_24_7_metrics['profit_factor']:.2f}", style={"color": "#e8eaed"}),
+                                html.P(f"Gross Profit: ${all_24_7_metrics['gross_profit']:,.2f}", style={"color": "#34a853"}),
+                                html.P(f"Gross Loss: ${all_24_7_metrics['gross_loss']:,.2f}", style={"color": "#ea4335"}),
+                            ]),
+                        ], width=4),
+                        dbc.Col([
+                            html.H4("📈 Difference (GH - 24/7)", style={"color": "#9aa0a6", "marginTop": "10px"}),
+                            html.Div([
+                                html.P(f"Trade Count Δ: {gh_metrics['count'] - all_24_7_metrics['count']:+d}", style={"color": "#e8eaed"}),
+                                html.P(f"Win Rate Δ: {wr_diff:+.1f}%", 
+                                      style={"color": "#34a853" if wr_diff > 0 else "#ea4335"}),
+                                html.P(f"P&L Δ (Dollars): ${pnl_diff_dollars:+,.2f}",
+                                      style={"color": "#34a853" if pnl_diff_dollars > 0 else "#ea4335"}),
+                                html.P(f"P&L Δ (Percent): {pnl_diff_percent:+.1f}%",
+                                      style={"color": "#34a853" if pnl_diff_dollars > 0 else "#ea4335"}),
+                                html.P(f"Profit Factor Δ: {pf_diff:+.2f}",
+                                      style={"color": "#34a853" if pf_diff > 0 else "#ea4335"}),
+                            ]),
+                        ], width=4),
+                    ]),
+                    
+                    html.Hr(style={"borderColor": "#2d3139", "margin": "30px 0"}),
+                    
+                    html.H4("📊 Performance Comparison Chart", style={"color": "#fff", "marginBottom": "20px"}),
+                    dcc.Graph(figure=fig_bar, config={"displayModeBar": True}),
+                ]),
+            ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"}),
+        ])
+    except Exception as e:
+        print(f"❌ [DASHBOARD-V2] Error building 24/7 trading tab: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        return html.Div([
+            dbc.Card([
+                dbc.CardHeader(html.H3("⏰ Golden Hour vs 24/7 Trading Comparison", style={"color": "#fff", "margin": 0})),
+                dbc.CardBody([
+                    html.P(f"Error loading 24/7 trading data: {str(e)}", style={"color": "#ea4335"}),
+                ]),
+            ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139"}),
+        ])
 
 
 def start_pnl_dashboard(flask_app: Flask = None) -> Dash:

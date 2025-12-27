@@ -1061,9 +1061,9 @@ def _get_basic_executive_summary() -> Dict[str, str]:
         "weekly_summary": "Weekly analysis in progress. Data is being collected and analyzed.",
     }
 
-# Import from old dashboard for full implementation
-try:
-    from src.pnl_dashboard import generate_executive_summary
+    # Import from dedicated executive summary module
+    try:
+        from src.executive_summary_generator import generate_executive_summary
 except (ImportError, Exception) as e:
     # Fallback if import fails - use basic implementation
     print(f"⚠️  [DASHBOARD-V2] Could not import generate_executive_summary: {e}, using fallback", flush=True)

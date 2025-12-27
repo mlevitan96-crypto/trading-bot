@@ -786,6 +786,18 @@ def bot_worker():
         import traceback
         traceback.print_exc()
     
+    # [FAILURE-POINT-MONITOR] Start comprehensive failure point monitoring and self-healing
+    print("🔍 [FAILURE-POINT-MONITOR] Starting failure point monitoring...")
+    try:
+        from src.failure_point_monitor import get_failure_point_monitor
+        monitor = get_failure_point_monitor()
+        monitor.start()
+        print("✅ [FAILURE-POINT-MONITOR] Failure point monitoring started (1-minute intervals)")
+    except Exception as e:
+        print(f"⚠️ [FAILURE-POINT-MONITOR] Failed to start monitoring: {e}")
+        import traceback
+        traceback.print_exc()
+    
     # [BIG ALPHA] Initialize Symbol Probation State Machine (Component 6)
     print("🚫 [PROBATION] Initializing Symbol Probation State Machine...")
     try:

@@ -2457,12 +2457,30 @@ def build_24_7_trading_tab() -> html.Div:
             print(f"⚠️  [DASHBOARD-V2] Error loading open positions for 24/7 tab: {e}", flush=True)
         
         # Create DataFrames for open and closed positions tables
-        open_df_24_7 = load_open_positions_df()
-        closed_df_24_7 = load_closed_positions_df(limit=500)
+        try:
+            open_df_24_7 = load_open_positions_df()
+            print(f"🔍 [DASHBOARD-V2] 24/7 tab: Loaded {len(open_df_24_7)} open positions", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Error loading open positions DF: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            open_df_24_7 = pd.DataFrame()
+        
+        try:
+            closed_df_24_7 = load_closed_positions_df(limit=500)
+            print(f"🔍 [DASHBOARD-V2] 24/7 tab: Loaded {len(closed_df_24_7)} closed positions", flush=True)
+            if not closed_df_24_7.empty:
+                print(f"   Columns: {list(closed_df_24_7.columns)}", flush=True)
+                print(f"   Sample row keys: {list(closed_df_24_7.iloc[0].to_dict().keys()) if len(closed_df_24_7) > 0 else 'empty'}", flush=True)
+        except Exception as e:
+            print(f"⚠️  [DASHBOARD-V2] Error loading closed positions DF: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            closed_df_24_7 = pd.DataFrame()
         
         # Filter closed positions by trading_window for display
         # Note: We show ALL positions in tables, but metrics are filtered by trading_window
-        closed_df_filtered = closed_df_24_7.copy()  # Show all closed positions in table
+        closed_df_filtered = closed_df_24_7.copy() if not closed_df_24_7.empty else pd.DataFrame()  # Show all closed positions in table
         
         return html.Div([
             dbc.Card([
@@ -2589,7 +2607,7 @@ def build_24_7_trading_tab() -> html.Div:
                             {"name": "Net P&L", "id": "net_pnl", "type": "numeric", "format": {"specifier": ".2f"}},
                             {"name": "Fees", "id": "fees", "type": "numeric", "format": {"specifier": ".2f"}},
                         ],
-                        data=closed_df_filtered.head(100).to_dict("records") if not closed_df_filtered.empty else [],
+                        data=closed_df_filtered.head(100).to_dict("records") if not closed_df_filtered.empty and len(closed_df_filtered) > 0 else [],
                         page_size=20,
                         style_table={"backgroundColor": "#0f1217", "color": "#e8eaed"},
                         style_cell={"backgroundColor": "#0f1217", "color": "#e8eaed", "textAlign": "left", "padding": "10px"},
@@ -2604,6 +2622,9 @@ def build_24_7_trading_tab() -> html.Div:
                                 "backgroundColor": "#4d1a1a",
                             },
                         ],
+                    ) if not closed_df_filtered.empty else html.P(
+                        f"No closed positions data available. DataFrame empty: {closed_df_24_7.empty if 'closed_df_24_7' in locals() else 'not loaded'}. Check logs for errors.",
+                        style={"color": "#ea4335", "marginTop": "20px"}
                     ),
                 ]),
             ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"}),

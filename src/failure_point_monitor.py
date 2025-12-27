@@ -122,6 +122,9 @@ class FailurePointMonitor:
                 # 10. Configuration Integrity
                 checks["config_integrity"] = self._check_config_integrity()
                 
+                # 11. Dashboard Health
+                checks["dashboard"] = self._check_dashboard_health()
+                
                 # Log all checks
                 entry = {
                     "timestamp": timestamp,
@@ -528,6 +531,9 @@ class FailurePointMonitor:
         
         if checks.get("position_limits", {}).get("at_limit") is True:
             warnings.append("Position limit reached")
+        
+        if checks.get("dashboard", {}).get("healthy") is False:
+            critical_issues.append("Dashboard not accessible")
         
         if checks.get("strategy_overlap", {}).get("count", 0) > 0:
             warnings.append(f"Strategy overlaps: {checks['strategy_overlap']['count']}")

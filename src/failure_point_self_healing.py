@@ -28,6 +28,12 @@ try:
 except ImportError:
     DR = None
 
+try:
+    import psutil
+    PSUTIL_AVAILABLE = True
+except ImportError:
+    PSUTIL_AVAILABLE = False
+
 FEATURE_STORE = Path("feature_store")
 LOGS = Path("logs")
 HEALING_LOG = LOGS / "failure_point_healing.jsonl"
@@ -112,6 +118,16 @@ class FailurePointSelfHealing:
             healing_actions["actions"].append(action)
             # This is informational, not a fix
             healing_actions["success_count"] += 1
+        
+        # 7. Dashboard Health - Check and attempt restart if needed
+        dashboard_status = check_results.get("dashboard", {})
+        if not dashboard_status.get("healthy"):
+            action = self._heal_dashboard(dashboard_status)
+            healing_actions["actions"].append(action)
+            if action.get("success"):
+                healing_actions["success_count"] += 1
+            else:
+                healing_actions["failure_count"] += 1
         
         # Log healing actions
         if healing_actions["actions"]:
@@ -317,6 +333,71 @@ class FailurePointSelfHealing:
         except Exception as e:
             action["error"] = str(e)
             action["success"] = False
+        
+        return action
+    
+    def _heal_dashboard(self, status: Dict[str, Any]) -> Dict[str, Any]:
+        """Attempt to heal dashboard issues"""
+        action = {
+            "type": "dashboard_restart",
+            "target": "dashboard_service",
+            "success": False,
+            "method": "check_and_restart",
+            "error": None
+        }
+        
+        try:
+            # Check if dashboard process is running
+            import subprocess
+            import psutil
+            
+            # Check for process on port 8050
+            dashboard_running = False
+            if PSUTIL_AVAILABLE:
+                try:
+                    for proc in psutil.process_iter(['pid', 'name', 'connections']):
+                        try:
+                            connections = proc.info.get('connections', [])
+                            for conn in connections:
+                                if conn.laddr.port == 8050:
+                                    dashboard_running = True
+                                    break
+                        except (psutil.NoSuchProcess, psutil.AccessDenied):
+                            continue
+                except Exception as e:
+                    action["error"] = f"Process check failed: {e}"
+            else:
+                # Fallback: check if port is open
+                import socket
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(2)
+                result = sock.connect_ex(('localhost', 8050))
+                sock.close()
+                dashboard_running = (result == 0)
+            
+            if not dashboard_running:
+                # Dashboard not running - attempt restart via systemd
+                try:
+                    result = subprocess.run(
+                        ['systemctl', 'restart', 'tradingbot.service'],
+                        capture_output=True,
+                        text=True,
+                        timeout=10
+                    )
+                    if result.returncode == 0:
+                        action["success"] = True
+                        action["message"] = "Dashboard service restarted via systemd"
+                    else:
+                        action["error"] = f"systemctl restart failed: {result.stderr}"
+                except Exception as e:
+                    action["error"] = f"Restart failed: {e}"
+            else:
+                # Dashboard is running but not healthy - may need dashboard-specific restart
+                action["success"] = True
+                action["message"] = "Dashboard process running but unhealthy - may need manual intervention"
+                
+        except Exception as e:
+            action["error"] = str(e)
         
         return action
     

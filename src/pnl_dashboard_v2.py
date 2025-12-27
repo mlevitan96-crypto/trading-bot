@@ -52,8 +52,16 @@ from src.data_registry import DataRegistry as DR
 from src.position_manager import load_futures_positions
 from src.infrastructure.path_registry import PathRegistry
 from src.pnl_dashboard_loader import load_trades_df, clear_cache
-# Import generate_executive_summary from old dashboard (has full implementation)
-from src.pnl_dashboard import generate_executive_summary
+# Import generate_executive_summary from dedicated module
+try:
+    from src.executive_summary_generator import generate_executive_summary
+except ImportError:
+    # Fallback to old import if new module doesn't exist yet
+    try:
+        from src.pnl_dashboard import generate_executive_summary
+    except ImportError:
+        def generate_executive_summary() -> Dict[str, str]:
+            return {"error": "Executive summary generator not available"}
 
 # Configuration
 DEFAULT_TIMEFRAME_HOURS = 72

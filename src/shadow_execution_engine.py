@@ -1,309 +1,361 @@
 #!/usr/bin/env python3
 """
-Shadow Execution Engine
-======================
-Runs parallel to real execution engine, simulating ALL signals (even blocked ones).
+Shadow Portfolio Engine (The Counterfactual Alpha)
+==================================================
 
-Enables:
-- What-if analysis: "What if I disabled the Volatility Guard?"
-- Guard effectiveness: "How much money did guards save/lose?"
-- Unfiltered performance: Compare real vs shadow performance
+Automatically "executes" all signals in a virtual environment, including
+those blocked by gates or thresholds. Records outcomes for counterfactual
+analysis and guard optimization.
 """
 
 import json
+import os
 import time
-import threading
-import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Any
-from datetime import datetime, timedelta
 from collections import defaultdict
 
-from src.infrastructure.path_registry import PathRegistry
-from src.signal_bus import get_signal_bus, SignalState
-from src.events.schemas import ShadowTradeOutcomeEvent, MarketSnapshot, create_decision_event
-from src.exchange_gateway import ExchangeGateway
+SHADOW_RESULTS_PATH = Path("logs/shadow_results.jsonl")
+SHADOW_STATE_PATH = Path("feature_store/shadow_portfolio_state.json")
+
+
+class ShadowPosition:
+    """Represents a shadow (virtual) position."""
+    
+    def __init__(self, signal: Dict[str, Any], entry_price: float, timestamp: float):
+        self.signal_id = signal.get('signal_id', f"shadow_{int(timestamp * 1000)}")
+        self.symbol = signal.get('symbol', 'UNKNOWN')
+        self.direction = signal.get('direction', 'LONG')
+        self.size_usd = signal.get('size', signal.get('size_usd', 100.0))
+        self.entry_price = entry_price
+        self.entry_timestamp = timestamp
+        self.exit_price = None
+        self.exit_timestamp = None
+        self.pnl_usd = 0.0
+        self.pnl_pct = 0.0
+        self.status = 'OPEN'  # OPEN, CLOSED
+        self.blocked_reason = signal.get('blocked_reason')
+        self.signal_metadata = signal.copy()
+    
+    def close(self, exit_price: float, exit_timestamp: float):
+        """Close the shadow position."""
+        if self.direction == 'LONG':
+            self.pnl_pct = ((exit_price - self.entry_price) / self.entry_price) * 100
+        else:  # SHORT
+            self.pnl_pct = ((self.entry_price - exit_price) / self.entry_price) * 100
+        
+        self.pnl_usd = (self.pnl_pct / 100) * self.size_usd
+        self.exit_price = exit_price
+        self.exit_timestamp = exit_timestamp
+        self.status = 'CLOSED'
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for logging."""
+        return {
+            'signal_id': self.signal_id,
+            'symbol': self.symbol,
+            'direction': self.direction,
+            'size_usd': self.size_usd,
+            'entry_price': self.entry_price,
+            'entry_timestamp': self.entry_timestamp,
+            'exit_price': self.exit_price,
+            'exit_timestamp': self.exit_timestamp,
+            'pnl_usd': self.pnl_usd,
+            'pnl_pct': self.pnl_pct,
+            'status': self.status,
+            'blocked_reason': self.blocked_reason,
+            'signal_metadata': self.signal_metadata
+        }
 
 
 class ShadowExecutionEngine:
     """
-    Simulates trades for all signals, even those blocked by guards.
-    
-    Subscribes to SignalBus and:
-    1. Captures ALL signals (approved and blocked)
-    2. Simulates entry at market snapshot price
-    3. Tracks exit using actual market prices
-    4. Calculates hypothetical P&L
-    5. Logs ShadowTradeOutcomeEvent
+    Executes signals in shadow (virtual) portfolio and tracks outcomes.
     """
     
     def __init__(self):
-        self.signal_bus = get_signal_bus()
-        self.exchange_gateway = ExchangeGateway()
-        self.active_shadow_trades = {}  # signal_id -> shadow_trade_info
-        self.outcomes_log_path = Path(PathRegistry.get_path("logs", "shadow_trade_outcomes.jsonl"))
-        self._lock = threading.RLock()
-        self._running = False
-        self._thread = None
-        
-        # Ensure log file exists
-        self.outcomes_log_path.parent.mkdir(parents=True, exist_ok=True)
+        self.open_positions: Dict[str, ShadowPosition] = {}
+        self.closed_positions: List[ShadowPosition] = []
+        self._load_state()
     
-    def start(self):
-        """Start shadow execution engine"""
-        if self._running:
-            return
-        
-        self._running = True
-        self._thread = threading.Thread(target=self._run_loop, daemon=True)
-        self._thread.start()
-        print("🔮 [SHADOW] Shadow execution engine started")
-    
-    def stop(self):
-        """Stop shadow execution engine"""
-        self._running = False
-        if self._thread:
-            self._thread.join(timeout=5)
-        print("🔮 [SHADOW] Shadow execution engine stopped")
-    
-    def _run_loop(self):
-        """Main loop: process signals and track shadow trades"""
-        while self._running:
+    def _load_state(self):
+        """Load shadow portfolio state."""
+        if SHADOW_STATE_PATH.exists():
             try:
-                # Process new signals
-                self._process_new_signals()
-                
-                # Update active shadow trades
-                self._update_active_trades()
-                
-                # Check for exits
-                self._check_exits()
-                
-                time.sleep(5)  # Check every 5 seconds
+                with open(SHADOW_STATE_PATH, 'r') as f:
+                    state = json.load(f)
+                    # Restore open positions (simplified - in production, might want to load full state)
+                    self.open_positions = {}
             except Exception as e:
-                print(f"⚠️ [SHADOW] Error in shadow execution loop: {e}")
-                time.sleep(10)
+                print(f"⚠️ [SHADOW] Error loading state: {e}")
     
-    def _process_new_signals(self):
-        """Process new signals from bus"""
-        # Get all signals in GENERATED or BLOCKED state
-        generated = self.signal_bus.get_signals_by_state(SignalState.GENERATED)
-        blocked = self.signal_bus.get_signals_by_state(SignalState.BLOCKED)
+    def _save_state(self):
+        """Save shadow portfolio state."""
+        SHADOW_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
         
-        for signal_id in generated + blocked:
-            if signal_id in self.active_shadow_trades:
-                continue  # Already tracking
-            
-            signal_data = self.signal_bus.get_signal(signal_id)
-            if not signal_data:
-                continue
-            
-            signal = signal_data.get("signal", {})
-            symbol = signal.get("symbol")
-            direction = signal.get("direction")
-            
-            if not symbol or not direction or direction == "HOLD":
-                continue
-            
-            # Get market snapshot
-            try:
-                price = self.exchange_gateway.get_price(symbol, venue="futures")
-                if not price or price <= 0:
-                    continue
-                
-                # Create shadow trade
-                shadow_trade_id = f"shadow_{signal_id}_{uuid.uuid4().hex[:8]}"
-                
-                with self._lock:
-                    self.active_shadow_trades[signal_id] = {
-                        "shadow_trade_id": shadow_trade_id,
-                        "signal_id": signal_id,
-                        "symbol": symbol,
-                        "direction": direction,
-                        "entry_price": price,
-                        "entry_ts": time.time(),
-                        "original_decision": "BLOCKED" if signal_id in blocked else "APPROVED",
-                        "blocker_component": signal_data.get("last_reason")  # If blocked, why
-                    }
-                
-                print(f"🔮 [SHADOW] Started tracking shadow trade: {symbol} {direction} @ ${price:.2f}")
-            except Exception as e:
-                print(f"⚠️ [SHADOW] Failed to start shadow trade for {signal_id}: {e}")
+        state = {
+            'open_count': len(self.open_positions),
+            'closed_count': len(self.closed_positions),
+            'timestamp': time.time()
+        }
+        
+        with open(SHADOW_STATE_PATH, 'w') as f:
+            json.dump(state, f, indent=2)
     
-    def _update_active_trades(self):
-        """Update active shadow trades with current prices"""
-        with self._lock:
-            for signal_id, trade_info in list(self.active_shadow_trades.items()):
-                symbol = trade_info["symbol"]
-                try:
-                    current_price = self.exchange_gateway.get_price(symbol, venue="futures")
-                    if current_price and current_price > 0:
-                        trade_info["current_price"] = current_price
-                        trade_info["last_update_ts"] = time.time()
-                except Exception as e:
-                    # Skip if price fetch fails
-                    pass
+    def execute_signal(self, signal: Dict[str, Any], entry_price: float, blocked_reason: Optional[str] = None) -> str:
+        """
+        Execute a signal in the shadow portfolio.
+        
+        Args:
+            signal: Signal dictionary
+            entry_price: Entry price for the position
+            blocked_reason: Reason why signal was blocked (if any)
+        
+        Returns:
+            Position ID
+        """
+        timestamp = time.time()
+        
+        # Add blocked reason to signal metadata
+        if blocked_reason:
+            signal['blocked_reason'] = blocked_reason
+        
+        position = ShadowPosition(signal, entry_price, timestamp)
+        self.open_positions[position.signal_id] = position
+        
+        # Log shadow execution
+        self._log_shadow_result({
+            'event': 'SHADOW_ENTRY',
+            'signal_id': position.signal_id,
+            'symbol': position.symbol,
+            'direction': position.direction,
+            'entry_price': entry_price,
+            'size_usd': position.size_usd,
+            'blocked_reason': blocked_reason,
+            'timestamp': timestamp,
+            'signal_metadata': signal
+        })
+        
+        self._save_state()
+        
+        return position.signal_id
     
-    def _check_exits(self):
-        """Check if shadow trades should exit"""
-        now = time.time()
-        exit_candidates = []
+    def close_position(self, signal_id: str, exit_price: float) -> Optional[ShadowPosition]:
+        """
+        Close a shadow position.
         
-        with self._lock:
-            for signal_id, trade_info in list(self.active_shadow_trades.items()):
-                entry_ts = trade_info.get("entry_ts", 0)
-                hold_time = now - entry_ts
-                
-                # Exit conditions:
-                # 1. Max hold time (e.g., 4 hours)
-                # 2. Profit target (e.g., +2%)
-                # 3. Stop loss (e.g., -1.5%)
-                # 4. Signal expired/cancelled
-                
-                current_price = trade_info.get("current_price")
-                if not current_price:
-                    continue
-                
-                entry_price = trade_info["entry_price"]
-                direction = trade_info["direction"]
-                
-                if direction == "LONG":
-                    pnl_pct = (current_price - entry_price) / entry_price
-                else:  # SHORT
-                    pnl_pct = (entry_price - current_price) / entry_price
-                
-                should_exit = False
-                exit_reason = None
-                
-                # Max hold time (4 hours)
-                if hold_time > 14400:  # 4 hours
-                    should_exit = True
-                    exit_reason = "max_hold_time"
-                
-                # Profit target (+2%)
-                elif pnl_pct >= 0.02:
-                    should_exit = True
-                    exit_reason = "profit_target"
-                
-                # Stop loss (-1.5%)
-                elif pnl_pct <= -0.015:
-                    should_exit = True
-                    exit_reason = "stop_loss"
-                
-                # Signal expired
-                signal_data = self.signal_bus.get_signal(signal_id)
-                if signal_data:
-                    state = signal_data.get("state")
-                    if state in ["expired", "cancelled"]:
-                        should_exit = True
-                        exit_reason = f"signal_{state}"
-                
-                if should_exit:
-                    exit_candidates.append((signal_id, trade_info, current_price, pnl_pct, exit_reason))
+        Args:
+            signal_id: Position ID
+            exit_price: Exit price
         
-        # Execute exits
-        for signal_id, trade_info, exit_price, pnl_pct, exit_reason in exit_candidates:
-            self._exit_shadow_trade(signal_id, trade_info, exit_price, pnl_pct, exit_reason)
+        Returns:
+            Closed position or None if not found
+        """
+        if signal_id not in self.open_positions:
+            return None
+        
+        position = self.open_positions[signal_id]
+        timestamp = time.time()
+        
+        position.close(exit_price, timestamp)
+        
+        # Move to closed positions
+        self.closed_positions.append(position)
+        del self.open_positions[signal_id]
+        
+        # Log shadow exit
+        self._log_shadow_result({
+            'event': 'SHADOW_EXIT',
+            'signal_id': position.signal_id,
+            'symbol': position.symbol,
+            'direction': position.direction,
+            'entry_price': position.entry_price,
+            'exit_price': exit_price,
+            'pnl_usd': position.pnl_usd,
+            'pnl_pct': position.pnl_pct,
+            'hold_duration_seconds': timestamp - position.entry_timestamp,
+            'timestamp': timestamp
+        })
+        
+        # Keep only last 10,000 closed positions in memory
+        if len(self.closed_positions) > 10000:
+            self.closed_positions = self.closed_positions[-10000:]
+        
+        self._save_state()
+        
+        return position
     
-    def _exit_shadow_trade(self, signal_id: str, trade_info: Dict, exit_price: float, 
-                          pnl_pct: float, exit_reason: str):
-        """Exit a shadow trade and log outcome"""
-        entry_price = trade_info["entry_price"]
-        entry_ts = trade_info["entry_ts"]
-        hold_time = time.time() - entry_ts
+    def _log_shadow_result(self, result: Dict[str, Any]):
+        """Log shadow result to JSONL file."""
+        SHADOW_RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
         
-        # Calculate P&L (assuming $1000 notional for simplicity)
-        notional = 1000.0  # Can be made configurable
-        pnl = pnl_pct * notional
+        result['timestamp_iso'] = datetime.now(timezone.utc).isoformat()
         
-        outcome = ShadowTradeOutcomeEvent(
-            signal_id=signal_id,
-            shadow_trade_id=trade_info["shadow_trade_id"],
-            symbol=trade_info["symbol"],
-            direction=trade_info["direction"],
-            entry_price=entry_price,
-            exit_price=exit_price,
-            exit_timestamp=datetime.utcnow().isoformat() + 'Z',
-            pnl=pnl,
-            pnl_pct=pnl_pct,
-            hold_time_seconds=hold_time,
-            was_profitable=pnl_pct > 0,
-            original_decision=trade_info.get("original_decision"),
-            blocker_component=trade_info.get("blocker_component")
-        )
-        
-        # Log outcome
-        try:
-            with open(self.outcomes_log_path, 'a') as f:
-                f.write(json.dumps(outcome.to_dict()) + '\n')
-        except Exception as e:
-            print(f"⚠️ [SHADOW] Failed to log shadow outcome: {e}")
-        
-        # Remove from active trades
-        with self._lock:
-            self.active_shadow_trades.pop(signal_id, None)
-        
-        status = "✅" if pnl_pct > 0 else "❌"
-        print(f"🔮 [SHADOW] {status} Exited shadow trade: {trade_info['symbol']} {trade_info['direction']} | "
-              f"P&L: {pnl_pct*100:.2f}% | Reason: {exit_reason}")
+        with open(SHADOW_RESULTS_PATH, 'a') as f:
+            f.write(json.dumps(result) + '\n')
     
-    def get_shadow_performance(self, hours: int = 24) -> Dict[str, Any]:
-        """Get shadow performance summary"""
-        cutoff_ts = time.time() - (hours * 3600)
+    def get_performance_summary(self, days: int = 7) -> Dict[str, Any]:
+        """
+        Get performance summary for shadow portfolio.
         
-        outcomes = []
-        if self.outcomes_log_path.exists():
-            try:
-                with open(self.outcomes_log_path, 'r') as f:
-                    for line in f:
-                        try:
-                            outcome = json.loads(line.strip())
-                            if outcome.get("ts", 0) >= cutoff_ts:
-                                outcomes.append(outcome)
-                        except:
-                            continue
-            except Exception as e:
-                print(f"⚠️ [SHADOW] Error reading outcomes: {e}")
+        Args:
+            days: Number of days to analyze
         
-        if not outcomes:
+        Returns:
+            Performance summary dictionary
+        """
+        cutoff_time = time.time() - (days * 24 * 3600)
+        
+        # Filter closed positions in time window
+        recent_closed = [
+            p for p in self.closed_positions
+            if p.exit_timestamp and p.exit_timestamp >= cutoff_time
+        ]
+        
+        if not recent_closed:
             return {
-                "total_trades": 0,
-                "profitable": 0,
-                "losing": 0,
-                "total_pnl": 0.0,
-                "win_rate": 0.0,
-                "avg_pnl_pct": 0.0
+                'total_trades': 0,
+                'total_pnl_usd': 0.0,
+                'total_pnl_pct': 0.0,
+                'wins': 0,
+                'losses': 0,
+                'win_rate': 0.0,
+                'avg_pnl_pct': 0.0,
+                'days': days
             }
         
-        profitable = [o for o in outcomes if o.get("was_profitable", False)]
-        losing = [o for o in outcomes if not o.get("was_profitable", False)]
-        total_pnl = sum(o.get("pnl", 0) for o in outcomes)
+        total_pnl_usd = sum(p.pnl_usd for p in recent_closed)
+        total_pnl_pct = sum(p.pnl_pct for p in recent_closed)
+        wins = len([p for p in recent_closed if p.pnl_usd > 0])
+        losses = len([p for p in recent_closed if p.pnl_usd < 0])
         
         return {
-            "total_trades": len(outcomes),
-            "profitable": len(profitable),
-            "losing": len(losing),
-            "win_rate": len(profitable) / len(outcomes) if outcomes else 0.0,
-            "total_pnl": total_pnl,
-            "avg_pnl_pct": sum(o.get("pnl_pct", 0) for o in outcomes) / len(outcomes) if outcomes else 0.0,
-            "by_decision": {
-                "blocked": len([o for o in outcomes if o.get("original_decision") == "BLOCKED"]),
-                "approved": len([o for o in outcomes if o.get("original_decision") == "APPROVED"])
+            'total_trades': len(recent_closed),
+            'total_pnl_usd': round(total_pnl_usd, 2),
+            'total_pnl_pct': round(total_pnl_pct, 2),
+            'wins': wins,
+            'losses': losses,
+            'win_rate': round(wins / len(recent_closed), 3) if recent_closed else 0.0,
+            'avg_pnl_pct': round(total_pnl_pct / len(recent_closed), 3) if recent_closed else 0.0,
+            'days': days
+        }
+    
+    def get_blocked_opportunity_cost(self, days: int = 7) -> Dict[str, Any]:
+        """
+        Analyze opportunity cost of blocked signals.
+        
+        Args:
+            days: Number of days to analyze
+        
+        Returns:
+            Opportunity cost analysis
+        """
+        cutoff_time = time.time() - (days * 24 * 3600)
+        
+        recent_closed = [
+            p for p in self.closed_positions
+            if p.exit_timestamp and p.exit_timestamp >= cutoff_time and p.blocked_reason
+        ]
+        
+        if not recent_closed:
+            return {
+                'blocked_trades': 0,
+                'missed_pnl_usd': 0.0,
+                'blocked_reasons': {},
+                'days': days
             }
+        
+        missed_pnl = sum(p.pnl_usd for p in recent_closed)
+        
+        # Group by blocked reason
+        reason_groups = defaultdict(list)
+        for p in recent_closed:
+            reason_groups[p.blocked_reason].append(p)
+        
+        reason_analysis = {}
+        for reason, positions in reason_groups.items():
+            reason_pnl = sum(p.pnl_usd for p in positions)
+            reason_analysis[reason] = {
+                'count': len(positions),
+                'total_pnl_usd': round(reason_pnl, 2),
+                'avg_pnl_usd': round(reason_pnl / len(positions), 2) if positions else 0.0
+            }
+        
+        return {
+            'blocked_trades': len(recent_closed),
+            'missed_pnl_usd': round(missed_pnl, 2),
+            'blocked_reasons': reason_analysis,
+            'days': days
         }
 
 
-# Global singleton
-_shadow_engine_instance = None
-_shadow_engine_lock = threading.Lock()
+# Global instance
+_shadow_engine: Optional[ShadowExecutionEngine] = None
 
 
 def get_shadow_engine() -> ShadowExecutionEngine:
-    """Get global ShadowExecutionEngine instance"""
-    global _shadow_engine_instance
-    
-    with _shadow_engine_lock:
-        if _shadow_engine_instance is None:
-            _shadow_engine_instance = ShadowExecutionEngine()
-        return _shadow_engine_instance
+    """Get or create global shadow execution engine."""
+    global _shadow_engine
+    if _shadow_engine is None:
+        _shadow_engine = ShadowExecutionEngine()
+    return _shadow_engine
 
+
+def compare_shadow_vs_live_performance(days: int = 7) -> Dict[str, Any]:
+    """
+    Compare shadow portfolio performance vs live portfolio.
+    
+    Args:
+        days: Number of days to compare
+    
+    Returns:
+        Comparison results with opportunity cost analysis
+    """
+    shadow_engine = get_shadow_engine()
+    shadow_summary = shadow_engine.get_performance_summary(days)
+    
+    # Get live portfolio performance
+    try:
+        from src.position_manager import load_closed_positions
+        closed_positions = load_closed_positions()
+        
+        cutoff_time = time.time() - (days * 24 * 3600)
+        recent_live = [
+            p for p in closed_positions
+            if p.get('closed_ts') and p['closed_ts'] >= cutoff_time
+        ]
+        
+        live_pnl_usd = sum(p.get('pnl', 0.0) for p in recent_live)
+        live_trades = len(recent_live)
+    except Exception as e:
+        print(f"⚠️ [SHADOW] Error loading live positions: {e}")
+        live_pnl_usd = 0.0
+        live_trades = 0
+    
+    shadow_pnl_usd = shadow_summary.get('total_pnl_usd', 0.0)
+    shadow_trades = shadow_summary.get('total_trades', 0)
+    
+    # Calculate opportunity cost
+    opportunity_cost_pct = 0.0
+    if live_pnl_usd != 0:
+        opportunity_cost_pct = ((shadow_pnl_usd - live_pnl_usd) / abs(live_pnl_usd)) * 100
+    
+    comparison = {
+        'days': days,
+        'live': {
+            'trades': live_trades,
+            'pnl_usd': round(live_pnl_usd, 2)
+        },
+        'shadow': {
+            'trades': shadow_trades,
+            'pnl_usd': round(shadow_pnl_usd, 2),
+            'win_rate': shadow_summary.get('win_rate', 0.0)
+        },
+        'opportunity_cost_usd': round(shadow_pnl_usd - live_pnl_usd, 2),
+        'opportunity_cost_pct': round(opportunity_cost_pct, 2),
+        'shadow_outperforming': shadow_pnl_usd > live_pnl_usd,
+        'should_optimize_guards': opportunity_cost_pct > 15.0  # >15% outperformance triggers optimization
+    }
+    
+    return comparison

@@ -2198,21 +2198,33 @@ def run_heavy_initialization():
     
     # [AUTONOMOUS-BRAIN] Start policy optimizer (daily)
     def policy_optimizer_scheduler():
-        """Run policy optimization daily."""
+        """Run policy optimization daily - reads from executed_trades.jsonl AND shadow_results.jsonl."""
         import schedule
-        from src.policy_tuner import run_daily_optimization
+        from src.policy_tuner import get_policy_tuner
         
         def run_optimization():
             try:
-                results = run_daily_optimization()
-                if results.get('optimization', {}).get('success'):
-                    best_params = results['optimization'].get('best_params', {})
-                    best_sharpe = results['optimization'].get('best_sharpe', 0.0)
+                tuner = get_policy_tuner()
+                # Run optimization (reads from both executed_trades.jsonl and shadow_results.jsonl)
+                results = tuner.optimize(days=30)
+                if results.get('success'):
+                    best_params = results.get('best_params', {})
+                    best_sharpe = results.get('best_sharpe', 0.0)
+                    n_trades = results.get('n_trades_analyzed', 0)
+                    
                     print(f"✅ [POLICY-TUNER] Daily optimization complete")
                     print(f"   📊 Best Sharpe: {best_sharpe:.3f}")
                     print(f"   ⚙️  Parameters: entry_threshold={best_params.get('entry_threshold', 0):.3f}, stop_loss={best_params.get('stop_loss_pct', 0):.2f}%")
+                    print(f"   📈 Analyzed {n_trades} trades (live + shadow)")
+                    
+                    # Apply optimized parameters
+                    apply_results = tuner.apply_best_parameters(dry_run=False)
+                    if apply_results.get('success'):
+                        print(f"   ✅ Parameters applied to trading_config.json")
+                    else:
+                        print(f"   ⚠️  Parameter application failed: {apply_results.get('error')}")
                 else:
-                    print(f"⚠️ [POLICY-TUNER] Optimization skipped: {results.get('optimization', {}).get('error', 'unknown')}")
+                    print(f"⚠️ [POLICY-TUNER] Optimization skipped: {results.get('error', 'unknown')}")
             except Exception as e:
                 print(f"⚠️ [POLICY-TUNER] Optimization error: {e}")
         

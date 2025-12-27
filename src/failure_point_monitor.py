@@ -486,6 +486,53 @@ class FailurePointMonitor:
         
         return status
     
+    def _check_dashboard_health(self) -> Dict[str, Any]:
+        """Check dashboard health (port 8050)"""
+        status = {
+            "healthy": False,
+            "accessible": False,
+            "response_time_ms": None,
+            "error": None,
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        }
+        
+        try:
+            import socket
+            
+            # Check if port is open
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(2)
+            result = sock.connect_ex(('localhost', 8050))
+            sock.close()
+            
+            if result == 0:
+                status["accessible"] = True
+                # Try HTTP request if requests is available
+                if REQUESTS_AVAILABLE:
+                    try:
+                        start_time = time.time()
+                        response = requests.get('http://localhost:8050/', timeout=5)
+                        response_time = (time.time() - start_time) * 1000
+                        
+                        if response.status_code == 200:
+                            status["healthy"] = True
+                            status["response_time_ms"] = round(response_time, 2)
+                        else:
+                            status["error"] = f"HTTP {response.status_code}"
+                    except requests.exceptions.RequestException as e:
+                        status["error"] = f"HTTP error: {str(e)}"
+                else:
+                    # Port is open but can't verify HTTP (requests not available)
+                    status["healthy"] = True
+                    status["response_time_ms"] = None
+            else:
+                status["error"] = "Port 8050 not accessible"
+                
+        except Exception as e:
+            status["error"] = str(e)
+        
+        return status
+    
     def _log_entry(self, entry: Dict[str, Any]):
         """Log monitoring entry to JSONL file"""
         try:

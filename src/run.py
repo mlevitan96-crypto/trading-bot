@@ -2639,7 +2639,7 @@ def _run_all_phases():
     print("\n🛡️ Starting Leverage Governance Module...")
     try:
         from src.leverage_governance import register_leverage_governance
-        from src.pnl_dashboard import get_wallet_balance
+        from src.pnl_dashboard_v2 import get_wallet_balance
         from src.exchange_gateway import ExchangeGateway
         
         # Create a simple periodic task registrar for leverage governance

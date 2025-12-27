@@ -158,15 +158,15 @@ class FailurePointMonitor:
             
             start_time = time.time()
             gateway = ExchangeGateway()
-            # Try a simple API call (get ticker for a common symbol)
-            ticker = gateway.get_ticker("BTCUSDT", venue="futures")
+            # Try a simple API call (get price for a common symbol)
+            price = gateway.get_price("BTCUSDT", venue="futures")
             response_time = (time.time() - start_time) * 1000
             
-            if ticker is not None:
+            if price is not None and price > 0:
                 status["healthy"] = True
                 status["response_time_ms"] = round(response_time, 2)
             else:
-                status["error"] = "API returned None"
+                status["error"] = "API returned invalid price"
                 
         except Exception as e:
             status["error"] = str(e)

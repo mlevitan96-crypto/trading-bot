@@ -1954,6 +1954,128 @@ def build_daily_summary_tab() -> html.Div:
             ]),
         ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"})
     
+    def _build_autonomous_brain_cards() -> List[dbc.Card]:
+        """Build cards for autonomous brain system metrics."""
+        cards = []
+        
+        try:
+            # Regime Health Card
+            from src.regime_classifier import get_regime_classifier
+            regime_classifier = get_regime_classifier()
+            
+            # Get regime for primary symbol (BTCUSDT or first available)
+            primary_symbol = "BTCUSDT"
+            regime_info = regime_classifier.get_regime(primary_symbol)
+            hurst_value = regime_info.get('hurst_value', 0.5)
+            composite_regime = regime_info.get('composite_regime', 'NEUTRAL')
+            confidence = regime_info.get('confidence', 0.0)
+            
+            # Determine regime color
+            if 'TREND' in composite_regime:
+                regime_color = '#00ff88'  # Green
+            elif 'RANGE' in composite_regime:
+                regime_color = '#ffd700'  # Gold
+            else:
+                regime_color = '#888'  # Gray
+            
+            regime_card = dbc.Card([
+                dbc.CardBody([
+                    html.H5("🧭 Market Regime Health", className="card-title"),
+                    html.Div([
+                        html.Div([
+                            html.Span("Hurst Exponent: ", style={"color": "#888"}),
+                            html.Span(f"{hurst_value:.3f}", style={"color": "#00ff88", "font-weight": "bold"})
+                        ], style={"margin-bottom": "10px"}),
+                        html.Div([
+                            html.Span("Regime: ", style={"color": "#888"}),
+                            html.Span(composite_regime, style={"color": regime_color, "font-weight": "bold"})
+                        ], style={"margin-bottom": "10px"}),
+                        html.Div([
+                            html.Span("Confidence: ", style={"color": "#888"}),
+                            html.Span(f"{confidence*100:.1f}%", style={"color": "#888"})
+                        ])
+                    ])
+                ])
+            ], style={"margin-bottom": "20px"})
+            cards.append(regime_card)
+            
+            # Shadow Portfolio Opportunity Cost Card
+            from src.shadow_execution_engine import compare_shadow_vs_live_performance
+            comparison = compare_shadow_vs_live_performance(days=7)
+            
+            opportunity_cost_pct = comparison.get('opportunity_cost_pct', 0.0)
+            shadow_outperforming = comparison.get('shadow_outperforming', False)
+            should_optimize = comparison.get('should_optimize_guards', False)
+            
+            cost_color = '#ff4444' if shadow_outperforming and should_optimize else '#00ff88' if not shadow_outperforming else '#ffd700'
+            cost_icon = '🚨' if should_optimize else '✅' if not shadow_outperforming else '⚠️'
+            
+            shadow_card = dbc.Card([
+                dbc.CardBody([
+                    html.H5(f"{cost_icon} Shadow Portfolio Analysis", className="card-title"),
+                    html.Div([
+                        html.Div([
+                            html.Span("Opportunity Cost: ", style={"color": "#888"}),
+                            html.Span(f"{opportunity_cost_pct:+.1f}%", style={"color": cost_color, "font-weight": "bold"})
+                        ], style={"margin-bottom": "10px"}),
+                        html.Div([
+                            html.Span("Shadow Trades: ", style={"color": "#888"}),
+                            html.Span(f"{comparison.get('shadow', {}).get('trades', 0)}", style={"color": "#00ff88"})
+                        ], style={"margin-bottom": "10px"}),
+                        html.Div([
+                            html.Span("Live Trades: ", style={"color": "#888"}),
+                            html.Span(f"{comparison.get('live', {}).get('trades', 0)}", style={"color": "#00ff88"})
+                        ]),
+                        html.Div([
+                            html.Span("Shadow P&L: ", style={"color": "#888"}),
+                            html.Span(f"${comparison.get('shadow', {}).get('pnl_usd', 0):.2f}", 
+                                     style={"color": "#00ff88" if comparison.get('shadow', {}).get('pnl_usd', 0) >= 0 else "#ff4444"})
+                        ], style={"margin-top": "10px"}) if should_optimize else None
+                    ])
+                ])
+            ], style={"margin-bottom": "20px"})
+            cards.append(shadow_card)
+            
+            # Signal Drift Status Card
+            from src.feature_drift_detector import get_drift_monitor
+            drift_monitor = get_drift_monitor()
+            quarantine_state = drift_monitor.quarantine_state
+            quarantined_count = len(quarantine_state)
+            
+            drift_color = '#ff4444' if quarantined_count > 0 else '#00ff88'
+            drift_icon = '⚠️' if quarantined_count > 0 else '✅'
+            
+            quarantined_list = list(quarantine_state.keys())[:5]  # Show first 5
+            quarantined_text = ', '.join(quarantined_list) if quarantined_list else 'None'
+            if len(quarantine_state) > 5:
+                quarantined_text += f" (+{len(quarantine_state) - 5} more)"
+            
+            drift_card = dbc.Card([
+                dbc.CardBody([
+                    html.H5(f"{drift_icon} Signal Drift Status", className="card-title"),
+                    html.Div([
+                        html.Div([
+                            html.Span("Quarantined Signals: ", style={"color": "#888"}),
+                            html.Span(f"{quarantined_count}", style={"color": drift_color, "font-weight": "bold"})
+                        ], style={"margin-bottom": "10px"}),
+                        html.Div([
+                            html.Span("Signals: ", style={"color": "#888", "font-size": "0.9em"}),
+                            html.Span(quarantined_text, style={"color": drift_color, "font-size": "0.9em"})
+                        ]) if quarantined_count > 0 else html.Div([
+                            html.Span("All signals healthy", style={"color": "#00ff88", "font-size": "0.9em"})
+                        ])
+                    ])
+                ])
+            ], style={"margin-bottom": "20px"})
+            cards.append(drift_card)
+            
+        except Exception as e:
+            # Non-blocking - if autonomous brain components aren't available, skip
+            print(f"⚠️ [DASHBOARD] Autonomous brain cards error: {e}")
+            pass
+        
+        return cards
+    
     def summary_card(summary: dict, label: str) -> dbc.Card:
         pnl_color = "#34a853" if summary["net_pnl"] >= 0 else "#ea4335"
         wr_color = "#34a853" if summary["win_rate"] >= 50 else "#ea4335"

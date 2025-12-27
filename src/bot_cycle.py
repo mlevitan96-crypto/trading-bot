@@ -426,6 +426,17 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                     state_machine.transition(signal_id, SignalState.BLOCKED, reason="ExchangeHealth: exchange degraded")
                 except:
                     pass  # Non-blocking
+            
+            # [AUTONOMOUS-BRAIN] Execute in shadow portfolio even if blocked
+            try:
+                from src.shadow_execution_engine import get_shadow_engine
+                shadow_engine = get_shadow_engine()
+                entry_price = signal.get('entry_price', signal.get('price', 0))
+                if entry_price > 0:
+                    shadow_engine.execute_signal(signal, entry_price, "exchange_degraded")
+            except:
+                pass  # Non-blocking
+            
             return {"status": "blocked", "reason": "exchange_degraded"}
     except Exception as e:
         # Exchange health check is non-critical, continue if unavailable
@@ -450,6 +461,17 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
                 state_machine.transition(signal_id, SignalState.BLOCKED, reason="VenueGuard blocked")
             except:
                 pass  # Non-blocking
+        
+        # [AUTONOMOUS-BRAIN] Execute in shadow portfolio even if blocked
+        try:
+            from src.shadow_execution_engine import get_shadow_engine
+            shadow_engine = get_shadow_engine()
+            entry_price = signal.get('entry_price', signal.get('price', 0))
+            if entry_price > 0:
+                shadow_engine.execute_signal(signal, entry_price, "venue_guard")
+        except:
+            pass  # Non-blocking
+        
         return {"status": "blocked", "reason": "venue_guard"}
     
     # ═══════════════════════════════════════════════════════════════
@@ -459,6 +481,16 @@ def execute_signal(signal: dict, wallet_balance: float, rolling_expectancy: floa
     direction = signal.get('direction', signal.get('action', ''))
     bot_type = signal.get('bot_type', 'alpha')
     strategy = signal.get('strategy', 'Sentiment-Fusion')
+    
+    # [AUTONOMOUS-BRAIN] Update regime classifier with price
+    try:
+        from src.regime_classifier import get_regime_classifier
+        price = signal.get('price', signal.get('entry_price', 0))
+        if price > 0:
+            regime_classifier = get_regime_classifier()
+            regime_classifier.update_price(symbol, price)
+    except Exception as e:
+        pass  # Non-blocking
     
     try:
         price = signal.get('price', signal.get('entry_price', 0))

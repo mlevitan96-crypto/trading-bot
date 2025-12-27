@@ -2148,6 +2148,105 @@ def run_heavy_initialization():
     meta_learn_thread = threading.Thread(target=meta_learning_scheduler, daemon=True)
     meta_learn_thread.start()
     
+    # [AUTONOMOUS-BRAIN] Start shadow portfolio comparison cycle (every 4 hours)
+    def shadow_comparison_scheduler():
+        """Compare shadow vs live performance every 4 hours."""
+        import schedule
+        from src.shadow_execution_engine import compare_shadow_vs_live_performance
+        
+        def run_comparison():
+            try:
+                comparison = compare_shadow_vs_live_performance(days=7)
+                opportunity_cost_pct = comparison.get('opportunity_cost_pct', 0.0)
+                
+                if comparison.get('should_optimize_guards'):
+                    print(f"🚨 [SHADOW] Shadow outperforming live by {opportunity_cost_pct:.1f}% over 7 days")
+                    print(f"   💡 Recommendation: Consider optimizing guards - highest cost: {comparison.get('blocked_reasons', {})}")
+                else:
+                    print(f"✅ [SHADOW] Performance comparison complete - Opportunity cost: {opportunity_cost_pct:.1f}%")
+            except Exception as e:
+                print(f"⚠️ [SHADOW] Comparison error: {e}")
+        
+        # Run immediately, then every 4 hours
+        schedule.every(4).hours.do(run_comparison)
+        run_comparison()  # Initial run
+        
+        while True:
+            schedule.run_pending()
+            time.sleep(300)  # Check every 5 minutes
+    
+    shadow_comparison_thread = threading.Thread(target=shadow_comparison_scheduler, daemon=True)
+    shadow_comparison_thread.start()
+    print("✅ [SHADOW] Shadow portfolio comparison started (4-hour cycle)")
+    
+    # [AUTONOMOUS-BRAIN] Start policy optimizer (daily)
+    def policy_optimizer_scheduler():
+        """Run policy optimization daily."""
+        import schedule
+        from src.policy_tuner import run_daily_optimization
+        
+        def run_optimization():
+            try:
+                results = run_daily_optimization()
+                if results.get('optimization', {}).get('success'):
+                    best_params = results['optimization'].get('best_params', {})
+                    best_sharpe = results['optimization'].get('best_sharpe', 0.0)
+                    print(f"✅ [POLICY-TUNER] Daily optimization complete")
+                    print(f"   📊 Best Sharpe: {best_sharpe:.3f}")
+                    print(f"   ⚙️  Parameters: entry_threshold={best_params.get('entry_threshold', 0):.3f}, stop_loss={best_params.get('stop_loss_pct', 0):.2f}%")
+                else:
+                    print(f"⚠️ [POLICY-TUNER] Optimization skipped: {results.get('optimization', {}).get('error', 'unknown')}")
+            except Exception as e:
+                print(f"⚠️ [POLICY-TUNER] Optimization error: {e}")
+        
+        # Run at 3 AM UTC daily
+        schedule.every().day.at("03:00").do(run_optimization)
+        
+        while True:
+            schedule.run_pending()
+            time.sleep(300)  # Check every 5 minutes
+    
+    policy_optimizer_thread = threading.Thread(target=policy_optimizer_scheduler, daemon=True)
+    policy_optimizer_thread.start()
+    print("✅ [POLICY-TUNER] Policy optimizer started (daily at 3 AM UTC)")
+    
+    # [AUTONOMOUS-BRAIN] Start feature drift detection (every 6 hours)
+    def drift_detection_scheduler():
+        """Run feature drift detection every 6 hours."""
+        import schedule
+        from src.feature_drift_detector import run_drift_detection
+        
+        def run_drift_check():
+            try:
+                results = run_drift_detection()
+                detection = results.get('detection', {})
+                quarantined_count = detection.get('total_quarantined', 0)
+                restored = detection.get('restored_signals', [])
+                
+                if quarantined_count > 0:
+                    quarantined = detection.get('quarantined_signals', [])
+                    print(f"⚠️ [DRIFT] {quarantined_count} signal(s) quarantined: {', '.join(quarantined[:5])}")
+                
+                if restored:
+                    print(f"✅ [DRIFT] {len(restored)} signal(s) restored: {', '.join(restored)}")
+                
+                if quarantined_count == 0 and not restored:
+                    print(f"✅ [DRIFT] No drift detected - all signals healthy")
+            except Exception as e:
+                print(f"⚠️ [DRIFT] Detection error: {e}")
+        
+        # Run every 6 hours
+        schedule.every(6).hours.do(run_drift_check)
+        run_drift_check()  # Initial run
+        
+        while True:
+            schedule.run_pending()
+            time.sleep(300)  # Check every 5 minutes
+    
+    drift_detection_thread = threading.Thread(target=drift_detection_scheduler, daemon=True)
+    drift_detection_thread.start()
+    print("✅ [DRIFT] Feature drift detection started (6-hour cycle)")
+    
     _run_all_phases()
 
 

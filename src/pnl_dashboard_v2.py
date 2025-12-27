@@ -52,16 +52,22 @@ from src.data_registry import DataRegistry as DR
 from src.position_manager import load_futures_positions
 from src.infrastructure.path_registry import PathRegistry
 from src.pnl_dashboard_loader import load_trades_df, clear_cache
-# Import generate_executive_summary from dedicated module
+# Import generate_executive_summary - try dedicated module, fallback to inline stub
 try:
     from src.executive_summary_generator import generate_executive_summary
 except ImportError:
-    # Fallback to old import if new module doesn't exist yet
-    try:
-        from src.pnl_dashboard import generate_executive_summary
-    except ImportError:
-        def generate_executive_summary() -> Dict[str, str]:
-            return {"error": "Executive summary generator not available"}
+    # Fallback stub if module doesn't exist
+    def generate_executive_summary() -> Dict[str, str]:
+        return {
+            "what_worked_today": "Executive summary generator not available",
+            "what_didnt_work": "",
+            "missed_opportunities": "",
+            "blocked_signals": "",
+            "exit_gates": "",
+            "learning_today": "",
+            "changes_tomorrow": "",
+            "weekly_summary": ""
+        }
 
 # Configuration
 DEFAULT_TIMEFRAME_HOURS = 72
@@ -1061,9 +1067,13 @@ def _get_basic_executive_summary() -> Dict[str, str]:
         "weekly_summary": "Weekly analysis in progress. Data is being collected and analyzed.",
     }
 
-    # Import from dedicated executive summary module
-    try:
-        from src.executive_summary_generator import generate_executive_summary
+        # Import from dedicated executive summary module
+        try:
+            from src.executive_summary_generator import generate_executive_summary
+        except ImportError:
+            # Fallback stub
+            def generate_executive_summary() -> Dict[str, str]:
+                return {"error": "Executive summary generator not available"}
 except (ImportError, Exception) as e:
     # Fallback if import fails - use basic implementation
     print(f"⚠️  [DASHBOARD-V2] Could not import generate_executive_summary: {e}, using fallback", flush=True)

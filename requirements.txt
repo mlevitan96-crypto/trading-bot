@@ -23,6 +23,7 @@ aiosqlite>=0.19.0
 # Utilities
 python-dotenv>=1.0.0
 pytz>=2024.1
+schedule>=1.2.0
 
 # Visualization (optional - for reports)
 matplotlib>=3.8.0

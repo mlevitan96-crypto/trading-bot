@@ -374,7 +374,7 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
                 from src.data_registry import DataRegistry as DR
                 positions_data = DR.read_json(DR.POSITIONS_FUTURES)
                 if not positions_data:
-                    return pd.DataFrame(columns=["symbol", "strategy", "trading_window", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+                    return pd.DataFrame(columns=["symbol", "strategy", "trading_window", "entry_time", "exit_time", "entry_price", "exit_price", "size", "margin_collateral", "leverage", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
                 closed_positions = positions_data.get("closed_positions", [])
             except Exception as e2:
                 print(f"⚠️  [DASHBOARD-V2] Fallback also failed: {e2}", flush=True)
@@ -486,7 +486,7 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
         return df
     except Exception as e:
         print(f"⚠️  Failed to load closed positions: {e}")
-        return pd.DataFrame(columns=["symbol", "strategy", "entry_time", "exit_time", "entry_price", "exit_price", "size", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
+        return pd.DataFrame(columns=["symbol", "strategy", "trading_window", "entry_time", "exit_time", "entry_price", "exit_price", "size", "margin_collateral", "leverage", "hold_duration_h", "roi_pct", "net_pnl", "fees"])
 
 
 def compute_summary_optimized(wallet_balance: float, closed_positions: list, lookback_days: int = 1) -> dict:

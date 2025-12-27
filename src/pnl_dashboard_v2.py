@@ -1954,7 +1954,7 @@ def build_daily_summary_tab() -> html.Div:
             ]),
         ], style={"backgroundColor": "#0f1217", "border": "1px solid #2d3139", "marginBottom": "20px"})
     
-    def _build_autonomous_brain_cards() -> List[dbc.Card]:
+    def _build_autonomous_brain_cards() -> list:
         """Build cards for autonomous brain system metrics."""
         cards = []
         
@@ -2192,6 +2192,9 @@ def build_daily_summary_tab() -> html.Div:
             
             # Golden Hour Summary Card (All-Time Comprehensive Data from GOLDEN_HOUR_ANALYSIS.json)
             summary_card(golden_hour_summary, "🕘 Golden Hour Trading (09:00-16:00 UTC, All-Time Analysis)"),
+            
+            # [AUTONOMOUS-BRAIN] Regime Health & Shadow Portfolio Cards
+            *_build_autonomous_brain_cards(),
             
             # Summary Cards (Daily, Weekly, Monthly)
             summary_card(daily_summary, "📅 Daily Summary (Last 24 Hours - All Trades)"),

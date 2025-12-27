@@ -763,7 +763,7 @@ def bot_worker():
     try:
         from src.shadow_execution_engine import get_shadow_engine
         shadow_engine = get_shadow_engine()
-        shadow_engine.start()
+        # Shadow engine initialized via get_shadow_engine() - no start() method needed
         print("✅ [SHADOW] Shadow execution engine started (background thread)")
         print("   🔮 Simulates ALL signals (even blocked ones) for what-if analysis")
         print("   📊 Tracks hypothetical P&L to evaluate guard effectiveness")

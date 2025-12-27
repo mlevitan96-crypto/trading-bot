@@ -2153,6 +2153,7 @@ def run_heavy_initialization():
         """Compare shadow vs live performance every 4 hours."""
         import schedule
         from src.shadow_execution_engine import compare_shadow_vs_live_performance
+        from src.policy_tuner import get_policy_tuner
         
         def run_comparison():
             try:
@@ -2162,6 +2163,22 @@ def run_heavy_initialization():
                 if comparison.get('should_optimize_guards'):
                     print(f"🚨 [SHADOW] Shadow outperforming live by {opportunity_cost_pct:.1f}% over 7 days")
                     print(f"   💡 Recommendation: Consider optimizing guards - highest cost: {comparison.get('blocked_reasons', {})}")
+                    
+                    # [AUTONOMOUS-BRAIN] Self-healing trigger: Run policy optimizer immediately
+                    print(f"   🔧 [SELF-HEALING] Triggering immediate policy optimization...")
+                    try:
+                        tuner = get_policy_tuner()
+                        results = tuner.optimize(days=30)
+                        if results.get('success'):
+                            apply_results = tuner.apply_best_parameters(dry_run=False)
+                            if apply_results.get('success'):
+                                print(f"   ✅ [SELF-HEALING] Policy optimizer completed - parameters updated")
+                            else:
+                                print(f"   ⚠️ [SELF-HEALING] Policy optimizer completed but application failed: {apply_results.get('error')}")
+                        else:
+                            print(f"   ⚠️ [SELF-HEALING] Policy optimizer failed: {results.get('error')}")
+                    except Exception as e:
+                        print(f"   ⚠️ [SELF-HEALING] Policy optimizer trigger error: {e}")
                 else:
                     print(f"✅ [SHADOW] Performance comparison complete - Opportunity cost: {opportunity_cost_pct:.1f}%")
             except Exception as e:

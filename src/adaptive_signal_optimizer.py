@@ -88,16 +88,24 @@ class AdaptiveSignalOptimizer:
     def update_regime(self, symbol: str):
         """
         Update active regime based on classifier.
+        Called at the start of every cycle to ensure we're using the correct weight profile.
         
         Args:
             symbol: Trading symbol to get regime for
         """
-        regime = active_regime(symbol)
+        try:
+            from src.regime_classifier import get_regime_classifier
+            classifier = get_regime_classifier()
+            regime_info = classifier.get_regime(symbol)
+            composite_regime = regime_info.get('composite_regime', 'NEUTRAL')
+        except:
+            # Fallback to simple active_regime function
+            composite_regime = active_regime(symbol)
         
         # Map regime to profile name
-        if 'TREND' in regime:
+        if 'TREND' in composite_regime:
             self.active_regime = 'TREND'
-        elif 'RANGE' in regime or 'MEAN_REVERSION' in regime:
+        elif 'RANGE' in composite_regime or 'MEAN_REVERSION' in composite_regime:
             self.active_regime = 'RANGE'
         else:
             self.active_regime = 'CHOP'

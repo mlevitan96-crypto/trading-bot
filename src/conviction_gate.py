@@ -377,8 +377,33 @@ class ConvictionGate:
             'oi_divergence': signals.get('oi_divergence', {})
         }
         
+        # [AUTONOMOUS-BRAIN] Get regime-based weights from adaptive optimizer
+        regime_weights = None
+        try:
+            from src.adaptive_signal_optimizer import get_active_weights
+            regime_weights = get_active_weights(symbol)
+        except:
+            pass  # Fallback to static weights if adaptive optimizer unavailable
+        
         for signal_name, signal_data in signal_map.items():
-            weight = SIGNAL_WEIGHTS.get(signal_name, 0.1)
+            # Use regime-based weights if available, otherwise fall back to static weights
+            if regime_weights and signal_name in regime_weights:
+                base_weight = regime_weights[signal_name]
+            else:
+                base_weight = SIGNAL_WEIGHTS.get(signal_name, 0.1)
+            
+            # [AUTONOMOUS-BRAIN] Check if signal is quarantined by drift detector
+            try:
+                from src.feature_drift_detector import get_drift_monitor
+                drift_monitor = get_drift_monitor()
+                if drift_monitor.is_quarantined(signal_name):
+                    # Force multiplier to 0.1x for quarantined signals
+                    weight = base_weight * 0.1
+                else:
+                    weight = base_weight
+            except:
+                weight = base_weight  # Fallback if drift detector unavailable
+            
             confidence = signal_data.get('confidence', 0.0)
             signal_direction = signal_data.get('signal', 'NEUTRAL')
             

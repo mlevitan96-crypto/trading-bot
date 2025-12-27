@@ -362,6 +362,69 @@ class SignalDriftMonitor:
         
         return multipliers
     
+    def is_quarantined(self, signal_name: str) -> bool:
+        """
+        Check if a signal component is currently quarantined.
+        
+        Args:
+            signal_name: Name of signal component
+        
+        Returns:
+            True if signal is quarantined, False otherwise
+        """
+        return signal_name in self.quarantine_state
+    
+    def log_feature_performance(self, signal_name: str, return_pct: float, was_profitable: bool):
+        """
+        Log feature performance for drift detection.
+        
+        Args:
+            signal_name: Name of signal component
+            return_pct: Percentage return from this signal
+            was_profitable: Whether the trade was profitable
+        """
+        # Add to performance history for this signal
+        if signal_name not in self.performance_history:
+            self.performance_history[signal_name] = deque(maxlen=1000)
+        
+        self.performance_history[signal_name].append(return_pct)
+        
+        # Initialize detector if needed
+        if signal_name not in self.detectors:
+            self.detectors[signal_name] = CUSUMDetector()
+        
+        # Update CUSUM detector
+        detector = self.detectors[signal_name]
+        drift_detected, direction = detector.update(return_pct)
+        
+        # Check if signal should be quarantined immediately
+        # (Fast path: if recent performance is clearly failing)
+        if len(self.performance_history[signal_name]) >= 10:
+            recent_returns = list(self.performance_history[signal_name])[-10:]
+            recent_wins = sum(1 for r in recent_returns if r > 0)
+            recent_win_rate = recent_wins / len(recent_returns)
+            recent_avg_return = sum(recent_returns) / len(recent_returns)
+            recent_std = np.std(recent_returns) if len(recent_returns) > 1 else 1.0
+            recent_z_score = abs(recent_avg_return / recent_std) if recent_std > 0 else 0.0
+            
+            is_failing = (recent_z_score > DRIFT_Z_SCORE_THRESHOLD and 
+                         recent_win_rate < DRIFT_WIN_RATE_THRESHOLD)
+            
+            if is_failing and signal_name not in self.quarantine_state:
+                # Quarantine immediately
+                self.quarantine_state[signal_name] = {
+                    'quarantined_at': time.time(),
+                    'reason': 'fast_path_drift_failure',
+                    'recent_win_rate': recent_win_rate,
+                    'recent_z_score': recent_z_score
+                }
+                self._log_drift_event(signal_name, 'QUARANTINED', {
+                    'reason': 'fast_path_drift_failure',
+                    'recent_win_rate': recent_win_rate,
+                    'recent_z_score': recent_z_score
+                })
+                self._save_state()
+    
     def update_signal_weights(self):
         """
         Update signal weights file with quarantine multipliers.

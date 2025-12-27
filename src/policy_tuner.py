@@ -62,7 +62,12 @@ def calculate_sharpe_ratio(returns: List[float], risk_free_rate: float = 0.0) ->
 
 def load_trade_history(days: int = 30) -> Tuple[List[Dict], List[Dict]]:
     """
-    Load live and shadow trade history.
+    Load live and shadow trade history from multiple sources.
+    
+    Reads from:
+    - logs/executed_trades.jsonl (primary live trades source)
+    - positions_futures.json closed_positions (fallback)
+    - logs/shadow_results.jsonl (shadow trades)
     
     Args:
         days: Number of days to look back
@@ -72,19 +77,43 @@ def load_trade_history(days: int = 30) -> Tuple[List[Dict], List[Dict]]:
     """
     cutoff_time = time.time() - (days * 24 * 3600)
     
-    # Load live trades
+    # Load live trades from executed_trades.jsonl (primary source)
     live_trades = []
     try:
-        from src.position_manager import load_closed_positions
-        closed_positions = load_closed_positions()
-        live_trades = [
-            p for p in closed_positions
-            if p.get('closed_ts') and p['closed_ts'] >= cutoff_time
-        ]
+        executed_trades_path = Path("logs/executed_trades.jsonl")
+        if executed_trades_path.exists():
+            with open(executed_trades_path, 'r') as f:
+                for line in f:
+                    try:
+                        entry = json.loads(line.strip())
+                        ts = entry.get('ts', entry.get('timestamp', entry.get('closed_ts', 0)))
+                        if isinstance(ts, str):
+                            try:
+                                from datetime import datetime
+                                dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+                                ts = dt.timestamp()
+                            except:
+                                continue
+                        if ts >= cutoff_time:
+                            live_trades.append(entry)
+                    except:
+                        continue
     except Exception as e:
-        print(f"⚠️ [POLICY-TUNER] Error loading live trades: {e}")
+        print(f"⚠️ [POLICY-TUNER] Error loading executed_trades.jsonl: {e}")
     
-    # Load shadow trades
+    # Fallback: Load from positions_futures.json if executed_trades.jsonl is empty
+    if not live_trades:
+        try:
+            from src.position_manager import load_closed_positions
+            closed_positions = load_closed_positions()
+            live_trades = [
+                p for p in closed_positions
+                if p.get('closed_ts') and p['closed_ts'] >= cutoff_time
+            ]
+        except Exception as e:
+            print(f"⚠️ [POLICY-TUNER] Error loading live trades from positions: {e}")
+    
+    # Load shadow trades from shadow_results.jsonl
     shadow_trades = []
     try:
         shadow_results_path = Path("logs/shadow_results.jsonl")
@@ -95,6 +124,13 @@ def load_trade_history(days: int = 30) -> Tuple[List[Dict], List[Dict]]:
                         entry = json.loads(line.strip())
                         if entry.get('event') == 'SHADOW_EXIT':
                             ts = entry.get('timestamp', 0)
+                            if isinstance(ts, str):
+                                try:
+                                    from datetime import datetime
+                                    dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+                                    ts = dt.timestamp()
+                                except:
+                                    continue
                             if ts >= cutoff_time:
                                 shadow_trades.append(entry)
                     except:

@@ -459,21 +459,22 @@ def load_closed_positions_df(limit: int = 500) -> pd.DataFrame:
             except:
                 pass
             
+            # Ensure proper types for DataFrame (Dash DataTable requires specific types)
             rows.append({
-                "symbol": symbol,
-                "strategy": strategy,
-                "trading_window": pos.get("trading_window", "unknown"),
-                "entry_time": entry_time,
-                "exit_time": exit_time,
-                "entry_price": entry_price,
-                "exit_price": exit_price,
-                "size": size,
-                "margin_collateral": margin,
-                "leverage": leverage,
-                "hold_duration_h": hold_duration_h,
-                "roi_pct": leveraged_roi * 100,
-                "net_pnl": net_pnl,
-                "fees": pos.get("funding_fees", 0.0),
+                "symbol": str(symbol) if symbol else "N/A",
+                "strategy": str(strategy) if strategy else "Unknown",
+                "trading_window": str(pos.get("trading_window", "unknown")),
+                "entry_time": str(entry_time) if entry_time else "",
+                "exit_time": str(exit_time) if exit_time else "",
+                "entry_price": float(entry_price) if entry_price else 0.0,
+                "exit_price": float(exit_price) if exit_price else 0.0,
+                "size": float(size) if size else 0.0,
+                "margin_collateral": float(margin) if margin else 0.0,
+                "leverage": int(leverage) if leverage else 1,
+                "hold_duration_h": float(hold_duration_h) if hold_duration_h else 0.0,
+                "roi_pct": float(leveraged_roi * 100) if leveraged_roi else 0.0,
+                "net_pnl": float(net_pnl) if net_pnl is not None else 0.0,
+                "fees": float(pos.get("funding_fees", 0.0) or 0.0),
             })
         
         df = pd.DataFrame(rows)

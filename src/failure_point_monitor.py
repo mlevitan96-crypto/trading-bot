@@ -538,6 +538,9 @@ class FailurePointMonitor:
         if checks.get("strategy_overlap", {}).get("count", 0) > 0:
             warnings.append(f"Strategy overlaps: {checks['strategy_overlap']['count']}")
         
+        if checks.get("dashboard", {}).get("healthy") is False:
+            critical_issues.append("Dashboard not accessible")
+        
         if critical_issues:
             return "CRITICAL"
         elif warnings:

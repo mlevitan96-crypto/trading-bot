@@ -399,6 +399,47 @@ def unified_on_trade_close(trade: Dict):
         # 10.16 Meta-bucket aggregation
         phase1016_on_trade_close(trade)
         
+        # [AUTONOMOUS-BRAIN] Log feature performance for drift detection
+        try:
+            from src.feature_drift_detector import get_drift_monitor
+            drift_monitor = get_drift_monitor()
+            
+            # Extract signal components from trade metadata
+            signal_context = trade.get('signal_context', {})
+            signal_id = trade.get('signal_id')
+            pnl_pct = trade.get('roi_pct', trade.get('pnl_pct', 0.0))
+            exit_price = trade.get('exit_price', trade.get('close_price', 0))
+            was_profitable = pnl_pct > 0
+            
+            # Log performance for each signal component
+            if signal_context:
+                # Map common signal names to drift detector component names
+                signal_components = {
+                    'ofi': 'ofi_momentum',
+                    'ensemble': 'ensemble',
+                    'mtf': 'mtf_alignment',
+                    'regime': 'regime',
+                    'volatility': 'volatility_skew'
+                }
+                
+                for key, signal_name in signal_components.items():
+                    if key in signal_context:
+                        drift_monitor.log_feature_performance(signal_name, pnl_pct, was_profitable)
+        except Exception as e:
+            pass  # Non-blocking - drift logging is optional
+        
+        # [AUTONOMOUS-BRAIN] Close shadow position if it exists
+        try:
+            from src.shadow_execution_engine import get_shadow_engine
+            shadow_engine = get_shadow_engine()
+            signal_id = trade.get('signal_id')
+            exit_price = trade.get('exit_price', trade.get('close_price', 0))
+            
+            if signal_id and exit_price > 0:
+                shadow_engine.close_position(signal_id, exit_price)
+        except Exception as e:
+            pass  # Non-blocking - shadow closing is optional
+        
         _append_event("unified_trade_close", {"trade": trade})
     except Exception as e:
         STATE["errors"].append({"stage": "on_trade_close", "err": str(e)})
